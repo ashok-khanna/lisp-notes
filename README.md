@@ -1,2 +1,3 @@
-# common-lisp-by-example
-Repo for Common Lisp by Example
+Common Lisp By Example
+
+If you like this guide, please star this repo!
