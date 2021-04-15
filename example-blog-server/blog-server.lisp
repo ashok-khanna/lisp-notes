@@ -89,26 +89,22 @@ alphanumeric characters or dashes (in place of spaces)."
 ;; CREATE :: Create Blog Posts
 ;; Either GET a blank edit page or save the contents of the edited page via POST
 
-(defun create-blog-post ()
-  (cond ((eq (hunchentoot:request-method*) :GET)
-	 (with-output-to-string (stream)
-	   (html-template:fill-and-print-template #P"post-form.tmpl" nil :stream stream)))
-	((eq (hunchentoot:request-method*) :POST)
-	 (save-new-blog-post))))
-
 (defun save-new-blog-post ()
     "Read POST data and modify blog post."
     (insert-record (hunchentoot:post-parameter "title") (hunchentoot:post-parameter "body"))
     (hunchentoot:redirect (format nil "http://localhost:4242/view/?~A"
-				  (make-url-part (hunchentoot:post-parameter "title")))))
+          (make-url-part (hunchentoot:post-parameter "title")))))
+
+(defun create-blog-post ()
+  (cond ((eq (hunchentoot:request-method*) :GET)
+   (with-output-to-string (stream)
+     (html-template:fill-and-print-template #P"post-form.tmpl" nil :stream stream)))
+  ((eq (hunchentoot:request-method*) :POST)
+   (save-new-blog-post))))
 
 ;; ---------------------------------------------------------------------------------------------
 
 ;; READ :: Create index page and serve individual blog posts
-
-(defun view-blog-post-page ()
-  "Generate a page for viewing a blog post."
-  (generate-blog-post-page #P"post.tmpl" (read-record (hunchentoot:query-string*))))
 
 (defun generate-blog-post-page (template blog-post)
   (with-output-to-string (stream) 
@@ -118,6 +114,10 @@ alphanumeric characters or dashes (in place of spaces)."
              :body (nth 1 blog-post))
        :stream stream)))
 
+(defun view-blog-post-page ()
+  "Generate a page for viewing a blog post."
+  (generate-blog-post-page #P"post.tmpl" (read-record (hunchentoot:query-string*))))
+
 (defun generate-index-page ()
   "Generate the index page showing all the blog posts."
   (with-output-to-string (stream)
@@ -126,8 +126,8 @@ alphanumeric characters or dashes (in place of spaces)."
      (list :blog-posts 
            (loop for blog-post in (read-all)
               collect (list :title (nth 0 blog-post)
-			    :body (nth 1 blog-post)
-			    :url-part (make-url-part (nth 0 blog-post)))))
+          :body (nth 1 blog-post)
+          :url-part (make-url-part (nth 0 blog-post)))))
      :stream stream)))
 
 ;; ---------------------------------------------------------------------------------------------
@@ -136,19 +136,18 @@ alphanumeric characters or dashes (in place of spaces)."
 ;; Either GET contents of blog via generate-blog-post-page, but with the edit HTML form template,
 ;; Or save the contents of the edited page via POST
 
+(defun save-blog-post ()
+    "Read POST data and modify blog post."
+    (update-record (hunchentoot:post-parameter "title") (hunchentoot:post-parameter "body"))
+    (hunchentoot:redirect (format nil "http://localhost:4242/view/?~A"
+          (make-url-part (hunchentoot:post-parameter "title")))))
+
 (defun edit-blog-post ()
   (cond ((eq (hunchentoot:request-method*) :GET)
          (generate-blog-post-page #P"post-form.tmpl" (read-record (hunchentoot:query-string*))))
         ((eq (hunchentoot:request-method*) :POST)
          (save-blog-post))))
      
-(defun save-blog-post ()
-    "Read POST data and modify blog post."
-    (update-record (hunchentoot:post-parameter "title") (hunchentoot:post-parameter "body"))
-    (hunchentoot:redirect (format nil "http://localhost:4242/view/?~A"
-				  (make-url-part (hunchentoot:post-parameter "title")))))
-
 ;; ---------------------------------------------------------------------------------------------
-
 
 ;; DELETE ::  Try creating this yourself (not done here - but see above for interface functions)
