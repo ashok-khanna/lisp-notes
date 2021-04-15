@@ -18,7 +18,7 @@
       (make-instance 'hunchentoot:easy-acceptor 
 :address "127.0.0.1" 
 :port 4242 
-:document-root #p"www_"
+:document-root #p"www_/"
 :persistent-connections-p t
 :read-timeout 3.0 
 :write-timeout 3.0
