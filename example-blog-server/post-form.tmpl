@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><!-- tmpl_var title --> - My Blog</title>
+  <style type="text/css">
+body {
+    margin-left: 10%;
+    margin-right: 10%;
+    background: white;
+    color: black;
+}
+
+h1 {
+    font-variant: small-caps;
+    border-bottom: 2px solid black;
+    color: darkblue;
+}
+
+h2 {
+    font-variant: small-caps;
+    color: darkblue;
+}
+
+textarea {
+  width: 30em; height: 20em;"
+}
+  </style>
+</head>
+<body>
+  <!-- tmpl_if url-part -->
+  <h1>Edit blog post</h1>
+  <!-- tmpl_else -->
+  <h1>Create blog post</h1>
+  <!-- /tmpl_if -->
+  
+  <form action="?<!-- tmpl_var url-part -->" method="POST">
+    <h2>Title</h2>
+    <input style="width: 20em;" type="text" name="title" value="<!-- tmpl_var title -->"/>
+    
+    <h2>Body</h2>
+    <textarea name="body"><!-- tmpl_var body --></textarea>
+
+    <input style="display: block" type="submit"/>
+  </form>
+</body>
+</html>
