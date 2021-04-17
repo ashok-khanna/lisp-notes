@@ -18,6 +18,10 @@
 
 ;; POSTMODERN CODE - Connect to database and create necessary functions to interface with it
 
+;; Note that the below examples are unsafe as they can potentially allow for SQL injections.
+;; To overcome this, use parameterized queries like this:
+;; (query "SELECT * from myBlogTable where title = $1;" blogTitle)
+
 (connect-toplevel "testdb" "testuser" "mypassword" "localhost")
 
 (defun create-table ()
