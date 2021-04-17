@@ -94,4 +94,16 @@ pass:<br><input type=\"password\" name=\"pass\" /><br>
 (hunchentoot:define-easy-handler (sign-out :uri "/sign-out") ()
    (setf (hunchentoot:content-type*) "text/plain")
       (hunchentoot:remove-session hunchentoot:*session*)
-         (hunchentoot:redirect  "/?info=you-had-sign-out"))
+      (hunchentoot:redirect  "/?info=you-had-sign-out"))
+
+;;authorization-page------ (alternate version)
+;; (hunchentoot:define-easy-handler (sign-in :uri "/sign-in") ()
+;;     (setf (hunchentoot:content-type*) "text/html")
+;;       (multiple-value-bind (user pass) (hunchentoot:authorization)
+;;          (let* (  (pass-info (gethash user user-map))
+;;                   (the-authorization (ignore-errors (cl-pass:check-password pass pass-info))))
+;;             (if   the-authorization
+;;                   (format nil "<code>welcome-you-had-sign-in</code>")
+;;                   (hunchentoot:require-authorization)))))
+
+;close the browser to log out
