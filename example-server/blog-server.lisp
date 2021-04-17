@@ -21,6 +21,8 @@
 ;; Note that the below examples are unsafe as they can potentially allow for SQL injections.
 ;; To overcome this, use parameterized queries like this:
 ;; (query "SELECT * from myBlogTable where title = $1;" blogTitle)
+;; Useful guide: https://sites.google.com/site/sabraonthehill/postmodern-examples/postmodern-parametized-statements
+;; Thanks to kagevf for his help
 
 (connect-toplevel "testdb" "testuser" "mypassword" "localhost")
 
