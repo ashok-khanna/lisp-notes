@@ -504,8 +504,408 @@ functions defined in the form.
 
 * Lambda Expressions
 
+Lambda expressions allow us to create unnamed functions. These are
+useful when writing small functions for certain tasks. Below is
+an example.
+
+#+begin_src lisp
+
+  ;; Function Form
+
+  (defun my-function (x)
+    (+ x 100))
+
+  ;; Returns 101
+
+  (my-function 1)
+
+  ;; Lambda Form
+  ;; Also returns 101
+  
+  ((lambda (x)
+     (+ x 100))
+   1)
+
+#+end_src
+
+
+* More on Functions
+
+
 
 
 * List Functions
 
 
+
+
+
+* Association Lists
+
+
+
+
+* Arrays
+
+The function MAKE-ARRAY allows us to create arrays. For example, we
+can create a 2 x 3 array as follows:
+
+#+begin_src lisp
+
+  (defparameter my-array
+    (make-array '(2 3) :initial-element nil))
+
+#+end_src
+
+The functions AREF and SETF allow us to access elements and set them
+with values:
+
+#+begin_src lisp
+
+  ;; Returns NIL
+
+  (aref my-array 0 0)
+
+  
+  ;; Set (0,0) to B
+  
+  (setf (aref my-array 0 0) 'b)
+
+  
+  ;; Returns B
+
+  (aref my-array 0 0)
+
+#+end_src
+
+The functions ARRAY-RANK and ARRAY-DIMENSION retrieve the the number
+of dimensions and the number of elements in a given dimension
+respectively:
+
+#+begin_src lisp
+
+  (setf my-array
+	(make-array '(2 3)
+		    :initial-element '((1 2 3) (1 2 3))))
+
+  
+  ;; Returns 2
+
+  (array-rank my-array))
+
+
+  ;; Returns 2
+
+  (array-dimension my-array 0)
+  
+
+  ;; Returns 3
+
+  (array-dimension my-array 1)
+
+#+end_src
+
+We use :INITIAL-ELEMENT to set the value of every element of an array
+to the provided argument, while we use :INITIAL-CONTENTS to set the
+array to the object provided. A one-dimensional array is a vector and
+can be created with either of the following.
+
+#+begin_src lisp
+
+(vector "a" 'b 3)
+ 
+(defparameter my-vector
+  (make-array 3 :initial-contents '("a" 'b 3)))
+
+#+end_src
+
+Finally, we can create a literal array using the #na syntax, where n
+is the number of dimensions:
+
+#+begin_src lisp
+
+  ;; Returns ((B NIL NIL) (1 2 3))
+
+  #2a((b nil nil) (1 2 3))
+
+#+end_src
+	
+Strings are vectors of characters, denoted with double quotes
+(e.g. "my-string"). Strings evaluate to themselves. A character such
+as c is denoted as #\c. Each character has an associated integer that
+is usually (but not necessarily) its ASCII number:
+
+#+begin_src lisp
+
+  ;; Returns 99
+  
+  (char-code #\c)
+
+  ;; Returns #\c
+  
+  (code-char 99) 
+
+#+end_src
+
+
+* Sequences
+
+The type sequence includes both lists and vectors (and therefore
+strings). Sequences have many useful functions:
+
+#+begin_src lisp
+
+  ;; Returns 6
+
+  (length '(a b c d e f))
+
+  ;; Returns (F E D C B A)
+
+  (reverse '(a b c d e f)) 
+
+  ;; Returns (C R T) (a new original list unaffected):
+
+  (remove 'a '(c a r a t))
+ 	
+  ;; Returns "cbdra" (preserves only the last of each):
+
+  (remove-duplicates "abracadabra")
+
+#+end_src
+
+We use SUBSEQ to get a portion of a list. Its arguments are a list,
+the starting position and an optional ending position (which is not to
+be included in the subsequence):
+
+#+begin_src lisp
+
+  ;; Returns (B C D)
+  
+  (subseq '(a b c d e f) 1 4)
+
+#+end_src
+
+SORT takes a sequence and a comparison function of two arguments and
+destructively (i.e. by modifying the original sequence) returns a
+sequence sorted according to the function:
+
+#+begin_src lisp
+
+  ;; Returns (6 5 4 2 1)
+  
+  (sort '(1 4 2 5 6) #'>) 
+
+#+end_src
+
+The functions EVERY and SOME test whether a sequence satisfies a
+provided predicate:
+
+#+begin_src lisp
+
+  ;; Returns NIL
+
+  (every #'oddp '( 1 2 5)) 
+
+  ;; Returns T
+
+  (some #'oddp '( 1 2 5))
+
+  ;; Returns T
+
+  (every #'> '(1 3 5) '(0 2 4))
+
+#+end_src
+
+
+* Keyword Arguments
+
+Many sequence functions take one or more keyword arguments from the
+below table. For example, we can use POSITION to return the position
+of an element within a sequence (or NIL if not found) and use keyword
+arguments to determine where to begin the search:
+
+	(position #\a "fantasia" :start 3 :end 7) ; Returns 4
+
+| Parameter | Position                            | Default  |
+|-----------+-------------------------------------+----------|
+| :key      | A function to apply to each element | identity |
+| :test     | The test function for comparison    | eql      |
+| :from-end | If true, work backwards             | nil      |
+| :start    | Position at which to start          | 0        |
+| :end      | Position, if any, at which to stop  | nil      |
+
+
+* Hash Tables
+
+A hash table is a way of associating pairs of objects, like a
+dictionary. The objects stored in a hash table or used as keys can be
+of any type. We can make hastables with MAKE-HASH-TABLE and retrieve
+values associated with a given key with GETHASH:
+
+#+begin_src lisp
+
+  (defparameter my-hash-table (make-hash-table))
+
+  ;; Returns NIL as not yet set
+  
+  (gethash 'color my-hash-table) 
+
+#+end_src
+
+Similar to other structures, we use SETF to set values. Hash tables
+can accommodate any number of elements, because they are expanded when
+they run out of space. We can remove values with REMHASH.
+
+#+begin_src lisp
+
+  ;; Returns RED
+  
+  (setf (gethash 'color my-hash-table) 'red)
+
+  (remhash 'color my-hash-table)
+
+#+end_src
+
+Finally, the function MAPHASH allows you to iterate over all entries
+in the hash table. Its first argument must be a function which accepts
+two arguments, the key and the value of each entry. Note that due to
+the nature of hash tables you can't control the order in which the
+entries are provided to MAPHASH (or other traversing constructs):
+	
+#+begin_src lisp
+
+  (maphash #'(lambda (key value)
+	       (format t "~A = ~A~%" key value))
+	   my-hash-table)
+
+#+end_src
+
+
+* Structures
+
+Common Lisp provides the DEFSTRUCT facility for creating named data
+structures with named components. This makes it easier to manipulate
+custom data objects as we can refer to their components by
+name. Constructor, access and assignment constructs are automatically
+defined when a data type is defined through DEFSTRUCT.
+
+Consider the below example of defining a data type for rectangles.
+DEFSTRUCT defines RECTANGLE to be a structure with two fields,
+height and width. The symbol RECTANGLE becomes the name of a data
+type and each rectangle will be of type RECTANGLE, then STRUCTURE,
+then ATOM and then T. DEFSTRUCT generates four associated functions:
+
+1. RECTANGLE-HEIGHT and RECTANGLE-WIDTH to access elements of the
+   structure
+
+2. RECTANGLE-P to test whether an object is of type rectangle
+
+3. MAKE-RECTANGLE to create rectangles
+
+4. COPY-RECTANGLE to create copies of rectangles
+
+* Example of a Structure
+
+#+begin_src lisp
+
+  ;; Height will default to NIL
+  ;; Width will default to 5 
+
+  (defstruct rectangle (height)
+	     (width 5))
+  
+  (defvar rectangle-1)
+
+  (setf rectangle-1
+	(make-rectangle :height 10 :width 15))
+	
+  ;; Returns 10
+  
+  (rectangle-height rectangle-1)
+
+  ;; Returns 20
+
+  (setf (rectangle-width rectangle-1) 20)
+
+  (defvar rectangle-2)
+
+  (setf rectangle-2 (make-rectangle))
+
+  ;; Prints #S(RECTANGLE :HEIGHT NIL :WIDTH 5)
+  
+  rectangle-2
+
+#+end_src
+
+
+* Advanced Looping
+
+Below is the syntax and example of the =DO= macro. 
+
+#+begin_src lisp
+
+  (do ((var1 init1 step1)
+       ...
+       (varn initn stepn))
+      (end-test result-forms*)
+    body-forms*)
+
+#+end_src
+
+The below example will return 81 and print 1, 0, 1, 4, 9, 16, 25,
+36, 49 and 64 on newlines. During each iteration, loop-step is
+increased by one while square is set to the square of loop-step.
+
+#+begin_src lisp
+
+  (do ((loop-step 0 (+ loop-step 1))
+       (square 1 (* loop-step loop-step)))
+      ((= 10 loop-step) square) ; Stop at 10
+    (print square)) ; Print square at each step
+
+#+end_src
+
+
+Below are examples of the =LOOP= macro.
+
+
+* Reading & Writing to Files
+
+The =WITH-OPEN-FILE= macro is used to read & write to files and then
+close the file. Streams are Lisp objects representing sources and/or
+destinations of characters. To read from or write to a file, you open
+it as a stream. By default, input is read from the stream *​standard-input​*
+and output is recorded in *​standard-output​*. Initially they will be the
+same place - the toplevel.
+
+Below is an example opening a file as my-stream and then reading from
+it. The NIL in the below inhibits end of file errors.
+
+#+begin_src lisp
+
+  (with-open-file (my-stream "/Users/ashokkhanna/test.txt")
+    (format t "~a~%" (read-line my-stream nil)))
+
+#+end_src
+
+Below is an example opening a file as my-stream and then writing to
+it.
+
+#+begin_src lisp
+
+  (with-open-file (my-stream "/Users/ashokkhanna/test.txt" :direction
+			     :output :if-exists :append)
+    (format my-stream "~a~%" "Hello, World!"))
+
+#+end_src
+
+The following open arguments can be supplied to the WITH-OPEN-FILE
+macro:
+
+| Arguments                  | Effect                             |
+|----------------------------+------------------------------------|
+| :direction :output         | Write to a file insead of reading  |
+| :if-does-not-exist :create | Create a file if it does not exist |
+| :if-exists :supersede      | Replace the file that exists       |
+| :if-exists :overwrite      | Overwrite file                     |
+| :if-exists :append         | Write to end of file               |
