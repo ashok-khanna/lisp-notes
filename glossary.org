@@ -1,0 +1,170 @@
+#+DATE: 24 July 2021
+
+#+TITLE: Glossary
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+*The below is an extract of the glossary of Common Lisp: A Gentle
+Introduction to Symbolic Computation by David S. Touretzky.*
+
+*Address*: A number describing the location of an object in memory.
+
+*Binding*: An archaic term with conflicting uses. Essentially, binding
+means creating a variable and assigning it a value. See also
+rebinding.
+
+*Block*: A named sequence of Lisp expressions, forming the body of a
+BLOCK expression. Blocks may be exited using RETURN-FROM.
+
+*Block name*: A symbol serving as the name of a block. DO, DO*, DOTIMES
+and DOLIST create implicit blocks named NIL. Functions defined by
+DEFUN or LABELS surround their bodies with implicit blocks whose name
+is the same as the function.
+
+*Body*: The body of a form, such as a function definition or a LET,
+LABELS or DO expression, contains expressions to be evaluated
+sequentially within the lexical context of the form. Normally, the
+value of the last expression in the body is returned by the form.
+
+*Clause*: An element of a COND, AND, or OR conditional expression. A
+conditional can decide which of its clauses will be evaluated.
+
+*Cons cell*: The unit of computer memory from which lists are
+composed. Each cons cell holds two pointers, one in the CAR half, and
+one in the CDR half.
+
+*Dot notation*: A notation for writing lists in which cons cells are
+written as dotted pairs, that is, each cons cell is displayed as a CAR
+and CDR separated by a dot, enclosed in parentheses. The list (A (B)
+C) is written (A . ((B . NIL) . (C . NIL))) in dot notation. See also
+hybrid notation.
+
+*Dotted list*: A cons cell chain ending in an atom other than NIL. For
+example, (A B C . D) is a chain of three cons cells ending in the
+symbol D. This list must be written with a dot to show that the D is
+the CDR of the third cell, not the CAR of a fourth cell.
+
+*Dotted pair*: A single cons cell written in do notation. Usually the
+CAR is a non-NIL atom. A typical dotted pair is (A . B).
+
+*Element*: The elements of a list are the cars of its top-level cons
+cells, that is, the things that appear within only one level of
+parentheses.
+
+*Function*: Functions transform inputs to outputs. Lisp functions are
+defined with DEFUN. Lisp programs are organized as collections of
+functions.
+
+*Function cell*: One of the five components of a symbol. The function
+cell holds a pointer to the function object representing the global
+function named by that symbol. (Local functions created by LABELS do
+not reside in the function cell.)
+
+*Function object*: A piece of Lisp data that is a function, and can be
+applied to arguments. The representation of function objects is
+implementation dependent.
+
+*Gensym*: A symbol created automatically, with a name such as #:G0037,
+that is not registered in any package. Gensyms are often found in the
+expansions of complex macros such as SETF.
+
+*Lambda*: A marker indicating that a list is a lambda expression and is
+to be interpreted as a description of a function.
+
+*Lambda-list keyword*: A special symbol such as &OPTIONAL or &REST that
+has a special meaning when it appears in the argument list of a
+function.
+
+*Lambda expression*: A list that describes a function. Its first element
+must be the symbol LAMBDA, its second element must be an argument
+list, and its remaining elements constitute the body of the
+function. Lambda expressions must be quoted with #'. For example,
+#'(LAMBDA (N) (* N 2)).
+
+*Lexical closure*: A type of function. Lexical closures are created
+automatically by Lisp when functions passed as arguments to other
+functions need to remember their lexical context.
+
+*Lexical scoping*: A scoping discipline in which the only variables a
+function can see are those it defined itself, plus those defined by
+forms that contain the function, as when a function defined with DEFUN
+contains a lambda expression inside it.
+
+*List*: A chain of cons cells. One of the fundamental data structures of
+Lisp.
+
+*Macro function*: A special kind of function whose arguments are not
+evaluated. Macro functions must return Lisp expressions, which are
+then evaluated.
+
+*Package*: Packages are the name spaces in which symbols are
+registered. The default package is called USER. Lisp functions and
+variables are named by symbols in package Lisp.
+
+*Package name*: A character string giving the name of a package, such as
+USER. APROPOS takes a package name as an optional second argument.
+
+*Pointer*: A pointer to an object gives the address of that object in
+memory. Pointers are drawn as arrows in cons cell diagrams.
+
+*Primitive*: An elementary function that is built into Lisp, not defined
+by the user. CONS and + are primitives.
+
+*Proper list*: A cons cell chain ending in NIL. NIL is itself a proper
+list.
+
+*Rebinding*: Rebinding a special variable means creating a new dynamic
+variable with the same name, such as with LET. The name is then
+dynamically associated with the new variable when it appears anywhere
+in the program, and the old variable is inaccessible until the form
+that bound the new variable returns.
+
+*Scope*: The scope of an object is the region of the program in which
+the object can be referenced. For example, if a variable names the
+input to some function, the scope of the variable is limited to the
+body of that function. See also lexical scoping and dynamic scoping.
+
+*Special form*: See special function.
+
+*Special function*: A built-in function that does not evaluate its
+arguments. Special functions provide the primitive constructs, such as
+assignment, block structure, looping, and variable binding, from which
+the rest of Lisp is built. They do not return Lisp expressions to be
+evaluated, as macros do. Lisp programmers can create new macros, but
+they cannot create new special functions.
+
+*Special variable*: A dynamically scoped variable. When a name is
+declared special, all variables with that name will be dynamically
+scoped.
+
+*String*: A sequence of characters enclosed in double quotes, e.g. “Foo
+Bar”. Strings are vectors of character objects.
+
+*Symbol*: One of the fundamental Lisp datatypes. Internally, symbols are
+composed of five cells: the name, value, function, plist, and package
+cells. Besides serving as data, symbols also serve as names for
+things, such as functions, variables, types, and blocks.
+
+*Symbol name*: Symbols are named by character strings. Each symbol
+contains a name cell that holds a pointer to the character string that
+is the symbol’s name.
+
+*Type system*: The set of datatypes a language offers, and their
+organization. The Lisp type system includes type predicates, a TYPE-OF
+function for generating type descriptions, and a facility for creating
+new datatypes with DEFSTRUCT.
+
+*Unassigned variable*: A variable that has no value.
+
+Unbound variable: See unassigned variable. ‘‘Unbound’’ is an archaic
+term for ‘‘unassigned’’.
+
+Value cell: A cell in the internal representation of a symbol where
+Lisp keeps the value of the global lexical variable (or the currently
+accessible dynamic variable) named by that symbol.
+
+Variable: A place where a value is stored. Ordinary variables are
+named by symbols. Generalized variables are named by place
+descriptions, which may be Lisp expressions.
+
+Vector: A one-dimensional array.
