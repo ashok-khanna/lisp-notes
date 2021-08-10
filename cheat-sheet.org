@@ -89,6 +89,90 @@ is the form it takes and some examples:
 
 #+end_src
 
+* Basic Input & Output
+
+The LISP reader consists of three primary functions
+
+- The function =READ= is used to parse input into Lisp objects and reads
+  exactly one expression, regardless of newlines
+
+- The function =READ-LINE= reads all characters up to a newline, returning
+  a string
+
+- The function =READ-FROM-STRING= takes a string and returns the first
+  expression from it
+
+Below are some examples you can experiment with.
+
+#+begin_src lisp
+
+  (defparameter my-variable nil)
+
+  (setf my-variable (read-line))
+
+  (setf my-variable (read))
+
+  (setf my-variable (read-from-string "(1 2 3)"))
+
+#+end_src
+
+The most useful LISP printing functions are:
+
+- =PRINT= and =PRIN1= are used to generate output useful for programs
+  (the former adds a newline to the output whilst the latter does not).
+- =PRINC= is used for output for people.
+- =FORMAT= is a highly configurable printer and the most commonly used printer
+
+The syntax of =FORMAT= is as follows:
+
+#+BEGIN_SRC elisp
+
+  (format destination control-string optional-arguments*)
+    
+#+END_SRC
+
+The first argument of the FORMAT function is the destination where the
+output will be printed.
+
+- A value of T will send the out to the stream =*​standard-output​*=
+ (typically the main screen of your Lisp system) whilst =NIL= here will
+  return the output as a string. We can also supply a stream here.
+ 
+- The second argument is the string that we want to print. However, we can enter
+  directives (preceded by ~) to add complex behaviour to the string, such as
+
+  - ~% to print newlines
+  - ~A to print lisp objects for humans
+  - ~S to print lisp objects for computers, i.e. suitable as as input for the
+    LISP reader
+ 
+The third (optional) argument of the FORMAT function is the arguments
+we want to supply to the control string. Each ~A or ~S in the
+control-string takes a successive argument from here and places it
+into the string.
+
+This is best illustrated by the following examples. Note how Bob is
+quoted in the second example as the printed representation of Lisp
+strings includes quotes.
+
+#+begin_src lisp
+
+  ;; Prints to screen: Dear Bob, How are you?
+
+  (format t "Dear ~A, ~% How are you?" "Bob")
+
+
+  ;; Prints to screen: Dear "Bob", How are you?
+
+  (format t "Dear ~S, How are you?" "Bob")
+
+
+  ;; Returns "Number is: 3" (a string)
+
+  (format nil "~A ~A" "Number is:" (+ 1 2))
+
+#+end_src
+
 
 * Defining Global Functions
 
@@ -804,7 +888,7 @@ then ATOM and then T. DEFSTRUCT generates four associated functions:
 
 4. COPY-RECTANGLE to create copies of rectangles
 
-* Example of a Structure
+** Example of a Structure
 
 #+begin_src lisp
 
@@ -836,6 +920,11 @@ then ATOM and then T. DEFSTRUCT generates four associated functions:
   rectangle-2
 
 #+end_src
+
+
+* Common Lisp Object System (CLOS)
+
+
 
 
 * Advanced Looping
