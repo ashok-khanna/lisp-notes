@@ -1,0 +1,511 @@
+#+Date: 10 August 2021
+
+#+Title: Common Lisp Cheat Sheet
+
+Below is a cheat sheet for Common Lisp. Only  a very basic
+understanding of Common Lisp is required. Hope you like it!
+
+* Notes on Syntax
+
+In the below below a =*= after a form indicates multiple forms
+can be included there (sometimes this is known as an implicit
+=PROGN=).
+
+* Hello World
+
+#+begin_src lisp
+
+  (print "Hello, World!")
+  
+#+end_src
+
+
+* Defining Global Variables
+
+We can define global variables with =DEFPARAMETER= and 
+=DEFVAR=. The former can be called multiple times on a
+variable and it will re-assign the variable to the latest
+value supplied. The latter will only assign a value if it
+is not already bound to the variable.
+
+#+begin_src lisp
+
+  ;; Establish an unbound variable
+  
+  (defvar *x*)
+  
+  ;; Assign the value 15 to X
+  
+  (defparameter *x* 15)
+  
+  ;; Does nothing as X already bound
+  
+  (defvar *x* 10)
+
+#+end_src
+
+We can define global constants with =DEFCONSTANT=:
+
+#+begin_src lisp
+
+ (defconstant +my-constant+ 20)
+
+#+end_src
+
+
+* General Purpose Assignment
+
+=SETF= is LISP's general purpose assignment macro and
+can assign a value to a designated /place/ (e.g. a variable,
+but also many other types of places). It is a very powerful
+"setter" that can assign values to many different bjects. Below
+is the form it takes and some examples:
+
+#+begin_src lisp
+
+  ;; Form of SETF Macro:
+
+  (setf place value)
+
+  ;; Set x to 10
+
+  (setf x 10)
+
+  ;; Set x to 1 and y to 2
+
+  (setf x 1 y 2)
+
+  ;; Same as (setf x (+ x 1))
+
+  (incf x)
+
+  ;; Same as (setf x (- x 1))
+
+  (decf x)
+
+  ;; Same as (setf x (+ x 10))
+  
+  (incf x 10)
+
+#+end_src
+
+
+* Defining Global Functions
+
+Global functions are defined with =DEFUN= with the below syntax.
+
+#+begin_src lisp
+
+  (defun function-name (parameter*)
+    "Optional documentation string."
+    body-form*)
+
+#+end_src
+
+Below is example of a function that multiplies the sum of two
+numbers by 10.
+
+#+begin_src lisp
+
+  (defun multiply-sum-by-10 (x y)
+    "Returns the sum of two numbers multiplied by 10"
+    (* 10 (+ x y)))
+
+  ;; Returns 150
+
+  (multiply-sum-by-10 5 10)
+
+#+end_src
+
+
+* Blocks
+
+The =PROGN= form allows multiple forms to be evaluated
+and the value of the last returned as the value of the
+PROGN. For example:
+
+#+begin_src lisp
+
+  ;; Returns 10
+    
+  (progn
+    (print "Hello")
+    (print "World")
+    (+ 5 5))
+
+#+end_src
+
+The =BLOCK= special operator is similar, but it is named and has a
+mechanism for out-of-order exit with the =RETURN-FROM= operator.
+The bodies of functions are wrapped in an implicit BLOCK.
+
+#+begin_src lisp
+
+  ;; Returns 10
+  
+  (block my-block
+    (print "We see this")
+    (return-from my-block 10)
+    (print "We will never see this"))
+
+#+end_src
+
+The =RETURN= macro returns its argument as the value of an enclosing
+BLOCK named NIL.  Many Common Lisp operators that take a body of
+expressions implicitly enclose the body in a BLOCK named NIL and we
+can use RETURN in these forms:
+
+ #+begin_src lisp
+
+   ;; Returns 10 when 1 = 3 and
+   ;; prints 1 and 2
+   
+   (dolist (i '(1 2 3 5 6 7))
+     (if (= i 3)
+	 (return 10))
+     (print i))
+
+ #+end_src
+
+The value of the last expression is returned by the block (unless
+modified by RETURN or RETURN-FROM). All other expressions in the block
+are thus only useful for their side effects.
+
+
+* Numerical Functions
+
+Basic numerical functions include =+=, =*=, =-=, =/=. They can
+take more than two operands, e.g.:
+
+#+begin_src lisp
+
+  ;; Returns 20
+
+  (+ 4 7 9)
+
+#+end_src
+
+Numerical comparisons can be achieved with ===, =/== (not),
+=>=, =<=, =>== and =<==. With three or more arguments, these
+functions act as range checks.
+
+#+begin_src lisp
+
+  (defparameter x 5)
+  
+  (defparameter y 4)
+
+  
+  ;; Returns true as x between 0 and 5 inclusive
+  
+  (<= 0 x 5)
+
+  
+  ;; Returns false as x not between 0 and 5 exclusive
+  
+  (< 0 x 5)
+
+  
+  ;; Returns false as x > y
+
+  (< 0 x y 6)
+
+  expt
+  ;; Returns true
+
+  (< 0 y x 6)
+
+#+end_src
+
+=MAX=, =MIN=, =ABS= and =EXPT= are also useful numerical functions.
+
+
+* Text Functions
+
+Four useful text functions are =CONCATENATE= to join strings,
+=LENGTH= to get their length, =SUBSEQ= to extract a portion of a
+string and =SEARCH= to search within a string (which returns NIL
+if not found).
+
+#+begin_src lisp
+
+  (concatenate 'string "Hello, " "world" ". Today is good.")
+
+
+  ;; Returns 6
+
+  (length "Common")
+  
+
+  ;; Returns 4
+  
+  (search "term" "the term is search within this string")
+
+#+end_src
+
+
+Below are comparison functions for strings. Replace STRING with
+CHAR in the below to get the equivalent character comparison
+function. 
+
+| Case Sensitive | Case Insensitive    |
+|----------------+---------------------|
+| STRING=        | STRING-EQUAL        |
+| STRING/=       | STRING-NOT-EQUAL    |
+| STRING<        | STRING-LESSP        |
+| STRING<=       | STRING-NOT-GREATERP |
+| STRING>        | STRING-GREATERP     |
+| STRING>=       | STRING-NOT-LESSP    |
+
+
+* Data Types
+
+One can get the data types of a LISP object with =TYPE-0F= and
+test whether a object is of a particular type with =TYPEP=.
+
+#+begin_src lisp
+
+  (typep "My String" 'string)
+
+  (type-of "My String")
+
+#+end_src
+
+Other type predicate functions include ATOM, NULL, ZEROP,
+NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP,
+SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
+
+
+* Boolean & Equality
+
+The function AND returns NIL if any of its arguments are false and
+returns the value of the last argument if all arguments are true.  The
+function OR returns the first argument that is true and NIL if no
+argument is true.
+
+#+begin_src lisp
+
+  ;; Returns 5
+  
+  (and t (+ 1 2) (* 1 5))
+
+  ;; Returns 3
+  
+  (or nil (+ 1 2) (* 1 5))
+
+#+end_src
+
+Common Lisp has a few different functions for testing equality of two
+objects. Generally speaking, you can't go wrong with =EQUAL=.
+
+- =EQ= compares equality of memory addresses and is the fastest
+  test. It is useful to compare symbols quickly and to test whether two
+  cons cells are physically the same object. It should not be used to
+  compare numbers.
+
+- =EQL= is like EQ except that it can safely compare numbers for numerical
+  equality and type equality. It is the default equality test in many
+  Common Lisp functions.
+
+- =EQUAL= is a general purpose test that, in addition to being able to
+  safely compare numbers like EQL, can safely compare lists on an
+  element by element basis. Lists are not unique and EQ and EQL will
+  fail to return equality on equivalent lists if they are stored in
+  different memory addresses.
+
+- =EQUALP= is a more liberal version of EQUAL. It ignores case
+  distinctions in strings, among other things.
+
+- === is the most efficient way to compare numbers, and the only way to
+  compare numbers of disparate types, such as 3 and 3.0. It only accepts
+  numbers.
+
+
+* Conditionals
+
+The five main conditionals in Common Lisp are IF, WHEN, UNLESS, COND
+and CASE. Conditionals with an implicit PROGN block allow for multiple
+forms within their bodies.
+
+Example of IF form (note there is no implicit PROGN):
+
+
+#+begin_src lisp
+
+  (if (equal 5 (+ 1 4))
+      (print "This is true")
+      (print "This if false"))
+
+#+end_src
+
+Example of WHEN form (note there is an implicit PROGN):
+
+#+begin_src lisp
+
+  (when (equal 5 (+ 1 4))
+    (print "Print if statement is true")
+    (print "Print this also"))
+
+#+end_src
+
+Example of UNLESS form (note there is an implicit PROGN):
+
+#+begin_src lisp
+
+  (unless (equal 3 (+ 1 4))
+    (print "Only print if condition is false")
+    (print "Print this also"))
+
+#+end_src
+
+Example of COND form (multiple ifs, implicit PROGN). The form exits on
+the first true:
+	
+#+begin_src lisp
+
+  (cond ((equal 5 3) (print "This will not print"))
+	((equal 5 5) (print "This will print"))
+	((equal 5 5)
+	 (print "This will not print as the")
+	 (print "form exited at first true")))
+
+#+end_src
+
+Example of a CASE form (multiple ifs on the one variable, implicit
+PROGN). Cases are literal not evaluated. The form exits on the first true:
+
+#+begin_src lisp
+
+  ;; Try entering in 9 and then (* 3 3)
+  ;; at the read prompt. Then try entering 0
+  
+  (case (read)
+     ((1 3 5 7 9 (* 3 3)) "Odd")
+    (* 3 3)
+    (0 ; Note implicit PROGN here
+     (print "Zero")
+     (print "Number"))
+    (otherwise "Not a odd number < 10"))
+
+#+end_src
+
+
+* Basic Looping
+
+=DOLIST= and =DOTIMES= are basic loop macros. DOLIST will iterate over
+the items of my-list and execute the loop body for each item of the list.
+In the below, my-variable holds the value of each successive item in the
+list during the iteration.
+
+#+begin_src lisp
+
+  (dolist (my-variable my-list optional-result-form)
+    body-form*)
+
+#+end_src
+
+#+begin_src lisp
+
+   (dolist (i '(1 2 3 5 6 7))
+     (print i))
+
+#+end_src
+
+In the below example, DOTIMES will iterate my-variable from 0 to one
+less than the end-number supplied. If an optional-result-form is
+supplied, it will be evaluated at the end of the loop. Below is the
+structure of the macro, together with an example:
+
+#+begin_src lisp
+
+  (dotimes (my-variable end-number optional-result-form)
+    body-form*)
+
+#+end_src
+
+#+begin_src lisp
+
+  (dotimes (i 5 T)
+    (print i))
+
+#+end_src
+
+
+* Local Variables
+
+LET and LET* are special operators that allow us to create local
+variables that can only be accessed within their closures. LET binds
+its variables in parallel such that you cannot refer to another
+variable in the LET form when setting the value of another. LET* binds
+its variables in sequentially, so that you can refer to the value of
+any previously bound variables. This is useful when you want to assign
+names to several intermediate steps in a long computation.
+
+The LET form has the following syntax:
+
+#+begin_src elisp
+
+  (let ((var-1 value-1)
+	...
+	(var-n value-n))
+    body-form*)
+
+#+end_src
+
+An example of LET* in use:
+
+ #+begin_src lisp
+
+   ;; Prints 10
+   
+   (let* ((x 5)
+	  (y (+ x x)))
+     (print y))
+
+ #+end_src
+
+
+* Local Functions
+
+Functions named by DEFUN are global functions that can be accessed
+anywhere. We can define local functions LABELS, which are only accessible
+within their context. The syntax of LABELS is:
+
+#+begin_src lisp
+
+  (labels ((fn-1 args-1 body-1)
+	   ...
+	   (fn-n args-n body-n))
+    body-form*)
+
+#+end_src
+
+Functions defined within LABELS take a similar format to a DEFUN
+form. Within the body of the LABELS form, function names matching
+those defined by the LABELS refer to the locally defined functions
+rather than any global functions with the same names. Below is an
+example of a LABELS form that will return 12, the result of (+ 2 4 6),
+where 2, 4 and 6 are the results of evaluating the three local
+functions defined in the form.
+
+#+begin_src lisp
+
+  ;; Returns 12
+  
+  (labels ((first-function (x) (+ x x))
+	   (second-function (y) (* y y))
+	   (third-function (z) (first-function z)))
+    (+ (first-function 1)
+       (second-function 2)
+       (third-function 3))) 
+
+#+end_src
+
+
+* Lambda Expressions
+
+
+
+* List Functions
+
+
