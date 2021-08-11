@@ -1339,6 +1339,21 @@ In creating specialised methods, we add the parameter type to to the methods. In
 
 #+end_src
 
+Finally, it is useful to create custom print output for CLOS objects. This can be achieved with the following.
+
+#+begin_src lisp
+
+
+  (defmethod print-object ((obj person) stream)
+  (print-unreadable-object (obj stream :type t)
+			   (format stream "~a" (person-name obj))))
+
+;; Returns
+  
+  (print person-1)
+
+#+end_src
+
 * Other
 
 ** Reading & Writing to Files
