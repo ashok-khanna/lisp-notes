@@ -1,5 +1,5 @@
 
-# Table of Contents
+# The Common Lisp Cheat Sheet
 
 1.  [The Common Lisp Cheat Sheet](#orgad21528)
 2.  [The Basics](#org5639232)
@@ -48,9 +48,6 @@
 
 
 <a id="orgad21528"></a>
-
-# The Common Lisp Cheat Sheet
-
 
 <a id="org5639232"></a>
 
