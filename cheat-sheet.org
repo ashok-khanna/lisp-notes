@@ -4,7 +4,7 @@ Not Covered: Macros, Destructive Functions, Error Handling
 
 ---
 
-* Part 1: The Very Basics
+* Part 1: The Basics
 
 ** Defining Global Variables
 
@@ -113,18 +113,12 @@ The first argument of the FORMAT function is the destination where the output wi
 - A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your Lisp system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
 - The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
   - =~%= to print newlines
-  - =~A= to print lisp objects for humans
-  - =~S= to print lisp objects for computers, i.e. suitable as as input for the
-    LISP reader
+  - =~A= to print LISP objects for humans
+  - =~S= to print LISP objects for computers, i.e. suitable as as input for the LISP reader
  
-The third (optional) argument of the FORMAT function is the arguments
-we want to supply to the control string. Each ~A or ~S in the
-control-string takes a successive argument from here and places it
-into the string.
+The third (optional) argument of the =FORMAT= function is the arguments we want to supply to the control string. Each =~A= or =~S= in the control-string takes a successive argument from here and places it into the string.
 
-This is best illustrated by the following examples. Note how Bob is
-quoted in the second example as the printed representation of Lisp
-strings includes quotes.
+This is best illustrated by the following examples. Note how Bob is quoted in the second example as the printed representation of Lisp strings includes quotes.
 
 #+begin_src lisp
 
@@ -132,11 +126,9 @@ strings includes quotes.
 
   (format t "Dear ~A, ~% How are you?" "Bob")
 
-
   ;; Prints to screen: Dear "Bob", How are you?
 
   (format t "Dear ~S, How are you?" "Bob")
-
 
   ;; Returns "Number is: 3" (a string)
 
@@ -145,9 +137,9 @@ strings includes quotes.
 #+end_src
 
 
-* Defining Global Functions
+** Defining Global Functions
 
-Global functions are defined with =DEFUN= with the below syntax.
+Global functions are defined with =DEFUN= with the below syntax. Multiple body forms can be included.
 
 #+begin_src lisp
 
@@ -157,8 +149,7 @@ Global functions are defined with =DEFUN= with the below syntax.
 
 #+end_src
 
-Below is example of a function that multiplies the sum of two
-numbers by 10.
+Below is example of a function that multiplies the sum of two numbers by 10.
 
 #+begin_src lisp
 
@@ -172,65 +163,9 @@ numbers by 10.
 
 #+end_src
 
+** Numerical Functions
 
-* Blocks
-
-The =PROGN= form allows multiple forms to be evaluated
-and the value of the last returned as the value of the
-PROGN. For example:
-
-#+begin_src lisp
-
-  ;; Returns 10
-    
-  (progn
-    (print "Hello")
-    (print "World")
-    (+ 5 5))
-
-#+end_src
-
-The =BLOCK= special operator is similar, but it is named and has a
-mechanism for out-of-order exit with the =RETURN-FROM= operator.
-The bodies of functions are wrapped in an implicit BLOCK.
-
-#+begin_src lisp
-
-  ;; Returns 10
-  
-  (block my-block
-    (print "We see this")
-    (return-from my-block 10)
-    (print "We will never see this"))
-
-#+end_src
-
-The =RETURN= macro returns its argument as the value of an enclosing
-BLOCK named NIL.  Many Common Lisp operators that take a body of
-expressions implicitly enclose the body in a BLOCK named NIL and we
-can use RETURN in these forms:
-
- #+begin_src lisp
-
-   ;; Returns 10 when 1 = 3 and
-   ;; prints 1 and 2
-   
-   (dolist (i '(1 2 3 5 6 7))
-     (if (= i 3)
-	 (return 10))
-     (print i))
-
- #+end_src
-
-The value of the last expression is returned by the block (unless
-modified by RETURN or RETURN-FROM). All other expressions in the block
-are thus only useful for their side effects.
-
-
-* Numerical Functions
-
-Basic numerical functions include =+=, =*=, =-=, =/=. They can
-take more than two operands, e.g.:
+Basic numerical functions include =+=, =*=, =-=, =/=. They can take more than two operands.
 
 #+begin_src lisp
 
@@ -240,16 +175,13 @@ take more than two operands, e.g.:
 
 #+end_src
 
-Numerical comparisons can be achieved with ~=~, =/== (not),
-=>=, =<=, =>== and =<==. With three or more arguments, these
-functions act as range checks.
+Numerical comparisons can be achieved with ~=~, =/== (not),=>=, =<=, =>== and =<==. With three or more arguments, these functions act as range checks.
 
 #+begin_src lisp
 
   (defparameter x 5)
   
   (defparameter y 4)
-
   
   ;; Returns true as x between 0 and 5 inclusive
   
@@ -271,8 +203,7 @@ functions act as range checks.
 
 #+end_src
 
-Other useful functions are below. More details on numerical
-operations can be found in [[https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node121.html][Common Lisp, the Language 2nd Edition]].
+Other useful functions are below. More details on numerical operations can be found in [[https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node121.html][Common Lisp, the Language 2nd Edition]].
 
 #+begin_src lisp
 
@@ -306,23 +237,18 @@ operations can be found in [[https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node
 
 #+end_src
 
-* Text Functions
+** Text Functions
 
-Four useful text functions are =CONCATENATE= to join strings,
-=LENGTH= to get their length, =SUBSEQ= to extract a portion of a
-string and =SEARCH= to search within a string (which returns NIL
-if not found).
+Four useful text functions are =CONCATENATE= to join strings, =LENGTH= to get their length, =SUBSEQ= to extract a portion of a string and =SEARCH= to search within a string (which returns =NIL= if not found).
 
 #+begin_src lisp
 
   (concatenate 'string "Hello, " "world" ". Today is good.")
 
-
   ;; Returns 6
 
   (length "Common")
   
-
   ;; Returns 4
   
   (search "term" "the term is search within this string")
@@ -330,9 +256,7 @@ if not found).
 #+end_src
 
 
-Below are comparison functions for strings. Replace STRING with
-CHAR in the below to get the equivalent character comparison
-function. 
+Below are comparison functions for strings. Replace STRING with CHAR in the below to get the equivalent character comparison function. 
 
 | Case Sensitive | Case Insensitive    |
 |----------------+---------------------|
@@ -343,11 +267,11 @@ function.
 | STRING>        | STRING-GREATERP     |
 | STRING>=       | STRING-NOT-LESSP    |
 
+* Part 2: Predicates, Logic & Equality
 
-* Data Types
+** Predicates & Types
 
-One can get the data types of a LISP object with =TYPE-0F= and
-test whether a object is of a particular type with =TYPEP=.
+One can get the data types of a LISP object with =TYPE-0F= and test whether a object is of a particular type with =TYPEP=.
 
 #+begin_src lisp
 
@@ -357,17 +281,11 @@ test whether a object is of a particular type with =TYPEP=.
 
 #+end_src
 
-Other type predicate functions include ATOM, NULL, ZEROP,
-NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP,
-SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
+Other type predicate functions include ATOM, NULL, ZEROP, NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP, SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
 
+** Boolean & Equality
 
-* Boolean & Equality
-
-The function AND returns NIL if any of its arguments are false and
-returns the value of the last argument if all arguments are true.  The
-function OR returns the first argument that is true and NIL if no
-argument is true.
+The function AND returns NIL if any of its arguments are false and returns the value of the last argument if all arguments are true.  The function OR returns the first argument that is true and NIL if no argument is true.
 
 #+begin_src lisp
 
@@ -381,30 +299,66 @@ argument is true.
 
 #+end_src
 
-Common Lisp has a few different functions for testing equality of two
-objects. Generally speaking, you can't go wrong with =EQUAL=.
+Common Lisp has a few different functions for testing equality of two objects. Generally speaking, you can't go wrong with =EQUAL=.
 
 - =EQ= compares equality of memory addresses and is the fastest
   test. It is useful to compare symbols quickly and to test whether two
   cons cells are physically the same object. It should not be used to
   compare numbers.
 
-- =EQL= is like EQ except that it can safely compare numbers for numerical
-  equality and type equality. It is the default equality test in many
-  Common Lisp functions.
+- =EQL= is like =EQ= except that it can safely compare numbers for numerical equality and type equality. It is the default equality test in many Common Lisp functions.
 
-- =EQUAL= is a general purpose test that, in addition to being able to
-  safely compare numbers like EQL, can safely compare lists on an
-  element by element basis. Lists are not unique and EQ and EQL will
-  fail to return equality on equivalent lists if they are stored in
-  different memory addresses.
+- =EQUAL= is a general purpose test that, in addition to being able to safely compare numbers like EQL, can safely compare lists on an element by element basis. Lists are not unique and =EQ= and =EQL= will fail to return equality on equivalent lists if they are stored in different memory addresses.
 
-- =EQUALP= is a more liberal version of EQUAL. It ignores case
-  distinctions in strings, among other things.
+- =EQUALP= is a more liberal version of =EQUAL=. It ignores case distinctions in strings, among other things.
 
-- === is the most efficient way to compare numbers, and the only way to
-  compare numbers of disparate types, such as 3 and 3.0. It only accepts
-  numbers.
+- === is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
+
+* Part 3. Control Structures
+
+** Blocks
+
+The =PROGN= form allows multiple forms to be evaluated and the value of the last returned as the value of the PROGN. For example:
+
+#+begin_src lisp
+
+  ;; Returns 10
+    
+  (progn
+    (print "Hello")
+    (print "World")
+    (+ 5 5))
+
+#+end_src
+
+The =BLOCK= special operator is similar, but it is named and has a mechanism for out-of-order exit with the =RETURN-FROM= operator. The bodies of functions are wrapped in an implicit =BLOCK=.
+
+#+begin_src lisp
+
+  ;; Returns 10
+  
+  (block my-block
+    (print "We see this")
+    (return-from my-block 10)
+    (print "We will never see this"))
+
+#+end_src
+
+The =RETURN= macro returns its argument as the value of an enclosing =BLOCK= named =NIL=.  Many Common Lisp operators that take a body of expressions implicitly enclose the body in a =BLOCK= named =NIL= and we can use =RETURN= in these forms:
+
+ #+begin_src lisp
+
+   ;; Returns 10 when 1 = 3 and
+   ;; prints 1 and 2
+   
+   (dolist (i '(1 2 3 5 6 7))
+     (if (= i 3)
+	 (return 10))
+     (print i))
+
+ #+end_src
+
+The value of the last expression is returned by the block (unless modified by =RETURN= or =RETURN-FROM=). All other expressions in the block are thus only useful for their side effects.
 
 
 * Conditionals
