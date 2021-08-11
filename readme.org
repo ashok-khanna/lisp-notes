@@ -1,5 +1,5 @@
 * The Basics
-** Defining Global Variables
+** Global Variables
 
 We can define global variables with =DEFPARAMETER= and =DEFVAR=. =DEFPARAMETER= will always bind the supplied value, while =DEFVAR= will only bind a value to a variable if no binding exists.
 
@@ -24,6 +24,32 @@ We can define global constants with =DEFCONSTANT=:
 #+begin_src lisp
 
  (defconstant +my-constant+ 20)
+
+#+end_src
+
+** Global Functions
+
+Global functions are defined with =DEFUN= with the below syntax. Multiple body forms can be included.
+
+#+begin_src lisp
+
+  (defun function-name (parameter*)
+    "Optional documentation string."
+    body-form*)
+
+#+end_src
+
+Below is example of a function that multiplies the sum of two numbers by 10.
+
+#+begin_src lisp
+
+  (defun multiply-sum-by-10 (x y)
+    "Returns the sum of two numbers multiplied by 10"
+    (* 10 (+ x y)))
+
+  ;; Returns 150
+
+  (multiply-sum-by-10 5 10)
 
 #+end_src
 
@@ -61,29 +87,70 @@ Below are some examples.
 
 #+end_src
 
-** Defining Global Functions
+** Input & Output
 
-Global functions are defined with =DEFUN= with the below syntax. Multiple body forms can be included.
+The LISP reader consists of three primary functions
+
+- The function =READ= is used to parse input into Lisp objects and reads exactly one expression, regardless of newlines
+
+- The function =READ-LINE= reads all characters up to a newline, returning a string
+
+- The function =READ-FROM-STRING= takes a string and returns the first
+  expression from it
+
+Below are some examples you can experiment with.
 
 #+begin_src lisp
 
-  (defun function-name (parameter*)
-    "Optional documentation string."
-    body-form*)
+  (defparameter my-variable nil)
+
+  (setf my-variable (read-line))
+
+  (setf my-variable (read))
+
+  (setf my-variable (read-from-string "(1 2 3)"))
 
 #+end_src
 
-Below is example of a function that multiplies the sum of two numbers by 10.
+The most useful LISP printing functions are:
+
+- =PRINT= and =PRIN1= are used to generate output useful for programs (the former adds a newline to the output whilst the latter does not)
+
+- =PRINC= is used for output for people
+
+- =FORMAT= is a highly configurable printer and the most commonly used printer
+
+The syntax of =FORMAT= is as follows:
+
+#+BEGIN_SRC lisp
+(format destination control-string optional-arguments*)
+#+END_SRC
+
+The first argument of the FORMAT function is the destination where the output will be printed.
+
+- A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your Lisp system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
+- The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
+  - =~%= to print newlines
+  - =~A= to print LISP objects for humans
+  - =~S= to print LISP objects for computers, i.e. suitable as as input for the LISP reader
+ 
+The third (optional) argument of the =FORMAT= function is the arguments we want to supply to the control string. Each =~A= or =~S= in the control-string takes a successive argument from here and places it into the string.
+
+This is best illustrated by the following examples. Note how Bob is quoted in the second example as the printed representation of Lisp strings includes quotes.
 
 #+begin_src lisp
 
-  (defun multiply-sum-by-10 (x y)
-    "Returns the sum of two numbers multiplied by 10"
-    (* 10 (+ x y)))
+  ;; Prints to screen: Dear Bob, How are you?
 
-  ;; Returns 150
+  (format t "Dear ~A, ~% How are you?" "Bob")
 
-  (multiply-sum-by-10 5 10)
+  ;; Prints to screen: Dear "Bob", How are you?
+
+  (format t "Dear ~S, How are you?" "Bob")
+
+  ;; Returns "Number is: 3" (a string)
+
+  (format nil "~A ~A" "Number is:" (+ 1 2))
 
 #+end_src
 
@@ -190,73 +257,6 @@ Below are comparison functions for strings. Replace STRING with CHAR in the belo
 | STRING<=       | STRING-NOT-GREATERP |
 | STRING>        | STRING-GREATERP     |
 | STRING>=       | STRING-NOT-LESSP    |
-** Input & Output
-
-The LISP reader consists of three primary functions
-
-- The function =READ= is used to parse input into Lisp objects and reads exactly one expression, regardless of newlines
-
-- The function =READ-LINE= reads all characters up to a newline, returning a string
-
-- The function =READ-FROM-STRING= takes a string and returns the first
-  expression from it
-
-Below are some examples you can experiment with.
-
-#+begin_src lisp
-
-  (defparameter my-variable nil)
-
-  (setf my-variable (read-line))
-
-  (setf my-variable (read))
-
-  (setf my-variable (read-from-string "(1 2 3)"))
-
-#+end_src
-
-The most useful LISP printing functions are:
-
-- =PRINT= and =PRIN1= are used to generate output useful for programs (the former adds a newline to the output whilst the latter does not)
-
-- =PRINC= is used for output for people
-
-- =FORMAT= is a highly configurable printer and the most commonly used printer
-
-The syntax of =FORMAT= is as follows:
-
-#+BEGIN_SRC lisp
-(format destination control-string optional-arguments*)
-#+END_SRC
-
-The first argument of the FORMAT function is the destination where the output will be printed.
-
-- A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your Lisp system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
-- The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
-  - =~%= to print newlines
-  - =~A= to print LISP objects for humans
-  - =~S= to print LISP objects for computers, i.e. suitable as as input for the LISP reader
- 
-The third (optional) argument of the =FORMAT= function is the arguments we want to supply to the control string. Each =~A= or =~S= in the control-string takes a successive argument from here and places it into the string.
-
-This is best illustrated by the following examples. Note how Bob is quoted in the second example as the printed representation of Lisp strings includes quotes.
-
-#+begin_src lisp
-
-  ;; Prints to screen: Dear Bob, How are you?
-
-  (format t "Dear ~A, ~% How are you?" "Bob")
-
-  ;; Prints to screen: Dear "Bob", How are you?
-
-  (format t "Dear ~S, How are you?" "Bob")
-
-  ;; Returns "Number is: 3" (a string)
-
-  (format nil "~A ~A" "Number is:" (+ 1 2))
-
-#+end_src
-
 
 * Logic & Equality
 ** Predicates & Type
