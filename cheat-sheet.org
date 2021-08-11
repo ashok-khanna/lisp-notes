@@ -1346,9 +1346,11 @@ In creating specialised methods, we add the parameter type to to the methods. In
 
 ** Reading & Writing to Files
 
-The =WITH-OPEN-FILE= macro is used to read & write to files and then close the file. Streams are Lisp objects representing sources and/or destinations of characters. To read from or write to a file, you open it as a stream. By default, input is read from the stream *​standard-input​* and output is recorded in *​standard-output​*. Initially they will be the same place - the toplevel.
+The =WITH-OPEN-FILE= macro is used to read & write to files and then close said files. Streams are LISP objects representing sources and/or destinations of characters. To read from or write to a file, you open it as a stream. By default, input is read from the stream =*​standard-input​*= and output is recorded in =*​standard-output​*=. Initially they will be the same place - the toplevel.
 
-Below is an example opening a file as my-stream and then reading from it. The NIL in the below inhibits end of file errors.
+Below is an example opening a file as /my-stream/ and then reading from it. The =NIL= in the below inhibits end of file errors.
+
+## Test
 
 #+begin_src lisp
 
@@ -1367,7 +1369,7 @@ Below is an example opening a file as my-stream and then writing to it.
 
 #+end_src
 
-The following open arguments can be supplied to the WITH-OPEN-FILE macro:
+The following open arguments can be supplied to the =WITH-OPEN-FILE= macro:
 
 | Arguments                  | Effect                             |
 |----------------------------+------------------------------------|
@@ -1380,7 +1382,9 @@ The following open arguments can be supplied to the WITH-OPEN-FILE macro:
 
 ** Packages
 
-Packages need to be registered before they can be used. We can also shadow symbols in a package so that they use the versions defined in the package vs. the definitions that are imported via a =:USE= command. However, generally it is advised against doing this.
+Packages are a central mechanism for avoiding name collisions that may occur if multiple files contain variables or functions with the same name. More information on packages can be found on [[https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e][my guide on Medium]].
+
+Packages need to be registered before they can be used. Below is an example of registering a package, which inherits from two packages and exports two symbols. The example also shows how to shadow symbols in a package so that they use the versions defined in the package vs. the symbols that are imported via a =:USE= command.
 
 #+begin_src lisp
 
@@ -1401,8 +1405,4 @@ Once a package is registered with the above, we can switch to it with =IN-PACKAG
   
 #+end_src
 
-Within a package, all symbols defined in that package are accessible. In addition, any /exported/ symbols from packages inherited via the =:USE= command can be direclty accessed without a package qualifier. 
-
-Outside of a package, its symbols can be accessed via a double-colon package qualifier, e.g. =my-package::symbol-3=, while its exported symbols can be accessed via a single-colon package qualifier, e.g. =my-package:symbol-1=.
-
-In general it is good to use package qualifier as it gives the reader an indication of where the symbol came from. More information on packages can be found on [[https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e][my guide on Medium]].
+Within a package, all symbols defined in that package are accessible. In addition, any /exported/ symbols from packages inherited via the =:USE= command can be directly accessed without a package qualifier. Outside of a package, internal symbols can be accessed via a double-colon package qualifier, e.g. =my-package::symbol-3=, while exported symbols can be accessed via a single-colon package qualifier, e.g. =my-package:symbol-1=.
