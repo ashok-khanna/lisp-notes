@@ -1,6 +1,6 @@
 #+Date: 10 August 2021
 
-#+Title: Common Lisp Cheat Sheet [WIP]
+#+Title: Common Lisp Cheat Sheet
 
 Below is a cheat sheet for Common Lisp. Only  a very basic
 understanding of Common Lisp is required. Hope you like it!
@@ -724,15 +724,147 @@ values will be discarded.
 
 * Apply & Funcall
 
+Functions in Lisp are first-class objects that generally support all
+operations available to other data objects, such as being modified,
+passed as an argument, returned from a function and being assigned to
+a variable.
+
+The FUNCTION special operator (shorthand #') returns the function
+object associated with the name of function that is supplied as an
+argument:
+
+#+begin_src lisp
+
+  ;; Returns the function object
+
+  (function +)
+
+  ;; Equivalent syntax
+
+  #'+
+
+#+end_src
+
+=APPLY= takes a function and a list of arguments for it and returns the
+result of applying the function to its arguments. Note how we have to
+use to sharp-quote (#') to pass the + function as an object into the
+APPLY function. Without doing so, Lisp will return an error as it will
+try to evaluate +, which is not legally permissible in the below
+example.
+
+#+begin_src lisp
+
+  ;; Returns 6
+
+  (apply #'+ '(1 2 3))
+
+  ;; Try also the following to see an example
+  ;; of lambda expressions in use:
+
+  (apply #'(lambda (a b)
+	     (+ a b))
+	 '(1 2 3))
+
+#+end_src
+
+The function =FUNCALL= is similar to =APPLY=, but allows us to pass
+arguments individually and not packaged as a list:
+
+#+begin_src lisp
+
+  ;; Returns 6
+
+  (funcall #'+ 1 2 3)
+
+#+end_src
+
 * Mapping Functions
 
 
 
 * List Functions
 
+The below are some common functions to access elements of a list:
+
+#+begin_src lisp
+
+  ;; Returns the element at the position given in
+  ;; provided position (3), returning D:
+
+  (nth 3 '(a b c d e f g))
+
+  ;; Also try FIRST - TENTH for a similar effect:
+   
+  ;; Returns A
+
+  (first '(a b c d e f g))
+
+  ;; A similar version of NTH exists for accessing CDRs:
+  ;; The below returns (D E F G)
+  
+  (nthcdr 3 '(a b c d e f g))
+
+  ;; We can also easily access the last CDR with last
+  ;; Below returns (G) (note it returns a CDR):
+    
+  (last '(a b c d e f g)) 
+
+#+end_src
+
+There are also some useful set functions that one can use in conjunction
+with sets. =MEMBER= and its variants might be the most useful:
+
+#+begin_src lisp
+
+  ;; Returns (B C)
+  
+  (member 'b '(a b c))
+
+  ;; Returns (3 4)
+  
+  (member-if #'oddp '(2 3 4))
+
+  ;; One can also specify the test to apply (default is EQL):
+
+  (member 'b '(a b c) :test #'equal) 
+
+#+end_src
+
+=ADJOIN= joins an object onto a list only if it is not already a member:
+
+#+begin_src lisp
+
+  ;; Returns (A B C)
+  
+  (adjoin 'b '(a b c))
+
+  ;; Returns (Z A B C)
+
+  (adjoin 'z '(a b c))
 
 
+#+end_src
 
+Set union, intersection and complement operations can also be done:
+
+#+begin_src lisp
+
+  ;; Returns (A B C S)
+  
+  (union '(a b c)
+	 '(c b s))
+
+
+  ;; Returns (C B)
+
+  (intersection '(a b c)
+		'(c b s))
+
+  ;; Returns (A)
+  
+  (set-difference '(a b c) '(c b s))
+
+#+end_src
 
 * Association Lists
 
@@ -1032,8 +1164,91 @@ then ATOM and then T. DEFSTRUCT generates four associated functions:
 
 * Common Lisp Object System (CLOS)
 
+Below is an example of creating two classes, one which inherits
+from the other. Courtsey of the [[https://lispcookbook.github.io/cl-cookbook/clos.html#getters-and-setters-accessor-reader-writer][Common Lisp Cookbook]].
+
+#+begin_src lisp
+
+  ;; Create class:
+    
+  (defclass person ()
+   ((name
+    :initarg :name
+    :accessor name)
+   (lisper
+    :initform "Yes"
+    :accessor lisper)))
+
+  ;; Create instance of class:
+
+  (defvar person-1
+    (make-instance 'person :name "David" ))
+
+  ;; Accessor can be used to both get & set:
+  ;; First form below returns David, second
+  ;; Second sets it two "Tom"
+  
+  (name person-1)
+  
+  (setf (name person-1) name)
+
+  ;; Returns "Yes" (set defaults through initform):
+  
+  (lisper person-1)
+  
+  ;; Inherit from class person:
+  
+  (defclass child (person)
+    (can-walk-p
+     :initarg :can-walk-p
+     :initform "No"
+     :accessor can-walk-p))
+  
+  ;; Try this:
+
+  (lisper (make-instance 'child :name))
+
+  (can-walk-p (make-instance 'child))
+  
+#+end_src
+
+We can add methods to classes with a combination of =DEFGENERIC=
+and =DEFMETHOD=. Note that Common Lisp supports multiple dispatch
+so that many classes can share & use the same method names.
+
+=DEFGENERIC= establishes an entry in the method dispatch table,
+while =DEFMETHOD= allows us to create specialised versions.
+
+#+begin_src lisp
+
+  ;; Version without default method (to be used if
+  ;; no other specialisations exist:
+
+  (defgeneric greet (obj)
+    (:documentation "Says hi")
+    (:method (obj)
+	     (format t "Hi")))
+
+  ;; Version without default method:
+
+  (defgeneric greet (obj)
+    (:documentation "Says hi"))
+    
+#+end_src
+
+In creating specialised methods, we add the parameter type to
+to the methods. In a method call, Lisp will then use the method
+which matches the parameter types of the parameters supplied
+in the method call. In the below, GUEST-NAME is a parameter of
+type person, while MESSAGE is a parameter that is not specialised.
+
+#+begin_src lisp
+
+  (defmethod greet ((guest-name person) (message))
+    (format t "The person greets ~A and says ~A" guest-name message))
 
 
+#+end_src
 
 * Advanced Looping
 
