@@ -1,5 +1,5 @@
 
-# Table of Contents
+# The Common Lisp Cheat Sheet
 
 1.  [The Basics](#org48d9a52)
     1.  [Global Variables](#org14d1754)
