@@ -1,5 +1,4 @@
 * The Basics
-
 ** Defining Global Variables
 
 We can define global variables with =DEFPARAMETER= and =DEFVAR=. =DEFPARAMETER= will always bind the supplied value, while =DEFVAR= will only bind a value to a variable if no binding exists.
@@ -27,7 +26,6 @@ We can define global constants with =DEFCONSTANT=:
  (defconstant +my-constant+ 20)
 
 #+end_src
-
 
 ** Assignment
 
@@ -62,74 +60,6 @@ Below are some examples.
   *list*
 
 #+end_src
-
-** Basic Input & Output
-
-The LISP reader consists of three primary functions
-
-- The function =READ= is used to parse input into Lisp objects and reads exactly one expression, regardless of newlines
-
-- The function =READ-LINE= reads all characters up to a newline, returning a string
-
-- The function =READ-FROM-STRING= takes a string and returns the first
-  expression from it
-
-Below are some examples you can experiment with.
-
-#+begin_src lisp
-
-  (defparameter my-variable nil)
-
-  (setf my-variable (read-line))
-
-  (setf my-variable (read))
-
-  (setf my-variable (read-from-string "(1 2 3)"))
-
-#+end_src
-
-The most useful LISP printing functions are:
-
-- =PRINT= and =PRIN1= are used to generate output useful for programs (the former adds a newline to the output whilst the latter does not)
-
-- =PRINC= is used for output for people
-
-- =FORMAT= is a highly configurable printer and the most commonly used printer
-
-The syntax of =FORMAT= is as follows:
-
-#+BEGIN_SRC lisp
-(format destination control-string optional-arguments*)
-#+END_SRC
-
-The first argument of the FORMAT function is the destination where the output will be printed.
-
-- A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your Lisp system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
-- The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
-  - =~%= to print newlines
-  - =~A= to print LISP objects for humans
-  - =~S= to print LISP objects for computers, i.e. suitable as as input for the LISP reader
- 
-The third (optional) argument of the =FORMAT= function is the arguments we want to supply to the control string. Each =~A= or =~S= in the control-string takes a successive argument from here and places it into the string.
-
-This is best illustrated by the following examples. Note how Bob is quoted in the second example as the printed representation of Lisp strings includes quotes.
-
-#+begin_src lisp
-
-  ;; Prints to screen: Dear Bob, How are you?
-
-  (format t "Dear ~A, ~% How are you?" "Bob")
-
-  ;; Prints to screen: Dear "Bob", How are you?
-
-  (format t "Dear ~S, How are you?" "Bob")
-
-  ;; Returns "Number is: 3" (a string)
-
-  (format nil "~A ~A" "Number is:" (+ 1 2))
-
-#+end_src
-
 
 ** Defining Global Functions
 
@@ -260,10 +190,76 @@ Below are comparison functions for strings. Replace STRING with CHAR in the belo
 | STRING<=       | STRING-NOT-GREATERP |
 | STRING>        | STRING-GREATERP     |
 | STRING>=       | STRING-NOT-LESSP    |
+** Input & Output
+
+The LISP reader consists of three primary functions
+
+- The function =READ= is used to parse input into Lisp objects and reads exactly one expression, regardless of newlines
+
+- The function =READ-LINE= reads all characters up to a newline, returning a string
+
+- The function =READ-FROM-STRING= takes a string and returns the first
+  expression from it
+
+Below are some examples you can experiment with.
+
+#+begin_src lisp
+
+  (defparameter my-variable nil)
+
+  (setf my-variable (read-line))
+
+  (setf my-variable (read))
+
+  (setf my-variable (read-from-string "(1 2 3)"))
+
+#+end_src
+
+The most useful LISP printing functions are:
+
+- =PRINT= and =PRIN1= are used to generate output useful for programs (the former adds a newline to the output whilst the latter does not)
+
+- =PRINC= is used for output for people
+
+- =FORMAT= is a highly configurable printer and the most commonly used printer
+
+The syntax of =FORMAT= is as follows:
+
+#+BEGIN_SRC lisp
+(format destination control-string optional-arguments*)
+#+END_SRC
+
+The first argument of the FORMAT function is the destination where the output will be printed.
+
+- A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your Lisp system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
+- The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
+  - =~%= to print newlines
+  - =~A= to print LISP objects for humans
+  - =~S= to print LISP objects for computers, i.e. suitable as as input for the LISP reader
+ 
+The third (optional) argument of the =FORMAT= function is the arguments we want to supply to the control string. Each =~A= or =~S= in the control-string takes a successive argument from here and places it into the string.
+
+This is best illustrated by the following examples. Note how Bob is quoted in the second example as the printed representation of Lisp strings includes quotes.
+
+#+begin_src lisp
+
+  ;; Prints to screen: Dear Bob, How are you?
+
+  (format t "Dear ~A, ~% How are you?" "Bob")
+
+  ;; Prints to screen: Dear "Bob", How are you?
+
+  (format t "Dear ~S, How are you?" "Bob")
+
+  ;; Returns "Number is: 3" (a string)
+
+  (format nil "~A ~A" "Number is:" (+ 1 2))
+
+#+end_src
+
 
 * Logic & Equality
-
-** Predicates & Types
+** Predicates & Type
 
 One can get the data types of a LISP object with =TYPE-0F= and test whether a object is of a particular type with =TYPEP=.
 
@@ -306,7 +302,6 @@ Common Lisp has a few different functions for testing equality of two objects. G
 - =EQUALP= is a more liberal version of =EQUAL=. It ignores case distinctions in strings, among other things.
 
 - ~=~ is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
-
 
 ** Blocks
 
@@ -351,7 +346,6 @@ The =RETURN= macro returns its argument as the value of an enclosing =BLOCK= nam
  #+end_src
 
 The value of the last expression is returned by the block (unless modified by =RETURN= or =RETURN-FROM=). All other expressions in the block are thus only useful for their side effects.
-
 
 ** Conditionals
 
@@ -418,7 +412,6 @@ Example of a =CASE= form (multiple ifs on the one variable, implicit =PROGN=). C
 
 
 * Looping
-
 ** Basic Looping
 
 =DOLIST= and =DOTIMES= are basic loop macros. =DOLIST= will iterate over the items of my-list and execute the loop body for each item of the list. In the below, my-variable holds the value of each successive item in the list during the iteration.
@@ -454,7 +447,6 @@ In the below example, =DOTIMES= will iterate my-variable from 0 to one less than
 #+end_src
 
 ** Advanced Looping
-
 Below is the syntax and example of the =DO= macro. 
 
 #+begin_src lisp
@@ -559,7 +551,6 @@ Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/
 
 
 * Local Variables & Functions
-
 ** Local Variables
 
 =LET= and =LET*= are special operators that allow us to create local variables that can only be accessed within their closures. =LET= binds its variables in parallel such that you cannot refer to another variable in the =LET= form when setting the value of another. =LET*= binds its variables in sequentially, so that you can refer to the value of any previously bound variables. This is useful when you want to assign names to several intermediate steps in a long computation.
@@ -586,7 +577,6 @@ An example of =LET*= in use:
      (print y))
 
  #+end_src
-
 
 ** Local Functions
 
@@ -618,7 +608,6 @@ Functions defined within =LABELS= take a similar format to a =DEFUN= form. Withi
 
 
 * More on Functions
-
 ** Lambda Expressions
 
 Lambda expressions allow us to create unnamed functions. These are useful when writing small functions for certain tasks. Below is an example.
@@ -632,7 +621,6 @@ Lambda expressions allow us to create unnamed functions. These are useful when w
    1)
 
 #+end_src
-
 
 ** Function Parameters
 
@@ -688,7 +676,6 @@ We can utilise multiple tokens in the same function call, as long as we declare 
 2. Then the optional parameters;
 3. Then the rest parameter; and,
 4. Finally the keyword parameters are declared.
-
 
 ** Multiple Values
 
@@ -811,7 +798,6 @@ Below are a couple of examples.
 
 
 * More on Lists
-
 ** List Functions
 
 The below are some common functions to access elements of a list:
@@ -903,7 +889,6 @@ The function =REDUCE= is useful to extend functions that only take two variables
 
 #+end_src
 
-
 ** Push, Pop & Reverse
 
 We can use lists as pushdown stacks. The macro PUSH can be used to push an element to the front of the list, while the macro POP can remove and return the first element of the list. Both are destructive operations as they directly change the original lists in question. For example:
@@ -958,7 +943,6 @@ Many list and sequence (list, strings, arrays) functions take one or more keywor
 | :start    | Position at which to start          | 0        |
 | :end      | Position, if any, at which to stop  | nil      |
 
-
 ** Association Lists
 
 Association lists are a very useful data structure for mapping values to keys. They are lists of pairs (i.e. conses), with the key being the CAR of the pair and the datum being the CDR of the pair.
@@ -990,8 +974,7 @@ Association lists are a very useful data structure for mapping values to keys. T
 
 #+end_src
 
-* Sequences (Arrays, Strings, Lists)
-
+* More on Sequences
 ** Arrays
 
 The function MAKE-ARRAY allows us to create arrays. For example, we can create a 2 x 3 array as follows:
@@ -1081,7 +1064,6 @@ Strings are vectors of characters, denoted with double quotes (e.g. "my-string")
   (code-char 99) 
 
 #+end_src
-
 
 ** Sequence Functions
 
@@ -1174,8 +1156,7 @@ We can find elements within a sequence with =FIND=, which returns the leftmost s
 #+end_src
 
 
-* Data Structures (Hash Tables, Structures, CLOS)
-
+* Data Structures
 ** Hash Tables
 
 A hash table is a way of associating pairs of objects, like a dictionary. The objects stored in a hash table or used as keys can be of any type. We can make hastables with MAKE-HASH-TABLE and retrieve values associated with a given key with GETHASH:
@@ -1211,7 +1192,6 @@ Finally, the function MAPHASH allows you to iterate over all entries in the hash
 	   my-hash-table)
 
 #+end_src
-
 
 ** Structures
 
@@ -1261,9 +1241,7 @@ Consider the below example of defining a data type for rectangles. DEFSTRUCT def
 
 #+end_src
 
-
 ** Common Lisp Object System (CLOS)
-
 Below is an example of creating two classes, one which inherits from the other. Courtesy of the [[https://lispcookbook.github.io/cl-cookbook/clos.html#getters-and-setters-accessor-reader-writer][Common Lisp Cookbook]].
 
 #+begin_src lisp
@@ -1354,8 +1332,8 @@ Finally, it is useful to create custom print output for CLOS objects. This can b
 
 #+end_src
 
-* Other
 
+* Other
 ** Reading & Writing to Files
 
 The =WITH-OPEN-FILE= macro is used to read and write to files and then close them. To read from or write to a file, you open it as a stream. Streams are LISP objects representing sources and/or destinations of characters.  By default, input is read from the stream =*​standard-input​*= and output is recorded in =*​standard-output​*=. They are usually the same place - the top-level.
@@ -1388,7 +1366,6 @@ The following open arguments can be supplied to the =WITH-OPEN-FILE= macro:
 | :if-exists :supersede      | Replace the file that exists       |
 | :if-exists :overwrite      | Overwrite file                     |
 | :if-exists :append         | Write to end of file               |
-
 
 ** Packages
 
