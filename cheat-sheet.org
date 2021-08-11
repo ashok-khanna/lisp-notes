@@ -283,9 +283,9 @@ One can get the data types of a LISP object with =TYPE-0F= and test whether a ob
 
 Other type predicate functions include ATOM, NULL, ZEROP, NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP, SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
 
-** Boolean & Equality
+** Logic
 
-The function AND returns NIL if any of its arguments are false and returns the value of the last argument if all arguments are true.  The function OR returns the first argument that is true and NIL if no argument is true.
+The function =AND= returns =NIL= if any of its arguments are false and returns the value of the last argument if all arguments are true.  The function =OR= returns the first argument that is true and =NIL= if no argument is true.
 
 #+begin_src lisp
 
@@ -299,12 +299,11 @@ The function AND returns NIL if any of its arguments are false and returns the v
 
 #+end_src
 
+** Equality
+
 Common Lisp has a few different functions for testing equality of two objects. Generally speaking, you can't go wrong with =EQUAL=.
 
-- =EQ= compares equality of memory addresses and is the fastest
-  test. It is useful to compare symbols quickly and to test whether two
-  cons cells are physically the same object. It should not be used to
-  compare numbers.
+- =EQ= compares equality of memory addresses and is the fastest test. It is useful to compare symbols quickly and to test whether two cons cells are physically the same object. It should not be used to compare numbers.
 
 - =EQL= is like =EQ= except that it can safely compare numbers for numerical equality and type equality. It is the default equality test in many Common Lisp functions.
 
@@ -312,7 +311,8 @@ Common Lisp has a few different functions for testing equality of two objects. G
 
 - =EQUALP= is a more liberal version of =EQUAL=. It ignores case distinctions in strings, among other things.
 
-- === is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
+- ~=~ is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
+
 
 * Part 3. Control Structures
 
@@ -363,12 +363,9 @@ The value of the last expression is returned by the block (unless modified by =R
 
 * Conditionals
 
-The five main conditionals in Common Lisp are IF, WHEN, UNLESS, COND
-and CASE. Conditionals with an implicit PROGN block allow for multiple
-forms within their bodies.
+The five main conditionals in Common Lisp are =IF=, =WHEN=, =UNLESS=, =COND= and =CASE=. Conditionals with an implicit PROGN block allow for multiple forms within their bodies.
 
-Example of IF form (note there is no implicit PROGN):
-
+Example of =IF= form (note there is *no* implicit =PROGN=):
 
 #+begin_src lisp
 
@@ -378,7 +375,7 @@ Example of IF form (note there is no implicit PROGN):
 
 #+end_src
 
-Example of WHEN form (note there is an implicit PROGN):
+Example of =WHEN= form (note there is an implicit =PROGN=):
 
 #+begin_src lisp
 
@@ -388,7 +385,7 @@ Example of WHEN form (note there is an implicit PROGN):
 
 #+end_src
 
-Example of UNLESS form (note there is an implicit PROGN):
+Example of =UNLESS= form (note there is an implicit =PROGN=):
 
 #+begin_src lisp
 
@@ -398,8 +395,7 @@ Example of UNLESS form (note there is an implicit PROGN):
 
 #+end_src
 
-Example of COND form (multiple ifs, implicit PROGN). The form exits on
-the first true:
+Example of =COND= form (multiple ifs, implicit =PROGN=). The form exits on the first true:
 	
 #+begin_src lisp
 
@@ -411,8 +407,7 @@ the first true:
 
 #+end_src
 
-Example of a CASE form (multiple ifs on the one variable, implicit
-PROGN). Cases are literal not evaluated. The form exits on the first true:
+Example of a =CASE= form (multiple ifs on the one variable, implicit =PROGN=). Cases are literal not evaluated. The form exits on the first true:
 
 #+begin_src lisp
 
@@ -429,13 +424,11 @@ PROGN). Cases are literal not evaluated. The form exits on the first true:
 
 #+end_src
 
+* Part 4. Looping
 
 * Basic Looping
 
-=DOLIST= and =DOTIMES= are basic loop macros. DOLIST will iterate over
-the items of my-list and execute the loop body for each item of the list.
-In the below, my-variable holds the value of each successive item in the
-list during the iteration.
+=DOLIST= and =DOTIMES= are basic loop macros. =DOLIST= will iterate over the items of my-list and execute the loop body for each item of the list. In the below, my-variable holds the value of each successive item in the list during the iteration.
 
 #+begin_src lisp
 
@@ -451,10 +444,7 @@ list during the iteration.
 
 #+end_src
 
-In the below example, DOTIMES will iterate my-variable from 0 to one
-less than the end-number supplied. If an optional-result-form is
-supplied, it will be evaluated at the end of the loop. Below is the
-structure of the macro, together with an example:
+In the below example, =DOTIMES= will iterate my-variable from 0 to one less than the end-number supplied. If an optional-result-form is supplied, it will be evaluated at the end of the loop. Below is the structure of the macro, together with an example:
 
 #+begin_src lisp
 
@@ -470,18 +460,117 @@ structure of the macro, together with an example:
 
 #+end_src
 
+** Advanced Looping
+
+Below is the syntax and example of the =DO= macro. 
+
+#+begin_src lisp
+
+  (do ((var1 init1 step1)
+       ...
+       (varn initn stepn))
+      (end-test result-forms*)
+    body-forms*)
+
+#+end_src
+
+The below example will return 81 and print 1, 0, 1, 4, 9, 16, 25, 36, 49 and 64 on newlines. During each iteration, loop-step is increased by one while square is set to the square of loop-step.
+
+#+begin_src lisp
+
+  (do ((loop-step 0 (+ loop-step 1))
+       (square 1 (* loop-step loop-step)))
+      ((= 10 loop-step) square) ; Stop at 10
+    (print square)) ; Print square at each step
+
+#+end_src
+
+Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/loop.html][Peter D. Karp's Guide]].
+
+#+begin_src common-lisp
+
+  (defvar my-list-1 '(1 2 3 4 5 6))
+  
+  (defvar my-list-2 '(a b c d e))
+
+  ;; Returns (2 4 6 8 10 12)
+  
+  (loop for x in my-list-1
+	collect (+ x x))
+  
+  ;; Prints the numbers iteratively:
+
+  (loop for x in my-list-1
+	do (print x))
+
+  ;; Only collects even numbers:
+
+  (loop for x in my-list-1
+	if (evenp x)
+	collect x)
+
+  ;; Loops across two lists, but stops
+  ;; at the end of the shorter list
+
+  (loop for x in my-list-1
+	for y in my-list-2
+	do (format t "X: ~a, Y: ~a" x y))
+
+  ;; Simple loop with counter:
+
+  (loop for x from 1 to 5
+	do (print x))
+
+  ;; Returns True:
+
+  (loop for x in '(abc 2) 
+      thereis (numberp x))
+
+    ;; Returns NIL:
+
+(loop for x in '(abc 2) 
+      never (numberp x))
+
+  ;; Returns NIL:
+  
+  (loop for x in '(abc 2)
+	always (numberp x))
+
+  ;; Early termination example:
+
+  (loop for x from 1
+      for y = (* x 10)
+      while (< y 100)
+      do (print (* x 5))
+      collect y)
+
+  ;; Some other interesting examples:
+
+  (loop for x in '(a b c d e 1 2 3 4)
+	until (numberp x)
+	do
+	collect (list x 'abc))
+
+  (loop for x in '(a b c d e)
+	for y from 1
+	when (> y 1) do (format t ", ")
+	do (format t "~A" x))
+
+  (loop for x in '(a b c d e)
+      for y from 1
+      if (> y 1)
+      do (format t ", ~A" x)
+      else do (format t "~A" x))
+  
+#+end_src
+
+* Part 5. Local Variables & Functions
 
 * Local Variables
 
-LET and LET* are special operators that allow us to create local
-variables that can only be accessed within their closures. LET binds
-its variables in parallel such that you cannot refer to another
-variable in the LET form when setting the value of another. LET* binds
-its variables in sequentially, so that you can refer to the value of
-any previously bound variables. This is useful when you want to assign
-names to several intermediate steps in a long computation.
+=LET= and =LET*= are special operators that allow us to create local variables that can only be accessed within their closures. =LET= binds its variables in parallel such that you cannot refer to another variable in the =LET= form when setting the value of another. =LET*= binds its variables in sequentially, so that you can refer to the value of any previously bound variables. This is useful when you want to assign names to several intermediate steps in a long computation.
 
-The LET form has the following syntax:
+The =LET= form has the following syntax:
 
 #+begin_src elisp
 
@@ -492,7 +581,7 @@ The LET form has the following syntax:
 
 #+end_src
 
-An example of LET* in use:
+An example of =LET*= in use:
 
  #+begin_src lisp
 
@@ -507,9 +596,7 @@ An example of LET* in use:
 
 * Local Functions
 
-Functions named by DEFUN are global functions that can be accessed
-anywhere. We can define local functions LABELS, which are only accessible
-within their context. The syntax of LABELS is:
+Functions named by =DEFUN= are global functions that can be accessed anywhere. We can define local functions =LABELS=, which are only accessible within their context. The syntax of =LABELS= is:
 
 #+begin_src lisp
 
@@ -520,13 +607,7 @@ within their context. The syntax of LABELS is:
 
 #+end_src
 
-Functions defined within LABELS take a similar format to a DEFUN
-form. Within the body of the LABELS form, function names matching
-those defined by the LABELS refer to the locally defined functions
-rather than any global functions with the same names. Below is an
-example of a LABELS form that will return 12, the result of (+ 2 4 6),
-where 2, 4 and 6 are the results of evaluating the three local
-functions defined in the form.
+Functions defined within =LABELS= take a similar format to a =DEFUN= form. Within the body of the =LABELS= form, function names matching those defined by the =LABELS= refer to the locally defined functions rather than any global functions with the same names. Below is an example of a =LABELS= form that will return 12, the result of (+ 2 4 6), where 2, 4 and 6 are the results of evaluating the three local functions defined in the form.
 
 #+begin_src lisp
 
@@ -541,26 +622,15 @@ functions defined in the form.
 
 #+end_src
 
+* Part 6. More on Functions
 
-* Lambda Expressions
+** Lambda Expressions
 
-Lambda expressions allow us to create unnamed functions. These are
-useful when writing small functions for certain tasks. Below is
-an example.
+Lambda expressions allow us to create unnamed functions. These are useful when writing small functions for certain tasks. Below is an example.
 
 #+begin_src lisp
 
-  ;; Function Form
-
-  (defun my-function (x)
-    (+ x 100))
-
-  ;; Returns 101
-
-  (my-function 1)
-
-  ;; Lambda Form
-  ;; Also returns 101
+  ;; Lambda Form, returns 101
   
   ((lambda (x)
      (+ x 100))
@@ -569,15 +639,11 @@ an example.
 #+end_src
 
 
-* Function Parameters
+** Function Parameters
 
-By default, a function call must supply values for all parameters that
-feature in the function definition. We can modify this behaviour with
-the =&optional=, =&key= and =&rest= tokens.
+By default, a function call must supply values for all parameters that feature in the function definition. We can modify this behaviour with the =&optional=, =&key= and =&rest= tokens.
 
-The =&optional= token allows to distinguish between required parameters,
-placed before the =&optional= token, and optional parameters, placed
-after the token:
+The =&optional= token allows to distinguish between required parameters, placed before the =&optional= token, and optional parameters, placed after the token:
 
 #+begin_src lisp
 
@@ -591,13 +657,9 @@ after the token:
 
 #+end_src
 	
-One drawback of the =&optional= token, using the above as an example, is
-that we need to supply values for E and F if we want to supply the
-value for G, as arguments in a function call are assigned to the
-parameters in order.
+One drawback of the =&optional= token, using the above as an example, is that we need to supply values for E and F if we want to supply the value for G, as arguments in a function call are assigned to the parameters in order.
 
-To overcome this, we utilise the =&key= token to be able to specify which
-optional parameter we want to assign a value to. Below is an example of this.
+To overcome this, we utilise the =&key= token to be able to specify which optional parameter we want to assign a value to. Below is an example of this.
 
 #+begin_src lisp
 
@@ -611,21 +673,11 @@ optional parameter we want to assign a value to. Below is an example of this.
 
 #+end_src
 
-The preceding example also shows how we can supply a default value to
-an optional (setting E to 1 if no value for E is provided). When we
-called this function in the above, we set G to 7 and E also defaulted
-to 1. As no value was supplied for F, it defaulted to NIL.
+The preceding example also shows how we can supply a default value to an optional (setting E to 1 if no value for E is provided). When we called this function in the above, we set G to 7 and E also defaulted to 1. As no value was supplied for F, it defaulted to NIL.
 
-In general, =&key= is preferable to &optional as it allows us to have
-greater control in our function calls. It also makes code easier to
-maintain and evolve as we can add new parameters to a function without
-affecting existing function calls (useful when writing libraries that
-are already being used by other programs).
+In general, =&key= is preferable to &optional as it allows us to have greater control in our function calls. It also makes code easier to maintain and evolve as we can add new parameters to a function without affecting existing function calls (useful when writing libraries that are already being used by other programs).
 
-Finally, the =&rest= token, placed before the last variable in a
-parameter list, allows us to write functions that can accept an
-unknown number of arguments. The last variable will be set to a list
-of all the remaining arguments supplied by the function call:
+Finally, the =&rest= token, placed before the last variable in a parameter list, allows us to write functions that can accept an unknown number of arguments. The last variable will be set to a list of all the remaining arguments supplied by the function call:
 
 #+begin_src lisp
 
@@ -1374,114 +1426,6 @@ type person, while MESSAGE is a parameter that is not specialised.
 
 
 #+end_src
-
-* Advanced Looping
-
-Below is the syntax and example of the =DO= macro. 
-
-#+begin_src lisp
-
-  (do ((var1 init1 step1)
-       ...
-       (varn initn stepn))
-      (end-test result-forms*)
-    body-forms*)
-
-#+end_src
-
-The below example will return 81 and print 1, 0, 1, 4, 9, 16, 25,
-36, 49 and 64 on newlines. During each iteration, loop-step is
-increased by one while square is set to the square of loop-step.
-
-#+begin_src lisp
-
-  (do ((loop-step 0 (+ loop-step 1))
-       (square 1 (* loop-step loop-step)))
-      ((= 10 loop-step) square) ; Stop at 10
-    (print square)) ; Print square at each step
-
-#+end_src
-
-Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/loop.html][Peter D. Karp's Guide]].
-
-#+begin_src common-lisp
-
-  (defvar my-list-1 '(1 2 3 4 5 6))
-  
-  (defvar my-list-2 '(a b c d e))
-
-  
-  ;; Returns (2 4 6 8 10 12)
-  
-  (loop for x in my-list-1
-	collect (+ x x))
-  
-  ;; Prints the numbers iteratively:
-
-  (loop for x in my-list-1
-	do (print x))
-
-  ;; Only collects even numbers:
-
-  (loop for x in my-list-1
-	if (evenp x)
-	collect x)
-
-  ;; Loops across two lists, but stops
-  ;; at the end of the shorter list
-
-  (loop for x in my-list-1
-	for y in my-list-2
-	do (format t "X: ~a, Y: ~a" x y))
-
-  ;; Simple loop with counter:
-
-  (loop for x from 1 to 5
-	do (print x))
-
-  ;; Returns True:
-
-  (loop for x in '(abc 2) 
-      thereis (numberp x))
-
-    ;; Returns NIL:
-
-(loop for x in '(abc 2) 
-      never (numberp x))
-
-  ;; Returns NIL:
-  
-  (loop for x in '(abc 2)
-	always (numberp x))
-
-  ;; Early termination example:
-
-  (loop for x from 1
-      for y = (* x 10)
-      while (< y 100)
-      do (print (* x 5))
-      collect y)
-
-  ;; Some other interesting examples:
-
-  (loop for x in '(a b c d e 1 2 3 4)
-	until (numberp x)
-	do
-	collect (list x 'abc))
-
-  (loop for x in '(a b c d e)
-	for y from 1
-	when (> y 1) do (format t ", ")
-	do (format t "~A" x))
-
-  (loop for x in '(a b c d e)
-      for y from 1
-      if (> y 1)
-      do (format t ", ~A" x)
-      else do (format t "~A" x))
-  
-#+end_src
-
 
 * Reading & Writing to Files
 
