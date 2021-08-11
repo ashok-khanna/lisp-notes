@@ -5,11 +5,10 @@
 Below is a cheat sheet for Common Lisp. Only  a very basic
 understanding of Common Lisp is required. Hope you like it!
 
-* Notes on Syntax
+- Destructive Functions
 
-In the below below a =*= after a form indicates multiple forms
-can be included there (sometimes this is known as an implicit
-=PROGN=).
+
+
 
 
 * Defining Global Variables
@@ -261,7 +260,7 @@ take more than two operands, e.g.:
 
 #+end_src
 
-Numerical comparisons can be achieved with ===, =/== (not),
+Numerical comparisons can be achieved with ~=~, =/== (not),
 =>=, =<=, =>== and =<==. With three or more arguments, these
 functions act as range checks.
 
@@ -286,15 +285,46 @@ functions act as range checks.
 
   (< 0 x y 6)
 
-  expt
   ;; Returns true
 
   (< 0 y x 6)
 
 #+end_src
 
-=MAX=, =MIN=, =ABS= and =EXPT= are also useful numerical functions.
+Other useful functions are below. More details on numerical
+operations can be found in [[https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node121.html][Common Lisp, the Language 2nd Edition]].
 
+#+begin_src lisp
+
+  ;; Returns e^3
+
+  (exp 3)
+
+  ;; Returns 4^5
+
+  (expt 4 5)
+
+  ;; Returns log of 8 in the base 2, i.e. 3
+
+  (log 8 2)
+
+  ;; Returns square root
+
+  (sqrt 9)
+
+  ;; Returns 5
+
+  (max 1 3 5 4 2)
+
+  ;; Returns -1
+
+  (min 1 -1 2 3 4)
+
+  ;; Returns 3
+
+  (abs -3)
+
+#+end_src
 
 * Text Functions
 
@@ -780,7 +810,90 @@ arguments individually and not packaged as a list:
 
 * Mapping Functions
 
+Mapping is a type of iteration in which a function is successively
+applied to pieces of one or more sequences. =MAPCAR= operates on
+successive elements of lists and returns a list of the result of
+the successive calls to the function specified. =MAPLIST= operates
+on successive CDRs of the lists.
 
+#+begin_src lisp
+
+  ;; Returns (-1 -2 -3)
+
+  (mapcar #'(lambda (x) (- 0 x)) '(1 2 3))
+
+  ;; Returns ((a b c d) (b c d) (c d) (d))
+
+  (maplist #'(lambda (x) x) '(a b c d))
+
+#+end_src
+
+The above only work for lists. To map over other types of sequences,
+one can use =MAP=:
+
+#+begin_src lisp
+
+  (map result-type function &rest sequences)
+
+#+end_src
+
+Below are a couple of examples.
+
+#+begin_src lisp
+
+  ;; Returns a list ((#\a #\a) (#\b #\b) (#\c #\c))
+  
+  (map 'list #'(lambda (x) (list x x)) "abc")
+
+  ;; Returns "1010"
+
+  (map 'string
+       #'(lambda (x) (if (oddp x) #\1 #\0))
+       '(1 2 3 4))
+  
+
+#+end_src
+
+* Push, Pop & Reverse
+
+We can use lists as pushdown stacks. The macro PUSH can be used to
+push an element to the front of the list, while the macro POP can
+remove and return the first element of the list. Both are destructive
+operations as they directly change the original lists in question. For
+example:
+
+#+begin_src lisp
+
+  (defparameter my-list '(2 3 4))
+
+  ;; Returns (1 2 3 4)
+
+  (push 1 my-list)
+
+  ;; Returns (1 2 3 4)
+
+  my-list
+
+  ;; Returns 1, the car of the list my-list
+
+  (pop my-list)
+
+  ;; Returns (2 3 4)
+
+  my-list
+
+#+end_src
+
+=REVERSE= is a very useful function to reverse the order of elements
+within a list and is frequently used in various scenarios:
+
+#+begin_src lisp
+
+  ;; Returns (F E D C B A)
+
+  (reverse '(a b c d e f))
+
+#+end_src
 
 * List Functions
 
@@ -866,7 +979,75 @@ Set union, intersection and complement operations can also be done:
 
 #+end_src
 
+The function =REDUCE= is useful to extend functions that only take two
+variables. It takes two arguments, a function (which must take exactly
+two values) and a sequence. The function is initially called on the
+first two elements of the sequence, and thereafter with each
+successive element as the second argument. The value returned by the
+last call is the value returned by the =REDUCE= function. For example,
+the below returns (A), the intersection of these three lists:
+
+#+begin_src lisp
+
+  (reduce #'intersection '((b r a d) (b a d) (c a t)))
+
+#+end_src
+
+* Keyword Arguments
+
+Many list and sequence (list, strings, arrays) functions take one or
+more keyword arguments from the below table. For example, we can use
+POSITION to return the position of an element within a sequenc (or NIL
+if not found) and use keyword arguments to determine where to begin
+the search:
+
+#+begin_src lisp
+
+  (position #\a "fantasia" :start 3 :end 7) ; Returns 4
+  
+#+end_src
+
+| Parameter | Position                            | Default  |
+|-----------+-------------------------------------+----------|
+| :key      | A function to apply to each element | identity |
+| :test     | The test function for comparison    | eql      |
+| :from-end | If true, work backwards             | nil      |
+| :start    | Position at which to start          | 0        |
+| :end      | Position, if any, at which to stop  | nil      |
+
+
 * Association Lists
+
+Association lists are a very useful data structure for mapping values
+to keys. They are lists of pairs (i.e. conses), with the key being the
+CAR of the pair and the datum being the CDR of the pair.
+
+#+begin_src lisp
+
+  ;; Example of an a-list:
+
+  (defvar my-a-list '((one . 1) (two . 2)))
+
+  ;; Add an entry to the front of an a-list
+  ;; Returns ((one . 1) (two . 2) (three . 3))
+  
+  (acons three 3 my-a-list)
+
+  ;; Create an a-list from lists of keys & datums:
+
+  (pairlis '(one two three) '(1 2 3))
+
+  ;; Return the pair associated with a key:
+  ;; Below returns (one . 1)
+
+  (assoc 'one my-a-list)
+
+  ;; Find the first pair associated with a datum:
+  ;; Returns (two . 2)
+
+  (rassoc 2 my-a-list :test #'=)
+
+#+end_src
 
 
 * Arrays
@@ -911,18 +1092,15 @@ respectively:
   (setf my-array
 	(make-array '(2 3)
 		    :initial-element '((1 2 3) (1 2 3))))
-
   
   ;; Returns 2
 
   (array-rank my-array))
 
-
   ;; Returns 2
 
   (array-dimension my-array 0)
   
-
   ;; Returns 3
 
   (array-dimension my-array 1)
@@ -974,8 +1152,9 @@ is usually (but not necessarily) its ASCII number:
 
 * Sequences
 
-The type sequence includes both lists and vectors (and therefore
-strings). Sequences have many useful functions:
+The type sequence includes both lists and vectors (and therefore strings).
+Sequences have many useful functions. =REMOVE=, =REMOVE-IF= and
+=REMOVE-DUPLICATES= are very handy filter functions.
 
 #+begin_src lisp
 
@@ -994,6 +1173,11 @@ strings). Sequences have many useful functions:
   ;; Returns "cbdra" (preserves only the last of each):
 
   (remove-duplicates "abracadabra")
+
+  ;; Remove all odd numbers in the below:
+  ;; Returns (2 4 4)
+
+  (remove-if #'oddp '(1 2 3 4 4))
 
 #+end_src
 
@@ -1040,24 +1224,31 @@ provided predicate:
 
 #+end_src
 
+We can find elements within a sequence with =FIND=, which returns
+the leftmost such element, or =POSITION=, which returns the position
+of such an item, as an integer. We can use =COUNT= to count the number
+of instances of the element within the sequence and also use =SEARCH=
+to search for sequence within another.
 
-* Keyword Arguments
+#+begin_src lisp
 
-Many sequence functions take one or more keyword arguments from the
-below table. For example, we can use POSITION to return the position
-of an element within a sequence (or NIL if not found) and use keyword
-arguments to determine where to begin the search:
+  ;; Returns 1
+  
+  (find 1 '(1 2 3 4))
 
-	(position #\a "fantasia" :start 3 :end 7) ; Returns 4
+  ;; Returns 0 (the position of 1):
 
-| Parameter | Position                            | Default  |
-|-----------+-------------------------------------+----------|
-| :key      | A function to apply to each element | identity |
-| :test     | The test function for comparison    | eql      |
-| :from-end | If true, work backwards             | nil      |
-| :start    | Position at which to start          | 0        |
-| :end      | Position, if any, at which to stop  | nil      |
+  (position 1 '(1 2 3 4))
 
+  ;; Returns 3:
+
+  (count 1 '(1 2 3 1 1 4))
+
+  ;; Returns 4
+
+  (search "Hello" "Hi! Hello, World!")
+
+#+end_src
 
 * Hash Tables
 
@@ -1279,7 +1470,7 @@ increased by one while square is set to the square of loop-step.
 
 Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/loop.html][Peter D. Karp's Guide]].
 
-#+begin_src lisp
+#+begin_src common-lisp
 
   (defvar my-list-1 '(1 2 3 4 5 6))
   
@@ -1398,3 +1589,46 @@ macro:
 | :if-exists :supersede      | Replace the file that exists       |
 | :if-exists :overwrite      | Overwrite file                     |
 | :if-exists :append         | Write to end of file               |
+
+
+* Packages
+
+Packages need to be registered before they can be used. We can also
+shadow symbols in a package so that they use the versions
+defined in the package vs. the definitions that are imported via
+a =:USE= command. However, generally it is advised against doing
+this.
+
+#+begin_src lisp
+
+  (defpackage :my-package
+    (:use :cl :other-package-1)
+    (:export :symbol-1
+	     :symbol-2)
+    (:shadow 'restart
+	     'condition)))
+
+#+end_src
+
+Once a package is registered with the above, we can switch
+to it with =IN-PACKAGE=.
+
+#+begin_src lisp
+
+  (in-package :my-package)
+  
+#+end_src
+
+Within a package, all symbols defined in that package are
+accessible. In addition, any /exported/ symbols from packages
+inherited via the =:USE= command can be direclty accessed without
+a package qualifier. 
+
+Outside of a package, its symbols can be accessed via a
+double-colon package qualifier, e.g. =my-package::symbol-3=, while
+its exported symbols can be accessed via a single-colon package
+qualifier, e.g. =my-package:symbol-1=.
+
+In general it is good to use package qualifier as it gives the
+reader an indication of where the symbol came from. More information
+on packages can be found on [[https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e][my guide on Medium]].
