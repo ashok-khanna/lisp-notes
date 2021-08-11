@@ -69,15 +69,13 @@ Below are some examples.
 
 #+end_src
 
-* Basic Input & Output
+** Basic Input & Output
 
 The LISP reader consists of three primary functions
 
-- The function =READ= is used to parse input into Lisp objects and reads
-  exactly one expression, regardless of newlines
+- The function =READ= is used to parse input into Lisp objects and reads exactly one expression, regardless of newlines
 
-- The function =READ-LINE= reads all characters up to a newline, returning
-  a string
+- The function =READ-LINE= reads all characters up to a newline, returning a string
 
 - The function =READ-FROM-STRING= takes a string and returns the first
   expression from it
@@ -98,32 +96,25 @@ Below are some examples you can experiment with.
 
 The most useful LISP printing functions are:
 
-- =PRINT= and =PRIN1= are used to generate output useful for programs
-  (the former adds a newline to the output whilst the latter does not).
-- =PRINC= is used for output for people.
+- =PRINT= and =PRIN1= are used to generate output useful for programs (the former adds a newline to the output whilst the latter does not)
+
+- =PRINC= is used for output for people
+
 - =FORMAT= is a highly configurable printer and the most commonly used printer
 
 The syntax of =FORMAT= is as follows:
 
-#+BEGIN_SRC elisp
-
-  (format destination control-string optional-arguments*)
-    
+#+BEGIN_SRC lisp
+(format destination control-string optional-arguments*)
 #+END_SRC
 
-The first argument of the FORMAT function is the destination where the
-output will be printed.
+The first argument of the FORMAT function is the destination where the output will be printed.
 
-- A value of T will send the out to the stream =*​standard-output​*=
- (typically the main screen of your Lisp system) whilst =NIL= here will
-  return the output as a string. We can also supply a stream here.
- 
-- The second argument is the string that we want to print. However, we can enter
-  directives (preceded by ~) to add complex behaviour to the string, such as
-
-  - ~% to print newlines
-  - ~A to print lisp objects for humans
-  - ~S to print lisp objects for computers, i.e. suitable as as input for the
+- A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your Lisp system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
+- The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
+  - =~%= to print newlines
+  - =~A= to print lisp objects for humans
+  - =~S= to print lisp objects for computers, i.e. suitable as as input for the
     LISP reader
  
 The third (optional) argument of the FORMAT function is the arguments
