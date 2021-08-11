@@ -55,7 +55,7 @@
 
 We can define global variables with `DEFPARAMETER` and `DEFVAR`. `DEFPARAMETER` will always bind the supplied value, while `DEFVAR` will only bind a value to a variable if no binding exists.
 
-    
+ ```lisp   
     ;; Establish an unbound variable
     
     (defvar *x*)
@@ -67,6 +67,7 @@ We can define global variables with `DEFPARAMETER` and `DEFVAR`. `DEFPARAMETER` 
     ;; Does nothing as X already bound
     
     (defvar *x* 10)
+```
 
 We can define global constants with `DEFCONSTANT`:
 
