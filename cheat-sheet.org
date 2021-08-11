@@ -1,6 +1,6 @@
----
-
 Below is a cheat sheet for Common Lisp. Only  a very basic understanding of Common Lisp is required. I will add to it and refine it, but please feel free to let me know your suggestions too. Hope you like it!
+
+Not Covered: Macros, Destructive Functions, Error Handling
 
 ---
 
@@ -37,7 +37,7 @@ We can define global constants with =DEFCONSTANT=:
 
 ** Assignment
 
-=SETF= is LISP's general purpose assignment operator. It is a very powerful "setter" that can assign values to many different types of objects.
+=SETF= is LISP's general purpose assignment operator. It is a very powerful "setter" that can assign values to many different types of =places=. =PLACES= are typically either symbols representing variables or functions or some "getter" form that access a particular place in an object that we wish to modify.
 
 #+begin_src lisp
 
@@ -57,17 +57,16 @@ Below are some examples.
 
   (setf x 1 y 2)
 
-  ;; Same as (setf x (+ x 1))
-
-  (incf x)
-
-  ;; Same as (setf x (- x 1))
-
-  (decf x)
-
-  ;; Same as (setf x (+ x 10))
+  ;; Example of using a "getter"
+  ;; with setf
   
-  (incf x 10)
+  (defvar *list* '(1 2 3 4))
+  
+  (setf (car *list*) 5)
+  
+  ;; Returns (5 2 3 4)
+  
+  *list*
 
 #+end_src
 
