@@ -493,15 +493,15 @@ Example of a `CASE` form (multiple ifs on one variable, implicit `PROGN`). Cases
 
 ```lisp
 
-;; Try entering in 9 and then (* 3 3) at the read prompt. Then try entering 0
-
 (case (read)
-   ((1 3 5 7 9 (* 3 3)) "Odd")
-  (* 3 3)
-  (0 ; Note implicit PROGN here
-   (print "Zero")
-   (print "Number"))
-  (otherwise "Not a odd number < 10"))
+  (1 (format t "~% Monday"))
+  (2 (format t "~% Tuesday"))
+  (3 (format t "~% Wednesday"))
+  (4 (format t "~% Thursday"))
+  (5 (format t "~% Friday"))
+  (6 (format t "~% Saturday"))
+  (7 (format t "~% Sunday"))
+  (otherwise "Not an integer between 1 and 7"))
 
 ```
 
