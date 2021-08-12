@@ -1173,9 +1173,7 @@ A hash table is a way of associating pairs of objects, like a dictionary. The ob
 Similar to other structures, we use =SETF= to set values. Hash tables can accommodate any number of elements, because they are expanded when they run out of space.
 
 #+begin_src lisp
-
-  ;; Returns RED
-  
+ 
   (setf (gethash 'color my-hash-table) 'red)  
   
 #+end_src
@@ -1184,6 +1182,8 @@ The function =MAPHASH= allows you to iterate over all entries in the hash table.
 
 - Its first argument must be a function which accepts two arguments, the key and the value of each entry
 - Note that due to the nature of hash tables you can't control the order in which the entries are provided to =MAPHASH= (or other traversing constructs)
+
+Below is an example, which will return COLOR = RED as there is only one item (COLOR) currently in our hash table.
 	
 #+begin_src lisp
 
@@ -1206,7 +1206,9 @@ Common Lisp provides the =DEFSTRUCT= facility for creating data structures with 
 
 Constructor, access and assignment constructs are automatically defined when a data type is defined through =DEFSTRUCT=. Consider the below example of defining a data type for rectangles.
 
-=DEFSTRUCT= defines RECTANGLE to be a structure with two fields, HEIGHT and WIDTH. The symbol RECTANGLE becomes the name of a data type and each rectangle will be of type RECTANGLE, then STRUCTURE, then ATOM and then T. =DEFSTRUCT= generates four associated functions:
+=DEFSTRUCT= defines RECTANGLE to be a structure with two fields, HEIGHT and WIDTH. The symbol RECTANGLE becomes the name of a data type and each rectangle will be of type RECTANGLE, then STRUCTURE, then ATOM and then T.
+
+=DEFSTRUCT= will generate four associated functions:
 
 1. RECTANGLE-HEIGHT and RECTANGLE-WIDTH to access elements of the
    structure
@@ -1243,9 +1245,7 @@ The below creates an instance of RECTANGLE:
 The below will return 10:
 
 #+begin_src lisp
-
-  ;; Returns 10
-  
+ 
   (rectangle-height rectangle-1)
 
 #+end_src
@@ -1256,8 +1256,6 @@ The below will set RECTANGLE-WIDTH of RECTANGLE-1 to 20:
 
   (setf (rectangle-width rectangle-1) 20)
   
-#+end_src
-
 #+end_src
 
 ** Common Lisp Object System (CLOS)
@@ -1280,28 +1278,55 @@ Below is an example of creating two classes, one which inherits from the other. 
   (defvar person-1
     (make-instance 'person :name "David" ))
 
-  ;; Accessor can be used to both get & set
-  ;; First form below returns David, the second sets name to Tom
-  
+#+end_src
+
+Accessor functions are used for both getting and setting. The below will return DAVID.
+
+#+begin_src lisp
+
   (name person-1)
   
-  (setf (name person-1) "Tom")
+#+end_src
 
-  ;; Returns "Yes" (set defaults through initform):
+The below will set name to TOM.
+
+#+begin_src lisp
+
+  (setf (name person-1) "Tom")
   
+#+end_src
+
+=:INITFORM= is used to set default values. The below returns "Yes" (the default value) as the value of LISPER was not yet set.
+
+#+begin_src lisp
+
   (lisper person-1)
   
-  ;; Inherit from class person:
-  
+#+end_src
+
+The below is an example of inheriting from the PERSON class.
+
+#+begin_src lisp
+
   (defclass child (person)
     ((can-walk-p
      :initarg :can-walk-p
      :initform "No"
      :accessor can-walk-p)))
-  
-  ;; Try this (returns "Yes" and "No" respectively):
 
-  (lisper (make-instance 'child :name "Phoebe"))
+#+end_src
+
+Inherited classes inherit the slots of their parents. CHILD will inherit LISPER from PERSON. The below will return "Yes":
+
+#+begin_src lisp
+
+ (lisper (make-instance 'child :name "Phoebe"))
+
+#+end_src
+
+Inherited classes can also introduce new slots. CHILD introduces CAN-WLAK-P. The below will return "No":
+
+#+begin_src lisp
 
   (can-walk-p (make-instance 'child))
   
@@ -1351,7 +1376,6 @@ Finally, it is useful to create custom print output for CLOS objects. This can b
   (print person-1)
 
 #+end_src
-
 
 * Other
 ** Reading & Writing to Files
@@ -1408,6 +1432,7 @@ Once a package is registered with the above, we can switch to it with =IN-PACKAG
 
 - *Outside of a package*, internal symbols can be accessed via a double-colon package qualifier, e.g. =my-package::symbol-3=, while exported symbols can be accessed via a single-colon package qualifier, e.g. =my-package:symbol-1=
 
+It is good practice to put the above at the top of LISP files so that readers can easily follow which package is currently live in a file.
 
 #+begin_src lisp
 
