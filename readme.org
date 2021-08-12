@@ -1369,22 +1369,26 @@ The following open arguments can be supplied to the =WITH-OPEN-FILE= macro:
 
 ** Packages
 
-Packages are a central mechanism for avoiding name collisions that may occur if multiple files contain variables or functions with the same name. More information on packages can be found on [[https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e][my guide on Medium]].
+Packages are a central mechanism for avoiding name collisions that occur if multiple files contain variables or functions with the same name. More information on packages can be found on [[https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e][my guide on Medium]].
 
-Packages need to be registered before they can be used. Below is an example of registering a package, which inherits from two packages and exports two symbols. The example also shows how to shadow symbols in a package so that they use the versions defined in the package vs. the symbols that are imported via a =:USE= command.
+Packages need to be registered before they can be used. Below is an example of registering a package that inherits from two packages and exports two symbols. This example also shadows two symbols,  allowing us to use, within MY-PACKAGE, the definitions of these symbols (RESTART and CONDITION in our case) that exist within the package MY-PACKAGE and not definitions of these symbols inherited from other packages (CL in our case, where RESTART and CONDITION are interned also).
 
 #+begin_src lisp
 
   (defpackage :my-package
     (:use :cl :other-package-1)
     (:export :symbol-1
-	     :symbol-2)
-    (:shadow 'restart
-	     'condition)))
+	     :restart)
+    (:shadow :restart
+	     :condition)))
 
 #+end_src
 
 Once a package is registered with the above, we can switch to it with =IN-PACKAGE=.
+
+- *Within a package*, all symbols defined in that package are accessible. In addition, any /exported/ symbols from packages inherited via the =:USE= command can be directly accessed without a package qualifier
+
+- *Outside of a package*, internal symbols can be accessed via a double-colon package qualifier, e.g. =my-package::symbol-3=, while exported symbols can be accessed via a single-colon package qualifier, e.g. =my-package:symbol-1=
 
 #+begin_src lisp
 
@@ -1392,4 +1396,12 @@ Once a package is registered with the above, we can switch to it with =IN-PACKAG
   
 #+end_src
 
-Within a package, all symbols defined in that package are accessible. In addition, any /exported/ symbols from packages inherited via the =:USE= command can be directly accessed without a package qualifier. Outside of a package, internal symbols can be accessed via a double-colon package qualifier, e.g. =my-package::symbol-3=, while exported symbols can be accessed via a single-colon package qualifier, e.g. =my-package:symbol-1=.
+Finally, note that we will get an error if we try to inherit from both CL and MY-PACKAGE due to to the clash in symbols RESTART and CONDITION that appear in both packages. To overcome this, we can use a =:shading-import-from:= command, such as in the following.
+
+#+begin_src lisp
+
+  (defpackage :my-package-2
+    (:use :cl :my-package)
+    (:shadowing-import-from :my-package :restart))
+
+#+end_src

@@ -1,55 +1,55 @@
 
-# The Common Lisp Cheat Sheet
+# Table of Contents
 
-1.  [The Basics](#org48d9a52)
-    1.  [Global Variables](#org14d1754)
-    2.  [Global Functions](#org40fa03c)
-    3.  [Assignment](#orgaf5e288)
-    4.  [Input & Output](#orgcb8f967)
-    5.  [Numerical Functions](#org5bc1a5b)
-    6.  [Text Functions](#orgc52beef)
-2.  [Logic & Equality](#org79b7dd4)
-    1.  [Predicates & Type](#orgf0b09dd)
-    2.  [Logic](#org28ed1c9)
-    3.  [Equality](#org56c71ee)
-    4.  [Blocks](#org06dc546)
-    5.  [Conditionals](#org15e7569)
-3.  [Looping](#org9590f48)
-    1.  [Basic Looping](#org1f8ebe1)
-    2.  [Advanced Looping](#orgd460c1a)
-4.  [Local Variables & Functions](#orgf072051)
-    1.  [Local Variables](#orgebb058b)
-    2.  [Local Functions](#org63e110a)
-5.  [More on Functions](#org4081365)
-    1.  [Lambda Expressions](#orgbff1c89)
-    2.  [Function Parameters](#orgb1b79a8)
-    3.  [Multiple Values](#orgf0922f2)
-    4.  [Apply & Funcall](#org174433a)
-    5.  [Mapping Functions](#org491e240)
-6.  [More on Lists](#org99a72a6)
-    1.  [List Functions](#org66e64a4)
-    2.  [Push, Pop & Reverse](#org3dd5eb6)
-    3.  [Keyword Arguments](#orgdf1e2ab)
-    4.  [Association Lists](#org02b23c3)
-7.  [More on Sequences](#orgcb13d3f)
-    1.  [Arrays](#org89ee861)
-    2.  [Strings](#org654fe23)
-    3.  [Sequence Functions](#org10d9c44)
-8.  [Data Structures](#orgb038b87)
-    1.  [Hash Tables](#org6609c88)
-    2.  [Structures](#orgabfd34b)
-    3.  [Common Lisp Object System (CLOS)](#org51f42c2)
-9.  [Other](#org74ce46c)
-    1.  [Reading & Writing to Files](#org5d13eeb)
-    2.  [Packages](#org4c797a3)
+1.  [The Basics](#org3108ceb)
+    1.  [Global Variables](#orgd7aacd7)
+    2.  [Global Functions](#org3a7fb5f)
+    3.  [Assignment](#org66f9d86)
+    4.  [Input & Output](#orga6e3662)
+    5.  [Numerical Functions](#org476ddcd)
+    6.  [Text Functions](#orgac7a83f)
+2.  [Logic & Equality](#org580cca5)
+    1.  [Predicates & Type](#org2f5030a)
+    2.  [Logic](#org7db40cd)
+    3.  [Equality](#org20a871d)
+    4.  [Blocks](#org8074291)
+    5.  [Conditionals](#org8a34537)
+3.  [Looping](#org0d35c8b)
+    1.  [Basic Looping](#org291b14c)
+    2.  [Advanced Looping](#orgb1b2d43)
+4.  [Local Variables & Functions](#org2b7da1c)
+    1.  [Local Variables](#org246a223)
+    2.  [Local Functions](#org4aba5bc)
+5.  [More on Functions](#org9184f7e)
+    1.  [Lambda Expressions](#org8957b89)
+    2.  [Function Parameters](#orgb97f918)
+    3.  [Multiple Values](#org062c0ae)
+    4.  [Apply & Funcall](#orga2c01e5)
+    5.  [Mapping Functions](#org2a4a5ef)
+6.  [More on Lists](#org8c0ce95)
+    1.  [List Functions](#orgfd55332)
+    2.  [Push, Pop & Reverse](#org58468b3)
+    3.  [Keyword Arguments](#org02ad982)
+    4.  [Association Lists](#org8cda7a5)
+7.  [More on Sequences](#orge3357b6)
+    1.  [Arrays](#orgc790e36)
+    2.  [Strings](#orgdacbff3)
+    3.  [Sequence Functions](#orga9c30ae)
+8.  [Data Structures](#orgac8f701)
+    1.  [Hash Tables](#orgc15c308)
+    2.  [Structures](#orgb28d9bf)
+    3.  [Common Lisp Object System (CLOS)](#org7afe29b)
+9.  [Other](#org118e365)
+    1.  [Reading & Writing to Files](#orga02c86f)
+    2.  [Packages](#org96b2f39)
 
 
-<a id="org48d9a52"></a>
+<a id="org3108ceb"></a>
 
 # The Basics
 
 
-<a id="org14d1754"></a>
+<a id="orgd7aacd7"></a>
 
 ## Global Variables
 
@@ -74,7 +74,7 @@ We can define global constants with `DEFCONSTANT`:
     (defconstant +my-constant+ 20)
 
 
-<a id="org40fa03c"></a>
+<a id="org3a7fb5f"></a>
 
 ## Global Functions
 
@@ -97,7 +97,7 @@ Below is example of a function that multiplies the sum of two numbers by 10.
     (multiply-sum-by-10 5 10)
 
 
-<a id="orgaf5e288"></a>
+<a id="org66f9d86"></a>
 
 ## Assignment
 
@@ -128,7 +128,7 @@ Below are some examples.
     *list*
 
 
-<a id="orgcb8f967"></a>
+<a id="orga6e3662"></a>
 
 ## Input & Output
 
@@ -190,7 +190,7 @@ This is best illustrated by the following examples. Note how Bob is quoted in th
     (format nil "~A ~A" "Number is:" (+ 1 2))
 
 
-<a id="org5bc1a5b"></a>
+<a id="org476ddcd"></a>
 
 ## Numerical Functions
 
@@ -258,7 +258,7 @@ Other useful functions are below. More details on numerical operations can be fo
     (abs -3)
 
 
-<a id="orgc52beef"></a>
+<a id="orgac7a83f"></a>
 
 ## Text Functions
 
@@ -331,12 +331,12 @@ Below are comparison functions for strings. Replace STRING with CHAR in the belo
 </table>
 
 
-<a id="org79b7dd4"></a>
+<a id="org580cca5"></a>
 
 # Logic & Equality
 
 
-<a id="orgf0b09dd"></a>
+<a id="org2f5030a"></a>
 
 ## Predicates & Type
 
@@ -350,7 +350,7 @@ One can get the data types of a LISP object with `TYPE-0F` and test whether a ob
 Other type predicate functions include ATOM, NULL, ZEROP, NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP, SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
 
 
-<a id="org28ed1c9"></a>
+<a id="org7db40cd"></a>
 
 ## Logic
 
@@ -366,7 +366,7 @@ The function `AND` returns `NIL` if any of its arguments are false and returns t
     (or nil (+ 1 2) (* 1 5))
 
 
-<a id="org56c71ee"></a>
+<a id="org20a871d"></a>
 
 ## Equality
 
@@ -383,7 +383,7 @@ Common Lisp has a few different functions for testing equality of two objects. G
 -   `=` is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
 
 
-<a id="org06dc546"></a>
+<a id="org8074291"></a>
 
 ## Blocks
 
@@ -421,7 +421,7 @@ The `RETURN` macro returns its argument as the value of an enclosing `BLOCK` nam
 The value of the last expression is returned by the block (unless modified by `RETURN` or `RETURN-FROM`). All other expressions in the block are thus only useful for their side effects.
 
 
-<a id="org15e7569"></a>
+<a id="org8a34537"></a>
 
 ## Conditionals
 
@@ -472,12 +472,12 @@ Example of a `CASE` form (multiple ifs on the one variable, implicit `PROGN`). C
       (otherwise "Not a odd number < 10"))
 
 
-<a id="org9590f48"></a>
+<a id="org0d35c8b"></a>
 
 # Looping
 
 
-<a id="org1f8ebe1"></a>
+<a id="org291b14c"></a>
 
 ## Basic Looping
 
@@ -502,7 +502,7 @@ In the below example, `DOTIMES` will iterate my-variable from 0 to one less than
       (print i))
 
 
-<a id="orgd460c1a"></a>
+<a id="orgb1b2d43"></a>
 
 ## Advanced Looping
 
@@ -600,12 +600,12 @@ Below are examples of the `LOOP` macro, some from [Peter D. Karp's Guide](http:/
           else do (format t "~A" x))
 
 
-<a id="orgf072051"></a>
+<a id="org2b7da1c"></a>
 
 # Local Variables & Functions
 
 
-<a id="orgebb058b"></a>
+<a id="org246a223"></a>
 
 ## Local Variables
 
@@ -629,7 +629,7 @@ An example of `LET*` in use:
       (print y))
 
 
-<a id="org63e110a"></a>
+<a id="org4aba5bc"></a>
 
 ## Local Functions
 
@@ -654,12 +654,12 @@ Functions defined within `LABELS` take a similar format to a `DEFUN` form. Withi
          (third-function 3))) 
 
 
-<a id="org4081365"></a>
+<a id="org9184f7e"></a>
 
 # More on Functions
 
 
-<a id="orgbff1c89"></a>
+<a id="org8957b89"></a>
 
 ## Lambda Expressions
 
@@ -673,7 +673,7 @@ Lambda expressions allow us to create unnamed functions. These are useful when w
      1)
 
 
-<a id="orgb1b79a8"></a>
+<a id="orgb97f918"></a>
 
 ## Function Parameters
 
@@ -722,7 +722,7 @@ We can utilise multiple tokens in the same function call, as long as we declare 
 4.  Finally the keyword parameters are declared.
 
 
-<a id="orgf0922f2"></a>
+<a id="org062c0ae"></a>
 
 ## Multiple Values
 
@@ -749,7 +749,7 @@ The `MULTIPLE-VALUE-BIND` macro is used to receive multiple values. The first ar
 If there are more variables than values, the leftover variables will be bound to NIL. If there are more values than variables, the extra values will be discarded. 
 
 
-<a id="org174433a"></a>
+<a id="orga2c01e5"></a>
 
 ## Apply & Funcall
 
@@ -788,7 +788,7 @@ The function `FUNCALL` is similar to `APPLY`, but allows us to pass arguments in
     (funcall #'+ 1 2 3)
 
 
-<a id="org491e240"></a>
+<a id="org2a4a5ef"></a>
 
 ## Mapping Functions
 
@@ -822,12 +822,12 @@ Below are a couple of examples.
          '(1 2 3 4))
 
 
-<a id="org99a72a6"></a>
+<a id="org8c0ce95"></a>
 
 # More on Lists
 
 
-<a id="org66e64a4"></a>
+<a id="orgfd55332"></a>
 
 ## List Functions
 
@@ -905,7 +905,7 @@ The function `REDUCE` is useful to extend functions that only take two variables
     (reduce #'intersection '((b r a d) (b a d) (c a t)))
 
 
-<a id="org3dd5eb6"></a>
+<a id="org58468b3"></a>
 
 ## Push, Pop & Reverse
 
@@ -938,7 +938,7 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
     (reverse '(a b c d e f))
 
 
-<a id="orgdf1e2ab"></a>
+<a id="org02ad982"></a>
 
 ## Keyword Arguments
 
@@ -1003,7 +1003,7 @@ Many list and sequence (list, strings, arrays) functions take one or more keywor
 </table>
 
 
-<a id="org02b23c3"></a>
+<a id="org8cda7a5"></a>
 
 ## Association Lists
 
@@ -1034,12 +1034,12 @@ Association lists are a very useful data structure for mapping values to keys. T
     (rassoc 2 my-a-list :test #'=)
 
 
-<a id="orgcb13d3f"></a>
+<a id="orge3357b6"></a>
 
 # More on Sequences
 
 
-<a id="org89ee861"></a>
+<a id="orgc790e36"></a>
 
 ## Arrays
 
@@ -1101,7 +1101,7 @@ Finally, we can create a literal array using the #na syntax, where n is the numb
     #2a((b nil nil) (1 2 3))
 
 
-<a id="org654fe23"></a>
+<a id="orgdacbff3"></a>
 
 ## Strings
 
@@ -1117,7 +1117,7 @@ Strings are vectors of characters, denoted with double quotes (e.g. "my-string")
     (code-char 99) 
 
 
-<a id="org10d9c44"></a>
+<a id="orga9c30ae"></a>
 
 ## Sequence Functions
 
@@ -1195,12 +1195,12 @@ We can find elements within a sequence with `FIND`, which returns the leftmost s
     (search "Hello" "Hi! Hello, World!")
 
 
-<a id="orgb038b87"></a>
+<a id="orgac8f701"></a>
 
 # Data Structures
 
 
-<a id="org6609c88"></a>
+<a id="orgc15c308"></a>
 
 ## Hash Tables
 
@@ -1230,7 +1230,7 @@ Finally, the function MAPHASH allows you to iterate over all entries in the hash
     	 my-hash-table)
 
 
-<a id="orgabfd34b"></a>
+<a id="orgb28d9bf"></a>
 
 ## Structures
 
@@ -1278,7 +1278,7 @@ Below is an example of the above structure.
     rectangle-2
 
 
-<a id="org51f42c2"></a>
+<a id="org7afe29b"></a>
 
 ## Common Lisp Object System (CLOS)
 
@@ -1361,12 +1361,12 @@ Finally, it is useful to create custom print output for CLOS objects. This can b
       (print person-1)
 
 
-<a id="org74ce46c"></a>
+<a id="org118e365"></a>
 
 # Other
 
 
-<a id="org5d13eeb"></a>
+<a id="orga02c86f"></a>
 
 ## Reading & Writing to Files
 
@@ -1435,26 +1435,35 @@ The following open arguments can be supplied to the `WITH-OPEN-FILE` macro:
 </table>
 
 
-<a id="org4c797a3"></a>
+<a id="org96b2f39"></a>
 
 ## Packages
 
-Packages are a central mechanism for avoiding name collisions that may occur if multiple files contain variables or functions with the same name. More information on packages can be found on [my guide on Medium](https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e).
+Packages are a central mechanism for avoiding name collisions that occur if multiple files contain variables or functions with the same name. More information on packages can be found on [my guide on Medium](https://ashok-khanna.medium.com/an-introduction-to-lisp-packages-7a9ee352006e).
 
-Packages need to be registered before they can be used. Below is an example of registering a package, which inherits from two packages and exports two symbols. The example also shows how to shadow symbols in a package so that they use the versions defined in the package vs. the symbols that are imported via a `:USE` command.
+Packages need to be registered before they can be used. Below is an example of registering a package that inherits from two packages and exports two symbols. This example also shadows two symbols,  allowing us to use, within MY-PACKAGE, the definitions of these symbols (RESTART and CONDITION in our case) that exist within the package MY-PACKAGE and not definitions of these symbols inherited from other packages (CL in our case, where RESTART and CONDITION are interned also).
 
     
     (defpackage :my-package
       (:use :cl :other-package-1)
       (:export :symbol-1
-    	   :symbol-2)
-      (:shadow 'restart
-    	   'condition)))
+    	   :restart)
+      (:shadow :restart
+    	   :condition)))
 
 Once a package is registered with the above, we can switch to it with `IN-PACKAGE`.
+
+-   **Within a package**, all symbols defined in that package are accessible. In addition, any *exported* symbols from packages inherited via the `:USE` command can be directly accessed without a package qualifier
+
+-   **Outside of a package**, internal symbols can be accessed via a double-colon package qualifier, e.g. `my-package::symbol-3`, while exported symbols can be accessed via a single-colon package qualifier, e.g. `my-package:symbol-1`
 
     
     (in-package :my-package)
 
-Within a package, all symbols defined in that package are accessible. In addition, any *exported* symbols from packages inherited via the `:USE` command can be directly accessed without a package qualifier. Outside of a package, internal symbols can be accessed via a double-colon package qualifier, e.g. `my-package::symbol-3`, while exported symbols can be accessed via a single-colon package qualifier, e.g. `my-package:symbol-1`.
+Finally, note that we will get an error if we try to inherit from both CL and MY-PACKAGE due to to the clash in symbols RESTART and CONDITION that appear in both packages. To overcome this, we can use a `:shading-import-from:` command, such as in the following.
+
+    
+    (defpackage :my-package-2
+      (:use :cl :my-package)
+      (:shadowing-import-from :my-package :restart))
 
