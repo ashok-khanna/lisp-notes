@@ -1067,89 +1067,113 @@ Many list and sequence (list, strings, arrays) functions take one or more keywor
 | :end      | Position, if any, at which to stop  | nil      |
 ** Sequence Functions
 
-The type sequence includes both lists and vectors (which include strings). Sequences have many useful functions. =REMOVE=, =REMOVE-IF= and =REMOVE-DUPLICATES= are very handy filter functions.
+Sequences have many useful functions. We can use =LENGTH= to return the number of items in a sequence. The below returns 6:
 
 #+begin_src lisp
 
-  ;; Returns 6
+(length '(a b c d e f))
 
-  (length '(a b c d e f))
+#+end_src
 
-  ;; Returns (F E D C B A)
+=REMOVE=, =REMOVE-IF= and =REMOVE-DUPLICATES= are very handy filter functions. The below returns (C R T) as a new list:
 
-  (reverse '(a b c d e f)) 
+#+begin_src lisp
 
-  ;; Returns (C R T) (a new original list unaffected):
+ (remove 'a '(c a r a t))
 
-  (remove 'a '(c a r a t))
- 	
-  ;; Returns "cbdra" (preserves only the last of each):
+#+end_src
 
-  (remove-duplicates "abracadabra")
+The below returns "cdbra", preserving only the last duplicate:
 
-  ;; Remove all odd numbers in the below:
-  ;; Returns (2 4 4)
+#+begin_src lisp
+
+(remove-duplicates "abracadabra")
+
+#+end_src
+
+The below returns (2 4 4) by removing all odd numbers:
+
+#+begin_src lisp
 
   (remove-if #'oddp '(1 2 3 4 4))
 
 #+end_src
 
-We use SUBSEQ to get a portion of a list. Its arguments are a list, the starting position and an optional ending position (which is not to
-be included in the subsequence):
+=SUBSEQ= can extract a portion of a sequence. Its arguments are a list, the starting position and an optional ending position (which is not to be included in the subsequence).
+
+The below will return (B C D):
 
 #+begin_src lisp
-
-  ;; Returns (B C D)
-  
+ 
   (subseq '(a b c d e f) 1 4)
 
 #+end_src
 
-SORT takes a sequence and a comparison function of two arguments and destructively (i.e. by modifying the original sequence) returns a sequence sorted according to the function:
+=SORT= takes a sequence and a comparison function of two arguments and destructively (i.e. by modifying the original sequence) returns a sequence sorted according to the function.
+
+The below returns (6 5 4 2 1) by sorting in descending order:
 
 #+begin_src lisp
-
-  ;; Returns (6 5 4 2 1)
-  
+ 
   (sort '(1 4 2 5 6) #'>) 
 
 #+end_src
 
-The functions EVERY and SOME test whether a sequence satisfies a provided predicate:
+The functions =EVERY= and =SOME= test whether a sequence satisfies a provided predicate.
+
+The below will return NIL as not every item is odd:
 
 #+begin_src lisp
 
-  ;; Returns NIL
+  (every #'oddp '( 1 2 5))
+  
+#+end_src
 
-  (every #'oddp '( 1 2 5)) 
+The below will return T as some of the items are odd:
 
-  ;; Returns T
+#+begin_src lisp
 
   (some #'oddp '( 1 2 5))
+  
+#+end_src
 
-  ;; Returns T
+The below will return T as the items of the first sequence are greater than those of the second sequence in an element-wise comparison:
+
+#+begin_src lisp
 
   (every #'> '(1 3 5) '(0 2 4))
 
 #+end_src
 
-We can find elements within a sequence with =FIND=, which returns the leftmost such element, or =POSITION=, which returns the position of such an item, as an integer. We can use =COUNT= to count the number of instances of the element within the sequence and also use =SEARCH= to search for sequence within another.
+We can find elements within a sequence with =FIND=, which returns the leftmost such element, or =POSITION=, which returns the position of such an item, as an integer. 
+
+The below returns 1, the item we are searching for:
 
 #+begin_src lisp
 
-  ;; Returns 1
-  
-  (find 1 '(1 2 3 4))
+ (find 1 '(1 2 3 4))
 
-  ;; Returns 0 (the position of 1):
+#+end_src
+
+The below returns 0, the position of the item we are searching for:
+
+#+begin_src lisp
 
   (position 1 '(1 2 3 4))
+  
+#+end_src
 
-  ;; Returns 3:
+We can use =COUNT= to count the number of instances of the element within the sequence. The below returns 3, the number of instances of 1 in the list:
+
+#+begin_src lisp
 
   (count 1 '(1 2 3 1 1 4))
+  
+#+end_src
 
-  ;; Returns 4
+We can use =SEARCH= to search for sequence within another. The below returns 4, the position of the string "Hello" in "Hi! Hello, World!".
+
+#+begin_src lisp
 
   (search "Hello" "Hi! Hello, World!")
 
