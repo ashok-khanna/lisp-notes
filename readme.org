@@ -758,11 +758,9 @@ The =FUNCTION= special operator (shorthand =#'=) returns the function object ass
 
 =APPLY= takes a function and a list of arguments for it and returns the result of applying the function to its arguments.
 
-Below is an example. Note how we have to use to sharp-quote =#'= to pass the =+= function as an object into the =APPLY= function. Without doing so, Lisp will return an error as it will try to evaluate =+=, which is not legally permissible in the below example.
+Below is an example that returns 6. Note how we have to use to sharp-quote =#'= to pass the =+= function as an object into the =APPLY= function. Without doing so, LISP will return an error as it will try to evaluate =+=, which is not legally permissible in the below example.
 
 #+begin_src lisp
-
- ;; Returns 6
 
  (apply #'+ '(1 2 3))
  
@@ -772,19 +770,15 @@ The below is an example that illustrates the use of lambda expressions:
 
 #+begin_src lisp
 
-  ;; Returns 6
-
-  (apply #'(lambda (a b)
-	     (+ a b))
+  (apply #'(lambda (a b c)
+	     (+ a b c))
 	 '(1 2 3))
 
 #+end_src
 
-The function =FUNCALL= is similar to =APPLY=, but allows us to pass arguments individually and not as a list:
+The function =FUNCALL= is similar to =APPLY=, but allows us to pass arguments individually and not as a list. Below is an example that returns 6:
 
 #+begin_src lisp
-
-  ;; Returns 6
 
   (funcall #'+ 1 2 3)
 
