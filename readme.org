@@ -958,6 +958,7 @@ Association lists are a very useful data structure for mapping values to keys. T
 
 
 * More on Sequences
+Sequences are a data type in Lisp and lists, strings and arrays are all of type sequence.
 ** Arrays
 
 The function MAKE-ARRAY allows us to create arrays. For example, we can create a 2 x 3 array as follows:
@@ -1029,22 +1030,6 @@ Finally, we can create a literal array using the #na syntax, where n is the numb
   ;; Returns ((B NIL NIL) (1 2 3))
 
   #2a((b nil nil) (1 2 3))
-
-#+end_src
-
-** Strings
-
-Strings are vectors of characters, denoted with double quotes (e.g. "my-string"). Strings evaluate to themselves. A character such as c is denoted as #\c. Each character has an associated integer that is usually (but not necessarily) its ASCII number:
-
-#+begin_src lisp
-
-  ;; Returns 99
-  
-  (char-code #\c)
-
-  ;; Returns #\c
-  
-  (code-char 99) 
 
 #+end_src
 
@@ -1172,7 +1157,7 @@ The below will return 4:
 | :from-end | If true, work backwards             | nil      |
 | :start    | Position at which to start          | 0        |
 | :end      | Position, if any, at which to stop  | nil      |
-|           |                                     |          |
+
 * Data Structures
 ** Hash Tables
 A hash table is a way of associating pairs of objects, like a dictionary. The objects stored in a hash table or used as keys can be of any type. We can make hastables with =MAKE-HASH-TABLE= and retrieve values associated with a given key with =GETHASH=:
