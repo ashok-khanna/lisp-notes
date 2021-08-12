@@ -164,29 +164,33 @@ Basic numerical functions include =+=, =*=, =-=, =/=. They can take more than tw
 
 #+end_src
 
-Numerical comparisons can be achieved with ~=~, =/== (not),=>=, =<=, =>== and =<==. With three or more arguments, these functions act as range checks.
+Numerical comparisons can be achieved with ~=~, =/== (not equal to), =>=, =<=, =>== and =<==. With three or more arguments, these functions act as range checks.
+
+For example, the below returns true as X is between 0 and 5 inclusive.
 
 #+begin_src lisp
 
   (defparameter x 5)
   
-  (defparameter y 4)
-  
-  ;; Returns true as x between 0 and 5 inclusive
-  
+
+   
   (<= 0 x 5)
 
-  
-  ;; Returns false as x not between 0 and 5 exclusive
-  
-  (< 0 x 5)
+#+end_src
 
-  
-  ;; Returns false as x > y
+The below returns false as X > Y:
 
+#+begin_src lisp
+
+  (defparameter y 4)
+  
   (< 0 x y 6)
 
-  ;; Returns true
+#+end_src
+
+The below returns true as Y < X < 6.
+
+#+begin_src lisp
 
   (< 0 y x 6)
 
