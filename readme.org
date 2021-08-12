@@ -1380,15 +1380,16 @@ Packages need to be registered before they can be used. Below is an example of r
     (:export :symbol-1
 	     :restart)
     (:shadow :restart
-	     :condition)))
+	     :condition))
 
 #+end_src
 
 Once a package is registered with the above, we can switch to it with =IN-PACKAGE=.
 
-- *Within a package*, all symbols defined in that package are accessible. In addition, any /exported/ symbols from packages inherited via the =:USE= command can be directly accessed without a package qualifier
+- *Within a package*, all symbols defined in that package are accessible. In addition, any */exported/* symbols from packages inherited via the =:USE= command can be directly accessed without a package qualifier
 
 - *Outside of a package*, internal symbols can be accessed via a double-colon package qualifier, e.g. =my-package::symbol-3=, while exported symbols can be accessed via a single-colon package qualifier, e.g. =my-package:symbol-1=
+
 
 #+begin_src lisp
 
@@ -1396,7 +1397,7 @@ Once a package is registered with the above, we can switch to it with =IN-PACKAG
   
 #+end_src
 
-Finally, note that we will get an error if we try to inherit from both CL and MY-PACKAGE due to to the clash in symbols RESTART and CONDITION that appear in both packages. To overcome this, we can use a =:shading-import-from:= command, such as in the following.
+Finally, note in the above, that we will get an error if we try to inherit from both CL and MY-PACKAGE due to to the clash in symbols RESTART and CONDITION that appear in both packages. To overcome this, we can use a =:shading-import-from:= command, such as in the following.
 
 #+begin_src lisp
 
