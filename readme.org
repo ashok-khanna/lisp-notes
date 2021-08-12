@@ -921,8 +921,9 @@ The function =REDUCE= is useful to extend functions that only take two variables
 #+end_src
 
 ** Push, Pop & Reverse
+The macro =PUSH= can be used to push an element to the front of a list, while the macro =POP= can remove and return the first element of the list. Both are destructive operations as they directly change the original lists in question.
 
-We can use lists as pushdown stacks. The macro PUSH can be used to push an element to the front of the list, while the macro POP can remove and return the first element of the list. Both are destructive operations as they directly change the original lists in question. For example:
+The below is an example of pushing 1 to the front of MY-LIST:
 
 #+begin_src lisp
 
@@ -936,6 +937,12 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
 
   my-list
 
+#+end_src
+
+The below is an example that returns the first item of MY-LIST and removes it from the list as well:
+
+#+begin_src lisp
+
   ;; Returns 1, the car of the list my-list
 
   (pop my-list)
@@ -946,11 +953,11 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
 
 #+end_src
 
-=REVERSE= is a very useful function to reverse the order of elements within a list and is frequently used in various scenarios:
+=REVERSE= is a very useful function to reverse the order of elements within a list and is frequently used in various scenarios.
+
+Below is an example that returns (F E D C B A):
 
 #+begin_src lisp
-
-  ;; Returns (F E D C B A)
 
   (reverse '(a b c d e f))
 
@@ -968,13 +975,13 @@ Below is an example of an association list constructed using dot pair notation:
   
 #+end_src
 
-Below is an example of adding an entry to the front of an association list:
+Below is an example of returning a new association list by adding an entry to the front of a pre-existing association list:
 
 #+begin_src lisp
-
-  ;; Prints ((one . 1) (two . 2) (three . 3))
+ 
+  ;; Returns ((THREE . 3) (ONE . 1) (TWO . 2))
   
-  (acons three 3 my-a-list)
+  (acons 'three 3 my-a-list)
 
 #+end_src
 
