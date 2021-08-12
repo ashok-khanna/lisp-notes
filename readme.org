@@ -1170,16 +1170,14 @@ A hash table is a way of associating pairs of objects, like a dictionary. The ob
 
 #+end_src
 
-Similar to other structures, we use =SETF= to set values. Hash tables can accommodate any number of elements, because they are expanded when they run out of space. We can remove values with =REMHASH=.
+Similar to other structures, we use =SETF= to set values. Hash tables can accommodate any number of elements, because they are expanded when they run out of space.
 
 #+begin_src lisp
 
   ;; Returns RED
   
-  (setf (gethash 'color my-hash-table) 'red)
-
-  (remhash 'color my-hash-table)
-
+  (setf (gethash 'color my-hash-table) 'red)  
+  
 #+end_src
 
 Finally, the function =MAPHASH= allows you to iterate over all entries in the hash table. Its first argument must be a function which accepts two arguments, the key and the value of each entry. Note that due to the nature of hash tables you can't control the order in which the entries are provided to =MAPHASH= (or other traversing constructs):
@@ -1192,8 +1190,16 @@ Finally, the function =MAPHASH= allows you to iterate over all entries in the ha
 
 #+end_src
 
+You can remove items from a hash table with =REMHASH=.
+
+#+begin_src lisp
+
+(remhash 'color my-hash-table)
+
+#+end_src
+
 ** Structures
-Common Lisp provides the =DEFSTRUCT= facility for creating named data structures with named components. This makes it easier to manipulate custom data objects as we can refer to their components by name.
+Common Lisp provides the =DEFSTRUCT= facility for creating data structures with named components. This makes it easier to manipulate custom data objects as we can refer to their components by name.
 
 Constructor, access and assignment constructs are automatically defined when a data type is defined through =DEFSTRUCT=. Consider the below example of defining a data type for rectangles.
 
