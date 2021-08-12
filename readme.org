@@ -728,7 +728,7 @@ If a =VALUES= function is supplied as an argument to a form which is only expect
 
 #+end_src
 
-The =MULTIPLE-VALUE-BIND= macro is used to receive multiple values. The first argument of this macro is a list of parameters and the second is an expression whose values are bound to the parameters. We can then use these parameters in the body of the =MULTIPLE-VALUE-BIND= macro.
+The =MULTIPLE-VALUE-BIND= macro is used to receive multiple values. The first argument of this macro is a list of parameters and the second is an expression whose values are bound to the parameters. We can then use these bindings in the body of the =MULTIPLE-VALUE-BIND= macro.
 
 Below is an example that returns (1 2 3):
 
@@ -742,14 +742,11 @@ Below is an example that returns (1 2 3):
 If there are more variables than values, the leftover variables will be bound to NIL. If there are more values than variables, the extra values will be discarded. 
 
 ** Apply & Funcall
+Functions in LISP are first-class objects that generally support all operations available to other data objects, such as being modified, passed as an argument, returned from a function and being assigned to a variable.
 
-Functions in Lisp are first-class objects that generally support all operations available to other data objects, such as being modified, passed as an argument, returned from a function and being assigned to a variable.
-
-The FUNCTION special operator (shorthand #') returns the function object associated with the name of function that is supplied as an argument:
+The =FUNCTION= special operator (shorthand =#'=) returns the function object associated with the name of function that is supplied as an argument:
 
 #+begin_src lisp
-
-  ;; Returns the function object
 
   (function +)
 
@@ -759,16 +756,23 @@ The FUNCTION special operator (shorthand #') returns the function object associa
 
 #+end_src
 
-=APPLY= takes a function and a list of arguments for it and returns the result of applying the function to its arguments. Note how we have to use to sharp-quote (#') to pass the + function as an object into the APPLY function. Without doing so, Lisp will return an error as it will try to evaluate +, which is not legally permissible in the below example.
+=APPLY= takes a function and a list of arguments for it and returns the result of applying the function to its arguments.
+
+Below is an example. Note how we have to use to sharp-quote =#'= to pass the =+= function as an object into the =APPLY= function. Without doing so, Lisp will return an error as it will try to evaluate =+=, which is not legally permissible in the below example.
+
+#+begin_src lisp
+
+ ;; Returns 6
+
+ (apply #'+ '(1 2 3))
+ 
+#+end_src
+
+The below is an example that illustrates the use of lambda expressions:
 
 #+begin_src lisp
 
   ;; Returns 6
-
-  (apply #'+ '(1 2 3))
-
-  ;; Try also the following to see an example
-  ;; of lambda expressions in use:
 
   (apply #'(lambda (a b)
 	     (+ a b))
@@ -776,7 +780,7 @@ The FUNCTION special operator (shorthand #') returns the function object associa
 
 #+end_src
 
-The function =FUNCALL= is similar to =APPLY=, but allows us to pass arguments individually and not packaged as a list:
+The function =FUNCALL= is similar to =APPLY=, but allows us to pass arguments individually and not as a list:
 
 #+begin_src lisp
 
