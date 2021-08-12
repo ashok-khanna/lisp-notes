@@ -605,7 +605,7 @@ The =LET= form has the following syntax:
 
 #+end_src
 
-An example of =LET*= in use:
+Below is an example of =LET*= that will return 10:
 
  #+begin_src lisp
 
@@ -630,11 +630,11 @@ Functions named by =DEFUN= are global functions that can be accessed anywhere. W
 
 #+end_src
 
-Functions defined within =LABELS= take a similar format to a =DEFUN= form. Within the body of the =LABELS= form, function names matching those defined by the =LABELS= refer to the locally defined functions rather than any global functions with the same names. Below is an example of a =LABELS= form that will return 12, the result of (+ 2 4 6), where 2, 4 and 6 are the results of evaluating the three local functions defined in the form.
+Functions defined within =LABELS= take a similar format to a =DEFUN= form. Within the body of the =LABELS= form, function names matching those defined by the =LABELS= refer to the locally defined functions rather than any global functions with the same names.
+
+Below is an example of a =LABELS= form that will return 12, the result of (+ 2 4 6), where 2, 4 and 6 are the results of evaluating the three local functions defined in the form.
 
 #+begin_src lisp
-
-  ;; Returns 12
   
   (labels ((first-function (x) (+ x x))
 	   (second-function (y) (* y y))
@@ -645,16 +645,12 @@ Functions defined within =LABELS= take a similar format to a =DEFUN= form. Withi
 
 #+end_src
 
-
 * More on Functions
 ** Lambda Expressions
-
-Lambda expressions allow us to create unnamed functions. These are useful when writing small functions for certain tasks. Below is an example.
+Lambda expressions allow us to create unnamed functions. These are useful when writing small functions for certain tasks. Below is an example that returns 101:
 
 #+begin_src lisp
-
-  ;; Lambda Form, returns 101
-  
+ 
   ((lambda (x)
      (+ x 100))
    1)
@@ -662,10 +658,9 @@ Lambda expressions allow us to create unnamed functions. These are useful when w
 #+end_src
 
 ** Function Parameters
-
 By default, a function call must supply values for all parameters that feature in the function definition. We can modify this behaviour with the =&optional=, =&key= and =&rest= tokens.
 
-The =&optional= token allows to distinguish between required parameters, placed before the =&optional= token, and optional parameters, placed after the token:
+The =&optional= token allows us to distinguish between required parameters, placed before the =&optional= token, and optional parameters, placed after the token:
 
 #+begin_src lisp
 
@@ -695,9 +690,7 @@ To overcome this, we utilise the =&key= token to be able to specify which option
 
 #+end_src
 
-The preceding example also shows how we can supply a default value to an optional (setting E to 1 if no value for E is provided). When we called this function in the above, we set G to 7 and E also defaulted to 1. As no value was supplied for F, it defaulted to NIL.
-
-In general, =&key= is preferable to &optional as it allows us to have greater control in our function calls. It also makes code easier to maintain and evolve as we can add new parameters to a function without affecting existing function calls (useful when writing libraries that are already being used by other programs).
+In general, =&key= is preferable to =&optional= as it allows us to have greater control in our function calls. It also makes code easier to maintain and evolve as we can add new parameters to a function without affecting existing function calls (useful when writing libraries that are already dependencies for other programs).
 
 Finally, the =&rest= token, placed before the last variable in a parameter list, allows us to write functions that can accept an unknown number of arguments. The last variable will be set to a list of all the remaining arguments supplied by the function call:
 
@@ -711,10 +704,10 @@ Finally, the =&rest= token, placed before the last variable in a parameter list,
 
 We can utilise multiple tokens in the same function call, as long as we declare them in order:
 
-1. First the names of required parameters are declared;
-2. Then the optional parameters;
-3. Then the rest parameter; and,
-4. Finally the keyword parameters are declared.
+1. First the names of required parameters are declared
+2. Then the =&optional= parameters
+3. Then the =&rest= parameter
+4. Finally the =&keyword= parameters are declared
 
 ** Multiple Values
 
@@ -994,7 +987,6 @@ Association lists are a very useful data structure for mapping values to keys. T
   (rassoc 2 my-a-list :test #'=)
 
 #+end_src
-
 
 * More on Sequences
 Sequences are a data type in Lisp and lists, strings and arrays are all of type sequence.
