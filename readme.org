@@ -710,7 +710,6 @@ We can utilise multiple tokens in the same function call, as long as we declare 
 4. Finally the =&keyword= parameters are declared
 
 ** Multiple Values
-
 The =VALUES= function returns multiple values and can be used as the last expression in the body of a function. The below example returns 1, NIL and 6 (individually, not as a list):
 
 #+begin_src lisp
@@ -729,13 +728,13 @@ If a =VALUES= function is supplied as an argument to a form which is only expect
 
 #+end_src
 
-The =MULTIPLE-VALUE-BIND= macro is used to receive multiple values. The first argument of this macro is the variables and the second is the expression that returns their values. We can then use these values in the body of the multiple-value-bind macro. Below is an example.
+The =MULTIPLE-VALUE-BIND= macro is used to receive multiple values. The first argument of this macro is a list of parameters and the second is an expression whose values are bound to the parameters. We can then use these parameters in the body of the =MULTIPLE-VALUE-BIND= macro.
+
+Below is an example that returns (1 2 3):
 
 #+begin_src lisp
 
-  ;; Returns (1 2 3)
-
-  (multiple-value-bind (x y z) (values 1 2 3)
+ (multiple-value-bind (x y z) (values 1 2 3)
     (list x y z)) 
 
 #+end_src
