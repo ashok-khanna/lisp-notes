@@ -416,7 +416,6 @@ Example of a =CASE= form (multiple ifs on one variable, implicit =PROGN=). Cases
 
 * Looping
 ** Basic Looping
-
 =DOLIST= will iterate over the items of a list and execute the loop body for each item of the list.
 
 #+begin_src lisp
@@ -426,7 +425,7 @@ Example of a =CASE= form (multiple ifs on one variable, implicit =PROGN=). Cases
 
 #+end_src
 
-Below is an example that will print the numbers 1 to 7 iteratively.
+Below is an example that will print the numbers 1 to 7 iteratively:
 
 #+begin_src lisp
 
@@ -435,7 +434,7 @@ Below is an example that will print the numbers 1 to 7 iteratively.
 
 #+end_src
 
-=DOTIMES= will iterate my-variable from 0 to one less than the end-number supplied. If an optional-result-form is supplied, it will be evaluated at the end of the loop. 
+=DOTIMES= will iterate from 0 to one less than the end number supplied. If an optional result form is supplied, it will be evaluated at the end of the loop. 
 
 #+begin_src lisp
 
@@ -444,7 +443,7 @@ Below is an example that will print the numbers 1 to 7 iteratively.
 
 #+end_src
 
-Below is an example which will print the numbers 0 to 4:
+Below is an example that will print the numbers 0 to 4:
 
 #+begin_src lisp
 
@@ -454,8 +453,7 @@ Below is an example which will print the numbers 0 to 4:
 #+end_src
 
 ** Advanced Looping
-Below is the syntax and example of the =DO= macro. 
-
+Below is the syntax of the =DO= macro. 
 #+begin_src lisp
 
   (do ((var1 init1 step1)
@@ -466,7 +464,11 @@ Below is the syntax and example of the =DO= macro.
 
 #+end_src
 
-The below example will return 81 and print 1, 0, 1, 4, 9, 16, 25, 36, 49 and 64 on newlines. During each iteration, loop-step is increased by one while square is set to the square of loop-step.
+The below example will return 81 and print 1, 0, 1, 4, 9, 16, 25, 36, 49 and 64 on newlines. During each iteration,
+
+- LOOP-STEP is increased by one
+
+- SQUARE is set to the square of LOOP-STEP
 
 #+begin_src lisp
 
@@ -477,66 +479,101 @@ The below example will return 81 and print 1, 0, 1, 4, 9, 16, 25, 36, 49 and 64 
 
 #+end_src
 
-Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/loop.html][Peter D. Karp's Guide]].
+Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/loop.html][Peter D. Karp's Guide]]. The first will return a list of the doubles of each number in the original list:
 
-#+begin_src common-lisp
+#+begin_src lisp
 
   (defvar my-list-1 '(1 2 3 4 5 6))
-  
-  (defvar my-list-2 '(a b c d e))
 
   ;; Returns (2 4 6 8 10 12)
   
   (loop for x in my-list-1
 	collect (+ x x))
-  
-  ;; Prints the numbers iteratively:
 
-  (loop for x in my-list-1
+#+end_src
+
+The below will print each of the numbers in the list iteratively:
+
+#+begin_src lisp
+
+ (loop for x in my-list-1
 	do (print x))
 
-  ;; Only collects even numbers:
+#+end_src
+
+The below will only collect even numbers:
+
+#+begin_src lisp
 
   (loop for x in my-list-1
 	if (evenp x)
 	collect x)
 
-  ;; Loops across two lists, but stops
-  ;; at the end of the shorter list
+#+end_src
 
+The below is an example of iterating across two lists, stopping the loop at the end of the shorter list (MY-LIST-2 in this case):
+
+#+begin_src lisp
+
+  (defvar my-list-2 '(a b c d e))
+  
   (loop for x in my-list-1
 	for y in my-list-2
 	do (format t "X: ~a, Y: ~a" x y))
 
-  ;; Simple loop with counter:
+#+end_src
 
-  (loop for x from 1 to 5
+We can also do simple loops with a counter:
+
+#+begin_src lisp
+
+ (loop for x from 1 to 5
 	do (print x))
 
-  ;; Returns True:
+#+end_src
 
-  (loop for x in '(abc 2) 
+Below is an example of how we can use the =LOOP= macro to check whether a certain predicate is true at some point within a list:
+
+#+begin_src lisp
+
+(loop for x in '(abc 2) 
       thereis (numberp x))
 
-    ;; Returns NIL:
+#+end_src
+
+We can also check whether a predicate is never true within a loop:
+
+#+begin_src lisp
 
 (loop for x in '(abc 2) 
       never (numberp x))
 
-  ;; Returns NIL:
-  
-  (loop for x in '(abc 2)
+#+end_src
+
+We can also check whether a predicate is always true within a loop:
+
+#+begin_src lisp
+
+(loop for x in '(abc 2)
 	always (numberp x))
 
-  ;; Early termination example:
+#+end_src
 
-  (loop for x from 1
+Below is an example of terminating a loop early:
+
+ #+begin_src lisp
+
+(loop for x from 1
       for y = (* x 10)
       while (< y 100)
       do (print (* x 5))
       collect y)
 
-  ;; Some other interesting examples:
+ #+end_src
+
+Finally, a few more examples illustrating the versatility of the =LOOP= macro:
+
+#+begin_src common-lisp
 
   (loop for x in '(a b c d e 1 2 3 4)
 	until (numberp x)
@@ -555,7 +592,6 @@ Below are examples of the =LOOP= macro, some from [[http://www.ai.sri.com/pkarp/
       else do (format t "~A" x))
   
 #+end_src
-
 
 * Local Variables & Functions
 ** Local Variables
