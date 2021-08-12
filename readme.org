@@ -925,24 +925,6 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
 
 #+end_src
 
-** Keyword Arguments
-
-Many list and sequence (list, strings, arrays) functions take one or more keyword arguments from the below table. For example, we can use POSITION to return the position of an element within a sequenc (or NIL if not found) and use keyword arguments to determine where to begin the search:
-
-#+begin_src lisp
-
-  (position #\a "fantasia" :start 3 :end 7) ; Returns 4
-  
-#+end_src
-
-| Parameter | Position                            | Default  |
-|-----------+-------------------------------------+----------|
-| :key      | A function to apply to each element | identity |
-| :test     | The test function for comparison    | eql      |
-| :from-end | If true, work backwards             | nil      |
-| :start    | Position at which to start          | 0        |
-| :end      | Position, if any, at which to stop  | nil      |
-
 ** Association Lists
 
 Association lists are a very useful data structure for mapping values to keys. They are lists of pairs (i.e. conses), with the key being the CAR of the pair and the datum being the CDR of the pair.
@@ -973,6 +955,7 @@ Association lists are a very useful data structure for mapping values to keys. T
   (rassoc 2 my-a-list :test #'=)
 
 #+end_src
+
 
 * More on Sequences
 ** Arrays
@@ -1065,6 +1048,23 @@ Strings are vectors of characters, denoted with double quotes (e.g. "my-string")
 
 #+end_src
 
+** Keyword Arguments
+
+Many list and sequence (list, strings, arrays) functions take one or more keyword arguments from the below table. For example, we can use POSITION to return the position of an element within a sequenc (or NIL if not found) and use keyword arguments to determine where to begin the search:
+
+#+begin_src lisp
+
+  (position #\a "fantasia" :start 3 :end 7) ; Returns 4
+  
+#+end_src
+
+| Parameter | Position                            | Default  |
+|-----------+-------------------------------------+----------|
+| :key      | A function to apply to each element | identity |
+| :test     | The test function for comparison    | eql      |
+| :from-end | If true, work backwards             | nil      |
+| :start    | Position at which to start          | 0        |
+| :end      | Position, if any, at which to stop  | nil      |
 ** Sequence Functions
 
 The type sequence includes both lists and vectors (which include strings). Sequences have many useful functions. =REMOVE=, =REMOVE-IF= and =REMOVE-DUPLICATES= are very handy filter functions.
