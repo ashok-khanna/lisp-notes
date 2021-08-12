@@ -960,30 +960,45 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
 
 Association lists are a very useful data structure for mapping values to keys. They are lists of pairs (i.e. conses), with the key being the CAR of the pair and the datum being the CDR of the pair.
 
+Below is an example of an association list constructed using dot pair notation:
+
 #+begin_src lisp
 
-  ;; Example of an a-list:
-
   (defvar my-a-list '((one . 1) (two . 2)))
+  
+#+end_src
 
-  ;; Add an entry to the front of an a-list
-  ;; Returns ((one . 1) (two . 2) (three . 3))
+Below is an example of adding an entry to the front of an association list:
+
+#+begin_src lisp
+
+  ;; Prints ((one . 1) (two . 2) (three . 3))
   
   (acons three 3 my-a-list)
 
-  ;; Create an a-list from lists of keys & datums:
+#+end_src
 
-  (pairlis '(one two three) '(1 2 3))
+Below is an example of creating an association list from lists of keys & datums:
 
-  ;; Return the pair associated with a key:
-  ;; Below returns (one . 1)
+#+begin_src lisp
 
-  (assoc 'one my-a-list)
+ (pairlis '(one two three) '(1 2 3))
 
-  ;; Find the first pair associated with a datum:
-  ;; Returns (two . 2)
+#+end_src
 
-  (rassoc 2 my-a-list :test #'=)
+We can use =ASSOC= to retrieve the pair associated with a key. The below returns (ONE . 1):
+
+#+begin_src lisp
+
+(assoc 'one my-a-list)
+
+#+end_src
+
+We can use =RASSOC= to retrieve the pair associated with a datum. The below returns (TWO . 2):
+
+#+begin_src lisp
+
+(rassoc 2 my-a-list :test #'=)
 
 #+end_src
 
