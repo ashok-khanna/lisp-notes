@@ -302,27 +302,23 @@ The function =OR= returns the first argument that is true and =NIL= if no argume
 #+end_src
 
 ** Equality
+Common Lisp has a few different functions for testing equality of two objects. Generally speaking, you can't go wrong with =EQUAL=
 
-Common Lisp has a few different functions for testing equality of two objects. Generally speaking, you can't go wrong with =EQUAL=.
+- =EQ= compares equality of memory addresses and is the fastest test. It is useful to compare symbols quickly and to test whether two cons cells are physically the same object. It should not be used to compare numbers
 
-- =EQ= compares equality of memory addresses and is the fastest test. It is useful to compare symbols quickly and to test whether two cons cells are physically the same object. It should not be used to compare numbers.
+- =EQL= is like =EQ= except that it can safely compare numbers for numerical equality and type equality. It is the default equality test in many Common Lisp functions
 
-- =EQL= is like =EQ= except that it can safely compare numbers for numerical equality and type equality. It is the default equality test in many Common Lisp functions.
+- =EQUAL= is a general purpose test that, in addition to being able to safely compare numbers like =EQL=, can safely compare lists on an element by element basis. Lists are not unique and =EQ= and =EQL= will fail to return equality on equivalent lists if they are stored in different memory addresses
 
-- =EQUAL= is a general purpose test that, in addition to being able to safely compare numbers like EQL, can safely compare lists on an element by element basis. Lists are not unique and =EQ= and =EQL= will fail to return equality on equivalent lists if they are stored in different memory addresses.
+- =EQUALP= is a more liberal version of =EQUAL=. It ignores case distinctions in strings, among other things
 
-- =EQUALP= is a more liberal version of =EQUAL=. It ignores case distinctions in strings, among other things.
-
-- ~=~ is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
+- ~=~ is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers
 
 ** Blocks
-
-The =PROGN= form allows multiple forms to be evaluated and the value of the last returned as the value of the PROGN. For example:
+The =PROGN= form allows multiple forms to be evaluated and the value of the last returned as the value of the =PROGN=. The below will print "Hello" and "World" and return 10:
 
 #+begin_src lisp
 
-  ;; Returns 10
-    
   (progn
     (print "Hello")
     (print "World")
@@ -330,12 +326,12 @@ The =PROGN= form allows multiple forms to be evaluated and the value of the last
 
 #+end_src
 
-The =BLOCK= special operator is similar, but it is named and has a mechanism for out-of-order exit with the =RETURN-FROM= operator. The bodies of functions are wrapped in an implicit =BLOCK=.
+The =BLOCK= special operator is similar, but it is named and has a mechanism for out-of-order exit with the =RETURN-FROM= operator. The value of the last expression is returned by the block (unless modified by =RETURN= or =RETURN-FROM=). All other expressions in the block are thus only useful for their side effects.
+
+The below constructs a block named MY-BLOCK and returns 10 as it returns from the block when evaluating the =RETURN-FROM= form:
 
 #+begin_src lisp
-
-  ;; Returns 10
-  
+ 
   (block my-block
     (print "We see this")
     (return-from my-block 10)
@@ -347,8 +343,7 @@ The =RETURN= macro returns its argument as the value of an enclosing =BLOCK= nam
 
  #+begin_src lisp
 
-   ;; Returns 10 when 1 = 3 and
-   ;; prints 1 and 2
+   ;; Returns 10 when 1 = 3 and prints 1 and 2
    
    (dolist (i '(1 2 3 5 6 7))
      (if (= i 3)
@@ -356,8 +351,6 @@ The =RETURN= macro returns its argument as the value of an enclosing =BLOCK= nam
      (print i))
 
  #+end_src
-
-The value of the last expression is returned by the block (unless modified by =RETURN= or =RETURN-FROM=). All other expressions in the block are thus only useful for their side effects.
 
 ** Conditionals
 
