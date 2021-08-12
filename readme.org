@@ -283,17 +283,20 @@ One can test whether an object is of a particular type with =TYPEP=. The below w
 Other type predicate functions include ATOM, NULL, ZEROP, NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP, SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
 
 ** Logic
+Falsity is represted by =NIL= and all other values represent truth.
 
-The function =AND= returns =NIL= if any of its arguments are false and returns the value of the last argument if all arguments are true.  The function =OR= returns the first argument that is true and =NIL= if no argument is true.
+The function =AND= returns =NIL= if any of its arguments are false and returns the value of the last argument if all arguments are true. The below will return 5 as all the arguments are true:
 
 #+begin_src lisp
 
-  ;; Returns 5
-  
-  (and t (+ 1 2) (* 1 5))
+(and t (+ 1 2) (* 1 5))
 
-  ;; Returns 3
-  
+#+end_src
+
+The function =OR= returns the first argument that is true and =NIL= if no argument is true. The below returns 3, the first non-nil value in the form:
+
+#+begin_src lisp
+ 
   (or nil (+ 1 2) (* 1 5))
 
 #+end_src
