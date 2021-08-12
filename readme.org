@@ -785,18 +785,21 @@ The function =FUNCALL= is similar to =APPLY=, but allows us to pass arguments in
 #+end_src
 
 ** Mapping Functions
+Mapping is a type of iteration in which a function is successively applied to pieces of one or more sequences.
 
-Mapping is a type of iteration in which a function is successively applied to pieces of one or more sequences. =MAPCAR= operates on successive elements of lists and returns a list of the result of the successive calls to the function specified. =MAPLIST= operates on successive CDRs of the lists.
+=MAPCAR= operates on successive elements of lists and returns a list of the result of the successive calls to the function specified. The below example will return (-1 -2 -3):
 
 #+begin_src lisp
 
-  ;; Returns (-1 -2 -3)
+ (mapcar #'(lambda (x) (- 0 x)) '(1 2 3))
 
-  (mapcar #'(lambda (x) (- 0 x)) '(1 2 3))
+#+end_src
 
-  ;; Returns ((a b c d) (b c d) (c d) (d))
+=MAPLIST= operates on successive CDRs of the lists. The below example will return ((A B C D) (B C D) (C D) (D)): 
 
-  (maplist #'(lambda (x) x) '(a b c d))
+#+begin_src lisp
+
+ (maplist #'(lambda (x) x) '(a b c d))
 
 #+end_src
 
@@ -824,7 +827,6 @@ Below are a couple of examples.
   
 
 #+end_src
-
 
 * More on Lists
 ** List Functions
