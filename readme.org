@@ -960,8 +960,7 @@ Association lists are a very useful data structure for mapping values to keys. T
 * More on Sequences
 Sequences are a data type in Lisp and lists, strings and arrays are all of type sequence.
 ** Arrays
-
-The function MAKE-ARRAY allows us to create arrays. For example, we can create a 2 x 3 array as follows:
+The function =MAKE-ARRAY= creates arrays. For example, we can create a 2 x 3 array as follows:
 
 #+begin_src lisp
 
@@ -970,34 +969,38 @@ The function MAKE-ARRAY allows us to create arrays. For example, we can create a
 
 #+end_src
 
-The functions AREF and SETF allow us to access elements and set them with values:
+We can use =AREF= and =SETF= to access elements and set their values. The below will return NIL as the value of this element has not been set yet:
 
 #+begin_src lisp
 
-  ;; Returns NIL
-
   (aref my-array 0 0)
+  
+#+end_src
 
-  
-  ;; Set (0,0) to B
-  
+The below will set the value of this element to B, which will be the value returned by the second form below:
+
+#+begin_src lisp
+
   (setf (aref my-array 0 0) 'b)
-
-  
-  ;; Returns B
 
   (aref my-array 0 0)
 
 #+end_src
 
-The functions ARRAY-RANK and ARRAY-DIMENSION retrieve the the number of dimensions and the number of elements in a given dimension respectively:
+We use =:INITIAL-ELEMENT= to set the value of every element of an array to the provided argument. In the below, every element has a value of 2.
 
 #+begin_src lisp
 
-  (setf my-array
+ (setf my-array
 	(make-array '(2 3)
 		    :initial-element '((1 2 3) (1 2 3))))
-  
+
+#+end_src
+
+The functions =ARRAY-RANK= and =ARRAY-DIMENSION= retrieve the the number of dimensions and the number of elements in a given dimension respectively:
+
+#+begin_src lisp
+
   ;; Returns 2
 
   (array-rank my-array))
@@ -1012,26 +1015,24 @@ The functions ARRAY-RANK and ARRAY-DIMENSION retrieve the the number of dimensio
 
 #+end_src
 
-We use :INITIAL-ELEMENT to set the value of every element of an array to the provided argument, while we use :INITIAL-CONTENTS to set the array to the object provided. A one-dimensional array is a vector and can be created with either of the following.
+=:INITIAL-CONTENTS= is used to set the array to an object provided.
 
 #+begin_src lisp
 
-(vector "a" 'b 3)
- 
 (defparameter my-vector
   (make-array 3 :initial-contents '("a" 'b 3)))
 
 #+end_src
 
-Finally, we can create a literal array using the #na syntax, where n is the number of dimensions:
+A one-dimensional array is also known as a vector and the above example created one. Vectors can also be created with =VECTOR=:
 
 #+begin_src lisp
 
-  ;; Returns ((B NIL NIL) (1 2 3))
-
-  #2a((b nil nil) (1 2 3))
-
+  (vector "a" 'b 3)
+  
 #+end_src
+
+The most famous vectors in LISP are strings. STrings are specialised vectors whose elements are characters.
 
 ** Sequence Functions
 
