@@ -53,7 +53,9 @@ Below is example of a function that multiplies the sum of two numbers by 10.
 
 ** Assignment
 
-=SETF= is LISP's general purpose assignment operator. It is a powerful setter that can assign values to many different types of places. Places are typically either symbols representing variables or functions, or getter forms that access particular places in objects we wish to modify.
+=SETF= is LISP's general purpose assignment operator. It is a powerful setter that can assign values to many different types of places.
+
+The syntax of =SETF= is as follows.  Places are typically either symbols, representing variables or functions, or getter forms that access particular places in objects that we wish to modify.
 
 #+begin_src lisp
 
@@ -73,7 +75,7 @@ Below are some examples.
 
   (setf x 1 y 2)
 
-  ;; Example of using a "getter" with setf
+  ;; Example of using a getter with setf
   
   (defvar *list* '(1 2 3 4))
   
@@ -121,12 +123,14 @@ The most useful LISP printing functions are:
 The syntax of =FORMAT= is as follows:
 
 #+BEGIN_SRC lisp
-(format destination control-string optional-arguments*)
+
+  (format destination control-string optional-arguments*)
+  
 #+END_SRC
 
 The first argument of the =FORMAT= function is the destination where the output will be printed.
 
-- A value of =T= will send the out to the stream =*​standard-output​*= (typically the main screen of your LISP system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
+- A value of =T= will send the out to the stream =*​STANDARD-OUTPUT​*= (typically the main screen of your LISP system) whilst =NIL= here will return the output as a string. We can also supply a stream here 
 - The second argument is the string that we want to print. However, we can enter directives (preceded by =~=) to add complex behaviour to the string, such as
   - =~%= to print newlines
   - =~A= to print LISP objects for humans
@@ -172,8 +176,6 @@ For example, the below returns true as X is between 0 and 5 inclusive.
 
   (defparameter x 5)
   
-
-   
   (<= 0 x 5)
 
 #+end_src
@@ -196,7 +198,7 @@ The below returns true as Y < X < 6:
 
 #+end_src
 
-Other useful functions are below. 
+Other useful numerical functions are below. 
 
 #+begin_src lisp
 
