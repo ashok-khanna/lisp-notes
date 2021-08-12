@@ -315,7 +315,7 @@ Common Lisp has a few different functions for testing equality of two objects. G
 - ~=~ is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers
 
 ** Blocks
-The =PROGN= form allows multiple forms to be evaluated and the value of the last returned as the value of the =PROGN=. The below will print "Hello" and "World" and return 10:
+The =PROGN= form allows multiple forms to be evaluated and the value of the last is returned as the value of the =PROGN=. The below will print "Hello" and "World" and return 10:
 
 #+begin_src lisp
 
@@ -326,7 +326,10 @@ The =PROGN= form allows multiple forms to be evaluated and the value of the last
 
 #+end_src
 
-The =BLOCK= special operator is similar, but it is named and has a mechanism for out-of-order exit with the =RETURN-FROM= operator. The value of the last expression is returned by the block (unless modified by =RETURN= or =RETURN-FROM=). All other expressions in the block are thus only useful for their side effects.
+The =BLOCK= special operator is similar, but it is named and has a mechanism for out-of-order exit with the =RETURN-FROM= operator.
+
+- The value of the last expression in the block is returned as the value of the block (unless modified by =RETURN= or =RETURN-FROM=)
+- All other expressions in the block are thus only useful for their side effects
 
 The below constructs a block named MY-BLOCK and returns 10 as it returns from the block when evaluating the =RETURN-FROM= form:
 
@@ -342,8 +345,6 @@ The below constructs a block named MY-BLOCK and returns 10 as it returns from th
 The =RETURN= macro returns its argument as the value of an enclosing =BLOCK= named =NIL=.  Many Common Lisp operators that take a body of expressions implicitly enclose the body in a =BLOCK= named =NIL= and we can use =RETURN= in these forms:
 
  #+begin_src lisp
-
-   ;; Returns 10 when 1 = 3 and prints 1 and 2
    
    (dolist (i '(1 2 3 5 6 7))
      (if (= i 3)
