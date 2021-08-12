@@ -328,7 +328,7 @@ The =PROGN= form allows multiple forms to be evaluated and the value of the last
 
 The =BLOCK= special operator is similar, but it is named and has a mechanism for out-of-order exit with the =RETURN-FROM= operator.
 
-- The value of the last expression in the block is returned as the value of the block (unless modified by =RETURN= or =RETURN-FROM=)
+- The value of the last expression in a block is returned as the value of the block (unless there is an early exit by =RETURN= or =RETURN-FROM=)
 - All other expressions in the block are thus only useful for their side effects
 
 The below constructs a block named MY-BLOCK and returns 10 as it returns from the block when evaluating the =RETURN-FROM= form:
@@ -354,8 +354,7 @@ The =RETURN= macro returns its argument as the value of an enclosing =BLOCK= nam
  #+end_src
 
 ** Conditionals
-
-The five main conditionals in Common Lisp are =IF=, =WHEN=, =UNLESS=, =COND= and =CASE=. Conditionals with an implicit PROGN block allow for multiple forms within their bodies.
+The five main conditionals in Common Lisp are =IF=, =WHEN=, =UNLESS=, =COND= and =CASE=. Conditionals with an implicit =PROGN= block allow for multiple forms within their bodies.
 
 Example of =IF= form (note there is *no* implicit =PROGN=):
 
@@ -399,12 +398,11 @@ Example of =COND= form (multiple ifs, implicit =PROGN=). The form exits on the f
 
 #+end_src
 
-Example of a =CASE= form (multiple ifs on the one variable, implicit =PROGN=). Cases are literal not evaluated. The form exits on the first true:
+Example of a =CASE= form (multiple ifs on one variable, implicit =PROGN=). Cases are literal and not evaluated. The form exits on the first true:
 
 #+begin_src lisp
 
-  ;; Try entering in 9 and then (* 3 3)
-  ;; at the read prompt. Then try entering 0
+  ;; Try entering in 9 and then (* 3 3) at the read prompt. Then try entering 0
   
   (case (read)
      ((1 3 5 7 9 (* 3 3)) "Odd")

@@ -1,54 +1,54 @@
 
 # Table of Contents
 
-1.  [The Basics](#orgfd59382)
-    1.  [Global Variables](#org16c62f6)
-    2.  [Global Functions](#org2098f52)
-    3.  [Assignment](#org08186e1)
-    4.  [Input & Output](#org96eeb4d)
-    5.  [Numerical Functions](#org7892a4b)
-    6.  [Text Functions](#org66c7421)
-2.  [Logic & Equality](#org94ff988)
-    1.  [Type Predicates](#orgc17494c)
-    2.  [Boolean & Logic](#org286508f)
-    3.  [Equality](#org089fb75)
-    4.  [Blocks](#org91fc308)
-    5.  [Conditionals](#org500c6dd)
-3.  [Looping](#orgbbb6d4e)
-    1.  [Basic Looping](#orgbba992c)
-    2.  [Advanced Looping](#orgfa6f99c)
-4.  [Local Variables & Functions](#orgdc8e8e2)
-    1.  [Local Variables](#org13bb16d)
-    2.  [Local Functions](#org78e1726)
-5.  [More on Functions](#org460bed8)
-    1.  [Lambda Expressions](#org36fe98a)
-    2.  [Function Parameters](#org5ffa03f)
-    3.  [Multiple Values](#org90201df)
-    4.  [Apply & Funcall](#org7530dcb)
-    5.  [Mapping Functions](#orgac80730)
-6.  [More on Lists](#org6b90609)
-    1.  [List Functions](#org370d570)
-    2.  [Push, Pop & Reverse](#org74cc83d)
-    3.  [Association Lists](#org9f5f299)
-7.  [More on Sequences](#org9ee5218)
-    1.  [Arrays](#org1b4fd51)
-    2.  [Sequence Functions](#org334574d)
-    3.  [Keyword Arguments](#org60068b8)
-8.  [Data Structures](#orgebd73a0)
-    1.  [Hash Tables](#orge2cb28c)
-    2.  [Structures](#org8117450)
-    3.  [Common Lisp Object System (CLOS)](#org9aca98d)
-9.  [Other](#org2bf3bcc)
-    1.  [Reading & Writing to Files](#org9677c59)
-    2.  [Packages](#orgbb16004)
+1.  [The Basics](#orgdddfa9c)
+    1.  [Global Variables](#org4d24946)
+    2.  [Global Functions](#orge7ab7f5)
+    3.  [Assignment](#org5f4f669)
+    4.  [Input & Output](#orgab447f8)
+    5.  [Numerical Functions](#org7c663ff)
+    6.  [Text Functions](#orgb8ff593)
+2.  [Logic & Equality](#org20533c5)
+    1.  [Type Predicates](#org10da6b5)
+    2.  [Boolean & Logic](#org73c97eb)
+    3.  [Equality](#orge43c2e6)
+    4.  [Blocks](#orge9c6646)
+    5.  [Conditionals](#org8e2b612)
+3.  [Looping](#orgd8dda83)
+    1.  [Basic Looping](#orgacb5fc5)
+    2.  [Advanced Looping](#org55424d7)
+4.  [Local Variables & Functions](#org88c0662)
+    1.  [Local Variables](#org8c401af)
+    2.  [Local Functions](#org25c5501)
+5.  [More on Functions](#orgf03b94a)
+    1.  [Lambda Expressions](#orgf8ce469)
+    2.  [Function Parameters](#orga7f7d03)
+    3.  [Multiple Values](#orgd078421)
+    4.  [Apply & Funcall](#org28ba1e2)
+    5.  [Mapping Functions](#org834dce3)
+6.  [More on Lists](#org6f527c4)
+    1.  [List Functions](#org49cb7e8)
+    2.  [Push, Pop & Reverse](#org6fc4224)
+    3.  [Association Lists](#org0801e2e)
+7.  [More on Sequences](#org9c2a34d)
+    1.  [Arrays](#org9e38faf)
+    2.  [Sequence Functions](#org2869067)
+    3.  [Keyword Arguments](#orgb832722)
+8.  [Data Structures](#orgf2366d0)
+    1.  [Hash Tables](#orgc9a4151)
+    2.  [Structures](#org6f8857c)
+    3.  [Common Lisp Object System (CLOS)](#orgb90c737)
+9.  [Other](#orgd7c6cd7)
+    1.  [Reading & Writing to Files](#orgf9d6526)
+    2.  [Packages](#org08dfea7)
 
 
-<a id="orgfd59382"></a>
+<a id="orgdddfa9c"></a>
 
 # The Basics
 
 
-<a id="org16c62f6"></a>
+<a id="org4d24946"></a>
 
 ## Global Variables
 
@@ -73,7 +73,7 @@ We can define global constants with `DEFCONSTANT`:
     (defconstant +my-constant+ 20)
 
 
-<a id="org2098f52"></a>
+<a id="orge7ab7f5"></a>
 
 ## Global Functions
 
@@ -96,7 +96,7 @@ Below is example of a function that multiplies the sum of two numbers by 10.
     (multiply-sum-by-10 5 10)
 
 
-<a id="org08186e1"></a>
+<a id="org5f4f669"></a>
 
 ## Assignment
 
@@ -129,7 +129,7 @@ Below are some examples.
     *list*
 
 
-<a id="org96eeb4d"></a>
+<a id="orgab447f8"></a>
 
 ## Input & Output
 
@@ -192,7 +192,7 @@ This is best illustrated by the following examples. Note how Bob is quoted in th
     (format nil "~A ~A" "Number is:" (+ 1 2))
 
 
-<a id="org7892a4b"></a>
+<a id="org7c663ff"></a>
 
 ## Numerical Functions
 
@@ -258,7 +258,7 @@ Other useful numerical functions are below.
 More details on numerical operations can be found in [Common Lisp, the Language 2nd Edition](https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node121.html).
 
 
-<a id="org66c7421"></a>
+<a id="orgb8ff593"></a>
 
 ## Text Functions
 
@@ -333,12 +333,12 @@ Below are comparison functions for strings. Replace STRING with CHAR in the belo
 </table>
 
 
-<a id="org94ff988"></a>
+<a id="org20533c5"></a>
 
 # Logic & Equality
 
 
-<a id="orgc17494c"></a>
+<a id="org10da6b5"></a>
 
 ## Type Predicates
 
@@ -351,7 +351,7 @@ One can test whether an object is of a particular type with `TYPEP`. The below w
 Other type predicate functions include ATOM, NULL, ZEROP, NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP, SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
 
 
-<a id="org286508f"></a>
+<a id="org73c97eb"></a>
 
 ## Boolean & Logic
 
@@ -368,7 +368,7 @@ The function `OR` returns the first argument that is true and `NIL` if no argume
     (or nil (+ 1 2) (* 1 5))
 
 
-<a id="org089fb75"></a>
+<a id="orge43c2e6"></a>
 
 ## Equality
 
@@ -385,7 +385,7 @@ Common Lisp has a few different functions for testing equality of two objects. G
 -   `=` is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers
 
 
-<a id="org91fc308"></a>
+<a id="orge9c6646"></a>
 
 ## Blocks
 
@@ -399,7 +399,7 @@ The `PROGN` form allows multiple forms to be evaluated and the value of the last
 
 The `BLOCK` special operator is similar, but it is named and has a mechanism for out-of-order exit with the `RETURN-FROM` operator.
 
--   The value of the last expression in the block is returned as the value of the block (unless modified by `RETURN` or `RETURN-FROM`)
+-   The value of the last expression in a block is returned as the value of the block (unless there is an early exit by `RETURN` or `RETURN-FROM`)
 -   All other expressions in the block are thus only useful for their side effects
 
 The below constructs a block named MY-BLOCK and returns 10 as it returns from the block when evaluating the `RETURN-FROM` form:
@@ -419,11 +419,11 @@ The `RETURN` macro returns its argument as the value of an enclosing `BLOCK` nam
       (print i))
 
 
-<a id="org500c6dd"></a>
+<a id="org8e2b612"></a>
 
 ## Conditionals
 
-The five main conditionals in Common Lisp are `IF`, `WHEN`, `UNLESS`, `COND` and `CASE`. Conditionals with an implicit PROGN block allow for multiple forms within their bodies.
+The five main conditionals in Common Lisp are `IF`, `WHEN`, `UNLESS`, `COND` and `CASE`. Conditionals with an implicit `PROGN` block allow for multiple forms within their bodies.
 
 Example of `IF` form (note there is **no** implicit `PROGN`):
 
@@ -455,11 +455,10 @@ Example of `COND` form (multiple ifs, implicit `PROGN`). The form exits on the f
            (print "This will not print as the")
            (print "form exited at first true")))
 
-Example of a `CASE` form (multiple ifs on the one variable, implicit `PROGN`). Cases are literal not evaluated. The form exits on the first true:
+Example of a `CASE` form (multiple ifs on one variable, implicit `PROGN`). Cases are literal and not evaluated. The form exits on the first true:
 
     
-    ;; Try entering in 9 and then (* 3 3)
-    ;; at the read prompt. Then try entering 0
+    ;; Try entering in 9 and then (* 3 3) at the read prompt. Then try entering 0
     
     (case (read)
        ((1 3 5 7 9 (* 3 3)) "Odd")
@@ -470,12 +469,12 @@ Example of a `CASE` form (multiple ifs on the one variable, implicit `PROGN`). C
       (otherwise "Not a odd number < 10"))
 
 
-<a id="orgbbb6d4e"></a>
+<a id="orgd8dda83"></a>
 
 # Looping
 
 
-<a id="orgbba992c"></a>
+<a id="orgacb5fc5"></a>
 
 ## Basic Looping
 
@@ -500,7 +499,7 @@ In the below example, `DOTIMES` will iterate my-variable from 0 to one less than
       (print i))
 
 
-<a id="orgfa6f99c"></a>
+<a id="org55424d7"></a>
 
 ## Advanced Looping
 
@@ -598,12 +597,12 @@ Below are examples of the `LOOP` macro, some from [Peter D. Karp's Guide](http:/
           else do (format t "~A" x))
 
 
-<a id="orgdc8e8e2"></a>
+<a id="org88c0662"></a>
 
 # Local Variables & Functions
 
 
-<a id="org13bb16d"></a>
+<a id="org8c401af"></a>
 
 ## Local Variables
 
@@ -627,7 +626,7 @@ An example of `LET*` in use:
       (print y))
 
 
-<a id="org78e1726"></a>
+<a id="org25c5501"></a>
 
 ## Local Functions
 
@@ -652,12 +651,12 @@ Functions defined within `LABELS` take a similar format to a `DEFUN` form. Withi
          (third-function 3))) 
 
 
-<a id="org460bed8"></a>
+<a id="orgf03b94a"></a>
 
 # More on Functions
 
 
-<a id="org36fe98a"></a>
+<a id="orgf8ce469"></a>
 
 ## Lambda Expressions
 
@@ -671,7 +670,7 @@ Lambda expressions allow us to create unnamed functions. These are useful when w
      1)
 
 
-<a id="org5ffa03f"></a>
+<a id="orga7f7d03"></a>
 
 ## Function Parameters
 
@@ -720,7 +719,7 @@ We can utilise multiple tokens in the same function call, as long as we declare 
 4.  Finally the keyword parameters are declared.
 
 
-<a id="org90201df"></a>
+<a id="orgd078421"></a>
 
 ## Multiple Values
 
@@ -747,7 +746,7 @@ The `MULTIPLE-VALUE-BIND` macro is used to receive multiple values. The first ar
 If there are more variables than values, the leftover variables will be bound to NIL. If there are more values than variables, the extra values will be discarded. 
 
 
-<a id="org7530dcb"></a>
+<a id="org28ba1e2"></a>
 
 ## Apply & Funcall
 
@@ -786,7 +785,7 @@ The function `FUNCALL` is similar to `APPLY`, but allows us to pass arguments in
     (funcall #'+ 1 2 3)
 
 
-<a id="orgac80730"></a>
+<a id="org834dce3"></a>
 
 ## Mapping Functions
 
@@ -820,12 +819,12 @@ Below are a couple of examples.
          '(1 2 3 4))
 
 
-<a id="org6b90609"></a>
+<a id="org6f527c4"></a>
 
 # More on Lists
 
 
-<a id="org370d570"></a>
+<a id="org49cb7e8"></a>
 
 ## List Functions
 
@@ -903,7 +902,7 @@ The function `REDUCE` is useful to extend functions that only take two variables
     (reduce #'intersection '((b r a d) (b a d) (c a t)))
 
 
-<a id="org74cc83d"></a>
+<a id="org6fc4224"></a>
 
 ## Push, Pop & Reverse
 
@@ -936,7 +935,7 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
     (reverse '(a b c d e f))
 
 
-<a id="org9f5f299"></a>
+<a id="org0801e2e"></a>
 
 ## Association Lists
 
@@ -967,14 +966,14 @@ Association lists are a very useful data structure for mapping values to keys. T
     (rassoc 2 my-a-list :test #'=)
 
 
-<a id="org9ee5218"></a>
+<a id="org9c2a34d"></a>
 
 # More on Sequences
 
 Sequences are a data type in Lisp and lists, strings and arrays are all of type sequence.
 
 
-<a id="org1b4fd51"></a>
+<a id="org9e38faf"></a>
 
 ## Arrays
 
@@ -1032,7 +1031,7 @@ A one-dimensional array is also known as a vector and the above example created 
 The most famous vectors in LISP are strings. Strings are specialised vectors whose elements are characters.
 
 
-<a id="org334574d"></a>
+<a id="org2869067"></a>
 
 ## Sequence Functions
 
@@ -1102,7 +1101,7 @@ We can use `SEARCH` to search for sequence within another. The below returns 4, 
     (search "Hello" "Hi! Hello, World!")
 
 
-<a id="org60068b8"></a>
+<a id="orgb832722"></a>
 
 ## Keyword Arguments
 
@@ -1169,12 +1168,12 @@ The below will return 4:
 </table>
 
 
-<a id="orgebd73a0"></a>
+<a id="orgf2366d0"></a>
 
 # Data Structures
 
 
-<a id="orge2cb28c"></a>
+<a id="orgc9a4151"></a>
 
 ## Hash Tables
 
@@ -1210,7 +1209,7 @@ You can remove items from a hash table with `REMHASH`:
     (remhash 'color my-hash-table)
 
 
-<a id="org8117450"></a>
+<a id="org6f8857c"></a>
 
 ## Structures
 
@@ -1259,7 +1258,7 @@ The below will set RECTANGLE-WIDTH of RECTANGLE-1 to 20:
     (setf (rectangle-width rectangle-1) 20)
 
 
-<a id="org9aca98d"></a>
+<a id="orgb90c737"></a>
 
 ## Common Lisp Object System (CLOS)
 
@@ -1352,12 +1351,12 @@ Finally, it is useful to create custom print output for CLOS objects. This can b
       (print person-1)
 
 
-<a id="org2bf3bcc"></a>
+<a id="orgd7c6cd7"></a>
 
 # Other
 
 
-<a id="org9677c59"></a>
+<a id="orgf9d6526"></a>
 
 ## Reading & Writing to Files
 
@@ -1424,7 +1423,7 @@ The following open arguments can be supplied to the `WITH-OPEN-FILE` macro:
 </table>
 
 
-<a id="orgbb16004"></a>
+<a id="org08dfea7"></a>
 
 ## Packages
 
