@@ -830,89 +830,113 @@ Below are a couple of examples.
 
 * More on Lists
 ** List Functions
-
-The below are some common functions to access elements of a list:
+=NTH= can be used to access a particular element of a list. The below returns D, the fourth element of the list:
 
 #+begin_src lisp
 
-  ;; Returns the element at the position given in
-  ;; provided position (3), returning D:
-
-  (nth 3 '(a b c d e f g))
-
-  ;; Also try FIRST - TENTH for a similar effect:
-   
-  ;; Returns A
-
-  (first '(a b c d e f g))
-
-  ;; A similar version of NTH exists for accessing CDRs:
-  ;; The below returns (D E F G)
-  
-  (nthcdr 3 '(a b c d e f g))
-
-  ;; We can also easily access the last CDR with last
-  ;; Below returns (G) (note it returns a CDR):
-    
-  (last '(a b c d e f g)) 
+ (nth 3 '(a b c d e f g))
 
 #+end_src
 
-There are also some useful set functions that one can use in conjunction with sets. =MEMBER= and its variants might be the most useful:
+=NTHCDR= is a similar version to access a particular CDR of a list. The below returns (D E F G):
 
 #+begin_src lisp
 
-  ;; Returns (B C)
-  
-  (member 'b '(a b c))
-
-  ;; Returns (3 4)
-  
-  (member-if #'oddp '(2 3 4))
-
-  ;; One can also specify the test to apply (default is EQL):
-
-  (member 'b '(a b c) :test #'equal) 
+ (nthcdr 3 '(a b c d e f g))
 
 #+end_src
 
-=ADJOIN= joins an object onto a list only if it is not already a member:
+We can also use =FIRST=, =SECOND=, ..., =TENTH= to access the first ten elements of a list. The below returns A:
 
 #+begin_src lisp
 
-  ;; Returns (A B C)
+(first '(a b c d e f g))
+
+#+end_src
+
+=LAST= is a very useful function to access the last CDR of a list. The below returns (G):
+
+#+begin_src lisp
+
+ (last '(a b c d e f g)) 
+
+#+end_src
+
+Lists can be thought of as sets and a number of useful functions exist to perform set operations.
+
+=MEMBER= and its variants are useful functions to test whether certain elements exist within a list. The below returns (B C), the CDR from the position B is found:
+
+#+begin_src lisp
+
+ (member 'b '(a b c))
+
+#+end_src
+
+The below returns (3 4), the odd numbers in the list:
+
+#+begin_src lisp
+
+ (member-if #'oddp '(2 3 4))
+
+#+end_src
+
+We can also specify the test to apply (the default is =EQL=):
+
+#+begin_src lisp
+
+  (member 'b '(a b c) :test #'equal)
   
+#+end_src
+
+=ADJOIN= joins an object onto a list only if it is not already a member. The below returns (A B C) as B is already a member of the supplied list (A B C):
+
+#+begin_src lisp
+
   (adjoin 'b '(a b c))
+  
+#+end_src
 
-  ;; Returns (Z A B C)
+The below returns (Z A B C) as Z is not a member of the supplied list:
+
+#+begin_src lisp
 
   (adjoin 'z '(a b c))
-
-
+  
 #+end_src
 
-Set union, intersection and complement operations can also be done:
+Set union, intersection and complement operations can be done with =UNION=, =INTERSECTION= and =SET-DIFFERENCE=.
+
+The below example returns (A B C S), the union of the two lists supplied:
 
 #+begin_src lisp
 
-  ;; Returns (A B C S)
-  
-  (union '(a b c)
-	 '(c b s))
+ (union '(a b c) '(c b s))
 
+#+end_src
 
-  ;; Returns (C B)
+The below examples returns (C B), the interesection of the two lists supplied:
 
-  (intersection '(a b c)
-		'(c b s))
+#+begin_src lisp
 
-  ;; Returns (A)
-  
+ (intersection '(a b c) '(c b s))
+
+#+end_src
+
+The below returns (A), a list of the elements in the first list supplied that do not exist in the second list:
+
+#+begin_src lisp
+ 
   (set-difference '(a b c) '(c b s))
 
 #+end_src
 
-The function =REDUCE= is useful to extend functions that only take two variables. It takes two arguments, a function (which must take exactly two values) and a sequence. The function is initially called on the first two elements of the sequence, and thereafter with each successive element as the second argument. The value returned by the last call is the value returned by the =REDUCE= function. For example, the below returns (A), the intersection of these three lists:
+Finally, the function =REDUCE= is useful to extend functions that only take two variables. It takes two arguments, a function (which must take exactly two values) and a sequence.
+
+- The function is initially called on the first two elements of the sequence, and thereafter with each successive element as the second argument
+
+- The value returned by the last call is the value returned by the =REDUCE= function
+
+For example, the below returns (A), the intersection of these three lists:
 
 #+begin_src lisp
 
@@ -923,33 +947,33 @@ The function =REDUCE= is useful to extend functions that only take two variables
 ** Push, Pop & Reverse
 The macro =PUSH= can be used to push an element to the front of a list, while the macro =POP= can remove and return the first element of the list. Both are destructive operations as they directly change the original lists in question.
 
-The below is an example of pushing 1 to the front of MY-LIST:
+The below is an example of pushing 1 to the front of *​MY-LIST*:
 
 #+begin_src lisp
 
-  (defparameter my-list '(2 3 4))
+  (defparameter *my-list* '(2 3 4))
 
   ;; Returns (1 2 3 4)
 
-  (push 1 my-list)
+  (push 1 *my-list*)
 
   ;; Returns (1 2 3 4)
 
-  my-list
+  *my-list*
 
 #+end_src
 
-The below is an example that returns the first item of MY-LIST and removes it from the list as well:
+The below is an example that returns the first item of *​MY-LIST* and removes it from the list as well:
 
 #+begin_src lisp
 
-  ;; Returns 1, the car of the list my-list
+  ;; Returns 1, the car of *my-list*
 
-  (pop my-list)
+  (pop *my-list*)
 
   ;; Returns (2 3 4)
 
-  my-list
+  *my-list*
 
 #+end_src
 
