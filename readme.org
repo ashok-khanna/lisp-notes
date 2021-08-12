@@ -1158,8 +1158,7 @@ We can find elements within a sequence with =FIND=, which returns the leftmost s
 
 * Data Structures
 ** Hash Tables
-
-A hash table is a way of associating pairs of objects, like a dictionary. The objects stored in a hash table or used as keys can be of any type. We can make hastables with MAKE-HASH-TABLE and retrieve values associated with a given key with GETHASH:
+A hash table is a way of associating pairs of objects, like a dictionary. The objects stored in a hash table or used as keys can be of any type. We can make hastables with =MAKE-HASH-TABLE= and retrieve values associated with a given key with =GETHASH=:
 
 #+begin_src lisp
 
@@ -1171,7 +1170,7 @@ A hash table is a way of associating pairs of objects, like a dictionary. The ob
 
 #+end_src
 
-Similar to other structures, we use SETF to set values. Hash tables can accommodate any number of elements, because they are expanded when they run out of space. We can remove values with REMHASH.
+Similar to other structures, we use =SETF= to set values. Hash tables can accommodate any number of elements, because they are expanded when they run out of space. We can remove values with =REMHASH=.
 
 #+begin_src lisp
 
@@ -1183,7 +1182,7 @@ Similar to other structures, we use SETF to set values. Hash tables can accommod
 
 #+end_src
 
-Finally, the function MAPHASH allows you to iterate over all entries in the hash table. Its first argument must be a function which accepts two arguments, the key and the value of each entry. Note that due to the nature of hash tables you can't control the order in which the entries are provided to MAPHASH (or other traversing constructs):
+Finally, the function =MAPHASH= allows you to iterate over all entries in the hash table. Its first argument must be a function which accepts two arguments, the key and the value of each entry. Note that due to the nature of hash tables you can't control the order in which the entries are provided to =MAPHASH= (or other traversing constructs):
 	
 #+begin_src lisp
 
@@ -1194,15 +1193,16 @@ Finally, the function MAPHASH allows you to iterate over all entries in the hash
 #+end_src
 
 ** Structures
+Common Lisp provides the =DEFSTRUCT= facility for creating named data structures with named components. This makes it easier to manipulate custom data objects as we can refer to their components by name.
 
-Common Lisp provides the DEFSTRUCT facility for creating named data structures with named components. This makes it easier to manipulate custom data objects as we can refer to their components by name. Constructor, access and assignment constructs are automatically defined when a data type is defined through DEFSTRUCT.
+Constructor, access and assignment constructs are automatically defined when a data type is defined through =DEFSTRUCT=. Consider the below example of defining a data type for rectangles.
 
-Consider the below example of defining a data type for rectangles. DEFSTRUCT defines RECTANGLE to be a structure with two fields, height and width. The symbol RECTANGLE becomes the name of a data type and each rectangle will be of type RECTANGLE, then STRUCTURE, then ATOM and then T. DEFSTRUCT generates four associated functions:
+=DEFSTRUCT= defines RECTANGLE to be a structure with two fields, HEIGHT and WIDTH. The symbol RECTANGLE becomes the name of a data type and each rectangle will be of type RECTANGLE, then STRUCTURE, then ATOM and then T. =DEFSTRUCT= generates four associated functions:
 
 1. RECTANGLE-HEIGHT and RECTANGLE-WIDTH to access elements of the
    structure
 
-2. RECTANGLE-P to test whether an object is of type rectangle
+2. RECTANGLE-P to test whether an object is of type RECTANGLE
 
 3. MAKE-RECTANGLE to create rectangles
 
@@ -1212,8 +1212,7 @@ Below is an example of the above structure.
 
 #+begin_src lisp
 
-  ;; Height will default to NIL
-  ;; Width will default to 5 
+  ;; Height will default to NIL while width will default to 5 
 
   (defstruct rectangle (height)
 	     (width 5))
@@ -1308,9 +1307,9 @@ We can add methods to classes with a combination of =DEFGENERIC= and =DEFMETHOD=
     
 #+end_src
 
-In creating specialised methods, we add the parameter type to the parameter list. In a method call, Lisp will then use the method which matches the parameter types of the parameters supplied in the method call.
+In creating specialised methods, we add the parameter type to the parameter list. In a method call, LISP will then use the method which matches the parameter types of the parameters supplied in the method call.
 
-In the below, GUEST-NAME is a parameter of type person, while MESSAGE is a parameter that is not specialised and can be anything.
+In the below, GUEST-NAME is a parameter of type PERSON, while MESSAGE is a parameter that is not specialised and can be anything.
 
 #+begin_src lisp
 
