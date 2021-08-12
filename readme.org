@@ -1048,71 +1048,70 @@ Strings are vectors of characters, denoted with double quotes (e.g. "my-string")
 
 #+end_src
 
-** Keyword Arguments
-
-Many list and sequence (list, strings, arrays) functions take one or more keyword arguments from the below table. For example, we can use POSITION to return the position of an element within a sequenc (or NIL if not found) and use keyword arguments to determine where to begin the search:
-
-#+begin_src lisp
-
-  (position #\a "fantasia" :start 3 :end 7) ; Returns 4
-  
-#+end_src
-
-| Parameter | Position                            | Default  |
-|-----------+-------------------------------------+----------|
-| :key      | A function to apply to each element | identity |
-| :test     | The test function for comparison    | eql      |
-| :from-end | If true, work backwards             | nil      |
-| :start    | Position at which to start          | 0        |
-| :end      | Position, if any, at which to stop  | nil      |
 ** Sequence Functions
 
 Sequences have many useful functions. We can use =LENGTH= to return the number of items in a sequence. The below returns 6:
 
 #+begin_src lisp
-(length '(a b c d e f))
+
+  (length '(a b c d e f))
+  
 #+end_src
 
 =REMOVE= and its variants are very handy filter functions. The below returns (C R T) as a new list:
 
 #+begin_src lisp
- (remove 'a '(c a r a t))
+
+  (remove 'a '(c a r a t))
+  
 #+end_src
 
-The below returns "cdbra", preserving only the last duplicate:
+The below returns "cdbra", preserving only the last duplicate of each item:
 
 #+begin_src lisp
-(remove-duplicates "abracadabra")
+
+  (remove-duplicates "abracadabra")
+  
 #+end_src
 
 The below returns (2 4 4) by removing all odd numbers:
 
 #+begin_src lisp
+
   (remove-if #'oddp '(1 2 3 4 4))
+  
 #+end_src
 
 =SUBSEQ= can extract a portion of a sequence. Its arguments are a list, the starting position and an optional ending position (which is not to be included in the subsequence). The below will return (B C D):
 
 #+begin_src lisp
+
   (subseq '(a b c d e f) 1 4)
+  
 #+end_src
 
 =SORT= takes a sequence and a comparison function of two arguments and destructively (i.e. by modifying the original sequence) returns a sequence sorted according to the function. The below returns (6 5 4 2 1) by sorting in descending order:
 
 #+begin_src lisp
-  (sort '(1 4 2 5 6) #'>) 
+
+  (sort '(1 4 2 5 6) #'>)
+  
 #+end_src
 
 The functions =EVERY= and =SOME= test whether a sequence satisfies a provided predicate. The below will return NIL as not every item is odd:
 
 #+begin_src lisp
+
   (every #'oddp '( 1 2 5))
+  
 #+end_src
 
 The below will return T as some of the items are odd:
 
 #+begin_src lisp
+
   (some #'oddp '( 1 2 5))
+  
 #+end_src
 
 The below will return T as the items of the first sequence are greater than those of the second sequence in an element-wise comparison:
@@ -1155,7 +1154,25 @@ We can use =SEARCH= to search for sequence within another. The below returns 4, 
 
 #+end_src
 
+** Keyword Arguments
+Many list and sequence functions take one or more keyword arguments from the below table. For example, we can use =POSITION= to return the position of an element within a sequenc (or NIL if not found) and use keyword arguments to determine where to begin the search.
 
+The below will return 4:
+
+#+begin_src lisp
+
+  (position #\a "fantasia" :start 3 :end 7)
+  
+#+end_src
+
+| Parameter | Position                            | Default  |
+|-----------+-------------------------------------+----------|
+| :key      | A function to apply to each element | identity |
+| :test     | The test function for comparison    | eql      |
+| :from-end | If true, work backwards             | nil      |
+| :start    | Position at which to start          | 0        |
+| :end      | Position, if any, at which to stop  | nil      |
+|           |                                     |          |
 * Data Structures
 ** Hash Tables
 A hash table is a way of associating pairs of objects, like a dictionary. The objects stored in a hash table or used as keys can be of any type. We can make hastables with =MAKE-HASH-TABLE= and retrieve values associated with a given key with =GETHASH=:
