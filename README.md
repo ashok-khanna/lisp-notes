@@ -1,61 +1,61 @@
 
 # Table of Contents
 
-1.  [The Basics](#org3108ceb)
-    1.  [Global Variables](#orgd7aacd7)
-    2.  [Global Functions](#org3a7fb5f)
-    3.  [Assignment](#org66f9d86)
-    4.  [Input & Output](#orga6e3662)
-    5.  [Numerical Functions](#org476ddcd)
-    6.  [Text Functions](#orgac7a83f)
-2.  [Logic & Equality](#org580cca5)
-    1.  [Predicates & Type](#org2f5030a)
-    2.  [Logic](#org7db40cd)
-    3.  [Equality](#org20a871d)
-    4.  [Blocks](#org8074291)
-    5.  [Conditionals](#org8a34537)
-3.  [Looping](#org0d35c8b)
-    1.  [Basic Looping](#org291b14c)
-    2.  [Advanced Looping](#orgb1b2d43)
-4.  [Local Variables & Functions](#org2b7da1c)
-    1.  [Local Variables](#org246a223)
-    2.  [Local Functions](#org4aba5bc)
-5.  [More on Functions](#org9184f7e)
-    1.  [Lambda Expressions](#org8957b89)
-    2.  [Function Parameters](#orgb97f918)
-    3.  [Multiple Values](#org062c0ae)
-    4.  [Apply & Funcall](#orga2c01e5)
-    5.  [Mapping Functions](#org2a4a5ef)
-6.  [More on Lists](#org8c0ce95)
-    1.  [List Functions](#orgfd55332)
-    2.  [Push, Pop & Reverse](#org58468b3)
-    3.  [Keyword Arguments](#org02ad982)
-    4.  [Association Lists](#org8cda7a5)
-7.  [More on Sequences](#orge3357b6)
-    1.  [Arrays](#orgc790e36)
-    2.  [Strings](#orgdacbff3)
-    3.  [Sequence Functions](#orga9c30ae)
-8.  [Data Structures](#orgac8f701)
-    1.  [Hash Tables](#orgc15c308)
-    2.  [Structures](#orgb28d9bf)
-    3.  [Common Lisp Object System (CLOS)](#org7afe29b)
-9.  [Other](#org118e365)
-    1.  [Reading & Writing to Files](#orga02c86f)
-    2.  [Packages](#org96b2f39)
+1.  [The Basics](#org08621eb)
+    1.  [Global Variables](#org4558572)
+    2.  [Global Functions](#org534c878)
+    3.  [Assignment](#org3903021)
+    4.  [Input & Output](#org7598712)
+    5.  [Numerical Functions](#orgfb50fac)
+    6.  [Text Functions](#org2eff181)
+2.  [Logic & Equality](#orge75ce89)
+    1.  [Predicates & Type](#orgbc07577)
+    2.  [Logic](#org6004d41)
+    3.  [Equality](#org335918f)
+    4.  [Blocks](#orgaaafe15)
+    5.  [Conditionals](#org9b334c7)
+3.  [Looping](#org21ad5bf)
+    1.  [Basic Looping](#org1fc68a8)
+    2.  [Advanced Looping](#orgc6ea1d7)
+4.  [Local Variables & Functions](#org08842e1)
+    1.  [Local Variables](#org3a01a23)
+    2.  [Local Functions](#org4ef2353)
+5.  [More on Functions](#org595825a)
+    1.  [Lambda Expressions](#org940e89e)
+    2.  [Function Parameters](#org6bf69cf)
+    3.  [Multiple Values](#orgf022319)
+    4.  [Apply & Funcall](#orgd16ce5a)
+    5.  [Mapping Functions](#org3a05519)
+6.  [More on Lists](#orgec5bb77)
+    1.  [List Functions](#orga248967)
+    2.  [Push, Pop & Reverse](#org5e5db9c)
+    3.  [Association Lists](#orgbf549c6)
+7.  [More on Sequences](#orga65b95d)
+    1.  [Arrays](#org1ab0688)
+    2.  [Strings](#org915bfd6)
+    3.  [Keyword Arguments](#org14dd804)
+    4.  [Sequence Functions](#orgb672ac6)
+8.  [Data Structures](#org1902975)
+    1.  [Hash Tables](#org4158b7c)
+    2.  [Structures](#orge38aa2b)
+    3.  [Common Lisp Object System (CLOS)](#orgb4b1631)
+9.  [Other](#org204c1a9)
+    1.  [Reading & Writing to Files](#orge1c5b1f)
+    2.  [Packages](#org9e56b7e)
 
 
-<a id="org3108ceb"></a>
+<a id="org08621eb"></a>
 
 # The Basics
 
 
-<a id="orgd7aacd7"></a>
+<a id="org4558572"></a>
 
 ## Global Variables
 
 We can define global variables with `DEFPARAMETER` and `DEFVAR`. `DEFPARAMETER` will always bind the supplied value, while `DEFVAR` will only bind a value to a variable if no binding exists.
 
- ```lisp   
+    
     ;; Establish an unbound variable
     
     (defvar *x*)
@@ -67,7 +67,6 @@ We can define global variables with `DEFPARAMETER` and `DEFVAR`. `DEFPARAMETER` 
     ;; Does nothing as X already bound
     
     (defvar *x* 10)
-```
 
 We can define global constants with `DEFCONSTANT`:
 
@@ -75,7 +74,7 @@ We can define global constants with `DEFCONSTANT`:
     (defconstant +my-constant+ 20)
 
 
-<a id="org3a7fb5f"></a>
+<a id="org534c878"></a>
 
 ## Global Functions
 
@@ -98,7 +97,7 @@ Below is example of a function that multiplies the sum of two numbers by 10.
     (multiply-sum-by-10 5 10)
 
 
-<a id="org66f9d86"></a>
+<a id="org3903021"></a>
 
 ## Assignment
 
@@ -129,7 +128,7 @@ Below are some examples.
     *list*
 
 
-<a id="orga6e3662"></a>
+<a id="org7598712"></a>
 
 ## Input & Output
 
@@ -191,7 +190,7 @@ This is best illustrated by the following examples. Note how Bob is quoted in th
     (format nil "~A ~A" "Number is:" (+ 1 2))
 
 
-<a id="org476ddcd"></a>
+<a id="orgfb50fac"></a>
 
 ## Numerical Functions
 
@@ -259,7 +258,7 @@ Other useful functions are below. More details on numerical operations can be fo
     (abs -3)
 
 
-<a id="orgac7a83f"></a>
+<a id="org2eff181"></a>
 
 ## Text Functions
 
@@ -332,12 +331,12 @@ Below are comparison functions for strings. Replace STRING with CHAR in the belo
 </table>
 
 
-<a id="org580cca5"></a>
+<a id="orge75ce89"></a>
 
 # Logic & Equality
 
 
-<a id="org2f5030a"></a>
+<a id="orgbc07577"></a>
 
 ## Predicates & Type
 
@@ -351,7 +350,7 @@ One can get the data types of a LISP object with `TYPE-0F` and test whether a ob
 Other type predicate functions include ATOM, NULL, ZEROP, NUMBERP, EVENP, LISTP, ARRAYP, PLUSP, CHARACTERP, ODDP, SYMBOLP, PACKAGEP, MINUSP, STRINGP and ODDP.
 
 
-<a id="org7db40cd"></a>
+<a id="org6004d41"></a>
 
 ## Logic
 
@@ -367,7 +366,7 @@ The function `AND` returns `NIL` if any of its arguments are false and returns t
     (or nil (+ 1 2) (* 1 5))
 
 
-<a id="org20a871d"></a>
+<a id="org335918f"></a>
 
 ## Equality
 
@@ -384,7 +383,7 @@ Common Lisp has a few different functions for testing equality of two objects. G
 -   `=` is the most efficient way to compare numbers, and the only way to compare numbers of disparate types, such as 3 and 3.0. It only accepts numbers.
 
 
-<a id="org8074291"></a>
+<a id="orgaaafe15"></a>
 
 ## Blocks
 
@@ -422,7 +421,7 @@ The `RETURN` macro returns its argument as the value of an enclosing `BLOCK` nam
 The value of the last expression is returned by the block (unless modified by `RETURN` or `RETURN-FROM`). All other expressions in the block are thus only useful for their side effects.
 
 
-<a id="org8a34537"></a>
+<a id="org9b334c7"></a>
 
 ## Conditionals
 
@@ -473,12 +472,12 @@ Example of a `CASE` form (multiple ifs on the one variable, implicit `PROGN`). C
       (otherwise "Not a odd number < 10"))
 
 
-<a id="org0d35c8b"></a>
+<a id="org21ad5bf"></a>
 
 # Looping
 
 
-<a id="org291b14c"></a>
+<a id="org1fc68a8"></a>
 
 ## Basic Looping
 
@@ -503,7 +502,7 @@ In the below example, `DOTIMES` will iterate my-variable from 0 to one less than
       (print i))
 
 
-<a id="orgb1b2d43"></a>
+<a id="orgc6ea1d7"></a>
 
 ## Advanced Looping
 
@@ -601,12 +600,12 @@ Below are examples of the `LOOP` macro, some from [Peter D. Karp's Guide](http:/
           else do (format t "~A" x))
 
 
-<a id="org2b7da1c"></a>
+<a id="org08842e1"></a>
 
 # Local Variables & Functions
 
 
-<a id="org246a223"></a>
+<a id="org3a01a23"></a>
 
 ## Local Variables
 
@@ -630,7 +629,7 @@ An example of `LET*` in use:
       (print y))
 
 
-<a id="org4aba5bc"></a>
+<a id="org4ef2353"></a>
 
 ## Local Functions
 
@@ -655,12 +654,12 @@ Functions defined within `LABELS` take a similar format to a `DEFUN` form. Withi
          (third-function 3))) 
 
 
-<a id="org9184f7e"></a>
+<a id="org595825a"></a>
 
 # More on Functions
 
 
-<a id="org8957b89"></a>
+<a id="org940e89e"></a>
 
 ## Lambda Expressions
 
@@ -674,7 +673,7 @@ Lambda expressions allow us to create unnamed functions. These are useful when w
      1)
 
 
-<a id="orgb97f918"></a>
+<a id="org6bf69cf"></a>
 
 ## Function Parameters
 
@@ -723,7 +722,7 @@ We can utilise multiple tokens in the same function call, as long as we declare 
 4.  Finally the keyword parameters are declared.
 
 
-<a id="org062c0ae"></a>
+<a id="orgf022319"></a>
 
 ## Multiple Values
 
@@ -750,7 +749,7 @@ The `MULTIPLE-VALUE-BIND` macro is used to receive multiple values. The first ar
 If there are more variables than values, the leftover variables will be bound to NIL. If there are more values than variables, the extra values will be discarded. 
 
 
-<a id="orga2c01e5"></a>
+<a id="orgd16ce5a"></a>
 
 ## Apply & Funcall
 
@@ -789,7 +788,7 @@ The function `FUNCALL` is similar to `APPLY`, but allows us to pass arguments in
     (funcall #'+ 1 2 3)
 
 
-<a id="org2a4a5ef"></a>
+<a id="org3a05519"></a>
 
 ## Mapping Functions
 
@@ -823,12 +822,12 @@ Below are a couple of examples.
          '(1 2 3 4))
 
 
-<a id="org8c0ce95"></a>
+<a id="orgec5bb77"></a>
 
 # More on Lists
 
 
-<a id="orgfd55332"></a>
+<a id="orga248967"></a>
 
 ## List Functions
 
@@ -906,7 +905,7 @@ The function `REDUCE` is useful to extend functions that only take two variables
     (reduce #'intersection '((b r a d) (b a d) (c a t)))
 
 
-<a id="org58468b3"></a>
+<a id="org5e5db9c"></a>
 
 ## Push, Pop & Reverse
 
@@ -939,7 +938,121 @@ We can use lists as pushdown stacks. The macro PUSH can be used to push an eleme
     (reverse '(a b c d e f))
 
 
-<a id="org02ad982"></a>
+<a id="orgbf549c6"></a>
+
+## Association Lists
+
+Association lists are a very useful data structure for mapping values to keys. They are lists of pairs (i.e. conses), with the key being the CAR of the pair and the datum being the CDR of the pair.
+
+    
+    ;; Example of an a-list:
+    
+    (defvar my-a-list '((one . 1) (two . 2)))
+    
+    ;; Add an entry to the front of an a-list
+    ;; Returns ((one . 1) (two . 2) (three . 3))
+    
+    (acons three 3 my-a-list)
+    
+    ;; Create an a-list from lists of keys & datums:
+    
+    (pairlis '(one two three) '(1 2 3))
+    
+    ;; Return the pair associated with a key:
+    ;; Below returns (one . 1)
+    
+    (assoc 'one my-a-list)
+    
+    ;; Find the first pair associated with a datum:
+    ;; Returns (two . 2)
+    
+    (rassoc 2 my-a-list :test #'=)
+
+
+<a id="orga65b95d"></a>
+
+# More on Sequences
+
+
+<a id="org1ab0688"></a>
+
+## Arrays
+
+The function MAKE-ARRAY allows us to create arrays. For example, we can create a 2 x 3 array as follows:
+
+    
+    (defparameter my-array
+      (make-array '(2 3) :initial-element nil))
+
+The functions AREF and SETF allow us to access elements and set them with values:
+
+    
+    ;; Returns NIL
+    
+    (aref my-array 0 0)
+    
+    
+    ;; Set (0,0) to B
+    
+    (setf (aref my-array 0 0) 'b)
+    
+    
+    ;; Returns B
+    
+    (aref my-array 0 0)
+
+The functions ARRAY-RANK and ARRAY-DIMENSION retrieve the the number of dimensions and the number of elements in a given dimension respectively:
+
+    
+    (setf my-array
+          (make-array '(2 3)
+    		  :initial-element '((1 2 3) (1 2 3))))
+    
+    ;; Returns 2
+    
+    (array-rank my-array))
+    
+    ;; Returns 2
+    
+    (array-dimension my-array 0)
+    
+    ;; Returns 3
+    
+    (array-dimension my-array 1)
+
+We use :INITIAL-ELEMENT to set the value of every element of an array to the provided argument, while we use :INITIAL-CONTENTS to set the array to the object provided. A one-dimensional array is a vector and can be created with either of the following.
+
+    
+    (vector "a" 'b 3)
+    
+    (defparameter my-vector
+      (make-array 3 :initial-contents '("a" 'b 3)))
+
+Finally, we can create a literal array using the #na syntax, where n is the number of dimensions:
+
+    
+    ;; Returns ((B NIL NIL) (1 2 3))
+    
+    #2a((b nil nil) (1 2 3))
+
+
+<a id="org915bfd6"></a>
+
+## Strings
+
+Strings are vectors of characters, denoted with double quotes (e.g. "my-string"). Strings evaluate to themselves. A character such as c is denoted as #\c. Each character has an associated integer that is usually (but not necessarily) its ASCII number:
+
+    
+    ;; Returns 99
+    
+    (char-code #\c)
+    
+    ;; Returns #\c
+    
+    (code-char 99) 
+
+
+<a id="org14dd804"></a>
 
 ## Keyword Arguments
 
@@ -1004,121 +1117,7 @@ Many list and sequence (list, strings, arrays) functions take one or more keywor
 </table>
 
 
-<a id="org8cda7a5"></a>
-
-## Association Lists
-
-Association lists are a very useful data structure for mapping values to keys. They are lists of pairs (i.e. conses), with the key being the CAR of the pair and the datum being the CDR of the pair.
-
-    
-    ;; Example of an a-list:
-    
-    (defvar my-a-list '((one . 1) (two . 2)))
-    
-    ;; Add an entry to the front of an a-list
-    ;; Returns ((one . 1) (two . 2) (three . 3))
-    
-    (acons three 3 my-a-list)
-    
-    ;; Create an a-list from lists of keys & datums:
-    
-    (pairlis '(one two three) '(1 2 3))
-    
-    ;; Return the pair associated with a key:
-    ;; Below returns (one . 1)
-    
-    (assoc 'one my-a-list)
-    
-    ;; Find the first pair associated with a datum:
-    ;; Returns (two . 2)
-    
-    (rassoc 2 my-a-list :test #'=)
-
-
-<a id="orge3357b6"></a>
-
-# More on Sequences
-
-
-<a id="orgc790e36"></a>
-
-## Arrays
-
-The function MAKE-ARRAY allows us to create arrays. For example, we can create a 2 x 3 array as follows:
-
-    
-    (defparameter my-array
-      (make-array '(2 3) :initial-element nil))
-
-The functions AREF and SETF allow us to access elements and set them with values:
-
-    
-    ;; Returns NIL
-    
-    (aref my-array 0 0)
-    
-    
-    ;; Set (0,0) to B
-    
-    (setf (aref my-array 0 0) 'b)
-    
-    
-    ;; Returns B
-    
-    (aref my-array 0 0)
-
-The functions ARRAY-RANK and ARRAY-DIMENSION retrieve the the number of dimensions and the number of elements in a given dimension respectively:
-
-    
-    (setf my-array
-          (make-array '(2 3)
-    		  :initial-element '((1 2 3) (1 2 3))))
-    
-    ;; Returns 2
-    
-    (array-rank my-array))
-    
-    ;; Returns 2
-    
-    (array-dimension my-array 0)
-    
-    ;; Returns 3
-    
-    (array-dimension my-array 1)
-
-We use :INITIAL-ELEMENT to set the value of every element of an array to the provided argument, while we use :INITIAL-CONTENTS to set the array to the object provided. A one-dimensional array is a vector and can be created with either of the following.
-
-    
-    (vector "a" 'b 3)
-    
-    (defparameter my-vector
-      (make-array 3 :initial-contents '("a" 'b 3)))
-
-Finally, we can create a literal array using the #na syntax, where n is the number of dimensions:
-
-    
-    ;; Returns ((B NIL NIL) (1 2 3))
-    
-    #2a((b nil nil) (1 2 3))
-
-
-<a id="orgdacbff3"></a>
-
-## Strings
-
-Strings are vectors of characters, denoted with double quotes (e.g. "my-string"). Strings evaluate to themselves. A character such as c is denoted as #\c. Each character has an associated integer that is usually (but not necessarily) its ASCII number:
-
-    
-    ;; Returns 99
-    
-    (char-code #\c)
-    
-    ;; Returns #\c
-    
-    (code-char 99) 
-
-
-<a id="orga9c30ae"></a>
+<a id="orgb672ac6"></a>
 
 ## Sequence Functions
 
@@ -1196,12 +1195,12 @@ We can find elements within a sequence with `FIND`, which returns the leftmost s
     (search "Hello" "Hi! Hello, World!")
 
 
-<a id="orgac8f701"></a>
+<a id="org1902975"></a>
 
 # Data Structures
 
 
-<a id="orgc15c308"></a>
+<a id="org4158b7c"></a>
 
 ## Hash Tables
 
@@ -1231,7 +1230,7 @@ Finally, the function MAPHASH allows you to iterate over all entries in the hash
     	 my-hash-table)
 
 
-<a id="orgb28d9bf"></a>
+<a id="orge38aa2b"></a>
 
 ## Structures
 
@@ -1279,7 +1278,7 @@ Below is an example of the above structure.
     rectangle-2
 
 
-<a id="org7afe29b"></a>
+<a id="orgb4b1631"></a>
 
 ## Common Lisp Object System (CLOS)
 
@@ -1362,12 +1361,12 @@ Finally, it is useful to create custom print output for CLOS objects. This can b
       (print person-1)
 
 
-<a id="org118e365"></a>
+<a id="org204c1a9"></a>
 
 # Other
 
 
-<a id="orga02c86f"></a>
+<a id="orge1c5b1f"></a>
 
 ## Reading & Writing to Files
 
@@ -1436,7 +1435,7 @@ The following open arguments can be supplied to the `WITH-OPEN-FILE` macro:
 </table>
 
 
-<a id="org96b2f39"></a>
+<a id="org9e56b7e"></a>
 
 ## Packages
 
