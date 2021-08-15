@@ -1319,7 +1319,7 @@ The below returns (2 4 4) by removing all odd numbers:
 
 ```lisp
 
-(sort '(1 4 2 5 6) #'>)
+(sort (list 1 4 2 5 6) #'>)
 
 ```
 
