@@ -1,6 +1,6 @@
 # Custom Indentation in Emacs
 
-Today we will briefly illustrate how to **customise the indentation of your Common Lisp macros within Emacs**.
+Today we will briefly illustrate how to customise the indentation of your Common Lisp macros within Emacs.
 
 We will customise the indentation of a user-defined `WITH` macro as an example. I wrote the `WITH` macro to streamlime some of my `LET` forms where I was sharing variable and function names as illustrated in the following example.
 
