@@ -54,7 +54,7 @@ Below is what our `WITH` macro looks like after customising its indentation. Loo
     (format t "Car color of model ~a is ~a" car-model car-color)))
 ```
 
-And that concludes our short guide! You may need some more complex functionality, in which case some of the below references[^1][^2][^3] may be useful.
+And that concludes our short guide! You may need some more complex functionality, in which case some of the below references may be useful[^1][^2][^3].
 
 ## Appendix: The With Macro
 ```lisp
