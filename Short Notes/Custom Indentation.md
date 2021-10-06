@@ -45,7 +45,7 @@ Fortunately, the fix is relatively easy and the answer lies in [cl-indent.el](ht
 Whilst this looks complicated, there is a simple trick. Simply read [cl-indent.el](https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/cl-indent.el) and copy/paste its indentation rules from a relevant form whose indentation we wish to replicate. For example, [the indentation for a LET form is what we need here](https://github.com/emacs-mirror/emacs/blob/8d53c23f90aab6e527c61137ae43274c7a36eca7/lisp/emacs-lisp/cl-indent.el#L787).
 
 ## Correct Customised Indentation
-Below is what our `WITH` macro looks like after customising its indentation. Looks much better now :-)
+Below is what our WITH macro looks like after customising its indentation. Looks much better now :-)
 
 ```lisp
 (defun print-car-details (car)
