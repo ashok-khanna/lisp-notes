@@ -4,7 +4,7 @@ Today we will briefly illustrate how to customise the indentation of your Common
 
 We will customise the indentation of a user-defined WITH macro as an example. I wrote the WITH macro to streamlime some of my LET forms where I was sharing variable and function names as illustrated in the following example.
 
-## 1: Example of With Macro
+## 1. Example of With Macro
 
 ```lisp
 
@@ -23,7 +23,7 @@ We will customise the indentation of a user-defined WITH macro as an example. I 
     (format t "Car color of model ~a is ~a" car-model car-color)))
 ```
 
-## 2: Incorrect Default Indentation
+## 2. Incorrect Default Indentation
 
 However, without prior knowledge of this macro, Emacs would indent it undesirably as follows.
 
@@ -34,7 +34,7 @@ However, without prior knowledge of this macro, Emacs would indent it undesirabl
         (format t "Car color of model ~a is ~a" car-model car-color)))
 ```
 
-## 3: The Fix
+## 3. The Fix
 
 Fortunately, the fix is relatively easy and the answer lies in [cl-indent.el](https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/cl-indent.el). We simply need to evaluate the following Elisp code, or better yet, add the below to our Emacs configuration settings.
 
@@ -44,7 +44,7 @@ Fortunately, the fix is relatively easy and the answer lies in [cl-indent.el](ht
 
 Whilst this looks complicated, there is a simple trick. Simply read [cl-indent.el](https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/cl-indent.el) and copy/paste its indentation rules from a relevant form whose indentation we wish to replicate. For example, [the indentation for a LET form is what we need here](https://github.com/emacs-mirror/emacs/blob/8d53c23f90aab6e527c61137ae43274c7a36eca7/lisp/emacs-lisp/cl-indent.el#L787).
 
-## 4: Correct Customised Indentation
+## 4. Correct Customised Indentation
 Below is what our WITH macro looks like after customising its indentation. Looks much better now :-)
 
 ```lisp
