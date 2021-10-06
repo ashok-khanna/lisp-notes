@@ -1,8 +1,10 @@
 # Custom Indentation in Emacs
 
-Today we will briefly touch upon how to customise the indentation of your Common Lisp macros within Emacs. We will customise the indentation of a user-defined `WITH` macro as an example. We assume that you have a normally setup Emacs / Slime environment for Common Lisp development.
+Today we will briefly illustrate how to **customise the indentation of your Common Lisp macros within Emacs**.
 
-I wrote the `WITH` macro to streamlime some of my `LET` forms where I was sharing variable and function names as illustrated in the following examples.
+We will customise the indentation of a user-defined `WITH` macro as an example. I wrote the `WITH` macro to streamlime some of my `LET` forms where I was sharing variable and function names as illustrated in the following example.
+
+## Example of With Macro
 
 ```lisp
 
@@ -21,6 +23,8 @@ I wrote the `WITH` macro to streamlime some of my `LET` forms where I was sharin
     (format t "Car color of model ~a is ~a" car-model car-color)))
 ```
 
+## Incorrect Default Indentation
+
 However, without prior knowledge of this macro, Emacs would indent it undesirably as follows.
 
 ```lisp
@@ -29,6 +33,8 @@ However, without prior knowledge of this macro, Emacs would indent it undesirabl
          (car-model car)))
         (format t "Car color of model ~a is ~a" car-model car-color)))
 ```
+
+## The Fix
 
 Fortunately, the fix is relatively easy and the answer lies in `cl-indent.el`[^1]. We simply need to evaluate the following Elisp code, or better yet, add the below to our Emacs load process (either by adding to your `.emacs` file or by creating a file of all custom indentation rules and loading that file within your `.emacs` file).
 
@@ -40,6 +46,7 @@ Fortunately, the fix is relatively easy and the answer lies in `cl-indent.el`[^1
 
 Indeed it is not. However, there is a simple trick. Simply read `cl-indent.el` and copy/paste its indentation rules from a relevant form whose indentation we wish to replicate. For example, [the indentation for a LET form](https://github.com/emacs-mirror/emacs/blob/8d53c23f90aab6e527c61137ae43274c7a36eca7/lisp/emacs-lisp/cl-indent.el#L787) is what we need here.
 
+## Correct Customised Indentation
 Below is what our `WITH` macro looks like after customising its indentation. Looks much better now :-)
 
 ```lisp
