@@ -2,6 +2,8 @@
 
 Today we will briefly illustrate how to customise the indentation of your Common Lisp macros within Emacs.
 
+**Note**: Reddit user Aidenn0 kindly pointed out "Note that with slime/sly it will indent the macro properly so long as the macro is already defined in the image you are debugging.", which renders the below unnecessary in many instances :-)
+
 We will customise the indentation of a user-defined WITH macro as an example. I wrote the WITH macro to streamlime some of my LET forms where I was sharing variable and function names as illustrated in the following example.
 
 ## Example of With Macro
