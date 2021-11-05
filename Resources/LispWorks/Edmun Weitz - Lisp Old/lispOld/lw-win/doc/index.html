@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>LW-WIN - Some Win32-specific functions for LispWorks</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
+  a.none { text-decoration: none; padding: 0; }
+  a.none:visited { text-decoration: none; padding: 0; } 
+  a.none:hover { text-decoration: none; border: none; padding: 0; } 
+  a.none:focus { text-decoration: none; border: none; padding: 0; } 
+  a.noborder { text-decoration: none; padding: 0; } 
+  a.noborder:visited { text-decoration: none; padding: 0; } 
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  pre.none { padding:5px; background-color:#ffffff }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2> LW-WIN - Some Win32-specific functions for LispWorks</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+LW-WIN is a collection of
+re-usable <a href="http://en.wikipedia.org/wiki/Windows_API">Win32</a>-specific
+functions and macros I wrote for various projects.
+<p>
+The code has been developed and used
+with <a href="http://www.lispworks.com">LispWorks</a>&nbsp;4.4.6,
+5.0.2, and&nbsp;5.1 for Windows.
+<p>
+It comes with
+a <a href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+<p>
+<font color=red>Download shortcut:</font> <a href="http://weitz.de/files/lw-win.tar.gz">http://weitz.de/files/lw-win.tar.gz</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#download">Download and installation</a>
+  <li><a href="#index">Symbol index</a>
+  <li><a href="#colors">Colors</a>
+  <li><a href="#locales">Locales</a>
+  <li><a href="#map">Mapping files</a>
+  <li><a href="#conditions">Conditions</a>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+<br>&nbsp;<br><h3><a class=none name="download">Download and installation</a></h3>
+
+LW-WIN together with this documentation can be downloaded from <a
+href="http://weitz.de/files/lw-win.tar.gz">http://weitz.de/files/lw-win.tar.gz</a>. The
+current version is 0.1.1.
+<p>LW-WIN comes with a system definition
+for <a href="http://www.cliki.net/asdf">ASDF</a> and with one for
+LispWorks' <a
+href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser-195.htm"><em>Common
+Defsystem</em></a>.
+
+<br>&nbsp;<br><h3><a class=none name="colors">Colors</a></h3>
+
+<!-- Entry for GET-SYS-COLOR -->
+
+<p><br>[Function]<br><a class=none name='get-sys-color'><b>get-sys-color</b> <i>index</i> =&gt; <i>color-spec</i></a>
+<blockquote><br>
+
+Returns
+a <a href="http://www.lispworks.com/products/capi.html">CAPI</a> RGB
+<a href="http://www.lispworks.com/documentation/lw51/CAPUG-W/html/capiuser-w-166.htm">color
+specification</a> corresponding to the integer
+identifier <code><i>index</i></code> if the color is supported.
+Returns <code>NIL</code> otherwise.
+<p>
+<code><i>index</i></code> should be one of the constants listed <a href="#+color-highlight+">below</a>.
+<p>
+See the code of the <a href="http://weitz.de/midgets/">MIDGETS</a> library for
+an example usage of this function.
+
+</blockquote>
+
+<p><br>[Constants]<br><a class=none name='+color-highlight+'><b>+color-highlight+</b></a>
+<br><a class=none name='+color-highlighttext+'><b>+color-highlighttext+</b></a>
+<br><a class=none name='+color-inactivecaption+'><b>+color-inactivecaption+</b></a>
+<br><a class=none name='+color-inactivecaptiontext+'><b>+color-inactivecaptiontext+</b></a>
+<br><a class=none name='+color-window+'><b>+color-window+</b></a>
+<br><a class=none name='+color-windowtext+'><b>+color-windowtext+</b></a>
+<blockquote><br>
+
+These are values that can be used for the <code><i>index</i></code> parameter in
+<a href="#get-sys-color"><code>GET-SYS-COLOR</code></a>.  They
+correspond to the Win32 constants with the "same" (except for hyphens
+etc.) name, so their meaning should be fairly obvious.
+
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="locales">Locales</a></h3>
+
+<!-- Entry for GET-MONTH-NAMES -->
+
+<p><br>[Function]<br><a class=none name='get-month-names'><b>get-month-names</b> <i></i> =&gt; <i>list</i></a>
+<blockquote><br>
+
+Returns a list of all twelve (long) month names (beginning with
+the name for January) as specified by the current Windows locale.
+
+</blockquote>
+
+<!-- End of entry for GET-MONTH-NAMES -->
+
+
+
+<!-- Entry for GET-WEEKDAY-NAMES -->
+
+<p><br>[Function]<br><a class=none name='get-weekday-names'><b>get-weekday-names</b> <i></i> =&gt; <i>list</i></a>
+<blockquote><br>
+
+Returns a list of all seven (long) weekday names (beginning with
+the name for Monday) as specified by the current Windows locale.
+
+</blockquote>
+
+<!-- End of entry for GET-WEEKDAY-NAMES -->
+
+<!-- Entry for GET-FIRST-DAY-OF-WEEK -->
+
+<p><br>[Function]<br><a class=none name='get-first-day-of-week'><b>get-first-day-of-week</b> <i></i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Returns the first day of the week as specified by the current
+Windows locale as an integer - 0 is Monday, 1 is Tuesday, and so on.
+
+</blockquote>
+
+<!-- End of entry for GET-FIRST-DAY-OF-WEEK -->
+
+<br>&nbsp;<br><h3><a class=none name="map">Mapping files</a></h3>
+
+
+<!-- Entry for WITH-MAPPED-FILE -->
+
+<p><br>[Macro]<br><a class=none name='with-mapped-file'><b>with-mapped-file</b> <i>(pointer pathspec <tt>&amp;key</tt> file-offset number-of-octets) declaration* statement*</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Executes the code in the body with <code><i>number-of-octets</i></code> octecs of the contents of the
+file denoted by the pathname designator <code><i>pathspec</i></code> beginning at octet
+position <code><i>file-offset</i></code> mapped into RAM.  The contents are accessible
+beginning at the position denoted by the <a href="http://www.lispworks.com/documentation/lw51/FLI/html/fli.htm">FLI</a> pointer <code><i>pointer</i></code>.
+<p>
+Note that not all values for <code><i>file-offset</i></code> are legal.  See the MSDN
+documentation for details.
+<p>
+See the <a href="http://weitz.de/cl-dongle/">CL-DONGLE</a> library for
+an example usage of this macro.
+
+</blockquote>
+
+<!-- End of entry for WITH-MAPPED-FILE -->
+
+<br>&nbsp;<br><h3><a class=none name="conditions">Conditions</a></h3>
+
+<!-- Entry for WIN32-CONDITION -->
+
+<p><br>[Condition type]<br><a class=none name='win32-condition'><b>win32-condition</b></a>
+<blockquote><br>
+
+Conditions of this type are signalled when errors
+resulting from calls into the Win32 API are caught.  The conditions
+contain <a href="#error-code">the original numerical error code</a> as well as <a href="#error-message">a human-readable
+string</a> explaining the type of the error.
+
+</blockquote>
+
+<!-- End of entry for WIN32-CONDITION -->
+
+
+<!-- Entry for ERROR-CODE -->
+
+<p><br>[Readers]<br><a class=none name='error-code'><b>error-code</b> <i>win32-condition</i> =&gt; <i>error-code</i></a>
+<br><a class=none name='error-message'><b>error-message</b> <i>win32-condition</i> =&gt; <i>error-message</i></a>
+<blockquote><br>
+
+Readers to access the original error code and message of a <a href="#win32-condition"><code>WIN32-CONDITION</code></a>.
+
+</blockquote>
+
+<!-- End of entry for ERROR-MESSAGE -->
+
+
+<!-- Entry for WIN32-ERROR -->
+
+<p><br>[Condition type]<br><a class=none name='win32-error'><b>win32-error</b></a>
+<blockquote><br>
+
+A subclass of <a href="#win32-condition"><code>WIN32-CONDITION</code></a> for errors.
+
+</blockquote>
+
+<!-- End of entry for WIN32-ERROR -->
+
+
+<!-- Entry for WIN32-WARNING -->
+
+<p><br>[Condition type]<br><a class=none name='win32-warning'><b>win32-warning</b></a>
+<blockquote><br>
+
+A subclass of <a href="#win32-condition"><code>WIN32-CONDITION</code></a> for warnings.
+
+</blockquote>
+
+<!-- End of entry for WIN32-WARNING -->
+
+<!-- Entry for SIGNAL-LAST-ERROR -->
+
+<p><br>[Function]<br><a class=none name='signal-last-error'><b>signal-last-error</b> <i><tt>&amp;key</tt> error-code warnp format</i> =&gt; |</a>
+<blockquote><br>
+
+Retrieves the last error code from Windows (or
+uses <code><i>error-code</i></code> if supplied) and signals a
+corresponding Lisp error of
+type <a href="#win-32-error"><code>WIN-32-ERROR</code></a> (or a
+warning of
+type <a href="#win-32-warning"><code>WIN-32-WARNING</code></a>
+if <code><i>warnp</i></code> is true).
+<p>
+Uses <code><i>format</i></code> (if supplied)
+to <a href="http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm">format</a>
+the error message.
+<p>
+The default value
+for <code><i>error-code</i></code>, <code><i>warnp</i></code>,
+and <code><i>format</i></code> is <code>NIL</code>.
+
+</blockquote>
+
+<!-- End of entry for SIGNAL-LAST-ERROR -->
+
+<!-- Entry for WITH-ERROR-CHECK -->
+
+<p><br>[Macro]<br><a class=none name='with-error-check'><b>with-error-check</b> <i>() statement*</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Executes the code in the body and returns the result of the last form
+as <code><i>result</i></code>, but first checks
+<code><i>result</i></code>. It it is the number zero (0), a <a
+href="http://www.lispworks.com/documentation/lw60/FLI/html/fli-115.htm">null
+pointer</a>, or <code>NIL</code>, <a
+href="#signal-last-error"><code>SIGNAL-LAST-ERROR</code></a> is
+called.
+
+<p> This is a convenience macro for the many cases where a
+Win32 function returns zero or a null pointer in case of an error.
+
+</blockquote>
+
+<!-- End of entry for WITH-ERROR-CHECK -->
+
+
+<br>&nbsp;<br><h3><a class=none name="index">Symbol index</a></h3>
+
+Here are all exported symbols of LW-WIN in alphabetical order linked to their corresponding entries:
+
+    <ul>
+      <li><a href="#+color-highlight+"><code>+color-highlight+</code></a>
+      <li><a href="#+color-highlighttext+"><code>+color-highlighttext+</code></a>
+      <li><a href="#+color-inactivecaption+"><code>+color-inactivecaption+</code></a>
+      <li><a href="#+color-inactivecaptiontext+"><code>+color-inactivecaptiontext+</code></a>
+      <li><a href="#+color-window+"><code>+color-window+</code></a>
+      <li><a href="#+color-windowtext+"><code>+color-windowtext+</code></a>
+      <li><a href="#error-code"><code>error-code</code></a>
+      <li><a href="#error-message"><code>error-message</code></a>
+      <li><a href="#get-first-day-of-week"><code>get-first-day-of-week</code></a>
+      <li><a href="#get-month-names"><code>get-month-names</code></a>
+      <li><a href="#get-sys-color"><code>get-sys-color</code></a>
+      <li><a href="#get-weekday-names"><code>get-weekday-names</code></a>
+      <li><a href="#signal-last-error"><code>signal-last-error</code></a>
+      <li><a href="#win32-condition"><code>win32-condition</code></a>
+      <li><a href="#win32-error"><code>win32-error</code></a>
+      <li><a href="#win32-warning"><code>win32-warning</code></a>
+      <li><a href="#with-error-check"><code>with-error-check</code></a>
+      <li><a href="#with-mapped-file"><code>with-mapped-file</code></a>
+    </ul>
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+<p>
+This documentation was prepared with <a href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
+</p>
+<p>
+$Header: /usr/local/cvsrep/lw-win/doc/index.html,v 1.8 2010/08/10 17:31:03 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

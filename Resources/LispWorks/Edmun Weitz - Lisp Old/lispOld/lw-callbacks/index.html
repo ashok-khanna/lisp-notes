@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>Enabling "foreign" callbacks into the LispWorks IDE</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  a { text-decoration: none; }
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }  a.none { border:1px solid white; }
+  a.none { border:1px solid white; }
+  a.none:hover { border:1px solid white; }
+  a { border:1px solid white; }
+  a:hover   { border: 1px solid black; } 
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>Enabling "foreign" callbacks into the LispWorks IDE</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3> This
+document explains how to
+"rebuild" <a href="http://www.lispworks.com/">LispWorks</a> for
+Windows in such a way that threads which weren't created by Lisp can
+call back into Lisp.
+<p>
+The text <em>only</em> applies to Lispworks 4.4.6 and you'll need the
+<a
+href="http://www.lispworks.com/products/lispworks.html">Professional
+or Enterprise Edition</a> if you want to imitate what's shown here.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#why">Why would you want to do this?</a>
+  <li><a href="#disclaimer">Disclaimer</a>
+  <li><a href="#lisp">The Lisp part</a>
+  <li><a href="#c">The C part</a>
+  <li><a href="#download">I'm too lazy</a>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+<br>&nbsp;<br><h3><a name="why" class=none>Why would you want to do this?</a></h3>
+
+LispWorks uses native threads on Windows but
+usually <a
+href="http://www.lispworks.com/documentation/lw445/LWUG/html/lwuser-171.htm">you
+can only call back into Lisp in a thread that was created by Lisp</a>.
+According to the documentation, you can circumvent this if you deliver
+a DLL but it is not really clear (at least to me) if and how one can
+use the IDE for interactive development of programs (DLLs) that have
+to deal with such "foreign" callbacks.
+<p>
+Well, it turns out that you can
+use <a
+href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-214.htm"><code>SAVE-IMAGE</code></a>
+to save a Lisp image as a DLL and once you've figured out how to start
+this DLL from a small C&nbsp;"driver" you can have your cake and eat
+it too.  This is what the rest of the document is about.
+<p>
+Note: <a
+href="http://www.lispworks.com/news/news19.html">LispWorks&nbsp;5</a> <a
+href="http://article.gmane.org/gmane.lisp.lispworks.general/5093">doesn't
+need this workaround anymore</a>.
+
+<br>&nbsp;<br><h3><a name="disclaimer" class=none>Disclaimer</a></h3>
+
+Of course, if you do what I describe here, you do it at your own risk.
+I take no responsibility for anything that you may do as a result of
+reading this page the contents of which are provided 'as is' with no
+warranty. Yada, yada, yada...
+
+<br>&nbsp;<br><h3><a name="lisp" class=none>The Lisp part</a></h3>
+
+First, you have to create a file with Lisp code that'll take care of
+creating the DLL image.  Mine looks like this:
+
+<pre>
+(in-package :cl-user)
+
+(<a href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-306.htm" class=noborder>load-all-patches</a>)
+
+<font color=orange>;; customize here</font>
+(let ((cwd (<a href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-199.htm" class=noborder>get-working-directory</a>)))
+  (load "/home/.lispworks-full")
+  (<a href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-172.htm" class=noborder>change-directory</a> cwd))
+
+(push '("Environment startup" nil <a href="http://www.lispworks.com/documentation/lw445/UNIX/html/lwunix-8.htm" class=noborder>env:start-environment</a>)
+      <a href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-360.htm" class=noborder>mp:*initial-processes*</a>)
+
+(<a href="http://www.lispworks.com/documentation/lw445/FLI/html/fli-72.htm" class=noborder>fli:define-foreign-callable</a> ("StartLisp" :calling-convention :cdecl)
+    ())
+
+(<a href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-214.htm" class=noborder>save-image</a> "lispworks-4460.dll" <font color=orange>; the name of the DLL</font>
+            :dll-exports '("StartLisp")
+            :console :input)
+
+(<a href="http://www.lispworks.com/documentation/lw445/LWRM/html/lwref-322.htm" class=noborder>quit</a>)
+</pre>
+
+The second form (below the orange comment) is optional.  This is what
+I use to load <a href="http://weitz.de/lw-add-ons/">LW-ADD-ONS</a>
+into the image and obviously you can load whatever you want at this
+point.
+<p>
+Now open a Windows command prompt and enter something like the following:
+<pre>
+cd "c:\Program Files\LispWorks"
+lispworks-4450.exe -init create-dll.lisp
+</pre>
+(This obviously assumes that your LispWorks installation is
+in <code>c:\Program&nbsp;Files\LispWorks</code> and that you saved the
+Lisp code above under the name <code>create-dll.lisp</code> in that
+directory.)  Now you should have a DLL named <code>lispworks-4460.dll</code> there.
+
+<br>&nbsp;<br><h3><a name="c" class=none>The C part</a></h3>
+
+For this section you'll need a way to compile a little C/C++ program
+on Windows.  (But see the <a href="#download">next section</a>.)  I
+used <a href="http://msdn.microsoft.com/vstudio/">Microsoft Visual
+Studio</a>&nbsp;.NET&nbsp;2003 but I think the
+free <a
+href="http://msdn.microsoft.com/vstudio/express/visualc/">Express
+Edition</a> of Visual&nbsp;C++ should suffice.
+<p>
+First we need a <code>DEF</code> file for our DLL.  That's simple -
+just create a text file <code>lispworks-4460.def</code> with these two lines
+in it:
+<pre>
+EXPORTS
+        StartLisp
+</pre>
+and put it into your LispWorks directory.  Now we create
+a <code>LIB</code> file from this <code>DEF</code> file: In the same
+command prompt window as <a href="#lisp">above</a> enter the following line
+<pre>
+lib /def:lispworks-4460.def
+</pre>
+You'll see a warning that you can ignore but as a result you'll get
+two new files, <code>lispworks-4460.lib</code>
+and <code>lispworks-4460.exp</code>.
+<p>
+Now start Visual Studio and create a new C++ Win32 console project.
+There, in the file <code>stdafx.h</code> add this line at the end:
+<pre>
+#include &lt;windows.h&gt;
+</pre>
+The code file that initially contains the stub for
+your <code>_tmain</code> function should consist of the following code:
+<pre>
+#include "stdafx.h"
+
+extern "C" {
+  __declspec(dllimport) void StartLisp(void);
+}
+
+int _tmain(int argc, _TCHAR* argv[]) {
+  StartLisp();
+  FreeConsole();
+  Sleep(INFINITE);
+  return 0;
+}
+</pre>
+
+Then go to "Project" > "Properties" > "Linker" > "Input" and add
+"lispworks-4460.lib" under "Additional Dependencies."  Finally,
+copy or move the file <code>lispworks-4460.lib</code> from the
+LispWorks folder to your project folder for this Visual Studio
+project.
+<p>
+You should now be able to build an EXE file.  Put this EXE into your
+LispWorks folder (where you still have the DLL lying around that you
+created in the <a href="#lisp">last section</a>) and start it by
+double-clicking it.  This should start the familiar LispWorks IDE but
+now foreign threads should be able to call into Lisp.
+
+<br>&nbsp;<br><h3><a class=none name="download">I'm too lazy</a></h3>
+
+If you're too lazy for the <a href="#c">C&nbsp;part</a> you can
+download the EXE I created
+from <a
+href="http://weitz.de/files/LW.exe">http://weitz.de/files/LW.exe</a> (about 23&nbsp;kB)
+after you've read the <a href="#disclaimer">disclaimer</a>.  It'll
+look for a DLL called <code>lispworks-4460.dll</code> that exports a C
+function <code>StartLisp</code> with no arguments.
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+Most of the above was <a href="http://article.gmane.org/gmane.lisp.lispworks.general/5119">explained to me</a> by
+<a href="http://www.nicklevine.org/">Nick Levine</a>.  I just fiddled a bit with Visual Studio and wrote it all down.
+
+
+<p>
+$Header: /usr/local/cvsrep/lw-callbacks/index.html,v 1.7 2006/08/28 10:16:33 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

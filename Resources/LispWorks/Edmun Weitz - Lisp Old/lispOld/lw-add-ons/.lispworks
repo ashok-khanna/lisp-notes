@@ -1,0 +1,232 @@
+;;; -*- Mode: LISP; Syntax: COMMON-LISP; Package: CL-USER; Base: 10 -*-
+;;; $Header: /usr/local/cvsrep/lw-add-ons/.lispworks,v 1.40 2015/06/13 08:25:45 edi Exp $
+
+;;; Copyright (c) 2005-2015, Dr. Edmund Weitz.  All rights reserved.
+
+;;; Redistribution and use in source and binary forms, with or without
+;;; modification, are permitted provided that the following conditions
+;;; are met:
+
+;;;   * Redistributions of source code must retain the above copyright
+;;;     notice, this list of conditions and the following disclaimer.
+
+;;;   * Redistributions in binary form must reproduce the above
+;;;     copyright notice, this list of conditions and the following
+;;;     disclaimer in the documentation and/or other materials
+;;;     provided with the distribution.
+
+;;; THIS SOFTWARE IS PROVIDED BY THE AUTHOR 'AS IS' AND ANY EXPRESSED
+;;; OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+;;; WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+;;; ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+;;; DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+;;; DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+;;; GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+;;; INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+;;; WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+;;; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+;;; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+(in-package :cl-user)
+
+#+:win32
+;; to "fix" USER-HOMEDIR-PATHNAME
+;; see <http://support.microsoft.com/default.aspx?scid=kb;en-us;101507>
+(setf (lw:environment-variable "HOMEPATH") "\\home"
+      (lw:environment-variable "HOMEDRIVE") "C:")
+
+;; download http://beta.quicklisp.org/quicklisp.lisp and load it -
+;; details at http://www.quicklisp.org/
+
+#-:quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+
+#+(and (or :lispworks5 :lispworks6 :lispworks7) :win32)
+(define-action "Initialize LispWorks Tools"
+               "Dismiss Splash Screen Quickly"
+               #'(lambda (screen)
+                   (declare (ignore screen))
+                   (w:dismiss-splash-screen t)))
+
+#-:quicklisp
+;; if your LispWorks is new enough to already have ASDF on board, you
+;; don't have to worry about this
+(defvar *asdf-pathname* #+:win32 "c:/home/lisp/asdf"
+                        #+(or :linux :macosx) "/usr/local/lisp/source/asdf"
+  "Where ASDF can be found.  This pathname should not have a type.")
+
+(defvar *asdf-base-dirs* #+:win32 '("c:/home/lisp/" "c:/emacs/site-lisp/")
+                         #+:macosx '("/Users/edi/lisp/" "/usr/local/lisp/source/")
+                         #+:linux '("/home/edi/lisp/" "/usr/local/lisp/source/")
+  "A list of directories \(note trailing slashes) which contain
+directories that contain ASDF system definitions.
+
+Example: If you have, say, c:/home/lisp/cl-ppcre/cl-ppcre.asd and
+c:/home/lisp/tbnl/tbnl.asd, then \"c:/home/lisp/\" should be in
+this list, and NOT \"c:/home/lisp/cl-ppcre/\".")
+
+(defvar *skip-if-no-asdf-file-found-p* t
+  "If this variable has a true value, the process which searches for
+ASDF system definitions won't recurse into directories which don't
+contain system definitions themselves.")
+
+(defvar *working-dir* #+:win32 "c:/home/lisp"
+                      #+:macosx "/Users/edi/lisp"
+                      #+:linux "/home/edi/lisp"
+  "The working directory LW is supposed to switch to after loading
+this initialization file.")
+
+;; loads (and compiles, if needed) ASDF unless it's already in the
+;; image
+#-(or :asdf :quicklisp)
+(ignore-errors
+  ;; should do it unless you have a very old LW version
+  (require :asdf))
+#-(or :asdf :quicklisp)
+(handler-case
+  (when *asdf-pathname*
+    (load (or (compile-file-if-needed *asdf-pathname*)
+              *asdf-pathname*)))
+  (conditions:fasl-error ()
+    (load (compile-file *asdf-pathname*))))
+
+(defun walk-directory-for-asdf (dir)
+  "Looks into the directory DIR and all subdirectories and adds all
+directories which contain files of type \"asd\" to
+ASDF:*CENTRAL-REGISTRY*."
+  (dolist (dir-candidate (directory (lw:pathname-location dir)))
+    (when (lw:file-directory-p dir-candidate)
+      (let (found-some-p)
+        (let ((asd-candidate (merge-pathnames "*.asd" dir-candidate)))
+          (when (directory asd-candidate)
+            (setq found-some-p t)
+            (pushnew dir-candidate asdf:*central-registry* :test #'equal)))
+        (when (or found-some-p
+                  (not *skip-if-no-asdf-file-found-p*))
+          (walk-directory-for-asdf dir-candidate))))))
+
+(defun update-asdf-central-registry ()
+  "Loops through *ASDF-BASE-DIRS* recursively and adds all
+directories containing system definitions to ASDF's central
+registry."
+  (dolist (base-dir *asdf-base-dirs*)
+    (walk-directory-for-asdf base-dir)))
+
+(update-asdf-central-registry)
+
+(defmethod asdf:perform :around ((o asdf:load-op) (c asdf:cl-source-file))
+  "When trying to load a Lisp source file with ASDF that has a wrong
+FASL version recompiles it."
+  ;; from Bill Clementson's blog
+  (handler-case
+    (call-next-method o c)
+    (conditions:fasl-error ()
+      (asdf:perform (make-instance 'asdf:compile-op) c)
+      (call-next-method))))
+
+(defun asdf (lib)
+  "Shortcut for ASDF."
+  (asdf:oos 'asdf:load-op lib))
+
+;; `canonical' indentation for IF
+(editor:setup-indent "if" 1 2 4)
+
+;; `canonical' indentation for FLI:DEFINE-FOREIGN-FUNCALLABLE
+#-(or :lispworks5 :lispworks6 :lispworks7)
+(editor:setup-indent "define-foreign-funcallable" 2 2 4)
+
+;; `canonical' indentation for DEFINE-SYMBOL-MACRO
+#+(or :lispworks4 :lispworks5.0)
+(editor:setup-indent "define-symbol-macro" 1)
+
+;; `canonical' indentation for DEFPARSER
+(editor:setup-indent "defparser" 1)
+
+;; file types for Lisp mode
+(editor:define-file-type-hook 
+    ("lispworks" "lisp" "lsp" "cl" "asd")
+    (buffer type)
+  (declare (ignore type))
+  (setf (editor:buffer-major-mode buffer) "Lisp"))
+
+;; the following two forms make sure the "Find Source" command works
+;; with the editor source
+#-:lispworks-personal-edition
+(load-logical-pathname-translations "EDITOR-SRC")
+
+#-:lispworks-personal-edition
+(setf dspec:*active-finders*
+        (append dspec:*active-finders*
+                (list "EDITOR-SRC:editor-tags-db")))
+
+;; if I press ESC followed by < during a search operation I want to go
+;; to the beginning of the buffer and /not/ insert the #\< character
+(editor::set-logical-char= #\escape :exit nil
+                           (editor::editor-input-style-logical-characters
+                            editor::*emacs-input-style*))
+
+(change-directory *working-dir*)
+
+(asdf :lw-add-ons)
+
+;; select backup "strategy"
+(setq lw-add-ons:*make-backup-filename-function*
+      'lw-add-ons:make-backup-filename-using-backup-directory)
+
+#+(and :win32 (not :console-image))
+(define-action "Initialize LispWorks Tools" "Open Editor And Tile Windows"
+               'lw-add-ons::open-editor-and-tile-windows-vertically)
+
+#+:lispworks7
+(setq lw-add-ons:*use-abbreviated-complete-symbol* nil)
+
+;;; some key bindings
+
+#+:lw-add-ons
+(editor:bind-key "Insert Space and Show Arglist" #\Space)
+
+(editor:bind-key "Compile Defun" #("Control-c" "Control-c") :mode "Lisp")
+(editor:bind-key "Compile and Load Buffer File" #("Control-c" "Control-k") :mode "Lisp")
+
+(editor:bind-key "Tools Apropos" #("Control-c" "Control-a"))
+
+(editor:bind-key "Toggle Trace" #("Control-c" "Control-t") :mode "Lisp")
+(editor:bind-key "Clear Listener" #("Control-c" "Control-t") :mode "Execute")
+
+(editor:bind-key "Evaluate Last Form And Inspect" #("Control-c" #\i))
+(editor:bind-key "Evaluate Last Form And Describe" #("Control-c" #\d))
+
+(editor:bind-key "Set Mark And Highlight" "Control-@")
+(editor:bind-key "Set Mark And Highlight" "Control-Space")
+
+(editor:bind-key "Indent and Complete Symbol" #\Tab :mode "Lisp")
+
+(editor:bind-key "Edit Callers" #("Control-c" #\<) :mode "Lisp")
+(editor:bind-key "Edit Callees" #("Control-c" #\>) :mode "Lisp")
+
+(editor:bind-key "Meta Documentation" "F5")
+
+(editor:bind-key "Insert \()" "Control-(" :mode "Lisp")
+(editor:bind-key "Insert \()" "Control-(" :mode "Execute")
+
+(editor:bind-key "Indent New Line" "Return" :mode "Lisp")
+
+#+:editor-does-not-have-go-back
+(editor:bind-key "Pop Definitions Stack" "Control-Backspace")
+
+#-:editor-does-not-have-go-back
+(editor:bind-key "Go Back" "Control-Backspace")
+
+#-:editor-does-not-have-go-back
+(editor:bind-key "Select Go Back" #("Control-c" "Backspace"))
+
+(editor:bind-key "Macroexpand Form" #("Control-c" "Return"))
+(editor:bind-key "Walk Form" #("Control-x" "Return"))
+
+(editor:bind-key "Maybe Invoke Listener Shortcut" #\, :mode "Execute")
+
+(editor:bind-key "Tools Listener" "F12")
+(editor:bind-key "Tools Editor" "F11")

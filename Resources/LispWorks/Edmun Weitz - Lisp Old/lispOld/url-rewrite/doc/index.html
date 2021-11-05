@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>URL-REWRITE - Rewrite (X)HTML attributes with Common Lisp</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  a { text-decoration: none; }
+  a.none { border:1px solid white; }
+  a.none:hover { border:1px solid white; }
+  a { border:1px solid white; }
+  a:hover   { border: 1px solid black; } 
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }
+  pre.none { padding:5px; background-color:#ffffff }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>URL-REWRITE - Rewrite (X)HTML attributes with Common Lisp</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+<p>
+URL-REWRITE is a small package which can be used to programmatically
+rewrite (X)HTML documents such that certain attributes values are
+replaced by others. It was written to rewrite URLs (as in <code>&lt;a
+href=&quot;...&quot;&gt;</code> or <code>&lt;img
+src=&quot;...&quot;&gt;</code>) for cookie-less session handling but
+maybe you'll find other uses for it.
+<p>
+URL-REWRITE is intended to be portable and should work with all
+conforming Common Lisp implementations. <a
+href="mailto:edi@agharta.de">Let me know</a> if you encounter any
+problems.
+<p>
+It comes with a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+<p>
+URL-REWRITE was originally written as a support library for <a href="http://weitz.de/tbnl/">TBNL</a>.
+<p>
+<font color=red>Download shortcut:</font> <a href="http://weitz.de/files/url-rewrite.tar.gz">http://weitz.de/files/url-rewrite.tar.gz</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#example">Example usage</a>
+  <li><a href="#install">Download and installation</a>
+  <li><a href="#dictionary">The URL-REWRITE dictionary</a>
+  <ol>
+    <li><a href="#rewrite-urls"><code>rewrite-urls</code></a>
+    <li><a href="#*url-rewrite-tags*"><code>*url-rewrite-tags*</code></a>
+    <li><a href="#*url-rewrite-fill-tags*"><code>*url-rewrite-fill-tags*</code></a>
+    <li><a href="#starts-with-scheme-p"><code>starts-with-scheme-p</code></a>
+    <li><a href="#add-get-param-to-url"><code>add-get-param-to-url</code></a>
+    <li><a href="#url-encode"><code>url-encode</code></a>
+  </ol>
+  <li><a href="#bugs">Known bugs and problems</a>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+<br>&nbsp;<br><h3><a name="example" class=none>Example usage</a></h3>
+
+The canonical usage (the one URL-REWRITE was originally written for)
+is to scan through an HTML page and extend all non-external links with
+a GET parameter holding the current session ID - something like this:
+
+<pre>
+* (defvar +session-cookie-name+ &quot;session&quot;)
++SESSION-COOKIE-NAME+
+* (defun add-session-var (html session-value)
+    (with-input-from-string (*standard-input* html)
+      (with-output-to-string (*standard-output*)
+        (<a class=noborder href="#rewrite-urls">rewrite-urls</a> (lambda (url)
+                        (<a class=noborder href="#add-get-param-to-url">add-get-param-to-url</a> url
+                                              +session-cookie-name+
+                                              session-value))))))
+ADD-SESSION-VAR
+* (add-session-var &quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 3.2 Final//EN\&quot;&gt; 
+ &lt;HTML&gt;
+   &lt;BODY BGCOLOR=white&gt;
+     This is the <font color=red>&lt;A NAME=foo HREF='first.html?foo=bar'&gt;</font>first link<font color=red>&lt;/A&gt;</font>, and this is the <font color=green>&lt;A CLASS=NOBORDER HREF=\&quot;http://www.cliki.net/\&quot; TITLE='bar'&gt;</font>second one<font color=green>&lt;/A&gt;</font>.
+     And here's a picture: <font color=orange>&lt;img src='/pics/cool_pic.gif' width=100 height=100&gt;</font>
+   &lt;/BODY&gt;
+ &lt;/HTML&gt;&quot; &quot;foo42&quot;)
+&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 3.2 Final//EN\&quot;&gt; 
+ &lt;HTML&gt;
+   &lt;BODY BGCOLOR=white&gt;
+     This is the <font color=red>&lt;A NAME=foo HREF='first.html?foo=bar&amp;amp;session=foo42'&gt;</font>first link<font color=red>&lt;/A&gt;</font>, and this is the <font color=green>&lt;A CLASS=NOBORDER HREF=\&quot;http://www.cliki.net/\&quot; TITLE='bar'&gt;</font>second one<font color=green>&lt;/A&gt;</font>.
+     And here's a picture: <font color=orange>&lt;img src='/pics/cool_pic.gif?session=foo42' width=100 height=100&gt;</font>
+   &lt;/BODY&gt;
+ &lt;/HTML&gt;&quot;
+</pre>
+
+<br>&nbsp;<br><h3><a name="install" class=none>Download and installation</a></h3>
+
+URL-REWRITE together with this documentation can be downloaded from <a
+href="http://weitz.de/files/url-rewrite.tar.gz">http://weitz.de/files/url-rewrite.tar.gz</a>. The
+current version is 0.1.1.
+<p>
+URL-REWRITE comes with simple system definitions for <a
+href="http://www.cliki.net/mk-defsystem">MK:DEFSYSTEM</a> and <a
+href="http://www.cliki.net/asdf">asdf</a> so you can either adapt it
+to your needs or just unpack the archive and from within the URL-REWRITE
+directory start your Lisp image and evaluate the form
+<code>(mk:compile-system &quot;url-rewrite&quot;)</code> (or the
+equivalent one for asdf) which should compile and load the whole
+system.
+<p>
+If you're on <a href="http://www.cliki.net/Gentoo">Gentoo Linux</a> you should
+probably use the <code>cl-url-rewrite</code> package which is available
+thanks to Matthew Kennedy.
+Installation via <a
+href="http://www.cliki.net/asdf-install">asdf-install</a> should also
+be possible.
+<p>
+If for some reason you don't want to use MK:DEFSYSTEM or asdf you
+can just <code>LOAD</code> the file <code>load.lisp</code> or you
+can also get away with something like this:
+
+<pre>
+(loop for name in '(&quot;packages&quot; &quot;specials&quot; &quot;primitives&quot; &quot;util&quot; &quot;url-rewrite&quot;)
+      do (compile-file (make-pathname :name name
+                                      :type &quot;lisp&quot;))
+         (load name))
+</pre>
+
+Note that on CL implementations which use the Python compiler
+(i.e. CMUCL, SBCL, SCL) you can concatenate the compiled object files
+to create one single object file which you can load afterwards:
+
+<pre>
+cat {packages,specials,primitives,util,url-rewrite}.x86f > url-rewrite.x86f
+</pre>
+
+(Replace &quot;.<code>x86f</code>&quot; with the correct suffix for
+your platform.)
+
+<p>
+Lu&iacute;s Oliveira maintains a <a href="http://darcs.net/">darcs</a>
+repository of URL-REWRITE
+at <a
+href="http://common-lisp.net/~loliveira/ediware/">http://common-lisp.net/~loliveira/ediware/</a>.
+<p>
+If you want to send patches, please <a href="http://weitz.de/patches.html">read this first</a>.
+
+<br>&nbsp;<br><h3><a class=none name="dictionary">The URL-REWRITE dictionary</a></h3>
+
+URL-REWRITE exports the following symbols:
+
+<p><br>[Function]
+<br><a class=none name="rewrite-urls"><b>rewrite-urls</b> <i>rewrite-fn <tt>&amp;optional</tt> test-fn</i> =&gt; <i>whatever</i></a>
+
+<blockquote><br> Reads an (X)HTML document from <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/v_debug_.htm"><code>*STANDARD-INPUT*</code></a>
+and writes it back to <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/v_debug_.htm"><code>*STANDARD-OUTPUT*</code></a>. Any
+attribute value which is in one of the positions denoted by <a
+href="#*url-rewrite-tags*"><code>*URL-REWRITE-TAGS*</code></a> is rewritten by
+<code><i>rewrite-fn</i></code> if it passes the test denoted by the optional function
+<code><i>test-fn</i></code> (which defaults to the complement of <a
+href="#starts-with-scheme-p"><code>STARTS-WITH-SCHEME-P</code></a>).
+<p>
+<code><i>rewrite-fn</i></code> must be a function which accepts one argument (a string or <code>NIL</code>) and returns a string. The argument to <code><i>rewrite-fn</i></code> is the attribute value which is to be rewritten (or <code>NIL</code> if the corresponding attribute didn't have a value or if it wasn't present at all - see <a
+href="#*url-rewrite-fill-tags*"><code>*URL-REWRITE-FILL-TAGS*</code></a>). The return value is the new attribute value.
+<p>
+<code><i>test-fn</i></code> must be a function which accepts one argument (the attribute's value as a string) and returns a <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_g.htm#generalized_boolean">generalized boolean</a> denoting whether the value should be rewritten or not.
+<p>This function (which should be named <em>rewrite-attribute-values</em>, shouldn't it?) is only called for its side-effect, so its return value doesn't matter.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*url-rewrite-tags*"><b>*url-rewrite-tags*</b></a>
+
+<blockquote><br> The value of this variable is initially set to
+<pre>
+'(("a" . "href")
+  ("area" . "href")
+  ("frame" . "src")
+  ("img" . "src")
+  ("input" . "src")
+  ("form" . "action")
+  ("iframe" . "src"))
+</pre>
+It is an <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_a.htm#alist">alist</a> where the <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#car">cars</a> are strings denoting the HTML tags which are to be examined and where the corresponding <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#cdr">cdr</a> is a string denoting which attribute's value will be rewritten (if it passes the test - see above). The case of these strings doesn't matter.</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*url-rewrite-fill-tags*"><b>*url-rewrite-fill-tags*</b></a>
+
+<blockquote><br> The value of this variable is initially set to
+<pre>
+'(("form" . "action"))
+</pre>
+It is an <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_a.htm#alist">alist</a> where the <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#car">cars</a> are strings denoting the HTML tags which will get a new attribute (denoted by the corresponding <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#cdr">cdr</a>) if the tag doesn't have an attribute of this name. (Note that in this case the argument to <code><i>rewrite-fn</i></code> will be <code>NIL</code> and <code><i>test-fn</i></code> won't be invoked - see <a
+href="#rewrite-urls"><code>REWRITE-URLS</code></a>.) The case of these strings doesn't matter.</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="starts-with-scheme-p"><b>starts-with-scheme-p</b></a> <i>string</i> =&gt; <i>boolean</i>
+
+<blockquote><br>
+This little convenience function will accept a string <code><i>string</i></code> and test whether it is a URL starting with a <i>scheme</i> (see <a href="http://www.ietf.org/rfc/rfc1738.txt">RFC&nbsp;1738</a>) as opposed to a relative URL like, say, <code>&quot;pics/foo.png&quot;</code>.
+
+<pre>
+* (starts-with-scheme-p &quot;http://www.alu.org/&quot;)
+T
+
+* (starts-with-scheme-p &quot;mailto:bill@microsoft.com&quot;)
+T
+
+* (starts-with-scheme-p &quot;/index.html&quot;)
+NIL
+</pre>
+</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="add-get-param-to-url"><b>add-get-param-to-url</b></a> <i>url name value</i> =&gt; <i>new-url</i>
+
+<blockquote><br>
+Another little convenience function. This one will accept a string <code><i>url</i></code> which is supposed to be a http URL. The pair of <code><i>name</i></code> and <code><i>value</i></code> (both strings) will be
+added as a GET parameter to this URL. The function silently assumes that there's no other
+parameter of the same name. It only checks if <code>#\?</code> is part of the string
+to decide how to attach the new parameter to the end of the string.
+It doesn't check for question marks which are written as, say,
+<code>&amp;x3f;</code>. <a href="#url-encode"><code>URL-ENCODE</code></a> is applied to <code><i>value</i></code> before it is appended to the resulting string.
+
+<pre>
+* (add-get-param-to-url &quot;http://common-lisp.net/&quot; &quot;foo&quot; &quot;bar&quot;)
+&quot;http://common-lisp.net/?foo=bar&quot;
+
+* (add-get-param-to-url &quot;http://common-lisp.net/index.html?frob=42&quot; &quot;foo&quot; &quot;bar&quot;)
+&quot;http://common-lisp.net/index.html?frob=42&amp;amp;foo=bar&quot;
+
+* (add-get-param-to-url &quot;http://common-lisp.net/&quot; &quot;foo&quot; &quot;+&quot;)
+&quot;http://common-lisp.net/?foo=%2B&quot;
+</pre>
+</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="url-encode"><b>url-encode</b></a> <i>string</i> =&gt; <i>url-encoded-string</i>
+
+<blockquote><br>
+This function will <a href="http://www.blooberry.com/indexdot/html/topics/urlencoding.htm"><em>URL-encode</em></a> the string <code><i>string</i></code>. Note that this function uses your Lisp's <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/f_char_c.htm"><code>CHAR-CODE</code></a> function to determine the hex value for characters which need to be encoded and that it further assumes that all character codes of the characters comprising <code><i>string</i></code> are between&nbsp;0 and&nbsp;255. If you need support for other characters you'll have to write your own function or use for example <a href="http://weitz.de/hunchentoot/">Hunchentoot</a>'s <a href="http://weitz.de/hunchentoot/#url-encode"><code>URL-ENCODE</code></a>. (See A.J.&nbsp;Flavell's entertaining article <a href="http://web.archive.org/web/20060427015200/ppewww.ph.gla.ac.uk/~flavell/charset/form-i18n.html">&quot;<code>FORM</code> submission and i18n&quot;</a> for more info on this topic.)
+<pre>
+* (url-encode "F&ecirc;te S&oslash;rensen na&iuml;ve H&uuml;hner Stra&szlig;e")
+"F%EAte+S%F8rensen+na%EFve+H%FChner+Stra%DFe"
+</pre>
+</blockquote>
+
+
+<br>&nbsp;<br><h3><a class=none name="bugs">Known bugs and problems</a></h3>
+
+URL-REWRITE aims to yield correct results for correct (X)HTML input
+and it also tries hard to never signal an error although it may warn
+if it encounters syntax errors. It will <em>not</em> detect any possible error
+nor is there <em>any</em> warranty that it will work correctly with faulty
+input.
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+Thanks to Jeff Caldwell for his suggestion (and initial code) to rewrite FORM tags without an ACTION attribute.
+
+<p>
+$Header: /usr/local/cvsrep/url-rewrite/doc/index.html,v 1.14 2007/04/29 22:04:49 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

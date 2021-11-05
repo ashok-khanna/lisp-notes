@@ -1,0 +1,866 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>STARTER-PACK - My personal Common Lisp "newbie" guide</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  pre.none { padding:5px; background-color:#ffffff }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
+  a.none { text-decoration: none; padding: 0; }
+  a.none:visited { text-decoration: none; padding: 0; } 
+  a.none:hover { text-decoration: none; border: none; padding: 0; } 
+  a.none:focus { text-decoration: none; border: none; padding: 0; } 
+  a.noborder { text-decoration: none; padding: 0; } 
+  a.noborder:visited { text-decoration: none; padding: 0; } 
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  .small { font: normal 10px verdana, tahoma, arial, helvetica, geneva, sans-serif; }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>STARTER-PACK - My personal Common Lisp "newbie" guide</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+<font color=red><b>This is something I started in 2006 and at that
+time it seemed to make sense.  Now (2011), you should try Zach
+Beane's <a href="http://www.quicklisp.org/">Quicklisp</a>
+instead.  I'm not planning to maintain the starter
+pack anymore.</b></font>
+<p>
+This is an attempt to help Common Lisp newcomers getting started.  The
+aim is to quickly set up a comfortable working environment which
+includes a couple of useful and/or popular open source libraries.  It
+is targeted at the Microsoft Windows platform (but see <a href="#windows">below</a>) and obviously heavily
+influenced by the author's personal preferences.
+<p>
+If you're using this document and the
+accompanying <a href="#exe">application</a>, I'd like to hear from
+you. Whether you like it or not, feedback is always appreciated.  See
+my <a href="http://weitz.de/">homepage</a> for my email address.
+
+</blockquote>
+
+<center>
+<a class=none name="screen-shot" title="Screen shot"><img alt="Screen shot" src="shot.png" border=0 width=509 height=237></a><br><br>
+<span class=small>[The current version is <b>0.6.2</b>.  Ignore the screen shot if it shows another number.]</span>
+</center>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#intro">Introduction</a>
+  <li><a href="#pre">Prerequisites</a>
+  <li><a href="#install">Installation</a>
+  <li><a href="#use">How to use your new environment</a>
+  <li><a href="#examples">Usage examples</a>
+  <li><a href="#asdf">What is this ASDF thingy?</a>
+  <li><a href="#own">Your own code</a>
+  <li><a href="#what">What does the starter pack do?</a>
+  <li><a href="#problems">Potential problems</a>
+    <ol>
+      <li><a href="#url">Wrong URLs</a>
+      <li><a href="#dependencies">Wrong dependencies</a>
+      <li><a href="#break">One of the libraries doesn't work</a>
+      <li><a href="#proxy">Proxies</a>
+    </ol>
+  <li><a href="#custom">Customization</a>
+  <li><a href="#faq">FAQ</a>
+    <ol>
+      <li><a href="#windows">Why only Windows?</a>
+      <li><a href="#lispworks">Why only LispWorks?</a>
+      <li><a href="#slime">Why not SLIME?</a>
+      <li><a href="#asdf-install">Why not ASDF-INSTALL?</a>
+      <li><a href="#lispworks">Why not Lispbox or Lisp in a Box?</a>
+      <li><a href="#missing">Why is library "foo" not included?</a>
+    </ol>
+  <li><a href="#copyright">Copyright</a>
+  <li><a href="#license">License</a>
+</ol>
+
+
+
+<br>&nbsp;<br><h3><a class=none name="intro">Introduction</a></h3>
+
+It has happened to me a couple of times that people who wanted to
+learn Common Lisp asked me for help or advice because they struggled
+with the basics, or rather with seemingly peripheral problems that
+prevented them from doing the "real stuff."  These problems are
+usually related to setting up a working environment and to using open
+source libraries.  I faced very similar issues when I started learning
+Lisp in 2000, and although the situation has improved since (you'll
+find much more introductory material on the web, and the library
+situation is significantly better), to many it still seems hard to
+reach a state where you can concentrate on learning the language and
+write a simple program.
+<p>
+I usually tried to help by setting up a little "starter pack" which (I
+think) was easy to use and included the libraries the person wanted to
+deploy in a state ready for immediate usage.  My experience with this
+"starter pack" has been quite good, and so I decided to polish it a
+bit, make it customizable, and publish it, so I can point people to
+this website the next time I'm asked.
+<p>
+Feel free to use this document and the accompanying little application
+as you see fit, but be aware that all of this will only really work if
+you're willing to follow my lead, specifically if you're using the
+same <a href="#lispworks">Lisp implementation</a> I do - see <a href="#faq">FAQ</a> for more
+about this topic.
+
+<br>&nbsp;<br><h3><a class=none name="pre">Prerequisites</a></h3>
+
+I assume that you are interested in Common Lisp and want to learn
+it.  This document is not intended to convince you that Lisp is a
+great programming language.  If you need some encouragement first,
+start with <a href="http://p-cos.net/lisp/guide.html">Pascal
+Costanza's very good guide</a>.
+<p>
+I also take for granted that you've found good introductory material
+which explains the syntax and semantics of Common Lisp.  If you
+haven't done so already, you should definitely take a look at Peter
+Seibel's great
+tutorial <a href="http://www.gigamonkeys.com/book/"><em>Practical Common
+Lisp</em></a>.  I'd recommend
+buying <a
+href="http://www.apress.com/book/bookDisplay.html?bID=237">the
+dead-tree version</a>, but note that it's also available as a free
+download from <a href="http://www.gigamonkeys.com/book/">Peter's
+website</a> and (as a PDF) from
+the <a href="http://apress.com/">Apress</a> website.
+<p>
+Finally, if for religious or political reasons you only want to use
+"free" software and
+<a href="http://www.microsoft.com/windows/default.mspx">Windows</a>
+and/or <a href="http://www.lispworks.com/">LispWorks</a> don't fit
+with your definition of <em>free</em>, then this text isn't for you.
+<p>
+As for technical requirements, you <em>should</em> use
+Windows&nbsp;2000, XP, or Vista with
+all <a href="http://update.microsoft.com/">updates and service
+packs</a> installed.  What I describe here most likely won't work with
+older Windows versions - you have been warned...
+
+<br>&nbsp;<br><h3><a class=none name="install">Installation</a></h3>
+
+Here's a step-by-step explanation of how to set up your environment:
+
+<ul>
+  <li>Download and install
+  the <a href="http://www.lispworks.com/downloads/index.html">Personal
+  Edition</a>&nbsp;5.1.1 from LispWorks.  You <em>must</em> also install the
+  <em>LispWorks Personal Edition Documentation</em>.  (Note: What I
+  describe below will also work with the Professional or Enterprise
+  Edition, but I suspect that if you've already bought LispWorks, you
+  don't need this text anymore.)
+  <li>If you're using an older version of LispWorks (4.4.x or less),
+  you will need the Microsoft runtime
+  library <code>msvcr80.dll</code>.  (The installer for 5.0.1 or
+  higher will have installed it already anyway.)  If you don't have it
+  or if you aren't sure, you can get
+  it <a href="http://www.microsoft.com/downloads/details.aspx?familyid=32BC1BEE-A3F9-4C13-9C99-220B62A191EE&amp;displaylang=en">here</a>.
+  If you're using Windows Vista, you have it already.  (Note: This
+  library is needed because the download application you are going to
+  use was built with LispWorks 5.1.2.
+  See <a href="http://article.gmane.org/gmane.lisp.lispworks.general/5765">here</a>
+  for a technical explanation.)
+  <li>Download the little download
+  application <a class=none name="exe"><code>LispStarterPack</code></a>
+  from <a
+  href="http://weitz.de/files/LispStarterPack.zip">http://weitz.de/files/LispStarterPack.zip</a>
+  and unpack the ZIP archive.
+  <li>Start <code>LispStarterPack.exe</code> and select the open
+  source libraries you want to have.  The application will keep track
+  of dependencies and will automatically check other libraries you
+  will also need.  Note that
+  the <a href="http://weitz.de/lw-add-ons/">LW-ADD-ONS</a> library and
+  its supporting libraries are always checked because I will refer to
+  them below.  (Yes, all this is nothing but a secret conspiracy to lure people into using LW-ADD-ONS ...:)
+  <li>If everything goes as planned, you will finally see a dialog
+  telling you that the application is finished and it will quit.
+</ul>
+Note that if you use <code>LispStarterPack.exe</code> again, it will
+completely remove and replace the directory it has written, i.e. the
+application is not intended to be used more than once to <em>add</em>
+libraries to the ones you already have.  If you're not sure which
+libraries you want to have, it doesn't hurt to press
+the <em>Check all</em> button if you have a fast Internet connection.
+
+<br>&nbsp;<br><h3><a class=none name="use">How to use your new environment</a></h3>
+
+Now start LispWorks and, as your very first step, use
+the <em>File</em> menu to <em>Load...</em> (and not only <em>Open...</em>)
+the file <code>start.lisp</code> that got installed in a directory
+called <a class=none name="libs">"Lisp Libraries"</a> within your "My Documents" folder.  (Of
+course, depending on your language settings, "My Documents" might have
+another name, for example "Eigene Dateien" in German.)  LispWorks will
+now start to work frantically to compile some libraries.  Just wait
+until it's finished.  (Don't worry - this lengthy compilation only
+happens the first time after you've installed the libraries.)
+<p>
+It is assumed that you <em>don't</em> use
+LispWorks' <a
+href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-119.htm">Windows
+editor emulation</a>, by the way.  If you do, many of the key bindings described
+below won't work.
+<p>
+Unfortunately, you will have to load <code>start.lisp</code> every
+time you start LispWorks.  LispWorks knows the concept of an
+initialization file which is read on startup and you could
+use <code>start.lisp</code> as your initialization file - but one of
+the deliberate limitations of the Personal Edition is that it doesn't read
+initialization files.  If this annoys you very much, you should
+consider to use the <em>Windows Scripting Host</em> to automate this
+task - see <a href="http://bc.tech.coop/blog/040315.html">Bill Clementson's blog</a> for hints.
+<p>
+It is generally a good idea to familiarize yourself with new tools you
+plan to use extensively.  In this case, this means that you will have
+to learn how to use LispWorks.  Spend a couple of days (yes, I
+said <em>days</em>!) playing with the editor and the various other
+tools the IDE has to offer.  I'd suggest to read <em>at least</em> the
+following parts of
+the <a href="http://www.lispworks.com/documentation/">LispWorks
+documentation</a>:
+
+<ul>
+  <li>Read all of
+  the <a
+  href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w.htm">Editor
+  User Guide</a>.  The editor may seem kind of strange to you if you've never used
+  <a href="http://www.gnu.org/software/emacs/">Emacs</a> or one of its
+  offsprings before, but it's very powerful and very well suited for
+  Lisp development.  You won't have much fun if you don't know how to
+  use it, though.
+  <li>In
+  the <a
+  href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser.htm">LispWorks
+  User Guide</a> read the the two introductory chapters and the parts
+  about the debugger, the inspector, and the trace facility.
+  <li>
+  Read all of
+  the <a
+  href="http://www.lispworks.com/documentation/lw50/CLWUG-W/html/clwuser-w.htm">Common
+  LispWorks User Guide</a>.  You probably don't need to read all of it
+  in the first days, but you should at least make sure that you understand
+  the general concepts and the more important tools like the listener.
+  <li>Read the <a href="http://weitz.de/lw-add-ons/">LW-ADD-ONS
+  documentation</a> for information about some additional features not
+  available in a "stock" LispWorks installation.
+</ul>
+
+Note that the complete LispWorks documentation is on your local hard
+disk if you followed the <a href="#install">instructions above</a>.
+
+<br>&nbsp;<br><h3><a class=none name="examples">Usage examples</a></h3>
+
+Here are some examples, in no particular order, you should probably
+try out in order to get familiar with your environment:
+
+<ul>
+  <li>Open a file with Lisp source code (for example from one of the
+  open source libraries you've downloaded) with the editor
+  using <em>Open...</em> from the <em>File</em> menu.
+  <p> Try to navigate
+  this file not only with the cursor keys you know from other Windows
+  apps but with the special commands to navigate Lisp expressions -
+  for example <em>Forward Form</em>
+  (<code>Alt+Ctrl+F</code>), <em>Backward Form</em>
+  (<code>Alt+Ctrl+B</code>), <em>Backward Up List</em>
+  (<code>Alt+Ctrl+U</code>), <em>Transpose Forms</em>
+  (<code>Alt+Ctrl+T</code>), <em>Forward Kill Form</em>
+  (<code>Alt+Ctrl+K</code>), <em>Indent Form</em>
+  (<code>Alt+Ctrl+Q</code>) and so on.  (These are all explained in
+  the <a
+  href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w.htm">Editor
+  User Guide</a>, of course).
+  <p>
+  Use these and similar commands until they become
+  second nature.
+
+  <li>In the listener, on a new line, type
+<pre>(m-v-b</pre> and then press the <em>Tab</em> key.  What
+  you've typed should have been <a href="http://weitz.de/lw-add-ons/#completion">expanded</a>
+  to <code>multiple-value-bind</code> now.
+  <p>
+  If you then press the <em>Space</em> key, you'll see at the bottom
+  of the listener (in the so-called "echo area")
+  <a href="http://weitz.de/lw-add-ons/#arglist">the argument list</a>
+  of
+  the <a href="http://www.lispworks.com/documentation/HyperSpec/Body/m_multip.htm">MULTIPLE-VALUE-BIND</a>
+  macro.
+  <p>
+  Now press <code>F5</code> - your browser will open up the
+  corresponding entry of
+  the <a
+  href="http://www.lispworks.com/documentation/HyperSpec/">Common Lisp
+  HyperSpec</a>.  This will work with all symbols from the ANSI
+  standard as well as with all LispWorks-specific functionality and
+  also with a couple of libraries like for
+  example <a href="http://weitz.de/">CL-PPCRE</a>.  (See
+  the <a href="http://weitz.de/lw-add-ons/#documentation">LW-ADD-ONS
+  documentation</a> for more details.)
+
+  <li>
+  (This step assumes that you have checked
+  "HUNCHENTOOT" <a href="#install">when you downloaded the
+  libraries</a>.)
+  <p>
+  In the listener, if you're at the very beginning of
+  a new line (i.e. behind the <code>&gt;</code> prompt), type a comma.
+  In the echo area, you will now be prompted for
+  a <a href="http://weitz.de/lw-add-ons/#shortcuts">shortcut</a>.
+  <p>
+  Type an <code>L</code> (the abbreviation for
+  "<font color=red>L</font>oad ASDF System") and the <em>Return</em>
+  key.  The echo area now prompts for the name of the system to load.
+  Type <code>hun</code> then press the <em>Tab</em> key.  The name of
+  the system will automatically be completed
+  to <code>hunchentoot</code>.  Press <em>Return</em> to compile and
+  load the library.
+  <p>
+  Now do the same to load
+  the <code>hunchentoot-test</code> library.  (Note that you can
+  type <code>hun</code> and hit <em>Tab</em> and you will
+  get <code>hunchentoot</code> as a <em>partial</em> completion.  Now
+  type <code>-</code> (a hyphen) and <em>Tab</em> and you'll
+  get <code>hunchentoot-test</code>.)
+  <p>
+  (Note: We loaded the two libraries individually for educational
+purposes.  It would have been enough to just
+load <code>hunchentoot-test</code> because ASDF would've taken care of
+loading <code>hunchentoot</code> as well.)
+  <p>
+  Evaluate the form
+<pre>(hunchentoot:start (make-instance 'hunchentoot:acceptor :port 9999))</pre> in the listener
+(don't forget to use completion with the <em>Tab</em> key to save some
+typing) and then enter the
+address <a
+href="http://localhost:9999/hunchentoot/test">http://localhost:9999/hunchentoot/test</a>
+into your favorite web browser.  Your Lisp now acts as a web server.
+  <p>
+  (Note: If you have a firewall or other security software installed, it will probably ask
+  you whether it is OK that LispWorks uses port 9999.  You should
+  obviously answer with "yes" to reproduce what is described here.)
+  <p>
+  See the documentation
+  for <a href="http://weitz.de/hunchentoot/">Hunchentoot</a> for more info.
+
+  <li>
+  (This step assumes that you have checked
+  "CLSQL" <a href="#install">when you downloaded the
+  libraries</a>.)
+  <p>
+  Load the library <code>clsql-sqlite3</code>
+  (<em>not</em> <code>clsql-sqlite</code>!) as described above.  You
+  can now interact with an SQLite3 database of your choice.  Here's an
+  example session:
+
+<pre>
+CL-USER 1 &gt; (use-package :clsql)
+T
+
+<font color=orange>;; Make sure you have a c:\tmp directory or put the file somewhere else.</font>
+CL-USER 2 &gt; (connect '("c:/tmp/example.db") :database-type :sqlite3)
+#&lt;CLSQL-SQLITE3:SQLITE3-DATABASE c:/tmp/example.db OPEN 200DD163&gt;
+
+CL-USER 3 &gt; (create-table "world_cup" '(("rank" integer) ("country" string)))
+
+CL-USER 4 &gt; (loop for rank from 1
+                  for country in '("Italy" "France" "Germany" "Portugal")
+                  do (execute-command (format nil "insert into world_cup values (~A, '~A')"
+                                              rank country)))
+NIL
+
+CL-USER 5 &gt; (query "select country from world_cup where rank &lt; 3")
+(("Italy") ("France"))
+("country")
+</pre>
+
+  You can of course replace <code>"c:/tmp/example.db"</code> with some
+  other filename.  For this example you should choose a file which
+  doesn't exist yet.
+  <p>
+  See the <a href="http://clsql.b9.com/documentation.html">CLSQL documentation</a> for more details.
+
+  <li>
+  (This step assumes that you have checked
+  "DRAKMA" and "CL-FAD" <a href="#install">when you downloaded the
+  libraries</a>.)
+  <p>
+  Load the libraries <code>drakma</code> and <code>cl-fad</code> as
+  described above.  Here's an example that grabs an image from the
+  Internet and displays it in LispWorks:
+<pre>
+CL-USER 6 &gt; (defun show-jpg-from-web (url)
+              (let ((tmp-file (merge-pathnames "tmp/foo.jpg" (probe-file
+                                                              (sys:get-folder-path :my-documents)))))
+                (with-open-file (file-stream (ensure-directories-exist tmp-file)
+                                             :direction :output
+                                             :if-exists :overwrite
+                                             :if-does-not-exist :create
+                                             :element-type '(unsigned-byte 8))
+                  (cl-fad:copy-stream (drakma:http-request url :want-stream t :force-binary t)
+                                      file-stream))
+                (capi:contain (make-instance 'capi:image-pinboard-object
+                                             :image (namestring tmp-file)))))
+SHOW-JPG-FROM-WEB
+
+CL-USER 2 &gt; (show-jpg-from-web &quot;<a class=noborder href="http://www.science.uva.nl/~robbert/zappa/files/jpg/maestro2.jpg">http://www.science.uva.nl/~robbert/zappa/files/jpg/maestro2.jpg</a>&quot;)
+<font color=orange>;; LispWorks should now display an image in a new window.</font>
+#&lt;CAPI:IMAGE-PINBOARD-OBJECT  200FC7BB&gt;
+</pre>
+Remember: If there are any commands in the code above that you don't
+understand, click on them and press <code>F5</code>.
+<p>
+See the
+documentation
+for <a href="http://weitz.de/drakma/">Drakma</a>
+and <a href="http://weitz.de/cl-fad/">CL-FAD</a> for more info.
+</ul>
+
+<br>&nbsp;<br><h3><a class=none name="asdf">What is this ASDF thingy?</a></h3>
+
+A major goal of this "starter pack" is to initially shield you from
+the complexities of <a href="http://www.cliki.net/asdf">ASDF</a>.  But
+sooner or later you will have to learn what it is and how to use it.
+So, here we go:
+<p>
+ASDF is a system definition facility.  It can be used, amongst other
+things, to define which source files belong to a library and in which
+order they have to be compiled and loaded.  In this respect it is
+pretty similar
+to <a href="http://en.wikipedia.org/wiki/Make"><code>make</code></a>.
+There are other, similar systems
+like <a href="http://www.cliki.net/mk-defsystem">MK:DEFSYSTEM</a>
+or <a
+href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser-195.htm">LispWorks'
+Common Defsystem</a>, but the dominant system for open source
+libraries nowadays is ASDF.
+<p>
+An ASDF system is described by a file with the <code>.asd</code>
+suffix.  If you instruct ASDF to load a system called "foo", it will
+try to find the <code>foo.asd</code> file and proceed from there.  If you
+plan to only use ASDF to load libraries others have written, you only
+need to know how to tell ASDF where to look for these "system
+definitions."  This is done via
+the <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#special_variable">special
+variable</a> <code>ASDF:*CENTRAL-REGISTRY*</code> which is a list
+of <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_p.htm#pathname_designator">pathname
+designators</a> denoting directories.  (I'm simplifying a bit.  See
+the <a href="http://constantly.at/lisp/asdf/">ASDF manual</a> for all
+the gory details.)
+<p>
+On a Unix-y platform, most ASDF users really have one <em>central</em>
+registry which is a directory to which they <a href="http://en.wikipedia.org/wiki/Symbolic_link">symlink</a> all the system
+definitions they have on their hard disk.  Since Windows doesn't have
+symbolic links (yeah, yeah, I know about "reparse points" aka
+"junction points"), you have to use another approach.  The approach
+the "starter pack" uses is to put all libraries into one directory,
+parse this directory for sub-directories which contain system
+definitions, and add these sub-directories
+to <code>ASDF:*CENTRAL-REGISTRY*</code>.  This happens
+when <code>start.lisp</code> is executed.
+<p>
+So, in order to add new Lisp libraries you've downloaded manually,
+just unpack them into the "Lisp Libraries" folder <a href="#libs">mentioned above</a>.
+ASDF will know about this library after you've restarted LispWorks and
+executed <code>start.lisp</code> again.  As an alternative, you can evaluate
+<pre>
+(cl-user::update-asdf-central-registry)
+</pre>
+in the current session.
+<p>
+This works fine <em>unless</em> you have different versions of the
+same library in the "Lisp Libraries" folder.  So, don't do that...
+<p>
+For a slightly different approach to using ASDF on Windows see the
+Windows
+note <a
+href="http://common-lisp.net/project/asdf-install/tutorial/index.html#load-asdf-install">here</a>.
+
+<br>&nbsp;<br><h3><a class=none name="own">Your own code</a></h3>
+
+For the reasons <a href="#asdf">explained above</a>, it is
+recommendable that you also use ASDF for your own stuff.  Here's a
+very simple recipe which you can use to organize your own code until
+you feel ready for more complex setups.  In this example, we're creating a system called
+"foo":
+
+<ul>
+  <li>Create a folder called "foo" within <a href="#libs">the "Lisp Libraries" folder</a>.
+  (The name doesn't need to be "foo" but it doesn't hurt either.)
+
+  <li>Within this new folder create a file <code>foo.asd</code> with
+  the following contents:
+<pre>
+(in-package :cl-user)
+
+(defpackage :foo-asd
+  (:use :cl :asdf))
+
+(in-package :foo-asd)
+
+(defsystem :foo
+  :serial t
+  :components ((:file "packages")
+               (:file "file1")
+               (:file "file2")
+               (:file "file3"))
+  :depends-on (:cl-ppcre :clsql))
+</pre>
+The <code>:FILE</code> components are the source files (with
+a <code>.lisp</code> suffix) that comprise your application.  They
+must also be located in the "foo" directory.
+<p>
+The file <code>packages.lisp</code> should always be there and it
+should always be the first one (see next
+point). <code>file1.lisp</code> through <code>file3.lisp</code> are
+supposed to be the files containing your source code and of course
+there can be more (or less) than three and they can have different
+names.
+<p>
+The <code>:SERIAL</code> option means that your files will be compiled and
+loaded in the order they are specified.  The list
+after <code>:DEPENDS-ON</code> lists the libraries the presence of
+which your code will require in order to work.
+Replace <code>:CL-PPCRE</code> and <code>:CLSQL</code> with what your
+code really needs.
+
+  <li>The file <code>packages.lisp</code> will only contain
+  a <a
+  href="http://www.lispworks.com/documentation/HyperSpec/Body/m_defpkg.htm">DEFPACKAGE</a>
+  form.  The minimal version of this file should look like this:
+<pre>
+(in-package :cl-user)
+
+(defpackage :foo
+  (:use :cl))
+</pre>
+  Of course, you
+  can <a
+  href="http://www.lispworks.com/documentation/HyperSpec/Body/f_use_pk.htm">use</a>
+  other packages here, and you probably want
+  to <a
+  href="http://www.lispworks.com/documentation/HyperSpec/Body/f_export.htm">export</a>
+  some symbols.
+  <p>
+  Note that we used the same name "foo" for the ASDF system as well as
+  for the Lisp package, <a href="http://weitz.de/packages.html">but these are <em>different</em> things!</a>  It
+  is just a usual habit to do it like this.
+  See <a
+  href="http://www.gigamonkeys.com/book/programming-in-the-large-packages-and-symbols.html">Peter's
+  chapter about packages</a> for more information.
+
+<li>All other source files (<code>file1.lisp</code> and so on) should have
+<pre>
+(in-package :foo)
+</pre>
+  as their first line.
+</ul>
+Now you can begin to work on your code.  Always start by loading your
+system.  This will ensure that all required libraries are loaded and,
+as a consequence, that things
+like <a href="http://weitz.de/lw-add-ons/#completion">symbol
+completion</a>, <a href="http://weitz.de/lw-add-ons/#arglist">display
+of argument lists</a>, and indentation work correctly.
+<p>
+If you edit code, don't (re)define functions in the listener.
+Instead, edit directly within the source files and use the
+editor's <a
+href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-114.htm">compilation
+commands</a>.
+<p>
+For a more detailed explanation of ASDF
+see <a href="http://common-lisp.net/~mmommer/asdf-howto.shtml">Mario
+Mommer's howto</a>.
+
+<br>&nbsp;<br><h3><a class=none name="what">What does the starter pack do?</a></h3>
+
+Once you've understood how ASDF works, it is pretty easy to understand
+what <a href="#exe"><code>LispStarterPack.exe</code></a> does: It downloads the libraries
+you've specified and unpacks them into <a href="#libs">the "Lisp Libraries" folder</a>.
+It also puts ASDF itself there as well as the
+file <code>start.lisp</code> which is pulled from
+my <a href="http://weitz.de/starter-pack/start.lisp">my website</a>.
+<code>start.lisp</code>, which is supposed to be loaded after you've
+started LispWorks, tells ASDF where to look for system definitions and
+sets up some stuff
+for <a href="http://weitz.de/lw-add-ons/">LW-ADD-ONS</a>.
+<p>
+If you've selected <a href="http://clsql.b9.com/">CLSQL</a> amongst
+the libraries you want to download, the DLL
+for <a href="http://www.sqlite.org/">SQLite</a> will also be
+downloaded and <code>start.lisp</code> will modify
+the <code>PATH</code> environment variable so Windows will find this
+DLL while LispWorks is running.  (If you want to play with CLSQL, you
+can also connect to
+an <a href="http://clsql.b9.com/manual/odbc.html">ODBC source</a> or
+to a <a href="http://www.postgresql.org/">PostgreSQL</a> database
+using
+the <a href="http://clsql.b9.com/manual/postgresql-socket.html">socket
+back-end</a>.  For other types of SQL databases,
+like <a href="http://www.oracle.com/">Oracle</a>
+or <a href="http://www.mysql.com/">MySQL</a>, you will have to install
+the corresponding DLLs yourself.)
+<p>
+The source code for <code>LispStarterPack.exe</code> including this
+website is available
+from <a href="http://weitz.de/files/starter-pack.tar.gz">http://weitz.de/files/starter-pack.tar.gz</a>
+and the program can download and install its own source code in case
+you want to inspect it.  (Load the <code>starter-pack</code> system
+and call the function <code>STARTER-PACK:MAIN</code>.)
+<p>Note: Currently (as of August 16, 2006) the program has to use an
+unreleased version
+of <a href="http://common-lisp.net/project/zip/">ZIP</a> which I
+keep at <a
+href="http://weitz.de/files/zip-cvs-2006-08-16.tar.gz">http://weitz.de/files/zip-cvs-2006-08-16.tar.gz</a>
+on my website.  The latest release version doesn't work with Windows
+and/or LispWorks.  This will be changed as soon as a new release is out.  See also <a href="#break">next section</a>.
+
+<br>&nbsp;<br><h3><a class=none name="problems">Potential problems</a></h3>
+
+Due to the approach I've chosen, several things can potentially go wrong:
+
+<h4><a name="url" class=none>Wrong URLs</a></h4>
+
+The URLs for the libraries are hard-coded into the application.  So,
+if the author decides to change the URL, you won't be able to download
+this library anymore.  If you see this happen, please contact me so I
+can release a corrected version of <a href="#exe"><code>LispStarterPack.exe</code></a>.
+<p>
+For a better, albeit not perfect approach to deal with this problem, see <a href="#asdf-install">ASDF-INSTALL</a>.
+
+<h4><a name="dependencies" class=none>Wrong dependencies</a></h4>
+
+The <a href="#url">same</a> applies to library dependencies which
+might change without me noticing.  If something goes wrong, you should
+always check first if you're using the newest version of this starter
+pack, though.
+
+<h4><a name="break" class=none>One of the libraries doesn't work</a></h4>
+
+Most of the URLs are chosen to automatically pick up the newest
+version of the corresponding library.  Of course, it can happen that a
+newer version breaks or simply doesn't work with Windows and/or
+LispWorks anymore.  You can email me if this happens to you, but I
+probably can't do anything about it.
+
+<h4><a name="proxy" class=none>Proxies</a></h4>
+
+If you are using a proxy to connect to the Internet,
+then <a href="#exe"><code>LispStarterPack.exe</code></a> probably
+can't download anything.  It will query the Windows registry for the
+<a href="http://support.microsoft.com/?id=226473"><em>static</em>
+proxy settings</a> and adhere to them, but it won't be able to cope
+with per-connection proxy settings or with proxies which require
+authentication.
+
+<br>&nbsp;<br><h3><a class=none name="custom">Customization</a></h3>
+
+If you have a file called <code>.lw-init.lisp</code> (note the initial
+dot) in your home directory, this will be automatically loaded
+after <code>start-lisp</code>, so you can put arbitrary initialization
+code her.
+<p>
+You can also add libraries to the ones that are hard-coded into
+the <a href="#exe">application</a> if you want.  Likewise, you can
+overwrite the default download URLs.  This is done by creating a file
+called <code>config.lisp</code> in the same directory where the
+application resides.  The application will read this file when it
+starts up and it will add library definitions found therein to the
+ones it already knows.  A <em>library definition</em> in this case is
+a
+Lisp <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/t_list.htm">list</a>
+with three or more elements where the second and third elements
+are <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/t_string.htm">strings</a>
+and all other elements
+are <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/t_kwd.htm">keywords</a>.
+The first element is the name of the library which will be shown in
+the graphical user interface next to the checkbox and which is used to
+uniquely identify the library.  The second element is a textual
+description which will be used for the tooltip.  The third element is
+the download URL.  And the following elements (if any) denote other
+libraries this one depends on.  These libraries must also be known to
+the application or it will refuse to start.
+<p>
+An example config file could look like this:
+<pre>
+(:cl-wbxml "WBXML parser."
+           "http://weitz.de/files/wbxml.tar.gz"
+           :flexi-streams)
+
+(:uffi "Portable access to C libraries."
+       "http://files.b9.com/uffi/uffi-1.5.15.tar.gz")
+</pre>
+The first expression adds
+the <a href="http://weitz.de/cl-wbxml">CL-WBXML</a> library to the
+ones which should be downloaded, and the second one replaces the
+default download URL for the <a href="http://uffi.b9.com/">UFFI</a>
+library with one that always loads version&nbsp;1.5.15.  The second
+expression <em>replaces</em> the original UFFI definition because the
+keyword <code>:UFFI</code> uniquely identifies this library.
+<p>
+Download URLs must always be HTTP or HTTPS
+(see <a href="http://weitz.de/drakma/#download">this remark</a> about
+SSL) URLs, and the types of the archives that are downloaded must
+be <code>.zip</code>, <code>.tar</code>, <code>.tar.gz</code>,
+or <code>.tar</code>.  Libraries added this way must obviously have
+an <a href="#asdf">ASDF</a> system definition in order to be useful.
+Most code you will find at (for example)
+the <a href="http://cl-user.net/">Common Lisp
+Directory</a>, <a href="http://www.cliki.net/index">CLiki</a>,
+and <a href="http://common-lisp.net/">Common-Lisp.net</a> will have
+one.
+<p>
+For another example for a config file
+see <a
+href="http://lispbuilder.sourceforge.net/#windows">the
+lispbuilder project</a>.
+
+<br>&nbsp;<br><h3><a class=none name="faq">FAQ</a></h3>
+
+No, these aren't really frequently asked questions - nobody has asked
+any questions yet.  But you probably want to ask some of these
+questions once you've read the website, so why not give an answer in
+advance... :)
+<p>
+If you don't know what I'm talking about below, just skip this
+section.
+
+<h4><a name="windows" class=none>Why only Windows?</a></h4>
+
+The <a href="#intro">original "starter pack"</a> this document is
+based on was created for Windows users so I simply decided to leave it
+like that.  There are actually two reasons for this decision: First of
+all, it involves much more work to prepare something that works
+equally well on a variety of operating systems.  I don't have the time
+to do that.  Secondly, I think that the situation for Lisp newbies who
+are on Linux or OS X is significantly better than for Windows users:
+Lisp open source hackers seem to favor these platforms and thus
+support for them is better, Emacs (and
+thus <a href="http://common-lisp.net/project/slime/">SLIME</a>) works
+better than on Windows, and you can even expect "native" packaging
+systems like Debian's <code>apt</code>, Gentoo's <code>emerge</code>
+or OS X's <code>Fink</code> to help with Lisp installations.
+<p>
+For Linux, you should also check
+out <a href="http://common-lisp.net/project/clbuild/">clbuild</a>.
+For OS X, read <a href="http://bc.tech.coop/blog/070403.html">Bill
+Clementson's blog entry</a>.
+
+<h4><a name="lispworks" class=none>Why only LispWorks?</a></h4>
+
+LispWorks is the Common Lisp implementation I use and that I'm
+familiar with.  It is much easier for me to prepare something that
+works with LispWorks than to prepare something that works with every
+Lisp that can potentially run on Windows.  I'm convinced that
+LispWorks provides a great environment to work with and also to learn
+the language, but of course that doesn't imply that I would discourage
+you from using something else like,
+say, <a href="http://www.franz.com/products/allegrocl/">Allegro CL</a>,
+or the new Windows port
+of <a href="http://sbcl.sourceforge.net/">SBCL</a> - it's just that
+this document ain't for you in this case.
+
+<h4><a name="slime" class=none>Why not SLIME?</a></h4>
+
+I really
+like <a href="http://common-lisp.net/project/slime/">SLIME</a>.  I
+think it's a great Common Lisp IDE, and I always use it if I have to
+work with Lisps other than LispWorks.  However, I think that the
+LispWorks IDE is more accessible to newbies and that it provides a lot
+of niceties SLIME doesn't have (yet).  Plus, if you don't use SLIME,
+you aren't forced to install Emacs which, as much as I like it, is
+kind of an impurity on Windows.  Finally, there are
+some <a
+href="http://common-lisp.net/pipermail/slime-devel/2004-December/002876.html">unresolved
+issues</a> with SLIME and LispWorks on Windows.
+
+<h4><a name="asdf-install" class=none>Why not ASDF-INSTALL?</a></h4>
+
+I originally started to port <a href="http://www.cliki.net/ASDF-Install">ASDF-INSTALL</a> to Lisps other than SBCL and
+to write a
+little <a
+href="http://common-lisp.net/project/asdf-install/tutorial/index.html">tutorial</a>
+for it.  However, ASDF-INSTALL is kind of biased towards a Unix-y
+platform, and while it is possible to make it work with Windows, my
+experience has been that even with the tutorial people had
+difficulties using it.  Furthermore, I don't use ASDF-INSTALL myself.
+I think that once you're familiar enough with ASDF, you don't need it,
+and it's easier to just download libraries manually and put them where
+you want to have them.  Likewise, I expect the readers of this
+document to get rid of the "starter pack" sooner or later.
+
+<h4><a name="lispbox" class=none>Why not Lispbox or Lisp in a Box?</a></h4>
+
+<a href="http://www.gigamonkeys.com/book/lispbox/">Lispbox</a>
+and <a href="http://common-lisp.net/project/lispbox/">Lisp in a
+Box</a> are cool, but they don't work
+with <a href="#lispworks">LispWorks</a>.  See also my remarks about
+SLIME <a href="#slime">above</a>.
+
+<h4><a name="missing" class=none>Why is library "foo" not included?</a></h4>
+
+Your favorite open source library is not included in the list provided
+by <code>LispStarterPack.exe</code>?  Why is that?
+<p>
+Well, I selected libraries according to the following criteria: They
+have a reasonable license, I know them and have worked with them, they
+work with Windows, they use ASDF, they don't use the foreign function
+interface (FFI), they don't duplicate functionality provided by other
+libraries in the list.  (CLSQL was allowed to violate the point about
+not using the FFI because it's pretty popular, but otherwise I didn't
+fancy dealing with DLLs.)
+<p>
+If you think a specific library should definitely be added, contact
+me.  Or <a href="#custom">use the customization option</a>.
+
+<br>&nbsp;<br><h3><a class=none name="copyright">Copyright</a></h3>
+
+Copyright &copy; 2006-2011 <a href="http://weitz.de/">Dr. Edmund Weitz</a>.  All rights reserved. 
+
+<br>&nbsp;<br><h3><a class=none name="license">License</a></h3>
+
+Redistribution and use of this tutorial in its orginal form (HTML) or
+in 'derived' forms (PDF, Postscript, RTF, and so forth) with or without
+modification, are permitted provided that the following condition is
+met:
+
+<blockquote>
+Redistributions must reproduce the
+above <a href="#copyright">copyright notice</a>, this condition, and
+the following disclaimer in the document itself and/or other materials
+provided with the distribution.
+</blockquote>
+
+IMPORTANT: This document is provided by the author "as is" and any
+expressed or implied warranties, including, but not limited to, the
+implied warranties of merchantability and fitness for a particular
+purpose are disclaimed. In no event shall the author be liable for any
+direct, indirect, incidental, special, exemplary, or consequential
+damages (including, but not limited to, procurement of substitute
+goods or services; loss of use, data, or profits; or business
+interruption) however caused and on any theory of liability, whether
+in contract, strict liability, or tort (including negligence or
+otherwise) arising in any way out of the use of this documentation,
+even if advised of the possibility of such damage.
+
+<p>
+$Header: /usr/local/cvsrep/starter-pack/doc/index.html,v 1.88 2011/02/11 19:56:07 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>
+

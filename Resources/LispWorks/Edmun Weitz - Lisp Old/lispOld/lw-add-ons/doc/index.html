@@ -1,0 +1,577 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>LW-ADD-ONS - Some additions to the LispWorks IDE</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
+  a.none { text-decoration: none; padding: 0; }
+  a.none:visited { text-decoration: none; padding: 0; } 
+  a.none:hover { text-decoration: none; border: none; padding: 0; } 
+  a.none:focus { text-decoration: none; border: none; padding: 0; } 
+  a.noborder { text-decoration: none; padding: 0; } 
+  a.noborder:visited { text-decoration: none; padding: 0; } 
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  pre.none { padding:5px; background-color:#ffffff }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>LW-ADD-ONS - Some additions to the LispWorks IDE</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+LW-ADD-ONS is a collection of small &quot;enhancements&quot; to
+the <a href="http://www.lispworks.com/">LispWorks</a> IDE that I
+usually load from my initialization file.  Most of this code is
+intended to make LispWorks behave similar
+to <a href="http://common-lisp.net/project/slime/">SLIME</a> and <a href="http://www.gnu.org/software/emacs/emacs.html">GNU
+Emacs</a>.  The details of what's included are outlined below.  (Whether
+one thinks these are enhancements or rather distractions is of course
+a matter of taste.)
+
+<p>
+
+The code has been used and tested on LispWorks for Windows mostly (I
+don't use the IDE on Linux), but I hear there are also some Mac
+hackers using it successfully.  For an overview of which LispWorks
+releases are supported, see
+<a href="#compatibility">below</a>.
+
+<p>
+
+It comes with a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+</blockquote>
+
+<center>
+<a class=none name="apropos-pic" title="The Apropos Dialog" href="#apropos"><img alt="The Apropos Dialog" src="apropos.png" border=0 width=821 height=619></a>
+</center>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#download">Download and installation</a>
+  <li><a href="#compatibility">Compatibility with different LispWorks releases</a>
+  <li><a href="#overview">Overview</a>
+  <ol>
+      <li><a href="#completion">Symbol completion</a>
+      <li><a href="#arglist">Information about the arguments of a function</a>
+      <li><a href="#apropos">Apropos dialog</a>
+      <li><a href="#transient">"Transient mark mode"</a>
+      <li><a href="#search">Search and replace</a>
+      <li><a href="#documentation">Online documentation</a>
+      <li><a href="#asdf">ASDF integration</a>
+      <li><a href="#quicklisp">Quicklisp integration</a>
+      <li><a href="#shortcuts">Listener shortcuts</a>
+      <li><a href="#backups">Alternative editor backups</a>
+      <li><a href="#misc">Miscellaneous</a>
+  </ol>
+  <li><a href="#dictionary">The LW-ADD-ONS dictionary</a>
+  <ol>
+      <li><a href="#*backup-directory*"><code>*backup-directory*</code></a>
+      <li><a href="#*completion-match-function*"><code>*completion-match-function*</code></a>
+      <li><a href="#*insert-right-parenthesis-if-no-args*"><code>*insert-right-parenthesis-if-no-args*</code></a>
+      <li><a href="#*listener-shortcuts*"><code>*listener-shortcuts*</code></a>
+      <li><a href="#*make-backup-filename-function*"><code>*make-backup-filename-function*</code></a>
+      <li><a href="#*max-completions-to-show*"><code>*max-completions-to-show*</code></a>
+      <li><a href="#*max-info-length*"><code>*max-info-length*</code></a>
+      <li><a href="#*mop-page*"><code>*mop-page*</code></a>
+      <li><a href="#*product-registry-path*"><code>*product-registry-path*</code></a>
+      <li><a href="#*show-doc-string-when-showing-arglist*"><code>*show-doc-string-when-showing-arglist*</code></a>
+      <li><a href="#*swank-loader-pathname*"><code>*swank-loader-pathname*</code></a>
+      <li><a href="#*translate-asdf-systems*"><code>*translate-asdf-systems*</code></a>
+      <li><a href="#*use-abbreviated-complete-symbol*"><code>*use-abbreviated-complete-symbol*</code></a>
+      <li><a href="#*use-quicklisp-for-shortcut-l*"><code>*use-quicklisp-for-shortcut-l*</code></a>
+      <li><a href="#make-backup-filename-using-backup-directory"><code>make-backup-filename-using-backup-directory</code></a>
+      <li><a href="#start-swank-server"><code>start-swank-server</code></a>
+  </ol>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+
+
+<br>&nbsp;<br><h3><a class=none name="download">Download and installation</a></h3>
+
+LW-ADD-ONS together with this documentation can be downloaded
+from <a
+href="http://weitz.de/files/lw-add-ons.tar.gz">http://weitz.de/files/lw-add-ons.tar.gz</a>. The
+current version is 0.10.3.  It depends on
+my <a href="http://weitz.de/lw-doc/">LW-DOC</a> library.  (Note that
+LW-DOC in turn depends
+on <a href="http://weitz.de/cl-ppcre/">CL-PPCRE</a> and you should
+have at least version 1.2.12.)
+<p>
+LW-ADD-ONS comes with a system definition
+for <a href="http://www.cliki.net/asdf">ASDF</a>.  It is supposed to
+be loaded from your init file and a sample init file
+(called <code>.lispworks</code>) which amongst other things sets up
+ASDF and loads LW-ADD-ONS is included.  See the
+file <code>README.txt</code> for more detailed instructions.  Note
+that the key bindings which can be found in the sample init file and
+which are mentioned below <em>won't</em> work if you use
+LispWorks' <a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-119.htm">Windows
+editor emulation</a>.
+
+<p>
+If you want to send patches, please <a href="http://weitz.de/patches.html">read this first</a>.
+
+<br>&nbsp;<br><h3><a class=none name="compatibility">Compatibility with different LispWorks releases</a></h3>
+
+LW-ADD-ONS was originally (in 2005) conceived and written for
+LispWorks 4.4.5/4.4.6 (and it will likely not work with older
+versions).  Since then, the fine LispWorks hackers have added several
+new features to their IDE which rendered some parts of LW-ADD-ONS
+obsolete.  As I usually use the latest LispWorks version, you can
+expect LW-ADD-ONS to be adapted to it pretty soon after its release.
+This might include dropping features which are now superseded by
+capabilities offered by the LispWorks IDE itself.
+<p>
+The newest LispWorks release which is currently supported is 7.0.
+Support for older LispWorks versions might at some point disappear.
+Keep your old LW-ADD-ONS tarballs if you plan on sticking with a
+certain LispWorks release.
+
+<br>&nbsp;<br><h3><a class=none name="overview">Overview</a></h3>
+
+Here's an overview of what's currently in LW-ADD-ONS.  If you want
+more details you got to look at the source code which should be
+reasonably documented.
+
+<h4><a class=none name="completion">Symbol completion</a></h4>
+
+<p>Symbol completion is divided into two editor commands.  The "outer"
+command is &quot;<code><b>Indent And Complete Symbol</b></code>&quot;
+which tries to indent the current line and only performs completion if
+the line hasn't changed.  I have bound this command to
+the <code>TAB</code> key in my init file, so I can
+use <code>TAB</code> for both indentation and completion.
+  (In LispWorks 7.0 the editor command &quot;<code><b>Indent Selection or Complete Symbol</b></code>&quot;
+  was introduced, so you probably no longer need my workaround.)
+<p>
+The "inner" command is &quot;<code><b>Complete Symbol Without
+Dialog</b></code>&quot; which is intended to work more or less like
+SLIME's <code>slime-complete-symbol*</code> function, i.e. you can
+type, e.g., <code>m-v-b</code> and it'll be expanded
+to <code>multiple-value-bind</code>.  If there's more than one
+possible completion, then the command only performs completion up to
+the longest unambiguous prefix and shows a list of
+(<a href="#*max-completions-to-show*">some of</a>) the possible
+completions in the echo area.  There's no GUI dialog popping up
+because I think that's distracting.
+<p>
+&quot;<code><b>Indent And Complete Symbol</b></code>&quot; calls
+&quot;<code><b>Complete Symbol Without Dialog</b></code>&quot; on
+LispWorks 4.4.x and 5.0.x.  In 5.1, however, the new command
+&quot;<code><b>Abbreviated Complete Symbol</b></code>&quot; was
+introduced by LispWorks, so now you can decide which function should
+be used via the special
+variable <a href="#*use-abbreviated-complete-symbol*"><code>*USE-ABBREVIATED-COMPLETE-SYMBOL*</code></a>.
+
+<p>If it can be determined that you're within a string then
+&quot;<code><b>Indent And Complete Symbol</b></code>&quot; tries
+pathname completion instead.  (This is not perfect, though, as it
+won't work if the string contains spaces.)</p>
+
+<p>If the symbol which is completed denotes a function without
+arguments, &quot;<code><b>Complete Symbol Without
+Dialog</b></code>&quot; will automatically add a closing parenthesis.
+This can be customized through the
+variable <a href="#*insert-right-parenthesis-if-no-args*"><code>*INSERT-RIGHT-PARENTHESIS-IF-NO-ARGS*</code></a>.</p>
+
+<p>You can customize the behavior of &quot;<code><b>Complete Symbol Without
+Dialog</b></code>&quot; by changing the value of
+the
+variable <a href="#*completion-match-function*"><code>*COMPLETION-MATCH-FUNCTION*</code></a>.</p>
+
+<p>Note that for LispWorks 7.0 the default behavior had to be changed -- see <a href="http://permalink.gmane.org/gmane.lisp.lispworks.general/13414">here</a>.
+
+<h4><a class=none name="arglist">Information about the arguments of a function</a></h4>
+
+<p>The editor command "<code><b>Insert Space and Show
+Arglist</b></code>" which I've bound to the space key inserts a space
+and shows the argument list of the nearest enclosing operator in the
+echo area.
+If <a
+href="#*show-doc-string-when-showing-arglist*"><code>*SHOW-DOC-STRING-WHEN-SHOWING-ARGLIST*</code></a>
+is true the documentation string of the operator is also shown.</p>
+
+<p>Note that this command is different from the one that's distributed
+as an example together with LispWorks.</p>
+
+<h4><a class=none name="apropos">Apropos dialog</a></h4>
+
+<p>There is an Apropos dialog (see <a href="#apropos-pic">picture
+above</a>) that can be reached via the LispWorks 'Tools' menu or the
+"<code><b>Tools Apropos</b></code>" editor command (bound
+to <code>C-c&nbsp;C-a</code>).  The dialog should be mostly
+self-explanatory.  Note that right-clicking on the results in the
+multi-column list panel (after selecting one or more items) pops up a
+menu with various options similar to other IDE tools.  Double-clicking
+an item tries to find the corresponding source code or, failing that,
+the documentation.</p>
+<p>
+Note that in LispWorks 5.0
+a <a href="http://www.lispworks.com/documentation/lw50/CLWUG-W/html/clwuser-w-318.htm">similar
+tool</a> was introduced.
+</p>
+<h4><a class=none name="transient">"Transient mark mode"</a></h4>
+
+<p>The editor tries to emulate GNU Emacs' <em>transient mark mode</em>
+if you bind the command "<code><b>Set Mark And Highlight</b></code>"
+to <code>C-SPC</code> and/or <code>C-@</code>.  This results in the
+marked region always being highlighted.</p>
+
+<h4><a class=none name="search">Search and replace</a></h4>
+
+<p>The editor commands to find and replace strings are modified in
+such a way that they only operate on the marked region if there is
+one.  Also, the effects of a
+&quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-69.htm#marker-885310"><code><b>Replace...</b></code></a>&quot;
+command can be undone with a single
+&quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-54.htm#marker-884739"><code><b>Undo</b></code></a>&quot;
+command.  (The latter feature comes for free with LispWorks&nbsp;5.1 and higher.)</p>
+
+<p>In LispWorks 5.0 and earlier, the editor command
+&quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-96.htm#marker-928756"><code><b>Continue
+Tags Search</b></code></a>&quot; and all commands (like, say,
+&quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-98.htm#marker-920148"><code><b>Edit
+Callers</b></code></a>&quot;) that make it applicable (see
+the <a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w.htm">LispWorks
+Editor User Guide</a>) push the current position of point onto
+a <em>definitions stack</em> before they move to a new position.  You
+can walk back through this &quot;history&quot; using the new editor
+command &quot;<code><b>Pop Definitions Stack</b></code>&quot;.
+<p>
+Note that in LispWorks 5.1 a new command "<code><b>Go Back</b></code>"
+was introduced, so the code related to the definitions stack is
+disabled for 5.1 and higher.
+</p>
+
+<h4><a class=none name="documentation">Online documentation</a></h4>
+
+<p>The editor command "<code><b>Meta Documentation</b></code>" (bound
+to <code>F5</code> in the sample init file) tries to find HTML
+documentation for the symbol at point and immediately shows it using
+the default web browser.  This applies to the <a href="http://www.lispworks.com/documentation/HyperSpec/Front/index.htm">HyperSpec</a>, the <a href="http://www.lispworks.com/documentation/">LispWorks
+reference manuals</a>, the <a href="http://www.lisp.org/mop/index.html">MOP</a>
+(see <a href="#*mop-page*"><code>*MOP-PAGE*</code></a>), and some
+other useful stuff,  e.g. format strings like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/22_cga.htm"><code>~*</code></a>, reader macros
+like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/02_dhi.htm"><code>#x</code></a>, and loop clauses like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/06_ad.htm"><code>loop:until</code></a>.
+Finally, HTML documentation for libraries like <a href="http://weitz.de/cl-ppcre/">CL-PPCRE</a> or LW-ADD-ONS itself that have <a href="http://common-lisp.net/project/hyperdoc/">Hyperdoc</a> support will also be found.</p>
+
+<p>
+If the command is invoked with a prefix argument you are prompted for
+a symbol and completion is available.</p>
+
+<p>Note that this command is similar although not identical to the
+undocumented LispWorks command "<code><b>Function
+Documentation</b></code>".</p>
+
+<h4><a class=none name="asdf">ASDF integration</a></h4>
+
+<center>
+<a class=none title="The LispWorks System Browser showing an ASDF system" href="#asdf"><img alt="The LispWorks System Browser showing an ASDF system" src="system_browser.png" border=0 width=682 height=851></a>
+</center>
+
+<p>If <a
+href="#*translate-asdf-systems*"><code>*TRANSLATE-ASDF-SYSTEMS*</code></a>
+is set to a true value
+then <a href="http://www.cliki.net/asdf">ASDF</a> system definitions
+are automatically converted
+to <a
+href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser-195.htm">Common
+Defsystem</a> definitions whenever you load or compile an ASDF system.</p>
+
+<p>Note that ASDF is a lot more flexible than Common Defsystem and
+there's no hope to convert every conceivable ASDF system to an
+equivalent Common Defsystem system.  The conversion is mainly intended
+to enable you to browse ASDF systems from the LispWorks IDE and use
+editor commands like &quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-66.htm#marker-885260"><code><b>System Search</b></code></a>&quot; and
+&quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-69.htm#marker-885341"><code><b>System Query Replace</b></code></a>&quot;.  It seems to work in
+practice for a lot of open source ASDF systems that can be used with
+LispWorks.</p>
+
+<p>Note that this has been rendered mostly obsolete due to <a href="http://www.lispworks.com/documentation/lw60/RNIG/html/readme-372.htm">a new feature in LispWorks&nbsp;6.1</a> and
+  has been disabled for LispWorks&nbsp;7.
+
+<h4><a class=none name="quicklisp">Quicklisp integration</a></h4>
+
+<p>LW-ADD-ONS contains <a href="http://www.quicklisp.org/">Quicklisp</a> support.
+
+<p>Download <a href="http://beta.quicklisp.org/quicklisp.lisp">
+http://beta.quicklisp.org/quicklisp.lisp</a> and load
+it. Installation is self-explanatory, simply follow the
+  instructions.  Do <em>not</em> let Quicklisp write anything into init files.
+
+<p>The command <code><b>Quickload Library</b></code> executes
+  <code>(ql:quickload lib)</code> which loads publicly available libraries via http or
+  if already loaded from <code>$home/quicklisp/dists/quicklisp/software</code>.
+
+  <p>The command <code><b>Quicklisp Update Client</b></code> updates the quicklisp
+client if a newer version is available online.
+
+    <p>The command <code><b>Quicklisp Update All Dists</b></code> updates the
+libraries managed by quicklisp.
+
+<h4><a class=none name="shortcuts">Listener shortcuts</a></h4>
+
+<p>Similar to SLIME's <code>slime-handle-repl-shortcut</code> you can
+press <code>,</code> (comma, for "<code><b>Maybe Invoke Listener Shortcut</b></code>") in the listener and then choose from a
+couple of shortcuts
+(see <a
+href="#*listener-shortcuts*"><code>*LISTENER-SHORTCUTS*</code></a>) to
+perform administrative tasks like loading a system via ASDF or
+changing the current directory.</p>
+
+<p>Type <code>F1</code> when prompted for a shortcut to see a list of
+what's available. Currently there are shortcuts for 
+<ul>
+<li>"<code><b>Load ASDF System</b></code>" (<code>l</code>), 
+<li>"<code><b>Test ASDF System</b></code>" (<code>t</code>), 
+<li>"<code><b>Compile ASDF System</b></code>" (<code>c</code>), 
+<li>"<code><b>Change Package</b></code>" (<code>p</code>), 
+<li>"<code><b>Change Directory</b></code>" (<code>cd</code>), 
+<li>"<code><b>Show Directory</b></code>" (<code>pwd</code>), and
+<li>"<code><b>Quit</b></code>" (<code>q</code> or <code>s</code>)
+</ul> - see
+the documentation strings of these commands for details.</p>
+
+<p>If Quicklisp is used, the first is changed to
+<ul>
+<li>"<code><b>Quickload Library</b></code>" (<code>l</code>),
+</ul>
+<p> and loading with ASDF is changed to:
+<ul>
+<li>"<code><b>Load ASDF System</b></code>" (<code>a</code>), 
+</ul>
+
+<p>If you don't like this change and want the old behavior while
+using Quicklisp simply switch <a href="#*use-quicklisp-for-shortcut-l*"><code>*USE-QUICKLISP-FOR-SHORTCUT-L*</code></a>
+to <code>NIL</code>.
+
+<h4><a class=none name="backups">Alternative editor backups</a></h4>
+
+LW-ADD-ONS can alter the way the IDE editor creates pathnames for
+backups.  This might come in handy if you don't want your code
+directories to be cluttered with files like <code>foo.lisp~</code>.
+Read about
+<a href="#*make-backup-filename-function*"><code>*MAKE-BACKUP-FILENAME-FUNCTION*</code></a>,
+<a href="#make-backup-filename-using-backup-directory"><code>MAKE-BACKUP-FILENAME-USING-BACKUP-DIRECTORY</code></a>,
+and <a href="#*backup-directory*"><code>*BACKUP-DIRECTORY*</code></a>
+and set these to values suiting your needs.
+
+<h4><a class=none name="misc">Miscellaneous</a></h4>
+
+<p>The command &quot;<a href="http://www.lispworks.com/documentation/lw50/EDUG-W/html/eduser-w-63.htm#marker-885088"><code><b>Next Ordinary Window</b></code></a>&quot; (usually bound
+to <code>C-x&nbsp;o</code>) is modified to also allow switching from
+an editor window to a listener window.</p>
+
+<p>The command "<code><b>Find Alternate File</b></code>" (usually
+bound to <code>C-x&nbsp;C-v</code>) is modified such that it checks
+whether the contents of the buffer are consistent with the file on
+disk.  Also, it'll provide the full pathname of the current
+buffer as the default when prompting.</p>
+
+<p>The command "<a href="#completion"><code><b>Indent And Complete
+Symbol</b></code></a>" includes a workaround to make sure that the
+start of a top-level form will always be indented to the beginning of
+a line.  LispWorks usually doesn't do that.</p>
+
+<p>The commands "<code><b>Evaluate Last Form And Inspect</b></code>" (<code>C-c&nbsp;i</code>) and "<code><b>Evaluate Last Form And Describe</b></code>" (<code>C-c&nbsp;d</code>) are like 
+"<code><b>Evaluate Last Form</b></code>" but open the result in an IDE inspector or describe it in a help window respectively.</p>
+
+<p>The command "<code><b>Untrace All</b></code>"
+executes <code>(untrace)</code>, the command "<code><b>Toggle
+Trace</b></code>" (<code>C-c&nbsp;C-t</code>) traces or untraces a function depending on its
+current state.</p>
+
+<p>The included initialization file makes sure you start with an
+editor and (if you use the MDI interface) tiles the windows
+vertically.</p>
+
+<p>A DDE
+Server <a
+href="http://www.lispworks.com/kb/55af67dc408cab568025687f004b1442.html">as
+described in the LispWorks Knowledgebase</a> is set up so you can open
+Lisp source files by double-clicking them.  You have to configure
+Windows Explorer to use this facility, of course.</p>
+
+<p>The function keys <code>F11</code> and <code>F12</code> are bound
+to commands that switch to an editor or a listener respectively (and
+create these tools if necessary).</p>
+
+<br>&nbsp;<br><h3><a class=none name="dictionary">The LW-ADD-ONS dictionary</a></h3>
+
+LW-ADD-ONS exports the following symbols:
+
+<p><br>[Special variable]<br><a class=none name='*backup-directory*'><b>*backup-directory*</b></a>
+<blockquote><br>
+
+The directory where backups are stored if the value of
+<a href="#*make-backup-filename-function*"><code>*MAKE-BACKUP-FILENAME-FUNCTION*</code></a>
+designates the
+function <a href="#make-backup-filename-using-backup-directory"><code>MAKE-BACKUP-FILENAME-USING-BACKUP-DIRECTORY</code></a>.
+It is recommended that you <b>don't</b> use this directory for other
+purposes.
+
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*completion-match-function*"><b>*completion-match-function*</b></a>
+
+<blockquote><br>
+The function used by "<a href="#completion"><code><b>Complete Symbol Without Dialog</b></code></a>" to
+check possible completions.  Should be a designator for a
+function of two arguments and return true <em>iff</em> the second argument
+is a possible completion of the first one.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*insert-right-parenthesis-if-no-args*"><b>*insert-right-parenthesis-if-no-args*</b></a>
+
+<blockquote><br>
+Whether "<a href="#completion"><code><b>Complete Symbol Without Dialog</b></code></a>" should insert a
+right parenthesis if the function is known to have an empty
+argument list.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*listener-shortcuts*"><b>*listener-shortcuts*</b></a>
+
+<blockquote><br> An <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_a.htm#alist">alist</a> of commands that can be invoked with
+"<a href="#shortcuts"><code><b>Invoke Listener Shortcut</b></code></a>", each one preceded by a shortcut.
+</blockquote>
+
+<p><br>[Special variable]<br><a class=none name='*make-backup-filename-function*'><b>*make-backup-filename-function*</b></a>
+<blockquote><br>
+
+If the value of this variable is not <code>NIL</code> (which is the
+default), then it should be a designator for a function of one
+argument which accepts a pathname and returns a pathname.  LispWork's
+own
+<code>EDITOR::MAKE-BACKUP-FILENAME</code> function will be replaced
+with this one in this case.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*max-completions-to-show*"><b>*max-completions-to-show*</b></a>
+
+<blockquote><br>
+The maximum number of possible completions shown in the echo
+area by "<a href="#completion"><code><b>Complete Symbol Without Dialog</b></code></a>".
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*max-info-length*"><b>*max-info-length*</b></a>
+
+<blockquote><br>
+The maximum length (in characters) of a message shown by the function
+<code>SHOW-INFO</code> (see source code) - unless <code>FULL-LENGTH-P</code> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*mop-page*"><b>*mop-page*</b></a>
+
+<blockquote><br>
+A pathname specifier denoting the location of the dictionary
+page from the AMOP HTML version.  The page is available online at
+<a href="http://www.alu.org/mop/dictionary.html">http://www.alu.org/mop/dictionary.html</a>.  Used by the "<a href="#documentation"><code><b>Meta Documentation</b></code></a>" command.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*product-registry-path*"><b>*product-registry-path*</b></a>
+
+<blockquote><br>
+Where LW-ADD-ONS stores persistent information - see <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-706.htm"><code>PRODUCT-REGISTRY-PATH</code></a>.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*show-doc-string-when-showing-arglist*"><b>*show-doc-string-when-showing-arglist*</b></a>
+
+<blockquote><br>
+Whether the editor command "<a href="#arglist"><code><b>Insert Space And Show Arglist</b></code></a>"
+is supposed to show the documentation string as well.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*swank-loader-pathname*"><b>*swank-loader-pathname*</b></a>
+
+<blockquote><br>
+A pathname specifier denoting the location of the
+<code>swank-loader.lisp</code> file.  Only needed if one wants to start the
+<em>Swank</em> server from LispWorks - see function <a href="#start-swank-server"><code>START-SWANK-SERVER</code></a>.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*translate-asdf-systems*"><b>*translate-asdf-systems*</b></a>
+
+<blockquote><br>
+Whether ASDF systems should be <a href="#asdf">automatically converted</a> to LispWorks
+Common Defsystem systems.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*use-abbreviated-complete-symbol*"><b>*use-abbreviated-complete-symbol*</b></a>
+
+<blockquote><br> Whether &quot;<a href="#completion"><code><b>Indent
+And Complete Symbol</b></code></a>&quot; should call
+&quot;<code><b>Abbreviated Complete Symbol</b></code>&quot; (only
+available in LispWorks 5.1 or higher) instead of
+"<a href="#completion"><code><b>Complete Symbol Without
+Dialog</b></code></a>".
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*use-quicklisp-for-shortcut-l*"><b>*use-quicklisp-for-shortcut-l*</b></a>
+
+<blockquote><br> Whether the <a href="#shortcuts">listener shortcut</a> <code>l</code>
+  should be interpreted as loading a library via <a href="#quicklisp">Quicklisp</a>.
+This is the default behavior if Quicklisp is present.  If you want the old, pre-Quicklisp
+  behavior for this shortcut, set the value to <code>NIL</code>.
+</blockquote>
+
+<p><br>[Function]<br><a class=none name='make-backup-filename-using-backup-directory'><b>make-backup-filename-using-backup-directory</b> <i>pathname</i> =&gt; <i>pathname'</i></a>
+<blockquote><br>
+
+Creates and returns a backup pathname for <code><i>pathname</i></code>
+(doing a simplified version of what GNU Emacs does if you
+use <code>backup-directory-alist</code> there).  Assumes that
+<a href="#*backup-directory*"><code>*BACKUP-DIRECTORY*</code></a>
+denotes a directory.  Note that due to the way the backup pathname is
+constructed it is possible that two different files end up with the
+same backup filename!  If in doubt, look at the source code of this
+function before you use it.
+
+</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="start-swank-server"><b>start-swank-server</b> =&gt; <i>port</i></a>
+
+<blockquote><br>
+Starts <em>Swank</em> so you can control LispWorks from Emacs via
+<a href="http://common-lisp.net/project/slime">SLIME</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+The inhabitants of the LispWorks mailing list are an invaluable source of information when one writes LispWorks-specific code.  Specifically, Jeff Caldwell, Bill Clementson, John DeSoi, Dmitriy Ivanov, Arthur Lemmens, Nick Levine, Sean Ross, Jens Teich, Barry Wilkes, and (from LispWorks Ltd.) Dave Fox and Martin Simmons have been very helpful in various ways.  Thanks also go to the cool <a href="http://common-lisp.net/project/slime">SLIME</a> project which provided inspiration and code to steal.
+
+
+<p>
+$Header: /usr/local/cvsrep/lw-add-ons/doc/index.html,v 1.89 2015/08/09 15:18:51 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>
+

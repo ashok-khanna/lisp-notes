@@ -1,0 +1,2592 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>FM-PLUGIN-TOOLS - A toolkit for FileMaker plug-in development in Common Lisp</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; }
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }  a.none { border:1px solid white; }
+  a.none { border:1px solid white; }
+  a.none:hover { border:1px solid white; }
+  a { border:1px solid white; }
+  a:hover   { border: 1px solid black; } 
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>FM-PLUGIN-TOOLS - A toolkit for FileMaker plug-in development in Common Lisp</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+FM-PLUGIN-TOOLS <a name="shot" href="#example" class=none><img src="exif.png" border="0" width="468"
+height="672" align="right" vspace="20" hspace="20" alt="Reading Exif
+data in FileMaker" title="Reading Exif data in FileMaker"></a>is a toolkit which enables you to
+write <a href="http://filemaker.com/">FileMaker</a> plug-ins in Common
+Lisp.  I personally think that with this library it is vastly easier
+to write plug-ins than with C++ or C.  YMMV, of course.
+<p>
+To use FM-PLUGIN-TOOLS you will need the Common Lisp implementation
+from <a href="http://www.lispworks.com/">LispWorks</a> and of course
+FileMaker Pro (<a href="#prepare">Advanced</a>).  You <em>won't</em>
+need a C or C++ compiler on Windows, though!  (On OS&nbsp;X you will
+need
+Apple's <a href="http://developer.apple.com/tools/xcode/">Xcode</a>
+which comes for free with every Mac.)
+<p>
+You can develop plug-ins for
+the <a href="http://www.microsoft.com/windows/default.mspx">Microsoft
+Windows</a> platform or for <a href="http://www.apple.com/macosx/">Mac
+OS&nbsp;X</a> (10.4 and higher) on Intel processors, but <em>not</em>
+on PowerPCs.
+<p>
+The code comes with
+a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+<p>
+<font color=red>Download shortcut:</font> <a href="http://weitz.de/files/fm-plugin-tools.tar.gz">http://weitz.de/files/fm-plugin-tools.tar.gz</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#require">Requirements</a>
+  <li><a href="#download">Download</a>
+  <li><a href="#mail">Support and mailing lists</a>
+  <li><a href="#prepare">Preparation</a>
+  <li><a href="#example">Example plug-ins</a>
+  <li><a href="#step">Step by step - how to write a plug-in</a>
+  <li><a href="#custom">Plug-in customization</a>
+  <li><a href="#objects">How FileMaker data is represented and manipulated</a>
+    <ol>
+      <li><a href="#locale">Locales</a>
+      <li><a href="#color*">Color</a>
+      <li><a href="#style">Character styles</a>
+      <li><a href="#text">Text</a>
+      <li><a href="#fix-pt">Numbers</a>
+      <li><a href="#date-time">Dates and time</a>
+      <li><a href="#binary-data">Binary data</a>
+      <li><a href="#data">Polymorphic data objects</a>
+      <li><a href="#generic">Generic functions</a>
+    </ol>
+  <li><a href="#functions">Defining plug-in functions</a>
+  <li><a href="#deliver">Creating the plug-in</a>
+  <li><a href="#misc">Miscellaneous</a>
+  <li><a href="#debug">Debugging your plug-in</a>
+  <li><a href="#index">Symbol index</a>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+<br>&nbsp;<br><h3><a name="require" class=none>Requirements</a></h3>
+
+It is assumed that you are familiar with Common Lisp (including the
+usage of <a href="http://www.cliki.net/asdf">ASDF</a>) and of course
+with FileMaker.  If you're new to Common Lisp, Peter
+Seibel's <a href="http://www.gigamonkeys.com/book/"><em>Practical
+Common Lisp</em></a> is a wonderful starting point.  I'd recommend
+buying <a
+href="http://www.apress.com/book/bookDisplay.html?bID=237">the
+dead-tree version</a>, but note that it's also available as a free
+download from <a href="http://www.gigamonkeys.com/book/">Peter's
+website</a> and (as a PDF) from
+the <a href="http://apress.com/">Apress</a> website.  See also
+my <a href="http://weitz.de/starter-pack/"><em>Lisp Starter Pack</em></a>.
+<p>
+You don't necessarily need to understand C or C++,
+but it helps if you can read C++ code.  The <a href="http://filemaker.com/downloads/pdf/fmpa85_dev_guide.pdf">documentation</a> provided by
+FileMaker for plug-in authors is pretty scarce, and the
+FM-PLUGIN-TOOLS docs can't fill all the voids.  Look at the C++ source
+code that comes with FileMaker to (hopefully) grasp more details.
+<p>
+You will need:
+<ul>
+  <li>A copy of <a href="http://filemaker.com/">FileMaker</a> Pro
+  Advanced.  FM-PLUGIN-TOOLS has been tested with version 8.0v3 and
+  (only a bit) with versions 8.5 and 9.0.  (Technically, the base
+  version of FileMaker Pro - without the "Advanced" - would suffice,
+  but <a href="#prepare">see below</a>.)
+  <li>The Professional or Enterprise Edition of
+  the <a href="http://www.lispworks.com/">LispWorks</a> development
+  environment.  You <em>must</em> use version&nbsp;5.1 or higher -
+  although we didn't test with 6.x so far.  (You can't use
+  the <a href="http://www.lispworks.com/downloads/index.html">Personal
+  Edition</a> because it can't create DLLs.  However, if you're
+  interested in trying out plug-in development, I'm sure you can get a
+  time-limited trial version of the Professional or Enterprise Edition
+  if you <a href="http://www.lispworks.com/contact.html">ask
+  nicely</a>.)
+  <li>On OS&nbsp;X, you will also need to
+  install <a href="http://developer.apple.com/tools/xcode/">Xcode</a>
+  if you haven't done so already.
+</ul>
+
+<br>&nbsp;<br><h3><a name="download" class=none>Download</a></h3>
+
+FM-PLUGIN-TOOLS together with this documentation can be downloaded from <a
+href="http://weitz.de/files/fm-plugin-tools.tar.gz">http://weitz.de/files/fm-plugin-tools.tar.gz</a>. The
+current version is 0.2.9.
+
+<br>&nbsp;<br><h3><a name="mail" class=none>Support and mailing lists</a></h3>
+
+For questions, bug reports, feature requests, improvements, or patches
+please use
+the <a href="http://common-lisp.net/mailman/listinfo/fm-lisp">FM-Lisp
+mailing list</a>. Please
+do <em>not</em> email me directly.
+<p>
+The list is also intended as a general forum for discussions about
+plug-in development with Common Lisp and to support plug-ins
+like <a href="http://jensteich.de/regex-plugin/">RegexPlugIn</a>
+or <a href="http://jensteich.de/exif-plugin/">ExifPlugIn</a> which
+were written with this toolkit.
+<p>
+Finally, the list is also a good choice if you want to be notified
+about future releases.  It was made available thanks
+to the services
+of <a href="http://common-lisp.net/">common-lisp.net</a>.
+<p>
+If you want me to write custom FileMaker plug-ins for you, email me
+privately, I might be available for consulting.
+See <a href="http://weitz.de/">my homepage</a> for contact details.
+
+<br>&nbsp;<br><h3><a name="prepare" class=none>Preparation</a></h3>
+
+It would have been a piece of cake to distribute FM-PLUGIN-TOOLS with
+full <a
+href="http://www.lispworks.com/documentation/lw50/FLI/html/fli.htm">FLI</a>
+code.  In fact, I have the code right here on my hard disk.  However, the
+license for the C header files which come with FileMaker Pro Advanced
+is very strict and basically completely forbids dissemination in any
+form.  Now, you don't need these C&nbsp;headers if you write your plug-in
+in Lisp, but one could argue that foreign language bindings for
+LispWorks are in a way a "human readable" (a term <em>they</em> use) translation of the headers.  Obviously,
+they want you to buy the <em>Advanced</em> version of FileMaker Pro if you plan to
+write plug-ins, and with a "full" distribution of FM-PLUGIN-TOOLS
+you'd be able to get away with vanilla FileMaker Pro.
+<p>
+So I chose not to include the bindings with FM-PLUGIN-TOOLS.  Instead,
+a very simple parser is provided which will automatically create these
+bindings for you from the header files.  In the rest of this section I
+will explain how to use it.  My apologies for this little
+inconvenience, but I don't fancy fighting with lawyers for a
+product that I don't even charge money for...
+<p>
+Now for the good news: You need to do this only <em>once</em>!  If a
+new version of FM-PLUGIN-TOOLS is released, you can keep the
+file <code>fli.lisp</code> that the parser created for you.  (Well,
+unless I made a mistake in the parser itself.  So, keep your fingers
+crossed...  To be absolutely sure, compare the version number of
+PREPARE-FM-PLUGIN-TOOLS - in <code>prepare-fm-plugin-tools.asd</code> - with the
+previous one or check the file <code>CHANGELOG.txt</code>.)
+<p>
+Here's how it works:
+<ul>
+  <li>Install the C header files for plug-in development from the
+  FileMaker Pro Advanced CD if you haven't done so already.  (If you want, you can
+  remove them once you're finished creating <code>fli.lisp</code>.)
+  <li>Download and
+  install <a href="http://weitz.de/cl-ppcre/">CL-PPCRE</a> in a
+  location where <a href="http://www.cliki.net/asdf">ASDF</a> can find
+  it.
+  <li>Start LispWorks and compile and use ASDF to load the
+  PREPARE-FM-PLUGIN-TOOLS system.  (Do <em>not</em> compile or load
+  FM-PLUGIN-TOOLS itself yet.)
+  <li>This step is optional: Set the value of
+  <code>PREP:*FMX-EXTERN-LOCATION*</code> to
+  a <a
+  href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_p.htm#pathname_designator">pathname
+  designator</a> denoting the location of the <code>FMXExtern.h</code>
+  C&nbsp;header file.  If you don't do this, you'll get a dialog
+  asking for the location.
+  <li>Call the function <code>PREP:PREPARE</code>.  It should
+  return <code>:DONE</code> when it's finished.
+  <li>Now you'll (hopefully) have a file <code>fli.lisp</code> in your
+  FM-PLUGIN-TOOLS folder.
+</ul>
+That's it.  You should now be able to compile FM-PLUGIN-TOOLS.  (If
+you do this in the same Lisp image, you'll get a warning about using
+<a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/m_defpkg.htm"><code>DEFPACKAGE</code></a>
+to modify the FM-PLUGIN-TOOLS package.  That's OK, don't worry.)
+<p>
+A remark for the LispWorks experts: Yeah, in theory I could have used
+the <a
+href="http://www.lispworks.com/documentation/lw50/FLI/html/fli-167.htm">foreign
+parser</a>, but then you'd need a C compiler in order to make it work.
+Plus, it is questionable whether this parser could cope with
+FileMaker's C++ code.
+
+<br>&nbsp;<br><h3><a name="example" class=none>Example plug-ins</a></h3>
+
+FM-PLUGIN-TOOLS comes with documented source code for an example
+plug-in that mimics the example which comes with FileMaker Advanced
+Pro and adds some more functions (see <a href="#shot">screen shot</a>
+above).  It probably helps to read this code in order to get familiar
+with FM-PLUGIN-TOOLS.
+<p>
+To build the example plug-in you need to download and install (for
+ASDF) a couple of open source Lisp libraries (see
+file <code>README.txt</code>), and then you'll have to adjust the
+corresponding values in the delivery
+file <a href="#deliver"><code>deliver.lisp</code></a> and the build
+script <a href="#deliver"><code>build-plugin.cmd</code></a> (<code>build-plugin.command</code> on OS&nbsp;X).  Now just double-click the
+build script - that should do the trick (hopefully).
+<p>
+Furthermore, you can study the <a href="http://weitz.de/regex-plugin/">source code</a>
+for <a href="http://jensteich.de/regex-plugin/">RegexPlugIn</a> which
+was also written using FM-PLUGIN-TOOLS.
+
+<br>&nbsp;<br><h3><a name="step" class=none>Step by step - how to write a plug-in</a></h3>
+
+In this section I am going to give a quick overview of the steps
+required to create a FileMaker plug-in with FM-PLUGIN-TOOLS.  Click on
+the links for more detailed information.  Note that I'm a Lisp
+programmer, but not really a FileMaker expert.  My explanations
+reflect my understanding of what I've read and experienced while
+writing this toolkit, but they aren't necessarily correct.  Consult
+the FileMaker documentation if in doubt.  Also, I'm happy if
+you <a href="#mail">send me</a> corrections for this documentation.
+<p>
+And please note that when this documentation was originally written
+FM-PLUGIN-TOOLS only worked on Windows.  So, if you're seeing terms
+like <em>DLL</em> or <em>Windows registry</em>, they are now supposed
+to refer to (the corresponding equivalents in) OS&nbsp;X as well.
+<p>
+OK, let's start...
+<ul>
+  <li>The first step is to create a
+  new <a href="http://www.cliki.net/asdf">ASDF</a> system definition
+  for your plug-in's Lisp code.  Make sure that it <em>requires</em>
+  the FM-PLUGIN-TOOLS system.
+  <li>Include code to <a href="#custom">customize a couple of global
+  settings</a> like the name and the creator code of your plug-in.
+  <li>Write code for the actual <a href="#functions">plug-in
+  functions</a> which users of your plug-in will use in calculation
+  fields or scripts.  For this, you'll necessarily have to know
+  how <a href="#objects">FileMaker's data structures</a> are represented
+  by and manipulated with FM-PLUGIN-TOOLS.
+  <li>Optionally, write code
+  to <a href="#*preferences-function*">handle user preferences</a> or
+  special code that should run during
+  the <a href="#*init-function*">initialization</a>
+  or <a href="#*shutdown-function*">shutdown</a> phases of the
+  plug-in or when FileMaker is <a href="#handle-idle-message">idle</a>.
+  <li>Compile the code and <a href="#deliver">create a DLL</a> which
+  will be the actual plug-in that you'll distribute to your users.
+  <li><a href="#debug">Debug</a> your code if necessary... :)
+</ul>
+Of course, once you are writing code that results in a DLL that will
+be loaded and controlled by another program, you completely lose the
+usual interactive nature of Common Lisp development.  It is therefore
+recommended that you write as much functionality as possible in "pure"
+Common Lisp and only start writing the actual plug-in "wrapper" code
+once you're sure that your basic code works.
+
+<br>&nbsp;<br><h3><a name="custom" class=none>Plug-in customization</a></h3>
+
+Code for a plug-in written with FM-PLUGIN-TOOLS <em>must</em>
+customize six global variables or otherwise the code won't
+compile.  These variables (and some others which <em>can</em> be
+customized but don't have to) are listed below.  See the
+file <code>init.lisp</code> in the
+afore-mentioned <a href="#example">example</a>.
+
+<!-- Entry for *PLUGIN-ID* -->
+
+<p><br>[Special variable]<br><a class=none name='*plugin-id*'><b>*plugin-id*</b></a>
+<blockquote><br>
+
+The ID of the plug-in.  A
+four-character <a
+href="http://en.wikipedia.org/wiki/Creator_code">creator code</a>
+string - see FileMaker documentation.  Note that they recommend that
+you <a href="http://developer.apple.com/datatype/creatorcode.php">register your creator code with Apple</a> even if you're only writing
+Windows plug-ins.  This ID will also be used as a <a href="#define-plugin-function">prefix</a> for all your
+plug-in function names.
+<p>
+This variable <em>must</em> be customized.
+
+</blockquote>
+
+<!-- End of entry for *PLUGIN-ID* -->
+
+
+<!-- Entry for *PLUGIN-NAME* -->
+
+<p><br>[Special variable]<br><a class=none name='*plugin-name*'><b>*plugin-name*</b></a>
+<blockquote><br>
+
+The name of the plug-in as it will be shown by FileMaker.
+<p>
+This variable <em>must</em> be customized.
+
+</blockquote>
+
+<!-- End of entry for *PLUGIN-NAME* -->
+
+
+<!-- Entry for *PLUGIN-BUNDLE-IDENTIFIER* -->
+
+<p><br>[Special variable]<br><a class=none name='*plugin-bundle-identifier*'><b>*plugin-bundle-identifier*</b></a>
+<blockquote><br>
+
+Used as the <code>CFBundleIdentifier</code> for the loadable bundles generated on OS X.
+<p>
+This variable <em>must</em> be customized, but only on OS X.  It is
+not defined on Windows.
+
+</blockquote>
+
+<!-- End of entry for *PLUGIN-BUNDLE-IDENTIFIER* -->
+
+
+<!-- Entry for *PLUGIN-HELP-TEXT* -->
+
+<p><br>[Special variable]<br><a class=none name='*plugin-help-text*'><b>*plugin-help-text*</b></a>
+<blockquote><br>
+
+The help text for the plug-in to display in FileMaker's
+<em>Preferences</em> dialog box.
+<p>
+This variable <em>must</em> be customized.
+
+</blockquote>
+
+<!-- End of entry for *PLUGIN-HELP-TEXT* -->
+
+
+
+<!-- Entry for *PLUGIN-VERSION* -->
+
+<p><br>[Special variable]<br><a class=none name='*plugin-version*'><b>*plugin-version*</b></a>
+<blockquote><br>
+
+The version number of the plug-in.  Should be a list of at
+most four integers, e.g. (4 2 1) would correspond to version
+&quot;4.2.1&quot;.
+<p>
+This variable <em>must</em> be customized.
+
+</blockquote>
+
+<!-- End of entry for *PLUGIN-VERSION* -->
+
+
+<!-- Entry for *COMPANY-NAME* -->
+
+<p><br>[Special variable]<br><a class=none name='*company-name*'><b>*company-name*</b></a>
+<blockquote><br>
+
+The name of the (i.e. your) company which created the plug-in.  It
+will be used for entries into the Windows registry and in the DLL
+<a href="http://windowssdk.msdn.microsoft.com/en-us/library/ms726776.aspx">version info</a>.
+<p>
+This variable <em>must</em> be customized.
+
+
+</blockquote>
+
+<!-- End of entry for *COMPANY-NAME* -->
+
+<!-- Entry for *COPYRIGHT-MESSAGE* -->
+
+<p><br>[Special variable]<br><a class=none name='*copyright-message*'><b>*copyright-message*</b></a>
+<blockquote><br>
+
+The copyright message for the DLL <a href="http://windowssdk.msdn.microsoft.com/en-us/library/ms726776.aspx">version info</a>.
+<p>
+This variable <em>must</em> be customized.
+
+</blockquote>
+
+<!-- End of entry for *COPYRIGHT-MESSAGE* -->
+
+
+<!-- Entry for *PRODUCT-NAME* -->
+
+<p><br>[Special variable]<br><a class=none name='*product-name*'><b>*product-name*</b></a>
+<blockquote><br>
+
+Will only be used as the product name for the DLL <a href="http://windowssdk.msdn.microsoft.com/en-us/library/ms726776.aspx">version info</a>.
+The default value is <code>NIL</code>.  If no other name is set, the value of <a href="#*plugin-name*"><code>*PLUGIN-NAME*</code></a> is
+used instead - see <a href="#set-product-name"><code>SET-PRODUCT-NAME</code></a>.
+
+</blockquote>
+
+<!-- End of entry for *PRODUCT-NAME* -->
+
+
+<!-- Entry for *PREFERENCES-FUNCTION* -->
+
+<p><br>[Special variable]<br><a class=none name='*preferences-function*'><b>*preferences-function*</b></a>
+<blockquote><br>
+
+A <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#function_designator">function designator</a> for a 0-ary function to handle configuration
+options (in FileMaker's <em>Preferences</em> dialog box) for the
+plug-in user.  The default value is <code>NIL</code>, and if you leave
+it like that, the plug-in will be marked as non-configurable
+(i.e. the <em>Configure...</em> button will be greyed out) by
+FileMaker.  The <a href="#example">example code</a> shows a simple
+preferences function.  For a more complicated example see the <a href="http://weitz.de/regex-plugin/">source code</a>
+for <a href="http://jensteich.de/regex-plugin/">RegexPlugIn</a>.
+<p>
+This variable will currently be ignored on OS X, i.e. Mac plug-ins
+can't have configuration dialogs.
+
+</blockquote>
+
+<!-- End of entry for *PREFERENCES-FUNCTION* -->
+
+
+<!-- Entry for *INIT-FUNCTION* -->
+
+<p><br>[Special variable]<br><a class=none name='*init-function*'><b>*init-function*</b></a>
+<blockquote><br>
+
+A <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#function_designator">function designator</a> for a 0-ary function which is called when the
+plug-in is initialized - or <code>NIL</code> (the default) if you don't want to be called.
+An init function will typically restore values from
+the <a href="#plugin-preference">Windows registry</a> - see <a href="#example">example
+code</a>.
+
+</blockquote>
+
+<!-- End of entry for *INIT-FUNCTION* -->
+
+<!-- Entry for *SHUTDOWN-FUNCTION* -->
+
+<p><br>[Special variable]<br><a class=none name='*shutdown-function*'><b>*shutdown-function*</b></a>
+<blockquote><br>
+
+A <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#function_designator">function
+designator</a> for a 0-ary function which is called when the plug-in
+is shut down - or <code>NIL</code> (the default) if we don't want to
+be called.  You can perform last-minute clean-up operations here if
+you want.
+<p>
+Specifically, you <em>must</em> make sure that all Lisp processes
+started by your code
+(whether <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-409.htm">directly</a>
+or through a callback) are finished before the plug-in is shut down.
+(See <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-395.htm"><code>MP:PROCESS-ALIVE-P</code></a>
+and <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-401.htm"><code>MP:KILL-PROCESS</code></a>.)
+
+</blockquote>
+
+<!-- End of entry for *SHUTDOWN-FUNCTION* -->
+
+
+<!-- Entry for *ENABLE-IDLE-MESSAGES* -->
+
+<p><br>[Special variable]<br><a class=none name='*enable-idle-messages*'><b>*enable-idle-messages*</b></a>
+<blockquote><br>
+
+FileMaker will send messages to the plug-in if it is idle.  If the
+value of this variable is <code>NIL</code> (the default), these messages will simply
+be ignored.  If it is
+not <code>NIL</code>, <a
+href="#handle-idle-message"><code>HANDLE-IDLE-MESSAGE</code></a> will
+be called instead.  See also <a href="#*gc-interval*"><code>*GC-INTERVAL*</code></a>.
+
+</blockquote>
+
+<!-- End of entry for *ENABLE-IDLE-MESSAGES* -->
+
+
+<!-- Entry for HANDLE-IDLE-MESSAGE -->
+
+<p><br>[Generic function]<br><a class=none name='handle-idle-message'><b>handle-idle-message</b> <i>idle-level</i> =&gt; <i>result*</i></a>
+<blockquote><br>
+
+This function will be called with the corresponding level when
+FileMaker is idle, but only
+if <a
+href="#*enable-idle-messages*"><code>*ENABLE-IDLE-MESSAGES*</code></a>
+is true.  The default method does nothing and you should write methods
+specialized to specific <a href="#+k-fmxt-user-idle+">idle levels</a>
+to customize this behaviour.  The return values of this function are
+ignored.
+
+</blockquote>
+
+<!-- End of entry for HANDLE-IDLE-MESSAGE -->
+
+
+<p><br>[Constants]<br><a class=none name='+k-fmxt-user-idle+'><b>+k-fmxt-user-idle+</b></a>
+<br><a class=none name='+k-fmxt-user-not-idle+'><b>+k-fmxt-user-not-idle+</b></a>
+<br><a class=none name='+k-fmxt-script-paused+'><b>+k-fmxt-script-paused+</b></a>
+<br><a class=none name='+k-fmxt-script-running+'><b>+k-fmxt-script-running+</b></a>
+<br><a class=none name='+k-fmxt-unsafe+'><b>+k-fmxt-unsafe+</b></a>
+<blockquote><br>
+
+These are the five different <a href="#handle-idle-message">idle</a>
+levels used by FileMaker.  See the FileMaker documentation for details.
+
+</blockquote>
+
+<!-- Entry for *GC-INTERVAL* -->
+
+<p><br>[Special variable]<br><a class=none name='*gc-interval*'><b>*gc-interval*</b></a>
+<blockquote><br>
+
+If this value is not <code>NIL</code> it should be a positive
+integer <code>N</code>.  In this case, a full garbage collection (see
+<a href="http://www.lispworks.com/documentation/">LispWorks documentation</a> for details) will be initiated from time to
+time but at most every <code>N</code> seconds.  This will only happen
+if <a href="#*enable-idle-messages*"><code>*ENABLE-IDLE-MESSAGES*</code></a>
+is true, though.  The default is to collect every ten minutes.
+
+</blockquote>
+
+<!-- End of entry for *GC-INTERVAL* -->
+
+<br>&nbsp;<br><h3><a name="objects" class=none>How FileMaker data is represented and manipulated</a></h3>
+
+If you write a plug-in in C++, FileMaker data is represented as C++ objects.
+FM-PLUGIN-TOOLS provides corresponding CLOS classes for all relevant
+C++ classes.  The CLOS objects "proxy" the C++ objects and provide
+convenient methods to access their values and manipulate them.
+Furthermore, you won't have to deal with object lifetime, memory
+leaks, auto pointers, and all that cruft - FM-PLUGIN-TOOLS will take
+care of that.
+<p>
+Most of the objects below can be used as arguments
+to <a href="#functions">plug-in functions</a> or as their return
+values.  <a href="#locale">Locales</a>, <a href="#color*">colors</a>,
+and <a href="#style">character styles</a> are an exception, though -
+they are only used internally.
+<p>
+The individual classes and methods will be presented in the following
+subsections.  As a general rule, <em>never</em> create one of these
+objects
+with <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/f_mk_ins.htm"><code>MAKE-INSTANCE</code></a>,
+always use the provided <code>MAKE-FOO</code> functions like <a href="#make-text-object"><code>MAKE-TEXT-OBJECT</code></a> and so on.
+<p>
+Note: I haven't implemented all functions which are available to C++
+programmers, only those that seemed useful to me.  If you think that
+something important is missing, don't hesitate to <a href="#mail">ask
+for it</a>.
+
+<h4><a name="locale" class=none>Locales</a></h4>
+
+<a href="#locale-object"><code>LOCALE-OBJECT</code></a>s
+represent <a href="http://en.wikipedia.org/wiki/Locale">locales</a>
+and they are only used in one place - when the contents of
+a <a href="#data-object"><code>DATA-OBJECT</code></a> are set to
+a <a href="#text-object"><code>TEXT-OBJECT</code></a> or a string.
+
+<!-- Entry for LOCALE-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='locale-object'><b>locale-object</b></a>
+<blockquote><br>
+
+A <code>LOCALE-OBJECT</code> is a Lisp object which is a proxy for a
+FileMaker "Locale" object.
+
+</blockquote>
+
+<!-- End of entry for LOCALE-OBJECT -->
+
+<!-- Entry for MAKE-LOCALE-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-locale-object'><b>make-locale-object</b> <i><tt>&amp;optional</tt> input-type</i> =&gt; <i>locale-object</i></a>
+<blockquote><br>
+
+Creates and returns a <a href="#locale-object"><code>LOCALE-OBJECT</code></a> with the input type
+<code><i>input-type</i></code>.  <code><i>input-type</i></code> is a
+numerical value which determines which locale will be created, the
+default value
+is <a href="#+k-type-system+"><code>+K-TYPE-SYSTEM+</code></a>.
+
+</blockquote>
+
+<!-- End of entry for MAKE-LOCALE-OBJECT -->
+
+<p><br>[Constant]<br><a class=none name='+k-type-none+'><b>+k-type-none+</b></a>
+<br><a class=none name='+k-type-system+'><b>+k-type-system+</b></a>
+<br><a class=none name='+k-type-unicode-raw+'><b>+k-type-unicode-raw+</b></a>
+<br><a class=none name='+k-type-unicode-standard+'><b>+k-type-unicode-standard+</b></a>
+<br><a class=none name='+k-type-invalid+'><b>+k-type-invalid+</b></a>
+<br><a class=none name='+k-type-ar+'><b>+k-type-ar+</b></a>
+<br><a class=none name='+k-type-bg+'><b>+k-type-bg+</b></a>
+<br><a class=none name='+k-type-cat+'><b>+k-type-cat+</b></a>
+<br><a class=none name='+k-type-catalog+'><b>+k-type-catalog+</b></a>
+<br><a class=none name='+k-type-ces+'><b>+k-type-ces+</b></a>
+<br><a class=none name='+k-type-chi+'><b>+k-type-chi+</b></a>
+<br><a class=none name='+k-type-chi+'><b>+k-type-chi+</b></a>
+<br><a class=none name='+k-type-chi-stroke+'><b>+k-type-chi-stroke+</b></a>
+<br><a class=none name='+k-type-chi-stroke+'><b>+k-type-chi-stroke+</b></a>
+<br><a class=none name='+k-type-dan+'><b>+k-type-dan+</b></a>
+<br><a class=none name='+k-type-deu+'><b>+k-type-deu+</b></a>
+<br><a class=none name='+k-type-deu-dictionary+'><b>+k-type-deu-dictionary+</b></a>
+<br><a class=none name='+k-type-ell+'><b>+k-type-ell+</b></a>
+<br><a class=none name='+k-type-eng+'><b>+k-type-eng+</b></a>
+<br><a class=none name='+k-type-et+'><b>+k-type-et+</b></a>
+<br><a class=none name='+k-type-fa+'><b>+k-type-fa+</b></a>
+<br><a class=none name='+k-type-fin+'><b>+k-type-fin+</b></a>
+<br><a class=none name='+k-type-fin-fmi+'><b>+k-type-fin-fmi+</b></a>
+<br><a class=none name='+k-type-fra+'><b>+k-type-fra+</b></a>
+<br><a class=none name='+k-type-he+'><b>+k-type-he+</b></a>
+<br><a class=none name='+k-type-hi+'><b>+k-type-hi+</b></a>
+<br><a class=none name='+k-type-hrv+'><b>+k-type-hrv+</b></a>
+<br><a class=none name='+k-type-hun+'><b>+k-type-hun+</b></a>
+<br><a class=none name='+k-type-isl+'><b>+k-type-isl+</b></a>
+<br><a class=none name='+k-type-ita+'><b>+k-type-ita+</b></a>
+<br><a class=none name='+k-type-jpn+'><b>+k-type-jpn+</b></a>
+<br><a class=none name='+k-type-lt+'><b>+k-type-lt+</b></a>
+<br><a class=none name='+k-type-lv+'><b>+k-type-lv+</b></a>
+<br><a class=none name='+k-type-nld+'><b>+k-type-nld+</b></a>
+<br><a class=none name='+k-type-nor+'><b>+k-type-nor+</b></a>
+<br><a class=none name='+k-type-pol+'><b>+k-type-pol+</b></a>
+<br><a class=none name='+k-type-por+'><b>+k-type-por+</b></a>
+<br><a class=none name='+k-type-ron+'><b>+k-type-ron+</b></a>
+<br><a class=none name='+k-type-rus+'><b>+k-type-rus+</b></a>
+<br><a class=none name='+k-type-slk+'><b>+k-type-slk+</b></a>
+<br><a class=none name='+k-type-slv+'><b>+k-type-slv+</b></a>
+<br><a class=none name='+k-type-spa+'><b>+k-type-spa+</b></a>
+<br><a class=none name='+k-type-spa-traditional+'><b>+k-type-spa-traditional+</b></a>
+<br><a class=none name='+k-type-sr+'><b>+k-type-sr+</b></a>
+<br><a class=none name='+k-type-swe+'><b>+k-type-swe+</b></a>
+<br><a class=none name='+k-type-swe-fmi+'><b>+k-type-swe-fmi+</b></a>
+<br><a class=none name='+k-type-th+'><b>+k-type-th+</b></a>
+<br><a class=none name='+k-type-tur+'><b>+k-type-tur+</b></a>
+<br><a class=none name='+k-type-ukr+'><b>+k-type-ukr+</b></a>
+<br><a class=none name='+k-type-vi+'><b>+k-type-vi+</b></a>
+<blockquote><br>
+
+These are the possible values for the <code><i>input-type</i></code>
+parameter
+to <a href="#make-locale-object"><code>MAKE-LOCALE-OBJECT</code></a>.
+See the FileMaker documentation for details.
+<p>
+The availability of some of these input types depends on the version of FileMaker Pro you've
+<a href="#prepare">created <code>fli.lisp</code></a> with.
+
+</blockquote>
+
+<h4><a name="color*" class=none>Color</a></h4>
+
+<a href="#color-object"><code>COLOR-OBJECT</code></a>s represent
+colors, obviously, with red, green, blue, and <a href="http://en.wikipedia.org/wiki/Alpha_channel">alpha</a> channels.  They
+are only used together with <a href="#style">character styles</a>.
+
+<!-- Entry for COLOR-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='color-object'><b>color-object</b></a>
+<blockquote><br>
+
+A <code>COLOR-OBJECT</code> is a Lisp object which is a proxy
+for a FileMaker "Color" object.
+
+</blockquote>
+
+<!-- End of entry for COLOR-OBJECT -->
+
+<!-- Entry for MAKE-COLOR-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-color-object'><b>make-color-object</b> <i><tt>&amp;key</tt> red green blue alpha</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Creates and returns
+a <a href="#color-object"><code>COLOR-OBJECT</code></a> with color
+channels corresponding to the
+integers <code><i>red</i></code>, <code><i>green</i></code>, <code><i>blue</i></code>,
+and <code><i>alpha</i></code>.  The default value for all the keyword
+parameters is 255.
+
+</blockquote>
+
+<!-- End of entry for MAKE-COLOR-OBJECT -->
+
+
+<p><br>[Specialized accessors]<br><a class=none name=red><b>red</b> <i>(color-object color-object)</i> =&gt; <i>red</i></a>
+<br><a class=none><tt>(setf (</tt><b>red</b> <i>(color-object color-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name=green><b>green</b> <i>(color-object color-object)</i> =&gt; <i>green</i></a>
+<br><a class=none><tt>(setf (</tt><b>green</b> <i>(color-object color-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name=blue><b>blue</b> <i>(color-object color-object)</i> =&gt; <i>blue</i></a>
+<br><a class=none><tt>(setf (</tt><b>blue</b> <i>(color-object color-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name=alpha><b>alpha</b> <i>(color-object color-object)</i> =&gt; <i>alpha</i></a>
+<br><a class=none><tt>(setf (</tt><b>alpha</b> <i>(color-object color-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+These are accessors to get and set the individual channels of a <a href="#color-object"><code>COLOR-OBJECT</code></a>.
+
+</blockquote>
+
+
+
+<h4><a name="style" class=none>Character styles</a></h4>
+
+<a href="#style-object"><code>STYLE-OBJECT</code></a>s represent
+FileMaker's <em>character styles</em>.  Each character in
+a <a href="#text-object"><code>TEXT-OBJECT</code></a> can have a
+character style which controls aspects like the
+character's <a href="#font">font</a>, its <a href="#size">size</a> or
+its <a href="#color">color</a> - the stuff you usually deal with via FileMaker's
+<em>Format</em> menu. In the following section we'll call these
+individual aspects <em>properties</em>. (I don't know if that's the
+official term in FileMaker.)
+<p>
+Note that for each character style you can set and enable/disable each
+property individually, i.e. you can have a style which only controls
+the size while another one is responsible for, say, the font and the
+face.
+<p>
+The <a href="http://weitz.de/regex-plugin/">source code</a>
+for <a href="http://jensteich.de/regex-plugin/">RegexPlugIn</a> has
+some examples of the usage of character styles.
+
+<!-- Entry for STYLE-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='style-object'><b>style-object</b></a>
+<blockquote><br>
+
+A <code>STYLE-OBJECT</code> is a Lisp object which is a proxy
+for a FileMaker "CharacterStyle" object.
+
+</blockquote>
+
+<!-- End of entry for STYLE-OBJECT -->
+
+
+<!-- Entry for MAKE-STYLE-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-style-object'><b>make-style-object</b> <i><tt>&amp;key</tt> font face size color</i> =&gt; <i>style-object</i></a>
+<blockquote><br>
+
+Creates and returns a <a href="#style-object"><code>STYLE-OBJECT</code></a> and sets and enables <code><i>font</i></code>,
+<code><i>face</i></code>, <code><i>size</i></code>,
+and <code><i>color</i></code> if provided.  <code><i>color</i></code>
+has to be a <a href="#color-object"><code>COLOR-OBJECT</code></a>, the
+other keyword arguments are Lisp integers.
+
+</blockquote>
+
+<!-- End of entry for MAKE-STYLE-OBJECT -->
+
+
+
+<!-- Entry for COLOR-ENABLED-P -->
+
+<p><br>[Specialized accessors]<br><a class=none name="color-enabled-p"><b>color-enabled-p</b> <i>(style-object style-object)</i> =&gt; <i>enabled-p</i></a>
+<br><a class=none><tt>(setf (</tt><b>color-enabled-p</b> <i>(style-object style-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name="face-enabled-p"><b>face-enabled-p</b> <i>(style-object style-object) face</i> =&gt; <i>enabled-p</i></a>
+<br><a class=none><tt>(setf (</tt><b>face-enabled-p</b> <i>(style-object style-object) face</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name="font-enabled-p"><b>font-enabled-p</b> <i>(style-object style-object)</i> =&gt; <i>enabled-p</i></a>
+<br><a class=none><tt>(setf (</tt><b>font-enabled-p</b> <i>(style-object style-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name="size-enabled-p"><b>size-enabled-p</b> <i>(style-object style-object)</i> =&gt; <i>enabled-p</i></a>
+<br><a class=none><tt>(setf (</tt><b>size-enabled-p</b> <i>(style-object style-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+With these accessors you can check whether a certain property is
+enabled in a character style and you can enable or disable it
+- <code><i>new-value</i></code> is always treated like
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_g.htm#generalized_boolean">generalized
+boolean</a>.
+<p>
+Note that
+the <a href="#face-enabled-p"><code>FACE-ENABLED-P</code></a> accessor
+is a bit different from the rest because you can obviously
+enable/disable each face individually.
+
+</blockquote>
+
+<!-- End of entry for SIZE-ENABLED-P -->
+
+
+<!-- Entry for ANY-FACE-ENABLED-P -->
+
+<p><br>[Method]<br><a class=none name="any-face-enabled-p"><b>any-face-enabled-p</b> <i>(style-object style-object)</i> =&gt; <i>enabled-p</i></a>
+<blockquote><br>
+
+Checks whether any face of <code><i>style-object</i></code> is enabled.
+
+</blockquote>
+
+<!-- End of entry for ANY-FACE-ENABLED-P -->
+
+
+<!-- Entry for DISABLE-ALL-FACES -->
+
+<p><br>[Method]<br><a class=none name="disable-all-faces"><b>disable-all-faces</b> <i>(style-object style-object)</i> =&gt; <i>|</i></a>
+<blockquote><br>
+
+Disables all faces of <code><i>style-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for DISABLE-ALL-FACES -->
+
+<!-- Entry for DISABLE-ALL -->
+
+<p><br>[Method]<br><a class=none name="disable-all"><b>disable-all</b> <i>(style-object style-object)</i> =&gt; <i>|</i></a>
+<blockquote><br>
+
+Disables all properties of <code><i>style-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for DISABLE-ALL -->
+
+
+<p><br>[Specialized accessors]<br><a class=none name=color><b>color</b> <i>(style-object style-object)</i> =&gt; <i>color-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>color</b> <i>(style-object style-object)</i><tt>)</tt> <i>(new-value color-object)</i><tt>)</tt></a>
+<br><a class=none name=face><b>face</b> <i>(style-object style-object)</i> =&gt; <i>face</i></a>
+<br><a class=none><tt>(setf (</tt><b>face</b> <i>(style-object style-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name=font><b>font</b> <i>(style-object style-object)</i> =&gt; <i>font</i></a>
+<br><a class=none><tt>(setf (</tt><b>font</b> <i>(style-object style-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<br><a class=none name="size[style]"><b>size</b> <i>(style-object style-object)</i> =&gt; <i>size</i></a>
+<br><a class=none><tt>(setf (</tt><b>size</b> <i>(style-object style-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+Accessors to get and set the corresponding properties of <code><i>style-object</i></code>.  Note that in the case of <a href="#color"><code>(SETF&nbsp;COLOR)</code></a> <code><i>new-value</i></code> has to be a <a href="#color-object"><code>COLOR-OBJECT</code></a>.
+
+</blockquote>
+
+<p><br>[Constant]<br><a class=none name='+k-face-plain+'><b>+k-face-plain+</b></a>
+<br><a class=none name='+k-face-bold+'><b>+k-face-bold+</b></a>
+<br><a class=none name='+k-face-italic+'><b>+k-face-italic+</b></a>
+<br><a class=none name='+k-face-underline+'><b>+k-face-underline+</b></a>
+<br><a class=none name='+k-face-outline+'><b>+k-face-outline+</b></a>
+<br><a class=none name='+k-face-shadow+'><b>+k-face-shadow+</b></a>
+<br><a class=none name='+k-face-condense+'><b>+k-face-condense+</b></a>
+<br><a class=none name='+k-face-extend+'><b>+k-face-extend+</b></a>
+<br><a class=none name='+k-face-strikethrough+'><b>+k-face-strikethrough+</b></a>
+<br><a class=none name='+k-face-small-caps+'><b>+k-face-small-caps+</b></a>
+<br><a class=none name='+k-face-superscript+'><b>+k-face-superscript+</b></a>
+<br><a class=none name='+k-face-subscript+'><b>+k-face-subscript+</b></a>
+<br><a class=none name='+k-face-uppercase+'><b>+k-face-uppercase+</b></a>
+<br><a class=none name='+k-face-lowercase+'><b>+k-face-lowercase+</b></a>
+<br><a class=none name='+k-face-titlecase+'><b>+k-face-titlecase+</b></a>
+<br><a class=none name='+k-face-word-underline+'><b>+k-face-word-underline+</b></a>
+<br><a class=none name='+k-face-double-underline+'><b>+k-face-double-underline+</b></a>
+<br><a class=none name='+k-face-all-styles+'><b>+k-face-all-styles+</b></a>
+
+<blockquote><br>
+
+These are constants that can be used as <code><i>face</i></code> parameters in the functions <a href="#style">above</a>.  See the FileMaker documentation for details.
+
+</blockquote>
+
+<h4><a name="text" class=none>Text</a></h4>
+
+<a href="#text-object"><code>TEXT-OBJECT</code></a>s represent text in
+FileMaker.  This is like a Lisp string but with
+additional <a href="#style">character styles</a>.  Methods are
+provided to convert between text objects and strings, but you will
+obviously lose the character styles if you do this.
+
+<!-- Entry for TEXT-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='text-object'><b>text-object</b></a>
+<blockquote><br>
+
+A <code>TEXT-OBJECT</code> is a Lisp object which is a
+proxy for a FileMaker "Text" object.
+
+</blockquote>
+
+<!-- End of entry for TEXT-OBJECT -->
+
+<!-- Entry for MAKE-TEXT-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-text-object'><b>make-text-object</b> <i><tt>&amp;optional</tt> string</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Creates and returns a <a href="#text-object"><code>TEXT-OBJECT</code></a> representing the (Lisp) string
+<code><i>string</i></code>.  The default value for <code><i>string</i></code> is the empty string.
+
+</blockquote>
+
+<!-- End of entry for MAKE-TEXT-OBJECT -->
+
+<!-- Entry for AS-STRING -->
+
+<p><br>[Specialized accessor]<br><a name="as-string[text]" class=none><b>as-string</b> <i>(text-object text-object) <tt>&amp;key</tt> position size</i> =&gt; <i>string</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-string</b> <i>(text-object text-object) </i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between Lisp strings and text
+objects.  <code><i>new-value</i></code> must be a Lisp string.
+Optionally, the reader can only return the <code><i>size</i></code>
+characters beginning at position <code><i>position</i></code>.  The
+default is to return the whole string, i.e. <code><i>position</i></code> is <code>0</code> and <code><i>size</i></code> is set to <a href="#+k-size-end+"><code>+K-SIZE-END+</code></a>.
+
+</blockquote>
+
+<!-- End of entry for AS-STRING -->
+
+<!-- Entry for SIZE -->
+
+<p><br>[Method]<br><a class=none name="size[text]"><b>size</b> <i>(text-object text-object)</i> =&gt; <i>size</i></a>
+<blockquote><br>
+
+Returns the length (in characters) of <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for SIZE -->
+
+<!-- Entry for APPEND-TEXT -->
+
+<p><br>[Method]<br><a name="append-text" class=none><b>append-text</b> <i>(text-object text-object) (other-text-object text-object) <tt>&amp;key</tt> position size</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Appends to the end of <code><i>text-object</i></code> the part of size <code><i>size</i></code>
+starting at position <code><i>position</i></code> of <code><i>other-text-object</i></code>. The default value for <code><i>position</i></code> is <code>0</code>, the default value for <code><i>size</i></code> is <a href="#+k-size-end+"><code>+K-SIZE-END+</code></a>. Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for APPEND-TEXT -->
+
+<!-- Entry for DELETE-TEXT -->
+
+<p><br>[Method]<br><a name="delete-text" class=none><b>delete-text</b> <i>(text-object text-object) position <tt>&amp;key</tt> size</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Deletes the part of <code><i>text-object</i></code> of size <code><i>size</i></code> beginning at
+position <code><i>position</i></code>.  The default value for <code><i>size</i></code> is <a href="#+k-size-end+"><code>+K-SIZE-END+</code></a>.  Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for DELETE-TEXT -->
+
+<!-- Entry for INSERT-TEXT -->
+
+<p><br>[Method]<br><a name="insert-text" class=none><b>insert-text</b> <i>(text-object text-object) (other-text-object text-object) <tt>&amp;key</tt> position</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Inserts <code><i>other-text-object</i></code> at position <code><i>position</i></code> of <code><i>text-object</i></code>.  The default value for <code><i>size</i></code> is <a href="#+k-size-end+"><code>+K-SIZE-END+</code></a>. Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for INSERT-TEXT -->
+
+<!-- Entry for SET-TEXT -->
+
+<p><br>[Method]<br><a name="set-text" class=none><b>set-text</b> <i>(text-object text-object) (other-text-object text-object) <tt>&amp;key</tt> position size</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Sets <code><i>text-object</i></code> to be the part of size <code><i>size</i></code> starting at
+position <code><i>position</i></code> of <code><i>other-text-object</i></code>.  The default value for <code><i>position</i></code> is <code>0</code>, the default value for <code><i>size</i></code> is <a href="#+k-size-end+"><code>+K-SIZE-END+</code></a>. Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for SET-TEXT -->
+
+
+<!-- Entry for GET-STYLE -->
+
+<p><br>[Method]<br><a name="get-style" class=none><b>get-style</b> <i>(text-object text-object) position</i> =&gt; <i>style-object</i></a>
+<blockquote><br>
+
+Returns the <a href="#style">character style</a> of the
+character at position <code><i>position</i></code> of <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-STYLE -->
+
+
+<!-- Entry for SET-STYLE -->
+
+<p><br>[Method]<br><a name="set-style" class=none><b>set-style</b> <i>(text-object text-object) (style-object style-object) position size</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Sets the <a href="#style">character style</a> of the <code><i>size</i></code> characters of <code><i>text-object</i></code>
+beginning at position <code><i>position</i></code> to <code><i>style-object</i></code>.  Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for SET-STYLE -->
+
+<!-- Entry for GET-DEFAULT-STYLE -->
+
+<p><br>[Method]<br><a class=none name="get-default-style"><b>get-default-style</b> <i>(text-object text-object)</i> =&gt; <i>style-object</i></a>
+<blockquote><br>
+
+Returns the default <a href="#style">character style</a> of
+<code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-DEFAULT-STYLE -->
+
+
+<!-- Entry for REMOVE-STYLE -->
+
+<p><br>[Method]<br><a name="remove-style" class=none><b>remove-style</b> <i>(text-object text-object) (style-object style-object)</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Removes the <a href="#style">character style</a> <code><i>style-object</i></code> from <code><i>text-object</i></code>.  Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for REMOVE-STYLE -->
+
+
+<!-- Entry for RESET-ALL-STYLE-BUFFERS -->
+
+<p><br>[Method]<br><a name="reset-all-style-buffers" class=none><b>reset-all-style-buffers</b> <i>(text-object text-object)</i> =&gt; <i>text-object</i></a>
+<blockquote><br>
+
+Removes all characters styles from <code><i>text-object</i></code>.  Returns <code><i>text-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for RESET-ALL-STYLE-BUFFERS -->
+
+<p><br>[Constants]<br><a class=none name='+k-size-end+'><b>+k-size-end+</b></a>
+<br><a class=none name='+k-size-invalid+'><b>+k-size-invalid+</b></a>
+<blockquote><br>
+
+These constants can be used as a <code><i>size</i></code> parameter
+when working
+with <a href="#text-object"><code>TEXT-OBJECT</code></a>s.  See the
+FileMaker documentation for details.
+
+</blockquote>
+
+
+<h4><a name="fix-pt" class=none>Numbers</a></h4>
+
+FileMakers uses "FixPt" C++ objects to represent numbers - integers as
+well as floats.  FM-PLUGIN-TOOLS
+uses <a href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a>s to proxy
+them.  Methods are provided to convert between these objects and Lisp numbers.
+
+
+<!-- Entry for FIX-PT-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='fix-pt-object'><b>fix-pt-object</b></a>
+<blockquote><br>
+
+A <code>FIX-PT-OBJECT</code> is a Lisp object which is a
+proxy for a FileMaker "FixPt" object.
+
+</blockquote>
+
+<!-- End of entry for FIX-PT-OBJECT -->
+
+<!-- Entry for MAKE-FIX-PT-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-fix-pt-object'><b>make-fix-pt-object</b> <i><tt>&amp;key</tt> val precision</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Creates and returns a <a href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a> optionally representing the number
+<code><i>val</i></code> (a Lisp number) with precision <code><i>precision</i></code>.  The defaults for <code><i>val</i></code> and <code><i>precision</i></code> are <code>0</code> and <a href="#+k-deflt-fixed-precision+"><code>+K-DEFLT-FIXED-PRECISION+</code></a>.
+
+</blockquote>
+
+<!-- End of entry for MAKE-FIX-PT-OBJECT -->
+
+
+<!-- Entry for AS-BOOLEAN -->
+
+<p><br>[Specialized accessor]<br><a name="as-boolean[fix-pt]" class=none><b>as-boolean</b> <i>(fix-pt-object fix-pt-object)</i> =&gt; <i>boolean</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-boolean</b> <i>(fix-pt-object fix-pt-object) </i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_g.htm#generalized_boolean">generalized
+Lisp booleans</a> and FixPt
+objects.  <code><i>new-value</i></code> can be any Lisp object.
+
+</blockquote>
+
+<!-- End of entry for AS-BOOLEAN -->
+
+<!-- Entry for AS-INTEGER -->
+
+<p><br>[Specialized accessor]<br><a class=none name="as-integer[fix-pt]"><b>as-integer</b> <i>(fix-pt-object fix-pt-object)</i> =&gt; <i>integer</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-integer</b> <i>(fix-pt-object fix-pt-object) </i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between Lisp integers and FixPt
+objects.  <code><i>new-value</i></code> must be a Lisp integer.
+
+</blockquote>
+
+<!-- End of entry for AS-INTEGER -->
+
+
+
+<!-- Entry for AS-FLOAT -->
+
+<p><br>[Specialized accessor]<br><a name="as-float[fix-pt]" class=none><b>as-float</b> <i>(fix-pt-object fix-pt-object)</i> =&gt; <i>float</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-float</b> <i>(fix-pt-object fix-pt-object) </i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between Lisp floats and FixPt
+objects.  <code><i>new-value</i></code> must be a Lisp float.
+
+</blockquote>
+
+<!-- End of entry for AS-FLOAT -->
+
+
+<!-- Entry for PRECISION -->
+
+<p><br>[Specialized accessor]<br><a name="precision" class=none><b>precision</b> <i>(fix-pt-object fix-pt-object)</i> =&gt; <i>precision</i></a>
+<br><a class=none><tt>(setf (</tt><b>precision</b> <i>(fix-pt-object fix-pt-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets or sets the precision of <a href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a>.  See also <a href="#+k-deflt-fixed-precision+"><code>+K-DEFLT-FIXED-PRECISION+</code></a>.
+
+</blockquote>
+
+<!-- End of entry for PRECISION -->
+
+<!-- Entry for +K-DEFLT-FIXED-PRECISION+ -->
+
+<p><br>[Constant]<br><a class=none name='+k-deflt-fixed-precision+'><b>+k-deflt-fixed-precision+</b></a>
+<blockquote><br>
+
+This constant can be used
+in <a href="#precision"><code>(SETF&nbsp;PRECISION)</code></a>
+or <a href="#make-fix-pt-object"><code>MAKE-FIX-PT-OBJECT</code></a>
+to denote fixed precision.
+
+</blockquote>
+
+<!-- End of entry for +K-DEFLT-FIXED-PRECISION+ -->
+
+<h4><a name="date-time" class=none>Dates and time</a></h4>
+
+The contents of FileMaker's <em>date</em>, <em>time</em>,
+and <em>timestamp</em> fields are all represented internally as
+"DateTime" C++ objects which are proxied in FM-PLUGIN-TOOLS
+by <a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>s.
+The toolkit provides several different ways to get or set individual
+parts of such an object.
+<p>
+Note: As far as I understand, FileMaker doesn't have a concept
+of <a href="http://en.wikipedia.org/wiki/Time_zone">time zones</a>, so
+the corresponding Lisp functions don't use
+the <code><i>time-zone</i></code> parameter when dealing
+with <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal
+times</a>.
+
+<!-- Entry for DATE-TIME-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='date-time-object'><b>date-time-object</b></a>
+<blockquote><br>
+
+A <code>DATE-TIME-OBJECT</code> is a Lisp object which is a
+proxy for a FileMaker "DateTime" object.
+
+</blockquote>
+
+<!-- End of entry for DATE-TIME-OBJECT -->
+
+
+<!-- Entry for MAKE-DATE-TIME-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-date-time-object'><b>make-date-time-object</b> <i><tt>&amp;key</tt> universal-time time date second minute hour day month year</i> =&gt; <i>date-time-object</i></a>
+<blockquote><br>
+
+Creates and returns a new <a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>.  If <code><i>universal-time</i></code> is
+provided, the new object is set to the Lisp  <a href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal time</a>
+<code><i>universal-time</i></code>.  If <code><i>time</i></code> and/or <code><i>date</i></code> are provided (themselves
+<a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>s), the corresponding parts of the new object are set
+accordingly.  Likewise, if some or all values of <code><i>second</i></code>, <code><i>minute</i></code>, <code><i>hour</i></code>,
+<code><i>day</i></code>, <code><i>month</i></code>, and <code><i>year</i></code> are provided, they are used as expected.  The
+three different ways to initialize the new object are mutually
+exclusive.
+
+</blockquote>
+
+<!-- End of entry for MAKE-DATE-TIME-OBJECT -->
+
+<!-- Entry for AS-UNIVERSAL-TIME -->
+
+<p><br>[Specialized accessor]<br><a name="as-universal-time" class=none><b>as-universal-time</b> <i>(date-time-object date-time-object)</i> =&gt; <i>universal-time</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-universal-time</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+Returns the date and time represented by <code><i>date-time-object</i></code> as a
+Lisp <a href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal time</a>.
+
+</blockquote>
+
+<!-- End of entry for AS-UNIVERSAL-TIME -->
+
+<!-- Entry for AS-SECOND-MINUTE-HOUR -->
+
+<p><br>[Specialized reader and setf expansion]<br><a class=none name="as-second-minute-hour"><b>as-second-minute-hour</b> <i>(date-time-object date-time-object)</i> =&gt; <i>second, minute, hour</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-second-minute-hour</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(<tt>values</tt> second minute hour)</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets or set as (as three values) the seconds, minutes, and hours
+represented by <code><i>date-time-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for AS-SECOND-MINUTE-HOUR -->
+
+<!-- Entry for AS-DAY-MONTH-YEAR -->
+
+<p><br>[Specialized reader and setf expansion]<br><a name="as-day-month-year" class=none><b>as-day-month-year</b> <i>(date-time-object date-time-object)</i> =&gt; <i>day, month, year</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-day-month-year</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(<tt>values</tt> day month year)</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets or sets (as three values) the day of the month, month, and year
+represented by <code><i>date-time-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for AS-DAY-MONTH-YEAR -->
+
+<!-- Entry for AS-TIME -->
+
+<p><br>[Specialized accessor]<br><a name="as-time[date-time]" class=none><b>as-time</b> <i>(date-time-object date-time-object)</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-time</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(new-value date-time-object)</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets and sets the time of the day represented by <code><i>date-time-object</i></code> as
+another <a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for AS-TIME -->
+
+<!-- Entry for AS-DATE -->
+
+<p><br>[Specialized accessor]<br><a name="as-date[date-time]" class=none><b>as-date</b> <i>(date-time-object date-time-object)</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-date</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(new-value date-time-object)</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets and sets the date represented by <code><i>date-time-object</i></code> as another
+<a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for AS-DATE -->
+
+
+<!-- Entry for AS-SECONDS-SINCE-EPOCH -->
+
+<p><br>[Specialized accessor]<br><a name="as-seconds-since-epoch" class=none><b>as-seconds-since-epoch</b> <i>(date-time-object date-time-object) <tt>&amp;optional</tt> as-fix-pt-p</i> =&gt; <i>seconds</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-seconds-since-epoch</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(new-value integer)</i><tt>)</tt></a>
+<br><a class=none><tt>(setf (</tt><b>as-seconds-since-epoch</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(new-value fix-pt-object)</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets or sets the seconds since the Unix <a href="http://en.wikipedia.org/wiki/Unix_Epoch"><em>epoch</em></a> represented by
+<code><i>date-time-object</i></code>.  If <code><i>as-fix-pt-p</i></code> is true, the reader returns a <a href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a>, otherwise a Lisp integer.
+
+</blockquote>
+
+<!-- End of entry for AS-SECONDS-SINCE-EPOCH -->
+
+<!-- Entry for AS-SECONDS-SINCE-MIDNIGHT -->
+
+<p><br>[Specialized accessor]<br><a name="as-seconds-since-midnight" class=none><b>as-seconds-since-midnight</b> <i>(date-time-object date-time-object) <tt>&amp;optional</tt> as-fix-pt-p</i> =&gt; <i>seconds</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-seconds-since-midnight</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(new-value integer)</i><tt>)</tt></a>
+<br><a class=none><tt>(setf (</tt><b>as-seconds-since-midnight</b> <i>(date-time-object date-time-object)</i><tt>)</tt> <i>(new-value fix-pt-object)</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets or sets the seconds since midnight represented by the time
+part of <code><i>date-time-object</i></code>.  If <code><i>as-fix-pt-p</i></code> is true, the reader returns
+a <a href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a>, otherwise a Lisp integer.
+
+</blockquote>
+
+<!-- End of entry for AS-SECONDS-SINCE-MIDNIGHT -->
+
+
+<p><br>[Method]<br><a name="get-second" class=none><b>get-second</b> <i>(date-time-object date-time-object)</i> =&gt; <i>second</i></a>
+<br><a name="get-minute" class=none><b>get-minute</b> <i>(date-time-object date-time-object)</i> =&gt; <i>minute</i></a>
+<br><a name="get-hour" class=none><b>get-hour</b> <i>(date-time-object date-time-object)</i> =&gt; <i>hour</i></a>
+<br><a name="get-day" class=none><b>get-day</b> <i>(date-time-object date-time-object)</i> =&gt; <i>day</i></a>
+<br><a name="get-month" class=none><b>get-month</b> <i>(date-time-object date-time-object)</i> =&gt; <i>month</i></a>
+<br><a name="get-year" class=none><b>get-year</b> <i>(date-time-object date-time-object)</i> =&gt; <i>year</i></a>
+<blockquote><br>
+
+These are obviously readers to get at the individual components of <code><i>date-time-object</i></code>.
+
+</blockquote>
+
+
+<h4><a name="binary-data" class=none>Binary data</a></h4>
+
+FileMaker's "BinaryData" C++ objects are roughly equivalent
+to <em>containers</em> in the database.  A BinaryData object consists
+of one or more <em>streams</em> which hold the actual content.  In
+FM-PLUGIN-TOOLS we
+use <a href="#binary-data-object"><code>BINARY-DATA-OBJECT</code></a>s
+to proxy these C++ objects.  Streams are "mapped"
+to <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/t_vector.htm">vectors</a>
+of <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_a.htm#array_element_type">element
+type</a> <code>(<a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/t_unsgn_.htm"><code>UNSIGNED-BYTE</code></a>&nbsp;8)</code>.
+<p>
+The <a href="#example">example plug-in</a>
+uses <a
+href="#binary-data-object"><code>BINARY-DATA-OBJECT</code></a>s to
+read <a href="http://en.wikipedia.org/wiki/Exif">Exif</a> data from JPG images.
+
+<!-- Entry for BINARY-DATA-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='binary-data-object'><b>binary-data-object</b></a>
+<blockquote><br>
+
+A <code>BINARY-DATA-OBJECT</code> is a Lisp object which is a
+proxy for a FileMaker "BinaryData" object.
+
+</blockquote>
+
+<!-- End of entry for BINARY-DATA-OBJECT -->
+
+<!-- Entry for MAKE-BINARY-DATA-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-binary-data-object'><b>make-binary-data-object</b> <i></i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Creates and returns a new <a href="#binary-data-object"><code>BINARY-DATA-OBJECT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for MAKE-BINARY-DATA-OBJECT -->
+
+<!-- Entry for GET-COUNT -->
+
+<p><br>[Method]<br><a class=none name="get-count"><b>get-count</b> <i>(binary-data-object binary-data-object)</i> =&gt; <i>count</i></a>
+<blockquote><br>
+
+Returns the number of streams of <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-COUNT -->
+
+<!-- Entry for GET-INDEX -->
+
+<p><br>[Method]<br><a name="get-index" class=none><b>get-index</b> <i>(binary-data-object binary-data-object) data-type</i> =&gt; <i>index</i></a>
+<blockquote><br>
+
+Returns the index of the stream corresponding to the data type
+<code><i>data-type</i></code> (a four-character Lisp string) of <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-INDEX -->
+
+<!-- Entry for GET-SIZE -->
+
+<p><br>[Method]<br><a name="get-size" class=none><b>get-size</b> <i>(binary-data-object binary-data-object) index</i> =&gt; <i>size</i></a>
+<blockquote><br>
+
+Returns the size of the stream with index <code><i>index</i></code> of
+<code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-SIZE -->
+
+
+<!-- Entry for GET-DATA -->
+
+<p><br>[Method]<br><a class=none name="get-data"><b>get-data</b> <i>(binary-data-object binary-data-object) index <tt>&amp;key</tt> offset amount result start</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Returns <code><i>amount</i></code> <a href="http://en.wikipedia.org/wiki/Octet_%28computing%29">octets</a> of the contents of the stream with index
+<code><i>index</i></code> of <code><i>binary-data-object</i></code>
+beginning at octet <code><i>offset</i></code> (the default is <code>0</code>).
+If <code><i>result</i></code> is provided, it must be a Lisp vector of
+element type <code>(UNSIGNED-BYTE&nbsp;8)</code>
+with <a
+href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-652.htm">static
+allocation</a> which will be filled with the corresponding data and
+returned.  If <code><i>result</i></code> is not provided, a large enough vector will be
+created.  If <code><i>result</i></code> is provided, the vector will be filled beginning
+from position <code><i>start</i></code>.  If <code><i>result</i></code> is not provided, <code><i>start</i></code> will be ignored.
+
+</blockquote>
+
+<!-- End of entry for GET-DATA -->
+
+<!-- Entry for GET-TYPE -->
+
+<p><br>[Method]<br><a name="get-type" class=none><b>get-type</b> <i>(binary-data-object binary-data-object) index</i> =&gt; <i>data-type</i></a>
+<blockquote><br>
+
+Returns the data type (as a Lisp string) of the stream with
+index <code><i>index</i></code> of <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-TYPE -->
+
+<!-- Entry for GET-TOTAL-SIZE -->
+
+<p><br>[Method]<br><a name="get-total-size" class=none><b>get-total-size</b> <i>(binary-data-object binary-data-object)</i> =&gt; <i>total-size</i></a>
+<blockquote><br>
+
+Returns the total size of <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-TOTAL-SIZE -->
+
+<!-- Entry for ADD-DATA -->
+
+<p><br>[Method]<br><a name="add-data" class=none><b>add-data</b> <i>(binary-data-object binary-data-object) data-type data <tt>&amp;key</tt> start end</i> =&gt; <i>binary-data-object</i></a>
+<blockquote><br>
+
+Adds data from the Lisp vector (of element type <code>(UNSIGNED-BYTE&nbsp;8)</code>)
+<code><i>data</i></code> to the stream of data
+type <code><i>data-type</i></code> (a four-character Lisp string)
+of <code><i>binary-data-object</i></code>.
+If <code><i>start</i></code> and/or <code><i>end</i></code> are
+provided, only the vector data from <code><i>start</i></code>
+to <code><i>end</i></code> is used - the default is to use the whole
+vector.  For large vectors, the operation is likely to be a tad faster
+if <code><i>data</i></code>
+was <a
+href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-652.htm">allocated
+statically</a>.  Returns <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for ADD-DATA -->
+
+<!-- Entry for REMOVE-DATA -->
+
+<p><br>[Method]<br><a name="remove-data" class=none><b>remove-data</b> <i>(binary-data-object binary-data-object) data-type</i> =&gt; <i>binary-data-object</i></a>
+<blockquote><br>
+
+Removes the stream of data type <code><i>data-type</i></code> (a four-character
+Lisp string) from <code><i>binary-data</i></code>.  Returns <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for REMOVE-DATA -->
+
+<!-- Entry for REMOVE-ALL -->
+
+<p><br>[Method]<br><a name="remove-all" class=none><b>remove-all</b> <i>(binary-data-object binary-data-object)</i> =&gt; <i>binary-data-object</i></a>
+<blockquote><br>
+
+Removes <em>all</em> streams from <code><i>binary-data-object</i></code>.  Returns <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for REMOVE-ALL -->
+
+
+<!-- Entry for GET-SIZE-DATA -->
+
+<p><br>[Method]<br><a class=none name="get-size-data"><b>get-size-data</b> <i>(binary-data-object binary-data-object)</i> =&gt; <i>width, height</i></a>
+<blockquote><br>
+
+Returns as two values the width and height of <code><i>binary-data-object</i></code> if it contains an image.
+
+</blockquote>
+
+<!-- End of entry for GET-SIZE-DATA -->
+
+
+<!-- Entry for ADD-SIZE-DATA -->
+
+<p><br>[Method]<br><a name="add-size-data" class=none><b>add-size-data</b> <i>(binary-data-object binary-data-object) width height</i> =&gt; <i>binary-data-object</i></a>
+<blockquote><br>
+
+Sets the width and height of the image in <code><i>binary-data-object</i></code>.  Returns <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for ADD-SIZE-DATA -->
+
+
+<!-- Entry for GET-FNAM-DATA -->
+
+<p><br>[Method]<br><a class=none name="get-fnam-data"><b>get-fnam-data</b> <i>(binary-data-object binary-data-object) <tt>&amp;optional</tt> as-text-p</i> =&gt; <i>file-path-list</i></a>
+<blockquote><br>
+
+Returns the <em>file path list</em> (that's how FileMaker calls it) of
+the special filename (<em>FNAM</em>) stream of <code><i>binary-data-object</i></code>.  If <code><i>as-text-p</i></code> is
+true, the result will be a <a href="#text-object"><code>TEXT-OBJECT</code></a>, otherwise a Lisp string.
+
+</blockquote>
+
+<!-- End of entry for GET-FNAM-DATA -->
+
+<!-- Entry for ADD-FNAM-DATA -->
+
+<p><br>[Methods]<br><a name="add-fnam-data" class=none><b>add-fnam-data</b> <i>(binary-data-object binary-data-object) (file-path-list string)</i> =&gt; <i>binary-data-object</i></a>
+<br><a class=none><b>add-fnam-data</b> <i>(binary-data-object binary-data-object) (file-path-list text-object)</i> =&gt; <i>binary-data-object</i></a>
+<blockquote><br>
+
+Sets the file path list of the filename (<em>FNAM</em>) stream of
+<code><i>binary-data</i></code> to <code><i>file-path-list</i></code>.
+Returns <code><i>binary-data-object</i></code>.
+
+</blockquote>
+
+<!-- End of entry for ADD-FNAM-DATA -->
+
+
+<h4><a name="data" class=none>Polymorphic data objects</a></h4>
+
+The arguments as well as the return value
+of <a href="#functions">plug-in functions</a> are all encapsulated in
+C++ "Data" objects.  These are polymorphic objects that can store and
+return all the major data types described above
+like <a href="#text-object"><code>TEXT-OBJECT</code></a>
+or <a href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a>.
+FM-PLUGIN-TOOLS
+uses <a href="#data-object"><code>DATA-OBJECT</code></a>s as proxies
+for Data objects.
+
+<!-- Entry for DATA-OBJECT -->
+
+<p><br>[Standard class]<br><a class=none name='data-object'><b>data-object</b></a>
+<blockquote><br>
+
+A <code>DATA-OBJECT</code> is a Lisp object which is a proxy for a FileMaker "Data" object.
+
+</blockquote>
+
+<!-- End of entry for DATA-OBJECT -->
+
+<!-- Entry for MAKE-DATA-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='make-data-object'><b>make-data-object</b> <i></i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Creates and returns a new <a href="#data-object"><code>DATA-OBJECT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for MAKE-DATA-OBJECT -->
+
+
+
+
+<p><br>[Specialized accessors]<br><a name="as-text-object" class=none><b>as-text-object</b> <i>(data-object data-object)</i> =&gt; <i>text-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-text-object</b> <i>(data-object data-object) <tt>&amp;key</tt> source-locale native-type</i><tt>)</tt> <i>text-object</i><tt>)</tt></a>
+<br><a name="as-string[data]" class=none><b>as-string</b> <i>(data-object data-object) </i> =&gt; <i>string</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-string</b> <i>(data-object data-object) <tt>&amp;key</tt>  source-locale native-type </i><tt>)</tt> <i>string</i><tt>)</tt></a>
+<br><a name="as-fix-pt-object" class=none><b>as-fix-pt-object</b> <i>(data-object data-object)</i> =&gt; <i>fix-pt-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-fix-pt-object</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>fix-pt-object</i><tt>)</tt></a>
+<br><a name="as-integer[data]" class=none><b>as-integer</b> <i>(data-object data-object)</i> =&gt; <i>integer</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-integer</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>integer</i><tt>)</tt></a>
+<br><a name="as-float[data]" class=none><b>as-float</b> <i>(data-object data-object)</i> =&gt; <i>float</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-float</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>float</i><tt>)</tt></a>
+<br><a name="as-boolean[data]" class=none><b>as-boolean</b> <i>(data-object data-object)</i> =&gt; <i>boolean</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-boolean</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>whatever</i><tt>)</tt></a>
+<br><a name="as-date[data]" class=none><b>as-date</b> <i>(data-object data-object)</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-date</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>date-time-object</i><tt>)</tt></a>
+<br><a name="as-time[data]" class=none><b>as-time</b> <i>(data-object data-object)</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-time</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>date-time-object</i><tt>)</tt></a>
+<br><a name="as-timestamp" class=none><b>as-timestamp</b> <i>(data-object data-object)</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-timestamp</b> <i>(data-object data-object) <tt>&amp;key</tt> native-type</i><tt>)</tt> <i>date-time-object</i><tt>)</tt></a>
+<br><a name="as-binary-data" class=none><b>as-binary-data</b> <i>(data-object data-object)</i> =&gt; <i>binary-data-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-binary-data</b> <i>(data-object data-object) <tt>&amp;key</tt> force-binary-native-type</i><tt>)</tt> <i>binary-data-object</i><tt>)</tt></a>
+<blockquote><br>
+
+These are the various readers and writers to get and set the contents
+of
+the <a
+href="#data-object"><code>DATA-OBJECT</code></a> <code><i>data-object</i></code>.
+<code><i>source-locale</i></code> should be
+a <a href="#locale-object"><code>LOCALE-OBJECT</code></a> (the default
+is a locale created with input
+type <a
+href="#+k-type-system+"><code>+K-TYPE-SYSTEM+</code></a>), <code><i>force-binary-native-type</i></code>
+is a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_g.htm#generalized_boolean">generalized
+boolean</a> (the default is <code>T</code>),
+and <code><i>native-type</i></code> will by default be the value
+correspoding to the new value.  See the FileMaker documentation for
+more details about these keyword parameters.
+
+</blockquote>
+
+<p><br>[Constants]<br><a class=none name='+k-dtinvalid+'><b>+k-dtinvalid+</b></a>
+<br><a class=none name='+k-dttext+'><b>+k-dttext+</b></a>
+<br><a class=none name='+k-dtnumber+'><b>+k-dtnumber+</b></a>
+<br><a class=none name='+k-dtboolean+'><b>+k-dtboolean+</b></a>
+<br><a class=none name='+k-dtdate+'><b>+k-dtdate+</b></a>
+<br><a class=none name='+k-dttime+'><b>+k-dttime+</b></a>
+<br><a class=none name='+k-dttime-stamp+'><b>+k-dttime-stamp+</b></a>
+<br><a class=none name='+k-dtbinary+'><b>+k-dtbinary+</b></a>
+<blockquote><br>
+
+These constants are usable as <code><i>native-type</i></code> parameters in the writers <a href="#as-text-object">above</a>.
+
+</blockquote>
+
+<!-- Entry for SET-VALUE -->
+
+<p><br>[Function]<br><a class=none name='set-value'><b>set-value</b> <i>value <tt>&amp;key</tt> target result-type</i> =&gt; <i>target</i></a>
+<blockquote><br>
+
+Sets the contents of the <a href="#data-object"><code>DATA-OBJECT</code></a> <code><i>target</i></code> to <code><i>value</i></code>.  If
+<code><i>target</i></code> is not provided, the return value of the currently
+executing plug-in function (see <a href="#*results*"><code>*RESULTS*</code></a>) is set.  <code><i>result-type</i></code> can be one
+of <code>:BOOLEAN</code>, <code>:DATE</code>, <code>:TIME</code>, <code>:TIMESTAMP</code>, or <code>:UNIVERSAL-TIME</code> describing
+the intended FileMaker type of <code><i>value</i></code>.  <code><i>result-type</i></code> can also be
+<code>NIL</code> in which case the function tries to do the right
+thing depending on the Lisp type of <code><i>value</i></code> -
+if <code><i>value</i></code> is a string, <code><i>target</i></code>
+is changed with <a href="#as-string[data]"><code>AS-STRING</code></a>,
+if <code><i>value</i></code> is
+a <a
+href="#text-object"><code>TEXT-OBJECT</code></a>, <code><i>target</i></code>
+is changed
+with <a href="#as-text-object"><code>AS-TEXT-OBJECT</code></a>, and so
+on.  If <code><i>value</i></code> is a Lisp object for which there is no known conversion
+method, it is treated as a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_g.htm#generalized_boolean">generalized
+boolean</a> and converted to a FileMaker boolean.
+<p>
+Finally, <code><i>result-type</i></code> can be <code>:VOID</code>
+which means that this function does nothing.  The function
+returns <code><i>target</i></code>.
+<p>
+This function is used internally by the <a href="#functions">plug-in
+function machinery</a> of FM-PLUGIN-TOOLS to set the return value of
+these functions and it is assumed that you'll rarely, if ever, need
+it.  But just in case it is exported anyway.
+
+</blockquote>
+
+<!-- End of entry for SET-VALUE -->
+
+<!-- Entry for GET-FONT-ID -->
+
+<p><br>[Method]<br><a name="get-font-id" class=none><b>get-font-id</b> <i>(data-object data-object) font-name font-script</i> =&gt; <i>font-id</i></a>
+<blockquote><br>
+
+Returns the ID of the font identified by (the Lisp string) <code><i>font-name</i></code>
+and the font script <code><i>font-script</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-FONT-ID -->
+
+<!-- Entry for GET-FONT-INFO -->
+
+<p><br>[Method]<br><a name="get-font-info" class=none><b>get-font-info</b> <i>(data-object data-object) font-id</i> =&gt; <i>name, script</i></a>
+<blockquote><br>
+
+Returns as two values the name and the script of the font with the ID <code><i>font-id</i></code>.
+
+</blockquote>
+
+<!-- End of entry for GET-FONT-INFO -->
+
+<p><br>[Constants]<br><a class=none name='+k-native+'><b>+k-native+</b></a>
+<br><a class=none name='+k-other+'><b>+k-other+</b></a>
+<br><a class=none name='+k-invalid-font+'><b>+k-invalid-font+</b></a>
+<br><a class=none name='+k-oem+'><b>+k-oem+</b></a>
+<br><a class=none name='+k-symbol+'><b>+k-symbol+</b></a>
+<br><a class=none name='+k-dingbats+'><b>+k-dingbats+</b></a>
+<br><a class=none name='+k-roman+'><b>+k-roman+</b></a>
+<br><a class=none name='+k-greek+'><b>+k-greek+</b></a>
+<br><a class=none name='+k-cyrillic+'><b>+k-cyrillic+</b></a>
+<br><a class=none name='+k-central-europe+'><b>+k-central-europe+</b></a>
+<br><a class=none name='+k-shift-jis+'><b>+k-shift-jis+</b></a>
+<br><a class=none name='+k-traditional-chinese+'><b>+k-traditional-chinese+</b></a>
+<br><a class=none name='+k-simplified-chinese+'><b>+k-simplified-chinese+</b></a>
+<br><a class=none name='+k-korean+'><b>+k-korean+</b></a>
+<br><a class=none name='+k-turkish+'><b>+k-turkish+</b></a>
+<blockquote><br>
+
+These constants can be used as <code><i>font-script</i></code>
+parameters in <a href="#get-font-id"><code>GET-FONT-ID</code></a>.
+See the FileMaker documentation for details.
+
+</blockquote>
+
+
+
+
+
+
+
+<h4><a name="generic" class=none>Generic functions</a></h4>
+
+Methods are usually listed in the subsection of those data objects
+they "belong to." (Yeah, I know, this isn't technically correct in
+CLOS.)  However, there are some generic functions which are used for
+different types of data objects.  These are assembled here for reference.
+
+<!-- Entry for AS-STRING -->
+
+<p><br>[Generic accessor]<br><a class=none name='as-string'><b>as-string</b> <i>thing <tt>&amp;key</tt></i> =&gt; <i>string</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-string</b> <i>thing <tt>&amp;key</tt></i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between Lisp strings and FileMaker
+objects.  <code><i>new-value</i></code> must be a Lisp string.  There
+are methods for <a href="#as-string[text]">text objects</a> and
+for <a href="#as-string[data]">data objects</a>.
+
+</blockquote>
+
+<!-- End of entry for AS-STRING -->
+
+<!-- Entry for AS-BOOLEAN -->
+
+<p><br>[Generic accessor]<br><a class=none name='as-boolean'><b>as-boolean</b> <i>thing</i> =&gt; <i>boolean</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-boolean</b> <i>thing <tt>&amp;key</tt></i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_g.htm#generalized_boolean">generalized
+Lisp booleans</a> and FileMaker
+objects.  <code><i>new-value</i></code> can be any Lisp object.  There
+are methods for <a href="#as-boolean[fix-pt]">FixPt objects</a> and
+for <a href="#as-boolean[data]">data objects</a>.
+
+
+</blockquote>
+
+<!-- End of entry for AS-BOOLEAN -->
+
+<!-- Entry for AS-INTEGER -->
+
+<p><br>[Generic accessor]<br><a class=none name='as-integer'><b>as-integer</b> <i>thing</i> =&gt; <i>integer</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-integer</b> <i>thing <tt>&amp;key</tt></i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between Lisp integers and FileMaker
+objects.  <code><i>new-value</i></code> must be a Lisp integer.  There
+are methods for <a href="#as-integer[fix-pt]">FixPt objects</a> and
+for <a href="#as-integer[data]">data objects</a>.
+
+
+</blockquote>
+
+<!-- End of entry for AS-INTEGER -->
+
+<!-- Entry for AS-FLOAT -->
+
+<p><br>[Generic accessor]<br><a class=none name='as-float'><b>as-float</b> <i>thing</i> =&gt; <i>float</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-float</b> <i>thing <tt>&amp;key</tt></i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between Lisp floats and FileMaker
+objects.  <code><i>new-value</i></code> must be a Lisp float.  There
+are methods for <a href="#as-float[fix-pt]">FixPt objects</a> and
+for <a href="#as-float[data]">data objects</a>.
+
+
+</blockquote>
+
+<!-- End of entry for AS-FLOAT -->
+
+<!-- Entry for AS-DATE -->
+
+<p><br>[Generic accessor]<br><a class=none name='as-date'><b>as-date</b> <i>thing</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-date</b> <i>thing <tt>&amp;key</tt></i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between a full timestamp and the date part of it.  <code><i>new-value</i></code> must be a <a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>.  There
+are methods for <a href="#as-date[date-time]">DateTime objects</a> and
+for <a href="#as-date[data]">data objects</a>.
+
+</blockquote>
+
+<!-- End of entry for AS-DATE -->
+
+
+<!-- Entry for AS-TIME -->
+
+<p><br>[Generic accessor]<br><a class=none name='as-time'><b>as-time</b> <i>thing</i> =&gt; <i>date-time-object</i></a>
+<br><a class=none><tt>(setf (</tt><b>as-time</b> <i>thing <tt>&amp;key</tt></i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+This accessor is used to convert between a full timestamp and the time part of it.  <code><i>new-value</i></code> must be a <a href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>.  There
+are methods for <a href="#as-time[date-time]">DateTime objects</a> and
+for <a href="#as-time[data]">data objects</a>.
+
+
+</blockquote>
+
+<!-- End of entry for AS-TIME -->
+
+
+<!-- Entry for SIZE -->
+
+<p><br>[Generic function]<br><a name="size" class=none><b>size</b> <i>thing</i> =&gt; <i>size</i></a>
+<blockquote><br>
+
+Returns the size of either a <a href="#size[text]">text object</a> or a <a href="#size[style]">character style</a>.
+
+</blockquote>
+
+<!-- End of entry for SIZE -->
+
+<br>&nbsp;<br><h3><a class=none name="functions">Defining plug-in functions</a></h3>
+
+If you're writing a plug-in in C++, you have to create your plug-in
+("external") function and then hand over a pointer to that function
+(and some more information) to FileMaker to register it.  FileMaker
+will call this function if appropriate giving you (a pointer to) a
+"DataVect" object which you can use to pull out (pointers to) the individual
+arguments with which your function was called.  These arguments come
+in the form of <a href="#data">Data</a> objects which you'll then
+convert to the type you're actually interested in.  Once you're done,
+you use another pointer obtained from FileMaker to set the return
+value of the function.
+<p>
+FM-PLUGIN-TOOLS tries to hide most of the complexity of this process
+from you by providing
+the <a
+href="#define-plugin-function"><code>DEFINE-PLUGIN-FUNCTION</code></a>
+macro which is intended to be used more or less
+like <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/m_defun.htm"><code>DEFUN</code></a>
+- you define a function that almost looks like a Lisp function and the
+toolkit does the rest.  Specifically, your function will have a lambda
+list
+with <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/03_dab.htm">optional</a>
+and <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/03_dac.htm">rest</a>
+parameters, and you can already declare the desired object type (and a
+default value if appropriate) in the lambda list.  Likewise, in most
+cases it will suffice to simply return a value from your function like
+in Lisp, and FM-PLUGIN-TOOLS will make sure the correct data is sent
+to FileMaker.
+<p>
+In the rare cases where you want to access the argument vector or the
+result pointer directly, you can use the functions <a href="#nth-arg"><code>NTH-ARG</code></a> and
+<a href="#set-value"><code>SET-VALUE</code></a> or manipulate
+the <a href="#*results*"><code>*RESULTS*</code></a> object.
+<p>
+Errors occurring during the execution of a plug-in function are
+automatically caught and <a href="#*log-errors-p*">optionally</a>
+<a href="#fm-log">logged</a>.
+
+
+<!-- Entry for DEFINE-PLUGIN-FUNCTION -->
+
+<p><br>[Macro]<br><a class=none name='define-plugin-function'><b>define-plugin-function</b> <i>description lambda-list declaration* statement*</i></a>
+<blockquote><br>
+
+Defines a plug-in function.  <code><i>description</i></code> is either
+a string with the function prototype as it should be shown by
+FileMaker or a list where the first element is a prototype string
+followed by
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_p.htm#plist">plist</a>
+with keyword parameters.  FM-PLUGIN-TOOLS will
+automatically determine the name of the function from the prototype
+string by removing the argument list (if there is one).  Furthermore,
+it will add the <a href="#*plugin-id*">plugin ID</a> and an
+underline to this name.  So, if your prototype string is, say, "Foo(
+arg1; arg2 )" and your plugin ID is "Quux", then the function name
+reported to FileMaker will be "Quux_Foo".  (This is the usual
+convention used for plug-ins.)
+<p>
+The plist can have the properties (i.e. they keyword
+parameters) <code>:MAX-ARGS</code>, <code>:FLAGS</code>,
+and <code>:RESULT-TYPE</code>.  <code><i>max-args</i></code> is the
+maximal number of arguments for the function.  This parameter will  only be used if
+there's a <code>&amp;REST</code> parameter in the lambda list, i.e. if
+the toolkit can't determine the maximal number of arguments itself.
+<p>
+<code><i>result-type</i></code> will be interpreted as
+by <a href="#set-value"><code>SET-VALUE</code></a>: If your function
+returns <code><i>value</i></code>, then FM-PLUGIN-TOOLS will call
+<pre>
+(set-value value :result-type result-type)
+</pre>
+before it returns to FileMaker.  As explained in the entry
+for <a href="#set-value"><code>SET-VALUE</code></a>, in most cases you
+don't need to set the result type explicitly (leaving it <code>NIL</code>),
+as <a href="#set-value"><code>SET-VALUE</code></a> will try to do the
+right itself.
+<p>
+<code><i>flags</i></code> is a boolean combination
+of <a href="#+k-may-evaluate-on-server+">flags</a> describing the
+behaviour of the function - see FileMaker documentation.  The default
+is to use the combination
+of <a
+href="#+k-display-in-all-dialogs+"><code>+K-DISPLAY-IN-ALL-DIALOGS+</code></a>
+and <a
+href="#+k-may-evaluate-on-server+"><code>+K-MAY-EVALUATE-ON-SERVER+</code></a>.
+<p>
+<code><i>lambda-list</i></code> is like a simplified version of a
+Lisp <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/03_d.htm">lambda
+list</a> where only <code>&amp;OPTIONAL</code>
+and <code>&amp;REST</code> are allowed.  Each parameter is either a
+symbol or a pair <code>(NAME&nbsp;TYPE)</code>
+where <code><i>type</i></code> is interpreted as
+by <a href="#nth-arg"><code>NTH-ARG</code></a>, i.e. it determines the
+desired type of the argument called <code><i>name</i></code>.
+Optional parameters can also look like
+<code>(NAME&nbsp;TYPE&nbsp;DEFAULT-VALUE)</code>
+where <code><i>default-value</i></code> is of course the default value
+for this argument.
+
+</blockquote>
+
+<!-- End of entry for DEFINE-PLUGIN-FUNCTION -->
+
+<p><br>[Constant]<br><a class=none name='+k-may-evaluate-on-server+'><b>+k-may-evaluate-on-server+</b></a>
+<br><a class=none name='+k-display-auto-enter+'><b>+k-display-auto-enter+</b></a>
+<br><a class=none name='+k-display-calc-fields+'><b>+k-display-calc-fields+</b></a>
+<br><a class=none name='+k-display-custom-functions+'><b>+k-display-custom-functions+</b></a>
+<br><a class=none name='+k-display-generic+'><b>+k-display-generic+</b></a>
+<br><a class=none name='+k-display-in-all-dialogs+'><b>+k-display-in-all-dialogs+</b></a>
+<br><a class=none name='+k-display-in-future1+'><b>+k-display-in-future1+</b></a>
+<br><a class=none name='+k-display-in-future2+'><b>+k-display-in-future2+</b></a>
+<br><a class=none name='+k-display-privileges+'><b>+k-display-privileges+</b></a>
+<br><a class=none name='+k-display-validation+'><b>+k-display-validation+</b></a>
+<blockquote><br>
+
+These are flags that can be used for the <code><i>flags</i></code>
+parameter
+of <a
+href="#define-plugin-function"><code>DEFINE-PLUGIN-FUNCTION</code></a>.
+See the FileMaker documentation for their meaning.
+
+</blockquote>
+
+
+<!-- Entry for NTH-ARG -->
+
+<p><br>[Function]<br><a class=none name='nth-arg'><b>nth-arg</b> <i>n <tt>&amp;optional</tt> type</i> =&gt; <i>argument</i></a>
+<blockquote><br>
+
+Returns the <code>N</code>th argument (starting to count at <code>0</code>) of the currently
+executing plug-in function.  <code><i>type</i></code> determines how the argument
+should be returned and must be one of <code>:TEXT</code> (for a
+<a href="#text-object"><code>TEXT-OBJECT</code></a>), <code>:STRING</code> (for a Lisp string), <code>:FIX-PT</code> (a
+<a
+href="#fix-pt-object"><code>FIX-PT-OBJECT</code></a>), <code>:INTEGER</code>
+(a Lisp integer), <code>:FLOAT</code> (a Lisp
+float), <code>:BOOLEAN</code> (a Lisp
+boolean), <code>:DATE</code>, <code>:TIME</code>, <code>:TIMESTAMP</code>
+(<a
+href="#date-time-object"><code>DATE-TIME-OBJECT</code></a>s), <code>:UNIVERSAL-TIME</code>
+(a Lisp universal time), <code>:BINARY-DATA</code>
+(a <a href="#binary-data-object"><code>BINARY-DATA-OBJECT</code></a>),
+or <code>NIL</code> (the
+<a href="#data-object"><code>DATA-OBJECT</code></a> itself).
+<p>
+If there are fewer than <code>N</code> arguments, this function returns <code>NIL</code>.
+<p>
+It is expected that you'll almost never need to call this function,
+because <a
+href="#define-plugin-function"><code>DEFINE-PLUGIN-FUNCTION</code></a>
+will arrange to call it for you automatically if needed.
+</blockquote>
+
+<!-- End of entry for NTH-ARG -->
+
+<!-- Entry for *RESULTS* -->
+
+<p><br>[Special variable]<br><a class=none name='*results*'><b>*results*</b></a>
+<blockquote><br>
+
+During the execution of a plug-in function this variable is bound to
+the <a href="#data">data object</a> which will eventually contain the
+return value.  Don't do anything with this variable unless you
+absolutely know what you're doing!  Use the
+function <a href="#set-value"><code>SET-VALUE</code></a> if needed.
+
+</blockquote>
+
+<!-- End of entry for *RESULTS* -->
+
+
+
+<!-- Entry for BOOLEAN-VALUE -->
+
+<p><br>[Function]<br><a class=none name='boolean-value'><b>boolean-value</b> <i>thing</i> =&gt; <i>boolean</i></a>
+<blockquote><br>
+
+Returns <code>T</code> if <code><i>thing</i></code> is
+not <code>NIL</code>, <code>NIL</code> otherwise.  This is a
+convenience function which you can use to ensure that the return value
+of a plug-in function is interpreted as a boolean without explicitly
+setting its result type.
+
+</blockquote>
+
+<!-- End of entry for BOOLEAN-VALUE -->
+
+<br>&nbsp;<br><h3><a class=none name="deliver">Creating the plug-in</a></h3>
+
+Once your code is ready, you have to invoke
+the <a
+href="http://www.lispworks.com/documentation/lw50/DV/html/deluser.htm">LispWorks
+delivery machinery</a> to create a DLL.  FM-PLUGIN-TOOLS comes with a
+file <code>deliver.lisp</code> which already contains all the code
+needed to do this.  You'll just have to adjust a few special variables
+(like the delivery level and where ASDF libraries are to be looked
+for) to your local settings.
+<p>
+FM-PLUGIN-TOOLS also comes with a script <code>build-plugin.cmd</code>
+(<code>build-plugin.command</code> on OS&nbsp;X)
+that will do all the work of creating a Lisp DLL for you once you have
+adjusted it to your local settings.  Actualy, the
+file <code>deliver.lisp</code> is set up in such a way that it is
+expected to be invoked from the build script.  Note that FileMaker
+must <em>not</em> run when you copy the plug-in into
+the <code>Extensions</code> folder.
+<p>
+Note: It might be the case that your
+DLL <a
+href="http://article.gmane.org/gmane.lisp.lispworks.general/5765">requires</a>
+the <a href="http://msdn.microsoft.com/vstudio/">Microsoft Visual
+Studio</a> runtime library <code>msvcr80.dll</code>.  If you want to
+make sure that the runtime library is available on the target machine,
+you should probably provide an installer and use something like
+Microsoft's <a
+href="http://www.microsoft.com/downloads/details.aspx?familyid=32BC1BEE-A3F9-4C13-9C99-220B62A191EE&amp;displaylang=en">Visual
+C++ 2005 Redistributable Package</a>.
+
+
+<!-- Entry for CHECK-PLUGIN-ID -->
+
+<p><br>[Function]<br><a class=none name='check-plugin-id'><b>check-plugin-id</b> <i></i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Checks whether <a href="#*plugin-id*"><code>*PLUGIN-ID*</code></a> has
+a valid value.  Should be called in a delivery script.  The
+file <code>deliver.lisp</code> the comes with FM-PLUGIN-TOOLS already
+contains a call to this function.
+
+</blockquote>
+
+<!-- End of entry for CHECK-PLUGIN-ID -->
+
+<p><br>[Function]<br><a class=none name='set-product-name'><b>set-product-name</b> <i></i> =&gt; <i>set-product-name</i></a>
+<blockquote><br>
+
+Sets <a href="#*product-name*"><code>*PRODUCT-NAME*</code></a>
+from <a href="#*plugin-name*"><code>*PLUGIN-NAME*</code></a> if it
+hasn't been set explicitly.  Should be called in a delivery script.
+The file <code>deliver.lisp</code> the comes with FM-PLUGIN-TOOLS
+already contains a call to this function.
+
+</blockquote>
+
+<p><br>[Special variable]<br><a class=none name='*symbols-to-keep*'><b>*symbols-to-keep*</b></a>
+<blockquote><br>
+
+The list of symbols which must remain in the delivered DLL image.
+Only needed for delivery level&nbsp;5.
+See <a
+href="http://www.lispworks.com/documentation/lw50/DV/html/deluser-125.htm"><code>:KEEP-SYMBOLS</code></a>.
+<p>
+FM-PLUGIN-TOOLS uses this variable internally.  You are allowed to add
+symbols to this list and to remove symbols you've added yourself but
+you must not otherwise modify it.  Modifications to this list
+obviously only make sense before the DLL is built, not at runtime.
+<p>
+The value of this variable is meaningless if you don't use the
+file <code>deliver.lisp</code> mentioned <a href="#deliver">above</a>.
+
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="misc">Miscellaneous</a></h3>
+
+This section collects entries that didn't fit in one of the other
+sections.  Amongst other things, it explains <a href="#evaluate">how
+to evaluate an expression</a>, <a href="#start-script">how to invoke a
+FileMaker script</a>, and <a href="#plugin-preference">how to store
+and retrieve user preferences</a>.
+
+<p><br>[Methods]<br><a name="evaluate" class=none><b>evaluate</b> <i>(expression string) <tt>&amp;optional</tt> result</i> =&gt; <i>result</i></a>
+<br><a class=none><b>evaluate</b> <i>(expression text-object) <tt>&amp;optional</tt> result</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Evaluates (as with FileMaker's "Evaluate" function) the expression
+<code><i>expression</i></code>.  The result is stored in the <a href="#data-object"><code>DATA-OBJECT</code></a> <code><i>result</i></code> which is
+created if none is provided.  The function returns <code><i>result</i></code>.
+
+</blockquote>
+
+<p><br>[Methods]<br><a name="execute-sql" class=none><b>execute-sql</b> <i>(expression string) column-separator row-separator <tt>&amp;optional</tt> result</i> =&gt; <i>result</i></a>
+<br><a class=none><b>execute-sql</b> <i>(expression text-object) column-separator row-separator <tt>&amp;optional</tt> result</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Executes the SQL expression <code><i>expression</i></code> (see
+FileMaker's "ExecuteSQL" which they describe as "experimental") using
+(for the return value) the column
+separator <code><i>column-separator</i></code> and the row
+separator <code><i>row-separator</i></code> both of which must be
+characters.  The result is stored in
+the <a href="#data-object"><code>DATA-OBJECT</code></a> <code><i>result</i></code>
+which is created if none is provided.  The function
+returns <code><i>result</i></code>.
+
+</blockquote>
+
+<p><br>[Methods]<br><a name="start-script" class=none><b>start-script</b> <i>file-name (script-name string) <tt>&amp;key</tt> control parameter</i> =&gt; <i>|</i></a>
+<br><a class=none><b>start-script</b> <i>(file-name string) script-name <tt>&amp;key</tt> control parameter</i> =&gt; <i>|</i></a>
+<br><a class=none><b>start-script</b> <i>(file-name text-object) (script-name text-object) <tt>&amp;key</tt> control parameter</i> =&gt; <i>|</i></a>
+<blockquote><br>
+
+Starts the FileMaker script with the name
+<code><i>script-name</i></code> in the file <code><i>file-name</i></code> (both arguments can be Lisp strings or <a href="#text-object"><code>TEXT-OBJECT</code></a>s).  <code><i>parameter</i></code> can be a
+<a href="#data-object"><code>DATA-OBJECT</code></a> or any other
+object that can be converted automatically to
+a <a href="#data-object"><code>DATA-OBJECT</code></a>
+with <a href="#set-value"><code>SET-VALUE</code></a>.  The default
+behaviour is to not use <code><i>parameter</i></code>, i.e. to hand
+over a C <code>NULL</code> pointer to FileMaker.  The default value for <code><i>control</i></code> is
+<a href="#+k-fmxt-pause+"><code>+K-FMXT-PAUSE+</code></a>.
+<p>
+See the FileMaker
+documentation for the meaning of the <code><i>control</i></code> and <code><i>parameter</i></code>
+arguments.
+
+</blockquote>
+
+<p><br>[Constants]<br><a class=none name='+k-fmxt-halt+'><b>+k-fmxt-halt+</b></a>
+<br><a class=none name='+k-fmxt-exit+'><b>+k-fmxt-exit+</b></a>
+<br><a class=none name='+k-fmxt-resume+'><b>+k-fmxt-resume+</b></a>
+<br><a class=none name='+k-fmxt-pause+'><b>+k-fmxt-pause+</b></a>
+<blockquote><br>
+
+These constants can be used as <code><i>control</i></code> arguments
+for <a href="#start-script"><code>START-SCRIPT</code></a>.  See the
+FileMaker documentation for details.
+
+</blockquote>
+
+<!-- Entry for PLUGIN-PREFERENCE -->
+
+<p><br>[Accessor]<br><a class=none name='plugin-preference'><b>plugin-preference</b> <i>path value-name</i> =&gt; <i>whatever</i></a>
+<br><a class=none><tt>(setf (</tt><b>plugin-preference</b> <i>path value-name</i><tt>)</tt> <i>new-value</i><tt>)</tt></a>
+<blockquote><br>
+
+Stores and retrieves preferences (stored in the Windows registry)
+corresponding to <code><i>path</i></code>
+and <code><i>name</i></code>.  See
+also <a
+href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-358.htm"><code>USER-PREFERENCE</code></a>
+- the <code><i>product</i></code> parameter there is automatically set to a value appropriate
+for your plug-ing.
+
+</blockquote>
+
+<!-- End of entry for PLUGIN-PREFERENCE -->
+
+
+<!-- Entry for REMEMBER-INTERFACE-GEOMETRY -->
+
+<p><br>[Macro]<br><a class=none name='remember-interface-geometry'><b>remember-interface-geometry</b> <i>interface-class-name</i></a>
+<blockquote><br>
+
+Convenience macro which sets up a user defined interface class such
+that its geometry will automatically be stored in the Windows registry
+between different invocations of the plug-in.  See
+also <a
+href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-382.htm"><code>TOP-LEVEL-INTERFACE-GEOMETRY-KEY</code></a>.
+
+</blockquote>
+
+<!-- End of entry for REMEMBER-INTERFACE-GEOMETRY -->
+
+
+<!-- Entry for VERSION-STRING -->
+
+<p><br>[Function]<br><a class=none name='version-string'><b>version-string</b> <i></i> =&gt; <i>string</i></a>
+<blockquote><br>
+
+Returns a string representation of the <a href="#*plugin-version*">plug-in version</a>.
+
+</blockquote>
+
+<!-- End of entry for VERSION-STRING -->
+
+<p><br>[Function]<br><a name="update-global-environment" class=none><b>update-global-environment</b> =&gt; <i>|</i></a>
+
+<blockquote><br> If you call this function, a "global environment"
+will be set up (or updated).  This environment can act as a fallback
+for functions like <a href="#evaluate"><code>EVALUATE</code></a> which
+need an environment.  Such a global environment is <em>not</em> needed
+for functions that are called by FileMaker as these will always have
+an environment set up for them automatically.
+<p>
+This function must only be called from within functions that are called
+by FileMaker.  It is protected with a lock, so you don't need to care
+about concurrency.
+<p>
+If you don't understand this explanation, you very likely don't need
+this function...
+</blockquote>
+
+
+<br>&nbsp;<br><h3><a class=none name="debug">Debugging your plug-in</a></h3>
+
+It is kind of hard to debug a DLL that is called from an application
+(FileMaker) for which you don't have the source code.  The best I
+could come up with is logging - write error messages, backtraces, and
+other interesting information to a log file which you can examine if
+necessary.  The details are explained below.
+
+<!-- Entry for FM-LOG -->
+
+<p><br>[Function]<br><a class=none name='fm-log'><b>fm-log</b> <i>control-string <tt>&amp;rest</tt> format-args</i> =&gt; <i>|</i></a>
+<blockquote><br>
+
+This function writes data to the file denoted by <a href="#*fm-logfile*"><code>*FM-LOGFILE*</code></a> unless
+this value is <code>NIL</code>.  <code><i>control-string</i></code> and <code><i>format-args</i></code> are interpreted as
+by <a href="http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm"><code>FORMAT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for FM-LOG -->
+
+<!-- Entry for *FM-LOGFILE* -->
+
+<p><br>[Special variable]<br><a class=none name='*fm-logfile*'><b>*fm-logfile*</b></a>
+<blockquote><br>
+
+Target file for the <code><i>fm-log</i></code> function.
+A <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_p.htm#pathname_designator">pathname
+designator</a>, or <code>T</code> for a default location in the user's
+local application data folder, or <code>NIL</code> for no logging at
+all.  The default value is <code>T</code>.
+
+</blockquote>
+
+<!-- End of entry for *FM-LOGFILE* -->
+
+<!-- Entry for *LOG-ERRORS-P* -->
+
+<p><br>[Special variable]<br><a class=none name='*log-errors-p*'><b>*log-errors-p*</b></a>
+<blockquote><br>
+
+Whether errors occurring during the execution of a plug-in function
+should be logged using <a href="#fm-log"><code>FM-LOG</code></a>.  The
+default value is <code>T</code>.
+
+</blockquote>
+
+<!-- End of entry for *LOG-ERRORS-P* -->
+
+
+<!-- Entry for *LOG-BACKTRACES-P* -->
+
+<p><br>[Special variable]<br><a class=none name='*log-backtraces-p*'><b>*log-backtraces-p*</b></a>
+<blockquote><br>
+
+Whether error log entries created due
+to <a href="#*log-errors-p*"><code>*LOG-ERROR-P*</code></a> should be
+followed by a backtrace.  The default value is <code>NIL</code>.
+
+</blockquote>
+
+<!-- End of entry for *LOG-BACKTRACES-P* -->
+
+
+
+<!-- Entry for TOP-LEVEL-HOOK -->
+
+<p><br>[Function]<br><a class=none name='top-level-hook'><b>top-level-hook</b> <i>fn interface</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+A function which can be used as a top-level hook for <a href="http://www.lispworks.com/products/capi.html">CAPI</a> interfaces to
+make them more robust against unhandled conditions.
+It will log the condition if <a href="#*log-errors-p*"><code>*LOG-ERRORS-P*</code></a> is true and then destroy the interface.
+<p>
+See
+the <a
+href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-157.htm">reference
+entry for <code>CAPI:INTERFACE</code></a>.  See also the <a href="http://weitz.de/regex-plugin/">source code</a>
+of <a href="http://jensteich.de/regex-plugin/">RegexPlugIn</a> for an
+example of its usage.
+
+</blockquote>
+
+<!-- End of entry for TOP-LEVEL-HOOK -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>&nbsp;<br><h3><a class=none name="index">Symbol index</a></h3>
+
+Here are all exported symbols of FM-PLUGIN-TOOLS in alphabetical order linked to their corresponding entries:
+
+    <ul>
+      <li><a href="#add-data"><code>add-data</code></a>
+      <li><a href="#add-fnam-data"><code>add-fnam-data</code></a>
+      <li><a href="#add-size-data"><code>add-size-data</code></a>
+      <li><a href="#alpha"><code>alpha</code></a>
+      <li><a href="#any-face-enabled-p"><code>any-face-enabled-p</code></a>
+      <li><a href="#append-text"><code>append-text</code></a>
+      <li><a href="#as-binary-data"><code>as-binary-data</code></a>
+      <li><a href="#as-boolean"><code>as-boolean</code></a>
+      <li><a href="#as-date"><code>as-date</code></a>
+      <li><a href="#as-day-month-year"><code>as-day-month-year</code></a>
+      <li><a href="#as-fix-pt-object"><code>as-fix-pt-object</code></a>
+      <li><a href="#as-float"><code>as-float</code></a>
+      <li><a href="#as-integer"><code>as-integer</code></a>
+      <li><a href="#as-second-minute-hour"><code>as-second-minute-hour</code></a>
+      <li><a href="#as-seconds-since-epoch"><code>as-seconds-since-epoch</code></a>
+      <li><a href="#as-seconds-since-midnight"><code>as-seconds-since-midnight</code></a>
+      <li><a href="#as-string"><code>as-string</code></a>
+      <li><a href="#as-text-object"><code>as-text-object</code></a>
+      <li><a href="#as-time"><code>as-time</code></a>
+      <li><a href="#as-universal-time"><code>as-universal-time</code></a>
+      <li><a href="#binary-data-object"><code>binary-data-object</code></a>
+      <li><a href="#blue"><code>blue</code></a>
+      <li><a href="#boolean-value"><code>boolean-value</code></a>
+      <li><a href="#check-plugin-id"><code>check-plugin-id</code></a>
+      <li><a href="#color"><code>color</code></a>
+      <li><a href="#color-enabled-p"><code>color-enabled-p</code></a>
+      <li><a href="#color-object"><code>color-object</code></a>
+      <li><a href="#data-object"><code>data-object</code></a>
+      <li><a href="#date-time-object"><code>date-time-object</code></a>
+      <li><a href="#define-plugin-function"><code>define-plugin-function</code></a>
+      <li><a href="#delete-text"><code>delete-text</code></a>
+      <li><a href="#disable-all"><code>disable-all</code></a>
+      <li><a href="#disable-all-faces"><code>disable-all-faces</code></a>
+      <li><a href="#execute-sql"><code>execute-sql</code></a>
+      <li><a href="#evaluate"><code>evaluate</code></a>
+      <li><a href="#face"><code>face</code></a>
+      <li><a href="#face-enabled-p"><code>face-enabled-p</code></a>
+      <li><a href="#fix-pt-object"><code>fix-pt-object</code></a>
+      <li><a href="#fm-log"><code>fm-log</code></a>
+      <li><a href="#font"><code>font</code></a>
+      <li><a href="#font-enabled-p"><code>font-enabled-p</code></a>
+      <li><a href="#get-count"><code>get-count</code></a>
+      <li><a href="#get-data"><code>get-data</code></a>
+      <li><a href="#get-day"><code>get-day</code></a>
+      <li><a href="#get-default-style"><code>get-default-style</code></a>
+      <li><a href="#get-fnam-data"><code>get-fnam-data</code></a>
+      <li><a href="#get-font-id"><code>get-font-id</code></a>
+      <li><a href="#get-font-info"><code>get-font-info</code></a>
+      <li><a href="#get-hour"><code>get-hour</code></a>
+      <li><a href="#get-index"><code>get-index</code></a>
+      <li><a href="#get-minute"><code>get-minute</code></a>
+      <li><a href="#get-month"><code>get-month</code></a>
+      <li><a href="#get-second"><code>get-second</code></a>
+      <li><a href="#get-size"><code>get-size</code></a>
+      <li><a href="#get-size-data"><code>get-size-data</code></a>
+      <li><a href="#get-style"><code>get-style</code></a>
+      <li><a href="#get-total-size"><code>get-total-size</code></a>
+      <li><a href="#get-type"><code>get-type</code></a>
+      <li><a href="#get-year"><code>get-year</code></a>
+      <li><a href="#green"><code>green</code></a>
+      <li><a href="#handle-idle-message"><code>handle-idle-message</code></a>
+      <li><a href="#insert-text"><code>insert-text</code></a>
+      <li><a href="#locale-object"><code>locale-object</code></a>
+      <li><a href="#make-binary-data-object"><code>make-binary-data-object</code></a>
+      <li><a href="#make-color-object"><code>make-color-object</code></a>
+      <li><a href="#make-data-object"><code>make-data-object</code></a>
+      <li><a href="#make-date-time-object"><code>make-date-time-object</code></a>
+      <li><a href="#make-fix-pt-object"><code>make-fix-pt-object</code></a>
+      <li><a href="#make-locale-object"><code>make-locale-object</code></a>
+      <li><a href="#make-style-object"><code>make-style-object</code></a>
+      <li><a href="#make-text-object"><code>make-text-object</code></a>
+      <li><a href="#nth-arg"><code>nth-arg</code></a>
+      <li><a href="#plugin-preference"><code>plugin-preference</code></a>
+      <li><a href="#precision"><code>precision</code></a>
+      <li><a href="#red"><code>red</code></a>
+      <li><a href="#remember-interface-geometry"><code>remember-interface-geometry</code></a>
+      <li><a href="#remove-all"><code>remove-all</code></a>
+      <li><a href="#remove-data"><code>remove-data</code></a>
+      <li><a href="#remove-style"><code>remove-style</code></a>
+      <li><a href="#reset-all-style-buffers"><code>reset-all-style-buffers</code></a>
+      <li><a href="#set-product-name"><code>set-product-name</code></a>
+      <li><a href="#set-style"><code>set-style</code></a>
+      <li><a href="#set-text"><code>set-text</code></a>
+      <li><a href="#set-value"><code>set-value</code></a>
+      <li><a href="#size"><code>size</code></a>
+      <li><a href="#size-enabled-p"><code>size-enabled-p</code></a>
+      <li><a href="#start-script"><code>start-script</code></a>
+      <li><a href="#style-object"><code>style-object</code></a>
+      <li><a href="#text-object"><code>text-object</code></a>
+      <li><a href="#top-level-hook"><code>top-level-hook</code></a>
+      <li><a href="#update-global-environment"><code>update-global-environment</code></a>
+      <li><a href="#version-string"><code>version-string</code></a>
+      <li><a href="#*company-name*"><code>*company-name*</code></a>
+      <li><a href="#*copyright-message*"><code>*copyright-message*</code></a>
+      <li><a href="#*enable-idle-messages*"><code>*enable-idle-messages*</code></a>
+      <li><a href="#*fm-logfile*"><code>*fm-logfile*</code></a>
+      <li><a href="#*gc-interval*"><code>*gc-interval*</code></a>
+      <li><a href="#*init-function*"><code>*init-function*</code></a>
+      <li><a href="#*log-backtraces-p*"><code>*log-backtraces-p*</code></a>
+      <li><a href="#*log-errors-p*"><code>*log-errors-p*</code></a>
+      <li><a href="#*plugin-bundle-identifier*"><code>*plugin-bundle-identifier*</code></a>
+      <li><a href="#*plugin-help-text*"><code>*plugin-help-text*</code></a>
+      <li><a href="#*plugin-id*"><code>*plugin-id*</code></a>
+      <li><a href="#*plugin-name*"><code>*plugin-name*</code></a>
+      <li><a href="#*plugin-version*"><code>*plugin-version*</code></a>
+      <li><a href="#*preferences-function*"><code>*preferences-function*</code></a>
+      <li><a href="#*product-name*"><code>*product-name*</code></a>
+      <li><a href="#*results*"><code>*results*</code></a>
+      <li><a href="#*shutdown-function*"><code>*shutdown-function*</code></a>
+      <li><a href="#*symbols-to-keep*"><code>*symbols-to-keep*</code></a>
+      <li><a href="#+k-central-europe+"><code>+k-central-europe+</code></a>
+      <li><a href="#+k-cyrillic+"><code>+k-cyrillic+</code></a>
+      <li><a href="#+k-deflt-fixed-precision+"><code>+k-deflt-fixed-precision+</code></a>
+      <li><a href="#+k-dingbats+"><code>+k-dingbats+</code></a>
+      <li><a href="#+k-display-auto-enter+"><code>+k-display-auto-enter+</code></a>
+      <li><a href="#+k-display-calc-fields+"><code>+k-display-calc-fields+</code></a>
+      <li><a href="#+k-display-custom-functions+"><code>+k-display-custom-functions+</code></a>
+      <li><a href="#+k-display-generic+"><code>+k-display-generic+</code></a>
+      <li><a href="#+k-display-in-all-dialogs+"><code>+k-display-in-all-dialogs+</code></a>
+      <li><a href="#+k-display-in-future1+"><code>+k-display-in-future1+</code></a>
+      <li><a href="#+k-display-in-future2+"><code>+k-display-in-future2+</code></a>
+      <li><a href="#+k-display-privileges+"><code>+k-display-privileges+</code></a>
+      <li><a href="#+k-display-validation+"><code>+k-display-validation+</code></a>
+      <li><a href="#+k-dtbinary+"><code>+k-dtbinary+</code></a>
+      <li><a href="#+k-dtboolean+"><code>+k-dtboolean+</code></a>
+      <li><a href="#+k-dtdate+"><code>+k-dtdate+</code></a>
+      <li><a href="#+k-dtinvalid+"><code>+k-dtinvalid+</code></a>
+      <li><a href="#+k-dtnumber+"><code>+k-dtnumber+</code></a>
+      <li><a href="#+k-dttext+"><code>+k-dttext+</code></a>
+      <li><a href="#+k-dttime+"><code>+k-dttime+</code></a>
+      <li><a href="#+k-dttime-stamp+"><code>+k-dttime-stamp+</code></a>
+      <li><a href="#+k-face-all-styles+"><code>+k-face-all-styles+</code></a>
+      <li><a href="#+k-face-bold+"><code>+k-face-bold+</code></a>
+      <li><a href="#+k-face-condense+"><code>+k-face-condense+</code></a>
+      <li><a href="#+k-face-double-underline+"><code>+k-face-double-underline+</code></a>
+      <li><a href="#+k-face-extend+"><code>+k-face-extend+</code></a>
+      <li><a href="#+k-face-italic+"><code>+k-face-italic+</code></a>
+      <li><a href="#+k-face-lowercase+"><code>+k-face-lowercase+</code></a>
+      <li><a href="#+k-face-outline+"><code>+k-face-outline+</code></a>
+      <li><a href="#+k-face-plain+"><code>+k-face-plain+</code></a>
+      <li><a href="#+k-face-shadow+"><code>+k-face-shadow+</code></a>
+      <li><a href="#+k-face-small-caps+"><code>+k-face-small-caps+</code></a>
+      <li><a href="#+k-face-strikethrough+"><code>+k-face-strikethrough+</code></a>
+      <li><a href="#+k-face-subscript+"><code>+k-face-subscript+</code></a>
+      <li><a href="#+k-face-superscript+"><code>+k-face-superscript+</code></a>
+      <li><a href="#+k-face-titlecase+"><code>+k-face-titlecase+</code></a>
+      <li><a href="#+k-face-underline+"><code>+k-face-underline+</code></a>
+      <li><a href="#+k-face-uppercase+"><code>+k-face-uppercase+</code></a>
+      <li><a href="#+k-face-word-underline+"><code>+k-face-word-underline+</code></a>
+      <li><a href="#+k-fmxt-exit+"><code>+k-fmxt-exit+</code></a>
+      <li><a href="#+k-fmxt-halt+"><code>+k-fmxt-halt+</code></a>
+      <li><a href="#+k-fmxt-pause+"><code>+k-fmxt-pause+</code></a>
+      <li><a href="#+k-fmxt-resume+"><code>+k-fmxt-resume+</code></a>
+      <li><a href="#+k-fmxt-script-paused+"><code>+k-fmxt-script-paused+</code></a>
+      <li><a href="#+k-fmxt-script-running+"><code>+k-fmxt-script-running+</code></a>
+      <li><a href="#+k-fmxt-unsafe+"><code>+k-fmxt-unsafe+</code></a>
+      <li><a href="#+k-fmxt-user-idle+"><code>+k-fmxt-user-idle+</code></a>
+      <li><a href="#+k-fmxt-user-not-idle+"><code>+k-fmxt-user-not-idle+</code></a>
+      <li><a href="#+k-greek+"><code>+k-greek+</code></a>
+      <li><a href="#+k-invalid-font+"><code>+k-invalid-font+</code></a>
+      <li><a href="#+k-korean+"><code>+k-korean+</code></a>
+      <li><a href="#+k-may-evaluate-on-server+"><code>+k-may-evaluate-on-server+</code></a>
+      <li><a href="#+k-native+"><code>+k-native+</code></a>
+      <li><a href="#+k-oem+"><code>+k-oem+</code></a>
+      <li><a href="#+k-other+"><code>+k-other+</code></a>
+      <li><a href="#+k-roman+"><code>+k-roman+</code></a>
+      <li><a href="#+k-shift-jis+"><code>+k-shift-jis+</code></a>
+      <li><a href="#+k-simplified-chinese+"><code>+k-simplified-chinese+</code></a>
+      <li><a href="#+k-size-end+"><code>+k-size-end+</code></a>
+      <li><a href="#+k-size-invalid+"><code>+k-size-invalid+</code></a>
+      <li><a href="#+k-symbol+"><code>+k-symbol+</code></a>
+      <li><a href="#+k-traditional-chinese+"><code>+k-traditional-chinese+</code></a>
+      <li><a href="#+k-turkish+"><code>+k-turkish+</code></a>
+      <li><a href="#+k-type-ar+"><code>+k-type-ar+</code></a>
+      <li><a href="#+k-type-bg+"><code>+k-type-bg+</code></a>
+      <li><a href="#+k-type-cat+"><code>+k-type-cat+</code></a>
+      <li><a href="#+k-type-catalog+"><code>+k-type-catalog+</code></a>
+      <li><a href="#+k-type-ces+"><code>+k-type-ces+</code></a>
+      <li><a href="#+k-type-chi+"><code>+k-type-chi+</code></a>
+      <li><a href="#+k-type-chi+"><code>+k-type-chi+</code></a>
+      <li><a href="#+k-type-chi-stroke+"><code>+k-type-chi-stroke+</code></a>
+      <li><a href="#+k-type-chi-stroke+"><code>+k-type-chi-stroke+</code></a>
+      <li><a href="#+k-type-dan+"><code>+k-type-dan+</code></a>
+      <li><a href="#+k-type-deu+"><code>+k-type-deu+</code></a>
+      <li><a href="#+k-type-deu-dictionary+"><code>+k-type-deu-dictionary+</code></a>
+      <li><a href="#+k-type-ell+"><code>+k-type-ell+</code></a>
+      <li><a href="#+k-type-eng+"><code>+k-type-eng+</code></a>
+      <li><a href="#+k-type-et+"><code>+k-type-et+</code></a>
+      <li><a href="#+k-type-fa+"><code>+k-type-fa+</code></a>
+      <li><a href="#+k-type-fin+"><code>+k-type-fin+</code></a>
+      <li><a href="#+k-type-fin-fmi+"><code>+k-type-fin-fmi+</code></a>
+      <li><a href="#+k-type-fra+"><code>+k-type-fra+</code></a>
+      <li><a href="#+k-type-he+"><code>+k-type-he+</code></a>
+      <li><a href="#+k-type-hi+"><code>+k-type-hi+</code></a>
+      <li><a href="#+k-type-hrv+"><code>+k-type-hrv+</code></a>
+      <li><a href="#+k-type-hun+"><code>+k-type-hun+</code></a>
+      <li><a href="#+k-type-invalid+"><code>+k-type-invalid+</code></a>
+      <li><a href="#+k-type-isl+"><code>+k-type-isl+</code></a>
+      <li><a href="#+k-type-ita+"><code>+k-type-ita+</code></a>
+      <li><a href="#+k-type-jpn+"><code>+k-type-jpn+</code></a>
+      <li><a href="#+k-type-lt+"><code>+k-type-lt+</code></a>
+      <li><a href="#+k-type-lv+"><code>+k-type-lv+</code></a>
+      <li><a href="#+k-type-nld+"><code>+k-type-nld+</code></a>
+      <li><a href="#+k-type-none+"><code>+k-type-none+</code></a>
+      <li><a href="#+k-type-nor+"><code>+k-type-nor+</code></a>
+      <li><a href="#+k-type-pol+"><code>+k-type-pol+</code></a>
+      <li><a href="#+k-type-por+"><code>+k-type-por+</code></a>
+      <li><a href="#+k-type-ron+"><code>+k-type-ron+</code></a>
+      <li><a href="#+k-type-rus+"><code>+k-type-rus+</code></a>
+      <li><a href="#+k-type-slk+"><code>+k-type-slk+</code></a>
+      <li><a href="#+k-type-slv+"><code>+k-type-slv+</code></a>
+      <li><a href="#+k-type-spa+"><code>+k-type-spa+</code></a>
+      <li><a href="#+k-type-spa-traditional+"><code>+k-type-spa-traditional+</code></a>
+      <li><a href="#+k-type-sr+"><code>+k-type-sr+</code></a>
+      <li><a href="#+k-type-swe+"><code>+k-type-swe+</code></a>
+      <li><a href="#+k-type-swe-fmi+"><code>+k-type-swe-fmi+</code></a>
+      <li><a href="#+k-type-system+"><code>+k-type-system+</code></a>
+      <li><a href="#+k-type-th+"><code>+k-type-th+</code></a>
+      <li><a href="#+k-type-tur+"><code>+k-type-tur+</code></a>
+      <li><a href="#+k-type-ukr+"><code>+k-type-ukr+</code></a>
+      <li><a href="#+k-type-unicode-raw+"><code>+k-type-unicode-raw+</code></a>
+      <li><a href="#+k-type-unicode-standard+"><code>+k-type-unicode-standard+</code></a>
+      <li><a href="#+k-type-vi+"><code>+k-type-vi+</code></a>
+    </ul>
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+The development of FM-PLUGIN-TOOLS was inspired and partly sponsored
+by <a href="http://jensteich.de/">Jens Teich</a> who also helped a lot
+with information about FileMaker itself and with scrupulous testing.
+Thanks to Martin Simmons
+from <a href="http://www.lispworks.com/">LispWorks</a> for several
+very quick (as usual) bugfixes during the 5.0 and 5.1 beta phases.
+Thanks to <a href="http://xach.com/">Zach Beane</a> for his
+fine <a href="http://www.xach.com/lisp/zpb-exif/">ZBF-EXIF</a> library
+that is used in the <a href="#example">example plug-in</a>.
+<p>
+This documentation was prepared
+with <a
+href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
+</p>
+<p>
+$Header: /usr/local/cvsrep/fm-plugin-tools/doc/index.html,v 1.80 2010/07/22 09:36:50 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

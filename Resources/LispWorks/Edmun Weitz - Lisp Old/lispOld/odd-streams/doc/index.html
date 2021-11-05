@@ -1,0 +1,312 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>ODD-STREAMS - Lisp binary streams with "odd" byte sizes</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
+  a.none { text-decoration: none; padding: 0; }
+  a.none:visited { text-decoration: none; padding: 0; } 
+  a.none:hover { text-decoration: none; border: none; padding: 0; } 
+  a.none:focus { text-decoration: none; border: none; padding: 0; } 
+  a.noborder { text-decoration: none; padding: 0; } 
+  a.noborder:visited { text-decoration: none; padding: 0; } 
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  pre.none { padding:5px; background-color:#ffffff }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2> ODD-STREAMS - Lisp binary streams with "odd" byte sizes</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3> In
+theory Common Lisp
+allows <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#binary">binary</a> <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#stream">streams</a>
+to have
+arbitrary <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#stream_element_type">element
+types</a>, but in practice - due to the way the underlying operating
+systems provide access to the file system - mosts Lisps nowadays
+will <em>upgrade</em> requested element types
+to <a href="http://www.lispworks.com/documentation/HyperSpec/Body/t_unsgn_.htm"><code>(UNSIGNED-BYTE&nbsp;8)</code></a>
+(henceforth called "<a href="#octet">octet</a>") or multiples thereof.
+This library provides
+a <a href="http://www.nhplace.com/kent/CL/Issues/stream-definition-by-user.html">Gray
+stream</a> layer atop the implementation-provided binary streams which
+allows you to work
+with <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#byte">bytes</a>
+of any size.
+<p>
+The code comes with
+a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+<p>
+<font color=red>Download shortcut:</font> <a href="http://weitz.de/files/odd-streams.tar.gz">http://weitz.de/files/odd-streams.tar.gz</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#download">Download and installation</a>
+  <li><a href="#mail">Support and mailing lists</a>
+  <li><a href="#limit">Limitations</a>
+  <li><a href="#dictionary">The ODD-STREAMS dictionary</a>
+    <ol>
+      <li><a href="#make-odd-stream"><code>make-odd-stream</code></a>
+      <li><a href="#odd-stream"><code>odd-stream</code></a>
+      <li><a href="#odd-input-stream"><code>odd-input-stream</code></a>
+      <li><a href="#odd-output-stream"><code>odd-output-stream</code></a>
+      <li><a href="#odd-io-stream"><code>odd-io-stream</code></a>
+      <li><a href="#odd-stream-byte-size"><code>odd-stream-byte-size</code></a>
+      <li><a href="#odd-stream-buffer-size"><code>odd-stream-buffer-size</code></a>
+      <li><a href="#with-open-odd-stream"><code>with-open-odd-stream</code></a>
+      <li><a href="#with-open-odd-file"><code>with-open-odd-file</code></a>
+      <li><a href="#odd-file-length"><code>odd-file-length</code></a>
+      <li><a href="#odd-stream-condition"><code>odd-stream-condition</code></a>
+      <li><a href="#odd-stream-error"><code>odd-stream-error</code></a>
+      <li><a href="#odd-stream-warning"><code>odd-stream-warning</code></a>
+      <li><a href="#octet"><code>octet</code></a>
+    </ol>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+<br>&nbsp;<br><h3><a class=none name="download">Download and installation</a></h3>
+
+ODD-STREAMS together with this documentation can be downloaded from <a
+href="http://weitz.de/files/odd-streams.tar.gz">http://weitz.de/files/odd-streams.tar.gz</a>. The
+current version is 0.1.2.
+<p>
+Before you install ODD-STREAMS you first need to
+install David Lichteblau's <a
+href="http://www.cliki.net/trivial-gray-streams">trivial-gray-streams</a> library
+unless you already have it.
+<p>
+ODD-STREAMS comes with a system definition for <a
+href="http://www.cliki.net/asdf">ASDF</a> so you can install the library with
+<pre>
+(asdf:oos 'asdf:load-op :odd-streams)
+</pre>
+if you've unpacked it in a place where ASDF can find it.  Installation
+via <a href="http://www.cliki.net/asdf-install">asdf-install</a>
+should also be possible.
+<p>
+You can run a test suite which tests <em>some</em> (but
+not <em>all</em>) aspects of the library with
+<pre>
+(asdf:oos 'asdf:test-op :odd-streams)
+</pre>
+This might take a while...
+
+<br>&nbsp;<br><h3><a name="mail" class=none>Support and mailing lists</a></h3>
+
+There is no dedicated mailing list for ODD-STREAMS, so for questions,
+bug reports, feature requests, improvements, or patches please use
+the <a href="http://common-lisp.net/mailman/listinfo/flexi-streams-devel">flexi-streams-devel
+mailing list</a>. If you want to be notified about future releases,
+subscribe to
+the <a href="http://common-lisp.net/mailman/listinfo/flexi-streams-announce">flexi-streams-announce
+mailing list</a>. These mailing lists were made available thanks to
+the services of <a href="http://common-lisp.net/">common-lisp.net</a>.
+<p>
+If you want to send patches, please <a href="http://weitz.de/patches.html">read this first</a>.
+
+<br>&nbsp;<br><h3><a name="limit" class=none>Limitations</a></h3>
+
+<ul>
+<li>The code is expected to be portable to most Lisps that have Gray
+    streams, but so far it has only been used and tested
+    with <a href="http://www.lispworks.com/">LispWorks</a>.
+<li>The library was originally written for and tested
+    with <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#file_stream">file
+    streams</a>.  With other ones (like, say, socket streams) you are
+    likely to run into problems.
+<li>If you're opening an odd stream for output to <em>overwrite</em>
+    parts of an existing file in place, you can potentially ruin it
+    due to "overlapping bits".  The workaround is to
+    use <code>:DIRECTION&nbsp;:IO</code>, even if you don't intend to
+    read from the stream.
+<li>Right now, this is simply a convenience layer and dog-slow.  You
+    have been warned...
+</ul>
+
+<br>&nbsp;<br><h3><a class=none name="dictionary">The ODD-STREAMS dictionary</a></h3>
+
+
+
+<!-- Entry for MAKE-ODD-STREAM -->
+
+<p><br>[Function]<br><a class=none name='make-odd-stream'><b>make-odd-stream</b> <i>stream <tt>&amp;key</tt> byte-size buffer-size</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Creates and returns a new <em>odd
+stream</em>.  <code><i>stream</i></code> must be an open binary stream
+capable of reading/writing <a href="#octet">octets</a>.  The resulting
+odd stream is an input stream if and only
+if <code><i>stream</i></code> is an input stream.  Likewise, it's an
+output stream if and only if <code><i>stream</i></code> is an output
+stream.  <code><i>byte-size</i></code> is the size of one stream
+element in bits, i.e. the stream will (try to) behave as if it had
+element type <code>(UNSIGNED-BYTE&nbsp;BYTE-SIZE)</code>.  The default
+value for this parameter is&nbsp;1.
+<p>
+<code><i>buffer-size</i></code> is the size of the stream's buffer in
+octets.  It should usually be OK to just use the default (which
+depends on the byte size) for this parameter.
+
+</blockquote>
+
+<!-- End of entry for MAKE-ODD-STREAM -->
+
+<!-- Entry for ODD-STREAM -->
+
+<p><br>[Standard class]<br><a class=none name='odd-stream'><b>odd-stream</b></a>
+<blockquote><br>
+Every stream returned by <a href="#make-odd-stream"><code>MAKE-ODD-STREAM</code></a> is of this type which is a subtype of <a href="http://www.lispworks.com/documentation/HyperSpec/Body/t_stream.htm"><code>STREAM</code></a>.
+</blockquote>
+
+</blockquote>
+
+<!-- End of entry for ODD-STREAM -->
+
+<!-- Entry for ODD-INPUT-STREAM -->
+
+<p><br>[Standard class]<br><a class=none name='odd-input-stream'><b>odd-input-stream</b></a>
+<blockquote><br>
+
+An odd stream is of this type if its underlying stream is an <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_in_stm.htm">input stream</a>.  This is a subtype of <a href="#odd-stream"><code>ODD-STREAM</code></a>.
+
+</blockquote>
+
+<!-- End of entry for ODD-INPUT-STREAM -->
+
+<!-- Entry for ODD-OUTPUT-STREAM -->
+
+<p><br>[Standard class]<br><a class=none name='odd-output-stream'><b>odd-output-stream</b></a>
+<blockquote><br>
+
+An odd stream is of this type if its underlying stream is an <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_in_stm.htm">output stream</a>.  This is a subtype of <a href="#odd-stream"><code>ODD-STREAM</code></a>.
+
+</blockquote>
+
+<!-- End of entry for ODD-OUTPUT-STREAM -->
+
+<!-- Entry for ODD-IO-STREAM -->
+
+<p><br>[Standard class]<br><a class=none name='odd-io-stream'><b>odd-io-stream</b></a>
+<blockquote><br>
+
+An odd stream is of this type if it is both an <a href="#odd-input-stream"><code>ODD-INPUT-STREAM</code></a> as well as an <a href="#odd-output-stream"><code>ODD-OUTPUT-STREAM</code></a>.
+
+</blockquote>
+
+<!-- End of entry for ODD-IO-STREAM -->
+
+<p><br>[Readers]<br><a class=none name='odd-stream-byte-size'><b>odd-stream-byte-size</b> <i>odd-stream</i> =&gt; <i>byte-size</i></a>
+<br><a class=none name='odd-stream-buffer-size'><b>odd-stream-buffer-size</b> <i>odd-stream</i> =&gt; <i>buffer-size</i></a>
+
+<blockquote><br>
+These methods can be used to query an <a href="#odd-stream">odd stream</a> for its attributes.
+</blockquote>
+
+
+<!-- Entry for WITH-OPEN-ODD-STREAM -->
+
+<p><br>[Macro]<br><a class=none name='with-open-odd-stream'><b>with-open-odd-stream</b> <i>(var stream <tt>&amp;key</tt> byte-size buffer-size) declaration* statement*</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/m_w_op_1.htm"><code>WITH-OPEN-STREAM</code></a>, but for odd streams.  See <a href="#make-odd-stream"><code>MAKE-ODD-STREAM</code></a>
+for the meaning of the parameters.
+
+</blockquote>
+
+<!-- End of entry for WITH-OPEN-ODD-STREAM -->
+
+
+
+<!-- Entry for WITH-OPEN-ODD-FILE -->
+
+<p><br>[Macro]<br><a class=none name='with-open-odd-file'><b>with-open-odd-file</b> <i>(stream filespec <tt>&amp;key</tt> byte-size buffer-size direction if-exists if-does-not-exist) declaration* statement*</i> =&gt; <i>result</i></a>
+<blockquote><br>
+
+Like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/m_w_open.htm"><code>WITH-OPEN-FILE</code></a>, but for odd streams.  See <a href="#make-odd-stream"><code>MAKE-ODD-STREAM</code></a>
+for the meaning of the parameters.
+
+</blockquote>
+
+<!-- End of entry for WITH-OPEN-ODD-FILE -->
+
+
+<!-- Entry for ODD-FILE-LENGTH -->
+
+<p><br>[Generic function]<br><a class=none name='odd-file-length'><b>odd-file-length</b> <i>odd-stream</i> =&gt; <i>length</i></a>
+<blockquote><br>
+
+Like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_file_l.htm"><code>FILE-LENGTH</code></a>,
+but using the odd stream's <a href="#odd-stream-byte-size"><code>byte
+size</code></a> as its unit of measurement.  This is an exported
+function as it can't be done with Gray streams.
+
+</blockquote>
+
+<!-- End of entry for ODD-FILE-LENGTH -->
+
+<!-- Entry for ODD-STREAM-CONDITION -->
+
+<p><br>[Condition]
+<br><a class=none name="odd-stream-condition"><b>odd-stream-condition</b></a>
+
+<blockquote><br>
+All conditions signalled by the library are of this type.  This is a subtype of <a href="http://www.lispworks.com/documentation/HyperSpec/Body/e_cnd.htm"><code>CONDITION</code></a>.
+</blockquote>
+
+<!-- End of entry for ODD-STREAM-CONDITION -->
+
+<!-- Entry for ODD-STREAM-ERROR -->
+
+<p><br>[Error]
+<br><a class=none name="odd-stream-error"><b>odd-stream-error</b></a>
+
+<blockquote><br>
+All errors signalled by the library are of this type.  This is a subtype of <a href="#odd-stream-condition"><code>ODD-STREAM-CONDITION</code></a> and of <a href="http://www.lispworks.com/documentation/HyperSpec/Body/e_stm_er.htm"><code>STREAM-ERROR</code></a>.
+</blockquote>
+
+<!-- End of entry for ODD-STREAM-ERROR -->
+
+<!-- Entry for ODD-STREAM-WARNING -->
+
+<p><br>[Warning]
+<br><a class=none name="odd-stream-warning"><b>odd-stream-warning</b></a>
+
+<blockquote><br>
+All warnings signalled by the library are of this type.  This is a subtype of <a href="#odd-stream-condition"><code>ODD-STREAM-CONDITION</code></a> and of <a href="http://www.lispworks.com/documentation/HyperSpec/Body/e_warnin.htm"><code>WARNING</code></a>.
+</blockquote>
+
+<!-- End of entry for ODD-STREAM-WARNING -->
+
+<p><br>[Type]
+<br><a class=none name="octet"><b>octet</b></a>
+
+<blockquote><br>
+Just a shortcut for <code>(UNSIGNED-BYTE&nbsp;8)</code>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+<p>
+This documentation was prepared with <a href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
+</p>
+<p>
+$Header: /usr/local/cvsrep/odd-streams/doc/index.html,v 1.4 2013/01/11 17:14:37 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

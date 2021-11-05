@@ -1,0 +1,340 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>CL-WBXML - A WBXML parser for Common Lisp</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  a { text-decoration: none; }
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }  a.none { border:1px solid white; }
+  a.none { border:1px solid white; }
+  a.none:hover { border:1px solid white; }
+  a { border:1px solid white; }
+  a:hover   { border: 1px solid black; } 
+  a.noborder { border:0px }
+  a.noborder:hover { border:0px }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>CL-WBXML - A WBXML parser for Common Lisp</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+CL-WBXML is a library that can read and
+write <a
+href="http://www.openmobilealliance.org/tech/affiliates/LicenseAgreement.asp?DocName=/wap/wap-192-wbxml-20010725-a.pdf">WAP
+Binary XML</a> (WBXML).  It has been successfully used to send and
+receive WBXML-encoded <a
+href="http://www.openmobilealliance.org/tech/affiliates/syncml/syncmlindex.html">SyncML</a>
+to and from various cell phones.
+<p>
+The code comes with
+a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+<p>
+<font color=red>Download shortcut:</font> <a href="http://weitz.de/files/cl-wbxml.tar.gz">http://weitz.de/files/cl-wbxml.tar.gz</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#install">Download and installation</a>
+  <li><a href="#handlers">Parsing and handlers</a>
+  <li><a href="#xmls">Pseudo-XMLS format</a>
+  <li><a href="#dictionary">The CL-WBXML dictionary</a>
+  <ol>
+    <li><a href="#parse-wbxml"><code>parse-wbxml</code></a>
+    <li><a href="#make-xmls-handler"><code>make-xmls-handler</code></a>
+    <li><a href="#start-document"><code>start-document</code></a>
+    <li><a href="#end-document"><code>end-document</code></a>
+    <li><a href="#start-element"><code>start-element</code></a>
+    <li><a href="#end-element"><code>end-element</code></a>
+    <li><a href="#characters"><code>characters</code></a>
+    <li><a href="#processing-instruction"><code>processing-instruction</code></a>
+    <li><a href="#attribute"><code>attribute</code></a>
+    <li><a href="#attribute-local-name"><code>attribute-local-name</code></a>
+    <li><a href="#attribute-namespace-uri"><code>attribute-namespace-uri</code></a>
+    <li><a href="#attribute-qname"><code>attribute-qname</code></a>
+    <li><a href="#attribute-value"><code>attribute-value</code></a>
+    <li><a href="#unparse-wbxml"><code>unparse-wbxml</code></a>
+    <li><a href="#xmls-name"><code>xmls-name</code></a>
+    <li><a href="#xmls-attributes"><code>xmls-attributes</code></a>
+    <li><a href="#xmls-children"><code>xmls-children</code></a>
+    <li><a href="#*extension-function*"><code>*extension-function*</code></a>
+  </ol>
+</ol>
+
+<br>&nbsp;<br><h3><a name="install" class=none>Download and installation</a></h3>
+
+CL-WBXML together with this documentation can be downloaded from <a
+href="http://weitz.de/files/cl-wbxml.tar.gz">http://weitz.de/files/cl-wbxml.tar.gz</a>. The
+current version is 0.2.4.
+<p>
+Before you install CL-WBXML you first need to
+install the <a
+href="http://weitz.de/flexi-streams/">FLEXI-STREAMS</a>
+library unless you already have it.
+<p>
+CL-WBXML comes with a system definition for <a
+href="http://www.cliki.net/asdf">ASDF</a> so you can install the library with
+<pre>
+(asdf:oos 'asdf:load-op :cl-wbxml)
+</pre>
+if you've unpacked it in a place where ASDF can find it.
+Installation
+via <a href="http://www.cliki.net/asdf-install">asdf-install</a>
+should also be possible.
+
+<br>&nbsp;<br><h3><a name="handlers" class=none>Parsing and handlers</a></h3>
+
+When parsing CL-WBXML acts like a simple SAX parser similar to <a href="http://common-lisp.net/project/cxml/">CXML</a>.  The parser is called with a <em>handler</em> which can be any non-<code>NIL</code> object and it in turn calls generic functions like <a href="#start-element"><code>START-ELEMENT</code></a> or <a href="#processing-instruction"><code>PROCESSING-INSTRUCTION</code></a> (which you can specialize for you handlers) while traversing the document.
+<p>
+CL-WBXML comes with a predefined handler class that can be used to
+create <a href="#xmls">XMLS-like</a> S-expressions from WBXML
+documents -
+see <a href="#make-xmls-handler"><code>MAKE-XMLS-HANDLER</code></a>.
+Furthermore, there are default handlers defined for
+<a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/t_t.htm"><code>the system class T</code></a>
+and they all do nothing.
+
+<br>&nbsp;<br><h3><a name="xmls" class=none>Pseudo-XMLS format</a></h3>
+
+CL-WBXML uses a format to represent XML as S-expressions that is very similar to the one used by <a href="http://common-lisp.net/project/xmls/">XMLS</a>: An <em>XML element</em> is represented as a list with two or more members - the first one is the name, the second one is a list of attributes, the following members represent the body of the XML element and can be strings, other XML elements, or lists of octets (as a result of the parser encountering <em>opaque</em> data segments).  Attributes are themselves lists with two members - the first one is the attribute's name, the second one is the value.  <em>Names</em> (of elements as well as of attributes) are either strings or (for namespace-qualified names) conses where the car is the local name and the cdr is the namespace URI.
+<p>
+Here's an example:
+<pre>
+&lt;ns:foo xmlns:ns="http://weitz.de/" attr1="val1"&gt;text&lt;bar ns:attr2="val2"&gt; &lt;/bar&gt;more text&lt;/ns:foo&gt;
+</pre>
+will be converted to this S-expression:
+<pre>
+(("foo" . "http://weitz.de/") (("attr1" "val1"))
+   "text"
+   ("bar" ((("attr2" . "http://weitz.de/") "val2"))
+      " ")
+   "more text")
+</pre>
+Note that this format is only similar but not identical to the XMLS
+format because (currently) XMLS doesn't handle namespace-qualified
+attribute names.
+
+<br>&nbsp;<br><h3><a class=none name="dictionary">The CL-WBXML dictionary</a></h3>
+
+CL-WBXML exports the following symbols:
+
+<p><br>[Generic function]
+<br><a class=none name="parse-wbxml"><b>parse-wbxml</b> <i>source handler <tt>&amp;key</tt> default-charset tag-tokens attr-tokens</i> =&gt; <i>result, publicid, version, charset</i></a>
+
+<blockquote><br>
+Reads and parses a WBXML document and invokes the methods of the <a href="#handlers">handler</a> <code><i>handler</i></code>
+accordingly.  <code><i>tag-tokens</i></code> and <code><i>attr-tokens</i></code> are lists of code pages,
+<code><i>default-charset</i></code> is the one that is to be used if
+the document's charset isn't specified - it should be specified in a way <a href="http://weitz.de/flexi-streams/">FLEXI-STREAMS</a> understands.  Returns multiple values - the
+first value of the final call
+to <a href="#end-document"><code>END-DOCUMENT</code></a>, the public
+ID of the document (or <code>NIL</code>), the WBXML version of the
+document (as a string), and the character set of the document.
+<p>
+<code><i>source</i></code> can be a binary/bivalent input
+stream, a pathname denoting an existing file, or a <a href="http://www.lispworks.com/documentation/HyperSpec/Body/17_.htm">sequence</a> containing <a href="http://weitz.de/flexi-streams/#octet">octets</a>.
+<p>
+The code page lists are alists where the car is the number of the code
+page and the cdr is itself an alist of conses mapping tokens
+to <a href="#xmls">pseudo-XMLS names</a> (in the case of tag tokens),
+strings (in the case of attribute value tokens), or lists (in the case
+of attribute start tokens) where the first element is the pseudo-XMLS
+name of the attribute and the second element is the value prefix as a
+string.  See the file <code>tokens.lisp</code> for examples.
+<p>
+If the document has a public ID for which CL-WBXML knows the defined
+code pages, these will be used instead of the
+supplied <code><i>tag-tokens</i></code>
+and <code><i>attr-tokens</i></code> arguments.  Currently this is the case for the following public IDs:
+<ul>
+ <li><code>"-//SYNCML//DTD SyncML 1.0//EN"</code>
+ <li><code>"-//SYNCML//DTD SyncML 1.1//EN"</code>
+ <li><code>"-//SYNCML//DTD SyncML 1.2//EN"</code>
+ <li><code>"-//SYNCML//DTD DevInf 1.0//EN"</code>
+ <li><code>"-//SYNCML//DTD DevInf 1.1//EN"</code>
+ <li><code>"-//SYNCML//DTD DevInf 1.2//EN"</code>
+</ul>
+</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="make-xmls-handler"><b>make-xmls-handler</b> =&gt; <i>handler</i></a>
+
+<blockquote><br> This function returns
+a <a href="#handlers">handler</a> which can be used in conjunction
+with <a href="#parse-wbxml"><code>PARSE-WBXML</code></a> to
+create <a href="#xmls">pseudo-XMLS</a> documents.  Here's an example
+(using the second example from the WBXML spec):
+<pre>
+CL-USER 3 &gt; (defun create-file (&amp;optional (file "/tmp/foo.txt"))
+              (with-open-file (out file :direction :output
+                                        :element-type '<a class=noborder href="http://weitz.de/flexi-streams/#octet">octet</a>
+                                        :if-exists :supersede)
+                (setq out (<a class=noborder href="http://weitz.de/flexi-streams/#make-flexi-stream">make-flexi-stream</a> out :external-format :utf-8))
+                (write-sequence '(1 1 #x6a #x12 #\a #\b #\c 0 #\Space 
+                                  #\E #\n #\t #\e #\r #\Space #\n
+                                  #\a #\m #\e #\: #\Space 0 #x47
+                                  #xc5 9 #x83 0 5 1 #x88 6 #x86
+                                  8 3 #\x #\y #\z 0 #x85 3 #\/ #\s
+                                  0 1 #x83 4 #x86 7 #xa 3 #\N 0 1 1 1)
+                                out)))
+CREATE-FILE
+
+CL-USER 4 &gt; (defun read-file (&amp;optional (file "/tmp/foo.txt"))
+              (with-open-file (in file :element-type '<a class=noborder href="http://weitz.de/flexi-streams/#octet">octet</a>)
+                (<a class=noborder href="#parse-wbxml">parse-wbxml</a> in (<a class=noborder href="#make-xmls-handler">make-xmls-handler</a>)
+                             :tag-tokens
+                             '((0 . ((5 . "CARD")
+                                     (6 . "INPUT")
+                                     (7 . "XYZ")
+                                     (8 . "DO"))))
+                             :attr-tokens
+                             '((0 . ((5 . ("STYLE" . "LIST"))
+                                     (6 . ("TYPE"))
+                                     (7 . ("TYPE" . "TEXT"))
+                                     (8 . ("URL" . "http://"))
+                                     (9 . ("NAME"))
+                                     (10 . ("KEY"))
+                                     (#x85 . ".org")
+                                     (#x86 . "ACCEPT")))))))
+READ-FILE
+
+CL-USER 5 &gt; (progn (create-file) (read-file))
+("XYZ" NIL ("CARD" (("NAME" "abc") ("STYLE" "LIST")) ("DO" (("TYPE" "ACCEPT") ("URL" "http://xyz.org/s"))) " Enter name: " ("INPUT" (("TYPE" "TEXT") ("KEY" "N")))))
+NIL
+"1.1"
+:UTF-8
+</pre>
+Note that you should <em>not</em> re-use pseudo-XMLS handlers - create a new one for each parse.
+</blockquote>
+
+<p><br>[Generic functions]
+<br><a class=none name="start-document"><b>start-document</b> <i>handler</i> =&gt; <i>whatever</i></a>
+<br><a class=none name="end-document"><b>end-document</b> <i>handler</i> =&gt; <i>result</i></a>
+
+<blockquote><br> These functions are called exactly once (at the start
+and end respectively) for each WBXML document - they are supposed to be
+specialized by the user.  The return values of <code>START-DOCUMENT</code> are ignored, the first return value of <code>END-DOCUMENT</code> will be the first return value of <a href="#parse-wbxml"><code>PARSE-WBXML</code></a>.
+</blockquote>
+
+<p><br>[Generic functions]
+<br><a class=none name="start-element"><b>start-element</b> <i>handler namespace-uri local-name qname attributes</i> =&gt; <i>whatever</i></a>
+<br><a class=none name="end-element"><b>end-element</b> <i>handler namespace-uri local-name qname</i> =&gt; <i>whatever</i></a>
+
+<blockquote><br>
+These functions are called at the start and end of each XML element the parser encounters, their return values are ignored.
+<code><i>local-name</i></code> is the name of the element and
+<code><i>namespace-uri</i></code> the corresponding namespace URI (or <code>NIL</code> if there is no namespace).  <code><i>qname</i></code>
+is the qualified name of the element but can also be <code>NIL</code>, if the
+name came from a pre-defined tag token.  <code><i>attributes</i></code> is a list of <a href="#attribute"><code>ATTRIBUTE</code></a>
+objects representing the element's attributes.
+</blockquote>
+
+<p><br>[Generic function]
+<br><a class=none name="characters"><b>characters</b> <i>handler data</i> =&gt; <i>whatever</i></a>
+
+<blockquote><br>
+This function is called whenever the parser comes across character data within the body of an XML element.
+<code><i>data</i></code> will usually be a string but it can also be a list
+of octets (if the <code>OPAQUE</code> token was encountered) or whatever
+<a href="#*extension-function*"><code>*EXTENSION-FUNCTION*</code></a>
+returns (specifically <code>NIL</code> for the default function).  The
+return value of this function is ignored by the parser.
+</blockquote>
+
+<p><br>[Generic function]
+<br><a class=none name="processing-instruction"><b>processing-instruction</b> <i>handler target data</i> =&gt; <i>whatever</i></a>
+
+<blockquote><br> This generic function is called once for each
+processing instruction.  <code><i>target</i></code>
+and <code><i>data</i></code> are both
+strings, <code><i>data</i></code> can also be <code>NIL</code>. The
+return value of this function is ignored by the parser.
+</blockquote>
+
+<p><br>[Standard class]
+<br><a class=none name="attribute"><b>attribute</b></a>
+
+<blockquote><br>
+This is the class of those (opaque) objects that represent XML attributes - see <a href="#start-element"><code>START-ELEMENT</code></a>.  Their properties can be queried with the readers described <a href="#attribute-local-name">below</a>.
+</blockquote>
+
+<p><br>[Readers]
+<br><a class=none name="attribute-local-name"><b>attribute-local-name</b> <i>attribute</i> =&gt; <i>local-name</i></a>
+<br><a class=none name="attribute-namespace-uri"><b>attribute-namespace-uri</b> <i>attribute</i> =&gt; <i>namespace-uri</i></a>
+<br><a class=none name="attribute-qname"><b>attribute-qname</b> <i>attribute</i> =&gt; <i>qname</i></a>
+<br><a class=none name="attribute-value"><b>attribute-value</b> <i>attribute</i> =&gt; <i>value</i></a>
+
+<blockquote><br>
+These generic functions can be used to read the respective properties of <a href="#attribute"><code>ATTRIBUTE</code></a> objects.
+</blockquote>
+
+<p><br>[Generic function]
+<br><a class=none name="unparse-wbxml"><b>unparse-wbxml</b> <i>document target <tt>&amp;key</tt> major-version minor-version version-string publicid force-literal-publicid prefer-inline charset tag-tokens attr-tokens if-exists</i> =&gt; <i>result</i></a>
+
+<blockquote><br>
+Encodes the XML document <code><i>document</i></code> (in <a href="#xmls">pseudo-XMLS syntax</a>) as
+WBXML and writes it to <code><i>target</i></code> which can be a binary/bivalent output stream, a pathname, or the symbol <code>T</code> in which case the output will be written to an <a href="http://weitz.de/flexi-streams/#in-memory">in-memory output stream</a>.  The function usually returns <code>NIL</code>, but it returns a vector representing the encoded document, if <code><i>target</i></code> is <code>T</code>.
+<p>
+<code><i>major-version</i></code> and <code><i>minor-version</i></code> (integers) denote the WBXML
+version which should be used - the defaults are&nbsp;1 and&nbsp;3.  <code><i>version-string</i></code> (a string) is
+another way to specifiy the version and if this value is not <code>NIL</code>
+the other version paramters are ignored.
+<p>
+<code><i>publicid</i></code> is the public
+ID (a string) of the document.  If <code><i>force-literal-publicid</i></code> is <em>true</em>,
+the public ID is inserted as an index into the string table even
+if there's a well-known numeric value for it.
+<p>
+<code><i>charset</i></code> (default is <code>:UTF8</code>) is the character set
+that is to be used to encode the document.  It should be a keyword that can be understood by <a href="http://weitz.de/flexi-streams/">FLEXI-STREAMS</a>.
+<code><i>tag-tokens</i></code> and
+<code><i>attr-tokens</i></code> are lists of code pages (and they are ignored for
+public IDs known to CL-WBXML).
+<p>
+<code><i>if-exists</i></code> is the value used when opening a file specified by a pathname.  For streams this value is ignored.
+<p>
+If <code><i>prefer-inline</i></code>
+is true, <code>STR_I</code> is used instead of <code>STR_T</code> whenever possible.  (Some
+cell phones seem to have problems with string tables. Oh,
+well...)
+</blockquote>
+
+<p><br>[Accessors]
+<br><a class=none name="xmls-name"><b>xmls-name</b> <i>element</i> =&gt; <i>name</i></a>
+<br><tt>(setf (</tt><b>xmls-name</b> <i>element</i>) <i>name</i><tt>)</tt>
+<br><a class=none name="xmls-attributes"><b>xmls-attributes</b> <i>element</i> =&gt; <i>attributes</i></a>
+<br><tt>(setf (</tt><b>xmls-attributes</b> <i>element</i>) <i>attributes</i><tt>)</tt>
+<br><a class=none name="xmls-children"><b>xmls-children</b> <i>element</i> =&gt; <i>children</i></a>
+<br><tt>(setf (</tt><b>xmls-children</b> <i>element</i>) <i>children</i><tt>)</tt>
+
+<blockquote><br>
+These are convenience methods to access the corresponding parts of an XML element in <a href="#xmls">pseudo-XMLS</a> format.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*extension-function*"><b>*extension-function*</b></a>
+
+<blockquote><br>
+The value of this variable should be a function to handle document-type-specific tokens like
+<code>EXT_I_1</code>.  The function will be called with two arguments - an ID
+(one of 0, 1, or 2) and a value (a string, an integer, or
+NIL).  The return value of this function is used as an argument to <a href="#characters"><code>CHARACTERS</code></a>.
+The default function always returns <code>NIL</code>.
+</blockquote>
+
+<p>
+$Header: /usr/local/cvsrep/cl-wbxml/doc/index.html,v 1.14 2006/08/27 20:23:52 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

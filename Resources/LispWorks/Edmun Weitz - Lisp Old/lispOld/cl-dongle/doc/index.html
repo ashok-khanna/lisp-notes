@@ -1,0 +1,1162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>CL-DONGLE - A Lisp interface to SG-Lock dongles</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
+  a.none { text-decoration: none; padding: 0; }
+  a.none:visited { text-decoration: none; padding: 0; } 
+  a.none:hover { text-decoration: none; border: none; padding: 0; } 
+  a.none:focus { text-decoration: none; border: none; padding: 0; } 
+  a.noborder { text-decoration: none; padding: 0; } 
+  a.noborder:visited { text-decoration: none; padding: 0; } 
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  pre.none { padding:5px; background-color:#ffffff }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+  <h2>CL-DONGLE - A Lisp interface to SG-Lock dongles</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+CL-DONGLE is a Common Lisp library which provides full access to all
+the functionality of <a href="http://www.sg-lock.com/">SG-Lock's
+hardware-based copy protection system</a>, i.e. you can use it to
+protect your Lisp applications natively using features
+like <a href="#store">storing Lisp objects in the dongle</a>
+or <a href="#encrypt">encrypting</a> and <a href="#signing">signing</a> arbitrary data.
+<p>
+The library also contains a fast Lisp implementation of
+the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tiny
+Encryption Algorithm</a> which works independently of attached dongles
+or the SG-Lock DLL and might thus be useful on its own.
+<p>
+CL-DONGLE works only with
+the <a href="http://www.lispworks.com/">LispWorks</a> Common Lisp
+implementation and, like the SG-Lock system itself, only on Microsoft
+Windows.  It should be pretty easy to port the code to OS&nbsp;X,
+though, once SG-Lock dongles are available for Macs.
+<p>
+The code comes with
+a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+<p>
+<font color=red>Download shortcut:</font> <a href="http://weitz.de/files/cl-dongle.tar.gz">http://weitz.de/files/cl-dongle.tar.gz</a>.
+</blockquote>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#download">Download and installation</a>
+  <li><a href="#basic">Basic functionality and administration</a>
+  <li><a href="#encrypt">Enryption</a>
+  <li><a href="#store">Storing and retrieving data</a>
+  <li><a href="#signing">Signing data</a>
+  <li><a href="#conditions">Conditions</a>
+  <li><a href="#index">Symbol index</a>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+<br>&nbsp;<br><h3><a class=none name="download">Download and installation</a></h3>
+
+CL-DONGLE together with this documentation can be downloaded from <a
+href="http://weitz.de/files/cl-dongle.tar.gz">http://weitz.de/files/cl-dongle.tar.gz</a>. The
+current version is 0.1.2.
+<p>
+Before you install CL-DONGLE you first need to install
+the <a href="http://weitz.de/lw-win/">LW-WIN</a> library unless you
+already have it.
+<p>
+CL-DONGLE comes with a system definition for <a
+href="http://www.cliki.net/asdf">ASDF</a> so you can install the library with
+<pre>
+(asdf:oos 'asdf:load-op :cl-dongle)
+</pre>
+if you've unpacked it in a place where ASDF can find it.  Unless you
+only want to use the in-RAM encryption functions, you will also need
+to put the SG-Lock DLL in a place where your Lisp (or your delivered
+application) will find it.
+<p>
+Don't worry if you see warnings about <code>HARP::NREG</code>
+and <code>HARP::GREG</code> - this is
+a <a href="http://article.gmane.org/gmane.lisp.lispworks.general/7088">known
+compiler bug</a> which is harmless.
+<p>
+You can run a test suite which tests all aspects of the library with
+<pre>
+(asdf:oos 'asdf:test-op :cl-dongle)
+</pre>
+if you're using a demo dongle.  If you have a "real" dongle, load
+the <code>CL-DONGLE-TEST</code> system, invoke the
+function <code>CL-DONGLE-TEST:RUN-TEST</code>, but read its docstring
+first.  Running all the tests might take a while...
+
+<br>&nbsp;<br><h3><a class=none name="basic">Basic functionality and administration</a></h3>
+
+Note that the
+function <a href="#authenticate"><code>AUTHENTICATE</code></a> must
+always be called first before any communication with a dongle can
+happen.  Also note that the value
+of <a href="#*product-id*"><code>*PRODUCT-ID*</code></a> is the
+default value for all optional and keyword parameters
+called <code><i>product-id</i></code>.
+
+<!-- Entry for AUTHENTICATE -->
+
+<p><br>[Function]<br><a class=none name='authenticate'><b>authenticate</b> <i>code</i> =&gt; <i>|</i></a>
+<blockquote><br>
+
+Authenticates the Lisp application against the SG-Lock DLL and vice
+versa.  <code><i>code</i></code> must be a sequence of twelve <code>(UNSIGNED-BYTE&nbsp;32)</code> integers
+representing the authentication code you received from SG-Lock when
+you bought your dongles (or <a href="#*demo-authentication-code*"><code>*DEMO-AUTHENTICATION-CODE*</code></a> for demo
+dongles).
+<p>
+This function must be called before any communication with the
+corresponding dongle is attempted.  It returns no values in the case
+of success and signals an <a href="#authentication-failed"><code>AUTHENTICATION-FAILED</code></a> error otherwise.
+<p>
+If you call any function which has to communicate with a dongle
+without successfully calling <a href="#authenticate"><code>AUTHENTICATE</code></a> first, you'll get an
+<a href="#authentication-required"><code>AUTHENTICATION-REQUIRED</code></a>
+error.  (Well, at least that's how it should be.  In some cases you'll
+get a <a href="#dongle-not-found"><code>DONGLE-NOT-FOUND</code></a>
+error instead which is slightly misleading.)
+
+</blockquote>
+
+<!-- End of entry for AUTHENTICATE -->
+
+
+<!-- Entry for *DEMO-AUTHENTICATION-CODE* -->
+
+<p><br>[Special variable]<br><a class=none name='*demo-authentication-code*'><b>*demo-authentication-code*</b></a>
+<blockquote><br>
+
+The authentication code for demo dongles distributed by SG-Lock.
+
+</blockquote>
+
+<!-- End of entry for *DEMO-AUTHENTICATION-CODE* -->
+
+
+<!-- Entry for *PRODUCT-ID* -->
+
+<p><br>[Special variable]<br><a class=none name='*product-id*'><b>*product-id*</b></a>
+<blockquote><br>
+
+The default value for all functions which have an optional or
+keyword <code><i>product-id</i></code> parameter.
+
+</blockquote>
+
+<!-- End of entry for *PRODUCT-ID* -->
+
+<!-- Entry for PRODUCT-ID -->
+
+<p><br>[Accessor]<br><a class=none name='product-id'><b>product-id</b> <i></i> =&gt; <i>product-id</i></a>
+<br><a class=none><tt>(setf (</tt><b>product-id</b> <i><tt>&amp;optional</tt> product-id</i><tt>)</tt> <i>new-product-id</i><tt>)</tt></a>
+<blockquote><br>
+
+The reader returns the (first) dongle's product ID.  The writer sets
+the product ID of the dongle with the product
+ID <code><i>product-id</i></code>
+to <code><i>new-product-id</i></code>.  It does <em>not</em> change the value of a href="#*product-id*"><code>*PRODUCT-ID*</code></a>.
+
+</blockquote>
+
+<!-- End of entry for PRODUCT-ID -->
+
+
+
+<!-- Entry for DONGLE-PRESENT-P -->
+
+<p><br>[Function]<br><a class=none name='dongle-present-p'><b>dongle-present-p</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>boolean</i></a>
+<blockquote><br>
+
+Returns <code>T</code> if the dongle with the product ID <code><i>product-id</i></code> is present,
+<code>NIL</code> otherwise.
+<p>
+See also <a href="#assert-dongle"><code>ASSERT-DONGLE</code></a>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-PRESENT-P -->
+
+
+<!-- Entry for ASSERT-DONGLE -->
+
+<p><br>[Function]<br><a class=none name='assert-dongle'><b>assert-dongle</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>|</i></a>
+<blockquote><br>
+
+Checks if the dongle with the product ID <code><i>product-id</i></code>
+is present.  Signals a <a href="#dongle-not-found"><code>DONGLE-NOT-FOUND</code></a> error if it is not, returns no
+value if successful.
+<p>
+See also <a href="#dongle-present-p"><code>DONGLE-PRESENT-P</code></a>.
+
+</blockquote>
+
+<!-- End of entry for ASSERT-DONGLE -->
+
+
+<!-- Entry for DONGLE-TYPE -->
+
+<p><br>[Function]<br><a class=none name='dongle-type'><b>dongle-type</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Returns the &quot;type&quot; of the dongle with the product ID <code><i>product-id</i></code>.
+The type is one of 2,&nbsp;3, or&nbsp;4 corresponding to the number in SG-Lock
+product names like &quot;U2&quot; or &quot;L4&quot;.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-TYPE -->
+
+<!-- Entry for DONGLE-INTERFACE -->
+
+<p><br>[Function]<br><a class=none name='dongle-interface'><b>dongle-interface</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>keyword</i></a>
+<blockquote><br>
+
+Returns the &quot;interface&quot; of the dongle with the product ID
+<code><i>product-id</i></code> which is one of the keywords <code>:USB</code> or <code>:LPT</code>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-INTERFACE -->
+
+<!-- Entry for DONGLE-MEMORY-SIZE -->
+
+<p><br>[Function]<br><a class=none name='dongle-memory-size'><b>dongle-memory-size</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Returns the memory size of the dongle with the product ID
+<code><i>product-id</i></code>.  The size is measured in dwords, i.e. in 32-bit blocks.
+So, if the return value is, say, 256, the memory size is 1024 octets.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-MEMORY-SIZE -->
+
+
+<!-- Entry for DONGLE-NUMBER-OF-COUNTERS -->
+
+<p><br>[Function]<br><a class=none name='dongle-number-of-counters'><b>dongle-number-of-counters</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Returns the number of available programmable counters of the dongle
+with the product ID <code><i>product-id</i></code>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-NUMBER-OF-COUNTERS -->
+
+
+<!-- Entry for DONGLE-NUMBER-OF-KEYS -->
+
+<p><br>[Function]<br><a class=none name='dongle-number-of-keys'><b>dongle-number-of-keys</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Returns the number of available programmable keys of the dongle
+with the product ID <code><i>product-id</i></code>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-NUMBER-OF-KEYS -->
+
+<!-- Entry for DONGLE-HARDWARE-VERSION -->
+
+<p><br>[Function]<br><a class=none name='dongle-hardware-version'><b>dongle-hardware-version</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>list</i></a>
+<blockquote><br>
+
+Returns the hardware version of the dongle with the product ID
+<code><i>product-id</i></code> as a list of two integers - the major and minor version.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-HARDWARE-VERSION -->
+
+<!-- Entry for DONGLE-SOFTWARE-VERSION -->
+
+<p><br>[Function]<br><a class=none name='dongle-software-version'><b>dongle-software-version</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>list</i></a>
+<blockquote><br>
+
+Returns the software version of the dongle with the product ID
+<code><i>product-id</i></code> as a list of two integers - the major and minor version.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-SOFTWARE-VERSION -->
+
+<!-- Entry for DONGLE-SERIAL-NUMBER -->
+
+<p><br>[Function]<br><a class=none name='dongle-serial-number'><b>dongle-serial-number</b> <i><tt>&amp;optional</tt> product-id</i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Returns the serial number for the dongle with the
+product ID <code><i>product-id</i></code>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-SERIAL-NUMBER -->
+
+
+<!-- Entry for WRITE-KEY -->
+
+<p><br>[Function]<br><a class=none name='write-key'><b>write-key</b> <i>key-number key <tt>&amp;optional</tt> product-id</i> =&gt; <i>key</i></a>
+<blockquote><br>
+
+Overwrites the key numbered <code><i>key-number</i></code> in the dongle with product
+ID <code><i>product-id</i></code> and sets it to <code><i>key</i></code>.  <code><i>key</i></code> must be a sequence of four
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers.  Returns <code><i>key</i></code>.
+<p>
+Note that for security reasons there's no inverse operation to read
+the keys of a dongle.  See also <a href="#random-key"><code>RANDOM-KEY</code></a>.
+
+</blockquote>
+
+<!-- End of entry for WRITE-KEY -->
+
+
+<!-- Entry for COUNTER-VALUE -->
+
+<p><br>[Accessor]<br><a class=none name='counter-value'><b>counter-value</b> <i>counter-number <tt>&amp;optional</tt> product-id</i> =&gt; <i>counter-value</i></a>
+<br><a class=none><tt>(setf (</tt><b>counter-value</b> <i>counter-number <tt>&amp;optional</tt> product-id</i><tt>)</tt> <i>new-counter-value</i><tt>)</tt></a>
+<blockquote><br>
+
+Returns or sets the value of the counter <code><i>counter-number</i></code> in the dongle
+with the product ID <code><i>product-id</i></code>.
+
+</blockquote>
+
+<!-- End of entry for COUNTER-VALUE -->
+
+
+<!-- Entry for MAKE-STATIC-U32-ARRAY -->
+
+<p><br>[Generic function]<br><a class=none name='make-static-u32-array'><b>make-static-u32-array</b> <i>initial-elements <tt>&amp;optional</tt> copyp</i> =&gt; <i>static-array</i></a>
+<blockquote><br>
+
+Utility function which returns an array of element type
+<code>(UNSIGNED-BYTE&nbsp;32)</code> <a href="http://www.lispworks.com/documentation/lw51/LWRM/html/lwref-686.htm">allocated
+in the static area</a> and filled with the initial
+elements <code><i>initial-elements</i></code> (a list or an array).
+The length of the array is determined
+by <code><i>initial-elements</i></code>.
+If <code><i>initial-elements</i></code> is already a static array
+and <code><i>copyp</i></code> is <code>NIL</code>, then this array
+will simply be returned.
+<p>
+Static arrays are mainly used for performance reasons within
+CL-DONGLE.  Most functions which accept sequence arguments can send
+(the addresses of) static arrays directly to the SG-Lock API while
+non-static arrays or lists have to be converted first.
+
+</blockquote>
+
+<!-- End of entry for MAKE-STATIC-U32-ARRAY -->
+
+<!-- Entry for RANDOM-KEY -->
+
+<p><br>[Function]<br><a class=none name='random-key'><b>random-key</b> <i></i> =&gt; <i>array</i></a>
+<blockquote><br>
+
+Utility function which returns
+a <a href="#make-static-u32-array">static</a> array of 4
+random <code>(UNSIGNED-BYTE&nbsp;32)</code> integers, i.e. a value
+which can be used as a random key within CL-DONGLE.
+
+</blockquote>
+
+<!-- End of entry for RANDOM-KEY -->
+
+
+<br>&nbsp;<br><h3><a class=none name="encrypt">Encryption</a></h3>
+
+All functions in this section have two variants, one starting with
+"<code>DONGLE-</code>" which means that the operation is performed in
+the dongle and one starting with "<code>TEA-</code>"
+(for <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm"><em>Tiny
+Encryption Algorithm</em></a>) which means that the operation is
+implemented in pure Lisp and performed in RAM.  (Specifically, this
+means that the "<code>TEA-</code>" functions can be used without a
+dongle and without the SG-Lock DLL.)
+<p>
+As long as they're using the same key, these functions should return
+the same values no matter whether they are performed in the dongle or
+not.  So, for instance, you can encrypt something in RAM and then
+decrypt it using the dongle or vice versa.  See
+the <a href="#download">test code</a> for examples.
+
+<!-- Entry for TEA-ENCRYPT -->
+
+<p><br>[Function]<br><a class=none name='tea-encrypt'><b>tea-encrypt</b> <i>key data <tt>&amp;key</tt> length copyp</i> =&gt; <i>data'</i></a>
+<blockquote><br>
+
+Encrypts <code><i>data</i></code> in RAM (without using a dongle and without accessing
+the SG-Lock DLL) with the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tiny
+Encryption Algorithm</a> using the key <code><i>key</i></code>.
+<code><i>data</i></code> must either be a sequence of <code>(UNSIGNED-BYTE&nbsp;32)</code> integers or an
+<a href="http://www.lispworks.com/documentation/lw51/FLI/html/fli.htm">FLI</a> pointer.  In the latter case, <code><i>length</i></code> is the number of dwords to be
+processed.  In both cases, the number of dwords to be processed must
+be even.  <code><i>key</i></code> must be a four-element sequence of <code>(UNSIGNED-BYTE&nbsp;32)</code>
+integers representing the key to be used.
+<p>
+If <code><i>data</i></code> is a pointer, the encryption is performed in place and the
+pointer is returned, otherwise a <a href="#make-static-u32-array">static</a> array containing the encrypted
+elements from <code><i>data</i></code> is the return value.  If <code><i>data</i></code> is a <a href="#make-static-u32-array">static</a> array of
+element type <code>(UNSIGNED-BYTE&nbsp;32)</code> and <code><i>copyp</i></code> is <code>NIL</code>, the contents of
+<code><i>data</i></code> will also be modified in place and <code><i>data</i></code> will be returned.
+<p>
+This is the inverse of <a href="#tea-decrypt"><code>TEA-DECRYPT</code></a>.  See also <a href="#dongle-encrypt"><code>DONGLE-ENCRYPT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for TEA-ENCRYPT -->
+
+<!-- Entry for TEA-DECRYPT -->
+
+<p><br>[Function]<br><a class=none name='tea-decrypt'><b>tea-decrypt</b> <i>key data <tt>&amp;key</tt> length copyp</i> =&gt; <i>data'</i></a>
+<blockquote><br>
+
+Decrypts <code><i>data</i></code> in RAM (without using a dongle and without accessing
+the SG-Lock DLL) with the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tiny
+Encryption Algorithm</a> using the key <code><i>key</i></code>.
+<code><i>data</i></code> must either be a sequence of <code><i>(unsigned-byte&nbsp;32)</i></code> integers or an
+<a href="http://www.lispworks.com/documentation/lw51/FLI/html/fli.htm">FLI</a> pointer.  In the latter case, <code><i>length</i></code> is the number of dwords to be
+processed.  In both cases, the number of dwords to be processed must
+be even.  <code><i>key</i></code> must be a four-element sequence of <code>(UNSIGNED-BYTE&nbsp;32)</code>
+integers representing the key to be used.
+<p>
+If <code><i>data</i></code> is a pointer, the encryption is performed in place and the
+pointer is returned, otherwise a <a href="#make-static-u32-array">static</a> array containing the encrypted
+elements from DATA is the return value.  If DATA is a <a href="#make-static-u32-array">static</a> array of
+element type <code>(UNSIGNED-BYTE&nbsp;32)</code> and <code><i>copyp</i></code> is <code>NIL</code>, the contents of
+<code><i>data</i></code> will also be modified in place and <code><i>data</i></code> will be returned.
+<p>
+This is the inverse of <a href="#tea-encrypt"><code>TEA-ENCRYPT</code></a>.  See also <a href="#dongle-decrypt"><code>DONGLE-DECRYPT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for TEA-DECRYPT -->
+
+<!-- Entry for DONGLE-ENCRYPT -->
+
+<p><br>[Function]<br><a class=none name='dongle-encrypt'><b>dongle-encrypt</b> <i>key-number data <tt>&amp;key</tt> product-id length copyp</i> =&gt; <i>data'</i></a>
+<blockquote><br>
+
+Encrypts <code><i>data</i></code> using the dongle with the product ID <code><i>product-id</i></code> and
+the key with the number <code><i>key-number</i></code>.  <code><i>data</i></code> must either be a sequence of
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers or an <a href="http://www.lispworks.com/documentation/lw51/FLI/html/fli.htm">FLI</a> pointer.  In the latter case,
+<code><i>length</i></code> is the number of dwords to be processed.  In both cases, the
+number of dwords to be processed must be even.
+<p>
+If <code><i>data</i></code> is a pointer, the encryption is performed in place and the
+pointer is returned, otherwise a <a href="#make-static-u32-array">static</a> array containing the encrypted
+elements from DATA is the return value.  If <code><i>data</i></code> is a <a href="#make-static-u32-array">static</a> array of
+element type <code>(UNSIGNED-BYTE&nbsp;32)</code> and <code><i>copyp</i></code> is <code>NIL</code>, the contents of
+<code><i>data</i></code> will also be modified in place and <code><i>data</i></code> will be returned.
+<p>
+This is the inverse of <a href="#dongle-decrypt"><code>DONGLE-DECRYPT</code></a>.  See also <a href="#tea-encrypt"><code>TEA-ENCRYPT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-ENCRYPT -->
+
+<!-- Entry for DONGLE-DECRYPT -->
+
+<p><br>[Function]<br><a class=none name='dongle-decrypt'><b>dongle-decrypt</b> <i>key-number data <tt>&amp;key</tt> product-id length copyp</i> =&gt; <i>data'</i></a>
+<blockquote><br>
+
+Decrypts <code><i>data</i></code> using the dongle with the product ID <code><i>product-id</i></code> and
+the key with the number <code><i>key-number</i></code>.  <code><i>data</i></code> must either be a sequence of
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers or an <a href="http://www.lispworks.com/documentation/lw51/FLI/html/fli.htm">FLI</a> pointer.  In the latter case,
+<code><i>length</i></code> is the number of dwords to be processed.  In both cases, the
+number of dwords to be processed must be even.
+<p>
+If <code><i>data</i></code> is a pointer, the decryption is performed in place and the
+pointer is returned, otherwise a <a href="#make-static-u32-array">static</a> array containing the decrypted
+elements from <code><i>data</i></code> is the return value.  If <code><i>data</i></code> is a <a href="#make-static-u32-array">static</a> array of
+element type <code>(UNSIGNED-BYTE&nbsp;32)</code> and <code><i>copyp</i></code> is <code>NIL</code>, the contents of
+<code><i>data</i></code> will also be modified in place and <code><i>data</i></code> will be returned.
+<p>
+This is the inverse of <a href="#dongle-encrypt"><code>DONGLE-ENCRYPT</code></a>.  See also <a href="#tea-decrypt"><code>TEA-DECRYPT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-DECRYPT -->
+
+
+<!-- Entry for TEA-ENCRYPT-STRING -->
+
+<p><br>[Function]<br><a class=none name='tea-encrypt-string'><b>tea-encrypt-string</b> <i>key string</i> =&gt; <i>array</i></a>
+<blockquote><br>
+
+Encrypts the Lisp string <code><i>string</i></code> in RAM (without using a dongle and
+without accessing the SG-Lock DLL) with the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm"><a>Tiny
+Encryption Algorithm</a>
+using the key <code><i>key</i></code>.  <code><i>key</i></code> must be a four-element sequence of
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers representing the key to be used.
+<p>
+The return value is a (<a href="#make-static-u32-array">static</a>) array of integers of type
+<code>(UNSIGNED-BYTE&nbsp;32)</code> which can be (given the right key) decrypted back
+to a string using <a href="#tea-decrypt-to-string"><code>TEA-DECRYPT-TO-STRING</code></a> or <a href="#dongle-decrypt-to-string"><code>DONGLE-DECRYPT-TO-STRING</code></a>.
+
+</blockquote>
+
+<!-- End of entry for TEA-ENCRYPT-STRING -->
+
+<!-- Entry for TEA-DECRYPT-TO-STRING -->
+
+<p><br>[Function]<br><a class=none name='tea-decrypt-to-string'><b>tea-decrypt-to-string</b> <i>key data</i> =&gt; <i>string</i></a>
+<blockquote><br>
+
+Decrypts <code><i>data</i></code> to a Lisp string in RAM (without using a dongle and
+without accessing the SG-Lock DLL) with the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm"><a>Tiny
+Encryption Algorithm</a>
+using the key <code><i>key</i></code>.  <code><i>key</i></code> must be a four-element sequence of
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers representing the key to
+be used.  <code><i>data</i></code> must be a sequence of integers of
+type <code>(UNSIGNED-BYTE&nbsp;32)</code>.  This operation will
+obviously only succeed if <code><i>data</i></code> is (equivalent to)
+the result of
+<a href="#tea-encrypt-string"><code>TEA-ENCRYPT-STRING</code></a>
+or <a href="#dongle-encrypt-string"><code>DONGLE-ENCRYPT-STRING</code></a>
+with the same key.
+<p>
+The returned string will be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stgeq_.htm"><code>STRING=</code></a> but not <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_i.htm#identical">identical</a> to the string
+that was originally encrypted.
+
+</blockquote>
+
+<!-- End of entry for TEA-DECRYPT-TO-STRING -->
+
+<!-- Entry for DONGLE-ENCRYPT-STRING -->
+
+<p><br>[Function]<br><a class=none name='dongle-encrypt-string'><b>dongle-encrypt-string</b> <i>key-number string <tt>&amp;key</tt> product-id</i> =&gt; <i>array</i></a>
+<blockquote><br>
+
+Encrypts the Lisp string <code><i>string</i></code> using the dongle with the product
+ID <code><i>product-id</i></code> and the key with the number <code><i>key-number</i></code>.  The return
+value is a (<a href="#make-static-u32-array">static</a>) array of integers of type <code>(UNSIGNED-BYTE&nbsp;32)</code>
+which can be (given the right key) decrypted back to a string using
+<a href="#dongle-decrypt-to-string"><code>DONGLE-DECRYPT-TO-STRING</code></a> or <a href="#tea-decrypt-to-string"><code>TEA-DECRYPT-TO-STRING</code></a>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-ENCRYPT-STRING -->
+
+
+<!-- Entry for DONGLE-DECRYPT-TO-STRING -->
+
+<p><br>[Function]<br><a class=none name='dongle-decrypt-to-string'><b>dongle-decrypt-to-string</b> <i>key-number data <tt>&amp;key</tt> product-id</i> =&gt; <i>string</i></a>
+<blockquote><br>
+
+Decrypts <code><i>data</i></code> to a Lisp string using the dongle with the product ID
+<code><i>product-id</i></code> and the key with the number <code><i>key-number</i></code>.  <code><i>data</i></code> must be a
+sequence of integers of type <code>(UNSIGNED-BYTE&nbsp;32)</code>.  This operation will
+obviously only succeed if <code><i>data</i></code> is (equivalent to) the result of
+<a href="#dongle-encrypt-string"><code>DONGLE-ENCRYPT-STRING</code></a> or <a href="#tea-encrypt-string"><code>TEA-ENCRYPT-STRING</code></a> with the same key.
+<p>
+The returned string will be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stgeq_.htm"><code>STRING=</code></a> but not <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_i.htm#identical">identical</a> to the string
+that was originally encrypted.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-DECRYPT-TO-STRING -->
+
+<!-- Entry for TEA-ENCRYPT-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='tea-encrypt-lisp-object'><b>tea-encrypt-lisp-object</b> <i>key object</i> =&gt; <i>array</i></a>
+<blockquote><br>
+
+Encrypts the Lisp object <code><i>object</i></code> in RAM (without using a dongle and
+without accessing the SG-Lock DLL) with the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tiny
+Encryption Algorithm</a>
+using the key <code><i>key</i></code>.  <code><i>key</i></code> must be a four-element sequence of
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers representing the key to be used.
+<p>
+The return value is a (<a href="#make-static-u32-array">static</a>) array of integers of type
+<code>(UNSIGNED-BYTE&nbsp;32)</code> which can be (given the right key) decrypted back
+to a Lisp object using <a href="#tea-decrypt-to-lisp-object"><code>TEA-DECRYPT-TO-LISP-OBJECT</code></a> or
+<a href="#dongle-decrypt-to-lisp-object"><code>DONGLE-DECRYPT-TO-LISP-OBJECT</code></a>.
+<p>
+Objects are encrypted using a naïve serialization algorithm based on
+<a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_wr_to_.htm"><code>WRITE-TO-STRING</code></a> which is neither fast nor space-efficient.
+Furthermore, only objects which can be printed <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_r.htm#readably">readably</a> can be
+encrypted this way.
+
+</blockquote>
+
+<!-- End of entry for TEA-ENCRYPT-LISP-OBJECT -->
+
+<!-- Entry for TEA-DECRYPT-TO-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='tea-decrypt-to-lisp-object'><b>tea-decrypt-to-lisp-object</b> <i>key data</i> =&gt; <i>object</i></a>
+<blockquote><br>
+
+Decrypts <code><i>data</i></code> to a Lisp object in RAM (without using a dongle and
+without accessing the SG-Lock DLL) with the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm">Tiny
+Encryption Algorithm</a>
+using the key <code><i>key</i></code>.  <code><i>key</i></code> must be a four-element sequence of
+<code>(UNSIGNED-BYTE&nbsp;32)</code> integers representing the key to be used.  This
+operation will obviously only succeed if <code><i>data</i></code> is (equivalent to) the
+result of <a href="#tea-encrypt-lisp-object"><code>TEA-ENCRYPT-LISP-OBJECT</code></a> or <a href="#dongle-encrypt-lisp-object"><code>DONGLE-ENCRYPT-LISP-OBJECT</code></a> with
+the same key.
+<p>
+Decrypted numbers, symbols, and characters will be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_eql.htm"><code>EQL</code></a> to the objects
+originally encrypted.  Other objects will only be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_equal.htm"><code>EQUAL</code></a> or <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_equalp.htm"><code>EQUALP</code></a>.
+See the docstring of <a href="#store-lisp-object"><code>STORE-LISP-OBJECT</code></a> and the code in
+<code>serialize.lisp</code>.
+
+</blockquote>
+
+<!-- End of entry for TEA-DECRYPT-TO-LISP-OBJECT -->
+
+
+<!-- Entry for DONGLE-ENCRYPT-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='dongle-encrypt-lisp-object'><b>dongle-encrypt-lisp-object</b> <i>key-number object <tt>&amp;key</tt> product-id</i> =&gt; <i>array</i></a>
+<blockquote><br>
+
+Encrypts the Lisp object <code><i>object</i></code> using the dongle with the product
+ID <code><i>product-id</i></code> and the key with the number <code><i>key-number</i></code>.  The return
+value is a (<a href="#make-static-u32-array">static</a>) array of integers of type <code>(UNSIGNED-BYTE&nbsp;32)</code>
+which can be (given the right key) decrypted back to a Lisp object
+using <a href="#dongle-decrypt-to-lisp-object"><code>DONGLE-DECRYPT-TO-LISP-OBJECT</code></a> or <a href="#tea-decrypt-to-lisp-object"><code>TEA-DECRYPT-TO-LISP-OBJECT</code></a>.
+<p>
+Objects are encrypted using a naïve serialization algorithm based on
+<a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_wr_to_.htm"><code>WRITE-TO-STRING</code></a> which is neither fast nor space-efficient.
+Furthermore, only objects which can be printed <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_r.htm#readably">readably</a> can be
+encrypted this way.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-ENCRYPT-LISP-OBJECT -->
+
+
+<!-- Entry for DONGLE-DECRYPT-TO-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='dongle-decrypt-to-lisp-object'><b>dongle-decrypt-to-lisp-object</b> <i>key-number data <tt>&amp;key</tt> product-id</i> =&gt; <i>object</i></a>
+<blockquote><br>
+
+Decrypts <code><i>data</i></code> to a Lisp object using the dongle with the product ID
+<code><i>product-id</i></code> and the key with the number <code><i>key-number</i></code>.  <code><i>data</i></code> must be a
+sequence of integers of type <code>(UNSIGNED-BYTE&nbsp;32)</code>.  This operation will
+obviously only succeed if <code><i>data</i></code> is (equivalent to) the result of
+<a href="#dongle-encrypt-lisp-object"><code>DONGLE-ENCRYPT-LISP-OBJECT</code></a> or <a href="#tea-encrypt-lisp-object"><code>TEA-ENCRYPT-LISP-OBJECT</code></a> with the same
+key.
+<p>
+Decrypted numbers, symbols, and characters will be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_eql.htm"><code>EQL</code></a> to the objects
+originally encrypted.  Other objects will only be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_equal.htm"><code>EQUAL</code></a> or <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_equalp.htm"><code>EQUALP</code></a>.
+See the docstring of <a href="#store-lisp-object"><code>STORE-LISP-OBJECT</code></a> and the code in
+<code>serialize.lisp</code>.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-DECRYPT-TO-LISP-OBJECT -->
+
+
+
+<br>&nbsp;<br><h3><a class=none name="store">Storing and retrieving data</a></h3>
+
+Note that what you can actually store into the dongle obviously depends <a href="#dongle-memory-size">on the amount of memory available</a>.
+
+<!-- Entry for STORE-DATA -->
+
+<p><br>[Function]<br><a class=none name='store-data'><b>store-data</b> <i>address data <tt>&amp;key</tt> product-id start end</i> =&gt; <i>address'</i></a>
+<blockquote><br>
+
+Stores the contents of the <code>(UNSIGNED-BYTE&nbsp;32)</code> sequence <code><i>data</i></code> from
+<code><i>start</i></code> to <code><i>end</i></code> in the dongle with the product ID <code><i>product-id</i></code> starting at
+memory address <code><i>address</i></code>.  <code><i>address</i></code> uses a 32-bit addressing scheme
+corresponding to the values returned by <a href="#dongle-memory-size"><code>DONGLE-MEMORY-SIZE</code></a>.
+<p>
+Returns the address following the stored data.  (Note that depending
+on the memory size of the dongle this might be an illegal address.)
+
+</blockquote>
+
+<!-- End of entry for STORE-DATA -->
+
+<!-- Entry for STORE-STRING -->
+
+<p><br>[Function]<br><a class=none name='store-string'><b>store-string</b> <i>address string <tt>&amp;key</tt> product-id start end</i> =&gt; <i>address'</i></a>
+<blockquote><br>
+
+Stores the Lisp string <code><i>string</i></code>
+from <code><i>start</i></code> to <code><i>end</i></code> in the
+dongle with the product ID <code><i>product-id</i></code> starting at
+memory
+address <code><i>address</i></code>.  <code><i>address</i></code> uses
+a 32-bit addressing scheme corresponding to the values returned
+by <a href="#dongle-memory-size"><code>DONGLE-MEMORY-SIZE</code></a>.
+The string is stored in such a way that a string which
+is <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stgeq_.htm"><code>STRING=</code></a>
+to it can be retrieved
+using <a href="#retrieve-string"><code>RETRIEVE-STRING</code></a>.  A
+string of length <code>N</code> will use
+up
+<pre>
+(ceiling (1+ n) 2)
+</pre>
+dwords in the dongle.
+<p>
+Returns the address following the stored data.  (Note that depending
+on the memory size of the dongle this might be an illegal address.)
+
+</blockquote>
+
+<!-- End of entry for STORE-STRING -->
+
+
+<!-- Entry for STORE-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='store-lisp-object'><b>store-lisp-object</b> <i>address object <tt>&amp;optional</tt> product-id</i> =&gt; <i>address'</i></a>
+<blockquote><br>
+
+Stores the Lisp object <code><i>object</i></code> in the dongle with the product ID
+<code><i>product-id</i></code> starting at memory address <code><i>address</i></code>.  <code><i>address</i></code> uses a 32-bit
+addressing scheme corresponding to the values returned by
+<a href="#dongle-memory-size"><code>DONGLE-MEMORY-SIZE</code></a>.  The object is stored in such a way that it can be
+retrieved using <a href="#retrieve-lisp-object"><code>RETRIEVE-LISP-OBJECT</code></a>.
+<p>
+Objects are stored using a naïve serialization algorithm based on
+<a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_wr_to_.htm"><code>WRITE-TO-STRING</code></a> which is neither fast nor space-efficient.
+Furthermore, only objects which can be printed <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_r.htm#readably">readably</a> can be stored
+this way.
+<p>
+Returns the address following the stored data.  (Note that depending
+on the memory size of the dongle this might be an illegal address.)
+
+</blockquote>
+
+<!-- End of entry for STORE-LISP-OBJECT -->
+
+
+<!-- Entry for RETRIEVE-DATA -->
+
+<p><br>[Function]<br><a class=none name='retrieve-data'><b>retrieve-data</b> <i>address count <tt>&amp;optional</tt> product-id</i> =&gt; <i>array</i></a>
+<blockquote><br>
+
+Returns <code><i>count</i></code> values stored at the memory area starting at <code><i>address</i></code>
+from the dongle with the product ID <code><i>product-id</i></code> as a <a href="#make-static-u32-array">static</a> array of
+element-type <code>(UNSIGNED-BYTE&nbsp;32)</code>.  <code><i>address</i></code> uses a 32-bit addressing
+scheme corresponding to the values returned by <a href="#dongle-memory-size"><code>DONGLE-MEMORY-SIZE</code></a>.
+
+</blockquote>
+
+<!-- End of entry for RETRIEVE-DATA -->
+
+<!-- Entry for RETRIEVE-STRING -->
+
+<p><br>[Function]<br><a class=none name='retrieve-string'><b>retrieve-string</b> <i>address <tt>&amp;optional</tt> product-id</i> =&gt; <i>string</i></a>
+<blockquote><br>
+
+Returns the Lisp string from the dongle with the product ID
+<code><i>product-id</i></code> which is stored at memory address <code><i>address</i></code>.  Obviously, this
+will only work if the string was previously stored using <a href="#store-string"><code>STORE-STRING</code></a>.
+<code><i>address</i></code> uses a 32-bit addressing scheme corresponding to the values
+returned by <a href="#dongle-memory-size"><code>DONGLE-MEMORY-SIZE</code></a>.
+<p>
+The returned string will be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_stgeq_.htm"><code>STRING=</code></a> but not <a href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_i.htm#identical">identical</a> to the string
+that was originally stored.
+
+</blockquote>
+
+<!-- End of entry for RETRIEVE-STRING -->
+
+
+<!-- Entry for RETRIEVE-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='retrieve-lisp-object'><b>retrieve-lisp-object</b> <i>address <tt>&amp;optional</tt> product-id</i> =&gt; <i>object</i></a>
+<blockquote><br>
+
+Returns the Lisp object from the dongle with the product ID
+<code><i>product-id</i></code> which is stored at memory address <code><i>address</i></code>.  Obviously, this
+will only work if the object was previously stored using
+<a href="#store-lisp-object"><code>STORE-LISP-OBJECT</code></a>.  <code><i>address</i></code> uses a 32-bit addressing scheme
+corresponding to the values returned by <a href="#dongle-memory-size"><code>DONGLE-MEMORY-SIZE</code></a>.
+<p>
+Numbers, symbols, and characters will be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_eql.htm"><code>EQL</code></a> to the objects
+originally stored.  Other objects will only be <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_equal.htm"><code>EQUAL</code></a> or <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_equalp.htm"><code>EQUALP</code></a>.
+See the docstring of <a href="#store-lisp-object"><code>STORE-LISP-OBJECT</code></a> and the code in
+<code>serialize.lisp</code>.
+
+</blockquote>
+
+<!-- End of entry for RETRIEVE-LISP-OBJECT -->
+
+
+<br>&nbsp;<br><h3><a class=none name="signing">Signing data</a></h3>
+
+One important factor to consider when signing large amounts of data
+(like files) is speed.  On a laptop bought in 2007 I can process a
+20MB file in not much more than a second if I sign everything in RAM
+(using pure Lisp code), i.e. using <code>NIL</code> as the value
+for <code><i>interval</i></code> <a href="#sign">below</a>.  If the
+whole file is signed in the dongle (<code><i>interval</i></code>
+being <code>0</code>), I can have dinner in the meantime.
+<p>
+Unfortunately, the "all-in-RAM" method is orders of magnitude more
+insecure than using the dongle (which is the reason you're using this
+thingy in the first place), so the trick is to find the right
+compromise...
+
+<!-- Entry for SIGN -->
+
+<p><br>[Generic function]<br><a class=none name='sign'><b>sign</b> <i>data <tt>&amp;key</tt> feedback-value interval key-number key product-id <tt>&amp;allow-other-keys</tt></i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Signs <code><i>data</i></code> using the dongle with the product ID
+<code><i>product-id</i></code> (the default
+being <a href="#*product-id*"><code>*PRODUCT-ID*</code></a> as usual)
+and/or
+the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm"><a>Tiny
+Encryption Algorithm</a> in RAM.  <code><i>data</i></code> can be a sequence (i.e. a list
+or an array) of <code>(UNSIGNED-BYTE&nbsp;32)</code> integers or a
+<a href="http://www.lispworks.com/documentation/HyperSpec/Body/t_pn.htm">pathname</a>
+denoting a file or
+an <a href="http://www.lispworks.com/documentation/lw51/FLI/html/fli.htm">FLI</a>
+pointer pointing to an area of memory which is to be signed.  In the
+last case, the keyword argument <code><i>length</i></code> specifies
+how many octets of data are to be signed.
+<p>
+If <code><i>data</i></code> is a pathname, the whole contents of the
+file denoted by DATA will
+be <a href="http://weitz.de/lw-win/#with-mapped-file">mapped into
+memory</a>.  If you don't want that, you will have to read smaller
+chunks of the file
+using <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_rd_seq.htm"><code>READ-SEQUENCE</code></a>
+and sign them using successive calls
+to <a href="#sign"><code>SIGN</code></a>.
+The <a href="#download">test code</a> contains an example for this
+technique - see the file <code>sign.lisp</code>.
+<p>
+If <code><i>interval</i></code> is <code>NIL</code>, neither a dongle nor the SG-Lock DLL is used and
+the signing takes place in RAM using the <a href="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm"><a>Tiny
+Encryption Algorithm</a>.
+Otherwise, <code><i>interval</i></code> must be a non-negative integer <code>N</code> such that
+<code>2^(N+3</code>) is still a fixnum. If <code>M</code> is <code>2^N</code>,
+then each <code>M</code>th 64-bit block (which <em>always</em> include
+the first one) will be signed using the dongle while all others will
+be signed in RAM.  Specifically, if <code>N</code> is <code>0</code>
+(zero), <em>all</em> the data will be signed using the dongle. The default
+for <code><i>interval</i></code> is the greatest possible
+non-<code>NIL</code> value.  
+<p>
+If <code><i>interval</i></code> is not <code>NIL</code>, <code><i>key-number</i></code> must be specified to denote which
+key of the dongle is to be used for signing.  If <code><i>interval</i></code> is not <code>0</code>
+(zero), <code><i>key</i></code> must be specified to denote the key - a four-element
+sequence of <code>(UNSIGNED-BYTE&nbsp;32)</code> integers - for the in-RAM signing.
+<p>
+The signing process operates on successive 64-bit blocks using the
+signature of the previous block as the initial &quot;feedback&quot; value.
+The signature of the last block is returned by <a href="#sign"><code>SIGN</code></a> as the signature
+of <code><i>data</i></code>.  This, together with the fact that the first block is always
+signed using the dongle if <code><i>interval</i></code> is not <code>NIL</code>, ensures that the
+signature of <code><i>data</i></code> always depends on the dongle if <code><i>interval</i></code> is an
+integer.
+<p>
+If the block of data to be signed is a sequence of octets the length
+of which is not divisible by <code>8</code>, then the function makes sure that the
+sequence is extended consistently.  As a technical detail, this 64-bit
+&quot;fill&quot; block is only ever signed using the dongle if <code><i>interval</i></code> is not
+<code>NIL</code> <em>and</em> if <code><i>data</i></code> consists of less than eight octets.
+<p>
+The return value of <a href="#sign"><code>SIGN</code></a> is an integer of type <code>(UNSIGNED-BYTE&nbsp;64)</code>.
+<p>
+Signing always starts with the same &quot;feedback&quot; value unless
+you explicitly provide an <code>(UNSIGNED-BYTE&nbsp;64)</code>
+integer <code><i>feedback-value</i></code> to start with.  This can be
+utilized to sign larger amounts of data with several successive calls
+to <a href="#sign"><code>SIGN</code></a> usign the return value of one call as the &quot;feedback
+value&quot; for the next call.  See also the remark about the test
+code above.
+
+</blockquote>
+
+<!-- End of entry for SIGN -->
+
+
+<!-- Entry for SIGN-LISP-OBJECT -->
+
+<p><br>[Function]<br><a class=none name='sign-lisp-object'><b>sign-lisp-object</b> <i>object <tt>&amp;key</tt> feedback-value interval key-number key product-id</i> =&gt; <i>integer</i></a>
+<blockquote><br>
+
+Signs the Lisp object <code><i>object</i></code> by first serializing it using a naïve
+algorithm based on <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_wr_to_.htm"><code>WRITE-TO-STRING</code></a> and then calling <a href="#sign"><code>SIGN</code></a>.  All
+parameters except for <code><i>object</i></code> are fed to <a href="#sign"><code>SIGN</code></a>.
+
+</blockquote>
+
+<!-- End of entry for SIGN-LISP-OBJECT -->
+
+
+<br>&nbsp;<br><h3><a class=none name="conditions">Conditions</a></h3>
+
+All errors signalled by CL-DONGLE are of
+type <a href="#dongle-error"><code>DONGLE-ERROR</code></a>.  More
+details about the conditions you can encounter can be found in this
+section.
+
+<!-- Entry for DONGLE-ERROR -->
+
+<p><br>[Condition type]<br><a class=none name='dongle-error'><b>dongle-error</b></a>
+<blockquote><br>
+
+The superclass for all errors signalled by the
+CL-DONGLE library.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-ERROR -->
+
+<!-- Entry for AUTHENTICATION-FAILED -->
+
+<p><br>[Condition type]<br><a class=none name='authentication-failed'><b>authentication-failed</b></a>
+<blockquote><br>
+
+This error is signalled if the mandatory initial authentication
+(function <a href="#authenticate"><code>AUTHENTICATE</code></a>)
+failed.  This is equivalent to getting the return
+value <code>SGL_AUTHENTICATION_FAILED</code> from the SG-Lock API.
+
+</blockquote>
+
+<!-- End of entry for AUTHENTICATION-FAILED -->
+
+
+<!-- Entry for AUTHENTICATION-REQUIRED -->
+
+<p><br>[Condition type]<br><a class=none name='authentication-required'><b>authentication-required</b></a>
+<blockquote><br>
+
+This error is signalled if functions of the SG-Lock
+API are called prior to the mandatory initial authentication - see the
+function <a href="#authenticate"><code>AUTHENTICATE</code></a>.  This is equivalent to getting the return value
+<code>SGL_AUTHENTICATION_REQUIRED</code> from the SG-Lock API.
+
+</blockquote>
+
+<!-- End of entry for AUTHENTICATION-REQUIRED -->
+
+<!-- Entry for PARAMETER-INVALID -->
+
+<p><br>[Condition type]<br><a class=none name='parameter-invalid'><b>parameter-invalid</b></a>
+<blockquote><br>
+
+This error is signalled if an API function was called with parameters
+which are out of range.  This is equivalent to getting the return
+value <code>SGL_PARAMETER_INVALID</code> from the SG-Lock API.
+
+</blockquote>
+
+<!-- End of entry for PARAMETER-INVALID -->
+
+<!-- Entry for FUNCTION-NOT-SUPPORTED -->
+
+<p><br>[Condition type]<br><a class=none name='function-not-supported'><b>function-not-supported</b></a>
+<blockquote><br>
+
+This error is signalled if an API function was called which is not
+supported by the current dongle.  This is equivalent to getting the
+return value <code>SGL_FUNCTION_NOT_SUPPORTED</code> from the SG-Lock
+API.
+
+</blockquote>
+
+<!-- End of entry for FUNCTION-NOT-SUPPORTED -->
+
+
+<!-- Entry for DONGLE-NOT-FOUND -->
+
+<p><br>[Condition type]<br><a class=none name='dongle-not-found'><b>dongle-not-found</b></a>
+<blockquote><br>
+
+This error is signalled if no dongle corresponding to the product ID
+which was provided was found.  This is equivalent to getting the
+return value <code>SGL_DGL_NOT_FOUND</code> from the SG-Lock API.  But
+see also the description of
+the <a href="#authenticate"><code>AUTHENTICATE</code></a> function.
+
+</blockquote>
+
+<!-- End of entry for DONGLE-NOT-FOUND -->
+
+
+<!-- Entry for USB-PORT-BUSY -->
+
+<p><br>[Condition type]<br><a class=none name='usb-port-busy'><b>usb-port-busy</b></a>
+<blockquote><br>
+
+This error is signalled if at least one USB port is
+busy and no matching dongles were found on the other ports, if there
+are any.  This is equivalent to getting the return value <code>SGL_USB_BUSY</code>
+from the SG-Lock API.
+
+</blockquote>
+
+<!-- End of entry for USB-PORT-BUSY -->
+
+
+<!-- Entry for LPT-OPEN-ERROR -->
+
+<p><br>[Condition type]<br><a class=none name='lpt-open-error'><b>lpt-open-error</b></a>
+<blockquote><br>
+
+This error is signalled if the SG-Lock LPT driver
+wasn't found although LPT support was installed.  This is equivalent
+to getting the return value <code>SGL_LPT_OPEN_ERROR</code> from the SG-Lock
+API.
+
+</blockquote>
+
+<!-- End of entry for LPT-OPEN-ERROR -->
+
+
+<!-- Entry for LPT-PORT-BUSY -->
+
+<p><br>[Condition type]<br><a class=none name='lpt-port-busy'><b>lpt-port-busy</b></a>
+<blockquote><br>
+
+This error is signalled if at least one LPT port is
+busy and no matching dongles were found on the other ports, if there
+are any.  This is equivalent to getting the return value <code>SGL_LPT_BUSY</code>
+from the SG-Lock API.
+
+</blockquote>
+
+<!-- End of entry for LPT-PORT-BUSY -->
+
+<!-- Entry for NO-LPT-PORT-FOUND -->
+
+<p><br>[Condition type]<br><a class=none name='no-lpt-port-found'><b>no-lpt-port-found</b></a>
+<blockquote><br>
+
+This error is signalled if no LPT port was found on
+the PC although LPT support was installed.  This is equivalent to
+getting the return value <code>SGL_NO_LPT_PORT_FOUND</code> from the SG-Lock
+API.
+
+</blockquote>
+
+<!-- End of entry for NO-LPT-PORT-FOUND -->
+
+
+<!-- Entry for SIGNATURE-INVALID -->
+
+<p><br>[Condition type]<br><a class=none name='signature-invalid'><b>signature-invalid</b></a>
+<blockquote><br>
+
+This error is signalled if one of the API function
+was asked to verify a signature which turned out to be invalid.  This
+is equivalent to getting the return value <code>SGL_SIGNATURE_INVALID</code> from
+the SG-Lock API.
+<p>
+You actually shouldn't see this error when using CL-DONGLE as you're
+supposed to check signatures yourself - by simply applying the
+function <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_eq_sle.htm">=</a>
+to the values returned by <a href="#sign"><code>SIGN</code></a>
+or <a href="#sign-lisp-object"><code>SIGN-LISP-OBJECT</code></a>.
+
+</blockquote>
+
+<!-- End of entry for SIGNATURE-INVALID -->
+
+
+<!-- Entry for UNKNOWN-RETURN-VALUE -->
+
+<p><br>[Condition type]<br><a class=none name='unknown-return-value'><b>unknown-return-value</b></a>
+<blockquote><br>
+
+This is a typical <em>this-should-not-happen</em> error.  It will be
+signalled in the case that one of the C&nbsp;functions in the SG-Lock DLL
+returns an undocumented value.
+
+</blockquote>
+
+<!-- End of entry for UNKNOWN-RETURN-VALUE -->
+
+
+
+<br>&nbsp;<br><h3><a class=none name="index">Symbol index</a></h3>
+
+Here are all exported symbols of CL-DONGLE in alphabetical order linked to their corresponding entries:
+
+    <ul>
+      <li><a href="#*demo-authentication-code*"><code>*demo-authentication-code*</code></a>
+      <li><a href="#*product-id*"><code>*product-id*</code></a>
+      <li><a href="#assert-dongle"><code>assert-dongle</code></a>
+      <li><a href="#authenticate"><code>authenticate</code></a>
+      <li><a href="#authentication-failed"><code>authentication-failed</code></a>
+      <li><a href="#authentication-required"><code>authentication-required</code></a>
+      <li><a href="#counter-value"><code>counter-value</code></a>
+      <li><a href="#dongle-decrypt"><code>dongle-decrypt</code></a>
+      <li><a href="#dongle-decrypt-to-lisp-object"><code>dongle-decrypt-to-lisp-object</code></a>
+      <li><a href="#dongle-decrypt-to-string"><code>dongle-decrypt-to-string</code></a>
+      <li><a href="#dongle-encrypt"><code>dongle-encrypt</code></a>
+      <li><a href="#dongle-encrypt-lisp-object"><code>dongle-encrypt-lisp-object</code></a>
+      <li><a href="#dongle-encrypt-string"><code>dongle-encrypt-string</code></a>
+      <li><a href="#dongle-error"><code>dongle-error</code></a>
+      <li><a href="#dongle-error"><code>dongle-error</code></a>
+      <li><a href="#dongle-hardware-version"><code>dongle-hardware-version</code></a>
+      <li><a href="#dongle-interface"><code>dongle-interface</code></a>
+      <li><a href="#dongle-memory-size"><code>dongle-memory-size</code></a>
+      <li><a href="#dongle-not-found"><code>dongle-not-found</code></a>
+      <li><a href="#dongle-number-of-counters"><code>dongle-number-of-counters</code></a>
+      <li><a href="#dongle-number-of-keys"><code>dongle-number-of-keys</code></a>
+      <li><a href="#dongle-present-p"><code>dongle-present-p</code></a>
+      <li><a href="#dongle-serial-number"><code>dongle-serial-number</code></a>
+      <li><a href="#dongle-software-version"><code>dongle-software-version</code></a>
+      <li><a href="#dongle-type"><code>dongle-type</code></a>
+      <li><a href="#function-not-supported"><code>function-not-supported</code></a>
+      <li><a href="#lpt-open-error"><code>lpt-open-error</code></a>
+      <li><a href="#lpt-port-busy"><code>lpt-port-busy</code></a>
+      <li><a href="#make-static-u32-array"><code>make-static-u32-array</code></a>
+      <li><a href="#no-lpt-port-found"><code>no-lpt-port-found</code></a>
+      <li><a href="#parameter-invalid"><code>parameter-invalid</code></a>
+      <li><a href="#product-id"><code>product-id</code></a>
+      <li><a href="#random-key"><code>random-key</code></a>
+      <li><a href="#retrieve-data"><code>retrieve-data</code></a>
+      <li><a href="#retrieve-lisp-object"><code>retrieve-lisp-object</code></a>
+      <li><a href="#retrieve-string"><code>retrieve-string</code></a>
+      <li><a href="#sign"><code>sign</code></a>
+      <li><a href="#sign-lisp-object"><code>sign-lisp-object</code></a>
+      <li><a href="#signature-invalid"><code>signature-invalid</code></a>
+      <li><a href="#store-data"><code>store-data</code></a>
+      <li><a href="#store-lisp-object"><code>store-lisp-object</code></a>
+      <li><a href="#store-string"><code>store-string</code></a>
+      <li><a href="#tea-decrypt"><code>tea-decrypt</code></a>
+      <li><a href="#tea-decrypt-to-lisp-object"><code>tea-decrypt-to-lisp-object</code></a>
+      <li><a href="#tea-decrypt-to-string"><code>tea-decrypt-to-string</code></a>
+      <li><a href="#tea-encrypt"><code>tea-encrypt</code></a>
+      <li><a href="#tea-encrypt-lisp-object"><code>tea-encrypt-lisp-object</code></a>
+      <li><a href="#tea-encrypt-string"><code>tea-encrypt-string</code></a>
+      <li><a href="#unknown-return-value"><code>unknown-return-value</code></a>
+      <li><a href="#usb-port-busy"><code>usb-port-busy</code></a>
+      <li><a href="#write-key"><code>write-key</code></a>
+    </ul>
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+<p>
+This documentation was prepared with <a href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
+</p>
+<p>
+$Header: /usr/local/cvsrep/cl-dongle/doc/index.html,v 1.18 2008/05/01 14:47:43 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>

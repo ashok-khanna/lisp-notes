@@ -1,0 +1,1115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html> 
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <title>MIDGETS - A collection of CAPI widgets and utilties</title>
+  <style type="text/css">
+  pre { padding:5px; background-color:#e0e0e0 }
+  h3, h4 { text-decoration: underline; }
+  a { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:visited { text-decoration: none; padding: 1px 2px 1px 2px; }
+  a:hover { text-decoration: none; padding: 1px 1px 1px 1px; border: 1px solid #000000; } 
+  a:focus { text-decoration: none; padding: 1px 2px 1px 2px; border: none; }
+  a.none { text-decoration: none; padding: 0; }
+  a.none:visited { text-decoration: none; padding: 0; } 
+  a.none:hover { text-decoration: none; border: none; padding: 0; } 
+  a.none:focus { text-decoration: none; border: none; padding: 0; } 
+  a.noborder { text-decoration: none; padding: 0; } 
+  a.noborder:visited { text-decoration: none; padding: 0; } 
+  a.noborder:hover { text-decoration: none; border: none; padding: 0; } 
+  a.noborder:focus { text-decoration: none; border: none; padding: 0; }  
+  pre.none { padding:5px; background-color:#ffffff }
+  .small { font-family: monospace; font-size: smaller }
+  </style>
+</head>
+
+<body bgcolor=white>
+
+<h2>MIDGETS - A collection of CAPI widgets and utilities</h2>
+
+<blockquote>
+<br>&nbsp;<br><h3><a name=abstract class=none>Abstract</a></h3>
+
+MIDGETS is a collection of
+re-usable <a href="http://www.lispworks.com/products/capi.html">CAPI</a>
+widgets and utilities I wrote for various projects.
+<p>
+The code has been developed and used
+with <a href="http://www.lispworks.com">LispWorks</a>&nbsp;4.4.6
+and&nbsp;5.0.2 for Windows, but it should work on Linux and OS&nbsp;X
+as well.
+
+<p>
+It comes with a <a
+href="http://www.opensource.org/licenses/bsd-license.php">BSD-style
+license</a> so you can basically do with it whatever you want.
+
+</blockquote>
+
+<center>
+<table border=0>
+<tr>
+<td style="white-space:nowrap">
+<a class=none alt="Prompting for date and time in English" title="Prompting for date and time in English" href="#prompt-for-date-and-time"><img src="english.png" border=0 width=228 height=258></a>&nbsp;&nbsp;
+</td>
+<td>
+<a class=none title="Prompting for date and time in German" alt="Prompting for date and time in German" href="#prompt-for-date-and-time"><img src="german.png" border=0 width=235 height=258></a>
+</td>
+</tr>
+</table>
+<span class=small>[Riddle: The dates above are not random...]</span>
+</center>
+
+<br>&nbsp;<br><h3><a class=none name="contents">Contents</a></h3>
+<ol>
+  <li><a href="#download">Download and installation</a>
+  <li><a href="#color">Color buttons</a>
+  <li><a href="#flat">Flat buttons</a>
+  <li><a href="#collecting">Collecting display panes</a>
+  <li><a href="#time">Time and date widgets and functions</a>
+  <li><a href="#geometry">Saving dialog geometry</a>
+  <li><a href="#index">Symbol index</a>
+  <li><a href="#ack">Acknowledgements</a>
+</ol>
+
+
+
+<br>&nbsp;<br><h3><a class=none name="download">Download and installation</a></h3>
+
+MIDGETS together with this documentation can be downloaded
+from <a href="http://weitz.de/files/midgets.tar.gz">http://weitz.de/files/midgets.tar.gz</a>. The
+current version is 0.6.3.  On Microsoft Windows, it depends on
+the <a href="http://weitz.de/lw-win/">LW-WIN</a> library.
+
+<p>MIDGETS comes with a system definition
+for <a href="http://www.cliki.net/asdf">ASDF</a> and with one for
+LispWorks' <a
+href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser-195.htm"><em>Common
+Defsystem</em></a>.
+
+<br>&nbsp;<br><h3><a class=none name="color">Color buttons</a></h3>
+
+<a href="#color-button">Color buttons</a> are rectangular areas on the
+screen that represent a certain color by displaying it and on being
+clicked
+calling <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-267.htm"><code>CAPI:PROMPT-FOR-COLOR</code></a>
+so that the user can change the color.  They can be queried for the
+color they currently have, the color can be changed non-interactively,
+and they provide callbacks which are called when the color has
+changed.  There are also <a href="#color-button-panel">color button
+panels</a> which group several color buttons together.
+<p>
+Here's an example:
+<pre>
+<img title="A color button panel" align=right border=0 vspace=10 hspace=10 width=112 height=137 src="color-button-panel.png">CL-USER 1 &gt; (capi:contain 
+             (make-instance 'midgets:<a class=noborder href="#color-button-panel">color-button-panel</a>
+                            :items '(:background :foreground :border)
+                            :title-function 'string-capitalize
+                            :button-args '(:title-position :right)
+                            :layout-class 'capi:column-layout
+                            :layout-args '(:adjust :left :internal-border 10 :gap 10)
+                            :callback (lambda (item color)
+                                        (capi:display-message "You selected ~S as the new color for ~S."
+                                                              color item))))
+#&lt;MIDGETS:COLOR-BUTTON-PANEL  21F2389B&gt;
+</pre>
+
+<!-- Entry for COLOR-BUTTON -->
+
+<p><br>[Standard class]<br><a class=none name='color-button'><b>color-button</b></a>
+<blockquote><br>
+
+This class is the user-visible implementation of a single color
+button.  Technically, it's currently implemented as
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-347.htm">simple
+pinboard layout</a> wrapped around
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-84.htm">drawn
+pinboard object</a>, but that might change.  You should treat it like
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-342.htm">simple
+pane</a> and only use the documented initargs, readers, and writers.
+<p>
+The initargs for this class
+are <code>:COLOR</code>, <code>:CALLBACK</code>, <code>:ITEM</code>, <code>:WIDTH</code>, <code>:HEIGHT</code>, <code>:TITLE</code>
+(and the other initargs for a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-373.htm">titled object</a>),
+<code>:PROMPT-TEXT</code>, <code>:PROMPT-ARGS</code>,
+and <code>:VISIBLE-BORDER</code> as well as the standard initargs
+<code>:HELP-KEY</code>, <code>:NAME</code>, and <code>:PLIST</code>.
+You should refrain from using other initargs like for example layout
+constraints unless you know exactly what you're doing.
+<p>
+<code><i>color</i></code> is the initial color of the
+button.  <code><i>callback</i></code>, if not <code>NIL</code>, is a
+function of one argument which is called with the new color when the color
+has changed.  <code><i>prompt-text</i></code>
+and <code><i>prompt-args</i></code> are arguments for
+the <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-267.htm"><code>CAPI:PROMPT-FOR-COLOR</code></a>
+function.  <code><i>width</i></code> and <code><i>height</i></code>
+determine the fixed width and height of the button.
+<code><i>item</i></code> is an arbitrary Lisp object associated with
+the button which is only really useful
+for <a href="#color-button-panel">color button panels</a>.  The
+semantics of the other initargs are as usual in CAPI.
+
+</blockquote>
+
+<!-- End of entry for COLOR-BUTTON -->
+
+<p><br>[Accessors]<br><a class=none name='color-button-callback'><b>color-button-callback</b> <i>color-button</i> =&gt; <i>callback</i></a>
+<br><a class=none><tt>(setf (</tt><b>color-button-callback</b> <i>color-button</i><tt>)</tt> <i>new-callback</i><tt>)</tt></a>
+<br><a class=none name='color-button-color'><b>color-button-color</b> <i>color-button</i> =&gt; <i>color</i></a>
+<br><a class=none><tt>(setf (</tt><b>color-button-color</b> <i>color-button</i><tt>)</tt> <i>new-color</i><tt>)</tt></a>
+<br><a class=none name='color-button-prompt-args'><b>color-button-prompt-args</b> <i>color-button</i> =&gt; <i>prompt-args</i></a>
+<br><a class=none><tt>(setf (</tt><b>color-button-prompt-args</b> <i>color-button</i><tt>)</tt> <i>new-prompt-args</i><tt>)</tt></a>
+<br><a class=none name='color-button-prompt-text'><b>color-button-prompt-text</b> <i>color-button</i> =&gt; <i>prompt-text</i></a>
+<br><a class=none><tt>(setf (</tt><b>color-button-prompt-text</b> <i>color-button</i><tt>)</tt> <i>new-prompt-text</i><tt>)</tt></a>
+
+<blockquote><br> These accessors can be used to get and set the values
+of the corresponding slots of the <a href="#color-button">color
+button</a> <code><i>color-button</i></code>.  Note that changing the
+color will result in the graphical representation being updated and
+the callback being called (if there is one).
+</blockquote>
+
+<!-- Entry for COLOR-BUTTON-PANEL -->
+
+<p><br>[Standard class]<br><a class=none name='color-button-panel'><b>color-button-panel</b></a>
+<blockquote><br>
+
+The class which implements color button panels, a number
+of <a href="#color-button">color buttons</a> layed out together with a
+group behaviour.
+<p>
+Technically, this is
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-340.htm">simple
+layout</a>, but you should for all practical purposes just treat it
+like
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-342.htm">simple
+pane</a> and only use the documented initargs, readers, and writers.
+<p>
+The initargs for this class are <code>:ITEMS</code>, <code>:CALLBACK</code>, <code>:COLOR-FUNCTION</code>,
+<code>:TITLE-FUNCTION</code>, <code>:BUTTON-ARGS</code>, <code>:BUTTON-ARGS-FUNCTION</code>, <code>:LAYOUT-CLASS</code>,
+<code>:LAYOUT-ARGS</code>, <code>:TEST-FUNCTION</code>, <code>:HELP-KEYS</code>, and <code>:BUTTONS</code>  as well as the standard initargs
+<code>:HELP-KEY</code>, <code>:NAME</code>, and <code>:PLIST</code>.
+<p>
+<code><i>items</i></code> is a list of arbitrary Lisp objects representing the buttons.
+<code><i>color-function</i></code> should be a function of one
+argument which will be called for each item and should return its
+button's initial color.  Likewise, <code><i>title-function</i></code>
+is supposed to provide a title for each item (i.e. button).
+<p>
+<code><i>button-args</i></code> is a property list with additional initargs for the
+buttons that are going to be created.  Or, if you want more
+fine-grained control, you can use <code><i>button-args-function</i></code> to provide
+different initargs per item.
+<p>
+<code><i>help-keys</i></code>, if provided, should be a list of help keys in one-to-one
+correspondence with the list <code><i>items</i></code>.
+<p>
+<code><i>callback</i></code> should be a function of two arguments
+which will be called with the item and the new color whenever the
+color of a button changes.
+<p>
+You can also simply provide a list <code><i>buttons</i></code> of color buttons.  In this
+case, all the initargs mentioned above will be ignored.
+<p>
+<code><i>test-function</i></code> (the default
+is <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_eql.htm"><code>EQL</code></a>)
+is the function used to test two items for equality.
+<p>
+<code><i>layout-class</i></code> and <code><i>layout-args</i></code>
+determine how the button panel will be layed out.  This works like
+with CAPI's
+stock <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-18.htm">button
+panels</a>.
+</blockquote>
+
+<!-- End of entry for COLOR-BUTTON-PANEL -->
+
+<p><br>[Reader]<br><a class=none><b>color-button-panel-buttons</b> <i>color-button-panel</i> =&gt; <i>color-button-list</i></a>
+<blockquote><br> Returns a list of the <a href="#color-button">color
+buttons</a> which comprise the <a href="#color-button-panel">color
+button panel</a> <code><i>color-button-panel</i></code>.
+</blockquote>
+
+<!-- Entry for COLOR-BUTTON-PANEL-ITEM-COLOR -->
+
+<p><br>[Accessor]<br><a class=none><b>color-button-panel-item-color</b> <i>color-button-panel item</i> =&gt; <i>color</i></a>
+<br><a class=none><tt>(setf (</tt><b>color-button-panel-item-color</b> <i>color-button-panel item</i><tt>)</tt> <i>new-color</i><tt>)</tt></a>
+<blockquote><br>
+
+Gets or sets the color of the button from
+the <a href="#color-button-panel">color button
+panel</a> <code><i>color-button-panel</i></code> that's associated
+with the item <code><i>item</i></code>.  Will return <code>NIL</code>
+or do nothing if no such button can be found.
+
+</blockquote>
+
+<!-- End of entry for COLOR-BUTTON-PANEL-ITEM-COLOR -->
+
+<!-- Entry for COLOR-BUTTON-PANEL-ITEMS -->
+
+<p><br>[Method]<br><a class=none><b>color-button-panel-items</b> <i>color-button-panel</i> =&gt; <i>list-of-items</i></a>
+<blockquote><br>
+
+Returns the list of items associated with the buttons in
+the <a href="#color-button-panel">color button
+panel</a> <code><i>color-button-panel</i></code>.
+
+</blockquote>
+
+<!-- End of entry for COLOR-BUTTON-PANEL-ITEMS -->
+
+<!-- Entry for COLOR-BUTTON-PANEL-TEST-FUNCTION -->
+
+<p><br>[Reader]<br><a class=none name='color-button-panel-test-function'><b>color-button-panel-test-function</b> <i>color-button-panel</i> =&gt; <i>test-function</i></a>
+<blockquote><br>
+
+Returns the test function of the <a href="#color-button-panel">color
+button panel</a> <code><i>color-button-panel</i></code>.
+
+
+</blockquote>
+
+<!-- End of entry for COLOR-BUTTON-PANEL-TEST-FUNCTION -->
+
+<br>&nbsp;<br><h3><a class=none name="flat">Flat buttons</a></h3>
+
+<a href="#flat-button">Flat buttons</a> are kind of a simplified
+variant
+of <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-283.htm">push
+buttons</a>.  They also react to mouse clicks and have associated
+callbacks, but they only have a very simple "flat" visual appearance
+that doesn't change when they're pressed.  Their main advantage is
+that they can be much smaller than push buttons.
+There are also <a href="#flat-button-panel">flat button
+panels</a> which group several flat buttons together.
+<p>
+<p>
+Here's an example:
+<pre>
+<img title="A flat button panel" align=right border=0 vspace=10 hspace=10 width=136 height=90 src="flat-button-panel.png">CL-USER 1 &gt; (capi:contain 
+             (make-instance 'midgets:<a class=noborder href="#flat-button-panel">flat-button-panel</a>
+                            :items (loop for i from 1 to 9 collect i)
+                            :print-function (lambda (item)
+                                              (format nil "~:(~R~)" item))
+                            :button-args '(:foreground :dark-blue :background :yellow)
+                            :layout-class 'capi:grid-layout
+                            :layout-args '(:columns 3 :internal-border 10 :visible-max-width t)
+                            :callback-type :data
+                            :callback (lambda (item)
+                                        (capi:display-message "You selected number ~D." item))))
+#&lt;MIDGETS:FLAT-BUTTON-PANEL  200C2E63&gt;
+</pre>
+
+<!-- Entry for FLAT-BUTTON -->
+
+<p><br>[Standard class]<br><a class=none name='flat-button'><b>flat-button</b></a>
+<blockquote><br>
+
+This class is the user-visible implementation of a single flat
+button.  Technically, it's currently implemented as
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-347.htm">simple
+pinboard layout</a> eventually wrapped around
+an <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-173.htm">item
+pinboard object</a>, but that might change.  You should treat it like
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-342.htm">simple
+pane</a> and only use the documented initargs, readers, and writers.
+<p>
+The initargs for this class
+are <code>:CALLBACK</code>, <code>:CALLBACK-TYPE</code>, <code>:BACKGROUND</code>, <code>:FOREGROUND</code>, <code>:TEXT</code>
+(and the other initargs for an <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-171.ht">item</a>),
+<code>:VISIBLE-BORDER</code>, layout constraints like <code>:VISIBLE-MIN-WIDTH</code>
+as well as the standard initargs
+<code>:HELP-KEY</code>, <code>:NAME</code>, and <code>:PLIST</code>.
+You should refrain from using other initargs
+unless you know exactly what you're doing.
+<p>
+<code><i>callback</i></code>, if not <code>NIL</code>, is a
+function which is called when the button is clicked.
+<code><i>callback-type</i></code> determines how the callback is called and can have values
+as for the class <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-21.htm">CAPI:CALLBACKS</a>.
+<code><i>background</i></code> and <code><i>foreground</i></code> are
+the color of the button and the color of the text on the button
+respectively.  The semantics of the other initargs are as usual in
+CAPI.
+
+
+</blockquote>
+
+<!-- End of entry for FLAT-BUTTON -->
+
+<p><br>[Reader]<br><a class=none name='flat-button-item'><b>flat-button-item</b> <i>flat-button</i> =&gt; <i>item</i></a>
+
+<blockquote><br>Returns the <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-171.ht">item</a> associated with the <a href="#flat-button">flat
+button</a> <code><i>flat-button</i></code>.
+</blockquote>
+
+<p><br>[Accessors]<br><a class=none name='flat-button-callback'><b>flat-button-callback</b> <i>flat-button</i> =&gt; <i>callback</i></a>
+<br><a class=none><tt>(setf (</tt><b>flat-button-callback</b> <i>flat-button</i><tt>)</tt> <i>new-callback</i><tt>)</tt></a>
+<br><a class=none name='flat-button-callback-type'><b>flat-button-callback-type</b> <i>callback-type</i> =&gt; <i>result</i></a>
+<br><a class=none><tt>(setf (</tt><b>flat-button-callback-type</b> <i>flat-button</i><tt>)</tt> <i>new-callback-type</i><tt>)</tt></a>
+
+<blockquote><br> These accessors can be used to get and set the values
+of the corresponding slots of the <a href="#flat-button">flat
+button</a> <code><i>flat-button</i></code>.
+</blockquote>
+
+<!-- Entry for FLAT-BUTTON-PANEL -->
+
+<p><br>[Standard class]<br><a class=none name='flat-button-panel'><b>flat-button-panel</b></a>
+<blockquote><br>
+
+The class which implements flat button panels, a number
+of <a href="#flat-button">flat buttons</a> layed out together with a
+group behaviour.
+<p>
+Technically, this is
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-340.htm">simple
+layout</a>, but you should for all practical purposes just treat it
+like
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-342.htm">simple
+pane</a> and only use the documented initargs, readers, and writers.
+<p>
+The initargs for this class are <code>:ITEMS</code>, <code>:CALLBACK</code>, <code>:CALLBACK-TYPE</code>,
+<code>:PRINT-FUNCTION</code>, <code>:BUTTON-ARGS</code>, <code>:BUTTON-ARGS-FUNCTION</code>, <code>:LAYOUT-CLASS</code>,
+<code>:LAYOUT-ARGS</code>, <code>:TEST-FUNCTION</code>, and <code>:BUTTONS</code>, as well as the standard initargs
+<code>:HELP-KEY</code>, <code>:NAME</code>, and <code>:PLIST</code>.
+<p>
+<code><i>items</i></code> is a list of arbitrary Lisp objects representing the buttons.
+<code><i>print-function</i></code> should be a function of one
+argument which will be called for each item and should return its
+button's text.
+<p>
+<code><i>button-args</i></code> is a property list with additional initargs for the
+buttons that are going to be created.  Or, if you want more
+fine-grained control, you can use <code><i>button-args-function</i></code> to provide
+different initargs per item.
+<p>
+<code><i>help-keys</i></code>, if provided, should be a list of help keys in one-to-one
+correspondence with the list <code><i>items</i></code>.
+<p>
+<code><i>callback</i></code>, if not <code>NIL</code>, is a
+function which is called when one of the buttons is clicked.
+<code><i>callback-type</i></code> determines how the callback is called and can have values
+as for the class <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-21.htm">CAPI:CALLBACKS</a>.
+<p>
+You can also simply provide a list <code><i>buttons</i></code> of flat buttons.  In this
+case, all the initargs mentioned above will be ignored.
+<p>
+<code><i>test-function</i></code> (the default
+is <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_eql.htm"><code>EQL</code></a>)
+is the function used to test two items for equality.
+<p>
+<code><i>layout-class</i></code> and <code><i>layout-args</i></code>
+determine how the button panel will be layed out.  This works like
+with CAPI's
+stock <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-18.htm">button
+panels</a>.
+</blockquote>
+
+<!-- End of entry for FLAT-BUTTON-PANEL -->
+
+<!-- End of entry for FLAT-BUTTON-PANEL -->
+
+<p><br>[Reader]<br><a class=none><b>flat-button-panel-buttons</b> <i>flat-button-panel</i> =&gt; <i>flat-button-list</i></a>
+<blockquote><br> Returns a list of the <a href="#flat-button">flat
+buttons</a> which comprise the <a href="#flat-button-panel">flat
+button panel</a> <code><i>flat-button-panel</i></code>.
+</blockquote>
+
+<!-- Entry for FLAT-BUTTON-PANEL-ITEMS -->
+
+<p><br>[Method]<br><a class=none><b>flat-button-panel-items</b> <i>flat-button-panel</i> =&gt; <i>list-of-items</i></a>
+<blockquote><br>
+
+Returns the list of items associated with the buttons in
+the <a href="#flat-button-panel">flat button
+panel</a> <code><i>flat-button-panel</i></code>.
+
+</blockquote>
+
+<!-- End of entry for FLAT-BUTTON-PANEL-ITEMS -->
+
+<!-- Entry for FLAT-BUTTON-PANEL-TEST-FUNCTION -->
+
+<p><br>[Reader]<br><a class=none name='flat-button-panel-test-function'><b>flat-button-panel-test-function</b> <i>flat-button-panel</i> =&gt; <i>test-function</i></a>
+<blockquote><br>
+
+Returns the test function of the <a href="#flat-button-panel">flat
+button panel</a> <code><i>flat-button-panel</i></code>.
+
+
+</blockquote>
+
+<!-- End of entry for FLAT-BUTTON-PANEL-TEST-FUNCTION -->
+
+<br>&nbsp;<br><h3><a class=none name="time">Time and date widgets and functions</a></h3>
+
+MIDGETS provides functions
+like <a href="#prompt-for-date"><code>PROMPT-FOR-DATE</code></a> that
+you can use to ask users for dates, times, or both.  And it also
+exposes <a href="#date-interface">the</a>
+<a href="#time-interface">interfaces</a> which were defined to implement this functions so that you
+can intergrate them into your own GUI design.
+
+<p><br>[Function]
+<br><a class=none name="prompt-for-date"><b>prompt-for-date</b> <i>message <tt>&amp;key</tt> time day month year callback ok-text cancel-text</i> =&gt; <i>new-time</i></a>
+
+<blockquote><br> Displays a <a href="#date-interface">date
+interface</a> with the title <code><i>message</i></code> prompting the
+user for a date.  The date entered by the user is returned as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal
+time</a> with seconds, minutes, and hours set to zero.  The date
+interface is initialized with the
+values <code><i>day</i></code>, <code><i>month</i></code>, <code><i>year</i></code>,
+or with the universal time <code><i>time</i></code> which takes
+precedence over the other three values.  The default is to use the
+current date.
+<p>
+<code><i>ok-text</i></code> is the text on the button
+which confirms the user input, <code><i>cancel-text</i></code> is the
+text on the button which cancels.  The defaults are <code>"OK"</code> and <code>"Cancel"</code>. If the users presses the cancel
+button, the function
+returns <code>NIL</code>.
+<p>
+If <code><i>callback</i></code> is not <code>NIL</code> (which is the
+default), it is supposed to be a function of one argument (the date
+interface) which is called whenever the user changes the date.  Note
+that the callback might be called more than once for each change or
+even if nothing hasn't changed.
+</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="prompt-for-time"><b>prompt-for-time</b> <i>message <tt>&amp;key</tt> time second minute hour callback ok-text cancel-text</i> =&gt; <i>new-time</i></a>
+
+<blockquote><br> Displays a <a href="#time-interface">time
+interface</a> with the title <code><i>message</i></code> prompting the
+user for a time.  The time entered by the user is returned as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal
+time</a> with day, month, and year set to 1900-01-01.  The time
+interface is initialized with the
+values <code><i>second</i></code>, <code><i>minute</i></code>, <code><i>hour</i></code>,
+or with the universal time <code><i>time</i></code> which takes
+precedence over the other three values.  The default is to use the
+current time.
+<p>
+<code><i>ok-text</i></code> is the text on the button
+which confirms the user input, <code><i>cancel-text</i></code> is the
+text on the button which cancels.  The defaults are <code>"OK"</code> and <code>"Cancel"</code>.  If the users presses the cancel
+button, the function returns <code>NIL</code>.
+<p>
+If <code><i>callback</i></code> is
+not <code>NIL</code> (which is the default), it is supposed to be a function of one argument
+(the time interface) which is called whenever the user changes the
+date.  Note
+that the callback might be called more than once for each change or
+even if nothing hasn't changed.
+</blockquote>
+
+<p><br>[Function]
+<br><a class=none name="prompt-for-date-and-time"><b>prompt-for-date-and-time</b> <i>message <tt>&amp;key</tt> time second minute hour day month year callback date-text time-text ok-text cancel-text</i> =&gt; <i>new-time</i></a>
+
+<blockquote><br> Displays a <a href="#date-interface">date
+interface</a> and a <a href="#time-interface">time interface</a> with
+the title <code><i>message</i></code> prompting the user for date and time.  The date and
+time entered by the user are returned as a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal
+time</a>.  The
+interfaces are initialized with the values <code><i>second</i></code>, <code><i>minute</i></code>, <code><i>hour</i></code>, <code><i>day</i></code>,
+<code><i>month</i></code>, and <code><i>year</i></code>, or with the universal time <code><i>time</i></code> which takes
+precedence over the other six values.  The default is to use the current date and time.
+<p>
+<code><i>date-title</i></code> is the title for the
+date interface, <code><i>time-title</i></code> is the title for the time interface.
+The defaults are <code>"Date"</code> and <code>"Time"</code>.
+<code><i>ok-text</i></code> is the text on the button which confirms the user input,
+<code><i>cancel-text</i></code> is the text on the button which cancels.  The defaults are <code>"OK"</code> and <code>"Cancel"</code>.  If the users
+presses the cancel button, the function returns <code>NIL</code>.
+<p>
+If <code><i>callback</i></code> is
+not <code>NIL</code> (which is the default), it is supposed to be a function of one argument (the date
+interface or the time interface) which is called whenever the user
+changes the date or the time.  The callback must be able to
+distinguish between the date interface and the time interface.  Note
+that the callback might be called more than once for each change or
+even if nothing hasn't changed.
+</blockquote>
+
+<p><br>[Standard class]
+<br><a class=none name="date-interface"><b>date-interface</b></a>
+
+<blockquote><br> This is a direct subclass
+of <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-157.htm"><code>CAPI:INTERFACE</code></a>.  Instances of this class are used for
+the <a href="#prompt-for-date"><code>PROMPT-FOR-DATE</code></a>
+function, but you can also use them independently.  The relevant initargs are <code>:DAY</code>, <code>:MONTH</code>, <code>:YEAR</code>, and <code>:CALLBACK</code>, and they are used as in <a href="#prompt-for-date"><code>PROMPT-FOR-DATE</code></a>.
+</blockquote>
+
+<p><br>[Accessors]
+<br><a class=none name="date-interface-callback"><b>date-interface-callback</b> <i>date-interface</i> =&gt; <i>callback</i></a>
+<br><tt>(setf (</tt><b>date-interface-callback</b> <i>date-interface</i>) <i>callback</i><tt>)</tt>
+<br><a class=none name="date-interface-day"><b>date-interface-day</b> <i>date-interface</i> =&gt; <i>day</i></a>
+<br><tt>(setf (</tt><b>date-interface-day</b> <i>date-interface</i>) <i>day</i><tt>)</tt>
+<br><a class=none name="date-interface-month"><b>date-interface-month</b> <i>date-interface</i> =&gt; <i>month</i></a>
+<br><tt>(setf (</tt><b>date-interface-month</b> <i>date-interface</i>) <i>month</i><tt>)</tt>
+<br><a class=none name="date-interface-year"><b>date-interface-year</b> <i>date-interface</i> =&gt; <i>year</i></a>
+<br><tt>(setf (</tt><b>date-interface-year</b> <i>date-interface</i>) <i>year</i><tt>)</tt>
+
+<blockquote><br> These accessors can be used to get and set the values
+of the corresponding slots of the <a href="#date-interface">date
+interface</a> <code><i>date-interface</i></code>.  Note that changing
+the day, month, or year will result in the graphical representation
+being updated and the callback being called (if there is one).
+</blockquote>
+
+<p><br>[Accessor]
+<br><a class=none name="date-interface-time"><b>date-interface-time</b> <i>date-interface</i> =&gt; <i>time</i></a>
+<br><tt>(setf (</tt><b>date-interface-time</b> <i>date-interface</i>) <i>time</i><tt>)</tt>
+
+<blockquote><br> This accessor can be used to get and set the date
+represented by the <a href="#date-interface">date
+interface</a> <code><i>date-interface</i></code> as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal
+time</a>.  This is in a way equivalent to
+using <a
+href="#date-interface-day"><code>DATE-INTERFACE-DAY</code></a>, <a
+href="#date-interface-month"><code>DATE-INTERFACE-MONTH</code></a>,
+and <a
+href="#date-interface-year"><code>DATE-INTERFACE-YEAR</code></a> all
+at once.  If used as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_r.htm#reader">reader</a>,
+the hours, minutes, and seconds of <code><i>time</i></code> are
+ignored.  If used as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_w.htm#writer">writer</a>,
+the hours, minutes, and seconds returned are set to zero.
+</blockquote>
+
+<p><br>[Standard class]
+<br><a class=none name="time-interface"><b>time-interface</b></a>
+
+<blockquote><br> This is a direct subclass
+of <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-157.htm"><code>CAPI:INTERFACE</code></a>.  Instances of this class are used for
+the <a href="#prompt-for-time"><code>PROMPT-FOR-TIME</code></a>
+function, but you can also use them independently.  The relevant initargs are <code>:SECOND</code>, <code>:MINUTE</code>, <code>:HOUR</code>, and <code>:CALLBACK</code>, and they are used as in <a href="#prompt-for-time"><code>PROMPT-FOR-TIME</code></a>.
+</blockquote>
+
+<p><br>[Accessors]
+<br><a class=none name="time-interface-callback"><b>time-interface-callback</b> <i>time-interface</i> =&gt; <i>callback</i></a>
+<br><tt>(setf (</tt><b>time-interface-callback</b> <i>time-interface</i>) <i>callback</i><tt>)</tt>
+<br><a class=none name="time-interface-second"><b>time-interface-second</b> <i>time-interface</i> =&gt; <i>second</i></a>
+<br><tt>(setf (</tt><b>time-interface-second</b> <i>time-interface</i>) <i>second</i><tt>)</tt>
+<br><a class=none name="time-interface-minute"><b>time-interface-minute</b> <i>time-interface</i> =&gt; <i>minute</i></a>
+<br><tt>(setf (</tt><b>time-interface-minute</b> <i>time-interface</i>) <i>minute</i><tt>)</tt>
+<br><a class=none name="time-interface-hour"><b>time-interface-hour</b> <i>time-interface</i> =&gt; <i>hour</i></a>
+<br><tt>(setf (</tt><b>time-interface-hour</b> <i>time-interface</i>) <i>hour</i><tt>)</tt>
+
+<blockquote><br> These accessors can be used to get and set the values
+of the corresponding slots of the <a href="#time-interface">time
+interface</a> <code><i>time-interface</i></code>.  Note that changing
+the second, minute, or hour will result in the graphical representation
+being updated and the callback being called (if there is one).
+</blockquote>
+
+<p><br>[Accessor]
+<br><a class=none name="time-interface-time"><b>time-interface-time</b> <i>time-interface</i> =&gt; <i>time</i></a>
+<br><tt>(setf (</tt><b>time-interface-time</b> <i>time-interface</i>) <i>time</i><tt>)</tt>
+
+<blockquote><br> This accessor can be used to get and set the time
+represented by the <a href="#time-interface">time
+interface</a> <code><i>time-interface</i></code> as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/25_adb.htm">universal
+time</a>.  This is in a way equivalent to
+using <a
+href="#time-interface-second"><code>TIME-INTERFACE-SECOND</code></a>, <a
+href="#time-interface-minute"><code>TIME-INTERFACE-MINUTE</code></a>,
+and <a
+href="#time-interface-hour"><code>TIME-INTERFACE-HOUR</code></a> all
+at once.  If used as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_r.htm#reader">reader</a>,
+the day, month, and year of <code><i>time</i></code> are
+ignored.  If used as
+a <a
+href="http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_w.htm#writer">writer</a>,
+the day, month, and year returned are 1900-01-01.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*use-win32-locale-info*"><b>*use-win32-locale-info*</b></a>
+
+<blockquote><br> This variable (which is only available on Windows)
+controls
+whether <a
+href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/intl/nls_34rz.asp">locale
+info provided by Windows</a> should be used for weekday names, month
+names, and the beginning of the week.  (See below.)
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*default-first-day-of-week*"><b>*default-first-day-of-week*</b></a>
+
+<blockquote><br>
+Default value for the day the week starts with.  0 is Monday, 1 is
+Tuesday, and so on.  The initial value is 6 (for Sunday). On Windows, locale-specific values will be used
+instead if <a href="#*use-win32-locale-info*"><code>*USE-WIN32-LOCALE-INFO*</code></a> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*default-month-names*"><b>*default-month-names*</b></a>
+
+<blockquote><br> Default values for the month names - a list of
+strings.  The initial value is a list of the English month names.  On
+Windows, locale-specific values will be used instead
+if <a
+href="#*use-win32-locale-info*"><code>*USE-WIN32-LOCALE-INFO*</code></a>
+is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*default-weekday-names*"><b>*default-weekday-names*</b></a>
+
+<blockquote><br> Default values for the names of the weekdays - a list
+of strings starting with the name for Monday.  The initial value is a
+list of the English weekday names.  On Windows, locale-specific values
+will be used instead
+if <a
+href="#*use-win32-locale-info*"><code>*USE-WIN32-LOCALE-INFO*</code></a>
+is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*use-win32-color-info*"><b>*use-win32-color-info*</b></a>
+
+<blockquote><br> This variable (which is only available on Windows)
+controls
+whether <a
+href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/sysinfo/base/getsyscolor.asp">theme-specific
+info provided by Windows</a> should be used for text and background
+colors.  (See below.)
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*inactive-caption-color*"><b>*inactive-caption-color*</b></a>
+
+<blockquote><br>
+Default value for the background color of inactive caption text.  The initial value is <code>:GREY40</code>. On
+Windows, the theme-specific value will be used instead if
+<a href="#*use-win32-color-info*"><code>*USE-WIN32-COLOR-INFO*</code></a> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*inactive-caption-text-color*"><b>*inactive-caption-text-color*</b></a>
+
+<blockquote><br>
+Default value for the color of inactive caption text.  The initial value is <code>:GREY70</code>. On
+Windows, the theme-specific value will be used instead if
+<a href="#*use-win32-color-info*"><code>*USE-WIN32-COLOR-INFO*</code></a> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*highlight-color*"><b>*highlight-color*</b></a>
+
+<blockquote><br>
+Default value for the background color of highlighted text.  The initial value is <code>:MIDNIGHTBLUE</code>. On
+Windows, the theme-specific value will be used instead if
+<a href="#*use-win32-color-info*"><code>*USE-WIN32-COLOR-INFO*</code></a> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*highlight-text-color*"><b>*highlight-text-color*</b></a>
+
+<blockquote><br>
+Default value for the color of highlighted text.  The initial value is <code>:WHITE</code>. On
+Windows, the theme-specific value will be used instead if
+<a href="#*use-win32-color-info*"><code>*USE-WIN32-COLOR-INFO*</code></a> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*window-color*"><b>*window-color*</b></a>
+
+<blockquote><br>
+Default value for the background color of standard windows.  The initial value is <code>:WHITE</code>. On
+Windows, the theme-specific value will be used instead if
+<a href="#*use-win32-color-info*"><code>*USE-WIN32-COLOR-INFO*</code></a> is true.
+</blockquote>
+
+<p><br>[Special variable]
+<br><a class=none name="*window-text-color*"><b>*window-text-color*</b></a>
+
+<blockquote><br>
+Default value for the standard color of text.  The initial value is <code>:BLACK</code>. On
+Windows, the theme-specific value will be used instead if
+<a href="#*use-win32-color-info*"><code>*USE-WIN32-COLOR-INFO*</code></a> is true.
+</blockquote>
+
+
+<br>&nbsp;<br><h3><a class=none name="collecting">Collecting display panes</a></h3>
+
+If you want to redirect all characters sent to a stream to a CAPI
+pane, the CAPI already
+provides <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-44.htm">collector
+panes</a> which are quite handy.  However, as they're based
+on <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-94.htm">editor
+panes</a>, there are a couple of
+limitations.  <a href="#collecting-display-pane">Collecting display
+panes</a> (based
+on <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-71.htm">display
+panes</a>) are a non-interactive alternative to collector panes which
+work quite similar but have a few important differences:
+<ul>
+  <li>There's no way for the user to interactively modify their
+  contents.  If that's <em>not</em> what you want, you're out of luck.
+  If it is what you want, though, you don't have to jump through hoops
+  to make editor panes non-interactive.  (Nevertheless, with
+  collecting display panes you can still select and copy text as with
+  every CAPI display pane.)
+  <li>Text that extends beyond the right edge of the pane
+  is <em>not</em> wrapped.
+  <li>There's no blinking cursor anywhere in the pane.
+  <li>Their scrolling behaviour can be controlled by the
+  normal <a href="http://www.lispworks.com/documentation/lw50/CAPUG-W/html/capiuser-w-76.htm">CAPI
+  scrolling operations</a>.  Specifically, they have
+  an <a href="#collecting-display-pane-auto-scroll-p"><em>auto-scroll</em></a> mode which makes sure the latest output can
+  always be seen after an output operation.
+</ul>
+<p>
+Here's an example:
+<pre>
+<img title="A collecting display pane" align=right border=0 vspace=10 hspace=10 width=408 height=327 src="trace.png">CL-USER 1 &gt; (defun fac (n)
+              (if (zerop n) 1 (* n (fac (1- n))))) 
+FAC
+
+CL-USER 2 &gt; (compile *)
+FAC
+NIL
+NIL
+
+CL-USER 3 &gt; (capi:define-interface trace-interface ()
+              ()
+              (:panes
+               (trace-pane
+                midgets:<a class=noborder href="#collecting-display-pane">collecting-display-pane</a>
+                :accessor trace-pane
+                :font (gp:make-font-description :family "Lucida Console" :size 9)
+                <a class=noborder href="#display-pane-stream-force-output-p">:force-output-p</a> :newline
+                <a class=noborder href="#collecting-display-pane-auto-scroll-p">:auto-scroll-p</a> t)
+               (clear-button
+                capi:push-button
+                :text "Clear pane"
+                :callback-type :none
+                :selection-callback (lambda ()
+                                      (setf (capi:display-pane-text trace-pane) ""))))
+              (:default-initargs
+               :title "Trace Pane"
+               :best-width 400
+               :best-height 300))
+TRACE-INTERFACE
+
+CL-USER 4 &gt; (defparameter *trace-interface* (capi:display (make-instance 'trace-interface)))
+*TRACE-INTERFACE*
+
+CL-USER 5 &gt; (trace fac)
+(FAC)
+
+CL-USER 6 &gt; (let ((*trace-output* (midgets:<a href="#collecting-display-pane-stream">collecting-display-pane-stream</a> (trace-pane *trace-interface*))))
+              (fac 5))
+120
+</pre>
+
+<!-- Entry for collecting-display-pane -->
+
+<p><br>[Standard class]<br><a class=none name='collecting-display-pane'><b>collecting-display-pane</b></a>
+<blockquote><br>
+
+A <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-71.htm">display pane</a> which has a stream associated with it that writes to the pane,
+i.e. whenever you send output to the stream it ends up in the display
+pane.  Collecting display panes
+inherit from <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-71.htm"><code>CAPI:DISPLAY-PANE</code></a>
+and are thus used like those and accept the same initargs although
+some defaults are different.  (Use the <a href="http://www.lispworks.com/documentation/lw50/CLWUG-W/html/clwuser-w-87.htm">Class Browser</a> for details.)  The only additional initargs they accept
+are <a href="#display-pane-stream-force-output-p"><code>:FORCE-OUTPUT-P</code></a>
+and <a href="#collecting-display-pane-auto-scroll-p"><code>:AUTO-SCROLL-P</code></a>.
+Follow the links for more information about these two.
+
+</blockquote>
+
+<!-- End of entry for collecting-display-pane -->
+
+<!-- Entry for collecting-display-pane-auto-scroll-p -->
+
+<p><br>[Accessor]<br><a class=none name='collecting-display-pane-auto-scroll-p'><b>collecting-display-pane-auto-scroll-p</b> <i>collecting-display-pane</i> =&gt; <i>auto-scroll-p</i></a>
+<br><a class=none><tt>(setf (</tt><b>collecting-display-pane-auto-scroll-p</b> <i>collecting-display-pane</i><tt>)</tt> <i>new-auto-scroll-p</i><tt>)</tt></a>
+<blockquote><br>
+
+With this accessor (or the <code>:AUTO-SCROLL-P</code> initarg
+to <a href="#collecting-display-pane"><code>COLLECTING-DISPLAY-PANE</code></a>)
+you can ask the pane's stream to automatically scroll down to the end
+of the pane whenever its buffer was
+<a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-588.htm#59474">flushed</a>.
+Of course, this makes only sense
+if <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-342.htm#marker-1628969">vertical
+scrolling is enabled</a> for the pane (which is the default).
+
+</blockquote>
+
+<!-- End of entry for collecting-display-pane-auto-scroll-p -->
+
+
+<p><br>[Reader]<br><a class=none name='collecting-display-pane-lock'><b>collecting-display-pane-lock</b> <i>collecting-display-pane</i> =&gt; <i>lock</i></a>
+<blockquote><br>
+
+Returns
+the <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-386.htm">lock</a>
+which is internally used to synchronize <a href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser-322.htm">primitive stream operations</a>.
+You can use it yourself to wrap it around higher-order output
+functions like <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_format.htm"><code>FORMAT</code></a>.
+
+</blockquote>
+
+<!-- Entry for collecting-display-pane-stream -->
+
+<p><br>[Reader]<br><a class=none name='collecting-display-pane-stream'><b>collecting-display-pane-stream</b> <i>collecting-display-pane</i> =&gt; <i>stream</i></a>
+<blockquote><br>
+
+The stream (of
+type <a href="#display-pane-stream"><code>DISPLAY-PANE-STREAM</code></a>)
+that's associated with <code><i>collecting-display-pane</i></code>,
+i.e. the stream the sink of which is the display pane.  Note that you
+can write to this stream from any thread.  The underlying
+implementation will make sure
+that <a href="http://www.lispworks.com/documentation/lw50/CAPUG-W/html/capiuser-w-14.htm">the
+correct thread</a> is used.
+
+</blockquote>
+
+<!-- End of entry for collecting-display-pane-stream -->
+
+
+<!-- Entry for display-pane-stream -->
+
+<p><br>[Standard class]<br><a class=none name='display-pane-stream'><b>display-pane-stream</b></a>
+<blockquote><br>
+
+The stream class used by <a href="#collecting-display-pane">collecting
+display panes</a>, i.e. streams of this class
+are <a href="http://www.lispworks.com/documentation/HyperSpec/Body/21_aaaa.htm">character
+output streams</a> which write their output to a CAPI display pane.
+The streams are implemented on top
+of <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-572.htm"><code>STREAM:BUFFERED-STREAM</code></a>
+and hold a reference to the pane they write to.  You
+should <em>not</em> instantiate objects of this class yourself unless
+you know what you're doing.
+
+</blockquote>
+
+<!-- End of entry for display-pane-stream -->
+
+<!-- Entry for display-pane-stream-force-output-p -->
+
+<p><br>[Accessor]<br><a class=none name='display-pane-stream-force-output-p'><b>display-pane-stream-force-output-p</b> <i>display-pane-stream</i> =&gt; <i>force-output-p</i></a>
+<br><a class=none><tt>(setf (</tt><b>display-pane-stream-force-output-p</b> <i>display-pane-stream</i><tt>)</tt> <i>new-force-output-p</i><tt>)</tt></a>
+<blockquote><br>
+
+As <a href="#display-pane-stream">display pane streams</a>
+are <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-572.htm">buffered
+streams</a>, their output will usually not be immediately shown but
+only after you've called <a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_finish.htm">FORCE-OUPUT</a> or
+<a href="http://www.lispworks.com/documentation/HyperSpec/Body/f_finish.htm">FINISH-OUPUT</a>
+to <a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-588.htm#59474">flush
+the buffer</a>.
+<p>
+With this accessor (or the <code>:FORCE-OUTPUT-P</code> initarg
+to <a href="#collecting-display-pane"><code>COLLECTING-DISPLAY-PANE</code></a>)
+you can ask the stream to automatically call <code>FORCE-OUTPUT</code>
+for you in certain situations - either after each character if the
+value is <code>T</code> or after each <code>#\Newline</code> if the
+value is <code>:NEWLINE</code>.  If the value is <code>NIL</code>
+(which is the default) or any other value, <code>FORCE-OUTPUT</code>
+will not be called automatically.
+
+</blockquote>
+
+<!-- End of entry for display-pane-stream-force-output-p -->
+
+<!-- Entry for display-pane-stream-lock -->
+
+<p><br>[Reader]<br><a class=none name='display-pane-stream-lock'><b>display-pane-stream-lock</b> <i>display-pane-stream</i> =&gt; <i>lock</i></a>
+<blockquote><br>
+
+This is just a "trampoline" accessor from the stream to its associated pane to access
+at the <a href="#collecting-display-pane-lock">lock</a> they share.
+
+</blockquote>
+
+<!-- End of entry for display-pane-stream-lock -->
+
+<!-- Entry for display-pane-stream-pane -->
+
+<p><br>[Reader]<br><a class=none name='display-pane-stream-pane'><b>display-pane-stream-pane</b> <i>display-pane-stream</i> =&gt; <i>collecting-display-pane</i></a>
+<blockquote><br>
+
+A reader to access the <a href="#collecting-display-pane">collecting display pane</a> the stream writes to.
+
+</blockquote>
+
+<!-- End of entry for display-pane-stream-pane -->
+
+
+<br>&nbsp;<br><h3><a class=none name="geometry">Saving dialog geometry</a></h3>
+
+The CAPI offers
+a <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-384.htm">facility</a>
+to store the geometry of an interface for future use - in the same
+application or even in another instance of the application after it
+has been shut down.  Unfortunately, this isn't implemented for
+dialogs.  The utility functions in this section can help to achieve
+similar effects for dialogs, though.  For that, the MIDGETS library
+maintains an internal geometry cache which kind of "cooperates" with
+the external geometry storage of the CAPI.
+<p>
+However, you still have to do some of the work yourself.  Something
+like the following:
+<ol>
+  <li>Define methods for <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-384.htm"><code>CAPI:TOP-LEVEL-INTERFACE-SAVE-GEOMETRY-P</code></a> and
+<a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-382.htm"><code>CAPI:TOP-LEVEL-INTERFACE-GEOMETRY-KEY</code></a>
+as you would do for a non-dialog interface.
+  <li>Make sure that <a href="#cache-interface-geometry"><code>CACHE-INTERFACE-GEOMETRY</code></a> is called whenever your
+  dialog is destroyed.  The easiest way is to make this function
+  the <a href="http://www.lispworks.com/documentation/lw50/CAPRM/html/capiref-157.htm#marker-3800998">destroy
+  callback</a> of your interface.
+  <li><a href="#get-interface-geometry">Get the cached interface
+  geometry</a> and use it when you want to display your dialog.  You
+  could for example automate this with something like the
+  following <a href="http://www.lispworks.com/documentation/lw50/LWUG/html/lwuser-48.htm">advice</a>:
+<pre>
+(lw:defadvice (capi:display-dialog use-geometry-cache :around)
+    (interface &amp;rest args)
+  (apply #'lw:call-next-advice interface
+         <font color=orange>;; use the X and Y position from the last time the dialog was shown</font>
+         (append (lw:when-let (geometry (midgets:<a href="#get-interface-geometry">get-interface-geometry</a> interface (getf args :screen)))
+                   `(:position-relative-to nil :x ,(first geometry) :y ,(second geometry)))
+                 args)))
+</pre>
+  <li>Optionally call <a href="#clear-interface-geometry-cache"><code>CLEAR-INTERFACE-GEOMETRY-CACHE</code></a> before
+  you <a href="http://www.lispworks.com/documentation/lw50/DV/html/deluser.htm">deliver</a>
+  an application or on application startup.
+</ol>
+
+<p><br>[Function]
+<br><a class=none name="clear-interface-geometry-cache"><b>clear-interface-geometry-cache</b> =&gt; <i>|</i></a>
+<blockquote><br> Clears the internal geometry cache.  This function
+should for example be called before an image is delivered.
+</blockquote>
+
+<p><br>[Generic function]
+<br><a class=none name="get-interface-geometry"><b>get-interface-geometry</b> <i>interface <tt>&amp;optional</tt> screen</i> =&gt; <i>geometry</i></a>
+<blockquote><br>
+Returns the cached or saved geometry for the CAPI interface <code><i>interface</i></code> and the
+screen <code><i>screen</i></code>.  It first tries to find it in the internal cache of the
+MIDGETS library and, failing that, tries to look it up using
+<a href="http://www.lispworks.com/documentation/lw50/LWRM/html/lwref-358.htm"><code>LW:USER-PREFERENCE</code></a>.
+The returned geometry is a list of four elements - the
+absolute <em>x</em> and <em>y</em> coordinates of the interface and
+its width and height.
+<p>
+This will only work for interfaces which are declared as interfaces
+that should be saved <a href="#geometry">in the usual way</a>.
+</blockquote>
+
+<p><br>[Generic function]
+<br><a class=none name="cache-interface-geometry"><b>cache-interface-geometry</b> <i>interface</i> =&gt; <i>geometry</i></a>
+<blockquote><br> Saves the geometry for the CAPI
+interface <code><i>interface</i></code> in the internal cache of the
+MIDGETS library.
+<p>
+This will only work for interfaces which are declared as interfaces
+that should be saved <a href="#geometry">in the usual way</a>.
+<p>
+Note that only one geometry per interface is currently cached.
+There's no support for different screens or resolutions.
+</blockquote>
+
+
+
+
+<br>&nbsp;<br><h3><a class=none name="index">Symbol index</a></h3>
+
+Here are all exported symbols of MIDGETS in alphabetical order linked to their corresponding entries:
+
+    <ol>
+      <li><a href="#*default-first-day-of-week*"><code>*default-first-day-of-week*</code></a>
+      <li><a href="#*default-month-names*"><code>*default-month-names*</code></a>
+      <li><a href="#*default-weekday-names*"><code>*default-weekday-names*</code></a>
+      <li><a href="#*highlight-color*"><code>*highlight-color*</code></a>
+      <li><a href="#*highlight-text-color*"><code>*highlight-text-color*</code></a>
+      <li><a href="#*inactive-caption-color*"><code>*inactive-caption-color*</code></a>
+      <li><a href="#*inactive-caption-text-color*"><code>*inactive-caption-text-color*</code></a>
+      <li><a href="#*use-win32-color-info*"><code>*use-win32-color-info*</code></a>
+      <li><a href="#*use-win32-locale-info*"><code>*use-win32-locale-info*</code></a>
+      <li><a href="#*window-color*"><code>*window-color*</code></a>
+      <li><a href="#*window-text-color*"><code>*window-text-color*</code></a>
+      <li><a href="#cache-interface-geometry"><code>cache-interface-geometry</code></a>
+      <li><a href="#clear-interface-geometry"><code>clear-interface-geometry</code></a>
+      <li><a href="#collecting-display-pane"><code>collecting-display-pane</code></a>
+      <li><a href="#collecting-display-pane-auto-scroll-p"><code>collecting-display-pane-auto-scroll-p</code></a>
+      <li><a href="#collecting-display-pane-lock"><code>collecting-display-pane-lock</code></a>
+      <li><a href="#collecting-display-pane-stream"><code>collecting-display-pane-stream</code></a>
+      <li><a href="#color-button"><code>color-button</code></a>
+      <li><a href="#color-button-callback"><code>color-button-callback</code></a>
+      <li><a href="#color-button-color"><code>color-button-color</code></a>
+      <li><a href="#color-button-panel"><code>color-button-panel</code></a>
+      <li><a href="#color-button-panel-buttons"><code>color-button-panel-buttons</code></a>
+      <li><a href="#color-button-panel-item-color"><code>color-button-panel-item-color</code></a>
+      <li><a href="#color-button-panel-items"><code>color-button-panel-items</code></a>
+      <li><a href="#color-button-panel-test-function"><code>color-button-panel-test-function</code></a>
+      <li><a href="#color-button-prompt-args"><code>color-button-prompt-args</code></a>
+      <li><a href="#color-button-prompt-text"><code>color-button-prompt-text</code></a>
+      <li><a href="#date-interface"><code>date-interface</code></a>
+      <li><a href="#date-interface-callback"><code>date-interface-callback</code></a>
+      <li><a href="#date-interface-day"><code>date-interface-day</code></a>
+      <li><a href="#date-interface-month"><code>date-interface-month</code></a>
+      <li><a href="#date-interface-time"><code>date-interface-time</code></a>
+      <li><a href="#date-interface-year"><code>date-interface-year</code></a>
+      <li><a href="#display-pane-stream"><code>display-pane-stream</code></a>
+      <li><a href="#display-pane-stream-force-output-p"><code>display-pane-stream-force-output-p</code></a>
+      <li><a href="#display-pane-stream-lock"><code>display-pane-stream-lock</code></a>
+      <li><a href="#display-pane-stream-pane"><code>display-pane-stream-pane</code></a>
+      <li><a href="#flat-button"><code>flat-button</code></a>
+      <li><a href="#flat-button-callback"><code>flat-button-callback</code></a>
+      <li><a href="#flat-button-callback-type"><code>flat-button-callback-type</code></a>
+      <li><a href="#flat-button-item"><code>flat-button-item</code></a>
+      <li><a href="#flat-button-panel"><code>flat-button-panel</code></a>
+      <li><a href="#flat-button-panel-buttons"><code>flat-button-panel-buttons</code></a>
+      <li><a href="#flat-button-panel-items"><code>flat-button-panel-items</code></a>
+      <li><a href="#flat-button-panel-test-function"><code>flat-button-panel-test-function</code></a>
+      <li><a href="#get-interface-geometry"><code>get-interface-geometry</code></a>
+      <li><a href="#prompt-for-date"><code>prompt-for-date</code></a>
+      <li><a href="#prompt-for-date-and-time"><code>prompt-for-date-and-time</code></a>
+      <li><a href="#prompt-for-time"><code>prompt-for-time</code></a>
+      <li><a href="#time-interface"><code>time-interface</code></a>
+      <li><a href="#time-interface-callback"><code>time-interface-callback</code></a>
+      <li><a href="#time-interface-hour"><code>time-interface-hour</code></a>
+      <li><a href="#time-interface-minute"><code>time-interface-minute</code></a>
+      <li><a href="#time-interface-second"><code>time-interface-second</code></a>
+      <li><a href="#time-interface-time"><code>time-interface-time</code></a>
+    </ol>
+
+<br>&nbsp;<br><h3><a class=none name="ack">Acknowledgements</a></h3>
+
+<p>
+This documentation was prepared with <a href="http://weitz.de/documentation-template/">DOCUMENTATION-TEMPLATE</a>.
+</p>
+<p>
+$Header: /usr/local/cvsrep/midgets/doc/index.html,v 1.29 2015/08/23 14:48:44 edi Exp $
+<p><a href="http://weitz.de/index.html">BACK TO MY HOMEPAGE</a>
+
+</body>
+</html>
+

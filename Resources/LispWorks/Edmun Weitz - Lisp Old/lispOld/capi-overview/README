@@ -1,0 +1,31 @@
+This is a quick hack to create a graphical overview (kind of) for the
+CLOS classes that are named by external symbols from the CAPI and GP
+packages.
+
+The application was developed and tested using LispWorks 4.4.5 and
+5.0.0 pro on Windows.  No attempt has been made to ensure that it
+works with other versions of LispWorks.
+
+Requirements: ASDF, LW-DOC.  (Google if you don't know them.)
+
+Usage: (asdf:oos 'asdf:load-op :capi-overview)
+       (capi-overview:create-capi-overview)
+
+       See the documentation string of this function for more options.
+
+       You can also use the special variables
+
+         capi-overview:*font-size*
+         capi-overview:*cellspacing*
+         capi-overview:*cellpadding*
+
+       to customize the output a bit.
+
+In the generated HTML, if you move your mouse over one class then all
+of its superclasses (if their names are external symbols of the CAPI
+or the GP package) are highlighted in red and all of its subclasses
+are highlighted in green.  Direct sub- and superclasses have a colored
+background, others only have a colored border.  ("Direct" in this case
+means that if there are intermediate classes their names aren't
+exported.)  Subclasses are always located to the right of a class,
+superclasses are always on the left.
