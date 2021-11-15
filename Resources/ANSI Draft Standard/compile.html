@@ -1,0 +1,152 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/compile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:01 GMT -->
+<head>
+<title>compile - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="lambda-_0028Macro_0029.html#lambda-_0028Macro_0029" title="lambda (Macro)">
+<link rel="next" href="eval.html#eval" title="eval">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="compile"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="eval.html#eval">eval</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="lambda-_0028Macro_0029.html#lambda-_0028Macro_0029">lambda (Macro)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">compile (Function)</h3>
+
+<p><a name="index-compile-238"></a><a name="index-compile-239"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>compile</b><var> name </var><tt>&amp;optional</tt><var> definition </var><span class="roman">→</span><var> function, warnings-p, failure-p<a name="index-compile-240"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>function name</i>, or <code>nil</code>.
+
+<p><var>definition</var>&mdash;a <i>lambda expression</i> or a <i>function</i>. 
+The default is the function definition of <var>name</var> if it names a <i>function</i>,
+or the <i>macro function</i> of <var>name</var> if it names a <i>macro</i>. 
+The consequences are undefined if no <var>definition</var> is supplied
+when the <var>name</var> is <code>nil</code>.
+
+<p><var>function</var>&mdash;the <var>function-name</var>,
+or a <i>compiled function</i>.
+
+<p><var>warnings-p</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>failure-p</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Compiles an <i>interpreted function</i>.
+
+<p><code>compile</code> produces a <i>compiled function</i> from <var>definition</var>. 
+If the <var>definition</var> is a <i>lambda expression</i>,
+it is coerced to a <i>function</i>. 
+If the <var>definition</var> is already a <i>compiled function</i>,
+<code>compile</code> either produces that function itself (<i>i.e.</i>, is an identity operation)
+or an equivalent function.
+
+<p>If the <var>name</var> is <code>nil</code>,
+the resulting <i>compiled function</i> is returned directly as the <i>primary value</i>. 
+If a <i>non-nil</i> <var>name</var> is given,
+then the resulting <i>compiled function</i> replaces
+the existing <i>function</i> definition of <var>name</var>
+and the <var>name</var> is returned as the <i>primary value</i>;
+if <var>name</var> is a <i>symbol</i> that names a <i>macro</i>,
+its <i>macro function</i> is updated
+and the <var>name</var> is returned as the <i>primary value</i>.
+
+<p><i>Literal objects</i> appearing in code processed by
+the <code>compile</code> function are neither copied nor <i>coalesced</i>. 
+The code resulting from the execution of <code>compile</code>
+references <i>objects</i> that are <code>eql</code> to the corresponding
+<i>objects</i> in the source code.
+
+<p><code>compile</code> is permitted, but not required, to <i>establish</i>
+a <i>handler</i> for <i>conditions</i> of <i>type</i> <code>error</code>. 
+For example, the <i>handler</i> might issue a warning and
+restart compilation from some <i>implementation-dependent</i> point
+in order to let the compilation proceed without manual intervention.
+
+<p>The <i>secondary value</i>, <var>warnings-p</var>, is <i>false</i>
+if no <i>conditions</i> of <i>type</i> <code>error</code> or <code>warning</code>
+were detected by the compiler, and <i>true</i> otherwise.
+
+<p>The <i>tertiary value</i>, <var>failure-p</var>, is <i>false</i>
+if no <i>conditions</i> of <i>type</i> <code>error</code> or <code>warning</code>
+(other than <code>style-warning</code>)
+were detected by the compiler, and <i>true</i> otherwise.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun foo () "bar") <span class="roman">→</span> FOO
+ (compiled-function-p #'foo) <span class="roman">→</span> <i>implementation-dependent</i>
+ (compile 'foo) <span class="roman">→</span> FOO
+ (compiled-function-p #'foo) <span class="roman">→</span> <i>true</i>
+ (setf (symbol-function 'foo)
+       (compile nil '(lambda () "replaced"))) <span class="roman">→</span> #&lt;Compiled-Function&gt;
+ (foo) <span class="roman">→</span> "replaced"
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*error-output*</code>,
+<code>*macroexpand-hook*</code>.
+
+<p>The presence of macro definitions and proclamations.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The consequences are undefined if the <i>lexical environment</i> surrounding the
+<i>function</i> to be compiled contains any <i>bindings</i> other than those for
+<i>macros</i>, <i>symbol macros</i>, or <i>declarations</i>.
+
+<p>For information about errors detected during the compilation process,
+see <a href="Exceptional-Situations-in-the-Compiler.html#Exceptional-Situations-in-the-Compiler">Section 3.2.5 (Exceptional Situations in the Compiler)</a>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="compile_002dfile.html#compile_002dfile">compile-file</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/compile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:01 GMT -->
+</html>
+

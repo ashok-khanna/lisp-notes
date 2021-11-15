@@ -1,0 +1,127 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/char_002dname.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:42 GMT -->
+<head>
+<title>char-name - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Characters.html#Characters" title="Characters">
+<link rel="prev" href="char_002dcode_002dlimit.html#char_002dcode_002dlimit" title="char-code-limit">
+<link rel="next" href="name_002dchar.html#name_002dchar" title="name-char">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="char-name"></a>
+<a name="char_002dname"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="name_002dchar.html#name_002dchar">name-char</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="char_002dcode_002dlimit.html#char_002dcode_002dlimit">char-code-limit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Characters.html#Characters">Characters</a>
+<hr>
+</div>
+
+<h3 class="heading">char-name (Function)</h3>
+
+<p><a name="index-char_002dname-1738"></a><a name="index-char_002dname-1739"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>char-name</b><var> character </var><span class="roman">→</span><var> name<a name="index-char_002dname-1740"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>character</var>&mdash;a <i>character</i>.
+
+<p><var>name</var>&mdash;a <i>string</i> or <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns a <i>string</i> that is the <i>name</i> of the <var>character</var>,
+or <code>nil</code>&nbsp;<!-- /@w -->if the <var>character</var> has no <i>name</i>.
+
+<p>All <i>non-graphic</i> characters are required to have <i>names</i>
+unless they have some <i>implementation-defined</i> <i>attribute</i>
+which is not <i>null</i>.  Whether or not other <i>characters</i>
+have <i>names</i> is <i>implementation-dependent</i>.
+
+<p>The <i>standard characters</i>
+&lt;Newline&gt;&nbsp;<!-- /@w -->and &lt;Space&gt;&nbsp;<!-- /@w -->have the respective names <code>"Newline"</code> and <code>"Space"</code>. 
+The <i>semi-standard</i> <i>characters</i>
+&lt;Tab&gt;, &lt;Page&gt;, &lt;Rubout&gt;, &lt;Linefeed&gt;, &lt;Return&gt;, and &lt;Backspace&gt;&nbsp;<!-- /@w -->
+(if they are supported by the <i>implementation</i>)
+have the respective names
+<code>"Tab"</code>,  <code>"Page"</code>,  <code>"Rubout"</code>,  <code>"Linefeed"</code>,  <code>"Return"</code>, and <code>"Backspace"</code>
+(in the indicated case, even though name lookup by &ldquo;<code>#\</code>&rdquo;
+and by the <i>function</i> <code>name-char</code> is not case sensitive).
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (char-name #\&nbsp;<!-- /@w -->) <span class="roman">→</span> "Space"
+ (char-name #\Space) <span class="roman">→</span> "Space"
+ (char-name #\Page) <span class="roman">→</span> "Page"
+
+ (char-name #\a)
+<span class="roman">→</span> NIL
+or<span class="roman">→</span> "LOWERCASE-a"
+or<span class="roman">→</span> "Small-A"
+or<span class="roman">→</span> "LA01"
+
+ (char-name #\A)
+<span class="roman">→</span> NIL
+or<span class="roman">→</span> "UPPERCASE-A"
+or<span class="roman">→</span> "Capital-A"
+or<span class="roman">→</span> "LA02"
+
+ ;; Even though its CHAR-NAME can vary, #\A prints as #\A
+ (prin1-to-string (read-from-string (format nil "#\\~A" (or (char-name #\A) "A"))))
+<span class="roman">→</span> "#\\A"
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>character</var> is not a <i>character</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="name_002dchar.html#name_002dchar">name-char</a>,
+<a href="PrintingCharacters.html#PrintingCharacters">Section 22.1.3.2 (Printing Characters)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><i>Non-graphic</i>
+<i>characters</i> having <i>names</i> are written by the <i>Lisp printer</i>
+as &ldquo;<code>#\</code>&rdquo; followed by the their <i>name</i>; see <a href="PrintingCharacters.html#PrintingCharacters">Section 22.1.3.2 (Printing Characters)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/char_002dname.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:42 GMT -->
+</html>
+

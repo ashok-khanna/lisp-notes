@@ -1,0 +1,84 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Reinitializing-an-Instance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+<head>
+<title>Reinitializing an Instance - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="Changing-the-Class-of-an-Instance.html#Changing-the-Class-of-an-Instance" title="Changing the Class of an Instance">
+<link rel="next" href="Meta_002dObjects.html#Meta_002dObjects" title="Meta-Objects">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Reinitializing-an-Instance"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Meta_002dObjects.html#Meta_002dObjects">Meta-Objects</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Changing-the-Class-of-an-Instance.html#Changing-the-Class-of-an-Instance">Changing the Class of an Instance</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="section">7.3 Reinitializing an Instance</h3>
+
+<p>The generic function <code>reinitialize-instance</code> may be used to change
+the values of <i>slots</i> according to initialization arguments.
+
+<p>The process of reinitialization changes the values of some <i>slots</i> and
+performs any user-defined actions.  It does not modify the structure
+of an <i>instance</i> to add or delete <i>slots</i>,
+and it does not use any <tt>:initform</tt> forms to initialize <i>slots</i>.
+
+<p>The generic function <code>reinitialize-instance</code> may be called
+directly.  It takes one required argument, the <i>instance</i>.  It also
+takes any number of initialization arguments to be used by <i>methods</i> for
+<code>reinitialize-instance</code> or for <code>shared-initialize</code>. The
+arguments after the required <i>instance</i> must form an
+<i>initialization argument list</i>.
+
+<p>There is a system-supplied primary <i>method</i> for
+<code>reinitialize-instance</code> whose <i>parameter specializer</i> is
+the <i>class</i> <code>standard-object</code>.  First this <i>method</i> checks the validity of
+initialization arguments and signals an error if an initialization
+argument is supplied that is not declared as valid. 
+(For more information, see <a href="Declaring-the-Validity-of-Initialization-Arguments.html#Declaring-the-Validity-of-Initialization-Arguments">Section 7.1.2 (Declaring the Validity of Initialization Arguments)</a>.) 
+Then it calls the generic function
+<code>shared-initialize</code> with the following arguments: the <i>instance</i>,
+<code>nil</code>, and the initialization arguments it received.
+
+<ul class="menu">
+<li><a accesskey="1" href="Customizing-Reinitialization.html#Customizing-Reinitialization">Customizing Reinitialization</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Reinitializing-an-Instance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+</html>
+

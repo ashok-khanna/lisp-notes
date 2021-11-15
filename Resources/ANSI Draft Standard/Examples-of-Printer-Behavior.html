@@ -1,0 +1,109 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-Printer-Behavior.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+<head>
+<title>Examples of Printer Behavior - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-Lisp-Printer.html#The-Lisp-Printer" title="The Lisp Printer">
+<link rel="prev" href="Default-Print_002dObject-Methods.html#Default-Print_002dObject-Methods" title="Default Print-Object Methods">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-Printer-Behavior"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Default-Print_002dObject-Methods.html#Default-Print_002dObject-Methods">Default Print-Object Methods</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Lisp-Printer.html#The-Lisp-Printer">The Lisp Printer</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.1.4 Examples of Printer Behavior</h4>
+
+<pre class="lisp"> (let ((*print-escape* t)) (fresh-line) (write #\a))
+▷ #\a
+<span class="roman">→</span> #\a
+ (let ((*print-escape* nil) (*print-readably* nil))
+   (fresh-line)
+   (write #\a))
+▷ a
+<span class="roman">→</span> #\a
+ (progn (fresh-line) (prin1 #\a))
+▷ #\a
+<span class="roman">→</span> #\a
+ (progn (fresh-line) (print #\a))
+▷
+▷ #\a
+<span class="roman">→</span> #\a
+ (progn (fresh-line) (princ #\a))
+▷ a
+<span class="roman">→</span> #\a
+ 
+ 
+ (dolist (val '(t nil))
+   (let ((*print-escape* val) (*print-readably* val))
+     (print '#\a)
+     (prin1 #\a) (write-char #\Space)
+     (princ #\a) (write-char #\Space)
+     (write #\a)))
+▷ #\a #\a a #\a
+▷ #\a #\a a a
+<span class="roman">→</span> NIL
+ 
+ 
+ (progn (fresh-line) (write '(let ((a 1) (b 2)) (+ a b))))
+▷ (LET ((A 1) (B 2)) (+ A B))
+<span class="roman">→</span> (LET ((A 1) (B 2)) (+ A B))
+ 
+ 
+ (progn (fresh-line) (pprint '(let ((a 1) (b 2)) (+ a b))))
+▷ (LET ((A 1)
+▷       (B 2))
+▷   (+ A B))
+<span class="roman">→</span> (LET ((A 1) (B 2)) (+ A B))
+ 
+ 
+ (progn (fresh-line)
+        (write '(let ((a 1) (b 2)) (+ a b)) :pretty t))
+▷ (LET ((A 1)
+▷       (B 2))
+▷   (+ A B))
+<span class="roman">→</span> (LET ((A 1) (B 2)) (+ A B))
+ 
+ 
+ (with-output-to-string (s)
+    (write 'write :stream s)
+    (prin1 'prin1 s))
+<span class="roman">→</span> "WRITEPRIN1"
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-Printer-Behavior.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+</html>
+

@@ -1,0 +1,181 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/pprint_002dnewline.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:48 GMT -->
+<head>
+<title>pprint-newline - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="pprint_002dlogical_002dblock.html#pprint_002dlogical_002dblock" title="pprint-logical-block">
+<link rel="next" href="pprint_002dpop.html#pprint_002dpop" title="pprint-pop">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="pprint-newline"></a>
+<a name="pprint_002dnewline"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="pprint_002dpop.html#pprint_002dpop">pprint-pop</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pprint_002dlogical_002dblock.html#pprint_002dlogical_002dblock">pprint-logical-block</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">pprint-newline (Function)</h3>
+
+<p><a name="index-pprint_002dnewline-2906"></a><a name="index-pprint_002dnewline-2907"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>pprint-newline</b><var> kind </var><tt>&amp;optional</tt><var> stream </var><span class="roman">→</span> <code>nil</code><var><a name="index-pprint_002dnewline-2908"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>kind</var>&mdash;one of <tt>:linear</tt>, <tt>:fill</tt>, <tt>:miser</tt>, or <tt>:mandatory</tt>.
+
+<p><var>stream</var>&mdash;a <i>stream designator</i>. 
+The default is <i>standard output</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>If <var>stream</var> is a <i>pretty printing stream</i>
+and the <i>value</i> of <code>*print-pretty*</code> is <i>true</i>,
+a line break is inserted in the output
+when the appropriate condition below is satisfied;
+otherwise, <code>pprint-newline</code> has no effect.
+
+<p><var>Kind</var> specifies the style of conditional newline. 
+This <i>parameter</i> is treated as follows:
+
+     <dl>
+<dt><tt>:linear</tt><dd>
+
+     <p>This specifies a
+&ldquo;linear-style&rdquo; <i>conditional newline</i>. 
+<a name="index-linear_002dstyle-conditional-newline-2909"></a>A line break is inserted
+if and only if the immediately containing <i>section</i>
+cannot be printed on one line. 
+The effect of this is that line breaks are
+either inserted at every linear-style conditional newline in a logical block
+or at none of them.
+
+     <br><dt><tt>:miser</tt><dd>
+
+     <p>This specifies a
+&ldquo;miser-style&rdquo; <i>conditional newline</i>. 
+<a name="index-miser_002dstyle-conditional-newline-2910"></a>A line break is inserted
+if and only if the immediately containing <i>section</i>
+cannot be printed on one line
+and miser style is in effect in the immediately containing logical block. 
+The effect of this is that miser-style conditional newlines
+act like linear-style conditional newlines,
+but only when miser style is in effect. 
+Miser style is in effect for a logical block if and only if
+the starting position of the logical block
+is less than or equal to
+<code>*print-miser-width*</code> <i>ems</i> from the right margin.
+
+     <br><dt><tt>:fill</tt><dd>
+
+     <p>This specifies a
+&ldquo;fill-style&rdquo; <i>conditional newline</i>. 
+<a name="index-fill_002dstyle-conditional-newline-2911"></a>A line break is inserted if and only if
+either (a) the following <i>section</i> cannot be printed
+on the end of the current line,
+(b) the preceding <i>section</i> was not printed on a single line,
+or (c) the immediately containing <i>section</i> cannot
+be printed on one line and miser style is in effect
+in the immediately containing logical block. 
+If a logical block is broken up into a number of subsections
+by fill-style conditional newlines,
+the basic effect is that the logical block
+is printed with as many subsections as possible on each line. 
+However, if miser style is in effect,
+fill-style conditional newlines act like linear-style conditional newlines.
+
+     <br><dt><tt>:mandatory</tt><dd>
+
+     <p>This specifies a
+&ldquo;mandatory-style&rdquo; <i>conditional newline</i>. 
+<a name="index-mandatory_002dstyle-conditional-newline-2912"></a>A line break is always inserted. 
+This implies that  none of the containing <i>sections</i>
+can be printed on a single line and
+will therefore trigger the insertion of line breaks
+at linear-style conditional newlines in these <i>sections</i>. 
+</dl>
+
+<p>When a line break is inserted by any type of conditional newline,
+any blanks that immediately precede the conditional newline are omitted
+from the output and indentation is introduced at the beginning of the next line. 
+By default, the indentation causes the following line to begin
+in the same horizontal position
+as the first character in the immediately containing logical block. 
+(The indentation can be changed via <code>pprint-indent</code>.)
+
+<p>There are a variety of ways unconditional newlines can be introduced into
+the output (<i>i.e.</i>, via <code>terpri</code> or by printing a string containing a newline
+character).  As with mandatory conditional newlines, this prevents any of
+the containing <i>sections</i> from being printed on one line.  In general, when
+an unconditional newline is encountered, it is printed out without
+suppression of the preceding blanks and without any indentation following
+it.  However, if a per-line prefix has been specified (see
+<code>pprint-logical-block</code>), this prefix will always be printed no matter
+how a newline originates.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<p>See <a href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer">Section 22.2.2 (Examples of using the Pretty Printer)</a>.
+
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>Output to <var>stream</var>.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*print-pretty*</code>, <code>*print-miser*</code>. 
+The presence of containing logical blocks. 
+The placement of newlines and conditional newlines.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error of <i>type</i> <code>type-error</code> is signaled if <var>kind</var>
+is not one of <tt>:linear</tt>, <tt>:fill</tt>, <tt>:miser</tt>, or <tt>:mandatory</tt>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="TildeUnderscore.html#TildeUnderscore">Section 22.3.5.1 (Tilde Underscore. Conditional Newline)</a>,
+<a href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer">Section 22.2.2 (Examples of using the Pretty Printer)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/pprint_002dnewline.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:49 GMT -->
+</html>
+

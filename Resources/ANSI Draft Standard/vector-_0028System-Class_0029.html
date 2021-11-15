@@ -1,0 +1,131 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/vector-_0028System-Class_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:06 GMT -->
+<head>
+<title>vector (System Class) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Arrays.html#Arrays" title="Arrays">
+<link rel="prev" href="simple_002darray.html#simple_002darray" title="simple-array">
+<link rel="next" href="simple_002dvector.html#simple_002dvector" title="simple-vector">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="vector-(System-Class)"></a>
+<a name="vector-_0028System-Class_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="simple_002dvector.html#simple_002dvector">simple-vector</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="simple_002darray.html#simple_002darray">simple-array</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Arrays.html#Arrays">Arrays</a>
+<hr>
+</div>
+
+<h3 class="heading">vector (System Class)</h3>
+
+<p><a name="index-vector-2067"></a><a name="index-vector-2068"></a>
+
+<h5 class="subsubheading">Class Precedence List:</h5>
+
+<p><code>vector</code>,
+<code>array</code>,
+<code>sequence</code>,
+<code>t</code>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Any one-dimensional <i>array</i> is a <i>vector</i>.
+
+<p>The <i>type</i> <code>vector</code> is a subtype of <i>type</i> <code>array</code>;
+for all <i>types</i> <code>x</code>, <code>(vector x)</code> is the same as <code>(array x (*))</code>.
+
+<p>The <i>type</i> <code>(vector t)</code>, the <i>type</i> <code>string</code>, and the <i>type</i> <code>bit-vector</code>
+are <i>disjoint</i> subtypes of <i>type</i> <code>vector</code>.
+
+<h5 class="subsubheading">Compound Type Specifier Kind:</h5>
+
+<p>Specializing.
+
+<h5 class="subsubheading">Compound Type Specifier Syntax:</h5>
+
+<p>(vector <tt>[</tt><tt>{</tt>element-type | <tt>*</tt><tt>}</tt> <tt>[</tt><tt>{</tt>size | <tt>*</tt><tt>}</tt><tt>]</tt><tt>]</tt>)
+
+<h5 class="subsubheading">Compound Type Specifier Arguments:</h5>
+
+<p><var>size</var>&mdash;a non-negative <i>fixnum</i>.
+
+<p><var>element-type</var>&mdash;a <i>type specifier</i>.
+
+<h5 class="subsubheading">Compound Type Specifier Description:</h5>
+
+<p>This denotes the set of specialized <i>vectors</i>
+whose <i>element type</i> and <var>dimension</var> match the specified values. 
+Specifically:
+
+<p>If <var>element-type</var> is the <i>symbol</i> <tt>*</tt>,
+<i>vectors</i> are not excluded on the basis of their <i>element type</i>. 
+Otherwise, only those <var>vectors</var> are included whose <i>actual array element type</i>
+is the result of <i>upgrading</i> <var>element-type</var>;
+see <a href="ArrayUpgrading.html#ArrayUpgrading">Section 15.1.2.1 (Array Upgrading)</a>.
+
+<p>If a <var>size</var> is specified,
+the set includes only those <var>vectors</var> whose only <i>dimension</i>
+is <var>size</var>. 
+If the <i>symbol</i> <tt>*</tt> is specified instead of a <var>size</var>,
+the set is not restricted on the basis of <i>dimension</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="RequiredSpecializedArrays.html#RequiredSpecializedArrays">Section 15.1.2.2 (Required Kinds of Specialized Arrays)</a>,
+<a href="SharpsignLeftParen.html#SharpsignLeftParen">Section 2.4.8.3 (Sharpsign Left-Parenthesis)</a>,
+<a href="PrintingOtherVectors.html#PrintingOtherVectors">Section 22.1.3.7 (Printing Other Vectors)</a>,
+<a href="SharpsignA.html#SharpsignA">Section 2.4.8.12 (Sharpsign A)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <i>type</i> <code>(vector </code><var>e</var> <var>s</var><code>)</code>
+is equivalent to the <i>type</i> <code>(array </code><var>e</var><code> (</code><var>s</var><code>))</code>.
+
+<p>The type <code>(vector bit)</code> has the name <code>bit-vector</code>.
+
+<p>The union of all <i>types</i> <code>(vector C)</code>,
+where C is any <i>subtype</i> of <code>character</code>,
+has the name <code>string</code>.
+
+<p><code>(vector *)</code> refers to all <i>vectors</i>
+regardless of element type, <code>(vector </code><var>type-specifier</var><code>)</code>
+refers only to those <i>vectors</i>
+that can result from giving <var>type-specifier</var> as the
+<tt>:element-type</tt> argument to <code>make-array</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/vector-_0028System-Class_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:09 GMT -->
+</html>
+

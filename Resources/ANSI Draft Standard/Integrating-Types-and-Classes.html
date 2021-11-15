@@ -1,0 +1,184 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Integrating-Types-and-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Integrating Types and Classes - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Classes.html#Classes" title="Classes">
+<link rel="prev" href="Redefining-Classes.html#Redefining-Classes" title="Redefining Classes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Integrating-Types-and-Classes"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Redefining-Classes.html#Redefining-Classes">Redefining Classes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Classes.html#Classes">Classes</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.3.7 Integrating Types and Classes</h4>
+
+<p>The object system&nbsp;<!-- /@w -->maps the space of <i>classes</i> into the space of <i>types</i>. 
+Every <i>class</i> that has a proper name has a corresponding <i>type</i>
+with the same <i>name</i>.
+
+<p>The proper name of every <i>class</i> is a valid <i>type specifier</i>.  In
+addition, every <i>class</i> <i>object</i> is a valid <i>type specifier</i>. 
+Thus the expression <code>(typep </code><var>object</var> <var>class</var><code>)</code> evaluates to
+<i>true</i> if the <i>class</i> of <var>object</var> is <var>class</var> itself or
+a <i>subclass</i> of <i>class</i>.  The evaluation of the expression
+<code>(subtypep class1 class2)</code> returns the values
+<i>true</i> and <i>true</i> if <code>class1</code> is a subclass of <code>class2</code> or if they are the
+same <i>class</i>; otherwise it returns the values
+<i>false</i> and <i>true</i>. 
+If  I is an <i>instance</i> of some <i>class</i> C named S
+and C is an <i>instance</i> of <code>standard-class</code>,
+the evaluation of the expression <code>(type-of I)</code> returns S
+if S is the <i>proper name</i> of C;
+otherwise, it returns C.
+
+<p>Because the names of <i>classes</i>
+and <i>class</i> <i>objects</i> are <i>type specifiers</i>, they may
+be used in the special form <code>the</code> and in type declarations.
+
+<p>Many but not all of the predefined <i>type specifiers</i> have a
+corresponding <i>class</i> with
+the same proper name as the <i>type</i>.  These type
+specifiers are listed in <a href="ClassTypeCorrespondence.html#ClassTypeCorrespondence">Figure 4.8</a>. 
+For example, the <i>type</i> <code>array</code> has
+a corresponding <i>class</i> named <code>array</code>. 
+No <i>type specifier</i> that is a
+list, such as <code>(vector double-float 100)</code>, has a corresponding <i>class</i>. 
+The <i>operator</i> <code>deftype</code> does not create any <i>classes</i>.
+
+<p>Each <i>class</i> that corresponds to a predefined <i>type specifier</i> can
+be implemented in one of three ways, at the discretion of each implementation. 
+It can be a <i>standard class</i>,
+a <i>structure class</i>,
+or a <i>system class</i>.
+
+<p>A <i>built-in class</i> is one whose <i>generalized instances</i> have restricted capabilities
+or special representations.  Attempting to use <code>defclass</code> to define
+<i>subclasses</i> of a <code>built-in-class</code> signals an error. 
+Calling <code>make-instance</code> to create a <i>generalized instance</i> of a
+<i>built-in class</i> signals an error.  Calling <code>slot-value</code> on a
+<i>generalized instance</i> of a <i>built-in class</i> signals an error. 
+Redefining a <i>built-in class</i> or using <code>change-class</code> to change
+the <i>class</i> of an <i>object</i> to or from a <i>built-in class</i> signals an error. 
+However, <i>built-in classes</i> can be used as <i>parameter specializers</i>
+in <i>methods</i>.
+
+<p>It is possible to determine whether a <i>class</i> is a <i>built-in class</i>
+by checking the <i>metaclass</i>. 
+A <i>standard class</i>  is an <i>instance</i> of the <i>class</i> <code>standard-class</code>,
+a <i>built-in class</i>  is an <i>instance</i> of the <i>class</i> <code>built-in-class</code>, and
+a <i>structure class</i> is an <i>instance</i> of the <i>class</i> <code>structure-class</code>.
+
+<p>Each <i>structure</i> <i>type</i> created by <code>defstruct</code> without
+using the <tt>:type</tt> option has a corresponding <i>class</i>. 
+This <i>class</i> is a <i>generalized instance</i> of the <i>class</i> <code>structure-class</code>. 
+The <tt>:include</tt> option of <code>defstruct</code> creates a direct
+<i>subclass</i> of the <i>class</i>
+that corresponds to the included <i>structure</i>
+<i>type</i>.
+
+<p>It is <i>implementation-dependent</i> whether <i>slots</i> are involved in the
+operation of <i>functions</i> defined in this specification
+on <i>instances</i> of <i>classes</i> defined in this specification,
+except when <i>slots</i> are explicitly defined by this specification.
+
+<p>If in a particular <i>implementation</i> a <i>class</i> defined in this specification
+has <i>slots</i> that are not defined by this specfication, the names of these <i>slots</i>
+must not be <i>external symbols</i> of <i>packages</i> defined in this specification nor
+otherwise <i>accessible</i> in the <code>CL-USER</code> <i>package</i>.
+
+<p>The purpose of specifying that many of the standard <i>type specifiers</i> have a
+corresponding <i>class</i> is to enable users to write <i>methods</i> that
+discriminate on these <i>types</i>.  <i>Method</i> selection requires that a
+<i>class precedence list</i> can be determined for each <i>class</i>.
+
+<p>The hierarchical relationships among the <i>type specifiers</i> are mirrored by
+relationships among the <i>classes</i> corresponding to those <i>types</i>.
+
+<p><a href="ClassTypeCorrespondence.html#ClassTypeCorrespondence">Figure 4.8</a>&nbsp;<!-- /@w -->lists the set of <i>classes</i>
+that correspond to predefined <i>type specifiers</i>.
+
+<div class="float">
+<a name="ClassTypeCorrespondence"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">arithmetic-error </td><td valign="top">generic-function </td><td valign="top">simple-error
+<br></td></tr><tr align="left"><td valign="top">array </td><td valign="top">hash-table </td><td valign="top">simple-type-error
+<br></td></tr><tr align="left"><td valign="top">bit-vector </td><td valign="top">integer </td><td valign="top">simple-warning
+<br></td></tr><tr align="left"><td valign="top">broadcast-stream </td><td valign="top">list </td><td valign="top">standard-class
+<br></td></tr><tr align="left"><td valign="top">built-in-class </td><td valign="top">logical-pathname </td><td valign="top">standard-generic-function
+<br></td></tr><tr align="left"><td valign="top">cell-error </td><td valign="top">method </td><td valign="top">standard-method
+<br></td></tr><tr align="left"><td valign="top">character </td><td valign="top">method-combination </td><td valign="top">standard-object
+<br></td></tr><tr align="left"><td valign="top">class </td><td valign="top">null </td><td valign="top">storage-condition
+<br></td></tr><tr align="left"><td valign="top">complex </td><td valign="top">number </td><td valign="top">stream
+<br></td></tr><tr align="left"><td valign="top">concatenated-stream </td><td valign="top">package </td><td valign="top">stream-error
+<br></td></tr><tr align="left"><td valign="top">condition </td><td valign="top">package-error </td><td valign="top">string
+<br></td></tr><tr align="left"><td valign="top">cons </td><td valign="top">parse-error </td><td valign="top">string-stream
+<br></td></tr><tr align="left"><td valign="top">control-error </td><td valign="top">pathname </td><td valign="top">structure-class
+<br></td></tr><tr align="left"><td valign="top">division-by-zero </td><td valign="top">print-not-readable </td><td valign="top">structure-object
+<br></td></tr><tr align="left"><td valign="top">echo-stream </td><td valign="top">program-error </td><td valign="top">style-warning
+<br></td></tr><tr align="left"><td valign="top">end-of-file </td><td valign="top">random-state </td><td valign="top">symbol
+<br></td></tr><tr align="left"><td valign="top">error </td><td valign="top">ratio </td><td valign="top">synonym-stream
+<br></td></tr><tr align="left"><td valign="top">file-error </td><td valign="top">rational </td><td valign="top">t
+<br></td></tr><tr align="left"><td valign="top">file-stream </td><td valign="top">reader-error </td><td valign="top">two-way-stream
+<br></td></tr><tr align="left"><td valign="top">float </td><td valign="top">readtable </td><td valign="top">type-error
+<br></td></tr><tr align="left"><td valign="top">floating-point-inexact </td><td valign="top">real </td><td valign="top">unbound-slot
+<br></td></tr><tr align="left"><td valign="top">floating-point-invalid-operation </td><td valign="top">restart </td><td valign="top">unbound-variable
+<br></td></tr><tr align="left"><td valign="top">floating-point-overflow </td><td valign="top">sequence </td><td valign="top">undefined-function
+<br></td></tr><tr align="left"><td valign="top">floating-point-underflow </td><td valign="top">serious-condition </td><td valign="top">vector
+<br></td></tr><tr align="left"><td valign="top">function </td><td valign="top">simple-condition </td><td valign="top">warning
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 4.8: Classes that correspond to pre-defined type specifiers</strong></p></div>
+
+<p>The <i>class precedence list</i> information specified in the entries for
+each of these <i>classes</i> are those that are required by the object system.
+
+<p>Individual implementations may be extended to define other type
+specifiers to have a corresponding <i>class</i>.  Individual implementations
+may be extended to add other <i>subclass</i> relationships and to add other
+<i>elements</i> to the <i>class precedence lists</i> as long as
+they do not violate the type relationships and disjointness
+requirements specified by this standard. 
+A standard <i>class</i> defined with no direct <i>superclasses</i> is guaranteed to
+be disjoint from all of the <i>classes</i> in the table, except for the
+class named <code>t</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Integrating-Types-and-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

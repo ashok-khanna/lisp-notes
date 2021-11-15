@@ -1,0 +1,175 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/intersection_003b-nintersection.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:01 GMT -->
+<head>
+<title>intersection; nintersection - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="remf.html#remf" title="remf">
+<link rel="next" href="adjoin.html#adjoin" title="adjoin">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="intersection%3b-nintersection"></a>
+<a name="intersection_003b-nintersection"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="adjoin.html#adjoin">adjoin</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="remf.html#remf">remf</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">intersection, nintersection (Function)</h3>
+
+<p><a name="index-intersection-2020"></a><a name="index-intersection-2021"></a><a name="index-nintersection-2022"></a><a name="index-nintersection-2023"></a><a name="intersection"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>intersection</b><var> list-1 list-2 </var><tt>&amp;key</tt><var> key test test-not </var><span class="roman">→</span><var> result-list<a name="index-intersection-2024"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>nintersection</b><var> list-1 list-2 </var><tt>&amp;key</tt><var> key test test-not </var><span class="roman">→</span><var> result-list<a name="index-nintersection-2025"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>list-1</var>&mdash;a <i>proper list</i>.
+
+<p><var>list-2</var>&mdash;a <i>proper list</i>.
+
+<p><var>test</var>&mdash;a <i>designator</i> for a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>test-not</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>result-list</var>&mdash;a <i>list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>intersection</code> and <code>nintersection</code> return a <i>list</i>
+that contains every element that occurs in both <var>list-1</var> and <var>list-2</var>.
+
+<p><code>nintersection</code> is the destructive version of <code>intersection</code>. 
+It performs the same operation,
+but may destroy <var>list-1</var> using its cells to construct the result. 
+<var>list-2</var> is not destroyed.
+
+<p>The intersection operation is described as follows. 
+For all possible ordered pairs consisting of
+one <i>element</i> from <var>list-1</var>
+and one <i>element</i> from <var>list-2</var>,
+<tt>:test</tt> or <tt>:test-not</tt> are used
+to determine whether they <i>satisfy the test</i>. 
+The first argument to the <tt>:test</tt> or <tt>:test-not</tt>
+function is an element of <var>list-1</var>; the second argument is an
+element of <var>list-2</var>. 
+If <tt>:test</tt> or <tt>:test-not</tt> is not supplied, <code>eql</code>
+is used. 
+It is an error if <tt>:test</tt> and <tt>:test-not</tt> are supplied in
+the same function call.
+
+<p>If <tt>:key</tt> is supplied (and not <code>nil</code>), it is used to
+extract the part to be tested from the <var>list</var> element. 
+The argument to the <tt>:key</tt> function
+is an element of either <var>list-1</var> or <var>list-2</var>;
+the <tt>:key</tt> function typically returns part of the supplied element. 
+If <tt>:key</tt> is not supplied or <code>nil</code>, the <var>list-1</var> and
+<var>list-2</var> elements are used.
+
+<p>For every pair that <i>satifies the test</i>,
+exactly one of the two elements of the pair will be put in the result. 
+No element from either <i>list</i> appears in the result that does not
+<i>satisfy the test</i> for
+an element from the other <i>list</i>. 
+If one of the <i>lists</i> contains duplicate
+elements, there may be duplication in the result.
+
+<p>There is no guarantee that the order of elements in the result will
+reflect the ordering of the arguments in any particular way. 
+The result <i>list</i> may share cells with,
+or be <code>eq</code> to, either <var>list-1</var> or <var>list-2</var>
+if appropriate.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq list1 (list 1 1 2 3 4 a b c "A" "B" "C" "d")
+       list2 (list 1 4 5 b c d "a" "B" "c" "D"))
+  <span class="roman">→</span> (1 4 5 B C D "a" "B" "c" "D")
+ (intersection list1 list2) <span class="roman">→</span> (C B 4 1 1)
+ (intersection list1 list2 :test 'equal) <span class="roman">→</span> ("B" C B 4 1 1)
+ (intersection list1 list2 :test #'equalp) <span class="roman">→</span> ("d" "C" "B" "A" C B 4 1 1)
+ (nintersection list1 list2) <span class="roman">→</span> (1 1 4 B C)
+ list1 <span class="roman">→</span> <i>implementation-dependent</i> ;<i>e.g.</i>, (1 1 4 B C)
+ list2 <span class="roman">→</span> <i>implementation-dependent</i> ;<i>e.g.</i>, (1 4 5 B C D "a" "B" "c" "D")
+ (setq list1 (copy-list '((1 . 2) (2 . 3) (3 . 4) (4 . 5))))
+<span class="roman">→</span> ((1 . 2) (2 . 3) (3 . 4) (4 . 5))
+ (setq list2 (copy-list '((1 . 3) (2 . 4) (3 . 6) (4 . 8))))
+<span class="roman">→</span> ((1 . 3) (2 . 4) (3 . 6) (4 . 8))
+ (nintersection list1 list2 :key #'cdr) <span class="roman">→</span> ((2 . 3) (3 . 4))
+ list1 <span class="roman">→</span> <i>implementation-dependent</i> ;<i>e.g.</i>, ((1 . 2) (2 . 3) (3 . 4))
+ list2 <span class="roman">→</span> <i>implementation-dependent</i> ;<i>e.g.</i>, ((1 . 3) (2 . 4) (3 . 6) (4 . 8))
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p><code>nintersection</code> can modify <var>list-1</var>,
+but not <var>list-2</var>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should be prepared to signal an error of <i>type</i> <code>type-error</code> if
+<var>list-1 and list-2</var> are not <i>proper lists</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="union.html#union">union</a>,
+<a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <tt>:test-not</tt> parameter is deprecated.
+
+<p>Since the <code>nintersection</code> side effect is not required,
+it should not be used in for-effect-only
+positions in portable code.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/intersection_003b-nintersection.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:02 GMT -->
+</html>
+

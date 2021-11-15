@@ -1,0 +1,106 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/progn.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+<head>
+<title>progn - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="prog1_003b-prog2.html#prog1_003b-prog2" title="prog1; prog2">
+<link rel="next" href="define_002dmodify_002dmacro.html#define_002dmodify_002dmacro" title="define-modify-macro">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="progn"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="define_002dmodify_002dmacro.html#define_002dmodify_002dmacro">define-modify-macro</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="prog1_003b-prog2.html#prog1_003b-prog2">prog1; prog2</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">progn (Special Operator)</h3>
+
+<p><a name="index-progn-645"></a><a name="index-progn-646"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>progn</b> <tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-progn-647"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> of the <i>forms</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>progn</code> evaluates <var>forms</var>,
+in the order in which they are given.
+
+<p>The values of each <var>form</var> but the last are discarded.
+
+<p>If <code>progn</code> appears as a <i>top level form</i>, then all <i>forms</i>
+within that <code>progn</code> are considered by the compiler to be
+<i>top level forms</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (progn) <span class="roman">→</span> NIL
+ (progn 1 2 3) <span class="roman">→</span> 3
+ (progn (values 1 2 3)) <span class="roman">→</span> 1, 2, 3
+ (setq a 1) <span class="roman">→</span> 1
+ (if a
+      (progn (setq a nil) 'here)
+      (progn (setq a t) 'there)) <span class="roman">→</span> HERE
+ a <span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="prog1.html#prog1">prog1</a>, <a href="prog2.html#prog2">prog2</a>, <a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Many places in <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->involve syntax that uses <i>implicit progns</i>. 
+That is, part of their syntax allows many <i>forms</i> to be written
+that are to be evaluated sequentially, discarding the results
+of all <i>forms</i> but the last and returning the results of the last <i>form</i>. 
+Such places include, but are not limited to, the following:
+the body of a <i>lambda expression</i>;
+the bodies of various control and conditional <i>forms</i>
+(<i>e.g.</i>, <code>case</code>, <code>catch</code>, <code>progn</code>, and <code>when</code>).
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/progn.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:46 GMT -->
+</html>
+

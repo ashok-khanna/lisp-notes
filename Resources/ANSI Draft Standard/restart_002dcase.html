@@ -1,0 +1,321 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/restart_002dcase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>restart-case - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="restart_002dbind.html#restart_002dbind" title="restart-bind">
+<link rel="next" href="restart_002dname.html#restart_002dname" title="restart-name">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="restart-case"></a>
+<a name="restart_002dcase"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="restart_002dname.html#restart_002dname">restart-name</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="restart_002dbind.html#restart_002dbind">restart-bind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">restart-case (Macro)</h3>
+
+<p><a name="index-restart_002dcase-954"></a><a name="index-restart_002dcase-955"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>restart-case</b><var> restartable-form </var><tt>{</tt><tt>↓</tt><var>clause</var><tt>}</tt> <span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-restart_002dcase-956"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>clause</var>::=<dd><tt>(</tt> case-name lambda-list <br> &nbsp;<!-- /@w -->〚<tt>:interactive</tt> interactive-expression | <tt>:report</tt> report-expression | <tt>:test</tt> test-expression〛 <br> &nbsp;<!-- /@w --><tt>{</tt>declaration<tt>}</tt>* <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>restartable-form</var>&mdash;a <i>form</i>.
+
+<p><var>case-name</var>&mdash;a <i>symbol</i> or <code>nil</code>.
+
+<p><var>lambda-list</var>&mdash;an <i>ordinary lambda list</i>.
+
+<p><var>interactive-expression</var>&mdash;a <i>symbol</i> or a <i>lambda expression</i>.
+
+<p><var>report-expression</var>&mdash;a <i>string</i>,
+a <i>symbol</i>,
+or a <i>lambda expression</i>.
+
+<p><var>test-expression</var>&mdash;a <i>symbol</i> or a <i>lambda expression</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> resulting from the <i>evaluation</i>
+of <var>restartable-form</var>,
+or the <i>values</i> returned by the last <var>form</var>
+executed in a chosen <i>clause</i>,
+or <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>restart-case</code> evaluates <var>restartable-form</var> in a <i>dynamic environment</i>
+where the clauses have special meanings as points to which control may be transferred. 
+If <var>restartable-form</var> finishes executing and returns any values,
+all values returned are returned by <code>restart-case</code> and
+processing has completed. While <var>restartable-form</var> is executing, any code may
+transfer control to one of the clauses (see <code>invoke-restart</code>). 
+If a transfer
+occurs, the forms in the body of that clause is evaluated and any values
+returned by the last such form are returned by
+<code>restart-case</code>. 
+In this case, the
+dynamic state is unwound appropriately (so that the restarts established
+around the <var>restartable-form</var> are no longer active) prior to execution of the
+clause.
+
+<p>If there are no <var>forms</var>
+in a selected clause, <code>restart-case</code> returns <code>nil</code>.
+
+<p>If <var>case-name</var> is a <i>symbol</i>, it names this restart.
+
+<p>It is possible to have more than one clause use the same <var>case-name</var>. 
+In this case, the first clause with that name is found by <code>find-restart</code>. 
+The other clauses are accessible using <code>compute-restarts</code>.
+
+<p>Each <var>arglist</var> is an <i>ordinary lambda list</i> to be bound during the
+execution of its corresponding <var>forms</var>.  These parameters are used
+by the <code>restart-case</code> clause to receive any necessary data from a call
+to <code>invoke-restart</code>.
+
+<p>By default, <code>invoke-restart-interactively</code> passes no arguments and
+all arguments must be optional in order to accomodate interactive
+restarting.  However, the arguments need not be optional if the
+<tt>:interactive</tt>
+keyword has been used to inform <code>invoke-restart-interactively</code>
+about how to compute a proper argument list.
+
+<p><var>Keyword</var> options have the following meaning.
+
+     <dl>
+<dt><tt>:interactive</tt><dd>
+
+     <p>The <var>value</var> supplied by <code>:interactive </code><var>value</var>
+must be a suitable argument to <code>function</code>. 
+<code>(function </code><var>value</var><code>)</code> is evaluated in the current lexical
+environment.  It should return a <i>function</i> of no arguments which
+returns arguments to be used by
+<code>invoke-restart-interactively</code> when it is invoked. 
+<code>invoke-restart-interactively</code>
+is called in the dynamic
+environment available prior to any restart attempt, and uses
+<i>query I/O</i> for user interaction.
+
+     <p>If a restart is invoked interactively but no <tt>:interactive</tt> option
+was supplied, the argument list used in the invocation is the empty
+list.
+
+     <br><dt><tt>:report</tt><dd>
+
+     <p>If the <var>value</var> supplied by <code>:report </code><var>value</var>
+is a <i>lambda expression</i> or a <i>symbol</i>, it
+must be acceptable to <code>function</code>. 
+<code>(function </code><var>value</var><code>)</code> is evaluated in the current lexical
+environment.  It should return a <i>function</i> of one
+argument, a <i>stream</i>, which prints on the <i>stream</i> a
+description of the restart.  This <i>function</i> is called
+whenever the restart is printed while <code>*print-escape*</code> is <code>nil</code>.
+
+     <p>If <var>value</var> is a <i>string</i>, it is a shorthand for
+
+     <pre class="lisp">      (lambda (stream) (write-string value stream))
+</pre>
+     <p>If a named restart is asked to report but no report information has been
+supplied, the name of the restart is used in generating default report text.
+
+     <p>When <code>*print-escape*</code> is <code>nil</code>, the
+printer uses the report information for
+a restart.  For example, a debugger might announce the action of typing
+a &ldquo;continue&rdquo; command by:
+
+     <pre class="lisp">      (format t "~&amp;~S -- ~A~%" ':continue some-restart)
+</pre>
+     <p>which might then display as something like:
+
+     <pre class="lisp">      :CONTINUE -- Return to command level
+</pre>
+     <p>The consequences are unspecified if an unnamed restart is specified
+but no <tt>:report</tt> option is provided.
+
+     <br><dt><tt>:test</tt><dd>
+
+     <p>The <var>value</var> supplied by <code>:test </code><var>value</var>
+must be a suitable argument to <code>function</code>. 
+<code>(function </code><var>value</var><code>)</code> is evaluated in the current lexical
+environment.  It should return a <i>function</i> of one <i>argument</i>, the
+<i>condition</i>, that
+returns <i>true</i> if the restart is to be considered visible.
+
+     <p>The default for this option is equivalent to <code>(lambda (c) (declare (ignore c)) t)</code>. 
+</dl>
+
+<p>If the <var>restartable-form</var> is a <i>list</i> whose <i>car</i> is any of
+the <i>symbols</i> <code>signal</code>, <code>error</code>, <code>cerror</code>,
+or <code>warn</code> (or is a <i>macro form</i> which macroexpands into such a
+<i>list</i>), then <code>with-condition-restarts</code> is used implicitly
+to associate the indicated <i>restarts</i> with the <i>condition</i> to be
+signaled.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (restart-case
+     (handler-bind ((error #'(lambda (c)
+                             (declare (ignore condition))
+                             (invoke-restart 'my-restart 7))))
+       (error "Foo."))
+   (my-restart (&amp;optional v) v))
+<span class="roman">→</span> 7
+
+ (define-condition food-error (error) ())
+<span class="roman">→</span> FOOD-ERROR
+ (define-condition bad-tasting-sundae (food-error)
+   ((ice-cream :initarg :ice-cream :reader bad-tasting-sundae-ice-cream)
+    (sauce :initarg :sauce :reader bad-tasting-sundae-sauce)
+    (topping :initarg :topping :reader bad-tasting-sundae-topping))
+   (:report (lambda (condition stream)
+              (format stream "Bad tasting sundae with ~S, ~S, and ~S"
+                      (bad-tasting-sundae-ice-cream condition)
+                      (bad-tasting-sundae-sauce condition)
+                      (bad-tasting-sundae-topping condition)))))
+<span class="roman">→</span> BAD-TASTING-SUNDAE
+ (defun all-start-with-same-letter (symbol1 symbol2 symbol3)
+   (let ((first-letter (char (symbol-name symbol1) 0)))
+     (and (eql first-letter (char (symbol-name symbol2) 0))
+          (eql first-letter (char (symbol-name symbol3) 0)))))
+<span class="roman">→</span> ALL-START-WITH-SAME-LETTER
+ (defun read-new-value ()
+   (format t "Enter a new value: ")
+   (multiple-value-list (eval (read))))
+<span class="roman">→</span> READ-NEW-VALUE
+ (defun verify-or-fix-perfect-sundae (ice-cream sauce topping)
+   (do ()
+      ((all-start-with-same-letter ice-cream sauce topping))
+     (restart-case
+       (error 'bad-tasting-sundae
+              :ice-cream ice-cream
+              :sauce sauce
+              :topping topping)
+       (use-new-ice-cream (new-ice-cream)
+         :report "Use a new ice cream."
+         :interactive read-new-value
+         (setq ice-cream new-ice-cream))
+       (use-new-sauce (new-sauce)
+         :report "Use a new sauce."
+         :interactive read-new-value
+         (setq sauce new-sauce))
+       (use-new-topping (new-topping)
+         :report "Use a new topping."
+         :interactive read-new-value
+         (setq topping new-topping))))
+   (values ice-cream sauce topping))
+<span class="roman">→</span> VERIFY-OR-FIX-PERFECT-SUNDAE
+ (verify-or-fix-perfect-sundae 'vanilla 'caramel 'cherry)
+▷ Error: Bad tasting sundae with VANILLA, CARAMEL, and CHERRY.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Use a new ice cream.
+▷  2: Use a new sauce.
+▷  3: Use a new topping.
+▷  4: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>:continue 1</kbd>
+▷ Use a new ice cream.
+▷ Enter a new ice cream: <kbd>'chocolate</kbd>
+<span class="roman">→</span> CHOCOLATE, CARAMEL, CHERRY
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="restart_002dbind.html#restart_002dbind">restart-bind</a>, <a href="with_002dsimple_002drestart.html#with_002dsimple_002drestart">with-simple-restart</a>.
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (restart-case <i>expression</i>
+    (<i>name1</i> <i>arglist1</i> ...<i>options1</i>... . <i>body1</i>)
+    (<i>name2</i> <i>arglist2</i> ...<i>options2</i>... . <i>body2</i>))
+</pre>
+<p>is essentially equivalent to
+
+<pre class="lisp"> (block #1=#:g0001
+   (let ((#2=#:g0002 nil))
+        (tagbody
+        (restart-bind ((name1 #'(lambda (&amp;rest temp)
+                                (setq #2# temp)
+                                (go #3=#:g0003))
+                          ...<i>slightly-transformed-options1</i>...)
+                       (name2 #'(lambda (&amp;rest temp)
+                                (setq #2# temp)
+                                (go #4=#:g0004))
+                          ...<i>slightly-transformed-options2</i>...))
+        (return-from #1# <i>expression</i>))
+          #3# (return-from #1#
+                  (apply #'(lambda <i>arglist1</i> . <i>body1</i>) #2#))
+          #4# (return-from #1#
+                  (apply #'(lambda <i>arglist2</i> . <i>body2</i>) #2#)))))
+</pre>
+<p>Unnamed restarts are generally only useful interactively
+and an interactive option which has no description is of little value. 
+Implementations are encouraged to warn if
+an unnamed restart is used and no report information
+is provided
+at compilation    time. 
+At runtime, this error might be noticed when entering
+the debugger.  Since signaling an error would probably cause recursive
+entry into the debugger (causing yet another recursive error, etc.) it is
+suggested that the debugger print some indication of such problems when
+they occur but not actually signal errors.
+
+<pre class="lisp"> (restart-case (signal fred)
+   (a ...)
+   (b ...))
+ ≡
+ (restart-case
+     (with-condition-restarts fred
+                              (list (find-restart 'a)
+                                    (find-restart 'b))
+       (signal fred))
+   (a ...)
+   (b ...))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/restart_002dcase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

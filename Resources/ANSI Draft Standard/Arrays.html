@@ -1,0 +1,100 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Arrays.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:25:00 GMT -->
+<head>
+<title>Arrays - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Conses.html#Conses" title="Conses">
+<link rel="next" href="Strings.html#Strings" title="Strings">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Arrays"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Strings.html#Strings">Strings</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conses.html#Conses">Conses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">15 Arrays</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Array-Concepts.html#Array-Concepts">Array Concepts</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="2" href="array.html#array">array</a>
+<li><a accesskey="3" href="simple_002darray.html#simple_002darray">simple-array</a>
+<li><a accesskey="4" href="vector-_0028System-Class_0029.html#vector-_0028System-Class_0029">vector (System Class)</a>
+<li><a accesskey="5" href="simple_002dvector.html#simple_002dvector">simple-vector</a>
+<li><a accesskey="6" href="bit_002dvector.html#bit_002dvector">bit-vector</a>
+<li><a accesskey="7" href="simple_002dbit_002dvector.html#simple_002dbit_002dvector">simple-bit-vector</a>
+<li><a accesskey="8" href="make_002darray.html#make_002darray">make-array</a>
+<li><a accesskey="9" href="adjust_002darray.html#adjust_002darray">adjust-array</a>
+<li><a href="adjustable_002darray_002dp.html#adjustable_002darray_002dp">adjustable-array-p</a>
+<li><a href="aref.html#aref">aref</a>
+<li><a href="array_002ddimension.html#array_002ddimension">array-dimension</a>
+<li><a href="array_002ddimensions.html#array_002ddimensions">array-dimensions</a>
+<li><a href="array_002delement_002dtype.html#array_002delement_002dtype">array-element-type</a>
+<li><a href="array_002dhas_002dfill_002dpointer_002dp.html#array_002dhas_002dfill_002dpointer_002dp">array-has-fill-pointer-p</a>
+<li><a href="array_002ddisplacement.html#array_002ddisplacement">array-displacement</a>
+<li><a href="array_002din_002dbounds_002dp.html#array_002din_002dbounds_002dp">array-in-bounds-p</a>
+<li><a href="array_002drank.html#array_002drank">array-rank</a>
+<li><a href="array_002drow_002dmajor_002dindex.html#array_002drow_002dmajor_002dindex">array-row-major-index</a>
+<li><a href="array_002dtotal_002dsize.html#array_002dtotal_002dsize">array-total-size</a>
+<li><a href="arrayp.html#arrayp">arrayp</a>
+<li><a href="fill_002dpointer.html#fill_002dpointer">fill-pointer</a>
+<li><a href="row_002dmajor_002daref.html#row_002dmajor_002daref">row-major-aref</a>
+<li><a href="upgraded_002darray_002delement_002dtype.html#upgraded_002darray_002delement_002dtype">upgraded-array-element-type</a>
+<li><a href="array_002ddimension_002dlimit.html#array_002ddimension_002dlimit">array-dimension-limit</a>
+<li><a href="array_002drank_002dlimit.html#array_002drank_002dlimit">array-rank-limit</a>
+<li><a href="array_002dtotal_002dsize_002dlimit.html#array_002dtotal_002dsize_002dlimit">array-total-size-limit</a>
+<li><a href="simple_002dvector_002dp.html#simple_002dvector_002dp">simple-vector-p</a>
+<li><a href="svref.html#svref">svref</a>
+<li><a href="vector-_0028Function_0029.html#vector-_0028Function_0029">vector (Function)</a>
+<li><a href="vector_002dpop.html#vector_002dpop">vector-pop</a>
+<li><a href="vector_002dpush_003b-vector_002dpush_002dextend.html#vector_002dpush_003b-vector_002dpush_002dextend">vector-push; vector-push-extend</a>
+<li><a href="vectorp.html#vectorp">vectorp</a>
+<li><a href="bit_003b-sbit.html#bit_003b-sbit">bit; sbit</a>
+<li><a href="bit_002dand_003b-bit_002dandc1_003b-bit_002dandc2_003b-bit_002deqv_003b-bit_002dior_003b-bit_002dnand_003b-bit_002dnor_003b-bit_002b.html#bit_002dand_003b-bit_002dandc1_003b-bit_002dandc2_003b-bit_002deqv_003b-bit_002dior_003b-bit_002dnand_003b-bit_002dnor_003b-bit_002b">bit-and; bit-andc1; bit-andc2; bit-eqv; bit-ior; bit-nand; bit-nor; bit+</a>
+<li><a href="bit_002dvector_002dp.html#bit_002dvector_002dp">bit-vector-p</a>
+<li><a href="simple_002dbit_002dvector_002dp.html#simple_002dbit_002dvector_002dp">simple-bit-vector-p</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Arrays.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:25:37 GMT -->
+</html>
+

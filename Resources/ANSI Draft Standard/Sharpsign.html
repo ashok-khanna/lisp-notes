@@ -1,0 +1,685 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Sharpsign.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:07 GMT -->
+<head>
+<title>Sharpsign - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Standard-Macro-Characters.html#Standard-Macro-Characters" title="Standard Macro Characters">
+<link rel="prev" href="Comma.html#Comma" title="Comma">
+<link rel="next" href="Re_002dReading-Abbreviated-Expressions.html#Re_002dReading-Abbreviated-Expressions" title="Re-Reading Abbreviated Expressions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Sharpsign"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Re_002dReading-Abbreviated-Expressions.html#Re_002dReading-Abbreviated-Expressions">Re-Reading Abbreviated Expressions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Comma.html#Comma">Comma</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Standard-Macro-Characters.html#Standard-Macro-Characters">Standard Macro Characters</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.4.8 Sharpsign</h4>
+
+<p><a name="index-g_t_0023-87"></a><a name="index-Sharpsign-_0028reader-macro_0029-88"></a>
+<i>Sharpsign</i> is a <i>non-terminating</i> <i>dispatching macro character</i>. 
+It reads an optional
+sequence of digits and then one more character,
+and uses that character to select a <i>function</i> to run as a
+<i>reader macro function</i>.
+
+<p>The <i>standard syntax</i> includes constructs introduced by the <code>#</code> character. 
+The syntax of these constructs is as follows:
+a character that identifies the type of construct is
+followed by arguments in some form. 
+If the character is a letter, its <i>case</i> is not important;
+<code>#O</code> and <code>#o</code> are considered to be equivalent, for example.
+
+<p>Certain <code>#</code> constructs allow an unsigned decimal number to appear
+between the <code>#</code> and the character.
+
+<p>The <i>reader macros</i> associated with the <i>dispatching macro character</i> <code>#</code>
+are described later in this section and summarized in the next figure.
+
+<div class="float">
+<a name="fig2_002e19"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">dispatch char </th><th valign="top">purpose </th><th valign="top">dispatch char </th><th valign="top">purpose
+<br></th></tr><tr align="left"><td valign="top">Backspace </td><td valign="top">signals error </td><td valign="top"><tt>{</tt> </td><td valign="top">undefined*
+<br></td></tr><tr align="left"><td valign="top">Tab </td><td valign="top">signals error </td><td valign="top"><tt>}</tt> </td><td valign="top">undefined*
+<br></td></tr><tr align="left"><td valign="top">Newline </td><td valign="top">signals error </td><td valign="top">+ </td><td valign="top">read-time conditional
+<br></td></tr><tr align="left"><td valign="top">Linefeed </td><td valign="top">signals error </td><td valign="top">- </td><td valign="top">read-time conditional
+<br></td></tr><tr align="left"><td valign="top">Page </td><td valign="top">signals error </td><td valign="top">. </td><td valign="top">read-time evaluation
+<br></td></tr><tr align="left"><td valign="top">Return </td><td valign="top">signals error </td><td valign="top">/ </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">Space </td><td valign="top">signals error </td><td valign="top">A, a </td><td valign="top">array
+<br></td></tr><tr align="left"><td valign="top">! </td><td valign="top">undefined* </td><td valign="top">B, b </td><td valign="top">binary rational
+<br></td></tr><tr align="left"><td valign="top"><code>"</code> </td><td valign="top">undefined </td><td valign="top">C, c </td><td valign="top">complex number
+<br></td></tr><tr align="left"><td valign="top"># </td><td valign="top">reference to = label </td><td valign="top">D, d </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">$ </td><td valign="top">undefined </td><td valign="top">E, e </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">% </td><td valign="top">undefined </td><td valign="top">F, f </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">&amp; </td><td valign="top">undefined </td><td valign="top">G, g </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">' </td><td valign="top">function abbreviation </td><td valign="top">H, h </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">( </td><td valign="top">simple vector </td><td valign="top">I, i </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">) </td><td valign="top">signals error </td><td valign="top">J, j </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>*</code> </td><td valign="top">bit vector </td><td valign="top">K, k </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">, </td><td valign="top">undefined </td><td valign="top">L, l </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">: </td><td valign="top">uninterned symbol </td><td valign="top">M, m </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">; </td><td valign="top">undefined </td><td valign="top">N, n </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>&lt;</code> </td><td valign="top">signals error </td><td valign="top">O, o </td><td valign="top">octal rational
+<br></td></tr><tr align="left"><td valign="top"><code>=</code> </td><td valign="top">labels following object </td><td valign="top">P, p </td><td valign="top">pathname
+<br></td></tr><tr align="left"><td valign="top"><code>&gt;</code> </td><td valign="top">undefined </td><td valign="top">Q, q </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">? </td><td valign="top">undefined* </td><td valign="top">R, r </td><td valign="top">radix-n rational
+<br></td></tr><tr align="left"><td valign="top">@ </td><td valign="top">undefined </td><td valign="top">S, s </td><td valign="top">structure
+<br></td></tr><tr align="left"><td valign="top">[ </td><td valign="top">undefined* </td><td valign="top">T, t </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>\</code> </td><td valign="top">character object </td><td valign="top">U, u </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">] </td><td valign="top">undefined* </td><td valign="top">V, v </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top">^ </td><td valign="top">undefined </td><td valign="top">W, w </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>_</code> </td><td valign="top">undefined </td><td valign="top">X, x </td><td valign="top">hexadecimal rational
+<br></td></tr><tr align="left"><td valign="top">` </td><td valign="top">undefined </td><td valign="top">Y, y </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>|</code> </td><td valign="top">balanced comment </td><td valign="top">Z, z </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>~</code> </td><td valign="top">undefined </td><td valign="top">Rubout </td><td valign="top">undefined
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.19: Standard # Dispatching Macro Character Syntax</strong></p></div>
+
+<p>The combinations marked by an asterisk (*) are explicitly reserved to the
+user.  No <i>conforming implementation</i> defines them.
+
+<p>Note also that <i>digits</i> do not appear in the preceding table.  This is
+because the notations <code>#0</code>, <code>#1</code>, ..., <code>#9</code> are
+reserved for another purpose which occupies the same syntactic space. 
+When a <i>digit</i> follows a <i>sharpsign</i>,
+it is not treated as a dispatch character. 
+Instead, an unsigned integer argument is accumulated
+and passed as an <i>argument</i> to the <i>reader macro</i>
+for the <i>character</i> that follows the digits. 
+For example,
+<code>#2A((1 2) (3 4))</code> is a use of <code>#A</code> with an argument of <code>2</code>.
+
+<h5 class="subsubsection">2.4.8.1 Sharpsign Backslash</h5>
+
+<p><a name="SharpsignBackslash"></a><a name="index-Sharpsign-Backslash-_0028reader-macro_0029-89"></a><a name="index-Backslash-_0028sharpsign-reader-macro_0029-90"></a><a name="index-character-91"></a>
+<b>Syntax:</b> <code>#\«</code><var>x</var><code>»</code>
+
+<p>When the <i>token</i> <var>x</var> is a single <i>character</i> long,
+this parses as the literal <i>character</i> <var>char</var>. 
+<i>Uppercase</i> and <i>lowercase</i> letters are distinguished after <code>#\</code>;
+<code>#\A</code> and <code>#\a</code> denote different <i>character</i> <i>objects</i>. 
+Any single <i>character</i> works after <code>#\</code>,
+even those that are normally special to <code>read</code>,
+such as <i>left-parenthesis</i> and <i>right-parenthesis</i>.
+
+<p>In the single <i>character</i> case,
+the <var>x</var> must be followed by a non-constituent <i>character</i>. 
+After <code>#\</code> is read,
+the reader backs up over the <i>slash</i> and then reads a <i>token</i>,
+treating the initial <i>slash</i> as a <i>single escape</i> <i>character</i>
+(whether it really is or not in the <i>current readtable</i>).
+
+<p>When the <i>token</i> <var>x</var> is more than one <i>character</i> long,
+the <var>x</var> must have the syntax of a <i>symbol</i>
+with no embedded <i>package markers</i>. 
+In this case, the <i>sharpsign</i> <i>backslash</i> notation
+parses as the <i>character</i> whose <i>name</i> is <code>(string-upcase </code><var>x</var><code>)</code>;
+see <a href="Character-Names.html#Character-Names">Section 13.1.7 (Character Names)</a>.
+
+<p>For information about how the <i>Lisp printer</i> prints <i>character</i> <i>objects</i>,
+see <a href="PrintingCharacters.html#PrintingCharacters">Section 22.1.3.2 (Printing Characters)</a>.
+
+<h5 class="subsubsection">2.4.8.2 Sharpsign Single-Quote</h5>
+
+<p><a name="SharpsignQuote"></a><a name="index-Sharpsign-Single_002dQuote-_0028reader-macro_0029-92"></a><a name="index-Single_002dQuote-_0028sharpsign-reader-macro_0029-93"></a><a name="index-function-94"></a>
+Any <var>expression</var> preceded by <code>#'</code>
+(<i>sharpsign</i> followed by <i>single-quote</i>),
+as in <code>#'</code><var>expression</var>,
+is treated by the <i>Lisp reader</i> as an abbreviation for and parsed identically
+to the <i>expression</i> <code>(function </code><var>expression</var><code>)</code>. 
+See <code>function</code>.  For example,
+
+<pre class="lisp">(apply #'+ l) ≡ (apply (function +) l)
+</pre>
+<h5 class="subsubsection">2.4.8.3 Sharpsign Left-Parenthesis</h5>
+
+<p><a name="SharpsignLeftParen"></a><a name="index-Sharpsign-Left_002dParenthesis-_0028reader-macro_0029-95"></a><a name="index-Left_002dParenthesis-_0028sharpsign-reader-macro_0029-96"></a><a name="index-vector-97"></a><a name="index-simple_002dvector-98"></a>
+<code>#(</code> and <code>)</code> are used to notate a <i>simple vector</i>.
+
+<p>If an unsigned decimal integer
+appears between the <code>#</code> and <code>(</code>,
+it specifies explicitly the length of the <i>vector</i>. 
+The consequences are undefined if the number of <i>objects</i>
+specified before the closing <code>)</code>
+exceeds the unsigned decimal integer. 
+If the number of <i>objects</i> supplied before the closing <code>)</code>
+is less than the unsigned decimal integer but greater than zero,
+the last <i>object</i>
+is used to fill all
+remaining elements of the <i>vector</i>.
+
+<p>The consequences are undefined if the unsigned decimal integer is non-zero and
+number of <i>objects</i> supplied before the closing <code>)</code>
+is zero. 
+For example,
+
+<pre class="lisp"> #(a b c c c c)
+ #6(a b c c c c)
+ #6(a b c)
+ #6(a b c c)
+</pre>
+<p>all mean the same thing: a <i>vector</i> of length <code>6</code>
+with <i>elements</i> <code>a</code>, <code>b</code>, and four occurrences of <code>c</code>. 
+Other examples follow:
+
+<pre class="lisp"> #(a b c)               ;A vector of length 3
+ #(2 3 5 7 11 13 17 19 23 29 31 37 41 43 47)
+                        ;A vector containing the primes below 50
+ #()                    ;An empty vector
+</pre>
+<p>The notation <code>#()</code> denotes an empty <i>vector</i>, as does <code>#0()</code>.
+
+<p>For information on how the <i>Lisp printer</i> prints <i>vectors</i>,
+see <a href="PrintingStrings.html#PrintingStrings">Section 22.1.3.4 (Printing Strings)</a>,
+<a href="PrintingBitVectors.html#PrintingBitVectors">Section 22.1.3.6 (Printing Bit Vectors)</a>,
+or <a href="PrintingOtherVectors.html#PrintingOtherVectors">Section 22.1.3.7 (Printing Other Vectors)</a>.
+
+<h5 class="subsubsection">2.4.8.4 Sharpsign Asterisk</h5>
+
+<p><a name="SharpsignStar"></a><a name="index-Sharpsign-Asterisk-_0028reader-macro_0029-99"></a><a name="index-Asterisk-_0028sharpsign-reader-macro_0029-100"></a><a name="index-bit_002dvector-101"></a><a name="index-simple_002dbit_002dvector-102"></a>
+<b>Syntax:</b> <code>#*«</code><var>bits</var><code>»</code>
+
+<p>A <i>simple bit vector</i> is constructed containing the indicated <i>bits</i>
+(<code>0</code>'s and <code>1</code>'s), where the leftmost <var>bit</var> has index zero
+and the subsequent <var>bits</var> have increasing indices.
+
+<p><b>Syntax:</b> <code>#«</code><var>n</var><code>»*«</code><var>bits</var><code>»</code>
+
+<p>With an argument <var>n</var>,
+the <i>vector</i> to be created is of <i>length</i> <var>n</var>. 
+If the number of <var>bits</var> is less than <var>n</var> but greater than zero,
+the last bit is used to fill all remaining bits of the <i>bit vector</i>.
+
+<p>The notations <code>#*</code> and <code>#0*</code> each denote an empty <i>bit vector</i>.
+
+<p>Regardless of whether the optional numeric argument <var>n</var> is provided,
+the <i>token</i> that follows the <i>asterisk</i> is delimited by
+a normal <i>token</i> delimiter. 
+However, (unless the <i>value</i> of <code>*read-suppress*</code> is <i>true</i>)
+an error of <i>type</i> <code>reader-error</code> is signaled
+if that <i>token</i> is not composed entirely of <code>0</code>'s and <code>1</code>'s,
+or if <var>n</var> was supplied
+and the <i>token</i> is composed of more than <var>n</var> <var>bits</var>,
+or if <var>n</var> is greater than one, but no <var>bits</var> were specified. 
+Neither a <i>single escape</i> nor a <i>multiple escape</i> is permitted in this <i>token</i>.
+
+<p>For information on how the <i>Lisp printer</i> prints <i>bit vectors</i>,
+see <a href="PrintingBitVectors.html#PrintingBitVectors">Section 22.1.3.6 (Printing Bit Vectors)</a>.
+
+<h5 class="unnumberedsubsubsec">2.4.8.4.1 Examples of Sharpsign Asterisk</h5>
+
+<p>For example,
+<pre class="lisp">  #*101111
+ #6*101111
+ #6*101
+ #6*1011
+</pre>
+<p>all mean the same thing: a <i>vector</i> of length <code>6</code>
+with <i>elements</i> <code>1</code>, <code>0</code>, <code>1</code>, <code>1</code>, <code>1</code>, and <code>1</code>.
+
+<p>For example:
+
+<pre class="lisp"> #*         ;An empty bit-vector
+</pre>
+<h5 class="subsubsection">2.4.8.5 Sharpsign Colon</h5>
+
+<p><a name="SharpsignColon"></a><a name="index-Sharpsign-Colon-_0028reader-macro_0029-103"></a><a name="index-Colon-_0028sharpsign-reader-macro_0029-104"></a><a name="index-symbol-105"></a>
+<b>Syntax:</b>  <code>#:«</code><var>symbol-name</var><code>»</code>
+
+<p><code>#:</code> introduces an <i>uninterned</i> <i>symbol</i> whose <i>name</i>
+is <var>symbol-name</var>.  Every time this syntax is encountered,
+a <i>distinct</i> <i>uninterned</i> <i>symbol</i> is created. 
+The <var>symbol-name</var> must have the syntax of a <i>symbol</i>
+with no <i>package prefix</i>.
+
+<p>For information on how the <i>Lisp reader</i>
+prints <i>uninterned</i> <i>symbols</i>,
+see <a href="PrintingSymbols.html#PrintingSymbols">Section 22.1.3.3 (Printing Symbols)</a>.
+
+<h5 class="subsubsection">2.4.8.6 Sharpsign Dot</h5>
+
+<p><a name="SharpsignDot"></a><a name="index-Sharpsign-Dot-_0028reader-macro_0029-106"></a><a name="index-Dot-_0028sharpsign-reader-macro_0029-107"></a><a name="index-eval-108"></a><a name="index-g_t_002aread_002deval_002a-109"></a>
+<code>#.</code><var>foo</var> is read as the <i>object</i> resulting from the evaluation
+of the <i>object</i> represented by <var>foo</var>. 
+The evaluation is done during the <code>read</code> process,
+when the <code>#.</code> notation is encountered. 
+The <code>#.</code> syntax therefore performs a read-time evaluation of <var>foo</var>.
+
+<p>The normal effect of <code>#.</code> is inhibited when the <i>value</i> of <code>*read-eval*</code> is <i>false</i>. 
+In that situation, an error of <i>type</i> <code>reader-error</code> is signaled.
+
+<p>For an <i>object</i>
+that does not have a convenient printed
+representation, a <i>form</i> that computes the <i>object</i> can be given using
+the <code>#.</code> notation.
+
+<h5 class="subsubsection">2.4.8.7 Sharpsign B</h5>
+
+<p><a name="SharpsignB"></a><a name="index-Sharpsign-B-_0028reader-macro_0029-110"></a><a name="index-B-_0028sharpsign-reader-macro_0029-111"></a><a name="index-g_t_002aread_002dbase_002a-112"></a>
+<code>#B</code><var>rational</var> reads <var>rational</var> in binary (radix 2). 
+For example,
+
+<pre class="lisp"> #B1101 ≡ 13 ;1101<sub>2</sub>
+ #b101/11 ≡ 5/3
+</pre>
+<p>The consequences are undefined if the token immediately following
+the <code>#B</code> does not have the syntax of a binary (<i>i.e.</i>, radix 2) <i>rational</i>.
+
+<h5 class="subsubsection">2.4.8.8 Sharpsign O</h5>
+
+<p><a name="SharpsignO"></a><a name="index-Sharpsign-O-_0028reader-macro_0029-113"></a><a name="index-O-_0028sharpsign-reader-macro_0029-114"></a><a name="index-g_t_002aread_002dbase_002a-115"></a>
+<code>#O</code><var>rational</var> reads <var>rational</var> in octal (radix 8). 
+For example,
+
+<pre class="lisp"> #o37/15 ≡ 31/13
+ #o777 ≡ 511
+ #o105 ≡ 69 ;105<sub>8</sub>
+</pre>
+<p>The consequences are undefined if the token immediately following
+the <code>#O</code> does not have the syntax of an octal (<i>i.e.</i>, radix 8) <i>rational</i>.
+
+<h5 class="subsubsection">2.4.8.9 Sharpsign X</h5>
+
+<p><a name="SharpsignX"></a><a name="index-Sharpsign-X-_0028reader-macro_0029-116"></a><a name="index-X-_0028sharpsign-reader-macro_0029-117"></a><a name="index-g_t_002aread_002dbase_002a-118"></a>
+<code>#X</code><var>rational</var> reads <var>rational</var> in hexadecimal (radix 16). 
+The digits above <code>9</code> are the letters <code>A</code> through <code>F</code> (the lowercase
+letters <code>a</code> through <code>f</code> are also acceptable).  For example,
+
+<pre class="lisp"> #xF00 ≡ 3840
+ #x105 ≡ 261 ;105<sub>1</sub><sub>6</sub>
+</pre>
+<p>The consequences are undefined if the token immediately following
+the <code>#X</code> does not have the syntax of a hexadecimal (<i>i.e.</i>, radix 16) <i>rational</i>.
+
+<h5 class="subsubsection">2.4.8.10 Sharpsign R</h5>
+
+<p><a name="SharpsignR"></a><a name="index-Sharpsign-R-_0028reader-macro_0029-119"></a><a name="index-R-_0028sharpsign-reader-macro_0029-120"></a><a name="index-g_t_002aread_002dbase_002a-121"></a>
+<code>#</code><var>n</var><code>R</code>
+
+<p><code>#</code><var>radix</var><code>R</code><var>rational</var> reads <var>rational</var> in radix <var>radix</var>. 
+<var>radix</var> must consist of only digits
+that are interpreted as an <i>integer</i>
+in decimal radix; its value must be between 2 and 36 (inclusive). 
+Only valid digits
+for the specified radix may be used.
+
+<p>For example, <code>#3r102</code> is another way of writing <code>11</code> (decimal),
+and <code>#11R32</code>
+is another way of writing <code>35</code> (decimal). 
+For radices larger than 10, letters of
+the alphabet are used in order for the digits after <code>9</code>. 
+No alternate <code>#</code> notation exists for the decimal radix since a
+decimal point suffices.
+
+<p>The next figure&nbsp;<!-- /@w -->contains examples of the use of <code>#B</code>,
+<code>#O</code>, <code>#X</code>, and <code>#R</code>.
+
+<div class="float">
+<a name="fig2_002e20"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>#2r11010101</code> </td><td valign="top">;Another way of writing <code>213</code> decimal
+<br></td></tr><tr align="left"><td valign="top"><code>#b11010101</code> </td><td valign="top">;Ditto
+<br></td></tr><tr align="left"><td valign="top"><code>#b+11010101</code> </td><td valign="top">;Ditto
+<br></td></tr><tr align="left"><td valign="top"><code>#o325</code> </td><td valign="top">;Ditto, in octal radix
+<br></td></tr><tr align="left"><td valign="top"><code>#xD5</code> </td><td valign="top">;Ditto, in hexadecimal radix
+<br></td></tr><tr align="left"><td valign="top"><code>#16r+D5</code> </td><td valign="top">;Ditto
+<br></td></tr><tr align="left"><td valign="top"><code>#o-300</code> </td><td valign="top">;Decimal <code>-192</code>, written in base 8
+<br></td></tr><tr align="left"><td valign="top"><code>#3r-21010</code> </td><td valign="top">;Same thing in base 3
+<br></td></tr><tr align="left"><td valign="top"><code>#25R-7H</code> </td><td valign="top">;Same thing in base 25
+<br></td></tr><tr align="left"><td valign="top"><code>#xACCEDED</code> </td><td valign="top">;<code>181202413</code>, in hexadecimal radix
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.20: Radix Indicator Example</strong></p></div>
+
+<p>The consequences are undefined if the token immediately following
+the <code>#</code><var>n</var><code>R</code> does not have the syntax of a <i>rational</i> in radix <var>n</var>.
+
+<h5 class="subsubsection">2.4.8.11 Sharpsign C</h5>
+
+<p><a name="SharpsignC"></a><a name="index-Sharpsign-C-_0028reader-macro_0029-122"></a><a name="index-C-_0028sharpsign-reader-macro_0029-123"></a><a name="index-complex-124"></a>
+<code>#C</code> reads a following <i>object</i>, which must be a <i>list</i> of
+length two whose <i>elements</i> are both <i>reals</i>. 
+These <i>reals</i> denote, respectively,
+the real and imaginary parts of a <i>complex</i> number. 
+If the two parts as notated are not of the same data type,
+then they are converted
+according to the rules of floating-point <i>contagion</i>
+described in <a href="NumericContagionRules.html#NumericContagionRules">Section 12.1.1.2 (Contagion in Numeric Operations)</a>.
+
+<p><code>#C(</code><var>real</var> <var>imag</var><code>)</code> is equivalent to
+<code>#.(complex (quote </code><var>real</var><code>) (quote </code><var>imag</var><code>))</code>,
+except that <code>#C</code> is not affected by <code>*read-eval*</code>. 
+See the <i>function</i> <a href="complex-_0028Function_0029.html#complex-_0028Function_0029">complex (Function)</a>.
+
+<p>The next figure&nbsp;<!-- /@w -->contains examples of the use of <code>#C</code>.
+
+<div class="float">
+<a name="fig2_002e21"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>#C(3.0s1 2.0s-1)</code> </td><td valign="top">;A <i>complex</i> with <i>small float</i> parts. 
+<br></td></tr><tr align="left"><td valign="top"><code>#C(5 -3)      </code> </td><td valign="top">;A &ldquo;Gaussian integer&rdquo;
+<br></td></tr><tr align="left"><td valign="top"><code>#C(5/3 7.0) </code> </td><td valign="top">;Will be converted internally to <code>#C(1.66666 7.0)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>#C(0 1)</code> </td><td valign="top">;The imaginary unit; that is, i.
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.21: Complex Number Example</strong></p></div>
+
+<p>For further information,
+see <a href="PrintingComplexes.html#PrintingComplexes">Section 22.1.3.1.4 (Printing Complexes)</a>&nbsp;<!-- /@w -->and <a href="SyntaxOfComplexes.html#SyntaxOfComplexes">Section 2.3.2.3 (Syntax of a Complex)</a>.
+
+<h5 class="subsubsection">2.4.8.12 Sharpsign A</h5>
+
+<p><a name="SharpsignA"></a><a name="index-Sharpsign-A-_0028reader-macro_0029-125"></a><a name="index-A-_0028sharpsign-reader-macro_0029-126"></a><a name="index-array-127"></a>
+<code>#</code><var>n</var><code>A</code>
+
+<p><code>#</code><var>n</var><code>A</code><var>object</var> constructs an <var>n</var>-dimensional <i>array</i>,
+using <var>object</var> as the value of the <tt>:initial-contents</tt> argument
+to <code>make-array</code>.
+
+<p>For example, <code>#2A((0 1 5) (foo 2 (hot dog)))</code> represents a 2-by-3 matrix:
+
+<pre class="lisp"> 0       1       5
+ foo     2       (hot dog)
+</pre>
+<p>In contrast, <code>#1A((0 1 5) (foo 2 (hot dog)))</code>
+represents a <i>vector</i> of <i>length</i> <code>2</code>
+whose <i>elements</i> are <i>lists</i>:
+
+<pre class="lisp"> (0 1 5) (foo 2 (hot dog))
+</pre>
+<p><code>#0A((0 1 5) (foo 2 (hot dog)))</code> represents a zero-dimensional
+<i>array</i> whose sole element is a <i>list</i>:
+
+<pre class="lisp"> ((0 1 5) (foo 2 (hot dog)))
+</pre>
+<p><code>#0A foo</code> represents
+a zero-dimensional <i>array</i> whose sole element is the
+<i>symbol</i> <code>foo</code>. 
+The notation <code>#1A foo</code> is not valid because <code>foo</code> is
+not a <i>sequence</i>.
+
+<p>If some <i>dimension</i> of the <i>array</i>
+whose representation is being parsed is found to be <code>0</code>,
+all <i>dimensions</i> to the right
+(<i>i.e.</i>, the higher numbered <i>dimensions</i>)
+are also considered to be <code>0</code>.
+
+<p>For information on how the <i>Lisp printer</i> prints <i>arrays</i>,
+see <a href="PrintingStrings.html#PrintingStrings">Section 22.1.3.4 (Printing Strings)</a>,
+<a href="PrintingBitVectors.html#PrintingBitVectors">Section 22.1.3.6 (Printing Bit Vectors)</a>,
+<a href="PrintingOtherVectors.html#PrintingOtherVectors">Section 22.1.3.7 (Printing Other Vectors)</a>,
+or <a href="PrintingOtherArrays.html#PrintingOtherArrays">Section 22.1.3.8 (Printing Other Arrays)</a>.
+
+<h5 class="subsubsection">2.4.8.13 Sharpsign S</h5>
+
+<p><a name="SharpsignS"></a><a name="index-Sharpsign-S-_0028reader-macro_0029-128"></a><a name="index-S-_0028sharpsign-reader-macro_0029-129"></a><a name="index-structure-130"></a>
+<code>#s(name slot1 value1 slot2 value2 ...)</code>
+denotes a <i>structure</i>.  This is valid only if <var>name</var> is the name
+of a <i>structure</i> <i>type</i> already defined by <code>defstruct</code>
+and if the <i>structure</i> <i>type</i> has a standard constructor function. 
+Let <var>cm</var> stand for the name of this constructor function;
+then this syntax is equivalent to
+
+<pre class="lisp"> #.(cm keyword1 'value1 keyword2 'value2 ...)
+</pre>
+<p>where each <var>keywordj</var> is the result of computing
+
+<pre class="lisp"> (intern (string slotj) (find-package 'keyword))
+</pre>
+<p>The net effect is that the constructor function is called with the specified
+slots having the specified values. 
+(This coercion feature is deprecated; in the future, keyword names will
+be taken in the package they are read in, so <i>symbols</i> that are
+actually in the <code>KEYWORD</code> <i>package</i> should be used if that is what is desired.)
+
+<p>Whatever <i>object</i> the constructor function returns
+is returned by the <code>#S</code> syntax.
+
+<p>For information on how the <i>Lisp printer</i> prints <i>structures</i>,
+see <a href="PrintingStructures.html#PrintingStructures">Section 22.1.3.12 (Printing Structures)</a>.
+
+<h5 class="subsubsection">2.4.8.14 Sharpsign P</h5>
+
+<p><a name="SharpsignP"></a><a name="index-Sharpsign-P-_0028reader-macro_0029-131"></a><a name="index-P-_0028sharpsign-reader-macro_0029-132"></a><a name="index-pathname-133"></a>
+
+<p><code>#P</code> reads a following <i>object</i>, which must be a <i>string</i>.
+
+<p><code>#P«</code><var>expression</var><code>»</code> is equivalent to
+<code>#.(parse-namestring '«</code><var>expression</var><code>»)</code>,
+except that <code>#P</code> is not affected by <code>*read-eval*</code>.
+
+<p>For information on how the <i>Lisp printer</i> prints <i>pathnames</i>,
+see <a href="PrintingPathnames.html#PrintingPathnames">Section 22.1.3.11 (Printing Pathnames)</a>.
+
+<h5 class="subsubsection">2.4.8.15 Sharpsign Equal-Sign</h5>
+
+<p><a name="index-Sharpsign-Equal_002dSign-_0028reader-macro_0029-134"></a><a name="index-Equal_002dSign-_0028sharpsign-reader-macro_0029-135"></a><a name="index-g_t_002aprint_002dcircle_002a-136"></a>
+<code>#</code><var>n</var><code>=</code>
+
+<p><code>#</code><var>n</var><code>=</code><var>object</var> reads as whatever <i>object</i>
+has <var>object</var> as its printed representation.  However, that <i>object</i>
+is labeled by <var>n</var>, a required unsigned decimal integer, for
+possible reference by the syntax <code>#</code><var>n</var><code>#</code>. 
+The scope of the label is the <i>expression</i> being read by the outermost
+call to <code>read</code>; within this <i>expression</i>,
+the same label may not appear twice.
+
+<h5 class="subsubsection">2.4.8.16 Sharpsign Sharpsign</h5>
+
+<p><a name="index-Sharpsign-Sharpsign-_0028reader-macro_0029-137"></a><a name="index-Sharpsign-_0028sharpsign-reader-macro_0029-138"></a><a name="index-g_t_002aprint_002dcircle_002a-139"></a>
+<code>#</code><var>n</var><code>#</code>
+
+<p><code>#</code><var>n</var><code>#</code>, where <var>n</var> is a required unsigned decimal
+<i>integer</i>,
+provides a reference to some <i>object</i> labeled by <code>#</code><var>n</var><code>=</code>;
+that is, <code>#</code><var>n</var><code>#</code> represents a pointer to the same
+(<code>eq</code>) <i>object</i> labeled by <code>#</code><var>n</var><code>=</code>. 
+For example, a structure created in the variable <code>y</code> by this code:
+
+<pre class="lisp"> (setq x (list 'p 'q))
+ (setq y (list (list 'a 'b) x 'foo x))
+ (rplacd (last y) (cdr y))
+</pre>
+<p>could be represented in this way:
+
+<pre class="lisp"> ((a b) . #1=(#2=(p q) foo #2# . #1#))
+</pre>
+<p>Without this notation, but with <code>*print-length*</code> set to <code>10</code>
+and <code>*print-circle*</code> set to <code>nil</code>,
+the structure would print in this way:
+
+<pre class="lisp"> ((a b) (p q) foo (p q) (p q) foo (p q) (p q) foo (p q) ...)
+</pre>
+<p>A reference <code>#</code><var>n</var><code>#</code> may only occur after a label <code>#</code><var>n</var><code>=</code>;
+forward references are not permitted.  The reference
+may not appear as the labeled object itself (that is,
+<code>#</code><var>n</var><code>=#</code><var>n</var><code>#</code>) may not be written
+because the <i>object</i>
+labeled by <code>#</code><var>n</var><code>=</code> is not well defined in this case.
+
+<h5 class="subsubsection">2.4.8.17 Sharpsign Plus</h5>
+
+<p><a name="index-Sharpsign-Plus-_0028reader-macro_0029-140"></a><a name="index-Plus-_0028sharpsign-reader-macro_0029-141"></a><a name="index-g_t_002afeatures_002a-142"></a>
+<code>#+</code> provides a read-time conditionalization facility;
+the syntax is <code>#+</code><var>test</var> <var>expression</var>. 
+If the <i>feature expression</i> <var>test</var> succeeds,
+then this textual notation represents an <i>object</i>
+whose printed representation is <var>expression</var>. 
+If the <i>feature expression</i> <var>test</var> fails,
+then this textual notation is treated as <i>whitespace</i><sub>2</sub>;
+that is, it is as if the &ldquo;<code>#+</code> <var>test</var> <var>expression</var>&rdquo;
+did not appear and only a <i>space</i> appeared in its place.
+
+<p>For a detailed description of success and failure in <i>feature expressions</i>,
+see <a href="FeatureExpressions.html#FeatureExpressions">Section 24.1.2.1 (Feature Expressions)</a>.
+
+<p><code>#+</code> operates by first reading the <i>feature expression</i>
+and then skipping over the <var>form</var> if the <i>feature expression</i> fails. 
+While reading the <var>test</var>, the <i>current package</i> is the <code>KEYWORD</code> <i>package</i>. 
+Skipping over the <var>form</var> is accomplished by <i>binding</i>
+<code>*read-suppress*</code> to <i>true</i> and then calling <code>read</code>.
+
+<p>For examples, see <a href="FeatureExpExamples.html#FeatureExpExamples">Section 24.1.2.1.1 (Examples of Feature Expressions)</a>.
+
+<h5 class="subsubsection">2.4.8.18 Sharpsign Minus</h5>
+
+<p><a name="index-Sharpsign-Minus-_0028reader-macro_0029-143"></a><a name="index-Minus-_0028sharpsign-reader-macro_0029-144"></a><a name="index-g_t_002afeatures_002a-145"></a>
+<code>#-</code> is like <code>#+</code>
+except that it skips the <var>expression</var> if the <var>test</var> succeeds;
+that is,
+
+<pre class="lisp">#-<var>test</var> <var>expression</var> ≡ #+(not <var>test</var>) <var>expression</var>
+</pre>
+<p>For examples, see <a href="FeatureExpExamples.html#FeatureExpExamples">Section 24.1.2.1.1 (Examples of Feature Expressions)</a>.
+
+<h5 class="subsubsection">2.4.8.19 Sharpsign Vertical-Bar</h5>
+
+<p><a name="index-Sharpsign-Vertical_002dBar-_0028reader-macro_0029-146"></a><a name="index-Vertical_002dBar-_0028sharpsign-reader-macro_0029-147"></a><a name="index-comment-148"></a>
+<code>#|...|#</code> is treated as a comment by the reader. 
+It must be balanced with respect to other occurrences of <code>#|</code> and <code>|#</code>,
+but otherwise may contain any characters whatsoever.
+
+<h5 class="unnumberedsubsubsec">2.4.8.19.1 Examples of Sharpsign Vertical-Bar</h5>
+
+<p>The following are some examples that exploit the <code>#|...|#</code> notation:
+
+<pre class="lisp">;;; In this example, some debugging code is commented out with #|...|#
+;;; Note that this kind of comment can occur in the middle of a line
+;;; (because a delimiter marks where the end of the comment occurs)
+;;; where a semicolon comment can only occur at the end of a line
+;;; (because it comments out the rest of the line).
+ (defun add3 (n) #|(format t "~&amp;Adding 3 to ~D." n)|# (+ n 3))
+
+;;; The examples that follow show issues related to #| ... |# nesting.
+
+;;; In this first example, #| and |# always occur properly paired,
+;;; so nesting works naturally.
+ (defun mention-fun-fact-1a ()
+   (format t "CL uses ; and #|...|# in comments."))
+<span class="roman">→</span> MENTION-FUN-FACT-1A
+ (mention-fun-fact-1a)
+▷ CL uses ; and #|...|# in comments.
+<span class="roman">→</span> NIL
+ #| (defun mention-fun-fact-1b ()
+      (format t "CL uses ; and #|...|# in comments.")) |#
+ (fboundp 'mention-fun-fact-1b) <span class="roman">→</span> NIL
+
+;;; In this example, vertical-bar followed by sharpsign needed to appear
+;;; in a string without any matching sharpsign followed by vertical-bar
+;;; having preceded this.  To compensate, the programmer has included a
+;;; slash separating the two characters.  In case 2a, the slash is
+;;; unnecessary but harmless, but in case 2b, the slash is critical to
+;;; allowing the outer #| ... |# pair match.  If the slash were not present,
+;;; the outer comment would terminate prematurely.
+ (defun mention-fun-fact-2a ()
+   (format t "Don't use |\# unmatched or you'll get in trouble!"))
+<span class="roman">→</span> MENTION-FUN-FACT-2A
+ (mention-fun-fact-2a)
+▷ Don't use |# unmatched or you'll get in trouble!
+<span class="roman">→</span> NIL
+ #| (defun mention-fun-fact-2b ()
+      (format t "Don't use |\# unmatched or you'll get in trouble!") |#
+ (fboundp 'mention-fun-fact-2b) <span class="roman">→</span> NIL
+
+;;; In this example, the programmer attacks the mismatch problem in a
+;;; different way.  The sharpsign vertical bar in the comment is not needed
+;;; for the correct parsing of the program normally (as in case 3a), but
+;;; becomes important to avoid premature termination of a comment when such
+;;; a program is commented out (as in case 3b).
+ (defun mention-fun-fact-3a () ; #|
+   (format t "Don't use |# unmatched or you'll get in trouble!"))
+<span class="roman">→</span> MENTION-FUN-FACT-3A
+ (mention-fun-fact-3a)
+▷ Don't use |# unmatched or you'll get in trouble!
+<span class="roman">→</span> NIL
+ #|
+ (defun mention-fun-fact-3b () ; #|
+   (format t "Don't use |# unmatched or you'll get in trouble!"))
+ |#
+ (fboundp 'mention-fun-fact-3b) <span class="roman">→</span> NIL
+</pre>
+<h5 class="unnumberedsubsubsec">2.4.8.19.2 Notes about Style for Sharpsign Vertical-Bar</h5>
+
+<p>Some text editors that purport to understand Lisp syntax treat any <code>|...|</code>
+as balanced pairs that cannot nest (as if they were just balanced pairs of
+the multiple escapes used in notating certain symbols).  To compensate for
+this deficiency, some programmers use the notation <code>#||...#||...||#...||#</code>
+instead of <code>#|...#|...|#...|#</code>.   Note that this alternate usage is not
+a different <i>reader macro</i>; it merely exploits the fact that the additional
+vertical-bars occur within the comment in a way that tricks certain text editor
+into better supporting nested comments.  As such, one might sometimes see code
+like:
+
+<pre class="lisp"> #|| (+ #|| 3 ||# 4 5) ||#
+</pre>
+<p>Such code is equivalent to:
+
+<pre class="lisp"> #| (+ #| 3 |# 4 5) |#
+</pre>
+<h5 class="subsubsection">2.4.8.20 Sharpsign Less-Than-Sign</h5>
+
+<p><a name="SharpsignLeftAngle"></a><a name="index-Sharpsign-Less_002dThan_002dSign-_0028reader-macro_0029-149"></a><a name="index-Less_002dThan_002dSign-_0028sharpsign-reader-macro_0029-150"></a>
+<code>#&lt;</code> is not valid reader syntax. 
+The <i>Lisp reader</i> will signal an error
+of <i>type</i> <code>reader-error</code>
+on encountering <code>#&lt;</code>. 
+This syntax is typically used in the printed representation
+of <i>objects</i> that cannot be read back in.
+
+<h5 class="subsubsection">2.4.8.21 Sharpsign Whitespace</h5>
+
+<p><a name="index-Sharpsign-Whitespace-151"></a>
+<code>#</code> followed immediately by <i>whitespace</i><sub>1</sub> is not valid reader syntax. 
+The <i>Lisp reader</i> will signal an error of <i>type</i> <code>reader-error</code> if it
+encounters the reader macro notation <code>#&lt;Newline&gt;</code> or <code>#&lt;Space&gt;</code>.
+
+<h5 class="subsubsection">2.4.8.22 Sharpsign Right-Parenthesis</h5>
+
+<p><a name="index-Sharpsign-Right_002dParenthesis-152"></a>
+This is not valid reader syntax.
+
+<p>The <i>Lisp reader</i> will signal an error
+of <i>type</i> <code>reader-error</code>
+upon encountering <code>#)</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Sharpsign.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:09 GMT -->
+</html>
+

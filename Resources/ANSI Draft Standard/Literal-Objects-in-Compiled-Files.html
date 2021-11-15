@@ -1,0 +1,393 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Literal-Objects-in-Compiled-Files.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Literal Objects in Compiled Files - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Compilation.html#Compilation" title="Compilation">
+<link rel="prev" href="File-Compilation.html#File-Compilation" title="File Compilation">
+<link rel="next" href="Exceptional-Situations-in-the-Compiler.html#Exceptional-Situations-in-the-Compiler" title="Exceptional Situations in the Compiler">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Literal-Objects-in-Compiled-Files"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Exceptional-Situations-in-the-Compiler.html#Exceptional-Situations-in-the-Compiler">Exceptional Situations in the Compiler</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="File-Compilation.html#File-Compilation">File Compilation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compilation.html#Compilation">Compilation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.2.4 Literal Objects in Compiled Files</h4>
+
+<p>The functions <code>eval</code> and <code>compile</code> are
+required to ensure that <i>literal objects</i> referenced within the resulting
+interpreted or compiled code objects are the <i>same</i> as the
+corresponding <i>objects</i> in the <i>source code</i>. 
+<code>compile-file</code>, on the other hand,
+must produce a <i>compiled file</i> that, when loaded with
+<code>load</code>, constructs the <i>objects</i> defined by the
+<i>source code</i> and produces references to them.
+
+<p>In the case of <code>compile-file</code>, <i>objects</i>
+constructed by <code>load</code> of the <i>compiled file</i> cannot be spoken
+of as being the <i>same</i> as the <i>objects</i> constructed at
+compile time, because the <i>compiled file</i> may be loaded into a different
+<i>Lisp image</i> than the one in which it was compiled.  This section
+defines the concept of <i>similarity</i> which relates
+<i>objects</i> in the <i>evaluation environment</i> to the
+corresponding <i>objects</i> in the <i>run-time environment</i>.
+
+<p>The constraints on <i>literal objects</i> described in this section
+apply only to <code>compile-file</code>;
+<code>eval</code> and <code>compile</code> do not copy or coalesce constants.
+
+<h5 class="subsubsection">3.2.4.1 Externalizable Objects</h5>
+
+<p>The fact that the <i>file compiler</i> represents <i>literal</i> <i>objects</i>
+externally in a <i>compiled file</i> and must later reconstruct suitable
+equivalents of those <i>objects</i> when that <i>file</i> is loaded
+imposes a need for constraints on the nature of the <i>objects</i> that can be
+used as <i>literal</i> <i>objects</i> in <i>code</i> to be processed
+by the <i>file compiler</i>.
+
+<p>An <i>object</i> that can be used as a <i>literal</i> <i>object</i>
+in <i>code</i> to be processed by the <i>file compiler</i> is called an
+<a name="index-externalizable-object-196"></a><dfn>externalizable object</dfn>.
+
+<p>We define that two <i>objects</i> are <a name="index-similar-197"></a><dfn>similar</dfn> if they satisfy
+a two-place conceptual equivalence predicate (defined below), which is
+independent of the <i>Lisp image</i> so that the two <i>objects</i> in
+different <i>Lisp images</i> can be understood to be equivalent under
+this predicate.  Further, by inspecting the definition of this conceptual
+predicate, the programmer can anticipate what aspects of an <i>object</i>
+are reliably preserved by <i>file compilation</i>.
+
+<p>The <i>file compiler</i> must cooperate with the <i>loader</i> in order to
+assure that in each case where an <i>externalizable object</i> is processed
+as a <i>literal object</i>, the <i>loader</i> will construct a <i>similar</i>
+<i>object</i>.
+
+<p>The set of <i>objects</i> that are
+<a name="index-externalizable-object-198"></a><dfn>externalizable objects</dfn> are those
+for which the new conceptual term &ldquo;<i>similar</i>&rdquo; is defined, such that
+when a <i>compiled file</i> is <i>loaded</i>, an <i>object</i> can be constructed
+which can be shown to be <i>similar</i> to the original <i>object</i> which
+existed at the time the <i>file compiler</i> was operating.
+
+<h5 class="subsubsection">3.2.4.2 Similarity of Literal Objects</h5>
+
+<p><a name="Similarity"></a>
+
+<h5 class="unnumberedsubsubsec">3.2.4.2.1 Similarity of Aggregate Objects</h5>
+
+<p>Of the <i>types</i> over which <i>similarity</i> is defined,
+some are treated as aggregate objects.  For these types,
+<i>similarity</i> is defined recursively. 
+We say that an <i>object</i> of these types has certain &ldquo;basic qualities&rdquo;
+and to satisfy the <i>similarity</i> relationship, the values of the
+corresponding qualities of the two <i>objects</i> must also be similar.
+
+<h5 class="unnumberedsubsubsec">3.2.4.2.2 Definition of Similarity</h5>
+
+<p>Two <i>objects</i> S (in <i>source code</i>) and C (in <i>compiled code</i>)
+are defined to be <i>similar</i> if and only if
+they are both of one of the <i>types</i> listed here
+(or defined by the <i>implementation</i>)
+and they both satisfy all additional requirements of <i>similarity</i>
+indicated for that <i>type</i>.
+
+     <dl>
+<dt><code>number</code><dd>
+
+     <p>Two <i>numbers</i> S and C are <i>similar</i> if they are of the same <i>type</i>
+and represent the same mathematical value.
+
+     <br><dt><code>character</code><dd>
+
+     <p>Two <i>simple</i> <i>characters</i> S and C are <i>similar</i>
+if they have <i>similar</i> <i>code</i> <i>attributes</i>.
+
+     <p><i>Implementations</i> providing additional, <i>implementation-defined</i>
+<i>attributes</i> must define whether and how <i>non-simple</i> <i>characters</i>
+can be regarded as <i>similar</i>.
+
+     <br><dt><code>symbol</code><dd>
+
+     <p>Two <i>apparently uninterned</i> <i>symbols</i> S and C are <i>similar</i>
+if their
+<i>names</i>
+are <i>similar</i>.
+
+     <p>Two <i>interned</i> symbols S and C are <i>similar</i>
+if their <i>names</i> are <i>similar</i>,
+and if either S is accessible in the <i>current package</i> at compile time
+and C is accessible in the <i>current package</i> at load time,
+or C is accessible in the <i>package</i> that is <i>similar</i> to
+the <i>home package</i> of S.
+
+     <p>(Note that <i>similarity</i> of
+<i>symbols</i> is dependent
+on neither the <i>current readtable</i> nor how the <i>function</i> <code>read</code> would
+parse the <i>characters</i> in the <i>name</i> of the <i>symbol</i>.)
+
+     <br><dt><code>package</code><dd>
+
+     <p>Two <i>packages</i> S and C are <i>similar</i> if their <i>names</i> are <i>similar</i>.
+
+     <p>Note that although a <i>package</i> <i>object</i> is an <i>externalizable object</i>,
+the programmer is responsible for ensuring that the corresponding <i>package</i> is
+already in existence when code referencing it as a <i>literal</i> <i>object</i>
+is <i>loaded</i>.  The <i>loader</i> finds the corresponding <i>package</i> <i>object</i>
+as if by calling <code>find-package</code> with that <i>name</i> as an <i>argument</i>. 
+An error is signaled by the <i>loader</i> if no <i>package</i> exists at load time.
+
+     <br><dt><code>random-state</code><dd>
+
+     <p>Two <i>random states</i> S and C are <i>similar</i> if S
+would always produce the same sequence of pseudo-random numbers
+as a <i>copy</i><sub>5</sub> of C
+when given as the <var>random-state</var> <i>argument</i> to the <i>function</i> <code>random</code>,
+assuming equivalent <var>limit</var> <i>arguments</i> in each case.
+
+     <p>(Note that since C has been processed by the <i>file compiler</i>,
+it cannot be used directly as an <i>argument</i> to <code>random</code>
+because <code>random</code> would perform a side effect.)
+
+     <br><dt><code>cons</code><dd>
+
+     <p>Two <i>conses</i>, S and C, are <i>similar</i> if
+the <i>car</i><sub>2</sub> of S is <i>similar</i> to the <i>car</i><sub>2</sub> of C,
+and the <i>cdr</i><sub>2</sub> of S is <i>similar</i> to the <i>cdr</i><sub>2</sub> of C.
+
+     <br><dt><code>array</code><dd>
+
+     <p>Two one-dimensional <i>arrays</i>, S and C, are <i>similar</i> if
+the <i>length</i> of S is <i>similar</i> to the <i>length</i> of C,
+the <i>actual array element type</i> of S is <i>similar</i> to
+the <i>actual array element type</i> of C,
+and each <i>active</i> <i>element</i> of S is <i>similar</i> to
+the corresponding <i>element</i> of C.
+
+     <p>Two <i>arrays</i> of <i>rank</i> other than one, S and C, are <i>similar</i> if
+the <i>rank</i> of S is <i>similar</i> to the <i>rank</i> of C,
+each <i>dimension</i><sub>1</sub> of S is <i>similar</i> to
+the corresponding <i>dimension</i><sub>1</sub> of C,
+the <i>actual array element type</i> of S is <i>similar</i> to
+the <i>actual array element type</i> of C,
+and each <i>element</i> of S is <i>similar</i> to
+the corresponding <i>element</i> of C.
+
+     <p>In addition,
+if S is a <i>simple array</i>, then C must also be a <i>simple array</i>. 
+If S is a <i>displaced array</i>,
+has a <i>fill pointer</i>,
+or is <i>actually adjustable</i>,
+C is permitted to lack any or all of these qualities.
+
+     <br><dt><code>hash-table</code><dd>
+
+     <p>Two <i>hash tables</i> S and C are <i>similar</i> if they meet the following
+three requirements:
+
+          <ol type=1 start=1>
+<li>They both have the same test
+(<i>e.g.</i>, they are both <code>eql</code> <i>hash tables</i>).
+
+          <li>There is a unique one-to-one correspondence between the keys of
+the two <i>hash tables</i>, such that the corresponding keys are
+<i>similar</i>.
+
+          <li>For all keys, the values associated with two corresponding keys
+are <i>similar</i>.
+          </ol>
+
+     <p>If there is more than one possible one-to-one correspondence between
+the keys of S and C, the consequences are unspecified. 
+A <i>conforming program</i> cannot use a table such as S as an
+<i>externalizable constant</i>.
+
+     <br><dt><code>pathname</code><dd>
+
+     <p>Two <i>pathnames</i> S and C are <i>similar</i> if all corresponding
+<i>pathname components</i> are <i>similar</i>.
+
+     <br><dt><code>function</code><dd>
+
+     <p><i>Functions</i> are not <i>externalizable objects</i>.
+
+     <br><dt><code>structure-object</code> and <code>standard-object</code><dd>
+
+     <p>A general-purpose concept of <i>similarity</i> does not exist for <i>structures</i>
+and <i>standard objects</i>. 
+However, a <i>conforming program</i> is permitted to define a <code>make-load-form</code>
+<i>method</i> for any <i>class</i> K defined by that <i>program</i> that is
+a <i>subclass</i> of either <code>structure-object</code> or <code>standard-object</code>. 
+The effect of such a <i>method</i> is to define that an <i>object</i> S of <i>type</i> K
+in <i>source code</i> is <i>similar</i> to an <i>object</i> C of <i>type</i> K
+in <i>compiled code</i> if C was constructed from <i>code</i> produced by
+calling <code>make-load-form</code> on S. 
+</dl>
+
+<h5 class="subsubsection">3.2.4.3 Extensions to Similarity Rules</h5>
+
+<p>Some <i>objects</i>, such as <i>streams</i>, <code>readtables</code>, and <code>methods</code>
+are not <i>externalizable objects</i> under the definition of similarity given above. 
+That is, such <i>objects</i> may not portably appear as <i>literal</i> <i>objects</i>
+in <i>code</i> to be processed by the <i>file compiler</i>.
+
+<p>An <i>implementation</i> is permitted to extend the rules of similarity,
+so that other kinds of <i>objects</i> are <i>externalizable objects</i>
+for that <i>implementation</i>.
+
+<p>If for some kind of <i>object</i>, <i>similarity</i> is
+neither defined by this specification
+nor by the <i>implementation</i>,
+then the <i>file compiler</i> must signal an error upon encountering such
+an <i>object</i> as a <i>literal constant</i>.
+
+<h5 class="subsubsection">3.2.4.4 Additional Constraints on Externalizable Objects</h5>
+
+<p>If two <i>literal objects</i> appearing in the source code for a single file
+processed with
+the <i>file compiler</i>
+are the <i>identical</i>,
+the corresponding <i>objects</i> in the <i>compiled code</i>
+must also be the <i>identical</i>. 
+With the exception of <i>symbols</i> and <i>packages</i>, any two
+<i>literal objects</i>
+in <i>code</i> being processed by
+the <i>file compiler</i>
+may be <i>coalesced</i>
+if and only if they are <i>similar</i>;
+if they are either both <i>symbols</i> or both <i>packages</i>,
+they may only be <i>coalesced</i> if and only if they are <i>identical</i>.
+
+<p><i>Objects</i> containing circular references can
+be <i>externalizable objects</i>. 
+The <i>file compiler</i> is required to preserve <code>eql</code>ness of
+substructures within a <i>file</i>. 
+Preserving <code>eql</code>ness means that subobjects that are
+the <i>same</i>
+in the <i>source code</i> must
+be
+the <i>same</i>
+in the corresponding <i>compiled code</i>.
+
+<p>In addition, the following are constraints on the handling of
+<i>literal objects</i> by the <i>file compiler</i>:
+
+     <dl>
+<dt><dd><b>array:</b> If an <i>array</i> in the source code is a
+<i>simple array</i>, then the corresponding <i>array</i>
+in the compiled code will also be a <i>simple array</i>.  If
+an <i>array</i> in the source code is displaced, has a
+<i>fill pointer</i>, or is <i>actually adjustable</i>, the corresponding
+<i>array</i> in the compiled code might lack any or all of these
+qualities. If an <i>array</i> in the source code has a fill
+pointer, then the corresponding <i>array</i> in the compiled
+code might be only the size implied by the fill pointer.
+
+     <br><dt><dd><b>packages:</b> The loader is required to find the
+corresponding <i>package</i> <i>object</i> as if by calling
+<code>find-package</code> with the package name as an argument. 
+An error of <i>type</i> <code>package-error</code> is signaled if no
+<i>package</i> of that name exists at load time.
+
+     <br><dt><dd><b>random-state:</b> A constant <i>random state</i>
+object cannot be used as the state argument
+to the <i>function</i> <code>random</code> because <code>random</code> modifies this data structure.
+
+     <br><dt><dd><b>structure, standard-object:</b>
+<i>Objects</i> of <i>type</i> <code>structure-object</code> and <code>standard-object</code>
+may appear in compiled constants if there is an
+appropriate <code>make-load-form</code> method defined for that
+<i>type</i>.
+
+     <p><a name="CallingMakeLoadForm"></a>The <i>file compiler</i> calls <code>make-load-form</code> on any <i>object</i>
+that is referenced as a <i>literal object</i> if the <i>object</i> is a
+<i>generalized instance</i> of <code>standard-object</code>,
+<code>structure-object</code>, <code>condition</code>, or any of a
+(possibly empty) <i>implementation-dependent</i> set of other <i>classes</i>. 
+The <i>file compiler</i> only calls <code>make-load-form</code> once for
+any given <i>object</i> within a single <i>file</i>.
+
+     <br><dt><dd><b>symbol:</b> In order to guarantee that <i>compiled files</i> can be <i>loaded</i>
+correctly, users must ensure that the <i>packages</i> referenced in those <i>files</i>
+are defined consistently at compile time and load time.  <i>Conforming programs</i>
+must satisfy the following requirements:
+
+          <ol type=1 start=1>
+<li>The <i>current package</i> when a <i>top level form</i> in the <i>file</i>
+is processed by <code>compile-file</code> must be the same as the <i>current package</i>
+when the <i>code</i> corresponding to that <i>top level form</i> in the
+<i>compiled file</i> is executed by <code>load</code>.  In particular:
+
+               <ol type=a start=1>
+
+               <li>Any <i>top level form</i> in a <i>file</i> that alters
+the <i>current package</i> must change it to a <i>package</i>
+of the same <i>name</i> both at compile time and at load time.
+
+               <li>If the first <i>non-atomic</i> <i>top level form</i> in the <i>file</i>
+is not an <code>in-package</code> <i>form</i>, then the <i>current package</i>
+at the time <code>load</code> is called must be a <i>package</i> with the
+same <i>name</i> as the package that was the <i>current package</i>
+at the time <code>compile-file</code> was called.
+               </ol>
+
+          <li>For all <i>symbols</i>
+appearing lexically within a <i>top level form</i> that
+were <i>accessible</i> in the <i>package</i> that was the <i>current package</i>
+during processing of that <i>top level form</i> at compile time, but
+whose <i>home package</i> was another <i>package</i>, at load time there must
+be a <i>symbol</i> with the same <i>name</i> that is <i>accessible</i> in both the
+load-time <i>current package</i> and in the <i>package</i>
+with the same <i>name</i> as the
+compile-time <i>home package</i>.
+
+          <li>For all <i>symbols</i> represented in the <i>compiled file</i>
+that were <i>external symbols</i> in
+their <i>home package</i> at compile time, there must be a <i>symbol</i> with the
+same <i>name</i> that is an <i>external symbol</i> in the <i>package</i>
+with the same <i>name</i> at load time.
+          </ol>
+
+     <p>If any of these conditions do not hold, the <i>package</i> in which the <i>loader</i> looks
+for the affected <i>symbols</i> is unspecified.  <i>Implementations</i> are permitted
+to signal an error or to define this behavior. 
+</dl>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Literal-Objects-in-Compiled-Files.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

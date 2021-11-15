@@ -1,0 +1,101 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Left_002dParenthesis.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:14 GMT -->
+<head>
+<title>Left-Parenthesis - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Standard-Macro-Characters.html#Standard-Macro-Characters" title="Standard Macro Characters">
+<link rel="next" href="Right_002dParenthesis.html#Right_002dParenthesis" title="Right-Parenthesis">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Left-Parenthesis"></a>
+<a name="Left_002dParenthesis"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Right_002dParenthesis.html#Right_002dParenthesis">Right-Parenthesis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Standard-Macro-Characters.html#Standard-Macro-Characters">Standard Macro Characters</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.4.1 Left-Parenthesis</h4>
+
+<p><a name="index-g_t_0028-58"></a><a name="index-Left_002dParenthesis-_0028reader-macro_0029-59"></a><a name="index-list-60"></a>
+The <i>left-parenthesis</i> initiates reading of a <i>list</i>. 
+<code>read</code> is called recursively to read successive <i>objects</i>
+until a right parenthesis is found in the input <i>stream</i>. 
+A <i>list</i> of the <i>objects</i> read is returned.  Thus
+
+<pre class="lisp"> (a b c)
+</pre>
+<p>is read as a <i>list</i> of three <i>objects</i>
+(the <i>symbols</i> <code>a</code>, <code>b</code>, and <code>c</code>). 
+The right parenthesis need not immediately follow the printed representation of
+the last <i>object</i>; <i>whitespace</i><sub>2</sub>
+
+<p>characters and comments may precede it.
+
+<p>If no <i>objects</i> precede the right parenthesis,
+it reads as a <i>list</i> of zero <i>objects</i>
+(the <i>empty list</i>).
+
+<p>If a <i>token</i> that is just a dot
+<a name="index-dot-61"></a><a name="index-g_t_002e-62"></a>not immediately preceded by an escape character
+is read after some <i>object</i>
+then exactly one more <i>object</i> must follow the dot,
+possibly preceded or followed by <i>whitespace</i><sub>2</sub> or a comment,
+followed by the right parenthesis:
+
+<pre class="lisp"> (a b c . d)
+</pre>
+<p>This means that the <i>cdr</i> of the last <i>cons</i> in the
+<i>list</i> is not <code>nil</code>,
+but rather the <i>object</i> whose representation followed the dot. 
+The above example might have been the result of evaluating
+
+<pre class="lisp"> (cons 'a (cons 'b (cons 'c 'd)))
+</pre>
+<p>Similarly,
+
+<pre class="lisp"> (cons 'this-one 'that-one) <span class="roman">→</span> (this-one . that-one)
+</pre>
+<p>It is permissible for the <i>object</i>
+following the dot to be a <i>list</i>:
+
+<pre class="lisp"> (a b c d . (e f . (g))) ≡ (a b c d e f g)
+</pre>
+<p>For information on how the <i>Lisp printer</i> prints <i>lists</i> and <i>conses</i>,
+see <a href="PrintingListsAndConses.html#PrintingListsAndConses">Section 22.1.3.5 (Printing Lists and Conses)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Left_002dParenthesis.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:14 GMT -->
+</html>
+

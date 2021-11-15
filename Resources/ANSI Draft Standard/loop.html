@@ -1,0 +1,289 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/loop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:49 GMT -->
+<head>
+<title>loop - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Iteration.html#Iteration" title="Iteration">
+<link rel="prev" href="dolist.html#dolist" title="dolist">
+<link rel="next" href="loop_002dfinish.html#loop_002dfinish" title="loop-finish">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="loop"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="loop_002dfinish.html#loop_002dfinish">loop-finish</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="dolist.html#dolist">dolist</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Iteration.html#Iteration">Iteration</a>
+<hr>
+</div>
+
+<h3 class="heading">loop (Macro)</h3>
+
+<p><a name="index-loop-693"></a><a name="index-loop-694"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<p>The &ldquo;simple&rdquo; <code>loop</code> <i>form</i>:
+
+<div class="defun">
+&mdash; Macro: <b>loop</b> <tt>{</tt><var>compound-form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-loop-695"></a></var><br>
+     </div>
+
+<p>The &ldquo;extended&rdquo; <code>loop</code> <i>form</i>:
+
+<div class="defun">
+&mdash; Macro: <b>loop</b> <tt>[</tt><tt>↓</tt><var>name-clause</var><tt>]</tt> <tt>{</tt><tt>↓</tt><var>variable-clause</var><tt>}</tt><var>* </var><tt>{</tt><tt>↓</tt><var>main-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-loop-696"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>name-clause</var>::=<dd><code>named</code> <var>name</var>
+</dl>
+
+     <dl>
+<dt><var>variable-clause</var>::=<dd><tt>↓</tt>with-clause | <tt>↓</tt>initial-final | <tt>↓</tt>for-as-clause
+</dl>
+
+     <dl>
+<dt><var>with-clause</var>::=<dd><code>with</code> <var>var1</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <tt>[</tt>= <var>form1</var><tt>]</tt> <tt>{</tt><code>and</code> <var>var2</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <tt>[</tt>= <var>form2</var><tt>]</tt><tt>}</tt>*
+</dl>
+
+     <dl>
+<dt><var>main-clause</var>::=<dd><tt>↓</tt>unconditional | <tt>↓</tt>accumulation | <tt>↓</tt>conditional | <tt>↓</tt>termination-test | <tt>↓</tt>initial-final
+</dl>
+
+     <dl>
+<dt><var>initial-final</var>::=<dd><code>initially</code> <tt>{</tt><var>compound-form</var><tt>}</tt>+ | <code>finally</code> <tt>{</tt><var>compound-form</var><tt>}</tt>+
+</dl>
+
+     <dl>
+<dt><var>unconditional</var>::=<dd><tt>{</tt><code>do</code> | <code>doing</code><tt>}</tt> <tt>{</tt><var>compound-form</var><tt>}</tt>+ | <code>return</code> <tt>{</tt><var>form</var> | <code>it</code><tt>}</tt>
+</dl>
+
+     <dl>
+<dt><var>accumulation</var>::=<dd><tt>↓</tt>list-accumulation | <tt>↓</tt>numeric-accumulation
+</dl>
+
+     <dl>
+<dt><var>list-accumulation</var>::=<dd><tt>{</tt><code>collect</code> | <code>collecting</code> | <code>append</code> | <code>appending</code> | <code>nconc</code> | <code>nconcing</code><tt>}</tt> <tt>{</tt><var>form</var> | <code>it</code><tt>}</tt> <br> <tt>[</tt><code>into</code> <var>simple-var</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>numeric-accumulation</var>::=<dd><tt>{</tt><code>count</code> | <code>counting</code> | <code>sum</code> | <code>summing</code> | <br> <tt>{</tt><code>maximize</code> | <code>maximizing</code> | <code>minimize</code> | <code>minimizing</code><tt>}</tt> <tt>{</tt><var>form</var> | <code>it</code><tt>}</tt> <br> <tt>[</tt><code>into</code> <var>simple-var</var><tt>]</tt> <tt>[</tt><var>type-spec</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>conditional</var>::=<dd><tt>{</tt><code>if</code> | <code>when</code> | <code>unless</code><tt>}</tt> <var>form</var> <tt>↓</tt>selectable-clause <tt>{</tt><code>and</code> <tt>↓</tt>selectable-clause<tt>}</tt>* <br> <tt>[</tt><code>else</code> <tt>↓</tt>selectable-clause <tt>{</tt><code>and</code> <tt>↓</tt>selectable-clause<tt>}</tt>*<tt>]</tt> <br> <tt>[</tt><code>end</code><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>selectable-clause</var>::=<dd><tt>↓</tt>unconditional | <tt>↓</tt>accumulation | <tt>↓</tt>conditional
+</dl>
+
+     <dl>
+<dt><var>termination-test</var>::=<dd><code>while</code> <var>form</var> | <code>until</code> <var>form</var> | <code>repeat</code> <var>form</var> | <code>always</code> <var>form</var> | <code>never</code> <var>form</var> | <code>thereis</code> <var>form</var>
+</dl>
+
+     <dl>
+<dt><var>for-as-clause</var>::=<dd><tt>{</tt><code>for</code> | <code>as</code><tt>}</tt> <tt>↓</tt>for-as-subclause <tt>{</tt><code>and</code> <tt>↓</tt>for-as-subclause<tt>}</tt>*
+</dl>
+
+     <dl>
+<dt><var>for-as-subclause</var>::=<dd><tt>↓</tt>for-as-arithmetic | <tt>↓</tt>for-as-in-list | <tt>↓</tt>for-as-on-list | <tt>↓</tt>for-as-equals-then |<br> <tt>↓</tt>for-as-across | <tt>↓</tt>for-as-hash | <tt>↓</tt>for-as-package
+</dl>
+
+     <dl>
+<dt><var>for-as-arithmetic</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <tt>↓</tt>for-as-arithmetic-subclause
+</dl>
+
+     <dl>
+<dt><var>for-as-arithmetic-subclause</var>::=<dd><tt>↓</tt>arithmetic-up | <tt>↓</tt>arithmetic-downto | <tt>↓</tt>arithmetic-downfrom
+</dl>
+
+     <dl>
+<dt><var>arithmetic-up</var>::=<dd>〚<tt>{</tt><code>from</code> | <code>upfrom</code><tt>}</tt> <var>form1</var> | 〚<tt>{</tt><code>to</code> | <code>upto</code> | <code>below</code><tt>}</tt> <var>form2</var> | 〚<code>by</code> <var>form3</var>〛<sup>+</sup>
+
+</dl>
+
+     <dl>
+<dt><var>arithmetic-downto</var>::=<dd>〚<tt>{</tt><code>from</code> <var>form1</var><tt>}</tt>¹ | 〚<tt>{</tt><tt>{</tt><code>downto</code> | <code>above</code><tt>}</tt> <var>form2</var><tt>}</tt>¹ | 〚<code>by</code> <var>form3</var>〛
+</dl>
+
+     <dl>
+<dt><var>arithmetic-downfrom</var>::=<dd>〚<tt>{</tt><code>downfrom</code> <var>form1</var><tt>}</tt>¹ | 〚<tt>{</tt><code>to</code> | <code>downto</code> | <code>above</code><tt>}</tt> <var>form2</var> | 〚<code>by</code> <var>form3</var>〛
+</dl>
+
+     <dl>
+<dt><var>for-as-in-list</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <code>in</code> <var>form1</var> <tt>[</tt><code>by</code> <var>step-fun</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>for-as-on-list</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <code>on</code> <var>form1</var> <tt>[</tt><code>by</code> <var>step-fun</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>for-as-equals-then</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> = <var>form1</var> <tt>[</tt><code>then</code> <var>form2</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>for-as-across</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <code>across</code> <var>vector</var>
+</dl>
+
+     <dl>
+<dt><var>for-as-hash</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <code>being</code> <tt>{</tt><code>each</code> | <code>the</code><tt>}</tt> <br> <tt>{</tt><tt>{</tt><code>hash-key</code> | <code>hash-keys</code><tt>}</tt> <tt>{</tt><code>in</code> | <code>of</code><tt>}</tt> <var>hash-table</var> <br> <tt>{</tt><tt>[</tt><code>using</code> <tt>(</tt><code>hash-value</code> <var>other-var</var><tt>)</tt><tt>]</tt> | <br> <tt>{</tt><tt>{</tt><code>hash-value</code> | <code>hash-values</code><tt>}</tt> <tt>{</tt><code>in</code> | <code>of</code><tt>}</tt> <var>hash-table</var> <br> <tt>{</tt><tt>[</tt><code>using</code> <tt>(</tt><code>hash-key</code> <var>other-var</var><tt>)</tt><tt>]</tt><tt>}</tt>
+</dl>
+
+     <dl>
+<dt><var>for-as-package</var>::=<dd><var>var</var> <tt>[</tt><var>type-spec</var><tt>]</tt> <code>being</code> <tt>{</tt><code>each</code> | <code>the</code><tt>}</tt> <br> <tt>{</tt><code>symbol</code> | <code>symbols</code> |<br> <tt>{</tt><code>present-symbol</code> | <code>present-symbols</code> |<br> <tt>{</tt><code>external-symbol</code> | <code>external-symbols</code><tt>}</tt> <br> <tt>[</tt><tt>{</tt><code>in</code> | <code>of</code><tt>}</tt> <var>package</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>type-spec</var>::=<dd><tt>↓</tt>simple-type-spec | <tt>↓</tt>destructured-type-spec
+</dl>
+
+     <dl>
+<dt><var>simple-type-spec</var>::=<dd><code>fixnum</code> | <code>float</code> | <code>t</code> | <code>nil</code>
+</dl>
+
+     <dl>
+<dt><var>destructured-type-spec</var>::=<dd><code>of-type</code> <var>d-type-spec</var>
+</dl>
+
+     <dl>
+<dt><var>d-type-spec</var>::=<dd><var>type-specifier</var> | <code>(</code><var>d-type-spec</var><code> . </code><var>d-type-spec</var><code>)</code>
+</dl>
+
+     <dl>
+<dt><var>var</var>::=<dd><tt>↓</tt>d-var-spec
+</dl>
+
+     <dl>
+<dt><var>var1</var>::=<dd><tt>↓</tt>d-var-spec
+</dl>
+
+     <dl>
+<dt><var>var2</var>::=<dd><tt>↓</tt>d-var-spec
+</dl>
+
+     <dl>
+<dt><var>other-var</var>::=<dd><tt>↓</tt>d-var-spec
+</dl>
+
+     <dl>
+<dt><var>d-var-spec</var>::=<dd><var>simple-var</var> | <code>nil</code>&nbsp;<!-- /@w -->| <tt>(</tt><tt>↓</tt>d-var-spec <code>.</code> <tt>↓</tt>d-var-spec<tt>)</tt>
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>compound-form</var>&mdash;a <i>compound form</i>.
+
+<p><var>name</var>&mdash;a <i>symbol</i>.
+
+<p><var>simple-var</var>&mdash;a <i>symbol</i> (a <i>variable</i> name).
+
+<p><var>form</var>, <var>form1</var>, <var>form2</var>, <var>form3</var>&mdash;a <i>form</i>.
+
+<p><var>step-fun</var>&mdash;a <i>form</i> that evaluates to a <i>function</i> of one <i>argument</i>.
+
+<p><var>vector</var>&mdash;a <i>form</i> that evaluates to a <i>vector</i>.
+
+<p><var>hash-table</var>&mdash;a <i>form</i> that evaluates to a <i>hash table</i>.
+
+<p><var>package</var>&mdash;a <i>form</i> that evaluates to a <i>package designator</i>.
+
+<p><var>type-specifier</var>&mdash;a <i>type specifier</i>. 
+This might be either an <i>atomic type specifier</i> or a <i>compound type specifier</i>,
+which introduces some additional complications to proper parsing in the face of
+destructuring; for further information, see <a href="DestructuringLOOPVars.html#DestructuringLOOPVars">Section 6.1.1.7 (Destructuring)</a>.
+
+<p><var>result</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>For details, see <a href="The-LOOP-Facility.html#The-LOOP-Facility">Section 6.1 (The LOOP Facility)</a>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;; An example of the simple form of LOOP.
+ (defun sqrt-advisor ()
+   (loop (format t "~&amp;Number: ")
+         (let ((n (parse-integer (read-line) :junk-allowed t)))
+           (when (not n) (return))
+           (format t "~&amp;The square root of ~D is ~D.~%" n (sqrt n)))))
+<span class="roman">→</span> SQRT-ADVISOR
+ (sqrt-advisor)
+▷ Number: <kbd>5↩</kbd>
+▷ The square root of 5 is 2.236068.
+▷ Number: <kbd>4↩</kbd>
+▷ The square root of 4 is 2.
+▷ Number: <kbd>done↩</kbd>
+<span class="roman">→</span> NIL
+
+;; An example of the extended form of LOOP.
+ (defun square-advisor ()
+   (loop as n = (progn (format t "~&amp;Number: ")
+                       (parse-integer (read-line) :junk-allowed t))
+         while n
+         do (format t "~&amp;The square of ~D is ~D.~%" n (* n n))))
+<span class="roman">→</span> SQUARE-ADVISOR
+ (square-advisor)
+▷ Number: <kbd>4↩</kbd>
+▷ The square of 4 is 16.
+▷ Number: <kbd>23↩</kbd>
+▷ The square of 23 is 529.
+▷ Number: <kbd>done↩</kbd>
+<span class="roman">→</span> NIL
+
+;; Another example of the extended form of LOOP.
+ (loop for n from 1 to 10
+       when (oddp n)
+         collect n)
+<span class="roman">→</span> (1 3 5 7 9)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="do.html#do">do</a>, <a href="dolist.html#dolist">dolist</a>, <a href="dotimes.html#dotimes">dotimes</a>,
+<a href="return.html#return">return</a>, <a href="go.html#go">go</a>, <a href="throw.html#throw">throw</a>,
+<a href="DestructuringLOOPVars.html#DestructuringLOOPVars">Section 6.1.1.7 (Destructuring)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Except that <code>loop-finish</code> cannot be used within a simple <code>loop</code> <i>form</i>,
+a simple <code>loop</code> <i>form</i> is related to an extended <code>loop</code> <i>form</i>
+in the following way:
+
+<pre class="lisp"> (loop <tt>{</tt>compound-form<tt>}</tt>*) ≡ (loop do <tt>{</tt>compound-form<tt>}</tt>*)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/loop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+</html>
+

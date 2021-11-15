@@ -1,0 +1,105 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/allocate_002dinstance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+<head>
+<title>allocate-instance - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="ensure_002dgeneric_002dfunction.html#ensure_002dgeneric_002dfunction" title="ensure-generic-function">
+<link rel="next" href="reinitialize_002dinstance.html#reinitialize_002dinstance" title="reinitialize-instance">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="allocate-instance"></a>
+<a name="allocate_002dinstance"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="reinitialize_002dinstance.html#reinitialize_002dinstance">reinitialize-instance</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="ensure_002dgeneric_002dfunction.html#ensure_002dgeneric_002dfunction">ensure-generic-function</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="heading">allocate-instance (Standard Generic Function)</h3>
+
+<p><a name="index-allocate_002dinstance-726"></a><a name="index-allocate_002dinstance-727"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Generic Function: <b>allocate-instance</b><var> class </var><tt>&amp;rest</tt><var> initargs </var><tt>&amp;key</tt> <tt>&amp;allow-other-keys</tt> <span class="roman">→</span><var> new-instance<a name="index-allocate_002dinstance-728"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Method Signatures:</h5>
+
+<p>allocate-instance <tt>(</tt><var>class</var> <code>standard-class</code><tt>)</tt> <tt>&amp;rest</tt> initargs
+
+<p>allocate-instance <tt>(</tt><var>class</var> <code>structure-class</code><tt>)</tt> <tt>&amp;rest</tt> initargs
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>class</var>&mdash;a <i>class</i>.
+
+<p><var>initargs</var>&mdash;a <i>list</i> of <i>keyword/value pairs</i>
+(initialization argument <i>names</i> and <i>values</i>).
+
+<p><var>new-instance</var>&mdash;an <i>object</i> whose <i>class</i> is <var>class</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The generic function <code>allocate-instance</code> creates and returns
+a new instance of the <var>class</var>, without initializing it. 
+When the <var>class</var> is a <i>standard class</i>, this means that
+the <i>slots</i> are <i>unbound</i>; when the <i>class</i> is a
+<i>structure class</i>, this means the <i>slots</i>' <i>values</i>
+are unspecified.
+
+<p>The caller of <code>allocate-instance</code> is expected to have
+already checked the initialization arguments.
+
+<p>The <i>generic function</i> <code>allocate-instance</code> is called by
+<code>make-instance</code>, as described in
+<a href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Section 7.1 (Object Creation and Initialization)</a>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="defclass.html#defclass">defclass</a>, <a href="make_002dinstance.html#make_002dinstance">make-instance</a>, <a href="class_002dof.html#class_002dof">class-of</a>,
+<a href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Section 7.1 (Object Creation and Initialization)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The consequences of adding <i>methods</i> to <code>allocate-instance</code> is unspecified. 
+This capability might be added by the <i>Metaobject Protocol</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/allocate_002dinstance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+</html>
+

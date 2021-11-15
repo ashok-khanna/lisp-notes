@@ -1,0 +1,80 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Notes-about-Loop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Notes about Loop - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="prev" href="Examples-of-Miscellaneous-Loop-Features.html#Examples-of-Miscellaneous-Loop-Features" title="Examples of Miscellaneous Loop Features">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Notes-about-Loop"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Examples-of-Miscellaneous-Loop-Features.html#Examples-of-Miscellaneous-Loop-Features">Examples of Miscellaneous Loop Features</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.9 Notes about Loop</h4>
+
+<p><i>Types</i> can be supplied for loop variables. 
+It is not necessary to supply a <i>type</i> for any variable,
+but supplying the <i>type</i>
+can ensure that the variable has a correctly typed initial value,
+and it can also enable compiler optimizations
+(depending on the <i>implementation</i>).
+
+<p>The clause <code>repeat</code> <i>n</i> ... is roughly equivalent to a clause such as
+
+<pre class="lisp"> (loop for <i>internal-variable</i> downfrom (- <i>n</i> 1) to 0 ...)
+</pre>
+<p>but in some <i>implementations</i>,
+the <code>repeat</code> construct might be more efficient.
+
+<p>Within the executable parts of the loop clauses and around the entire
+<code>loop</code> form, variables can be bound by using <code>let</code>.
+
+<p>Use caution when using a variable named <code>IT</code> (in any <i>package</i>)
+in connection with <code>loop</code>, since <code>it</code> is a <i>loop keyword</i>
+that can be used in place of a <i>form</i> in certain contexts.
+
+<p>There is
+no
+<i>standardized</i>
+mechanism for users to add
+extensions to <code>loop</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Notes-about-Loop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

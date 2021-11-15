@@ -1,0 +1,248 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/decode_002dfloat_003b-scale_002dfloat_003b-float_002dradix_003b-float_002dsign_003b-float_002ddigits_003b-float_002b.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:34 GMT -->
+<head>
+<title>decode-float; scale-float; float-radix; float-sign; float-digits; float+ - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="most_002dpositive_002dfixnum_003b-most_002dnegative_002dfixnum.html#most_002dpositive_002dfixnum_003b-most_002dnegative_002dfixnum" title="most-positive-fixnum; most-negative-fixnum">
+<link rel="next" href="float-_0028Function_0029.html#float-_0028Function_0029" title="float (Function)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="decode-float%3b-scale-float%3b-float-radix%3b-float-sign%3b-float-digits%3b-float+"></a>
+<a name="decode_002dfloat_003b-scale_002dfloat_003b-float_002dradix_003b-float_002dsign_003b-float_002ddigits_003b-float_002b"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="float-_0028Function_0029.html#float-_0028Function_0029">float (Function)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="most_002dpositive_002dfixnum_003b-most_002dnegative_002dfixnum.html#most_002dpositive_002dfixnum_003b-most_002dnegative_002dfixnum">most-positive-fixnum; most-negative-fixnum</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">decode-float, scale-float, float-radix, float-sign, float-digits, float-precision, integer-decode-float (Function)</h3>
+
+<p><a name="index-decode_002dfloat-1530"></a><a name="index-decode_002dfloat-1531"></a><a name="index-scale_002dfloat-1532"></a><a name="index-scale_002dfloat-1533"></a><a name="index-float_002dradix-1534"></a><a name="index-float_002dradix-1535"></a><a name="index-float_002dsign-1536"></a><a name="index-float_002dsign-1537"></a><a name="index-float_002ddigits-1538"></a><a name="index-float_002ddigits-1539"></a><a name="index-float_002dprecision-1540"></a><a name="index-float_002dprecision-1541"></a><a name="index-integer_002ddecode_002dfloat-1542"></a><a name="index-integer_002ddecode_002dfloat-1543"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>decode-float</b><var> float </var><span class="roman">→</span><var> significand, exponent, sign<a name="index-decode_002dfloat-1544"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>scale-float</b><var> float integer </var><span class="roman">→</span><var> scaled-float<a name="index-scale_002dfloat-1545"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>float-radix</b><var> float </var><span class="roman">→</span><var> float-radix<a name="index-float_002dradix-1546"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>float-sign</b><var> float-1 </var><tt>&amp;optional</tt><var> float-2 </var><span class="roman">→</span><var> signed-float<a name="index-float_002dsign-1547"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>float-digits</b><var> float </var><span class="roman">→</span><var> digits1<a name="index-float_002ddigits-1548"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>float-precision</b><var> float </var><span class="roman">→</span><var> digits2<a name="index-float_002dprecision-1549"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>integer-decode-float</b><var> float </var><span class="roman">→</span><var> significand, exponent, integer-sign<a name="index-integer_002ddecode_002dfloat-1550"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>digits1</var>&mdash;a non-negative <i>integer</i>.
+
+<p><var>digits2</var>&mdash;a non-negative <i>integer</i>.
+
+<p><var>exponent</var>&mdash;an <i>integer</i>.
+
+<p><var>float</var>&mdash;a <i>float</i>.
+
+<p><var>float-1</var>&mdash;a <i>float</i>.
+
+<p><var>float-2</var>&mdash;a <i>float</i>.
+
+<p><var>float-radix</var>&mdash;an <i>integer</i>.
+
+<p><var>integer</var>&mdash;a non-negative <i>integer</i>.
+
+<p><var>integer-sign</var>&mdash;the <i>integer</i> <code>-1</code>,
+or the <i>integer</i> <code>1</code>.
+
+<p><var>scaled-float</var>&mdash;a <i>float</i>.
+
+<p><var>sign</var>&mdash;A <i>float</i> of the same <i>type</i> as <var>float</var>
+but numerically equal to <code>1.0</code> or <code>-1.0</code>.
+
+<p><var>signed-float</var>&mdash;a <i>float</i>.
+
+<p><var>significand</var>&mdash;a <i>float</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>decode-float</code> computes three values that characterize
+<var>float</var>. 
+The first value is of the same <i>type</i>
+as <var>float</var> and
+represents the significand. 
+The second value represents the exponent
+to which the radix (notated in this description by <i>b</i>) must
+be raised to obtain the value that, when multiplied with the first
+result, produces the absolute value of <var>float</var>. 
+If <var>float</var> is zero, any <i>integer</i> value may be returned,
+provided that the identity shown for <code>scale-float</code> holds. 
+The third value
+is of the same <i>type</i> as <var>float</var>
+and is 1.0 if <var>float</var> is greater
+than or equal to zero or -1.0 otherwise.
+
+<p><code>decode-float</code>
+divides <var>float</var> by an integral power of <i>b</i>
+so as to bring its value between 1/<i>b</i> (inclusive) and&nbsp;1 (exclusive),
+and returns the quotient as the first value. 
+If <var>float</var> is zero, however, the result
+equals the absolute value of <var>float</var> (that is, if there is a negative
+zero, its significand is considered to be a positive zero).
+
+<p><code>scale-float</code> returns
+<code>(* </code><var>float</var><code> (expt (float </code><i>b</i> <var>float</var><code>)
+</code><var>integer</var><code>))</code>, where <i>b</i> is the radix of the floating-point
+representation. <var>float</var> is not necessarily between 1/<i>b</i> and&nbsp;1.
+
+<p><code>float-radix</code> returns
+the radix of <var>float</var>.
+
+<p><code>float-sign</code> returns a number <code>z</code> such
+that <code>z</code> and <var>float-1</var> have the same sign and also such that
+<code>z</code> and <var>float-2</var> have the same absolute value. 
+If <var>float-2</var> is not supplied, its value is <code>(float 1 </code><var>float-1</var><code>)</code>. 
+If an implementation
+has distinct representations for negative zero and positive zero,
+then <code>(float-sign -0.0)</code> <span class="roman">→</span>&nbsp;<!-- /@w --><code>-1.0</code>.
+
+<p><code>float-digits</code> returns
+the number of radix <i>b</i> digits
+used in the representation of <var>float</var> (including any implicit
+digits, such as a &ldquo;hidden bit&rdquo;).
+
+<p><code>float-precision</code>
+returns
+the number of significant radix <i>b</i> digits present in <var>float</var>;
+if <var>float</var> is a <i>float</i>
+zero, then the result is an <i>integer</i> zero.
+
+<p>For <i>normalized</i> <i>floats</i>,
+the results of <code>float-digits</code> and <code>float-precision</code> are the same,
+but the precision is less than the number of representation digits
+for a <i>denormalized</i> or zero number.
+
+<p><code>integer-decode-float</code> computes three values that characterize
+<var>float</var> -
+the significand scaled so as to be an <i>integer</i>,
+and the same last two
+values that are returned by <code>decode-float</code>. 
+If <var>float</var> is zero, <code>integer-decode-float</code> returns
+zero as the first value. 
+The second value bears the same relationship to the first value
+as for <code>decode-float</code>:
+
+<pre class="lisp"> (multiple-value-bind (signif expon sign)
+                      (integer-decode-float f)
+   (scale-float (float signif f) expon)) ≡ (abs f)
+</pre>
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> ;; Note that since the purpose of this functionality is to expose
+ ;; details of the implementation, all of these examples are necessarily
+ ;; very implementation-dependent.  Results may vary widely.
+ ;; Values shown here are chosen consistently from one particular implementation.
+ (decode-float .5) <span class="roman">→</span> 0.5, 0, 1.0
+ (decode-float 1.0) <span class="roman">→</span> 0.5, 1, 1.0
+ (scale-float 1.0 1) <span class="roman">→</span> 2.0
+ (scale-float 10.01 -2) <span class="roman">→</span> 2.5025
+ (scale-float 23.0 0) <span class="roman">→</span> 23.0
+ (float-radix 1.0) <span class="roman">→</span> 2
+ (float-sign 5.0) <span class="roman">→</span> 1.0
+ (float-sign -5.0) <span class="roman">→</span> -1.0
+ (float-sign 0.0) <span class="roman">→</span> 1.0
+ (float-sign 1.0 0.0) <span class="roman">→</span> 0.0
+ (float-sign 1.0 -10.0) <span class="roman">→</span> 10.0
+ (float-sign -1.0 10.0) <span class="roman">→</span> -10.0
+ (float-digits 1.0) <span class="roman">→</span> 24
+ (float-precision 1.0) <span class="roman">→</span> 24
+ (float-precision least-positive-single-float) <span class="roman">→</span> 1
+ (integer-decode-float 1.0) <span class="roman">→</span> 8388608, -23, 1
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>The implementation's representation for <i>floats</i>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The functions <code>decode-float</code>, <code>float-radix</code>, <code>float-digits</code>,
+<code>float-precision</code>, and <code>integer-decode-float</code> should signal an error
+if their only argument is not a <i>float</i>.
+
+<p>The <i>function</i> <code>scale-float</code> should signal an error if its first argument
+is not a <i>float</i> or if its second argument is not an <i>integer</i>.
+
+<p>The <i>function</i> <code>float-sign</code> should signal an error if its first argument
+is not a <i>float</i> or if its second argument is supplied but is
+not a <i>float</i>.
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The product of the first result of <code>decode-float</code> or <code>integer-decode-float</code>,
+of the radix raised to the power of the second result, and of the third result
+is exactly equal to the value of <var>float</var>.
+
+<pre class="lisp"> (multiple-value-bind (signif expon sign)
+                      (decode-float f)
+   (scale-float signif expon))
+≡ (abs f)
+</pre>
+<p>and
+
+<pre class="lisp"> (multiple-value-bind (signif expon sign)
+                      (decode-float f)
+   (* (scale-float signif expon) sign))
+≡ f
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/decode_002dfloat_003b-scale_002dfloat_003b-float_002dradix_003b-float_002dsign_003b-float_002ddigits_003b-float_002b.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:34 GMT -->
+</html>
+

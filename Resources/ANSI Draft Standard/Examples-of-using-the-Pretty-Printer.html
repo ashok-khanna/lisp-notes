@@ -1,0 +1,341 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-using-the-Pretty-Printer.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Examples of using the Pretty Printer - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-Lisp-Pretty-Printer.html#The-Lisp-Pretty-Printer" title="The Lisp Pretty Printer">
+<link rel="prev" href="Pretty-Printer-Concepts.html#Pretty-Printer-Concepts" title="Pretty Printer Concepts">
+<link rel="next" href="Notes-about-the-Pretty-Printer_0027s-Background.html#Notes-about-the-Pretty-Printer_0027s-Background" title="Notes about the Pretty Printer's Background">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-using-the-Pretty-Printer"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Notes-about-the-Pretty-Printer_0027s-Background.html#Notes-about-the-Pretty-Printer_0027s-Background">Notes about the Pretty Printer's Background</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pretty-Printer-Concepts.html#Pretty-Printer-Concepts">Pretty Printer Concepts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Lisp-Pretty-Printer.html#The-Lisp-Pretty-Printer">The Lisp Pretty Printer</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.2.2 Examples of using the Pretty Printer</h4>
+
+<p>As an example of the interaction of logical blocks, conditional newlines,
+and indentation, consider the function <code>simple-pprint-defun</code> below.  This
+function prints out lists whose <i>cars</i> are <code>defun</code> in the
+standard way assuming that the list has exactly length <code>4</code>.
+
+<pre class="lisp">(defun simple-pprint-defun (*standard-output* list)
+  (pprint-logical-block (*standard-output* list :prefix "(" :suffix ")")
+    (write (first list))
+    (write-char #\Space)
+    (pprint-newline :miser)
+    (pprint-indent :current 0)
+    (write (second list))
+    (write-char #\Space)
+    (pprint-newline :fill)
+    (write (third list))
+    (pprint-indent :block 1)
+    (write-char #\Space)
+    (pprint-newline :linear)
+    (write (fourth list))))
+</pre>
+<p>Suppose that one evaluates the following:
+
+<pre class="lisp">(simple-pprint-defun *standard-output* '(defun prod (x y) (* x y)))
+</pre>
+<p>If the line width available is greater than or equal to <code>26</code>, then all of the
+output appears on one line.  If the line width available is reduced to <code>25</code>,
+a line break is inserted at the
+linear-style conditional newline
+<a name="index-linear_002dstyle-conditional-newline-2804"></a>before the
+<i>expression</i> <code>(* x y)</code>, producing the output shown.  The
+<code>(pprint-indent :block 1)</code> causes <code>(* x y)</code> to be printed at a relative
+indentation of <code>1</code> in the logical block.
+
+<pre class="lisp"> (DEFUN PROD (X Y)
+   (* X Y))
+</pre>
+<p>If the line width available is <code>15</code>, a line break is also inserted at the
+fill style conditional newline before the argument list.  The call on
+<code>(pprint-indent :current 0)</code> causes the argument list to line up under the
+function name.
+
+<pre class="lisp">(DEFUN PROD
+       (X Y)
+  (* X Y))
+</pre>
+<p>If <code>*print-miser-width*</code> were greater than or equal to 14, the example
+output above would have been as follows, because all indentation changes
+are ignored in miser mode and line breaks are inserted at
+miser-style conditional newlines. 
+<a name="index-miser_002dstyle-conditional-newline-2805"></a>
+<pre class="lisp"> (DEFUN
+  PROD
+  (X Y)
+  (* X Y))
+</pre>
+<p>As an example of a per-line prefix, consider that evaluating the following
+produces the output shown with a line width of <code>20</code> and
+<code>*print-miser-width*</code> of <code>nil</code>.
+
+<pre class="lisp"> (pprint-logical-block (*standard-output* nil :per-line-prefix ";;; ")
+   (simple-pprint-defun *standard-output* '(defun prod (x y) (* x y))))
+
+ ;;; (DEFUN PROD
+ ;;;        (X Y)
+ ;;;   (* X Y))
+</pre>
+<p>As a more complex (and realistic) example, consider the function <code>pprint-let</code>
+below.  This specifies how to print a <code>let</code> <i>form</i> in the traditional
+style.  It is more complex than the example above, because it has to deal with
+nested structure.  Also, unlike the example above it contains complete code to
+readably print any possible list that begins with the <i>symbol</i> <code>let</code>. 
+The outermost <code>pprint-logical-block</code> <i>form</i> handles the printing of
+the input list as a whole and specifies that parentheses should be printed in the
+output.  The second <code>pprint-logical-block</code> <i>form</i> handles the list
+of binding pairs.  Each pair in the list is itself printed by the innermost
+<code>pprint-logical-block</code>.  (A <code>loop</code> <i>form</i> is used instead of
+merely decomposing the pair into two <i>objects</i> so that readable output will
+be produced no matter whether the list corresponding to the pair has one element,
+two elements, or (being malformed) has more than two elements.) 
+A space and a
+fill-style conditional newline
+<a name="index-fill_002dstyle-conditional-newline-2806"></a>are placed after
+each pair except the last.  The loop at the end of the topmost
+<code>pprint-logical-block</code> <i>form</i> prints out the forms in the body
+of the <code>let</code> <i>form</i> separated by spaces and
+linear-style conditional newlines.
+
+<pre class="lisp"> (defun pprint-let (*standard-output* list)
+   (pprint-logical-block (nil list :prefix "(" :suffix ")")
+     (write (pprint-pop))
+     (pprint-exit-if-list-exhausted)
+     (write-char #\Space)
+     (pprint-logical-block (nil (pprint-pop) :prefix "(" :suffix ")")
+       (pprint-exit-if-list-exhausted)
+       (loop (pprint-logical-block (nil (pprint-pop) :prefix "(" :suffix ")")
+               (pprint-exit-if-list-exhausted)
+               (loop (write (pprint-pop))
+                     (pprint-exit-if-list-exhausted)
+                     (write-char #\Space)
+                     (pprint-newline :linear)))
+             (pprint-exit-if-list-exhausted)
+             (write-char #\Space)
+             (pprint-newline :fill)))
+     (pprint-indent :block 1)
+     (loop (pprint-exit-if-list-exhausted)
+           (write-char #\Space)
+           (pprint-newline :linear)
+           (write (pprint-pop)))))
+</pre>
+<p>Suppose that one evaluates the following with <code>*print-level*</code> being 4,
+and <code>*print-circle*</code> being <i>true</i>.
+
+<pre class="lisp"> (pprint-let *standard-output*
+             '#1=(let (x (*print-length* (f (g 3)))
+                       (z . 2) (k (car y)))
+                   (setq x (sqrt z)) #1#))
+</pre>
+<p>If the line length is greater than or equal to <code>77</code>, the output produced
+appears on one line.  However, if the line length is <code>76</code>, line breaks are
+inserted at the linear-style conditional newlines separating the forms in
+the body and the output below is produced.  Note that, the degenerate
+binding pair <code>x</code> is printed readably even though it fails to be a list; a
+depth abbreviation marker is printed in place of <code>(g 3)</code>; the binding pair
+<code>(z . 2)</code> is printed readably even though it is not a proper list; and
+appropriate circularity markers are printed.
+
+<pre class="lisp"> #1=(LET (X (*PRINT-LENGTH* (F #)) (Z . 2) (K (CAR Y)))
+      (SETQ X (SQRT Z))
+      #1#)
+</pre>
+<p>If the line length is reduced to <code>35</code>, a line break is inserted at one of the
+fill-style conditional newlines separating the binding pairs.
+
+<pre class="lisp"> #1=(LET (X (*PRINT-PRETTY* (F #))
+          (Z . 2) (K (CAR Y)))
+      (SETQ X (SQRT Z))
+      #1#)
+</pre>
+<p>Suppose that the line length is further reduced to <code>22</code> and <code>*print-length*</code> is
+set to <code>3</code>. In this situation, line breaks are inserted after both the first
+and second binding pairs.  In addition, the second binding pair is itself
+broken across two lines.  Clause (b) of the description of fill-style
+conditional newlines (see the <i>function</i> <a href="pprint_002dnewline.html#pprint_002dnewline">pprint-newline</a>)
+prevents the binding pair <code>(z . 2)</code> from being printed
+at the end of the third line.  Note that the length abbreviation hides the
+circularity from view and therefore the printing of circularity markers
+disappears.
+
+<pre class="lisp"> (LET (X
+       (*PRINT-LENGTH*
+        (F #))
+       (Z . 2) ...)
+   (SETQ X (SQRT Z))
+   ...)
+</pre>
+<p>The next function prints a vector using &ldquo;<code>#(...)</code>&rdquo; notation.
+
+<pre class="lisp">(defun pprint-vector (*standard-output* v)
+  (pprint-logical-block (nil nil :prefix "#(" :suffix ")")
+    (let ((end (length v)) (i 0))
+      (when (plusp end)
+        (loop (pprint-pop)
+              (write (aref v i))
+              (if (= (incf i) end) (return nil))
+              (write-char #\Space)
+              (pprint-newline :fill))))))
+</pre>
+<p>Evaluating the following with a line length of 15 produces the output shown.
+
+<pre class="lisp"> (pprint-vector *standard-output* '#(12 34 567 8 9012 34 567 89 0 1 23))
+
+ #(12 34 567 8
+   9012 34 567
+   89 0 1 23)
+</pre>
+<p>As examples of the convenience of specifying pretty printing with
+<i>format strings</i>, consider that the functions <code>simple-pprint-defun</code>
+and <code>pprint-let</code> used as examples above can be compactly defined as follows. 
+(The function <code>pprint-vector</code> cannot be defined using <code>format</code>
+because the data structure it traverses is not a list.)
+
+<pre class="lisp">(defun simple-pprint-defun (*standard-output* list)
+  (format T "~:&lt;~W ~@_~:I~W ~:_~W~1I ~_~W~:&gt;" list))
+
+(defun pprint-let (*standard-output* list)
+  (format T "~:&lt;~W~^~:&lt;~@<tt>{</tt>~:&lt;~@<tt>{</tt>~W~^~_~<tt>}</tt>~:&gt;~^~:_~<tt>}</tt>~:&gt;~1I~@<tt>{</tt>~^~_~W~<tt>}</tt>~:&gt;" list))
+</pre>
+<p>In the following example, the first <i>form</i> restores
+<code>*print-pprint-dispatch*</code> to the equivalent of its initial value. 
+The next two forms then set up a special way to pretty print ratios. 
+Note that the more specific <i>type specifier</i> has to be associated
+with a higher priority.
+
+<pre class="lisp"> (setq *print-pprint-dispatch* (copy-pprint-dispatch nil))
+
+ (set-pprint-dispatch 'ratio
+   #'(lambda (s obj)
+       (format s "#.(/ ~W ~W)"
+                 (numerator obj) (denominator obj))))
+
+ (set-pprint-dispatch '(and ratio (satisfies minusp))
+   #'(lambda (s obj)
+       (format s "#.(- (/ ~W ~W))"
+               (- (numerator obj)) (denominator obj)))
+   5)
+
+ (pprint '(1/3 -2/3))
+ (#.(/ 1 3) #.(- (/ 2 3)))
+</pre>
+<p>The following two <i>forms</i> illustrate the definition of
+pretty printing functions for types of <i>code</i>.  The first
+<i>form</i> illustrates how to specify the traditional method
+for printing quoted objects using <i>single-quote</i>.  Note
+the care taken to ensure that data lists that happen to begin
+with <tt>quote</tt> will be printed readably.  The second form
+specifies that lists beginning with the symbol <code>my-let</code>
+should print the same way that lists beginning with <code>let</code>
+print when the initial <i>pprint dispatch table</i> is in effect.
+
+<pre class="lisp"> (set-pprint-dispatch '(cons (member quote)) ()
+   #'(lambda (s list)
+       (if (and (consp (cdr list)) (null (cddr list)))
+          (funcall (formatter "'~W") s (cadr list))
+          (pprint-fill s list))))
+
+ (set-pprint-dispatch '(cons (member my-let))
+                      (pprint-dispatch '(let) nil))
+</pre>
+<p>The next example specifies a default method for printing lists that do not
+correspond to function calls.  Note that the functions <code>pprint-linear</code>,
+<code>pprint-fill</code>, and <code>pprint-tabular</code> are all defined with
+optional <var>colon-p</var> and <var>at-sign-p</var> arguments so that they can
+be used as <code>pprint dispatch functions</code> as well as &lsquo;<samp><span class="samp">~/.../</span></samp>&rsquo;
+functions.
+
+<pre class="lisp"> (set-pprint-dispatch '(cons (not (and symbol (satisfies fboundp))))
+                      #'pprint-fill -5)
+
+ ;; Assume a line length of 9
+ (pprint '(0 b c d e f g h i j k))
+ (0 b c d
+  e f g h
+  i j k)
+</pre>
+<p>This final example shows how to define a pretty printing function for a
+user defined data structure.
+
+<pre class="lisp"> (defstruct family mom kids)
+
+ (set-pprint-dispatch 'family
+   #'(lambda (s f)
+       (funcall (formatter "~@&lt;#&lt;~;~W and ~2I~_~/pprint-fill/~;&gt;~:&gt;")
+               s (family-mom f) (family-kids f))))
+</pre>
+<p>The pretty printing function for the structure <code>family</code> specifies how to
+adjust the layout of the output so that it can fit aesthetically into
+a variety of line widths.  In addition, it obeys
+the printer control variables <code>*print-level*</code>,
+<code>*print-length*</code>, <code>*print-lines*</code>,
+<code>*print-circle*</code>
+and <code>*print-escape*</code>,
+and can tolerate several different kinds of malformity in the data structure. 
+The output below shows what is printed out with a right margin of <code>25</code>,
+<code>*print-pretty*</code> being <i>true</i>, <code>*print-escape*</code> being <i>false</i>,
+and a malformed <code>kids</code> list.
+
+<pre class="lisp"> (write (list 'principal-family
+              (make-family :mom "Lucy"
+                           :kids '("Mark" "Bob" . "Dan")))
+        :right-margin 25 :pretty T :escape nil :miser-width nil)
+ (PRINCIPAL-FAMILY
+  #&lt;Lucy and
+      Mark Bob . Dan&gt;)
+</pre>
+<p>Note that a pretty printing function for a structure is different from
+the structure's <code>print-object</code> <i>method</i>. 
+While
+<code>print-object</code> <i>methods</i>
+are permanently associated with a structure,
+pretty printing functions are stored in
+<i>pprint dispatch tables</i> and can be rapidly changed to reflect
+different printing needs.  If there is no pretty printing function for
+a structure in the current <i>pprint dispatch table</i>,
+its <code>print-object</code> <i>method</i>
+is used instead.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-using-the-Pretty-Printer.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

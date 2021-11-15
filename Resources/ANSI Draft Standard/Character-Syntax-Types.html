@@ -1,0 +1,364 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Character-Syntax-Types.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+<head>
+<title>Character Syntax Types - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Character-Syntax.html#Character-Syntax" title="Character Syntax">
+<link rel="prev" href="Standard-Characters.html#Standard-Characters" title="Standard Characters">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Character-Syntax-Types"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Standard-Characters.html#Standard-Characters">Standard Characters</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Character-Syntax.html#Character-Syntax">Character Syntax</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.1.4 Character Syntax Types</h4>
+
+<p>The <i>Lisp reader</i> constructs an <i>object</i>
+from the input text by interpreting each <i>character</i>
+according to its <i>syntax type</i>. 
+The <i>Lisp reader</i> cannot accept as input
+everything that the <i>Lisp printer</i> produces,
+and the <i>Lisp reader</i> has features that are not used by the <i>Lisp printer</i>. 
+The <i>Lisp reader</i> can be used as a lexical analyzer
+for a more general user-written parser.
+
+<p>When the <i>Lisp reader</i> is invoked, it reads a single character from
+the <i>input</i> <i>stream</i> and dispatches according to the
+<a name="index-syntax-type-51"></a><dfn>syntax type</dfn> of that <i>character</i>. 
+Every <i>character</i> that can appear in the <i>input</i> <i>stream</i>
+is of one of the <i>syntax types</i> shown in <a href="PossibleSyntaxTypes.html#PossibleSyntaxTypes">Figure 2.6</a>.
+
+<div class="float">
+<a name="PossibleSyntaxTypes"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><i>constituent</i> </td><td valign="top"><i>macro character</i> </td><td valign="top"><i>single escape</i>
+<br></td></tr><tr align="left"><td valign="top"><i>invalid</i> </td><td valign="top"><i>multiple escape</i> </td><td valign="top"><i>whitespace</i><sub>2</sub>
+
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.6: Possible Character Syntax Types</strong></p></div>
+
+<p>The <i>syntax type</i> of a <i>character</i> in a <i>readtable</i>
+determines how that character is interpreted by the <i>Lisp reader</i>
+while that <i>readtable</i> is the <i>current readtable</i>. 
+At any given time, every character has exactly one <i>syntax type</i>.
+
+<p><a href="CharSyntaxTypesInStdSyntax.html#CharSyntaxTypesInStdSyntax">Figure 2.7</a>&nbsp;<!-- /@w -->
+lists the <i>syntax type</i> of each <i>character</i> in <i>standard syntax</i>.
+
+<div class="float">
+<a name="CharSyntaxTypesInStdSyntax"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">character </th><th valign="top">syntax type </th><th valign="top">character </th><th valign="top">syntax type
+<br></th></tr><tr align="left"><td valign="top">Backspace </td><td valign="top"><i>constituent</i> </td><td valign="top">0&ndash;9 </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">Tab </td><td valign="top"><i>whitespace</i><sub>2</sub> </td><td valign="top">: </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">Newline </td><td valign="top"><i>whitespace</i><sub>2</sub> </td><td valign="top">; </td><td valign="top"><i>terminating</i> <i>macro char</i>
+<br></td></tr><tr align="left"><td valign="top">Linefeed </td><td valign="top"><i>whitespace</i><sub>2</sub> </td><td valign="top"><code>&lt;</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">Page </td><td valign="top"><i>whitespace</i><sub>2</sub> </td><td valign="top">= </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">Return </td><td valign="top"><i>whitespace</i><sub>2</sub> </td><td valign="top"><code>&gt;</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">Space </td><td valign="top"><i>whitespace</i><sub>2</sub> </td><td valign="top">? </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">! </td><td valign="top"><i>constituent</i> </td><td valign="top"><code>@</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top"><code>"</code> </td><td valign="top"><i>terminating</i> <i>macro char</i> </td><td valign="top">A&ndash;Z </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top"># </td><td valign="top"><i>non-terminating</i> <i>macro char</i> </td><td valign="top"><code>[</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">$ </td><td valign="top"><i>constituent</i> </td><td valign="top"><code>\</code> </td><td valign="top"><i>single escape</i>
+<br></td></tr><tr align="left"><td valign="top">% </td><td valign="top"><i>constituent</i> </td><td valign="top"><code>]</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">&amp; </td><td valign="top"><i>constituent</i> </td><td valign="top">^ </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">' </td><td valign="top"><i>terminating</i> <i>macro char</i> </td><td valign="top"><code>_</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">( </td><td valign="top"><i>terminating</i> <i>macro char</i> </td><td valign="top">` </td><td valign="top"><i>terminating</i> <i>macro char</i>
+<br></td></tr><tr align="left"><td valign="top">) </td><td valign="top"><i>terminating</i> <i>macro char</i> </td><td valign="top">a&ndash;z </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top"><code>*</code> </td><td valign="top"><i>constituent</i> </td><td valign="top"><tt>{</tt> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">+ </td><td valign="top"><i>constituent</i> </td><td valign="top"><code>|</code> </td><td valign="top"><i>multiple escape</i>
+<br></td></tr><tr align="left"><td valign="top">, </td><td valign="top"><i>terminating</i> <i>macro char</i> </td><td valign="top"><tt>}</tt> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">- </td><td valign="top"><i>constituent</i> </td><td valign="top"><code>~</code> </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">. </td><td valign="top"><i>constituent</i> </td><td valign="top">Rubout </td><td valign="top"><i>constituent</i>
+<br></td></tr><tr align="left"><td valign="top">/ </td><td valign="top"><i>constituent</i> </td><td valign="top"></td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.7: Character Syntax Types in Standard Syntax</strong></p></div>
+
+<p>The characters marked with an asterisk (*) are initially <i>constituents</i>,
+but they are not used in any standard <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->notations. 
+These characters are explicitly reserved to the <i>programmer</i>. 
+<code>~</code> is not used in <span class="roman">Common Lisp</span>, and reserved to implementors. 
+<code>$</code> and <code>%</code> are <i>alphabetic</i><sub>2</sub> <i>characters</i>,
+but are not used in the names of any standard <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>defined names</i>.
+
+<p><i>Whitespace</i><sub>2</sub> characters serve as separators but are otherwise
+ignored.  <i>Constituent</i> and <i>escape</i> <i>characters</i> are accumulated
+to make a <i>token</i>, which is then interpreted as a <i>number</i> or <i>symbol</i>. 
+<i>Macro characters</i> trigger the invocation of <i>functions</i> (possibly
+user-supplied) that can perform arbitrary parsing actions. 
+<i>Macro characters</i> are divided into two kinds,
+<i>terminating</i> and <i>non-terminating</i>,
+depending on whether or not they terminate a <i>token</i>. 
+The following are descriptions of each kind of <i>syntax type</i>.
+
+<h5 class="subsubsection">2.1.4.1 Constituent Characters</h5>
+
+<p><a name="ConstituentChars"></a><i>Constituent</i> <i>characters</i> are used in <i>tokens</i>. 
+A <a name="index-token-52"></a><dfn>token</dfn> is a representation of a <i>number</i> or a <i>symbol</i>. 
+Examples of <i>constituent</i> <i>characters</i> are letters and digits.
+
+<p>Letters in symbol names are sometimes converted to
+letters in the opposite <i>case</i> when the name is read;
+see <a href="Effect-of-Readtable-Case-on-the-Lisp-Reader.html#Effect-of-Readtable-Case-on-the-Lisp-Reader">Section 23.1.2 (Effect of Readtable Case on the Lisp Reader)</a>. 
+<i>Case</i> conversion can be suppressed by the use
+of <i>single escape</i> or <i>multiple escape</i> characters.
+
+<h5 class="subsubsection">2.1.4.2 Constituent Traits</h5>
+
+<p><a name="ConstituentTraits"></a>Every <i>character</i> has one or more <i>constituent traits</i>
+that define how the <i>character</i> is to be interpreted by the <i>Lisp reader</i>
+when the <i>character</i> is a <i>constituent</i> <i>character</i>. 
+These <i>constituent traits</i> are
+<i>alphabetic</i><sub>2</sub>,
+digit,
+<i>package marker</i>,
+plus sign,
+minus sign,
+dot,
+decimal point,
+<i>ratio marker</i>,
+<i>exponent marker</i>,
+and <i>invalid</i>. 
+<a href="ConstituentTraitsOfStdChars.html#ConstituentTraitsOfStdChars">Figure 2.8</a>&nbsp;<!-- /@w -->shows the <i>constituent traits</i>
+of the <i>standard characters</i>
+and of certain <i>semi-standard</i> <i>characters</i>;
+no mechanism is provided for changing the <i>constituent trait</i> of a <i>character</i>. 
+Any <i>character</i> with the alphadigit <i>constituent trait</i>
+in that figure is a digit if the <i>current input base</i> is greater
+than that character's digit value,
+otherwise the <i>character</i> is <i>alphabetic</i><sub>2</sub>. 
+Any <i>character</i> quoted by a <i>single escape</i>
+is treated as an <i>alphabetic</i><sub>2</sub> constituent, regardless of its normal syntax.
+
+<div class="float">
+<a name="ConstituentTraitsOfStdChars"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><b>constituent</b> </td><td valign="top"><b>traits</b> </td><td valign="top"><b>constituent</b> </td><td valign="top"><b>traits</b>
+<br></td></tr><tr align="left"><td valign="top"><b>characters</b> </td><td valign="top"></td><td valign="top"><b>characters</b> </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">Backspace </td><td valign="top"><i>invalid</i> </td><td valign="top"><tt>{</tt> </td><td valign="top"><i>alphabetic</i><sub>2</sub>
+
+<p><br></td></tr><tr align="left"><td valign="top">Tab </td><td valign="top"><i>invalid</i>* </td><td valign="top"><tt>}</tt> </td><td valign="top"><i>alphabetic</i><sub>2</sub>
+
+<p><br></td></tr><tr align="left"><td valign="top">Newline </td><td valign="top"><i>invalid</i>* </td><td valign="top">+ </td><td valign="top"><i>alphabetic</i><sub>2</sub>, plus sign
+<br></td></tr><tr align="left"><td valign="top">Linefeed </td><td valign="top"><i>invalid</i>* </td><td valign="top">- </td><td valign="top"><i>alphabetic</i><sub>2</sub>, minus sign
+<br></td></tr><tr align="left"><td valign="top">Page </td><td valign="top"><i>invalid</i>* </td><td valign="top">. </td><td valign="top"><i>alphabetic</i><sub>2</sub>, dot, decimal point
+<br></td></tr><tr align="left"><td valign="top">Return </td><td valign="top"><i>invalid</i>* </td><td valign="top">/ </td><td valign="top"><i>alphabetic</i><sub>2</sub>, <i>ratio marker</i>
+<br></td></tr><tr align="left"><td valign="top">Space </td><td valign="top"><i>invalid</i>* </td><td valign="top">A, a </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">! </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">B, b </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>"</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">C, c </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"># </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">D, d </td><td valign="top">alphadigit, double-float <i>exponent marker</i>
+<br></td></tr><tr align="left"><td valign="top">$ </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">E, e </td><td valign="top">alphadigit, float <i>exponent marker</i>
+<br></td></tr><tr align="left"><td valign="top">% </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">F, f </td><td valign="top">alphadigit, single-float <i>exponent marker</i>
+<br></td></tr><tr align="left"><td valign="top">&amp; </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">G, g </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">' </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">H, h </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">( </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">I, i </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">) </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">J, j </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>*</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">K, k </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">, </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">L, l </td><td valign="top">alphadigit, long-float <i>exponent marker</i>
+<br></td></tr><tr align="left"><td valign="top">0-9 </td><td valign="top">alphadigit </td><td valign="top">M, m </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">: </td><td valign="top"><i>package marker</i> </td><td valign="top">N, n </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">; </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">O, o </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>&lt;</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">P, p </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">= </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">Q, q </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>&gt;</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">R, r </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">? </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">S, s </td><td valign="top">alphadigit, short-float <i>exponent marker</i>
+<br></td></tr><tr align="left"><td valign="top"><code>@</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">T, t </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>[</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">U, u </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>\</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">V, v </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>]</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">W, w </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">^ </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">X, x </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>_</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top">Y, y </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top">` </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">Z, z </td><td valign="top">alphadigit
+<br></td></tr><tr align="left"><td valign="top"><code>|</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub>* </td><td valign="top">Rubout </td><td valign="top"><i>invalid</i>
+<br></td></tr><tr align="left"><td valign="top"><code>~</code> </td><td valign="top"><i>alphabetic</i><sub>2</sub> </td><td valign="top"></td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.8: Constituent Traits of Standard Characters and Semi-Standard Characters</strong></p></div>
+
+<p>The interpretations in this table apply only to <i>characters</i>
+whose <i>syntax type</i> is <i>constituent</i>. 
+Entries marked with an asterisk (*) are normally <i>shadowed</i><sub>2</sub>
+
+<p>because the indicated <i>characters</i> are of <i>syntax type</i>
+<i>whitespace</i><sub>2</sub>,
+<i>macro character</i>,
+<i>single escape</i>,
+or <i>multiple escape</i>;
+these <i>constituent traits</i> apply to them only if their <i>syntax types</i>
+are changed to <i>constituent</i>.
+
+<h5 class="subsubsection">2.1.4.3 Invalid Characters</h5>
+
+<p><i>Characters</i> with the <i>constituent trait</i> <i>invalid</i>
+cannot ever appear in a <i>token</i>
+except under the control of a <i>single escape</i> <i>character</i>. 
+If an <i>invalid</i> <i>character</i> is encountered while an <i>object</i> is
+being read, an error of <i>type</i> <code>reader-error</code> is signaled. 
+If an <i>invalid</i> <i>character</i> is preceded by a <i>single escape</i> <i>character</i>,
+it is treated as an <i>alphabetic</i><sub>2</sub> <i>constituent</i> instead.
+
+<h5 class="subsubsection">2.1.4.4 Macro Characters</h5>
+
+<p><a name="MacroChars"></a>When the <i>Lisp reader</i> encounters a <i>macro character</i>
+on an <i>input</i> <i>stream</i>,
+special parsing of subsequent <i>characters</i>
+on the <i>input</i> <i>stream</i>
+is performed.
+
+<p>A <i>macro character</i> has an associated <i>function</i>
+called a <a name="index-reader-macro-function-53"></a><dfn>reader macro function</dfn> that implements its specialized parsing behavior. 
+An association of this kind can be established or modified under control of
+a <i>conforming program</i> by using
+the <i>functions</i> <code>set-macro-character</code> and <code>set-dispatch-macro-character</code>.
+
+<p>Upon encountering a <i>macro character</i>, the <i>Lisp reader</i> calls its
+<i>reader macro function</i>, which parses one specially formatted object
+from the <i>input</i> <i>stream</i>. 
+The <i>function</i> either returns the parsed <i>object</i>,
+or else it returns no <i>values</i>
+to indicate that the characters scanned by the <i>function</i>
+are being ignored (<i>e.g.</i>, in the case of a comment). 
+Examples of <i>macro characters</i>
+are <i>backquote</i>, <i>single-quote</i>, <i>left-parenthesis</i>, and
+<i>right-parenthesis</i>.
+
+<p>A <i>macro character</i> is either <i>terminating</i> or <i>non-terminating</i>. 
+The difference between <i>terminating</i> and <i>non-terminating</i> <i>macro characters</i>
+lies in what happens when such characters occur in the middle of a <i>token</i>. 
+If a <a name="index-non_002dterminating-54"></a><dfn>non-terminating</dfn> <i>macro character</i> occurs in the middle of a <i>token</i>,
+the <i>function</i> associated
+with the <i>non-terminating</i> <i>macro character</i> is not called,
+and the
+<i>non-terminating</i> <i>macro character</i> does not terminate the <i>token</i>'s name; it
+becomes part of the name as if the <i>macro character</i> were really a constituent
+character.  A <a name="index-terminating-55"></a><dfn>terminating</dfn> <i>macro character</i> terminates any <i>token</i>,
+and its associated <i>reader macro function</i>
+is called no matter where the <i>character</i> appears. 
+The only <i>non-terminating</i> <i>macro character</i> in <i>standard syntax</i>
+is <i>sharpsign</i>.
+
+<p>If a <i>character</i> is a <i>dispatching macro character</i> C<sub>1</sub>,
+its <i>reader macro function</i> is a <i>function</i> supplied by the <i>implementation</i>. 
+This <i>function</i> reads decimal <i>digit</i> <i>characters</i> until a non-<i>digit</i>
+C<sub>2</sub> is read. 
+If any <i>digits</i> were read,
+they are converted into a corresponding <i>integer</i> infix parameter P;
+otherwise, the infix parameter P is <code>nil</code>. 
+The terminating non-<i>digit</i> C<sub>2</sub> is a <i>character</i>
+(sometimes called a &ldquo;sub-character&rdquo; to emphasize its subordinate role in the dispatching)
+that is looked up in the dispatch table associated with
+the <i>dispatching macro character</i> C<sub>1</sub>. 
+The <i>reader macro function</i> associated with the sub-character C<sub>2</sub>
+
+<p>is invoked with three arguments:
+the <i>stream</i>,
+the sub-character C<sub>2</sub>,
+and the infix parameter P. 
+For more information about dispatch characters,
+see the <i>function</i> <a href="set_002ddispatch_002dmacro_002dcharacter.html#set_002ddispatch_002dmacro_002dcharacter">set-dispatch-macro-character</a>.
+
+<p>For information about the <i>macro characters</i>
+that are available in <i>standard syntax</i>,
+see <a href="Standard-Macro-Characters.html#Standard-Macro-Characters">Section 2.4 (Standard Macro Characters)</a>.
+
+<h5 class="subsubsection">2.1.4.5 Multiple Escape Characters</h5>
+
+<p><a name="MultipleEscapeChar"></a>A pair of <a name="index-multiple-escape-56"></a><dfn>multiple escape</dfn> <i>characters</i>
+is used to indicate that an enclosed sequence of characters,
+including possible <i>macro characters</i> and <i>whitespace</i><sub>2</sub> <i>characters</i>,
+are to be treated as <i>alphabetic</i><sub>2</sub> <i>characters</i>
+with <i>case</i> preserved. 
+Any <i>single escape</i> and <i>multiple escape</i> <i>characters</i>
+that are to appear in the sequence must be preceded by a <i>single escape</i>
+<i>character</i>.
+
+<p><i>Vertical-bar</i> is a <i>multiple escape</i> <i>character</i>
+in <i>standard syntax</i>.
+
+<h5 class="unnumberedsubsubsec">2.1.4.5.1 Examples of Multiple Escape Characters</h5>
+
+<pre class="lisp"> ;; The following examples assume the readtable case of *readtable*
+ ;; and *print-case* are both :upcase.
+ (eq 'abc 'ABC) <span class="roman">→</span> <i>true</i>
+ (eq 'abc '|ABC|) <span class="roman">→</span> <i>true</i>
+ (eq 'abc 'a|B|c) <span class="roman">→</span> <i>true</i>
+ (eq 'abc '|abc|) <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubsection">2.1.4.6 Single Escape Character</h5>
+
+<p><a name="SingleEscapeChar"></a>A <a name="index-single-escape-57"></a><dfn>single escape</dfn> is used to indicate that
+the next <i>character</i> is to be treated as
+an <i>alphabetic</i><sub>2</sub> <i>character</i>
+with its <i>case</i> preserved,
+no matter what the <i>character</i> is
+or which <i>constituent traits</i> it has.
+
+<p><i>Backslash</i> is a <i>single escape</i> <i>character</i> in <i>standard syntax</i>.
+
+<h5 class="unnumberedsubsubsec">2.1.4.6.1 Examples of Single Escape Characters</h5>
+
+<pre class="lisp"> ;; The following examples assume the readtable case of *readtable*
+ ;; and *print-case* are both :upcase.
+ (eq 'abc '\A\B\C) <span class="roman">→</span> <i>true</i>
+ (eq 'abc 'a\Bc) <span class="roman">→</span> <i>true</i>
+ (eq 'abc '\ABC) <span class="roman">→</span> <i>true</i>
+ (eq 'abc '\abc) <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubsection">2.1.4.7 Whitespace Characters</h5>
+
+<p><a name="WhitespaceChars"></a><i>Whitespace</i><sub>2</sub> <i>characters</i> are used to separate <i>tokens</i>.
+
+<p><i>Space</i> and <i>newline</i> are <i>whitespace</i><sub>2</sub> <i>characters</i>
+in <i>standard syntax</i>.
+
+<h5 class="unnumberedsubsubsec">2.1.4.7.1 Examples of Whitespace Characters</h5>
+
+<pre class="lisp"> (length '(this-that)) <span class="roman">→</span> 1
+ (length '(this - that)) <span class="roman">→</span> 3
+ (length '(a
+           b)) <span class="roman">→</span> 2
+ (+ 34) <span class="roman">→</span> 34
+ (+ 3 4) <span class="roman">→</span> 7
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Character-Syntax-Types.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+</html>
+

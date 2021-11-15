@@ -1,0 +1,201 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Character-Categories.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Character Categories - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Character-Concepts.html#Character-Concepts" title="Character Concepts">
+<link rel="prev" href="Character-Attributes.html#Character-Attributes" title="Character Attributes">
+<link rel="next" href="Identity-of-Characters.html#Identity-of-Characters" title="Identity of Characters">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Character-Categories"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Identity-of-Characters.html#Identity-of-Characters">Identity of Characters</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Character-Attributes.html#Character-Attributes">Character Attributes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Character-Concepts.html#Character-Concepts">Character Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">13.1.4 Character Categories</h4>
+
+<p>There are several (overlapping) categories of <i>characters</i> that have no formally
+associated <i>type</i> but that are nevertheless useful to name. 
+They include
+<i>graphic</i> <i>characters</i>,
+<i>alphabetic</i><sub>1</sub> <i>characters</i>,
+<i>characters</i> with <i>case</i>
+(<i>uppercase</i> and <i>lowercase</i> <i>characters</i>),
+<i>numeric</i> <i>characters</i>,
+<i>alphanumeric</i> <i>characters</i>,
+and <i>digits</i> (in a given <i>radix</i>).
+
+<p>For each <i>implementation-defined</i> <i>attribute</i> of a <i>character</i>,
+the documentation for that <i>implementation</i> must specify whether
+<i>characters</i> that differ only in that <i>attribute</i> are permitted to differ
+in whether are not they are members of one of the aforementioned categories.
+
+<p>Note that these terms are defined independently of any special syntax
+which might have been enabled in the <i>current readtable</i>.
+
+<h5 class="subsubsection">13.1.4.1 Graphic Characters</h5>
+
+<p><a name="GraphicChars"></a><i>Characters</i> that are classified as <a name="index-graphic-1642"></a><dfn>graphic</dfn>, or displayable, are each
+associated with a glyph, a visual representation of the <i>character</i>.
+
+<p>A <i>graphic</i> <i>character</i> is one that has a standard textual
+representation as a single <i>glyph</i>, such as <code>A</code> or <code>*</code> or <code>=</code>. 
+<i>Space</i>, which effectively has a blank <i>glyph</i>, is defined
+to be a <i>graphic</i>.
+
+<p>Of the <i>standard characters</i>,
+<i>newline</i> is <i>non-graphic</i>
+and all others are <i>graphic</i>; see <a href="Standard-Characters.html#Standard-Characters">Section 2.1.3 (Standard Characters)</a>.
+
+<p><i>Characters</i> that are not <i>graphic</i> are called <a name="index-non_002dgraphic-1643"></a><dfn>non-graphic</dfn>. 
+<i>Non-graphic</i> <i>characters</i> are sometimes informally called
+&ldquo;formatting characters&rdquo;
+or &ldquo;control characters.&rdquo;
+
+<p><code>#\Backspace</code>,
+<code>#\Tab</code>,
+<code>#\Rubout</code>,
+<code>#\Linefeed</code>,
+<code>#\Return</code>, and
+<code>#\Page</code>,
+if they are supported by the <i>implementation</i>,
+are <i>non-graphic</i>.
+
+<h5 class="subsubsection">13.1.4.2 Alphabetic Characters</h5>
+
+<p>The <i>alphabetic</i><sub>1</sub> <i>characters</i> are
+a subset of the <i>graphic</i> <i>characters</i>. 
+Of the <i>standard characters</i>, only these are the <i>alphabetic</i><sub>1</sub> <i>characters</i>:
+
+<p><code>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</code>
+
+<p><code>a b c d e f g h i j k l m n o p q r s t u v w x y z</code>
+
+<p>Any <i>implementation-defined</i> <i>character</i> that has <i>case</i>
+must be <i>alphabetic</i><sub>1</sub>. 
+For each <i>implementation-defined</i> <i>graphic</i> <i>character</i>
+that has no <i>case</i>,
+it is <i>implementation-defined</i> whether
+that <i>character</i> is <i>alphabetic</i><sub>1</sub>.
+
+<h5 class="subsubsection">13.1.4.3 Characters With Case</h5>
+
+<p><a name="CharactersWithCase"></a>The <i>characters</i> with <i>case</i> are
+a subset of the <i>alphabetic</i><sub>1</sub> <i>characters</i>. 
+A <i>character</i> with <i>case</i> has the property of being either
+<i>uppercase</i> or <i>lowercase</i>. 
+Every <i>character</i> with <i>case</i> is in one-to-one correspondence
+with some other <i>character</i> with the opposite <i>case</i>.
+
+<h5 class="unnumberedsubsubsec">13.1.4.3.1 Uppercase Characters</h5>
+
+<p>An uppercase <i>character</i> is one that has a corresponding
+<i>lowercase</i> <i>character</i> that is <i>different</i>
+(and can be obtained using <code>char-downcase</code>).
+
+<p>Of the <i>standard characters</i>, only these are <i>uppercase</i> <i>characters</i>:
+
+<p><code>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</code>
+
+<h5 class="unnumberedsubsubsec">13.1.4.3.2 Lowercase Characters</h5>
+
+<p>A lowercase <i>character</i> is one that has a corresponding
+<i>uppercase</i> <i>character</i> that is <i>different</i>
+(and can be obtained using <code>char-upcase</code>).
+
+<p>Of the <i>standard characters</i>, only these are <i>lowercase</i> <i>characters</i>:
+
+<p><code>a b c d e f g h i j k l m n o p q r s t u v w x y z</code>
+
+<h5 class="unnumberedsubsubsec">13.1.4.3.3 Corresponding Characters in the Other Case</h5>
+
+<p>The <i>uppercase</i> <i>standard characters</i> <code>A</code> through <code>Z</code> mentioned above
+respectively correspond to
+the <i>lowercase</i> <i>standard characters</i> <code>a</code> through <code>z</code> mentioned above. 
+For example, the <i>uppercase</i> <i>character</i> <code>E</code>
+corresponds to the <i>lowercase</i> <i>character</i> <code>e</code>, and vice versa.
+
+<h5 class="unnumberedsubsubsec">13.1.4.3.4 Case of Implementation-Defined Characters</h5>
+
+<p>An <i>implementation</i> may define that other <i>implementation-defined</i>
+<i>graphic</i> <i>characters</i> have <i>case</i>.  Such definitions must always
+be done in pairs&mdash;one <i>uppercase</i> <i>character</i> in one-to-one
+<i>correspondence</i> with one <i>lowercase</i> <i>character</i>.
+
+<h5 class="subsubsection">13.1.4.4 Numeric Characters</h5>
+
+<p>The <i>numeric</i> <i>characters</i> are
+a subset of the <i>graphic</i> <i>characters</i>. 
+Of the <i>standard characters</i>, only these are <i>numeric</i> <i>characters</i>:
+
+<p><code>0 1 2 3 4 5 6 7 8 9</code>
+
+<p>For each <i>implementation-defined</i> <i>graphic</i> <i>character</i>
+that has no <i>case</i>, the <i>implementation</i> must define whether
+or not it is a <i>numeric</i> <i>character</i>.
+
+<h5 class="subsubsection">13.1.4.5 Alphanumeric Characters</h5>
+
+<p>The set of <i>alphanumeric</i> <i>characters</i> is the union of
+the set of <i>alphabetic</i><sub>1</sub> <i>characters</i>
+and the set of <i>numeric</i> <i>characters</i>.
+
+<h5 class="subsubsection">13.1.4.6 Digits in a Radix</h5>
+
+<p><a name="Digits"></a>What qualifies as a <i>digit</i> depends on the <i>radix</i>
+(an <i>integer</i> between <code>2</code> and <code>36</code>, inclusive). 
+The potential <i>digits</i> are:
+
+<p><code>0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</code>
+
+<p>Their respective weights are <code>0</code>, <code>1</code>, <code>2</code>, <small class="dots">...</small> <code>35</code>. 
+In any given radix n, only the first n potential <i>digits</i>
+are considered to be <i>digits</i>. 
+For example,
+the digits in radix <code>2</code>  are <code>0</code> and <code>1</code>,
+the digits in radix <code>10</code> are <code>0</code> through <code>9</code>, and
+the digits in radix <code>16</code> are <code>0</code> through <code>F</code>.
+
+<p><i>Case</i> is not significant in <i>digits</i>;
+for example, in radix <code>16</code>, both <code>F</code> and <code>f</code>
+are <i>digits</i> with weight <code>15</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Character-Categories.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

@@ -1,0 +1,175 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+<head>
+<title>Introduction to Classes - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Classes.html#Classes" title="Classes">
+<link rel="next" href="Defining-Classes.html#Defining-Classes" title="Defining Classes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Classes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Defining-Classes.html#Defining-Classes">Defining Classes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Classes.html#Classes">Classes</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.3.1 Introduction to Classes</h4>
+
+<p>A <a name="index-class-336"></a><dfn>class</dfn> is an <i>object</i> that determines the structure and behavior
+of a set of other <i>objects</i>, which are called its
+<a name="index-instance-337"></a><dfn>instances</dfn>.
+
+<p>A <i>class</i> can inherit structure and behavior from other <i>classes</i>. 
+A <i>class</i> whose definition refers to other <i>classes</i> for the purpose
+of inheriting from them is said to be a <i>subclass</i> of each of
+those <i>classes</i>. The <i>classes</i> that are designated for purposes of
+inheritance are said to be <i>superclasses</i> of the inheriting <i>class</i>.
+
+<p>A <i>class</i> can have a <i>name</i>. The <i>function</i> <code>class-name</code>
+takes a <i>class</i> <i>object</i> and returns its <i>name</i>. 
+The <i>name</i> of an anonymous <i>class</i> is <code>nil</code>.  A <i>symbol</i>
+can <i>name</i> a <i>class</i>. The <i>function</i> <code>find-class</code> takes a
+<i>symbol</i> and returns the <i>class</i> that the <i>symbol</i> names. 
+A <i>class</i> has a <i>proper name</i> if the <i>name</i> is a <i>symbol</i>
+and if the <i>name</i> of the <i>class</i> names that <i>class</i>. 
+That is, a <i>class</i>&nbsp;C has the <i>proper name</i>&nbsp;S if S=
+<code>(class-name C)</code> and C= <code>(find-class S)</code>. 
+Notice that it is possible for
+<code>(find-class S<sub>1</sub>)</code> = <code>(find-class S<sub>2</sub>)</code>
+and S<sub>1</sub>≠ S<sub>2</sub>. 
+If C= <code>(find-class S)</code>, we say that C is the <i>class</i> <i>named</i> S.
+
+<p>A <i>class</i> C<sub>1</sub> is
+a <a name="index-direct-superclass-338"></a><dfn>direct superclass</dfn> of a <i>class</i> C<sub>2</sub>
+
+<p>if C<sub>2</sub> explicitly designates C<sub>1</sub>
+
+<p>as a <i>superclass</i> in its definition. 
+In this case C<sub>2</sub> is a <a name="index-direct-subclass-339"></a><dfn>direct subclass</dfn> of C<sub>1</sub>. 
+A <i>class</i> C<sub>n</sub> is a <a name="index-superclass-340"></a><dfn>superclass</dfn> of
+a <i>class</i> C<sub>1</sub> if there exists a series of
+<i>classes</i> C<sub>2</sub>,<small class="dots">...</small>,C<sub>n-1</sub> such that
+C<sub>i+1</sub> is a <i>direct superclass</i> of C<sub>i</sub> for 1 ≤ i&lt;n. 
+In this case, C<sub>1</sub> is a <a name="index-subclass-341"></a><dfn>subclass</dfn> of C<sub>n</sub>. 
+A <i>class</i> is considered neither a <i>superclass</i> nor a <i>subclass</i> of itself. 
+That is, if C<sub>1</sub> is a <i>superclass</i> of C<sub>2</sub>,
+then C<sub>1</sub> ≠ C<sub>2</sub>. 
+The set of <i>classes</i> consisting of some given <i>class</i> C
+along with all of its <i>superclasses</i> is called &ldquo;C and its superclasses.&rdquo;
+
+<p>Each <i>class</i> has a <a name="index-class-precedence-list-342"></a><dfn>class precedence list</dfn>,
+which is a total ordering on the set of the given <i>class</i> and its <i>superclasses</i>. 
+The total ordering is expressed as a list ordered from most specific to least specific. 
+The <i>class precedence list</i> is used in several ways.  In general, more
+specific <i>classes</i> can <a name="index-shadow-343"></a><dfn>shadow</dfn><sub>1</sub> features that would
+otherwise be inherited from less specific <i>classes</i>. 
+The <i>method</i> selection and combination process uses
+the <i>class precedence list</i> to order <i>methods</i>
+from most specific to least specific.
+
+<p>When a <i>class</i> is defined, the order in which its direct <i>superclasses</i>
+are mentioned in the defining form is important.  Each <i>class</i> has a
+<a name="index-local-precedence-order-344"></a><dfn>local precedence order</dfn>, which is a <i>list</i> consisting of the
+<i>class</i> followed by its <i>direct superclasses</i> in the order mentioned
+in the defining <i>form</i>.
+
+<p>A <i>class precedence list</i> is always consistent with the
+<i>local precedence order</i> of each <i>class</i> in the list. 
+The <i>classes</i> in each <i>local precedence order</i> appear
+within the <i>class precedence list</i> in the same order. 
+If the <i>local precedence orders</i> are inconsistent with each other,
+no <i>class precedence list</i> can be constructed, and an error is signaled. 
+The <i>class precedence list</i> and its computation is discussed
+in <a href="Determining-the-Class-Precedence-List.html#Determining-the-Class-Precedence-List">Section 4.3.5 (Determining the Class Precedence List)</a>.
+
+<p><i>classes</i> are organized into a directed acyclic graph. 
+There are two distinguished <i>classes</i>, named <code>t</code> and <code>standard-object</code>. 
+The <i>class</i> named <code>t</code> has no <i>superclasses</i>. 
+It is a <i>superclass</i> of every <i>class</i> except itself. 
+The <i>class</i> named <code>standard-object</code> is an <i>instance</i> of
+the <i>class</i> <code>standard-class</code> and is a <i>superclass</i> of
+every <i>class</i> that is an <i>instance</i> of the <i>class</i> <code>standard-class</code> except itself.
+
+<p>There is a mapping from the object system <i>class</i> space into
+the <i>type</i> space.  Many of the standard <i>types</i> specified
+in this document have a corresponding <i>class</i> that has the same
+<i>name</i> as the <i>type</i>. Some <i>types</i> do not have a
+corresponding <i>class</i>. The integration of the <i>type</i> and <i>class</i>
+systems is discussed in <a href="Integrating-Types-and-Classes.html#Integrating-Types-and-Classes">Section 4.3.7 (Integrating Types and Classes)</a>.
+
+<p><i>Classes</i> are represented by <i>objects</i> that are themselves
+<i>instances</i> of <i>classes</i>. 
+The <i>class</i> of the <i>class</i> of an <i>object</i> is termed
+the <a name="index-metaclass-345"></a><dfn>metaclass</dfn> of that <i>object</i>. When no misinterpretation is
+possible, the term <i>metaclass</i> is used to refer to a <i>class</i>
+that has <i>instances</i> that are themselves <i>classes</i>. The <i>metaclass</i>
+determines the form of inheritance used by the <i>classes</i> that are its
+<i>instances</i> and the representation of the <i>instances</i> of those <i>classes</i>. 
+The object system&nbsp;<!-- /@w -->provides a default <i>metaclass</i>, <code>standard-class</code>, that is
+appropriate for most programs.
+
+<p>Except where otherwise specified, all <i>classes</i> mentioned in this
+standard are <i>instances</i> of the <i>class</i> <code>standard-class</code>,
+all <i>generic functions</i> are <i>instances</i>
+of the <i>class</i> <code>standard-generic-function</code>,
+and all <i>methods</i> are <i>instances</i> of the <i>class</i> <code>standard-method</code>.
+
+<h5 class="subsubsection">4.3.1.1 Standard Metaclasses</h5>
+
+<p>The object system&nbsp;<!-- /@w -->provides a number of predefined <i>metaclasses</i>. 
+These include the <i>classes</i> <code>standard-class</code>,
+<code>built-in-class</code>, and <code>structure-class</code>:
+
+     <ul>
+<li>The <i>class</i> <code>standard-class</code> is the default <i>class</i> of
+<i>classes</i> defined by <code>defclass</code>.
+
+     <li>The <i>class</i> <code>built-in-class</code> is the <i>class</i> whose
+<i>instances</i> are <i>classes</i> that have special implementations with
+restricted capabilities.  Any <i>class</i> that corresponds to a standard
+<i>type</i> might be an <i>instance</i> of <code>built-in-class</code>. 
+The predefined <i>type</i> specifiers that are required to have
+corresponding <i>classes</i> are listed in <a href="ClassTypeCorrespondence.html#ClassTypeCorrespondence">Figure 4.8</a>. 
+It is <i>implementation-dependent</i> whether each of these <i>classes</i>
+is implemented as a <i>built-in class</i>.
+
+     <li>All <i>classes</i> defined by means of <code>defstruct</code> are
+<i>instances</i> of the <i>class</i> <code>structure-class</code>. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+</html>
+

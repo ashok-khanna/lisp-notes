@@ -1,0 +1,146 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/when_003b-unless.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:43 GMT -->
+<head>
+<title>when; unless - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="or-_0028Macro_0029.html#or-_0028Macro_0029" title="or (Macro)">
+<link rel="next" href="case_003b-ccase_003b-ecase.html#case_003b-ccase_003b-ecase" title="case; ccase; ecase">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="when%3b-unless"></a>
+<a name="when_003b-unless"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="case_003b-ccase_003b-ecase.html#case_003b-ccase_003b-ecase">case; ccase; ecase</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="or-_0028Macro_0029.html#or-_0028Macro_0029">or (Macro)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">when, unless (Macro)</h3>
+
+<p><a name="index-when-577"></a><a name="index-when-578"></a><a name="index-unless-579"></a><a name="index-unless-580"></a><a name="when"></a><a name="unless"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>when</b><var> test-form </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-when-581"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>unless</b><var> test-form </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-unless-582"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>test-form</var>&mdash;a <i>form</i>.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> of the <i>forms</i>
+in a  <code>when</code>   <i>form</i> if the <var>test-form</var> <i>yields</i> <i>true</i>
+or in an <code>unless</code> <i>form</i> if the <var>test-form</var> <i>yields</i> <i>false</i>;
+otherwise <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>when</code> and <code>unless</code> allow the execution of <var>forms</var>
+to be dependent on a single <var>test-form</var>.
+
+<p>In a <code>when</code> <i>form</i>,
+if the <var>test-form</var> <i>yields</i> <i>true</i>,
+the <var>forms</var> are <i>evaluated</i> in order from left to right
+and the <i>values</i> returned by the <var>forms</var>
+are returned from the <code>when</code> <i>form</i>. 
+Otherwise, if the <var>test-form</var> <i>yields</i> <i>false</i>,
+the <var>forms</var> are not <i>evaluated</i>,
+and the <code>when</code> <i>form</i> returns <code>nil</code>.
+
+<p>In an <code>unless</code> <i>form</i>,
+if the <var>test-form</var> <i>yields</i> <i>false</i>,
+the <var>forms</var> are <i>evaluated</i> in order from left to right
+and the <i>values</i> returned by the <var>forms</var>
+are returned from the <code>unless</code> <i>form</i>. 
+Otherwise, if the <var>test-form</var> <i>yields</i> <i>false</i>,
+the <var>forms</var> are not <i>evaluated</i>,
+and the <code>unless</code> <i>form</i> returns <code>nil</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (when t 'hello) <span class="roman">→</span> HELLO
+ (unless t 'hello) <span class="roman">→</span> NIL
+ (when nil 'hello) <span class="roman">→</span> NIL
+ (unless nil 'hello) <span class="roman">→</span> HELLO
+ (when t) <span class="roman">→</span> NIL
+ (unless nil) <span class="roman">→</span> NIL
+ (when t (prin1 1) (prin1 2) (prin1 3))
+▷ 123
+<span class="roman">→</span> 3
+ (unless t (prin1 1) (prin1 2) (prin1 3)) <span class="roman">→</span> NIL
+ (when nil (prin1 1) (prin1 2) (prin1 3)) <span class="roman">→</span> NIL
+ (unless nil (prin1 1) (prin1 2) (prin1 3))
+▷ 123
+<span class="roman">→</span> 3
+ (let ((x 3))
+   (list (when (oddp x) (incf x) (list x))
+         (when (oddp x) (incf x) (list x))
+         (unless (oddp x) (incf x) (list x))
+         (unless (oddp x) (incf x) (list x))
+         (if (oddp x) (incf x) (list x))
+         (if (oddp x) (incf x) (list x))
+         (if (not (oddp x)) (incf x) (list x))
+         (if (not (oddp x)) (incf x) (list x))))
+<span class="roman">→</span> ((4) NIL (5) NIL 6 (6) 7 (7))
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="and-_0028Macro_0029.html#and-_0028Macro_0029">and (Macro)</a>,
+<a href="cond.html#cond">cond</a>,
+<a href="if.html#if">if</a>,
+<a href="or-_0028Macro_0029.html#or-_0028Macro_0029">or (Macro)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (when <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (and <var>test</var> (progn <tt>{</tt><var>form</var><tt>}</tt>+))
+ (when <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (cond (<var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+))
+ (when <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (if <var>test</var> (progn <tt>{</tt><var>form</var><tt>}</tt>+) nil)
+ (when <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (unless (not <var>test</var>) <tt>{</tt><var>form</var><tt>}</tt>+)
+ (unless <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (cond ((not <var>test</var>) <tt>{</tt><var>form</var><tt>}</tt>+))
+ (unless <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (if <var>test</var> nil (progn <tt>{</tt><var>form</var><tt>}</tt>+))
+ (unless <var>test</var> <tt>{</tt><var>form</var><tt>}</tt>+) ≡ (when (not <var>test</var>) <tt>{</tt><var>form</var><tt>}</tt>+)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/when_003b-unless.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:43 GMT -->
+</html>
+

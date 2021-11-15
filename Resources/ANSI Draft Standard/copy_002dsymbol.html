@@ -1,0 +1,131 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/copy_002dsymbol.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>copy-symbol - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Symbols.html#Symbols" title="Symbols">
+<link rel="prev" href="make_002dsymbol.html#make_002dsymbol" title="make-symbol">
+<link rel="next" href="gensym.html#gensym" title="gensym">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="copy-symbol"></a>
+<a name="copy_002dsymbol"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="gensym.html#gensym">gensym</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="make_002dsymbol.html#make_002dsymbol">make-symbol</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Symbols.html#Symbols">Symbols</a>
+<hr>
+</div>
+
+<h3 class="heading">copy-symbol (Function)</h3>
+
+<p><a name="index-copy_002dsymbol-1009"></a><a name="index-copy_002dsymbol-1010"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>copy-symbol</b><var> symbol </var><tt>&amp;optional</tt><var> copy-properties </var><span class="roman">→</span><var> new-symbol<a name="index-copy_002dsymbol-1011"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbol</var>&mdash;a <i>symbol</i>.
+
+<p><var>copy-properties</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>new-symbol</var>&mdash;a <i>fresh</i>, <i>uninterned</i> <i>symbol</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>copy-symbol</code> returns a <i>fresh</i>, <i>uninterned</i> <i>symbol</i>,
+the <i>name</i> of which is <code>string=</code> to and possibly the <i>same</i> as
+the <i>name</i> of the given <var>symbol</var>.
+
+<p>If <var>copy-properties</var> is <i>false</i>,
+the <var>new-symbol</var> is neither <i>bound</i> nor <i>fbound</i>
+and has a <i>null</i> <i>property list</i>. 
+If <var>copy-properties</var> is <i>true</i>, then
+the initial <i>value</i> of <var>new-symbol</var> is
+the <i>value</i> of <var>symbol</var>,
+the initial <i>function</i> definition of <var>new-symbol</var> is
+the <i>functional value</i> of <var>symbol</var>,
+and the <i>property list</i> of <var>new-symbol</var> is
+a <i>copy</i><sub>2</sub> of the <i>property list</i> of <var>symbol</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq fred 'fred-smith) <span class="roman">→</span> FRED-SMITH
+ (setf (symbol-value fred) 3) <span class="roman">→</span> 3
+ (setq fred-clone-1a (copy-symbol fred nil)) <span class="roman">→</span> #:FRED-SMITH
+ (setq fred-clone-1b (copy-symbol fred nil)) <span class="roman">→</span> #:FRED-SMITH
+ (setq fred-clone-2a (copy-symbol fred t))   <span class="roman">→</span> #:FRED-SMITH
+ (setq fred-clone-2b (copy-symbol fred t))   <span class="roman">→</span> #:FRED-SMITH
+ (eq fred fred-clone-1a) <span class="roman">→</span> <i>false</i>
+ (eq fred-clone-1a fred-clone-1b) <span class="roman">→</span> <i>false</i>
+ (eq fred-clone-2a fred-clone-2b) <span class="roman">→</span> <i>false</i>
+ (eq fred-clone-1a fred-clone-2a) <span class="roman">→</span> <i>false</i>
+ (symbol-value fred) <span class="roman">→</span> 3
+ (boundp fred-clone-1a) <span class="roman">→</span> <i>false</i>
+ (symbol-value fred-clone-2a) <span class="roman">→</span> 3
+ (setf (symbol-value fred-clone-2a) 4) <span class="roman">→</span> 4
+ (symbol-value fred) <span class="roman">→</span> 3
+ (symbol-value fred-clone-2a) <span class="roman">→</span> 4
+ (symbol-value fred-clone-2b) <span class="roman">→</span> 3
+ (boundp fred-clone-1a) <span class="roman">→</span> <i>false</i>
+ (setf (symbol-function fred) #'(lambda (x) x)) <span class="roman">→</span> #&lt;FUNCTION anonymous&gt;
+ (fboundp fred) <span class="roman">→</span> <i>true</i>
+ (fboundp fred-clone-1a) <span class="roman">→</span> <i>false</i>
+ (fboundp fred-clone-2a) <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>symbol</var> is not a <i>symbol</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="make_002dsymbol.html#make_002dsymbol">make-symbol</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Implementors are encouraged not to copy the <i>string</i>
+which is the <i>symbol</i>'s <i>name</i> unnecessarily. 
+Unless there is a good reason to do so, the normal implementation
+strategy is for the <var>new-symbol</var>'s <i>name</i> to
+be <i>identical</i> to the given <var>symbol</var>'s <i>name</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/copy_002dsymbol.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

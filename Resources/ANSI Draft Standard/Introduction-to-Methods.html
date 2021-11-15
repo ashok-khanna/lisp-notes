@@ -1,0 +1,187 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Methods.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Introduction to Methods - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods" title="Generic Functions and Methods">
+<link rel="prev" href="Introduction-to-Generic-Functions.html#Introduction-to-Generic-Functions" title="Introduction to Generic Functions">
+<link rel="next" href="Agreement-on-Parameter-Specializers-and-Qualifiers.html#Agreement-on-Parameter-Specializers-and-Qualifiers" title="Agreement on Parameter Specializers and Qualifiers">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Methods"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Agreement-on-Parameter-Specializers-and-Qualifiers.html#Agreement-on-Parameter-Specializers-and-Qualifiers">Agreement on Parameter Specializers and Qualifiers</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-Generic-Functions.html#Introduction-to-Generic-Functions">Introduction to Generic Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods">Generic Functions and Methods</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.6.2 Introduction to Methods</h4>
+
+<p><i>Methods</i> define the class-specific or identity-specific behavior
+and operations of a <i>generic function</i>.
+
+<p>A <i>method</i> <i>object</i>
+is associated with
+<i>code</i> that implements the method's behavior,
+a sequence of <i>parameter specializers</i>
+that specify when the given <i>method</i> is applicable,
+a <i>lambda list</i>,
+and a sequence of <i>qualifiers</i> that are used by the method combination
+facility to distinguish among <i>methods</i>.
+
+<p>A method object is not a function and cannot be invoked as a function. 
+Various mechanisms in the object system&nbsp;<!-- /@w -->take a method object and invoke its method
+function, as is the case when a generic function is invoked.  When this
+occurs it is said that the method is invoked or called.
+
+<p>A method-defining form contains the <i>code</i> that is to be run when the
+arguments to the generic function cause the method that it defines to
+be invoked.  When a method-defining form is evaluated, a method object
+is created and one of four actions is taken:
+
+     <ul>
+<li>If a <i>generic function</i> of the given name already exists
+and if a <i>method object</i> already exists that agrees with the new one on
+<i>parameter specializers</i> and <i>qualifiers</i>, the new <i>method object</i> replaces
+the old one.  For a definition of one method agreeing with another on
+<i>parameter specializers</i> and <i>qualifiers</i>,
+see <a href="Agreement-on-Parameter-Specializers-and-Qualifiers.html#Agreement-on-Parameter-Specializers-and-Qualifiers">Section 7.6.3 (Agreement on Parameter Specializers and Qualifiers)</a>.
+
+     <li>If a <i>generic function</i> of the given name already exists
+and if there is no <i>method object</i> that agrees with the new one on
+<i>parameter specializers</i> and <i>qualifiers</i>, the existing <i>generic function</i>
+<i>object</i> is modified to contain the new <i>method</i> <i>object</i>.
+
+     <li>If the given <i>name</i> names an <i>ordinary function</i>, a <i>macro</i>,
+or a <i>special operator</i>, an error is signaled.
+
+     <li>Otherwise a <i>generic function</i> is created with the <i>method</i>
+specified by the <i>method-defining form</i>. 
+</ul>
+
+<p>If the <i>lambda list</i> of a new <i>method</i> is not
+<i>congruent</i> with the <i>lambda list</i> of the <i>generic function</i>,
+an error is signaled.  If a <i>method-defining operator</i> that cannot specify
+<i>generic function</i> options creates a new <i>generic function</i>,
+a <i>lambda list</i> for that <i>generic function</i> is derived from the
+<i>lambda list</i> of the <i>method</i> in the <i>method-defining form</i> in such a way
+as to be <i>congruent</i> with it.  For a discussion of <a name="index-congruence-705"></a><dfn>congruence</dfn>,
+see <a href="Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html#Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function">Section 7.6.4 (Congruent Lambda-lists for all Methods of a Generic Function)</a>.
+
+<p>Each method has a <i>specialized lambda list</i>, which determines
+when that method can be applied.  A <i>specialized lambda list</i> is like
+an <i>ordinary lambda list</i> except that a specialized parameter
+may occur instead of the name of a required parameter.  A specialized parameter
+is a list <code>(</code><i>variable-name</i> <i>parameter-specializer-name</i><code>)</code>,
+where <i>parameter-specializer-name</i> is one of the following:
+
+     <dl>
+<dt>a <i>symbol</i><dd>
+
+     <p>denotes a <i>parameter specializer</i> which is the <i>class</i>
+named by that <i>symbol</i>.
+
+     <br><dt>a <i>class</i><dd>
+
+     <p>denotes a <i>parameter specializer</i> which is the <i>class</i> itself.
+
+     <br><dt><code>(eql </code><i>form</i><code>)</code><dd>
+
+     <p>denotes a <i>parameter specializer</i> which satisfies the <i>type specifier</i>
+<code>(eql </code><i>object</i><code>)</code>, where <i>object</i> is the
+result of evaluating <i>form</i>.  The form <i>form</i> is evaluated in
+the lexical environment in which the method-defining form is evaluated. 
+Note that <i>form</i> is evaluated only once, at the time the method is
+defined, not each time the generic function is called. 
+</dl>
+
+<p><i>Parameter specializer names</i> are used in macros intended as the
+user-level interface (<code>defmethod</code>), while <i>parameter specializers</i>
+are used in the functional interface.
+
+<p>Only required parameters may be specialized, and there must be a
+<i>parameter specializer</i> for each required parameter.  For notational
+simplicity, if some required parameter in a <i>specialized lambda list</i> in
+a method-defining form is simply a variable name, its
+<i>parameter specializer</i> defaults to the <i>class</i> <code>t</code>.
+
+<p>Given a generic function and a set of arguments, an applicable
+method is a method for that generic function whose parameter
+specializers are satisfied by their corresponding arguments.  The
+following definition specifies what it means for a method to be
+applicable and for an argument to satisfy a <i>parameter specializer</i>.
+
+<p>Let 〈 A<sub>1</sub>, <small class="dots">...</small>, A<sub>n</sub>〉 be the required
+arguments to a generic function in order. Let 〈 P<sub>1</sub>,
+<small class="dots">...</small>, P<sub>n</sub>〉 be the <i>parameter specializers</i> corresponding to
+the required parameters of the method M in order.  The method M is
+applicable when each A<sub>i</sub> is of the <i>type</i> specified by
+the <i>type specifier</i> P<sub>i</sub>. 
+Because every valid <i>parameter specializer</i> is
+also a valid <i>type specifier</i>, the <i>function</i> <code>typep</code> can be used during method
+selection to determine whether an argument satisfies a <i>parameter specializer</i>.
+
+<p>A method all of whose <i>parameter specializers</i> are
+the <i>class</i> <code>t</code> is called a <a name="index-default-method-706"></a><dfn>default method</dfn>; it is always applicable but
+may be shadowed by a more specific method.
+
+<p>Methods can have <i>qualifiers</i>, which give the method combination
+procedure a way to distinguish among methods.  A method that has one
+or more <i>qualifiers</i> is called a <i>qualified method</i>. 
+A method with no <i>qualifiers</i> is called an <i>unqualified method</i>. 
+A <i>qualifier</i> is any <i>non-list</i>. 
+The <i>qualifiers</i> defined by the <i>standardized</i> method combination types
+are <i>symbols</i>.
+
+<p>In this specification, the terms &ldquo;<i>primary method</i>&rdquo; and
+&ldquo;<i>auxiliary method</i>&rdquo; are used to partition <i>methods</i>
+within a method combination type according to their intended use. 
+In standard method combination, <i>primary methods</i> are
+<i>unqualified methods</i>
+and <i>auxiliary methods</i> are methods with a single <i>qualifier</i>
+that is one of <tt>:around</tt>, <tt>:before</tt>, or <tt>:after</tt>. 
+<i>Methods</i> with these <i>qualifiers</i> are called <i>around methods</i>,
+<i>before methods</i>, and <i>after methods</i>, respectively. 
+When a method combination type is defined using the short form of
+<code>define-method-combination</code>, <i>primary methods</i> are
+methods qualified with the name of the type of method combination,
+and auxiliary methods have the <i>qualifier</i> <tt>:around</tt>. 
+Thus the terms &ldquo;<i>primary method</i>&rdquo; and &ldquo;<i>auxiliary method</i>&rdquo;
+have only a relative definition within a given method combination type.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Methods.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

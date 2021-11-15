@@ -1,0 +1,130 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/signal.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>signal - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="method_002dcombination_002derror.html#method_002dcombination_002derror" title="method-combination-error">
+<link rel="next" href="simple_002dcondition.html#simple_002dcondition" title="simple-condition">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="signal"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="simple_002dcondition.html#simple_002dcondition">simple-condition</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="method_002dcombination_002derror.html#method_002dcombination_002derror">method-combination-error</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">signal (Function)</h3>
+
+<p><a name="index-signal-896"></a><a name="index-signal-897"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>signal</b><var> datum </var><tt>&amp;rest</tt><var> arguments </var><span class="roman">→</span> <code>nil</code><var><a name="index-signal-898"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>datum</var>, <var>arguments</var>&mdash;<i>designators</i> for a <i>condition</i>
+of default type <code>simple-condition</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><i>Signals</i> the <i>condition</i> denoted by the given <var>datum</var> and <var>arguments</var>. 
+If the <i>condition</i> is not handled, <code>signal</code> returns <code>nil</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun handle-division-conditions (condition)
+   (format t "Considering condition for division condition handling~%")
+   (when (and (typep condition 'arithmetic-error)
+              (eq '/ (arithmetic-error-operation condition)))
+     (invoke-debugger condition)))
+HANDLE-DIVISION-CONDITIONS
+ (defun handle-other-arithmetic-errors (condition)
+   (format t "Considering condition for arithmetic condition handling~%")
+   (when (typep condition 'arithmetic-error)
+     (abort)))
+HANDLE-OTHER-ARITHMETIC-ERRORS
+ (define-condition a-condition-with-no-handler (condition) ())
+A-CONDITION-WITH-NO-HANDLER
+ (signal 'a-condition-with-no-handler)
+NIL
+ (handler-bind ((condition #'handle-division-conditions)
+                  (condition #'handle-other-arithmetic-errors))
+   (signal 'a-condition-with-no-handler))
+Considering condition for division condition handling
+Considering condition for arithmetic condition handling
+NIL
+ (handler-bind ((arithmetic-error #'handle-division-conditions)
+                  (arithmetic-error #'handle-other-arithmetic-errors))
+   (signal 'arithmetic-error :operation '* :operands '(1.2 b)))
+Considering condition for division condition handling
+Considering condition for arithmetic condition handling
+Back to Lisp Toplevel
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The debugger might be entered due to <code>*break-on-signals*</code>.
+
+<p>Handlers for the condition being signaled might transfer control.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>Existing handler bindings.
+
+<p><code>*break-on-signals*</code>
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="_002abreak_002don_002dsignals_002a.html#g_t_002abreak_002don_002dsignals_002a">*break-on-signals*</a>,
+<a href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>,
+<a href="simple_002dcondition.html#simple_002dcondition">simple-condition</a>,
+<a href="Signaling-and-Handling-Conditions.html#Signaling-and-Handling-Conditions">Section 9.1.4 (Signaling and Handling Conditions)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>If <code>(typep </code><var>datum</var><code> *break-on-signals*)</code> <i>yields</i> <i>true</i>,
+the debugger is entered prior to beginning the signaling process. 
+the <code>continue</code> restart can be used to continue with the signaling process. 
+This is also true for all other <i>functions</i> and <i>macros</i> that
+should, might, or must <i>signal</i> <i>conditions</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/signal.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

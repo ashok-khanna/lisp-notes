@@ -1,0 +1,202 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:57 GMT -->
+<head>
+<title>mapc; mapcar; mapcan; mapl; maplist; mapcon - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="member_003b-member_002dif_003b-member_002dif_002dnot.html#member_003b-member_002dif_003b-member_002dif_002dnot" title="member; member-if; member-if-not">
+<link rel="next" href="acons.html#acons" title="acons">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="mapc%3b-mapcar%3b-mapcan%3b-mapl%3b-maplist%3b-mapcon"></a>
+<a name="mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="acons.html#acons">acons</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="member_003b-member_002dif_003b-member_002dif_002dnot.html#member_003b-member_002dif_003b-member_002dif_002dnot">member; member-if; member-if-not</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">mapc, mapcar, mapcan, mapl, maplist, mapcon (Function)</h3>
+
+<p><a name="index-mapc-1966"></a><a name="index-mapc-1967"></a><a name="index-mapcar-1968"></a><a name="index-mapcar-1969"></a><a name="index-mapcan-1970"></a><a name="index-mapcan-1971"></a><a name="index-mapl-1972"></a><a name="index-mapl-1973"></a><a name="index-maplist-1974"></a><a name="index-maplist-1975"></a><a name="index-mapcon-1976"></a><a name="index-mapcon-1977"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>mapc</b><var> function </var><tt>&amp;rest</tt><var> lists+ </var><span class="roman">→</span><var> list-1<a name="index-mapc-1978"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>mapcar</b><var> function </var><tt>&amp;rest</tt><var> lists+ </var><span class="roman">→</span><var> result-list<a name="index-mapcar-1979"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>mapcan</b><var> function </var><tt>&amp;rest</tt><var> lists+ </var><span class="roman">→</span><var> concatenated-results<a name="index-mapcan-1980"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>mapl</b><var> function </var><tt>&amp;rest</tt><var> lists+ </var><span class="roman">→</span><var> list-1<a name="index-mapl-1981"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>maplist</b><var> function </var><tt>&amp;rest</tt><var> lists+ </var><span class="roman">→</span><var> result-list<a name="index-maplist-1982"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>mapcon</b><var> function </var><tt>&amp;rest</tt><var> lists+ </var><span class="roman">→</span><var> concatenated-results<a name="index-mapcon-1983"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>function</var>&mdash;a <i>designator</i> for a <i>function</i>
+that must take as many <i>arguments</i> as there are <var>lists</var>.
+
+<p><var>list</var>&mdash;a <i>proper list</i>.
+
+<p><var>list-1</var>&mdash;the first <var>list</var> (which must be a <i>proper list</i>).
+
+<p><var>result-list</var>&mdash;a <i>list</i>.
+
+<p><var>concatenated-results</var>&mdash;a <i>list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The mapping operation involves applying <var>function</var> to
+successive sets of arguments in which
+one argument is obtained from each <i>sequence</i>. 
+Except for <code>mapc</code> and <code>mapl</code>,
+the result contains the results returned by <var>function</var>. 
+In the cases of <code>mapc</code> and <code>mapl</code>,
+the resulting <i>sequence</i> is <var>list</var>.
+
+<p><var>function</var> is called
+first on all the elements with index <code>0</code>, then on all those
+with index <code>1</code>, and so on. 
+<var>result-type</var> specifies the <i>type</i> of
+the
+resulting <i>sequence</i>. 
+If <var>function</var> is a <i>symbol</i>, it is <code>coerce</code>d
+to a <i>function</i> as if by <code>symbol-function</code>.
+
+<p><code>mapcar</code> operates on successive <i>elements</i> of the <var>lists</var>. 
+<var>function</var> is applied to the first <i>element</i> of each <var>list</var>,
+then to the second <i>element</i> of each <var>list</var>, and so on. 
+The iteration terminates when the shortest <var>list</var> runs out,
+and excess elements in other lists are ignored. 
+The value returned by <code>mapcar</code> is a <i>list</i>
+of the results of successive calls to <var>function</var>.
+
+<p><code>mapc</code> is like <code>mapcar</code> except that the results of
+applying <var>function</var> are not accumulated. 
+The <var>list</var> argument is returned.
+
+<p><code>maplist</code> is like <code>mapcar</code> except that
+<var>function</var> is applied to successive sublists of the <var>lists</var>. 
+<var>function</var>
+is first applied to the <var>lists</var> themselves,
+and then to the <i>cdr</i> of each
+<var>list</var>, and then to the <i>cdr</i> of the <i>cdr</i>
+of each <var>list</var>, and so on.
+
+<p><code>mapl</code> is like <code>maplist</code> except that the results of
+applying <var>function</var> are not accumulated;
+<var>list-1</var> is returned.
+
+<p><code>mapcan</code> and <code>mapcon</code> are like <code>mapcar</code> and
+<code>maplist</code> respectively, except that the results of
+applying <var>function</var> are combined
+into a <i>list</i> by the use of <code>nconc</code>
+rather than <code>list</code>. 
+That is,
+
+<pre class="lisp"> (mapcon f x1 ... xn)
+   ≡ (apply #'nconc (maplist f x1 ... xn))
+</pre>
+<p>and similarly for the relationship between <code>mapcan</code>
+and <code>mapcar</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (mapcar #'car '((1 a) (2 b) (3 c))) <span class="roman">→</span> (1 2 3)
+ (mapcar #'abs '(3 -4 2 -5 -6)) <span class="roman">→</span> (3 4 2 5 6)
+ (mapcar #'cons '(a b c) '(1 2 3)) <span class="roman">→</span> ((A . 1) (B . 2) (C . 3))
+
+ (maplist #'append '(1 2 3 4) '(1 2) '(1 2 3))
+<span class="roman">→</span> ((1 2 3 4 1 2 1 2 3) (2 3 4 2 2 3))
+ (maplist #'(lambda (x) (cons 'foo x)) '(a b c d))
+<span class="roman">→</span> ((FOO A B C D) (FOO B C D) (FOO C D) (FOO D))
+ (maplist #'(lambda (x) (if (member (car x) (cdr x)) 0 1)) '(a b a c d b c))
+<span class="roman">→</span> (0 0 1 0 1 1 1)
+;An entry is 1 if the corresponding element of the input
+;  list was the last instance of that element in the input list.
+
+ (setq dummy nil) <span class="roman">→</span> NIL
+ (mapc #'(lambda (&amp;rest x) (setq dummy (append dummy x)))
+        '(1 2 3 4)
+        '(a b c d e)
+        '(x y z)) <span class="roman">→</span> (1 2 3 4)
+ dummy <span class="roman">→</span> (1 A X 2 B Y 3 C Z)
+
+ (setq dummy nil) <span class="roman">→</span> NIL
+ (mapl #'(lambda (x) (push x dummy)) '(1 2 3 4)) <span class="roman">→</span> (1 2 3 4)
+ dummy <span class="roman">→</span> ((4) (3 4) (2 3 4) (1 2 3 4))
+
+ (mapcan #'(lambda (x y) (if (null x) nil (list x y)))
+          '(nil nil nil d e)
+          '(1 2 3 4 5 6)) <span class="roman">→</span> (D 4 E 5)
+ (mapcan #'(lambda (x) (and (numberp x) (list x)))
+          '(a 1 b c 3 4 d 5))
+<span class="roman">→</span> (1 3 4 5)
+</pre>
+<p>In this case the function serves as a filter;
+this is a standard <span class="roman">Lisp</span>&nbsp;<!-- /@w -->idiom using <code>mapcan</code>.
+
+<pre class="lisp"> (mapcon #'list '(1 2 3 4)) <span class="roman">→</span> ((1 2 3 4) (2 3 4) (3 4) (4))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should be prepared to signal an error of <i>type</i> <code>type-error</code> if
+any <var>list</var> is not a <i>proper list</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="dolist.html#dolist">dolist</a>,
+<a href="map.html#map">map</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:57 GMT -->
+</html>
+

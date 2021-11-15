@@ -1,0 +1,566 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/S.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:57 GMT -->
+<head>
+<title>S - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Glossary.html#Glossary" title="Glossary">
+<link rel="prev" href="R.html#R" title="R">
+<link rel="next" href="T.html#T" title="T">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="S"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="T.html#T">T</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="R.html#R">R</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Glossary.html#Glossary">Glossary</a>
+<hr>
+</div>
+
+<h3 class="unnumberedsec">S</h3>
+
+     <dl>
+<dt><b>safe</b>  <i>adj.</i>&nbsp;<!-- /@w --><dd>1. (of <i>code</i>)
+processed in a <i>lexical environment</i> where the the highest
+<code>safety</code> level (<code>3</code>) was in effect. 
+See <a href="optimize.html#optimize">optimize</a>. 
+2. (of a <i>call</i>) a <i>safe call</i>.
+
+     <br><dt><b>safe call</b>  <i>n.</i><dd>a <i>call</i> in which
+the <i>call</i>,
+the <i>function</i> being <i>called</i>,
+and the point of <i>functional evaluation</i>
+are all <i>safe</i><sub>1</sub> <i>code</i>. 
+For more detailed information, see <a href="SafeAndUnsafeCalls.html#SafeAndUnsafeCalls">Section 3.5.1.1 (Safe and Unsafe Calls)</a>.
+
+     <br><dt><b>same</b>  <i>adj.</i>&nbsp;<!-- /@w --><dd>1. (of <i>objects</i> under a specified <i>predicate</i>)
+indistinguishable by that <i>predicate</i>. 
+&ldquo;The symbol <code>car</code>, the string <code>"car"</code>, and the string <code>"CAR"</code>
+are the <code>same</code> under <code>string-equal</code>&rdquo;. 
+2. (of <i>objects</i> if no predicate is implied by context)
+indistinguishable by <code>eql</code>. 
+Note that <code>eq</code> might be capable of distinguishing some
+<i>numbers</i> and <i>characters</i> which <code>eql</code> cannot
+distinguish, but the nature of such, if any,
+is <i>implementation-dependent</i>. 
+Since <code>eq</code> is used only rarely in this specification,
+<code>eql</code> is the default predicate when none is mentioned explicitly. 
+&ldquo;The conses returned by two successive calls to <code>cons</code>
+are never the same.&rdquo;
+3. (of <i>types</i>) having the same set of <i>elements</i>;
+that is, each <i>type</i> is a <i>subtype</i> of the others. 
+&ldquo;The types specified by <code>(integer 0 1)</code>,
+<code>(unsigned-byte 1)</code>,
+and <code>bit</code> are the same.&rdquo;
+
+     <br><dt><b>satisfy the test</b>  <i>v.</i>&nbsp;<!-- /@w --><dd>(of an <i>object</i> being considered by a <i>sequence function</i>)
+1. (for a one <i>argument</i> test)
+to be in a state such that the <i>function</i> which is the
+<var>predicate</var> <i>argument</i> to the <i>sequence function</i>
+returns <i>true</i> when given a single <i>argument</i> that is the
+result of calling the <i>sequence function</i>'s <var>key</var> <i>argument</i>
+on the <i>object</i> being considered. 
+See <a href="Satisfying-a-One_002dArgument-Test.html#Satisfying-a-One_002dArgument-Test">Section 17.2.2 (Satisfying a One-Argument Test)</a>. 
+2. (for a two <i>argument</i> test)
+to be in a state such that the two-place <i>predicate</i>
+which is the <i>sequence function</i>'s
+<var>test</var> <i>argument</i>
+returns <i>true</i> when given a first <i>argument</i> that
+is
+the <i>object</i> being considered,
+and when given a second <i>argument</i>
+that is the result of calling the <i>sequence function</i>'s
+<var>key</var> <i>argument</i> on an <i>element</i> of the
+<i>sequence function</i>'s <var>sequence</var> <i>argument</i>
+which is being tested for equality;
+or to be in a state such that the <var>test-not</var> <i>function</i>
+returns <i>false</i> given the same <i>arguments</i>. 
+See <a href="Satisfying-a-Two_002dArgument-Test.html#Satisfying-a-Two_002dArgument-Test">Section 17.2.1 (Satisfying a Two-Argument Test)</a>.
+
+     <br><dt><b>scope</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>the structural or textual region of code in which <i>references</i>
+to an <i>object</i>, a <i>binding</i>, an <i>exit point</i>,
+a <i>tag</i>, or an <i>environment</i> (usually by <i>name</i>)
+can occur.
+
+     <br><dt><b>script</b>  <i>n.</i>&nbsp;<!-- /@w --><i>ISO</i><dd>one of possibly several sets that form an <i>exhaustive partition</i>
+of the type <code>character</code>.  See <a href="CharScripts.html#CharScripts">Section 13.1.2.1 (Character Scripts)</a>.
+
+     <br><dt><b>secondary value</b>  <i>n.</i>&nbsp;<!-- /@w -->(of <i>values</i> resulting from the<dd><i>evaluation</i> of a <i>form</i>)
+the second <i>value</i>, if any,
+or else <code>nil</code>&nbsp;<!-- /@w -->if there are fewer than two <i>values</i>. 
+&ldquo;The secondary value returned by <code>truncate</code> is a remainder.&rdquo;
+
+     <br><dt><b>section</b>  <i>n.</i><dd>a partitioning of output by a <i>conditional newline</i> on a <i>pretty printing stream</i>. 
+See <a href="DynamicControlofOutput.html#DynamicControlofOutput">Section 22.2.1.1 (Dynamic Control of the Arrangement of Output)</a>.
+
+     <br><dt><b>self-evaluating object</b>  <i>n.</i><dd>an <i>object</i> that is neither a <i>symbol</i> nor a
+<i>cons</i>. 
+If a <i>self-evaluating object</i> is <i>evaluated</i>,
+it <i>yields</i> itself as its only <i>value</i>. 
+&ldquo;Strings are self-evaluating objects.&rdquo;
+
+     <br><dt><b>semi-standard</b>  <i>adj.</i>&nbsp;<!-- /@w -->(of a language feature)<dd>not required to be implemented by any <i>conforming implementation</i>,
+but nevertheless recommended as the canonical approach in situations where
+an <i>implementation</i> does plan to support such a feature. 
+The presence of <i>semi-standard</i> aspects in the language is intended
+to lessen portability problems and reduce the risk of gratuitous divergence
+among <i>implementations</i> that might stand in the way of future
+standardization.
+
+     <br><dt><b>semicolon</b>  <i>n.</i><dd>the <i>standard character</i> that is called &ldquo;semicolon&rdquo; (<code>;</code>). 
+See <a href="StdCharsThree.html#StdCharsThree">Figure 2.5</a>.
+
+     <br><dt><b>sequence</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>1. an ordered collection of elements
+2. a <i>vector</i> or a <i>list</i>.
+
+     <br><dt><b>sequence function</b>  <i>n.</i><dd>one of the <i>functions</i> in <a href="SequenceFunctions.html#SequenceFunctions">Figure 17.1</a>,
+or an <i>implementation-defined</i> <i>function</i>
+that operates on one or more <i>sequences</i>. 
+and that is defined by the <i>implementation</i> to be a <i>sequence function</i>.
+
+     <br><dt><b>sequential</b> <a name="glos_002dsequential"></a><dd> <i>adj.</i>&nbsp;<!-- /@w --><i>Trad.</i>&nbsp;<!-- /@w -->(of <i>binding</i> or <i>assignment</i>)
+done in the style of <code>setq</code>, <code>let*</code>, or <code>do*</code>;
+that is, interleaving the evaluation of the <i>forms</i> that produce <i>values</i>
+with the <i>assignments</i> or <i>bindings</i> of the <i>variables</i> (or <i>places</i>). 
+See <a href="glos_002dparallel.html#glos_002dparallel">parallel</a>.
+
+     <br><dt><b>sequentially</b>  <i>adv.</i><dd>in a <i>sequential</i> way.
+
+     <br><dt><b>serious condition</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>condition</i> of <i>type</i> <code>serious-condition</code>,
+which represents a <i>situation</i> that is generally sufficiently
+severe that entry into the <i>debugger</i> should be expected if
+the <i>condition</i> is <i>signaled</i> but not <i>handled</i>.
+
+     <br><dt><b>session</b>  <i>n.</i><dd>the conceptual aggregation of events in a <i>Lisp image</i> from the time
+it is started to the time it is terminated.
+
+     <br><dt><b>set</b>  <i>v.t.</i>&nbsp;<!-- /@w --><i>Trad.</i>&nbsp;<!-- /@w -->(any <i>variable</i><dd>or a <i>symbol</i> that
+is the <i>name</i> of a <i>dynamic variable</i>)
+to <i>assign</i> the <i>variable</i>.
+
+     <br><dt><b>setf expander</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a function used by <code>setf</code> to compute the <i>setf expansion</i>
+of a <i>place</i>.
+
+     <br><dt><b>setf expansion</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a set of five <i>expressions</i><sub>1</sub> that, taken together, describe
+how to store into a <i>place</i>
+and which <i>subforms</i> of the macro call associated with the
+<i>place</i> are evaluated. 
+See <a href="SetfExpansions.html#SetfExpansions">Section 5.1.1.2 (Setf Expansions)</a>.
+
+     <br><dt><b>setf function</b>  <i>n.</i><dd>a <i>function</i> whose <i>name</i> is <code>(setf </code><i>symbol</i><code>)</code>.
+
+     <br><dt><b>setf function name</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>symbol</i> <var>S</var>)<dd>the <i>list</i> <code>(setf </code><var>S</var><code>)</code>.
+
+     <br><dt><b>shadow</b>  <i>v.t.</i>&nbsp;<!-- /@w --><dd>1. to override the meaning of. 
+&ldquo;That binding of <code>X</code> shadows an outer one.&rdquo;
+2. to hide the presence of. 
+&ldquo;That <code>macrolet</code> of <code>F</code> shadows the
+outer <code>flet</code> of <code>F</code>.&rdquo;
+3. to replace. 
+&ldquo;That package shadows the symbol <code>cl:car</code> with
+its own symbol <code>car</code>.&rdquo;
+
+     <br><dt><b>shadowing symbol</b>  <i>n.</i>&nbsp;<!-- /@w -->(in a <i>package</i>)<dd>an <i>element</i> of the <i>package</i>'s <i>shadowing symbols list</i>.
+
+     <br><dt><b>shadowing symbols list</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>package</i>)<dd>a <i>list</i>, associated with the <i>package</i>,
+of <i>symbols</i> that are to be exempted from `symbol conflict errors'
+detected when packages are <i>used</i>. 
+See the <i>function</i> <a href="package_002dshadowing_002dsymbols.html#package_002dshadowing_002dsymbols">package-shadowing-symbols</a>.
+
+     <br><dt><b>shared slot</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>class</i>)<dd>a <i>slot</i> <i>accessible</i> in more than one <i>instance</i>
+of a <i>class</i>; specifically, such a <i>slot</i> is <i>accessible</i>
+in all <i>direct instances</i> of the <i>class</i> and in those
+<i>indirect instances</i> whose <i>class</i> does not
+<i>shadow</i><sub>1</sub> the <i>slot</i>.
+
+     <br><dt><b>sharpsign</b>  <i>n.</i><dd>the <i>standard character</i> that is variously called &ldquo;number sign,&rdquo; &ldquo;sharp,&rdquo;
+or &ldquo;sharp sign&rdquo; (<code>#</code>). 
+See <a href="StdCharsThree.html#StdCharsThree">Figure 2.5</a>.
+
+     <br><dt><b>short float</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>object</i> of <i>type</i> <code>short-float</code>.
+
+     <br><dt><b>sign</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>one of the <i>standard characters</i> &ldquo;<code>+</code>&rdquo; or &ldquo;<code>-</code>&rdquo;.
+
+     <br><dt><b>signal</b>  <i>v.</i>&nbsp;<!-- /@w --><dd>to announce, using a standard protocol, that a particular situation,
+represented by a <i>condition</i>, has been detected. 
+See <a href="Condition-System-Concepts.html#Condition-System-Concepts">Section 9.1 (Condition System Concepts)</a>.
+
+     <br><dt><b>signature</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>method</i>)<dd>a description of the <i>parameters</i> and
+<i>parameter specializers</i> for the <i>method</i> which
+determines the <i>method</i>'s applicability for a given set of
+required <i>arguments</i>, and which also describes the
+<i>argument</i> conventions for its other, non-required
+<i>arguments</i>.
+
+     <br><dt><b>similar</b>  <i>adj.</i>&nbsp;<!-- /@w -->(of two <i>objects</i>)<dd>defined to be equivalent under the <i>similarity</i> relationship.
+
+     <br><dt><b>similarity</b>  <i>n.</i><dd>a two-place conceptual equivalence predicate,
+which is independent of the <i>Lisp image</i>
+so that two <i>objects</i> in different <i>Lisp images</i>
+can be understood to be equivalent under this predicate. 
+See <a href="Literal-Objects-in-Compiled-Files.html#Literal-Objects-in-Compiled-Files">Section 3.2.4 (Literal Objects in Compiled Files)</a>.
+
+     <br><dt><b>simple</b>  <i>adj.</i><dd>1. (of an <i>array</i>) being of <i>type</i> <code>simple-array</code>. 
+2. (of a <i>character</i>)
+having no <i>implementation-defined</i> <i>attributes</i>,
+or else having <i>implementation-defined</i> <i>attributes</i>
+each of which has the <i>null</i> value for that <i>attribute</i>.
+
+     <br><dt><b>simple array</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>array</i> of <i>type</i> <code>simple-array</code>.
+
+     <br><dt><b>simple bit array</b>  <i>n.</i><dd>a <i>bit array</i> that is a <i>simple array</i>;
+that is, an <i>object</i> of <i>type</i> <code>(simple-array bit)</code>.
+
+     <br><dt><b>simple bit vector</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>bit vector</i> of <i>type</i> <code>simple-bit-vector</code>.
+
+     <br><dt><b>simple condition</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>condition</i> of <i>type</i> <code>simple-condition</code>.
+
+     <br><dt><b>simple general vector</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>simple vector</i>.
+
+     <br><dt><b>simple string</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>string</i> of <i>type</i> <code>simple-string</code>.
+
+     <br><dt><b>simple vector</b>  <i>n.</i><dd>a <i>vector</i> of <i>type</i> <code>simple-vector</code>,
+sometimes called a &ldquo;<i>simple general vector</i>.&rdquo;
+Not all <i>vectors</i> that are <i>simple</i> are <i>simple vectors</i>&mdash;only
+those that have <i>element type</i> <code>t</code>.
+
+     <br><dt><b>single escape</b>  <i>n.</i>, <i>adj.</i><dd>1. <i>n.</i>&nbsp;<!-- /@w -->the <i>syntax type</i> of a <i>character</i>
+that indicates that the next <i>character</i> is
+to be treated as an <i>alphabetic</i><sub>2</sub> <i>character</i>
+with its <i>case</i> preserved. 
+For details, see <a href="SingleEscapeChar.html#SingleEscapeChar">Section 2.1.4.6 (Single Escape Character)</a>. 
+2. <i>adj.</i>&nbsp;<!-- /@w -->(of a <i>character</i>)
+having the <i>single escape</i> <i>syntax type</i>. 
+3. <i>n.</i>&nbsp;<!-- /@w -->a <i>single escape</i><sub>2</sub> <i>character</i>. 
+(In the <i>standard readtable</i>,
+<i>slash</i> is the only <i>single escape</i>.)
+
+     <br><dt><b>single float</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>object</i> of <i>type</i> <code>single-float</code>.
+
+     <br><dt><b>single-quote</b>  <i>n.</i><dd>the <i>standard character</i> that is variously called
+&ldquo;apostrophe,&rdquo;
+&ldquo;acute accent,&rdquo;
+&ldquo;quote,&rdquo;
+or &ldquo;single quote&rdquo; (<code>'</code>). 
+See <a href="StdCharsThree.html#StdCharsThree">Figure 2.5</a>.
+
+     <br><dt><b>singleton</b>  <i>adj.</i>&nbsp;<!-- /@w -->(of a <i>sequence</i>)<dd>having only one <i>element</i>. 
+&ldquo;<code>(list 'hello)</code> returns a singleton list.&rdquo;
+
+     <br><dt><b>situation</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>the <i>evaluation</i> of a <i>form</i> in a specific <i>environment</i>.
+
+     <br><dt><b>slash</b>  <i>n.</i><dd>the <i>standard character</i> that is variously called
+&ldquo;solidus&rdquo;
+or &ldquo;slash&rdquo; (<code>/</code>). 
+See <a href="StdCharsThree.html#StdCharsThree">Figure 2.5</a>.
+
+     <br><dt><b>slot</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a component of an <i>object</i> that can store a <i>value</i>.
+
+     <br><dt><b>slot specifier</b>  <i>n.</i><dd>a representation of a <i>slot</i>
+that includes the <i>name</i> of the <i>slot</i> and zero or more <i>slot</i> options. 
+A <i>slot</i> option pertains only to a single <i>slot</i>.
+
+     <br><dt><b>source code</b>  <i>n.</i>&nbsp;<!-- /@w --><dd><i>code</i> representing <i>objects</i> suitable for <i>evaluation</i>
+(<i>e.g.</i>, <i>objects</i> created by <code>read</code>,
+by <i>macro expansion</i>,
+or by <i>compiler macro expansion</i>).
+
+     <br><dt><b>source file</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>file</i> which contains a textual representation of <i>source code</i>,
+that can be edited, <i>loaded</i>, or <i>compiled</i>.
+
+     <br><dt><b>space</b>  <i>n.</i><dd>the <i>standard character</i> &lt;Space&gt;,
+notated for the <i>Lisp reader</i> as <code>#\Space</code>.
+
+     <br><dt><b>special form</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>list</i>, other than a <i>macro form</i>, which is a
+<i>form</i> with special syntax or special <i>evaluation</i>
+rules or both, possibly manipulating the <i>evaluation</i>
+<i>environment</i> or control flow or both.  The first element of
+a <i>special form</i> is a <i>special operator</i>.
+
+     <br><dt><b>special operator</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>one of a fixed set of <i>symbols</i>,
+enumerated in <a href="CLSpecialOps.html#CLSpecialOps">Figure 3.2</a>,
+that may appear in the <i>car</i> of
+a <i>form</i> in order to identify the <i>form</i> as a <i>special form</i>.
+
+     <br><dt><b>special variable</b>  <i>n.</i>&nbsp;<!-- /@w --><i>Trad.</i><dd>a <i>dynamic variable</i>.
+
+     <br><dt><b>specialize</b>  <i>v.t.</i>&nbsp;<!-- /@w -->(a <i>generic function</i>)<dd>to define a <i>method</i> for the <i>generic function</i>, or in other words,
+to refine the behavior of the <i>generic function</i> by giving it a specific
+meaning for a particular set of <i>classes</i> or <i>arguments</i>.
+
+     <br><dt><b>specialized</b>  <i>adj.</i>&nbsp;<!-- /@w --><dd>1. (of a <i>generic function</i>)
+having <i>methods</i> which <i>specialize</i> the <i>generic function</i>. 
+2. (of an <i>array</i>)
+having an <i>actual array element type</i>
+that is a <i>proper subtype</i> of the <i>type</i> <code>t</code>;
+see <a href="Array-Elements.html#Array-Elements">Section 15.1.1 (Array Elements)</a>. 
+&ldquo;<code>(make-array 5 :element-type 'bit)</code> makes an array of length
+five that is specialized for bits.&rdquo;
+
+     <br><dt><b>specialized lambda list</b>  <i>n.</i><dd>an <i>extended lambda list</i> used in <i>forms</i> that <i>establish</i>
+<i>method</i> definitions, such as <code>defmethod</code>. 
+See <a href="Specialized-Lambda-Lists.html#Specialized-Lambda-Lists">Section 3.4.3 (Specialized Lambda Lists)</a>.
+
+     <br><dt><b>spreadable argument list designator</b>  <i>n.</i><dd>a <i>designator</i> for a <i>list</i> of <i>objects</i>; that is,
+an <i>object</i> that denotes a <i>list</i>
+and that is a <i>non-null</i> <i>list</i> L1 of length n,
+whose last element is a <i>list</i> L2 of length m
+(denoting a list L3 of length m+n-1 whose <i>elements</i> are
+L1<sub>i</sub> for i &lt; n-1 followed by L2<sub>j</sub> for j &lt; m). 
+&ldquo;The list (1 2 (3 4 5)) is a spreadable argument list designator for
+the list (1 2 3 4 5).&rdquo;
+
+     <br><dt><b>stack allocate</b>  <i>v.t.</i>&nbsp;<!-- /@w --><i>Trad.</i>&nbsp;<!-- /@w --><dd>to allocate in a non-permanent way, such as on a stack.  Stack-allocation
+is an optimization technique used in some <i>implementations</i> for
+allocating certain kinds of <i>objects</i> that have <i>dynamic extent</i>. 
+Such <i>objects</i> are allocated on the stack rather than in the heap
+so that their storage can be freed as part of unwinding the stack rather
+than taking up space in the heap until the next garbage collection. 
+What <i>types</i> (if any) can have <i>dynamic extent</i> can vary
+from <i>implementation</i> to <i>implementation</i>.  No
+<i>implementation</i> is ever required to perform stack-allocation.
+
+     <br><dt><b>stack-allocated</b>  <i>adj.</i>&nbsp;<!-- /@w --><i>Trad.</i>&nbsp;<!-- /@w --><dd>having been <i>stack allocated</i>.
+
+     <br><dt><b>standard character</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>character</i> of <i>type</i> <code>standard-char</code>, which is one of a fixed set of 96
+such <i>characters</i> required to be present in all <i>conforming implementations</i>. 
+See <a href="Standard-Characters.html#Standard-Characters">Section 2.1.3 (Standard Characters)</a>.
+
+     <br><dt><b>standard class</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>class</i> that is a <i>generalized instance</i> of <i>class</i> <code>standard-class</code>.
+
+     <br><dt><b>standard generic function</b><dd>a <i>function</i> of <i>type</i> <code>standard-generic-function</code>.
+
+     <br><dt><b>standard input</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>the <i>input</i> <i>stream</i> which is the <i>value</i> of the <i>dynamic variable</i>
+<code>*standard-input*</code>.
+
+     <br><dt><b>standard method combination</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>the <i>method combination</i> named <code>standard</code>.
+
+     <br><dt><b>standard object</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>object</i> that is
+a <i>generalized instance</i>
+of <i>class</i> <code>standard-object</code>.
+
+     <br><dt><b>standard output</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>the <i>output</i> <i>stream</i> which is the <i>value</i> of the <i>dynamic variable</i>
+<code>*standard-output*</code>.
+
+     <br><dt><b>standard pprint dispatch table</b>  <i>n.</i><dd>A <i>pprint dispatch table</i> that is <i>different</i> from
+the <i>initial pprint dispatch table</i>,
+that implements <i>pretty printing</i> as described in this specification,
+and that, unlike other <i>pprint dispatch tables</i>,
+must never be modified by any program. 
+(Although the definite reference &ldquo;the <i>standard pprint dispatch table</i>&rdquo;
+is generally used
+within this document, it is actually <i>implementation-dependent</i> whether a
+single <i>object</i> fills the role of the <i>standard pprint dispatch table</i>,
+or whether there might be multiple such objects, any one of which could be used on any
+given occasion where &ldquo;the <i>standard pprint dispatch table</i>&rdquo; is called for. 
+As such, this phrase should be seen as an indefinite reference
+in all cases except for anaphoric references.)
+
+     <br><dt><b>standard readtable</b>  <i>n.</i><dd>A <i>readtable</i> that is <i>different</i> from the <i>initial readtable</i>,
+that implements the <i>expression</i> syntax defined in this specification,
+and that, unlike other <i>readtables</i>, must never be modified by any program. 
+(Although the definite reference &ldquo;the <i>standard readtable</i>&rdquo; is generally used
+within this document, it is actually <i>implementation-dependent</i> whether a
+single <i>object</i> fills the role of the <i>standard readtable</i>,
+or whether there might be multiple such objects, any one of which could be used on any
+given occasion where &ldquo;the <i>standard readtable</i>&rdquo; is called for. 
+As such, this phrase should be seen as an indefinite reference
+in all cases except for anaphoric references.)
+
+     <br><dt><b>standard syntax</b>  <i>n.</i><dd>the syntax represented by the <i>standard readtable</i>
+and used as a reference syntax throughout this document. 
+See <a href="Character-Syntax.html#Character-Syntax">Section 2.1 (Character Syntax)</a>.
+
+     <br><dt><b>standardized</b>  <i>adj.</i>&nbsp;<!-- /@w -->(of a <i>name</i>, <i>object</i>, or definition)<dd>having been defined by <span class="roman">Common Lisp</span>. 
+&ldquo;All standardized variables that are required to
+hold bidirectional streams have &ldquo;<code>-io*</code>&rdquo; in their name.&rdquo;
+
+     <br><dt><b>startup environment</b>  <i>n.</i><dd>the <i>global environment</i> of the running <i>Lisp image</i>
+from which the <i>compiler</i> was invoked.
+
+     <br><dt><b>step</b>  <i>v.t.</i>, <i>n.</i>&nbsp;<!-- /@w --><dd>1. <i>v.t.</i>&nbsp;<!-- /@w -->(an iteration <i>variable</i>) to <i>assign</i> the <i>variable</i>
+a new <i>value</i> at the end of an iteration, in preparation for a new iteration. 
+2. <i>n.</i>&nbsp;<!-- /@w -->the <i>code</i> that identifies how the next value in an iteration
+is to be computed. 
+3. <i>v.t.</i>&nbsp;<!-- /@w -->(<i>code</i>) to specially execute the <i>code</i>, pausing at
+intervals to allow user confirmation or intervention, usually for debugging.
+
+     <br><dt><b>stream</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>object</i> that can be used with an input or output function to
+identify an appropriate source or sink of <i>characters</i> or
+<i>bytes</i> for that operation.
+
+     <br><dt><b>stream associated with a file</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>file stream</i>, or a <i>synonym stream</i> the <i>target</i>
+of which is a <i>stream associated with a file</i>. 
+Such a <i>stream</i> cannot be created with
+<code>make-two-way-stream</code>,
+<code>make-echo-stream</code>,
+<code>make-broadcast-stream</code>,
+<code>make-concatenated-stream</code>,
+<code>make-string-input-stream</code>,
+or <code>make-string-output-stream</code>.
+
+     <br><dt><b>stream designator</b>  <i>n.</i><dd>a <i>designator</i> for a <i>stream</i>; that is,
+an <i>object</i> that denotes a <i>stream</i>
+and that is one of:
+<code>t</code>&nbsp;<!-- /@w -->(denoting the <i>value</i> of <code>*terminal-io*</code>),
+<code>nil</code>&nbsp;<!-- /@w -->(denoting the <i>value</i> of <code>*standard-input*</code>
+for <i>input</i> <i>stream designators</i>
+or denoting the <i>value</i> of <code>*standard-output*</code>
+for <i>output</i> <i>stream designators</i>),
+or a <i>stream</i> (denoting itself).
+
+     <br><dt><b>stream element type</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>stream</i>)<dd>the <i>type</i> of data for which the <i>stream</i> is specialized.
+
+     <br><dt><b>stream variable</b>  <i>n.</i><dd>a <i>variable</i> whose <i>value</i> must be a <i>stream</i>.
+
+     <br><dt><b>stream variable designator</b>  <i>n.</i><dd>a <i>designator</i> for a <i>stream variable</i>; that is,
+a <i>symbol</i> that denotes a <i>stream variable</i>
+and that is one of:
+<code>t</code>&nbsp;<!-- /@w -->(denoting <code>*terminal-io*</code>),
+<code>nil</code>&nbsp;<!-- /@w -->(denoting <code>*standard-input*</code>
+for <i>input</i> <i>stream variable designators</i>
+or denoting <code>*standard-output*</code>
+for <i>output</i> <i>stream variable designators</i>),
+or some other <i>symbol</i> (denoting itself).
+
+     <br><dt><b>string</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a specialized <i>vector</i> that is of <i>type</i> <code>string</code>,
+and whose elements are of <i>type</i> <code>character</code> or a <i>suptype</i> of <i>type</i> <code>character</code>.
+
+     <br><dt><b>string designator</b>  <i>n.</i><dd>a <i>designator</i> for a <i>string</i>; that is,
+an <i>object</i> that denotes a <i>string</i>
+and that is one of:
+a <i>character</i> (denoting a <i>singleton</i> <i>string</i>
+that has the <i>character</i> as its only <i>element</i>),
+a <i>symbol</i> (denoting the <i>string</i> that is its <i>name</i>),
+or a <i>string</i> (denoting itself). 
+The intent is that this term be consistent with the behavior of <code>string</code>;
+<i>implementations</i> that extend <code>string</code> must extend the meaning of
+this term in a compatible way.
+
+     <br><dt><b>string equal</b>  <i>adj.</i>&nbsp;<!-- /@w --><dd>the <i>same</i> under <code>string-equal</code>.
+
+     <br><dt><b>string stream</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>stream</i> of <i>type</i> <code>string-stream</code>.
+
+     <br><dt><b>structure</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>object</i> of <i>type</i> <code>structure-object</code>.
+
+     <br><dt><b>structure class</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>class</i> that is a <i>generalized instance</i> of <i>class</i> <code>structure-class</code>.
+
+     <br><dt><b>structure name</b>  <i>n.</i><dd>a <i>name</i> defined with <code>defstruct</code>. 
+Usually, such a <i>type</i> is also a <i>structure class</i>,
+but there may be <i>implementation-dependent</i> situations
+in which this is not so, if the <tt>:type</tt> option to <code>defstruct</code> is used.
+
+     <br><dt><b>style warning</b>  <i>n.</i><dd>a <i>condition</i> of <i>type</i> <code>style-warning</code>.
+
+     <br><dt><b>subclass</b> <a name="glos_002dsubclass"></a><dd> <i>n.</i>&nbsp;<!-- /@w -->
+a <i>class</i> that <i>inherits</i> from another <i>class</i>,
+called a <i>superclass</i>. 
+(No <i>class</i> is a <i>subclass</i> of itself.)
+
+     <br><dt><b>subexpression</b>  <i>n.</i>&nbsp;<!-- /@w -->(of an <i>expression</i>)<dd>an <i>expression</i> that is contained within the <i>expression</i>. 
+(In fact, the state of being a <i>subexpression</i> is not an attribute
+of the <i>subexpression</i>, but really an attribute of the containing
+<i>expression</i> since the <i>same</i> <i>object</i> can at once be
+a <i>subexpression</i> in one context, and not in another.)
+
+     <br><dt><b>subform</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>form</i>)<dd>an <i>expression</i> that is a <i>subexpression</i> of the <i>form</i>,
+and which by virtue of its position in that <i>form</i> is also a
+<i>form</i>. 
+&ldquo;<code>(f x)</code> and <code>x</code>, but not <code>exit</code>, are subforms of
+<code>(return-from exit (f x))</code>.&rdquo;
+
+     <br><dt><b>subrepertoire</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a subset of a <i>repertoire</i>.
+
+     <br><dt><b>subtype</b> <a name="glos_002dsubtype"></a><dd> <i>n.</i>&nbsp;<!-- /@w -->
+a <i>type</i> whose membership is the same as or a proper subset of the
+membership of another <i>type</i>, called a <i>supertype</i>. 
+(Every <i>type</i> is a <i>subtype</i> of itself.)
+
+     <br><dt><b>superclass</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>class</i> from which another <i>class</i>
+(called a <i>subclass</i>) <i>inherits</i>. 
+(No <i>class</i> is a <i>superclass</i> of itself.) 
+See <a href="glos_002dsubclass.html#glos_002dsubclass">subclass</a>.
+
+     <br><dt><b>supertype</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>type</i> whose membership is the same as or a proper superset
+of the membership of another <i>type</i>, called a <i>subtype</i>. 
+(Every <i>type</i> is a <i>supertype</i> of itself.) 
+See <a href="glos_002dsubtype.html#glos_002dsubtype">subtype</a>.
+
+     <br><dt><b>supplied-p parameter</b> <a name="glos_002dsupplied_002dp-parameter"></a><dd> <i>n.</i>
+a <i>parameter</i> which recieves its <i>generalized boolean</i> value
+implicitly due to the presence or absence of an <i>argument</i>
+corresponding to another <i>parameter</i>
+(such as an <i>optional parameter</i> or a <i>rest parameter</i>). 
+See <a href="Ordinary-Lambda-Lists.html#Ordinary-Lambda-Lists">Section 3.4.1 (Ordinary Lambda Lists)</a>.
+
+     <br><dt><b>symbol</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>an <i>object</i> of <i>type</i> <code>symbol</code>.
+
+     <br><dt><b>symbol macro</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>symbol</i> that stands for another <i>form</i>. 
+See the <i>macro</i> <a href="symbol_002dmacrolet.html#symbol_002dmacrolet">symbol-macrolet</a>.
+
+     <br><dt><b>synonym stream</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>1. a <i>stream</i> of <i>type</i> <code>synonym-stream</code>,
+which is consequently a <i>stream</i> that is an alias for another <i>stream</i>,
+which is the <i>value</i> of a <i>dynamic variable</i>
+whose <i>name</i> is the <i>synonym stream symbol</i> of the <i>synonym stream</i>. 
+See the <i>function</i> <a href="make_002dsynonym_002dstream.html#make_002dsynonym_002dstream">make-synonym-stream</a>. 
+2. (to a <i>stream</i>)
+a <i>synonym stream</i> which has the <i>stream</i> as the <i>value</i>
+of its <i>synonym stream symbol</i>. 
+3. (to a <i>symbol</i>)
+a <i>synonym stream</i> which has the <i>symbol</i> as its
+<i>synonym stream symbol</i>.
+
+     <br><dt><b>synonym stream symbol</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>synonym stream</i>)<dd>the <i>symbol</i> which names the <i>dynamic variable</i> which has as its
+<i>value</i> another <i>stream</i> for which the <i>synonym stream</i>
+is an alias.
+
+     <br><dt><b>syntax type</b>  <i>n.</i>&nbsp;<!-- /@w -->(of a <i>character</i>)<dd>one of several classifications, enumerated in <a href="PossibleSyntaxTypes.html#PossibleSyntaxTypes">Figure 2.6</a>,
+that are used for dispatch during parsing by the <i>Lisp reader</i>. 
+See <a href="Character-Syntax-Types.html#Character-Syntax-Types">Section 2.1.4 (Character Syntax Types)</a>.
+
+     <br><dt><b>system class</b>  <i>n.</i>&nbsp;<!-- /@w --><dd>a <i>class</i> that may be of <i>type</i> <code>built-in-class</code> in a <i>conforming implementation</i>
+and hence cannot be inherited by <i>classes</i> defined by <i>conforming programs</i>.
+
+     <br><dt><b>system code</b>  <i>n.</i>&nbsp;<!-- /@w --><dd><i>code</i> supplied by the <i>implementation</i> to implement this specification
+(<i>e.g.</i>, the definition of <code>mapcar</code>)
+or generated automatically in support of this specification
+(<i>e.g.</i>, during method combination);
+that is, <i>code</i> that is not <i>programmer code</i>.
+
+</dl>
+
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/S.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:03 GMT -->
+</html>
+

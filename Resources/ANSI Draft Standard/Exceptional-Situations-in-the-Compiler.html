@@ -1,0 +1,94 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Exceptional-Situations-in-the-Compiler.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Exceptional Situations in the Compiler - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Compilation.html#Compilation" title="Compilation">
+<link rel="prev" href="Literal-Objects-in-Compiled-Files.html#Literal-Objects-in-Compiled-Files" title="Literal Objects in Compiled Files">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Exceptional-Situations-in-the-Compiler"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Literal-Objects-in-Compiled-Files.html#Literal-Objects-in-Compiled-Files">Literal Objects in Compiled Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Compilation.html#Compilation">Compilation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.2.5 Exceptional Situations in the Compiler</h4>
+
+<p><code>compile</code> and <code>compile-file</code> are permitted to
+signal errors and warnings, including errors due to compile-time
+processing of <code>(eval-when (:compile-toplevel) ...)</code> forms,
+macro expansion, and conditions signaled by the compiler itself.
+
+<p><i>Conditions</i> of <i>type</i> <code>error</code> might be signaled by the compiler
+in situations where the compilation cannot proceed without intervention.
+
+<p>In addition to situations for which the standard specifies that
+<i>conditions</i> of <i>type</i> <code>warning</code> must or might be signaled,
+warnings might be signaled in situations where the compiler can
+determine that the consequences are undefined or that a run-time
+error will be signaled.  Examples of this situation are as follows:
+violating type declarations,
+altering or assigning the value of a constant defined with <code>defconstant</code>,
+calling built-in Lisp functions with a wrong number of arguments or malformed keyword
+argument lists,
+and using unrecognized declaration specifiers.
+
+<p>The compiler is permitted to issue warnings about matters of
+programming style as conditions of <i>type</i> <code>style-warning</code>. 
+Examples of this situation are as follows:
+redefining a function using a different argument list,
+calling a function with a wrong number of arguments,
+not declaring <code>ignore</code> of a local variable that is not referenced,
+and referencing a variable declared <code>ignore</code>.
+
+<p>Both <code>compile</code> and <code>compile-file</code> are permitted
+(but not required) to <i>establish</i> a <i>handler</i>
+for <i>conditions</i> of <i>type</i> <code>error</code>.  For example, they
+might signal a warning, and restart compilation from some
+<i>implementation-dependent</i> point in order to let the
+compilation proceed without manual intervention.
+
+<p>Both <code>compile</code> and <code>compile-file</code> return three
+values, the second two indicating whether the source code being compiled
+contained errors and whether style warnings were issued.
+
+<p>Some warnings might be deferred until the end of compilation. 
+See <code>with-compilation-unit</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Exceptional-Situations-in-the-Compiler.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

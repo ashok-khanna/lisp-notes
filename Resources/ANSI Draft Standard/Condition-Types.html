@@ -1,0 +1,127 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Condition-Types.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Condition Types - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Condition-System-Concepts.html#Condition-System-Concepts" title="Condition System Concepts">
+<link rel="next" href="Creating-Conditions.html#Creating-Conditions" title="Creating Conditions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Condition-Types"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Creating-Conditions.html#Creating-Conditions">Creating Conditions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Condition-System-Concepts.html#Condition-System-Concepts">Condition System Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.1.1 Condition Types</h4>
+
+<p>The next figure&nbsp;<!-- /@w -->lists the <i>standardized</i> <i>condition</i> <i>types</i>. 
+Additional <i>condition</i> <i>types</i> can be defined by using <code>define-condition</code>.
+
+<div class="float">
+<a name="StandardizedConditionTypes"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">arithmetic-error </td><td valign="top">floating-point-overflow </td><td valign="top">simple-type-error
+<br></td></tr><tr align="left"><td valign="top">cell-error </td><td valign="top">floating-point-underflow </td><td valign="top">simple-warning
+<br></td></tr><tr align="left"><td valign="top">condition </td><td valign="top">package-error </td><td valign="top">storage-condition
+<br></td></tr><tr align="left"><td valign="top">control-error </td><td valign="top">parse-error </td><td valign="top">stream-error
+<br></td></tr><tr align="left"><td valign="top">division-by-zero </td><td valign="top">print-not-readable </td><td valign="top">style-warning
+<br></td></tr><tr align="left"><td valign="top">end-of-file </td><td valign="top">program-error </td><td valign="top">type-error
+<br></td></tr><tr align="left"><td valign="top">error </td><td valign="top">reader-error </td><td valign="top">unbound-slot
+<br></td></tr><tr align="left"><td valign="top">file-error </td><td valign="top">serious-condition </td><td valign="top">unbound-variable
+<br></td></tr><tr align="left"><td valign="top">floating-point-inexact </td><td valign="top">simple-condition </td><td valign="top">undefined-function
+<br></td></tr><tr align="left"><td valign="top">floating-point-invalid-operation </td><td valign="top">simple-error </td><td valign="top">warning
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 9.1: Standardized Condition Types</strong></p></div>
+
+<p>All <i>condition</i> types are subtypes of <i>type</i> <code>condition</code>.  That is,
+
+<pre class="lisp"> (typep <var>c</var> 'condition) <span class="roman">→</span> <i>true</i>
+</pre>
+<p>if and only if <var>c</var> is a <i>condition</i>.
+
+<p><i>Implementations</i> must define all specified <i>subtype</i> relationships. 
+Except where noted, all <i>subtype</i> relationships indicated in
+this document are not mutually exclusive. 
+A <i>condition</i> inherits the structure of its <i>supertypes</i>.
+
+<p>The metaclass of the <i>class</i> <code>condition</code> is not specified. 
+<i>Names</i> of <i>condition</i> <i>types</i> may be used to specify
+<i>supertype</i> relationships in <code>define-condition</code>,
+but the consequences are not specified if an attempt is made to use
+a <i>condition</i> <i>type</i> as a <i>superclass</i> in a <code>defclass</code> <i>form</i>.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> that
+define <i>condition</i> <i>types</i> and creating <i>conditions</i>.
+
+<div class="float">
+<a name="fig9_002e2"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">define-condition </td><td valign="top">make-condition </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 9.2: Operators that define and create conditions.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> that <i>read</i>
+the <i>value</i> of <i>condition</i> <i>slots</i>.
+
+<div class="float">
+<a name="fig9_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">arithmetic-error-operands </td><td valign="top">simple-condition-format-arguments
+<br></td></tr><tr align="left"><td valign="top">arithmetic-error-operation </td><td valign="top">simple-condition-format-control
+<br></td></tr><tr align="left"><td valign="top">cell-error-name </td><td valign="top">stream-error-stream
+<br></td></tr><tr align="left"><td valign="top">file-error-pathname </td><td valign="top">type-error-datum
+<br></td></tr><tr align="left"><td valign="top">package-error-package </td><td valign="top">type-error-expected-type
+<br></td></tr><tr align="left"><td valign="top">print-not-readable-object </td><td valign="top">unbound-slot-instance
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 9.3: Operators that read condition slots.</strong></p></div>
+
+<h5 class="subsubsection">9.1.1.1 Serious Conditions</h5>
+
+<p>A <i>serious condition</i> is a <i>condition</i> serious
+enough to require interactive intervention if not handled. 
+<i>Serious conditions</i> are typically signaled with <code>error</code> or <code>cerror</code>;
+non-serious <i>conditions</i> are typically signaled with <code>signal</code> or <code>warn</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Condition-Types.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

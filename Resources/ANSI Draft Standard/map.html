@@ -1,0 +1,142 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/map.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+<head>
+<title>map - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Sequences.html#Sequences" title="Sequences">
+<link rel="prev" href="subseq.html#subseq" title="subseq">
+<link rel="next" href="map_002dinto.html#map_002dinto" title="map-into">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="map"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="map_002dinto.html#map_002dinto">map-into</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="subseq.html#subseq">subseq</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Sequences.html#Sequences">Sequences</a>
+<hr>
+</div>
+
+<h3 class="heading">map (Function)</h3>
+
+<p><a name="index-map-2310"></a><a name="index-map-2311"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>map</b><var> result-type function </var><tt>&amp;rest</tt><var> sequences+ </var><span class="roman">→</span><var> result<a name="index-map-2312"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>result-type</var>&mdash;a <code>sequence</code> <i>type specifier</i>, or <code>nil</code>.
+
+<p><var>function</var>&mdash;a <i>function designator</i>. 
+<var>function</var> must take as many arguments as
+there are <var>sequences</var>.
+
+<p><var>sequence</var>&mdash;a <i>proper sequence</i>.
+
+<p><var>result</var>&mdash;if <var>result-type</var> is a <i>type specifier</i> other than <code>nil</code>,
+then a <i>sequence</i> of the <i>type</i> it denotes;
+otherwise (if the <var>result-type</var> is <code>nil</code>), <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Applies <var>function</var> to successive sets of arguments in which
+one argument is obtained from each <i>sequence</i>. 
+The <var>function</var> is called first on all the elements with index <code>0</code>,
+then on all those with index <code>1</code>, and so on. 
+The <var>result-type</var> specifies the <i>type</i> of the resulting <i>sequence</i>.
+
+<p><code>map</code> returns <code>nil</code>&nbsp;<!-- /@w -->if <var>result-type</var> is <code>nil</code>. 
+Otherwise, <code>map</code> returns
+a <i>sequence</i> such that element <code>j</code> is the result
+of applying <var>function</var> to element <code>j</code> of each of the
+<var>sequences</var>.  The result <i>sequence</i>
+is as long as the shortest of the
+<var>sequences</var>. 
+The consequences are undefined if the result of applying <var>function</var>
+to the successive elements of the <var>sequences</var> cannot
+be contained in a <i>sequence</i> of the <i>type</i> given by <var>result-type</var>.
+
+<p>If the <var>result-type</var> is a <i>subtype</i> of <code>list</code>,
+the result will be a <i>list</i>.
+
+<p>If the <var>result-type</var> is a <i>subtype</i> of <code>vector</code>,
+then if the implementation can determine the element type specified
+for the <var>result-type</var>, the element type of the resulting array
+is the result of <i>upgrading</i> that element type; or, if the
+implementation can determine that the element type is unspecified (or <code>*</code>),
+the element type of the resulting array is <code>t</code>;
+otherwise, an error is signaled.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (map 'string #'(lambda (x y)
+                  (char "01234567890ABCDEF" (mod (+ x y) 16)))
+       '(1 2 3 4)
+       '(10 9 8 7)) <span class="roman">→</span> "AAAA"
+ (setq seq '("lower" "UPPER" "" "123")) <span class="roman">→</span> ("lower" "UPPER" "" "123")
+ (map nil #'nstring-upcase seq) <span class="roman">→</span> NIL
+ seq <span class="roman">→</span> ("LOWER" "UPPER" "" "123")
+ (map 'list #'- '(1 2 3 4)) <span class="roman">→</span> (-1 -2 -3 -4)
+ (map 'string
+      #'(lambda (x) (if (oddp x) #\1 #\0))
+      '(1 2 3 4)) <span class="roman">→</span> "1010"
+</pre>
+<pre class="lisp"> (map '(vector * 4) #'cons "abc" "de") should signal an error
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error of <i>type</i> <code>type-error</code> must be signaled if the <var>result-type</var> is
+not a <i>recognizable subtype</i> of <code>list</code>,
+not a <i>recognizable subtype</i> of <code>vector</code>,
+and not <code>nil</code>.
+
+<p>Should be prepared to signal an error of <i>type</i> <code>type-error</code> if
+any <var>sequence</var> is not a <i>proper sequence</i>.
+
+<p>An error of <i>type</i> <code>type-error</code> should be signaled
+if <var>result-type</var> specifies the
+number of elements and the minimum length of the <var>sequences</var>
+is different from that number.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/map.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+</html>
+

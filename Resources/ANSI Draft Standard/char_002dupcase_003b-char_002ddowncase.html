@@ -1,0 +1,129 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/char_002dupcase_003b-char_002ddowncase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:38 GMT -->
+<head>
+<title>char-upcase; char-downcase - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Characters.html#Characters" title="Characters">
+<link rel="prev" href="standard_002dchar_002dp.html#standard_002dchar_002dp" title="standard-char-p">
+<link rel="next" href="upper_002dcase_002dp_003b-lower_002dcase_002dp_003b-both_002dcase_002dp.html#upper_002dcase_002dp_003b-lower_002dcase_002dp_003b-both_002dcase_002dp" title="upper-case-p; lower-case-p; both-case-p">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="char-upcase%3b-char-downcase"></a>
+<a name="char_002dupcase_003b-char_002ddowncase"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="upper_002dcase_002dp_003b-lower_002dcase_002dp_003b-both_002dcase_002dp.html#upper_002dcase_002dp_003b-lower_002dcase_002dp_003b-both_002dcase_002dp">upper-case-p; lower-case-p; both-case-p</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="standard_002dchar_002dp.html#standard_002dchar_002dp">standard-char-p</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Characters.html#Characters">Characters</a>
+<hr>
+</div>
+
+<h3 class="heading">char-upcase, char-downcase (Function)</h3>
+
+<p><a name="index-char_002dupcase-1712"></a><a name="index-char_002dupcase-1713"></a><a name="index-char_002ddowncase-1714"></a><a name="index-char_002ddowncase-1715"></a><a name="char_002dupcase"></a><a name="char_002ddowncase"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>char-upcase</b><var> character </var><span class="roman">→</span><var> corresponding-character<a name="index-char_002dupcase-1716"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>char-downcase</b><var> character </var><span class="roman">→</span><var> corresponding-character<a name="index-char_002ddowncase-1717"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>character</var>, <var>corresponding-character</var>&mdash;a <i>character</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>If <var>character</var> is a <i>lowercase</i> <i>character</i>,
+<code>char-upcase</code> returns the corresponding <i>uppercase</i> <i>character</i>. 
+Otherwise, <code>char-upcase</code> just returns the given <var>character</var>.
+
+<p>If <var>character</var> is an <i>uppercase</i> <i>character</i>,
+<code>char-downcase</code> returns the corresponding <i>lowercase</i> <i>character</i>. 
+Otherwise, <code>char-downcase</code> just returns the given <var>character</var>.
+
+<p>The result only ever differs from <var>character</var>
+in its <i>code</i> <i>attribute</i>;
+all <i>implementation-defined</i> <i>attributes</i> are preserved.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (char-upcase #\a) <span class="roman">→</span> #\A
+ (char-upcase #\A) <span class="roman">→</span> #\A
+ (char-downcase #\a) <span class="roman">→</span> #\a
+ (char-downcase #\A) <span class="roman">→</span> #\a
+ (char-upcase #\9) <span class="roman">→</span> #\9
+ (char-downcase #\9) <span class="roman">→</span> #\9
+ (char-upcase #\@) <span class="roman">→</span> #\@
+ (char-downcase #\@) <span class="roman">→</span> #\@
+ ;; Note that this next example might run for a very long time in
+ ;; some implementations if CHAR-CODE-LIMIT happens to be very large
+ ;; for that implementation.
+ (dotimes (code char-code-limit)
+   (let ((char (code-char code)))
+     (when char
+       (unless (cond ((upper-case-p char) (char= (char-upcase (char-downcase char)) char))
+                     ((lower-case-p char) (char= (char-downcase (char-upcase char)) char))
+                     (t (and (char= (char-upcase (char-downcase char)) char)
+                             (char= (char-downcase (char-upcase char)) char))))
+         (return char)))))
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>character</var> is not a <i>character</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="upper_002dcase_002dp.html#upper_002dcase_002dp">upper-case-p</a>,
+<a href="alpha_002dchar_002dp.html#alpha_002dchar_002dp">alpha-char-p</a>,
+<a href="CharactersWithCase.html#CharactersWithCase">Section 13.1.4.3 (Characters With Case)</a>,
+<a href="Documentation-of-Implementation_002dDefined-Scripts.html#Documentation-of-Implementation_002dDefined-Scripts">Section 13.1.10 (Documentation of Implementation-Defined Scripts)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>If the <var>corresponding-char</var> is <i>different</i> than <var>character</var>,
+then both the <var>character</var> and the <var>corresponding-char</var> have <i>case</i>.
+
+<p>Since <code>char-equal</code> ignores the <i>case</i> of the <i>characters</i> it compares,
+the <var>corresponding-character</var> is always the <i>same</i> as <var>character</var>
+under <code>char-equal</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/char_002dupcase_003b-char_002ddowncase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:40 GMT -->
+</html>
+

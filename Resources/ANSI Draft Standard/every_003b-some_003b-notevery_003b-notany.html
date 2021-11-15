@@ -1,0 +1,154 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/every_003b-some_003b-notevery_003b-notany.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:38 GMT -->
+<head>
+<title>every; some; notevery; notany - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="constantly.html#constantly" title="constantly">
+<link rel="next" href="and-_0028Macro_0029.html#and-_0028Macro_0029" title="and (Macro)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="every%3b-some%3b-notevery%3b-notany"></a>
+<a name="every_003b-some_003b-notevery_003b-notany"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="and-_0028Macro_0029.html#and-_0028Macro_0029">and (Macro)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="constantly.html#constantly">constantly</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">every, some, notevery, notany (Function)</h3>
+
+<p><a name="index-every-553"></a><a name="index-every-554"></a><a name="index-some-555"></a><a name="index-some-556"></a><a name="index-notevery-557"></a><a name="index-notevery-558"></a><a name="index-notany-559"></a><a name="index-notany-560"></a><a name="every"></a><a name="some"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>every</b><var> predicate </var><tt>&amp;rest</tt><var> sequences+ </var><span class="roman">→</span><var> generalized-boolean<a name="index-every-561"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>some</b><var> predicate </var><tt>&amp;rest</tt><var> sequences+ </var><span class="roman">→</span><var> result<a name="index-some-562"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>notevery</b><var> predicate </var><tt>&amp;rest</tt><var> sequences+ </var><span class="roman">→</span><var> generalized-boolean<a name="index-notevery-563"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>notany</b><var> predicate </var><tt>&amp;rest</tt><var> sequences+ </var><span class="roman">→</span><var> generalized-boolean<a name="index-notany-564"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>predicate</var>&mdash;a <i>designator</i> for a <i>function</i> of
+as many <i>arguments</i> as there are <var>sequences</var>.
+
+<p><var>sequence</var>&mdash;a <i>sequence</i>.
+
+<p><var>result</var>&mdash;an <i>object</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>every</code>, <code>some</code>, <code>notevery</code>, and <code>notany</code>
+test <i>elements</i> of <var>sequences</var> for satisfaction of a given <var>predicate</var>. 
+The first argument to <var>predicate</var> is an <i>element</i> of the first <var>sequence</var>;
+each succeeding argument is an <i>element</i> of a succeeding <var>sequence</var>.
+
+<p><var>Predicate</var> is first applied to the elements
+with index <code>0</code> in each of the <var>sequences</var>, and possibly then to
+the elements with index <code>1</code>, and so on, until a termination
+criterion is met or the end of the shortest of the <var>sequences</var> is reached.
+
+<p><code>every</code> returns <i>false</i> as soon
+as any invocation of <var>predicate</var> returns <i>false</i>. 
+If the end of a <var>sequence</var> is reached,
+<code>every</code> returns <i>true</i>. 
+Thus, <code>every</code> returns <i>true</i> if and only if
+every invocation of <var>predicate</var> returns <i>true</i>.
+
+<p><code>some</code> returns the first <i>non-nil</i> value
+which is returned by an invocation of <var>predicate</var>. 
+If the end of a <var>sequence</var> is reached without any invocation of the
+<var>predicate</var> returning <i>true</i>, <code>some</code> returns <i>false</i>. 
+Thus, <code>some</code> returns <i>true</i> if and only if
+some invocation of <var>predicate</var> returns <i>true</i>.
+
+<p><code>notany</code> returns <i>false</i>
+as soon as any invocation of <var>predicate</var> returns <i>true</i>. 
+If the end of a <var>sequence</var> is reached,
+<code>notany</code> returns <i>true</i>. 
+Thus, <code>notany</code> returns <i>true</i> if and only if
+it is not the case that any invocation of <var>predicate</var> returns <i>true</i>.
+
+<p><code>notevery</code> returns <i>true</i> as soon as any invocation of
+<var>predicate</var> returns <i>false</i>. 
+If the end of a <var>sequence</var> is reached,
+<code>notevery</code> returns <i>false</i>. 
+Thus, <code>notevery</code> returns <i>true</i> if and only if
+it is not the case that every invocation of <var>predicate</var> returns <i>true</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (every #'characterp "abc") <span class="roman">→</span> <i>true</i>
+ (some #'= '(1 2 3 4 5) '(5 4 3 2 1)) <span class="roman">→</span> <i>true</i>
+ (notevery #'&lt; '(1 2 3 4) '(5 6 7 8) '(9 10 11 12)) <span class="roman">→</span> <i>false</i>
+ (notany #'&gt; '(1 2 3 4) '(5 6 7 8) '(9 10 11 12)) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal <code>type-error</code> if its first argument is neither a
+<i>symbol</i> nor a <i>function</i> or if any subsequent
+argument is not a <i>proper sequence</i>.
+
+<p>Other exceptional situations are possible, depending on the nature
+of the <var>predicate</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="and-_0028Macro_0029.html#and-_0028Macro_0029">and (Macro)</a>,
+<a href="or-_0028Macro_0029.html#or-_0028Macro_0029">or (Macro)</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (notany <var>predicate</var> <tt>{</tt>sequence<tt>}</tt>*) ≡ (not (some <var>predicate</var> <tt>{</tt>sequence<tt>}</tt>*))
+ (notevery <var>predicate</var> <tt>{</tt>sequence<tt>}</tt>*) ≡ (not (every <var>predicate</var> <tt>{</tt>sequence<tt>}</tt>*))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/every_003b-some_003b-notevery_003b-notany.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:38 GMT -->
+</html>
+

@@ -1,0 +1,185 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Backquote.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Backquote - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Standard-Macro-Characters.html#Standard-Macro-Characters" title="Standard Macro Characters">
+<link rel="prev" href="Double_002dQuote.html#Double_002dQuote" title="Double-Quote">
+<link rel="next" href="Comma.html#Comma" title="Comma">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Backquote"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Comma.html#Comma">Comma</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Double_002dQuote.html#Double_002dQuote">Double-Quote</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Standard-Macro-Characters.html#Standard-Macro-Characters">Standard Macro Characters</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.4.6 Backquote</h4>
+
+<p><a name="index-g_t_0060-75"></a><a name="index-Backquote-_0028reader-macro_0029-76"></a><a name="index-quotation-_0028of-forms_0029-77"></a><a name="index-quote-78"></a><a name="index-list-79"></a><a name="index-cons-80"></a>
+The <i>backquote</i> introduces a template of a data structure to be built. 
+For example, writing
+
+<pre class="lisp"> `(cond ((numberp ,x) ,@y) (t (print ,x) ,@y))
+</pre>
+<p>is roughly equivalent to writing
+
+<pre class="lisp"> (list 'cond
+       (cons (list 'numberp x) y)
+       (list* 't (list 'print x) y))
+</pre>
+<p>Where a comma
+occurs in the template,
+the <i>expression</i>
+following the comma is to be evaluated to produce an <i>object</i> to
+be inserted at that point.  Assume <code>b</code> has the value 3, for example, then
+evaluating the <i>form</i> denoted by <code>`(a b ,b ,(+ b 1) b)</code> produces
+the result <code>(a b 3 4 b)</code>.
+
+<p>If a comma is immediately followed by an <i>at-sign</i>,
+then the <i>form</i> following the <i>at-sign</i>
+is evaluated to produce a <i>list</i> of <i>objects</i>. 
+These <i>objects</i> are then &ldquo;spliced&rdquo; into place in the template.  For
+example, if <code>x</code> has the value <code>(a b c)</code>, then
+
+<pre class="lisp"> `(x ,x ,@x foo ,(cadr x) bar ,(cdr x) baz ,@(cdr x))
+<span class="roman">→</span> (x (a b c) a b c foo b bar (b c) baz b c)
+</pre>
+<p>The backquote syntax can be summarized formally as follows.
+
+     <ul>
+<li><code>`</code><var>basic</var> is the same as <code>'</code><var>basic</var>,
+that is, <code>(quote </code><var>basic</var><code>)</code>, for any <i>expression</i>
+<var>basic</var> that is not a <i>list</i> or a general <i>vector</i>.
+
+     <li><code>`,</code><var>form</var> is the same as <var>form</var>, for any <var>form</var>, provided
+that the representation of <var>form</var> does not begin with <i>at-sign</i>
+or <i>dot</i>.  (A similar caveat holds for all occurrences of a form after a <i>comma</i>.)
+
+     <li><code>`,@</code><var>form</var> has undefined consequences.
+
+     <li><code>`(x1 x2 x3 ... xn . atom)</code>
+may be interpreted to mean
+
+     <pre class="lisp">      (append [&nbsp;<!-- /@w -->x1] [&nbsp;<!-- /@w -->x2] [&nbsp;<!-- /@w -->x3] ... [&nbsp;<!-- /@w -->xn] (quote atom))
+</pre>
+     <p>where the brackets are used to indicate
+a transformation of an <var>xj</var> as follows:
+
+          <ul>
+<li><code>[</code><var>form</var><code>]</code> is interpreted as <code>(list `</code><var>form</var><code>)</code>,
+which contains a backquoted form that must then be further interpreted.
+
+          <li><code>[,</code><var>form</var><code>]</code> is interpreted as <code>(list </code><var>form</var><code>)</code>.
+
+          <li><code>[,@</code><var>form</var><code>]</code> is interpreted as <var>form</var>. 
+</ul>
+
+     <li><code>`(x1 x2 x3 ... xn)</code> may be interpreted to mean
+the same as the backquoted form
+<code>`(x1 x2 x3 ... xn . nil)</code>,
+thereby reducing it to the previous case.
+
+     <li><code>`(x1 x2 x3 ... xn . ,form)</code> may be interpreted to mean
+
+     <pre class="lisp">      (append [&nbsp;<!-- /@w -->x1] [&nbsp;<!-- /@w -->x2] [&nbsp;<!-- /@w -->x3] ... [&nbsp;<!-- /@w -->xn] form)
+</pre>
+     <p>where the brackets indicate a transformation of an <code>xj</code> as described above.
+
+     <li><code>`(x1 x2 x3 ... xn . ,@form)</code> has undefined consequences.
+
+     <li><code>`#(x1 x2 x3 ... xn)</code> may be interpreted to mean
+<code>(apply #'vector `(x1 x2 x3 ... xn))</code>. 
+</ul>
+
+<p>Anywhere &ldquo;<code>,@</code>&rdquo; may be used, the syntax &ldquo;<code>,.</code>&rdquo; may be used instead
+to indicate that it is permissible to operate <i>destructively</i> on
+the <i>list structure</i>  produced by the form following the &ldquo;<code>,.</code>&rdquo;
+(in effect, to use <code>nconc</code> instead of <code>append</code>).
+
+<p>If the backquote syntax is nested, the innermost backquoted form
+should be expanded first.  This means that if several commas occur
+in a row, the leftmost one belongs to the innermost <i>backquote</i>.
+
+<p>An <i>implementation</i> is free to interpret a backquoted <i>form</i> F<sub>1</sub>
+
+<p>as any <i>form</i> F<sub>2</sub> that, when evaluated, will produce a result that is
+the <i>same</i> under <code>equal</code> as the result implied by the above definition,
+provided that the side-effect behavior of the substitute <i>form</i> F<sub>2</sub>
+
+<p>is also consistent with the description given above. 
+The constructed
+copy of the template might or might not share <i>list</i> structure with the
+template itself.  As an example, the above definition implies that
+
+<pre class="lisp"> `((,a b) ,c ,@d)
+</pre>
+<p>will be interpreted as if it were
+
+<pre class="lisp"> (append (list (append (list a) (list 'b) '<code>nil</code>)) (list c) d '<code>nil</code>)
+</pre>
+<p>but it could also be legitimately interpreted to mean any of the following:
+
+<pre class="lisp"> (append (list (append (list a) (list 'b))) (list c) d)
+ (append (list (append (list a) '(b))) (list c) d)
+ (list* (cons a '(b)) c d)
+ (list* (cons a (list 'b)) c d)
+ (append (list (cons a '(b))) (list c) d)
+ (list* (cons a '(b)) c (copy-list d))
+</pre>
+<h5 class="subsubsection">2.4.6.1 Notes about Backquote</h5>
+
+<p>Since the exact manner in which the <i>Lisp reader</i> will parse
+an <i>expression</i> involving the <i>backquote</i> <i>reader macro</i>
+is not specified, an <i>implementation</i> is free to choose any
+representation that preserves the semantics described.
+
+<p>Often an <i>implementation</i> will choose a representation that facilitates
+pretty printing of the expression, so that <code>(pprint `(a ,b))</code> will display
+<code>`(a ,b)</code> and not, for example, <code>(list 'a b)</code>.  However, this is not a
+requirement.
+
+<p>Implementors who have no particular reason to make one choice or another
+might wish to refer to <cite>IEEE Standard for the Scheme Programming Language</cite>, which identifies a popular choice of
+representation for such expressions that might provide useful to be useful
+compatibility for some user communities.  There is no requirement, however,
+that any <i>conforming implementation</i> use this particular representation. 
+This information is provided merely for cross-reference purposes.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Backquote.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

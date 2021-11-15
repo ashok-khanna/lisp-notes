@@ -1,0 +1,136 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dmodify_002dmacro.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:46 GMT -->
+<head>
+<title>define-modify-macro - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="progn.html#progn" title="progn">
+<link rel="next" href="defsetf.html#defsetf" title="defsetf">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="define-modify-macro"></a>
+<a name="define_002dmodify_002dmacro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="defsetf.html#defsetf">defsetf</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="progn.html#progn">progn</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">define-modify-macro (Macro)</h3>
+
+<p><a name="index-define_002dmodify_002dmacro-648"></a><a name="index-define_002dmodify_002dmacro-649"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>define-modify-macro</b><var> name lambda-list function </var><tt>[</tt><var>documentation</var><tt>]</tt> <span class="roman">→</span><var> name<a name="index-define_002dmodify_002dmacro-650"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>.
+
+<p><var>lambda-list</var>&mdash;a <i>define-modify-macro lambda list</i>
+
+<p><var>function</var>&mdash;a <i>symbol</i>.
+
+<p><var>documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>define-modify-macro</code> defines a <i>macro</i> named
+<var>name</var> to <i>read</i> and <i>write</i> a <i>place</i>.
+
+<p>The arguments to the new <i>macro</i> are a <i>place</i>,
+followed
+by the arguments that are supplied in <var>lambda-list</var>. 
+<i>Macros</i> defined with <code>define-modify-macro</code>
+correctly pass the <i>environment parameter</i> to
+<code>get-setf-expansion</code>.
+
+<p>When the <i>macro</i> is invoked, <var>function</var>
+is applied to the old contents of the <i>place</i>
+and the <var>lambda-list</var> arguments to obtain the new value,
+and the <i>place</i> is updated to contain the result.
+
+<p>Except for the issue of avoiding multiple evaluation (see below), the expansion
+of a <code>define-modify-macro</code> is equivalent to the following:
+
+<pre class="lisp"> (defmacro <var>name</var> (reference . <var>lambda-list</var>)
+   <var>documentation</var>
+   `(setf ,reference
+          (<var>function</var> ,reference ,<i>arg1</i> ,<i>arg2</i> ...)))
+</pre>
+<p>where <i>arg1</i>, <i>arg2</i>, ...,
+are the parameters appearing in <var>lambda-list</var>;
+appropriate provision is made for a <i>rest parameter</i>.
+
+<p>The <i>subforms</i> of the macro calls defined by <code>define-modify-macro</code>
+are evaluated as specified in <a href="GenRefSubFormEval.html#GenRefSubFormEval">Section 5.1.1.1 (Evaluation of Subforms to Places)</a>.
+
+<p><var>Documentation</var> is attached as a <i>documentation string</i>
+to <var>name</var> (as kind <code>function</code>)
+and to the <i>macro function</i>.
+
+<p>If a <code>define-modify-macro</code> <i>form</i> appears as a <i>top level form</i>,
+the <i>compiler</i> must store the <i>macro</i> definition at compile time,
+so that occurrences of the macro later on in the file can be expanded correctly.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (define-modify-macro appendf (&amp;rest args)
+    append "Append onto list") <span class="roman">→</span> APPENDF
+ (setq x '(a b c) y x) <span class="roman">→</span> (A B C)
+ (appendf x '(d e f) '(1 2 3)) <span class="roman">→</span> (A B C D E F 1 2 3)
+ x <span class="roman">→</span> (A B C D E F 1 2 3)
+ y <span class="roman">→</span> (A B C)
+ (define-modify-macro new-incf (&amp;optional (delta 1)) +)
+ (define-modify-macro unionf (other-set &amp;rest keywords) union)
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>A macro definition is assigned to <var>name</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="defsetf.html#defsetf">defsetf</a>,
+<a href="define_002dsetf_002dexpander.html#define_002dsetf_002dexpander">define-setf-expander</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="Syntactic-Interaction-of-Documentation-Strings-and-Declarations.html#Syntactic-Interaction-of-Documentation-Strings-and-Declarations">Section 3.4.11 (Syntactic Interaction of Documentation Strings and Declarations)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dmodify_002dmacro.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:47 GMT -->
+</html>
+

@@ -1,0 +1,95 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/find_002dall_002dsymbols.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>find-all-symbols - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Packages.html#Packages" title="Packages">
+<link rel="prev" href="find_002dpackage.html#find_002dpackage" title="find-package">
+<link rel="next" href="import.html#import" title="import">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="find-all-symbols"></a>
+<a name="find_002dall_002dsymbols"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="import.html#import">import</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="find_002dpackage.html#find_002dpackage">find-package</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Packages.html#Packages">Packages</a>
+<hr>
+</div>
+
+<h3 class="heading">find-all-symbols (Function)</h3>
+
+<p><a name="index-find_002dall_002dsymbols-1077"></a><a name="index-find_002dall_002dsymbols-1078"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>find-all-symbols</b><var> string </var><span class="roman">→</span><var> symbols<a name="index-find_002dall_002dsymbols-1079"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>string</var>&mdash;a <i>string designator</i>.
+
+<p><var>symbols</var>&mdash;a <i>list</i> of <i>symbols</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>find-all-symbols</code> searches
+<i>name</i> that is the <i>same</i> (under <code>string=</code>) as
+<var>string</var>.  A <i>list</i> of all such <i>symbols</i> is returned. 
+Whether or how the <i>list</i> is ordered is
+<i>implementation-dependent</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (find-all-symbols 'car)
+<span class="roman">→</span> (CAR)
+or<span class="roman">→</span> (CAR VEHICLES:CAR)
+or<span class="roman">→</span> (VEHICLES:CAR CAR)
+ (intern "CAR" (make-package 'temp :use nil)) <span class="roman">→</span> TEMP::CAR, NIL
+ (find-all-symbols 'car)
+<span class="roman">→</span> (TEMP::CAR CAR)
+or<span class="roman">→</span> (CAR TEMP::CAR)
+or<span class="roman">→</span> (TEMP::CAR CAR VEHICLES:CAR)
+or<span class="roman">→</span> (CAR TEMP::CAR VEHICLES:CAR)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="find_002dsymbol.html#find_002dsymbol">find-symbol</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/find_002dall_002dsymbols.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

@@ -1,0 +1,189 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/equalp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:38 GMT -->
+<head>
+<title>equalp - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="equal.html#equal" title="equal">
+<link rel="next" href="identity.html#identity" title="identity">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="equalp"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="identity.html#identity">identity</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="equal.html#equal">equal</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">equalp (Function)</h3>
+
+<p><a name="index-equalp-541"></a><a name="index-equalp-542"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>equalp</b><var> x y </var><span class="roman">→</span><var> generalized-boolean<a name="index-equalp-543"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>x</var>&mdash;an <i>object</i>.
+
+<p><var>y</var>&mdash;an <i>object</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns <i>true</i> if <var>x</var> and <var>y</var> are <code>equal</code>,
+or if they have components that are of the same <i>type</i> as each other
+and if those components are <code>equalp</code>;
+specifically, <code>equalp</code> returns <i>true</i> in the following cases:
+
+     <dl>
+<dt><i>Characters</i><dd>
+
+     <p>If two <i>characters</i> are <code>char-equal</code>.
+
+     <br><dt><i>Numbers</i><dd>
+
+     <p>If two <i>numbers</i> are the <i>same</i> under <code>=</code>.
+
+     <br><dt><i>Conses</i><dd>
+
+     <p>If the two <i>cars</i> in the <i>conses</i> are <code>equalp</code>
+and the two <i>cdrs</i> in the <i>conses</i> are <code>equalp</code>.
+
+     <br><dt><i>Arrays</i><dd>
+
+     <p>If two <i>arrays</i> have the same
+number of dimensions, the dimensions match,
+and the corresponding
+<i>active elements</i>
+are <code>equalp</code>. 
+The <i>types</i> for which the <i>arrays</i> are <i>specialized</i> need not match;
+for example, a <i>string</i> and a general <i>array</i> that happens to contain the same
+<i>characters</i> are <code>equalp</code>. 
+Because <code>equalp</code> performs <i>element</i>-by-<i>element</i> comparisons
+of <i>strings</i> and ignores the <i>case</i> of <i>characters</i>,
+<i>case</i> distinctions are ignored when <code>equalp</code> compares <i>strings</i>.
+
+     <br><dt><i>Structures</i><dd>
+
+     <p>If two <i>structures</i> S<sub>1</sub> and S<sub>2</sub> have the same <i>class</i>
+and the value of each <i>slot</i> in S<sub>1</sub> is the <i>same</i> under <code>equalp</code>
+as the value of the corresponding <i>slot</i> in S<sub>2</sub>.
+
+     <br><dt><i>Hash Tables</i><dd>
+
+     <p><code>equalp</code> descends <i>hash-tables</i> by first comparing the count of entries
+and the <tt>:test</tt> function; if those are the same, it compares the
+keys of the tables using the <tt>:test</tt> function and then the values
+of the matching keys using <code>equalp</code> recursively. 
+</dl>
+
+<p><code>equalp</code> does not descend any <i>objects</i>
+other than the ones explicitly specified above. 
+The next figure&nbsp;<!-- /@w -->summarizes the information given in the previous list. 
+In addition, the figure specifies the priority of the behavior of <code>equalp</code>,
+with upper
+entries taking priority over lower ones.
+
+<div class="float">
+<a name="fig5_002e13"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Type </th><th valign="top">Behavior
+<br></th></tr><tr align="left"><td valign="top"><i>number</i> </td><td valign="top">uses <code>=</code>
+<br></td></tr><tr align="left"><td valign="top"><i>character</i> </td><td valign="top">uses <code>char-equal</code>
+<br></td></tr><tr align="left"><td valign="top"><i>cons</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>bit vector</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>string</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>pathname</i> </td><td valign="top">same as <code>equal</code>
+<br></td></tr><tr align="left"><td valign="top"><i>structure</i> </td><td valign="top">descends, as described above
+<br></td></tr><tr align="left"><td valign="top">Other <i>array</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>hash table</i> </td><td valign="top">descends, as described above
+<br></td></tr><tr align="left"><td valign="top">Other <i>object</i> </td><td valign="top">uses <code>eq</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.13: Summary and priorities of behavior of <code>equalp</code></strong></p></div>
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (equalp 'a 'b) <span class="roman">→</span> <i>false</i>
+ (equalp 'a 'a) <span class="roman">→</span> <i>true</i>
+ (equalp 3 3) <span class="roman">→</span> <i>true</i>
+ (equalp 3 3.0) <span class="roman">→</span> <i>true</i>
+ (equalp 3.0 3.0) <span class="roman">→</span> <i>true</i>
+ (equalp #c(3 -4) #c(3 -4)) <span class="roman">→</span> <i>true</i>
+ (equalp #c(3 -4.0) #c(3 -4)) <span class="roman">→</span> <i>true</i>
+ (equalp (cons 'a 'b) (cons 'a 'c)) <span class="roman">→</span> <i>false</i>
+ (equalp (cons 'a 'b) (cons 'a 'b)) <span class="roman">→</span> <i>true</i>
+ (equalp #\A #\A) <span class="roman">→</span> <i>true</i>
+ (equalp #\A #\a) <span class="roman">→</span> <i>true</i>
+ (equalp "Foo" "Foo") <span class="roman">→</span> <i>true</i>
+ (equalp "Foo" (copy-seq "Foo")) <span class="roman">→</span> <i>true</i>
+ (equalp "FOO" "foo") <span class="roman">→</span> <i>true</i>
+</pre>
+<pre class="lisp"> (setq array1 (make-array 6 :element-type 'integer
+                            :initial-contents '(1 1 1 3 5 7)))
+<span class="roman">→</span> #(1 1 1 3 5 7)
+ (setq array2 (make-array 8 :element-type 'integer
+                            :initial-contents '(1 1 1 3 5 7 2 6)
+                            :fill-pointer 6))
+<span class="roman">→</span> #(1 1 1 3 5 7)
+ (equalp array1 array2) <span class="roman">→</span> <i>true</i>
+ (setq vector1 (vector 1 1 1 3 5 7)) <span class="roman">→</span> #(1 1 1 3 5 7)
+ (equalp array1 vector1) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="eq.html#eq">eq</a>, <a href="eql-_0028Function_0029.html#eql-_0028Function_0029">eql (Function)</a>, <a href="equal.html#equal">equal</a>, <a href="_003d.html#g_t_003d">=</a>,
+<a href="string_003d.html#string_003d">string=</a>, <a href="string_002dequal.html#string_002dequal">string-equal</a>, <a href="char_003d.html#char_003d">char=</a>,
+<a href="char_002dequal.html#char_002dequal">char-equal</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><i>Object</i> equality is not a concept for which there is a uniquely
+determined correct algorithm. The appropriateness of an equality
+predicate can be judged only in the context of the needs of some
+particular program. Although these functions take any type of
+argument and their names sound very generic,
+<code>equal</code> and <code>equalp</code> are
+not appropriate for every application.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/equalp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:38 GMT -->
+</html>
+

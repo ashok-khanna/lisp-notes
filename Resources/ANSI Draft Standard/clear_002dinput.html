@@ -1,0 +1,127 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/clear_002dinput.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:37 GMT -->
+<head>
+<title>clear-input - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="listen.html#listen" title="listen">
+<link rel="next" href="finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html#finish_002doutput_003b-force_002doutput_003b-clear_002doutput" title="finish-output; force-output; clear-output">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="clear-input"></a>
+<a name="clear_002dinput"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html#finish_002doutput_003b-force_002doutput_003b-clear_002doutput">finish-output; force-output; clear-output</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="listen.html#listen">listen</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">clear-input (Function)</h3>
+
+<p><a name="index-clear_002dinput-2702"></a><a name="index-clear_002dinput-2703"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>clear-input</b> <tt>&amp;optional</tt><var> input-stream </var><span class="roman">→</span> <code>nil</code><var><a name="index-clear_002dinput-2704"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>input-stream</var>&mdash;an <i>input</i> <i>stream designator</i>. 
+The default is <i>standard input</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Clears any available input from <var>input-stream</var>.
+
+<p>If <code>clear-input</code> does not make sense for <var>input-stream</var>,
+then <code>clear-input</code> does nothing.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;; The exact I/O behavior of this example might vary from implementation
+;; to implementation depending on the kind of interactive buffering that
+;; occurs.  (The call to SLEEP here is intended to help even out the
+;; differences in implementations which do not do line-at-a-time buffering.)
+
+(defun read-sleepily (&amp;optional (clear-p nil) (zzz 0))
+  (list (progn (print '&gt;) (read))
+        ;; Note that input typed within the first ZZZ seconds
+        ;; will be discarded.
+        (progn (print '&gt;)
+               (if zzz (sleep zzz))
+               (print '&gt;&gt;)
+               (if clear-p (clear-input))
+               (read))))
+
+(read-sleepily)
+▷ &gt; <kbd>10</kbd>
+▷ &gt;
+▷ &gt;&gt; <kbd>20</kbd>
+<span class="roman">→</span> (10 20)
+
+(read-sleepily t)
+▷ &gt; <kbd>10</kbd>
+▷ &gt;
+▷ &gt;&gt; <kbd>20</kbd>
+<span class="roman">→</span> (10 20)
+
+(read-sleepily t 10)
+▷ &gt; <kbd>10</kbd>
+▷ &gt; <kbd>20</kbd>  ; Some implementations won't echo typeahead here.
+▷ &gt;&gt; <kbd>30</kbd>
+<span class="roman">→</span> (10 30)
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The <var>input-stream</var> is modified.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-input*</code>
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>input-stream</var> is not a <i>stream designator</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="clear_002doutput.html#clear_002doutput">clear-output</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/clear_002dinput.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+</html>
+

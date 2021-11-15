@@ -1,0 +1,385 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Kinds-of-Places.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Kinds of Places - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generalized-Reference.html#Generalized-Reference" title="Generalized Reference">
+<link rel="prev" href="Overview-of-Places-and-Generalized-Reference.html#Overview-of-Places-and-Generalized-Reference" title="Overview of Places and Generalized Reference">
+<link rel="next" href="Treatment-of-Other-Macros-Based-on-SETF.html#Treatment-of-Other-Macros-Based-on-SETF" title="Treatment of Other Macros Based on SETF">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Kinds-of-Places"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Treatment-of-Other-Macros-Based-on-SETF.html#Treatment-of-Other-Macros-Based-on-SETF">Treatment of Other Macros Based on SETF</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Overview-of-Places-and-Generalized-Reference.html#Overview-of-Places-and-Generalized-Reference">Overview of Places and Generalized Reference</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generalized-Reference.html#Generalized-Reference">Generalized Reference</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.1.2 Kinds of Places</h4>
+
+<p>Several kinds of <i>places</i> are defined by <span class="roman">Common Lisp</span>;
+this section enumerates them. 
+This set can be extended by <i>implementations</i> and by <i>programmer code</i>.
+
+<h5 class="subsubsection">5.1.2.1 Variable Names as Places</h5>
+
+<p>The name of a <i>lexical variable</i> or <i>dynamic variable</i>
+can be used as a <i>place</i>.
+
+<h5 class="subsubsection">5.1.2.2 Function Call Forms as Places</h5>
+
+<p><a name="FnFormsAsGenRefs"></a>A <i>function form</i> can be used as a <i>place</i> if it falls
+into one of the following categories:
+
+     <ul>
+<li>A function call form whose first element is the name of
+any one of the functions in the next figure.
+
+     <div class="float">
+<a name="fig5_002e7"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <p><table summary="">
+<tr align="left"><td valign="top">aref </td><td valign="top">cdadr </td><td valign="top">get
+<br></td></tr><tr align="left"><td valign="top">bit </td><td valign="top">cdar </td><td valign="top">gethash
+<br></td></tr><tr align="left"><td valign="top">caaaar </td><td valign="top">cddaar </td><td valign="top">logical-pathname-translations
+<br></td></tr><tr align="left"><td valign="top">caaadr </td><td valign="top">cddadr </td><td valign="top">macro-function
+<br></td></tr><tr align="left"><td valign="top">caaar </td><td valign="top">cddar </td><td valign="top">ninth
+<br></td></tr><tr align="left"><td valign="top">caadar </td><td valign="top">cdddar </td><td valign="top">nth
+<br></td></tr><tr align="left"><td valign="top">caaddr </td><td valign="top">cddddr </td><td valign="top">readtable-case
+<br></td></tr><tr align="left"><td valign="top">caadr </td><td valign="top">cdddr </td><td valign="top">rest
+<br></td></tr><tr align="left"><td valign="top">caar </td><td valign="top">cddr </td><td valign="top">row-major-aref
+<br></td></tr><tr align="left"><td valign="top">cadaar </td><td valign="top">cdr </td><td valign="top">sbit
+<br></td></tr><tr align="left"><td valign="top">cadadr </td><td valign="top">char </td><td valign="top">schar
+<br></td></tr><tr align="left"><td valign="top">cadar </td><td valign="top">class-name </td><td valign="top">second
+<br></td></tr><tr align="left"><td valign="top">caddar </td><td valign="top">compiler-macro-function </td><td valign="top">seventh
+<br></td></tr><tr align="left"><td valign="top">cadddr </td><td valign="top">documentation </td><td valign="top">sixth
+<br></td></tr><tr align="left"><td valign="top">caddr </td><td valign="top">eighth </td><td valign="top">slot-value
+<br></td></tr><tr align="left"><td valign="top">cadr </td><td valign="top">elt </td><td valign="top">subseq
+<br></td></tr><tr align="left"><td valign="top">car </td><td valign="top">fdefinition </td><td valign="top">svref
+<br></td></tr><tr align="left"><td valign="top">cdaaar </td><td valign="top">fifth </td><td valign="top">symbol-function
+<br></td></tr><tr align="left"><td valign="top">cdaadr </td><td valign="top">fill-pointer </td><td valign="top">symbol-plist
+<br></td></tr><tr align="left"><td valign="top">cdaar </td><td valign="top">find-class </td><td valign="top">symbol-value
+<br></td></tr><tr align="left"><td valign="top">cdadar </td><td valign="top">first </td><td valign="top">tenth
+<br></td></tr><tr align="left"><td valign="top">cdaddr </td><td valign="top">fourth </td><td valign="top">third
+     <br></td></tr></table>
+</td></tr></table>
+
+     <p><strong class="float-caption">Figure 5.7: Functions that setf can be used with&mdash;1</strong></p></div>
+
+     <p>In the case of <code>subseq</code>, the replacement value must be a <i>sequence</i>
+whose elements might be contained by the sequence argument to <code>subseq</code>,
+but does not have to be a <i>sequence</i> of the same <i>type</i>
+as the <i>sequence</i> of which the subsequence is specified. 
+If the length of the replacement value does not equal the length of
+the subsequence to be replaced, then the shorter length determines
+the number of elements to be stored, as for <code>replace</code>.
+
+     <li>A function call form whose first element is the name of
+a selector function constructed by <code>defstruct</code>. 
+The function name must refer to the global function definition,
+rather than a locally defined <i>function</i>.
+
+     <li>A function call form whose first element is the name of
+any one of the functions in the next figure,
+provided that the supplied argument
+to that function is in turn a <i>place</i> form;
+in this case the new <i>place</i> has stored back into it the
+result of applying the supplied &ldquo;update&rdquo; function.
+
+     <div class="float">
+<a name="fig5_002e8"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+     <p><table summary=""><tr align="left"><th valign="top">Function name </th><th valign="top">Argument that is a <var>place</var> </th><th valign="top">Update function used
+<br></th></tr><tr align="left"><td valign="top"><code>ldb</code> </td><td valign="top">second </td><td valign="top"><code>dpb</code>
+<br></td></tr><tr align="left"><td valign="top"><code>mask-field</code> </td><td valign="top">second </td><td valign="top"><code>deposit-field</code>
+<br></td></tr><tr align="left"><td valign="top"><code>getf</code> </td><td valign="top">first </td><td valign="top"><i>implementation-dependent</i>
+     <br></td></tr></table>
+</td></tr></table>
+
+     <p><strong class="float-caption">Figure 5.8: Functions that setf can be used with&mdash;2</strong></p></div>
+
+     <p>During the <code>setf</code> expansion of these <i>forms</i>, it is necessary to call
+<code>get-setf-expansion</code>
+in order to figure out how the inner, nested generalized variable must be treated.
+
+     <p>The information from
+<code>get-setf-expansion</code>
+is used as follows.
+
+          <dl>
+<dt><code>ldb</code><dd>
+
+          <p>In a form such as:
+
+          <p><code>(setf (ldb </code><var>byte-spec</var> <var>place-form</var><code>) </code><var>value-form</var><code>)</code>
+
+          <p>the place referred to by the <var>place-form</var> must always be both <i>read</i>
+and <i>written</i>;  note that the update is to the generalized variable
+specified by <var>place-form</var>, not to any object of <i>type</i> <code>integer</code>.
+
+          <p>Thus this <code>setf</code> should generate code to do the following:
+
+               <ol type=1 start=1>
+<li>Evaluate <var>byte-spec</var> (and bind it into a temporary variable). 
+<li>Bind the temporary variables for <var>place-form</var>. 
+<li>Evaluate <var>value-form</var>  (and bind
+its value or values into the store variable). 
+<li>Do the <i>read</i> from <var>place-form</var>. 
+<li>Do the <i>write</i> into <var>place-form</var> with
+the given bits of the <i>integer</i>
+fetched in step 4 replaced with the value from step 3.
+               </ol>
+
+          <p>If the evaluation of <var>value-form</var>
+in step 3 alters what is found in <var>place-form</var>,
+such as setting different bits of <i>integer</i>,
+then the change of the bits denoted by
+<var>byte-spec</var> is to that
+altered <i>integer</i>,
+because step 4 is done after the <var>value-form</var>
+evaluation.  Nevertheless, the
+evaluations required for <i>binding</i>
+the temporary variables are done in steps 1 and
+2, and thus the expected left-to-right evaluation order is seen. 
+For example:
+
+          <pre class="lisp">           (setq integer #x69) <span class="roman">→</span> #x69
+           (rotatef (ldb (byte 4 4) integer)
+                    (ldb (byte 4 0) integer))
+           integer <span class="roman">→</span> #x96
+          ;;; This example is trying to swap two independent bit fields
+          ;;; in an integer.  Note that the generalized variable of
+          ;;; interest here is just the (possibly local) program variable
+          ;;; integer.
+</pre>
+          <br><dt><code>mask-field</code><dd>
+
+          <p>This case is the same as <code>ldb</code> in all essential aspects.
+
+          <br><dt><code>getf</code><dd>
+
+          <p>In a form such as:
+
+          <p><code>(setf (getf </code><var>place-form</var> <var>ind-form</var><code>) </code><var>value-form</var><code>)</code>
+
+          <p>the place referred to by <var>place-form</var> must always be both <i>read</i>
+and <i>written</i>;  note that the update is to the generalized variable
+specified by <var>place-form</var>, not necessarily to the particular
+<i>list</i>
+that is the property list in question.
+
+          <p>Thus this <code>setf</code> should generate code to do the following:
+
+               <ol type=1 start=1>
+<li>Bind the temporary variables for <var>place-form</var>. 
+<li>Evaluate <var>ind-form</var> (and bind it into a temporary variable). 
+<li>Evaluate <var>value-form</var> (and bind
+its value or values into the store variable). 
+<li>Do the <i>read</i> from <var>place-form</var>. 
+<li>Do the <i>write</i> into <var>place-form</var> with a possibly-new property list
+obtained by combining the values from steps 2, 3, and 4. 
+(Note that the phrase &ldquo;possibly-new property list&rdquo; can mean that
+the former property list is somehow destructively re-used, or it can
+mean partial or full copying of it. 
+Since either copying or destructive re-use can occur,
+the treatment of the resultant value for the
+possibly-new property list must proceed as if it were a different copy
+needing to be stored back into the generalized variable.)
+               </ol>
+
+          <p>If the evaluation of <var>value-form</var>
+in step 3 alters what is found in
+<var>place-form</var>, such as setting a different named property in the list,
+then the change of the property denoted by <var>ind-form</var>
+is to that
+altered list, because step 4 is done after the
+<var>value-form</var>
+evaluation.  Nevertheless, the
+evaluations required for <i>binding</i>
+the temporary variables  are done in steps 1 and
+2,  and thus the expected left-to-right evaluation order is seen.
+
+          <p>For example:
+
+          <pre class="lisp">           (setq s (setq r (list (list 'a 1 'b 2 'c 3)))) <span class="roman">→</span> ((a 1 b 2 c 3))
+           (setf (getf (car r) 'b)
+                 (progn (setq r nil) 6)) <span class="roman">→</span> 6
+           r <span class="roman">→</span> NIL
+           s <span class="roman">→</span> ((A 1 B 6 C 3))
+          ;;; Note that the (setq r nil) does not affect the actions of
+          ;;; the SETF because the value of R had already been saved in
+          ;;; a temporary variable as part of the step 1. Only the CAR
+          ;;; of this value will be retrieved, and subsequently modified
+          ;;; after the value computation.
+</pre>
+          </dl>
+     </ul>
+
+<h5 class="subsubsection">5.1.2.3 VALUES Forms as Places</h5>
+
+<p><a name="SETFofVALUES"></a>A <code>values</code> <i>form</i> can be used as a <i>place</i>,
+provided that each of its <i>subforms</i> is also a <i>place</i> form.
+
+<p>A form such as
+
+<p><code>(setf (values </code><var>place-1</var><code> ... </code><var>place-n</var><code>) </code><var>values-form</var><code>)</code>
+
+<p>does the following:
+
+     <ol type=1 start=1>
+<li>The <i>subforms</i> of each nested <var>place</var> are evaluated
+in left-to-right order. 
+<li>The <var>values-form</var> is evaluated, and the first store
+variable from each <var>place</var> is bound to its return values as if by
+<code>multiple-value-bind</code>. 
+<li>If the <i>setf expansion</i> for any <var>place</var>
+involves more than one store variable, then the additional
+store variables are bound to <code>nil</code>. 
+<li>The storing forms for each <var>place</var> are evaluated in
+left-to-right order.
+     </ol>
+
+<p>The storing form in the <i>setf expansion</i> of <code>values</code>
+returns as <i>multiple values</i><sub>2</sub> the values of the store
+variables in step 2.  That is, the number of values returned is the
+same as the number of <i>place</i> forms.  This may be more or fewer
+values than are produced by the <var>values-form</var>.
+
+<h5 class="subsubsection">5.1.2.4 THE Forms as Places</h5>
+
+<p>A <code>the</code> <i>form</i> can be used as a <i>place</i>,
+in which case the declaration is transferred to the <var>newvalue</var> form,
+and the resulting <code>setf</code> is analyzed.  For example,
+
+<pre class="lisp"> (setf (the integer (cadr x)) (+ y 3))
+</pre>
+<p>is processed as if it were
+
+<pre class="lisp"> (setf (cadr x) (the integer (+ y 3)))
+</pre>
+<h5 class="subsubsection">5.1.2.5 APPLY Forms as Places</h5>
+
+<p><a name="SETFofAPPLY"></a>The following situations involving <code>setf</code> of <code>apply</code> must be supported:
+
+     <ul>
+<li><code>(setf (apply #'aref </code><var>array</var>
+<tt>{</tt><code>subscript</code><tt>}</tt><code>*
+</code><var>more-subscripts</var><code>)
+</code><var>new-element</var><code>)</code>
+<li><code>(setf (apply #'bit </code><var>array</var>
+<tt>{</tt><code>subscript</code><tt>}</tt><code>*
+</code><var>more-subscripts</var><code>)
+</code><var>new-element</var><code>)</code>
+<li><code>(setf (apply #'sbit </code><var>array</var>
+<tt>{</tt><code>subscript</code><tt>}</tt><code>*
+</code><var>more-subscripts</var><code>)
+</code><var>new-element</var><code>)</code>
+</ul>
+
+<p>In all three cases, the <i>element</i> of <var>array</var> designated
+by the concatenation of <var>subscripts</var> and <var>more-subscripts</var>
+(<i>i.e.</i>, the same <i>element</i> which would be <i>read</i> by the call to
+<i>apply</i> if it were not part of a <code>setf</code> <i>form</i>)
+is changed to have the <i>value</i> given by <var>new-element</var>. 
+For these usages, the function name (<code>aref</code>, <code>bit</code>, or <code>sbit</code>)
+must refer to the global function definition, rather than a locally defined
+<i>function</i>.
+
+<p>No other <i>standardized</i> <i>function</i> is required to be supported,
+but an <i>implementation</i> may define such support. 
+An <i>implementation</i> may also define support
+for <i>implementation-defined</i> <i>operators</i>.
+
+<p>If a user-defined <i>function</i> is used in this context,
+the following equivalence is true, except that care is taken
+to preserve proper left-to-right evaluation of argument <i>subforms</i>:
+
+<pre class="lisp"> (setf (apply #'<var>name</var> <tt>{</tt>arg<tt>}</tt>*) <var>val</var>)
+ ≡ (apply #'(setf <var>name</var>) <var>val</var> <tt>{</tt>arg<tt>}</tt>*)
+</pre>
+<h5 class="subsubsection">5.1.2.6 Setf Expansions and Places</h5>
+
+<p>Any <i>compound form</i> for which the <i>operator</i> has a
+<i>setf expander</i>
+defined can be used as a <i>place</i>. 
+The
+<i>operator</i>
+must refer to the global function definition,
+rather than a locally defined <i>function</i> or <i>macro</i>.
+
+<h5 class="subsubsection">5.1.2.7 Macro Forms as Places</h5>
+
+<p>A <i>macro form</i> can be used as a <i>place</i>,
+in which case <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->expands the <i>macro form</i>
+as if by <code>macroexpand-1</code>
+and then uses the <i>macro expansion</i> in place of the original <i>place</i>. 
+Such <i>macro expansion</i> is attempted only after exhausting all other possibilities
+other than expanding into a call to a function named <code>(setf </code><var>reader</var><code>)</code>.
+
+<h5 class="subsubsection">5.1.2.8 Symbol Macros as Places</h5>
+
+<p>A reference to a <i>symbol</i> that has been <i>established</i> as a <i>symbol macro</i>
+can be used as a <i>place</i>.  In this case,
+<code>setf</code> expands the reference and then analyzes the resulting <i>form</i>.
+
+<h5 class="subsubsection">5.1.2.9 Other Compound Forms as Places</h5>
+
+<p>For any other <i>compound form</i> for which the <i>operator</i> is a
+<i>symbol</i> <var>f</var>,
+the <code>setf</code> <i>form</i> expands into a call
+to the <i>function</i> named <code>(setf </code><var>f</var><code>)</code>. 
+The first <i>argument</i> in the newly constructed <i>function form</i>
+is <var>newvalue</var> and the
+remaining <i>arguments</i> are the remaining <i>elements</i> of
+<var>place</var>. 
+This expansion occurs regardless of whether <var>f</var> or <code>(setf </code><var>f</var><code>)</code>
+is defined as a <i>function</i> locally, globally, or not at all. 
+For example,
+
+<p><code>(setf (</code><var>f</var> <var>arg1</var> <var>arg2</var><code> ...) </code><var>new-value</var><code>)</code>
+
+<p>expands into a form with the same effect and value as
+
+<pre class="lisp"> (let ((#:temp-1 arg1)          ;force correct order of evaluation
+       (#:temp-2 arg2)
+       ...
+       (#:temp-0 <var>new-value</var>))
+   (funcall (function (setf <var>f</var>)) #:temp-0 #:temp-1 #:temp-2...))
+</pre>
+<p>A <i>function</i> named <code>(setf </code><var>f</var><code>)</code> must return its first argument
+as its only value in order to preserve the semantics of <code>setf</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Kinds-of-Places.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

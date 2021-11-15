@@ -1,0 +1,166 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/dotimes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:48 GMT -->
+<head>
+<title>dotimes - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Iteration.html#Iteration" title="Iteration">
+<link rel="prev" href="do_003b-do_002a.html#do_003b-do_002a" title="do; do*">
+<link rel="next" href="dolist.html#dolist" title="dolist">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="dotimes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="dolist.html#dolist">dolist</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="do_003b-do_002a.html#do_003b-do_002a">do; do*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Iteration.html#Iteration">Iteration</a>
+<hr>
+</div>
+
+<h3 class="heading">dotimes (Macro)</h3>
+
+<p><a name="index-dotimes-687"></a><a name="index-dotimes-688"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>dotimes</b> <tt>(</tt><var>var count-form </var><tt>[</tt><var>result-form</var><tt>]</tt><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>tag | statement</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-dotimes-689"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>var</var>&mdash;a <i>symbol</i>.
+
+<p><var>count-form</var>&mdash;a <i>form</i>.
+
+<p><var>result-form</var>&mdash;a <i>form</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>tag</var>&mdash;a <i>go tag</i>; not evaluated.
+
+<p><var>statement</var>&mdash;a <i>compound form</i>; evaluated as described below.
+
+<p><var>results</var>&mdash;if a <code>return</code> or <code>return-from</code> form is executed,
+the <i>values</i> passed from that <i>form</i>;
+otherwise, the <i>values</i> returned by the <var>result-form</var>
+or <code>nil</code>&nbsp;<!-- /@w -->if there is no <var>result-form</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>dotimes</code> iterates over a series of <i>integers</i>.
+
+<p><code>dotimes</code> evaluates <var>count-form</var>,
+which should produce an <i>integer</i>. 
+If <var>count-form</var> is zero or negative,
+the body is not executed. 
+<code>dotimes</code> then executes the body once for each <i>integer</i> from 0 up to
+but not including
+the value of <var>count-form</var>,
+in the order in which the
+<var>tags</var> and <var>statements</var> occur, with
+<var>var</var> bound to each <i>integer</i>. 
+Then <var>result-form</var>
+is evaluated. 
+At the time <var>result-form</var> is processed, <var>var</var> is bound to
+the number of times the body was executed. 
+<var>Tags</var> label
+<var>statements</var>.
+
+<p>An <i>implicit block</i>
+named <code>nil</code>&nbsp;<!-- /@w -->surrounds <code>dotimes</code>. 
+<code>return</code> may be used to terminate the loop immediately without
+performing any further iterations, returning zero or more <i>values</i>.
+
+<p>The body of the loop is an <i>implicit tagbody</i>;
+it may contain tags to serve as the targets of <code>go</code> statements. 
+Declarations may appear before the body of the loop.
+
+<p>The <i>scope</i> of the binding of <var>var</var>
+does not include the <var>count-form</var>,
+but the <var>result-form</var> is included.
+
+<p>It is <i>implementation-dependent</i> whether <code>dotimes</code>
+<i>establishes</i> a new <i>binding</i> of <var>var</var> on each iteration
+or whether it <i>establishes</i> a binding for <var>var</var> once at the
+beginning and then <var>assigns</var> it on any subsequent iterations.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (dotimes (temp-one 10 temp-one)) <span class="roman">→</span> 10
+ (setq temp-two 0) <span class="roman">→</span> 0
+ (dotimes (temp-one 10 t) (incf temp-two)) <span class="roman">→</span> T
+ temp-two <span class="roman">→</span> 10
+</pre>
+<p>Here is an example of the use of <code>dotimes</code> in processing strings:
+
+<pre class="lisp">;;; True if the specified subsequence of the string is a
+;;; palindrome (reads the same forwards and backwards).
+ (defun palindromep (string <tt>&amp;optional</tt>
+                           (start 0)
+                           (end (length string)))
+   (dotimes (k (floor (- end start) 2) t)
+    (unless (char-equal (char string (+ start k))
+                        (char string (- end k 1)))
+      (return nil))))
+ (palindromep "Able was I ere I saw Elba") <span class="roman">→</span> T
+ (palindromep "A man, a plan, a canal--Panama!") <span class="roman">→</span> NIL
+ (remove-if-not #'alpha-char-p          ;Remove punctuation.
+               "A man, a plan, a canal--Panama!")
+<span class="roman">→</span> "AmanaplanacanalPanama"
+ (palindromep
+  (remove-if-not #'alpha-char-p
+                "A man, a plan, a canal--Panama!")) <span class="roman">→</span> T
+ (palindromep
+  (remove-if-not
+   #'alpha-char-p
+   "Unremarkable was I ere I saw Elba Kramer, nu?")) <span class="roman">→</span> T
+ (palindromep
+  (remove-if-not
+   #'alpha-char-p
+   "A man, a plan, a cat, a ham, a yak,
+                  a yam, a hat, a canal--Panama!")) <span class="roman">→</span> T
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="do.html#do">do</a>, <a href="dolist.html#dolist">dolist</a>, <a href="tagbody.html#tagbody">tagbody</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>go</code> may be used within the body of
+<code>dotimes</code> to transfer control to a statement labeled by a <var>tag</var>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/dotimes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:49 GMT -->
+</html>
+

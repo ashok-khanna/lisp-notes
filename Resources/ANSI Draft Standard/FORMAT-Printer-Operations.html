@@ -1,0 +1,111 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Printer-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>FORMAT Printer Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Floating_002dPoint-Printers.html#FORMAT-Floating_002dPoint-Printers" title="FORMAT Floating-Point Printers">
+<link rel="next" href="FORMAT-Pretty-Printer-Operations.html#FORMAT-Pretty-Printer-Operations" title="FORMAT Pretty Printer Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Printer-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Pretty-Printer-Operations.html#FORMAT-Pretty-Printer-Operations">FORMAT Pretty Printer Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Floating_002dPoint-Printers.html#FORMAT-Floating_002dPoint-Printers">FORMAT Floating-Point Printers</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.4 FORMAT Printer Operations</h4>
+
+<h5 class="subsubsection">22.3.4.1 Tilde A: Aesthetic</h5>
+
+<p><a name="index-A-_0028format-directive_0029-2835"></a><a name="index-Tilde-A-_0028format-directive_0029-2836"></a>
+An <i>arg</i>, any <i>object</i>,
+is printed without escape characters
+(as by <code>princ</code>).  If <i>arg</i> is a <i>string</i>,
+its <i>characters</i>
+will be output verbatim. 
+If <i>arg</i> is <code>nil</code>&nbsp;<!-- /@w -->it will be printed as <code>nil</code>;
+the <i>colon</i> modifier (<code>~:A</code>) will cause an <i>arg</i> of <code>nil</code>&nbsp;<!-- /@w -->to be printed as (),
+but if <i>arg</i> is a composite structure, such as a <i>list</i> or <i>vector</i>,
+any contained occurrences of <code>nil</code>&nbsp;<!-- /@w -->will still be printed as <code>nil</code>.
+
+<p><code>~</code><i>mincol</i><code>A</code> inserts spaces on the right, if necessary, to make the
+width at least <i>mincol</i> columns.  The <code>@</code>
+modifier causes the spaces
+to be inserted on the left rather than the right.
+
+<p><code>~</code><i>mincol</i><code>,</code><i>colinc</i><code>,</code><i>minpad</i><code>,</code><i>padchar</i><code>A</code>
+is the full form of <code>~A</code>,
+which allows control of the padding. 
+The <i>string</i> is padded on the right (or on the left if the
+<code>@</code> modifier is used) with at least <i>minpad</i> copies
+of <i>padchar</i>; padding characters are then inserted <i>colinc</i> characters
+at a time until the total width is at least <i>mincol</i>. 
+The defaults are <code>0</code> for <i>mincol</i> and <i>minpad</i>, <code>1</code> for <i>colinc</i>,
+and the space character for <i>padchar</i>.
+
+<p><code>~A</code> binds <code>*print-escape*</code> to <i>false</i>,
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.4.2 Tilde S: Standard</h5>
+
+<p><a name="index-S-_0028format-directive_0029-2837"></a><a name="index-Tilde-S-_0028format-directive_0029-2838"></a>
+This is just like <code>~A</code>, but <i>arg</i> is printed with escape
+characters (as by <code>prin1</code> rather than <code>princ</code>).  The output is
+therefore suitable for input to <code>read</code>.  <code>~S</code> accepts
+all the arguments and modifiers that <code>~A</code> does.
+
+<p><code>~S</code> binds <code>*print-escape*</code> to <code>t</code>.
+
+<h5 class="subsubsection">22.3.4.3 Tilde W: Write</h5>
+
+<p><a name="index-W-_0028format-directive_0029-2839"></a><a name="index-Tilde-W-_0028format-directive_0029-2840"></a>
+An argument, any <i>object</i>, is printed obeying every printer control
+variable (as by <code>write</code>).  In addition, <code>~W</code> interacts correctly with depth
+abbreviation, by not resetting the depth counter to zero.  <code>~W</code> does not
+accept parameters.  If given the <i>colon</i> modifier, <code>~W</code> binds <code>*print-pretty*</code>
+to <i>true</i>.  If given the <i>at-sign</i> modifier, <code>~W</code> binds <code>*print-level*</code>
+and <code>*print-length*</code> to <code>nil</code>.
+
+<p><code>~W</code> provides automatic support for the detection of circularity and
+sharing.  If the <i>value</i> of <code>*print-circle*</code> is not <code>nil</code>&nbsp;<!-- /@w -->and <code>~W</code> is applied
+to an argument that is a circular (or shared) reference, an appropriate
+<code>#</code><var>n</var><code>#</code> marker is inserted in the output instead of printing the argument.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Printer-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

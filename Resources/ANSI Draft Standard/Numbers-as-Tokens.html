@@ -1,0 +1,212 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Numbers-as-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:29 GMT -->
+<head>
+<title>Numbers as Tokens - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens" title="Interpretation of Tokens">
+<link rel="next" href="Constructing-Numbers-from-Tokens.html#Constructing-Numbers-from-Tokens" title="Constructing Numbers from Tokens">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Numbers-as-Tokens"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Constructing-Numbers-from-Tokens.html#Constructing-Numbers-from-Tokens">Constructing Numbers from Tokens</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens">Interpretation of Tokens</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.3.1 Numbers as Tokens</h4>
+
+<p>When a <i>token</i> is read,
+it is interpreted as a <i>number</i> or <i>symbol</i>. 
+The <i>token</i> is interpreted as a <i>number</i> if it satisfies
+the syntax for numbers specified in the next figure.
+
+<div class="float">
+<a name="SyntaxForNumericTokens"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><var>numeric-token</var> </td><td valign="top">::= </td><td valign="top"><tt>↓</tt>integer <span class="roman">|</span>
+<tt>↓</tt>ratio   <span class="roman">|</span>
+<tt>↓</tt>float
+<br></td></tr><tr align="left"><td valign="top"><var>integer</var> </td><td valign="top">::= </td><td valign="top"><tt>[</tt><var>sign</var><tt>]</tt>
+<tt>{</tt><var>decimal-digit</var><tt>}</tt>+
+<var>decimal-point</var> <span class="roman">|</span>
+<tt>[</tt><var>sign</var><tt>]</tt>
+<tt>{</tt><var>digit</var><tt>}</tt>+
+<br></td></tr><tr align="left"><td valign="top"><var>ratio</var> </td><td valign="top">::= </td><td valign="top"><tt>[</tt><var>sign</var><tt>]</tt>
+<tt>{</tt><var>digit</var><tt>}</tt>+
+<var>slash</var>
+<tt>{</tt><var>digit</var><tt>}</tt>+
+<br></td></tr><tr align="left"><td valign="top"><var>float</var> </td><td valign="top">::= </td><td valign="top"><tt>[</tt><var>sign</var><tt>]</tt>
+<tt>{</tt><var>decimal-digit</var><tt>}</tt>*
+<var>decimal-point</var>
+<tt>{</tt><var>decimal-digit</var><tt>}</tt>+
+<tt>[</tt><tt>↓</tt>exponent<tt>]</tt>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"></td><td valign="top">| <tt>[</tt><var>sign</var><tt>]</tt> <tt>{</tt><var>decimal-digit</var><tt>}</tt>+  <tt>[</tt><var>decimal-point</var>  <tt>{</tt><var>decimal-digit</var><tt>}</tt>*<tt>]</tt> <tt>↓</tt>exponent
+<br></td></tr><tr align="left"><td valign="top"><var>exponent</var> </td><td valign="top">::= </td><td valign="top"><var>exponent-marker</var>
+<tt>[</tt><var>sign</var><tt>]</tt>
+<tt>{</tt><var>digit</var><tt>}</tt>+
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.9: Syntax for Numeric Tokens</strong></p></div>
+
+<p><var>sign</var>&mdash;a <i>sign</i>.<br>
+<var>slash</var>&mdash;a <i>slash</i><br>
+<var>decimal-point</var>&mdash;a <i>dot</i>.<br>
+<var>exponent-marker</var>&mdash;an <i>exponent marker</i>.<br>
+<var>decimal-digit</var>&mdash;a <i>digit</i> in <i>radix</i> <code>10</code>.<br>
+<var>digit</var>&mdash;a <i>digit</i> in the <i>current input radix</i>.<br>
+
+<h5 class="subsubsection">2.3.1.1 Potential Numbers as Tokens</h5>
+
+<p><a name="PotentialNumbersAsTokens"></a>To allow implementors and future <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->standards
+to extend the syntax of numbers, a
+syntax for <i>potential numbers</i> is defined that is
+more general than the syntax for numbers. 
+A <i>token</i> is a <i>potential number</i> if it satisfies all of the following
+requirements:
+
+     <ol type=1 start=1>
+<li>The <i>token</i> consists entirely of
+<i>digits</i>,
+<i>signs</i>,
+<i>ratio markers</i>,
+decimal points (<code>.</code>),
+extension characters (^&nbsp;<!-- /@w -->or <code>_</code>),
+and number markers. 
+A number marker is a letter. 
+Whether a letter may be treated as a number marker depends on context,
+but no letter that is adjacent to another letter may ever be treated as a number marker. 
+<i>Exponent markers</i> are number markers.
+
+     <li>The <i>token</i> contains at least one digit.  Letters may be considered to be
+digits, depending on the <i>current input base</i>, but only
+in <i>tokens</i> containing no decimal points.
+
+     <li>The <i>token</i> begins with a <i>digit</i>, <i>sign</i>, decimal point, or extension character,
+
+     <p>but not a
+<i>package marker</i>. 
+The syntax involving a leading
+<i>package marker</i> followed by a <i>potential number</i> is
+not well-defined. The consequences of the use
+of notation such as <code>:1</code>, <code>:1/2</code>, and <code>:2^3</code> in a
+position where an expression appropriate for <code>read</code>
+is expected are unspecified.
+
+     <li>The <i>token</i> does not end with a sign.
+     </ol>
+
+<p>If a <i>potential number</i> has number syntax,
+a <i>number</i> of the appropriate type is constructed and returned,
+if the <i>number</i> is representable in an implementation. 
+A <i>number</i> will not be representable in an implementation
+if it is outside the boundaries set by the <i>implementation-dependent</i>
+constants for <i>numbers</i>. 
+For example, specifying too large or too small an exponent for a <i>float</i>
+may make the <i>number</i> impossible to represent in the implementation. 
+A <i>ratio</i> with denominator zero (such as <code>-35/000</code>)
+is not represented in any implementation. 
+When a <i>token</i> with the syntax of a number cannot be converted to an internal
+<i>number</i>, an error of <i>type</i> <code>reader-error</code> is signaled.  An error
+must not be signaled for specifying too many significant digits
+for a <i>float</i>; a truncated or rounded value should be produced.
+
+<p>If there is an ambiguity as to whether
+a letter should be treated as a digit or as a number marker,
+the letter is treated as a digit.
+
+<h5 class="unnumberedsubsubsec">2.3.1.1.1 Escape Characters and Potential Numbers</h5>
+
+<p><a name="EscCharsAndPotentialNums"></a>A <i>potential number</i> cannot contain any <i>escape</i>
+<i>characters</i>.  An <i>escape</i> <i>character</i> robs the following
+<i>character</i> of all syntactic qualities, forcing it to be strictly
+<i>alphabetic</i><sub>2</sub> and therefore unsuitable for use in a
+<i>potential number</i>.  For example, all of the following
+representations are interpreted as <i>symbols</i>, not <i>numbers</i>:
+
+<pre class="lisp"> \256   25\64   1.0\E6   |100|   3\.14159   |3/4|   3\/4   5||
+</pre>
+<p>In each case, removing the <i>escape</i> <i>character</i> (or <i>characters</i>)
+would
+cause the token to be a <i>potential number</i>.
+
+<h5 class="unnumberedsubsubsec">2.3.1.1.2 Examples of Potential Numbers</h5>
+
+<p>As examples, the <i>tokens</i> in the next figure&nbsp;<!-- /@w -->are <i>potential numbers</i>,
+but they are not actually numbers, and so are reserved <i>tokens</i>;
+a <i>conforming implementation</i> is permitted, but not required,
+to define their meaning.
+
+<div class="float">
+<a name="fig2_002e10"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>1b5000</code> </td><td valign="top"><code>777777q</code> </td><td valign="top"><code>1.7J</code> </td><td valign="top"><code>-3/4+6.7J</code> </td><td valign="top"><code>12/25/83</code>
+<br></td></tr><tr align="left"><td valign="top"><code>27^19</code> </td><td valign="top"><code>3^4/5</code> </td><td valign="top"><code>6//7</code> </td><td valign="top"><code>3.1.2.6</code> </td><td valign="top"><code>^-43^</code>
+<br></td></tr><tr align="left"><td valign="top"><code>3.141_592_653_589_793_238_4</code> </td><td valign="top"><code>-3.7+2.6i-6.17j+19.6k</code> </td><td valign="top"></td><td valign="top"></td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.10: Examples of reserved tokens</strong></p></div>
+
+<p>The <i>tokens</i> in the next figure&nbsp;<!-- /@w -->are not <i>potential numbers</i>;
+they are always treated as <i>symbols</i>:
+
+<div class="float">
+<a name="fig2_002e11"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>/</code> </td><td valign="top"><code>/5</code> </td><td valign="top"><code>+</code> </td><td valign="top"><code>1+</code> </td><td valign="top"><code>1-</code>
+<br></td></tr><tr align="left"><td valign="top"><code>foo+</code> </td><td valign="top"><code>ab.cd</code> </td><td valign="top"><code>_</code> </td><td valign="top"><code>^</code> </td><td valign="top"><code>^/-</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.11: Examples of symbols</strong></p></div>
+
+<p>The <i>tokens</i> in the next figure&nbsp;<!-- /@w -->are <i>potential numbers</i>
+if the <i>current input base</i> is <code>16</code>,
+but they are always treated as <i>symbols</i> if the <i>current input base</i> is <code>10</code>.
+
+<div class="float">
+<a name="fig2_002e12"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>bad-face</code> </td><td valign="top"><code>25-dec-83</code> </td><td valign="top"><code>a/b</code> </td><td valign="top"><code>fad_cafe</code> </td><td valign="top"><code>f^</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.12: Examples of symbols or potential numbers</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Numbers-as-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:29 GMT -->
+</html>
+

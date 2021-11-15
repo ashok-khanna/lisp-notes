@@ -1,0 +1,456 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Interpreting-Pathname-Component-Values.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:16 GMT -->
+<head>
+<title>Interpreting Pathname Component Values - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Pathnames.html#Pathnames" title="Pathnames">
+<link rel="prev" href="Pathname-Components.html#Pathname-Components" title="Pathname Components">
+<link rel="next" href="Merging-Pathnames.html#Merging-Pathnames" title="Merging Pathnames">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interpreting-Pathname-Component-Values"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Merging-Pathnames.html#Merging-Pathnames">Merging Pathnames</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Pathname-Components.html#Pathname-Components">Pathname Components</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Pathnames.html#Pathnames">Pathnames</a>
+<hr>
+</div>
+
+<h4 class="subsection">19.2.2 Interpreting Pathname Component Values</h4>
+
+<h5 class="subsubsection">19.2.2.1 Strings in Component Values</h5>
+
+<h5 class="unnumberedsubsubsec">19.2.2.1.1 Special Characters in Pathname Components</h5>
+
+<p><i>Strings</i> in <i>pathname</i> component values
+never contain special <i>characters</i> that represent
+separation between <i>pathname</i> fields,
+such as <i>slash</i> in <span class="roman">Unix</span>&nbsp;<!-- /@w --><i>filenames</i>. 
+Whether separator <i>characters</i> are permitted as
+part of a <i>string</i> in a <i>pathname</i> component
+is <i>implementation-defined</i>;
+however, if the <i>implementation</i> does permit it,
+it must arrange to properly &ldquo;quote&rdquo; the character for the
+<i>file system</i> when constructing a <i>namestring</i>. 
+For example,
+
+<pre class="lisp"> ;; In a TOPS-20 implementation, which uses ^V to quote
+ (NAMESTRING (MAKE-PATHNAME :HOST "OZ" :NAME "&lt;TEST&gt;"))
+<span class="roman">→</span> #P"OZ:PS:^V&lt;TEST^V&gt;"
+not<span class="roman">→</span> #P"OZ:PS:&lt;TEST&gt;"
+</pre>
+<h5 class="unnumberedsubsubsec">19.2.2.1.2 Case in Pathname Components</h5>
+
+<p><a name="PathnameComponentCase"></a><i>Namestrings</i> always use local file system <i>case</i> conventions,
+but <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>functions</i> that manipulate <i>pathname</i> components
+allow the caller to select either of two conventions for representing
+<i>case</i> in component values by supplying a value for the
+<tt>:case</tt> keyword argument. 
+The next figure&nbsp;<!-- /@w -->lists the functions
+relating to <i>pathnames</i> that permit a <tt>:case</tt> argument:
+
+<div class="float">
+<a name="PathnameCaseFuns"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">make-pathname </td><td valign="top">pathname-directory </td><td valign="top">pathname-name
+<br></td></tr><tr align="left"><td valign="top">pathname-device </td><td valign="top">pathname-host </td><td valign="top">pathname-type
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 19.2: Pathname functions using a :CASE argument</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">19.2.2.1.2.1 Local Case in Pathname Components</h5>
+
+<p>For the functions in <a href="PathnameCaseFuns.html#PathnameCaseFuns">Figure 19.2</a>,
+a value of <tt>:local</tt>
+<a name="index-g_t_003alocal-2461"></a>for the <tt>:case</tt> argument
+(the default for these functions)
+indicates that the functions should receive and yield <i>strings</i> in component values
+as if they were already represented according to the host <i>file system</i>'s
+convention for <i>case</i>.
+
+<p>If the <i>file system</i> supports both <i>cases</i>, <i>strings</i> given or received
+as <i>pathname</i> component values under this protocol are to be used exactly
+as written.  If the file system only supports one <i>case</i>,
+the <i>strings</i> will be translated to that <i>case</i>.
+
+<h5 class="unnumberedsubsubsec">19.2.2.1.2.2 Common Case in Pathname Components</h5>
+
+<p>For the functions in <a href="PathnameCaseFuns.html#PathnameCaseFuns">Figure 19.2</a>,
+a value of <tt>:common</tt>
+<a name="index-g_t_003acommon-2462"></a>for the <tt>:case</tt> argument
+that these <i>functions</i> should receive
+and yield <i>strings</i> in component values according to the following conventions:
+
+     <ul>
+<li>All <i>uppercase</i> means to use a file system's customary <i>case</i>. 
+<li>All <i>lowercase</i> means to use the opposite of the customary <i>case</i>. 
+<li>Mixed <i>case</i> represents itself. 
+</ul>
+
+<p>Note that these conventions have been chosen in such a way that translation
+from <tt>:local</tt> to <tt>:common</tt> and back to <tt>:local</tt> is information-preserving.
+
+<h5 class="subsubsection">19.2.2.2 Special Pathname Component Values</h5>
+
+<p><a name="SpecialComponentValues"></a>
+
+<h5 class="unnumberedsubsubsec">19.2.2.2.1 NIL as a Component Value</h5>
+
+<p>As a <i>pathname</i> component value,
+<code>nil</code> represents that the component is &ldquo;unfilled&rdquo;;
+see <a href="Merging-Pathnames.html#Merging-Pathnames">Section 19.2.3 (Merging Pathnames)</a>.
+
+<p>The value of any <i>pathname</i> component can be <code>nil</code>.
+
+<p>When constructing a <i>pathname</i>,
+<code>nil</code>&nbsp;<!-- /@w -->in the host component might mean a default host
+rather than an actual <code>nil</code>&nbsp;<!-- /@w -->in some <i>implementations</i>.
+
+<h5 class="unnumberedsubsubsec">19.2.2.2.2 :WILD as a Component Value</h5>
+
+<p><a name="WildComponents"></a>If <tt>:wild</tt>
+<a name="index-g_t_003awild-2463"></a>is the value of a <i>pathname</i> component,
+that component is considered to be a wildcard, which matches anything.
+
+<p>A <i>conforming program</i> must be prepared to encounter a value of <tt>:wild</tt>
+as the value of any <i>pathname</i> component,
+or as an <i>element</i> of a <i>list</i> that is the value of the directory component.
+
+<p>When constructing a <i>pathname</i>,
+a <i>conforming program</i> may use <tt>:wild</tt> as the value of any or all of
+the directory, name, type,
+or version component, but must not use <tt>:wild</tt> as the value of the host,
+or device component.
+
+<p>If <tt>:wild</tt> is used as the value of the directory component in the construction
+of a <i>pathname</i>, the effect is equivalent to specifying the list
+<code>(:absolute :wild-inferiors)</code>,
+or the same as <code>(:absolute :wild)</code> in a <i>file system</i> that does not support
+<tt>:wild-inferiors</tt>. 
+<a name="index-g_t_003awild_002dinferiors-2464"></a>
+
+<h5 class="unnumberedsubsubsec">19.2.2.2.3 :UNSPECIFIC as a Component Value</h5>
+
+<p><a name="UnspecificComponent"></a>If <tt>:unspecific</tt>
+<a name="index-g_t_003aunspecific-2465"></a>is the value of a <i>pathname</i> component,
+the component is considered to be &ldquo;absent&rdquo;
+or to &ldquo;have no meaning&rdquo;
+in the <i>filename</i> being represented by the <i>pathname</i>.
+
+<p>Whether a value of <tt>:unspecific</tt> is permitted for any component
+on any given <i>file system</i> accessible to the <i>implementation</i>
+is <i>implementation-defined</i>. 
+A <i>conforming program</i> must never unconditionally use a
+<tt>:unspecific</tt> as the value of a <i>pathname</i> component because
+such a value is not guaranteed to be permissible in all implementations. 
+However, a <i>conforming program</i> can, if it is careful,
+successfully manipulate user-supplied data
+which contains or refers to non-portable <i>pathname</i> components. 
+And certainly a <i>conforming program</i> should be prepared for the
+possibility that any components of a <i>pathname</i> could be <tt>:unspecific</tt>.
+
+<p>When <i>reading</i><sub>1</sub> the value of any <i>pathname</i> component,
+<i>conforming programs</i> should be prepared for the value to be <tt>:unspecific</tt>.
+
+<p>When <i>writing</i><sub>1</sub> the value of any <i>pathname</i> component,
+the consequences are undefined if <tt>:unspecific</tt> is given
+for a <i>pathname</i> in a <i>file system</i> for which it does not make sense.
+
+<h5 class="unnumberedsubsubsec">19.2.2.2.3.1 Relation between component values NIL and :UNSPECIFIC</h5>
+
+<p>If a <i>pathname</i> is converted to a <i>namestring</i>,
+the <i>symbols</i> <code>nil</code>&nbsp;<!-- /@w -->and <tt>:unspecific</tt>
+cause the field to be treated as if it were empty. 
+That is,
+both <code>nil</code>&nbsp;<!-- /@w -->and <tt>:unspecific</tt>
+cause the component not to appear in the <i>namestring</i>.
+
+<p>However, when merging a <i>pathname</i> with a set of defaults,
+only a <code>nil</code>&nbsp;<!-- /@w -->value for a component
+will be replaced with the default for that component,
+while a value of <tt>:unspecific</tt>
+will be left alone as if the field were &ldquo;filled&rdquo;;
+see the <i>function</i> <a href="merge_002dpathnames.html#merge_002dpathnames">merge-pathnames</a> and <a href="Merging-Pathnames.html#Merging-Pathnames">Section 19.2.3 (Merging Pathnames)</a>.
+
+<h5 class="subsubsection">19.2.2.3 Restrictions on Wildcard Pathnames</h5>
+
+<p><a name="WildcardRestrictions"></a>Wildcard <i>pathnames</i> can be used with <code>directory</code> but not with
+<code>open</code>,
+and return true from <code>wild-pathname-p</code>. When examining
+wildcard components of a wildcard <i>pathname</i>, conforming programs
+must be prepared to encounter any of the following additional values
+in any component or any element of a <i>list</i> that is the directory component:
+
+     <ul>
+<li>The <i>symbol</i> <tt>:wild</tt>, which matches anything.
+
+     <li>A <i>string</i> containing <i>implementation-dependent</i>
+special wildcard <i>characters</i>.
+
+     <li>Any <i>object</i>,
+representing an <i>implementation-dependent</i> wildcard pattern. 
+</ul>
+
+<h5 class="subsubsection">19.2.2.4 Restrictions on Examining Pathname Components</h5>
+
+<p>The space of possible <i>objects</i> that a <i>conforming program</i>
+must be prepared to <i>read</i><sub>1</sub>
+
+<p>as the value of a <i>pathname</i> component
+is substantially larger than the space of possible <i>objects</i>
+that a <i>conforming program</i> is permitted to <i>write</i><sub>1</sub>
+
+<p>into such a component.
+
+<p>While the values discussed
+in the subsections of this section,
+in <a href="SpecialComponentValues.html#SpecialComponentValues">Section 19.2.2.2 (Special Pathname Component Values)</a>,
+and in <a href="WildcardRestrictions.html#WildcardRestrictions">Section 19.2.2.3 (Restrictions on Wildcard Pathnames)</a>
+apply to values that might be seen when
+reading the component values,
+substantially more restrictive rules apply to constructing pathnames;
+see <a href="ConstructingPathnames.html#ConstructingPathnames">Section 19.2.2.5 (Restrictions on Constructing Pathnames)</a>.
+
+<p>When examining <i>pathname</i> components,
+<i>conforming programs</i> should be aware of the following restrictions.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.1 Restrictions on Examining a Pathname Host Component</h5>
+
+<p>It is <i>implementation-dependent</i> what <i>object</i> is used to represent the host.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.2 Restrictions on Examining a Pathname Device Component</h5>
+
+<p>The device might be a <i>string</i>,
+<tt>:wild</tt>, <tt>:unspecific</tt>, or <code>nil</code>.
+
+<p>Note that <tt>:wild</tt> might result from an attempt to <i>read</i><sub>1</sub>
+
+<p>the <i>pathname</i> component, even though portable programs are restricted
+from <i>writing</i><sub>1</sub> such a component value;
+see <a href="WildcardRestrictions.html#WildcardRestrictions">Section 19.2.2.3 (Restrictions on Wildcard Pathnames)</a>&nbsp;<!-- /@w -->and <a href="ConstructingPathnames.html#ConstructingPathnames">Section 19.2.2.5 (Restrictions on Constructing Pathnames)</a>.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.3 Restrictions on Examining a Pathname Directory Component</h5>
+
+<p>The directory might be a <i>string</i>,
+<tt>:wild</tt>, <tt>:unspecific</tt>, or <code>nil</code>.
+
+<p>The directory can be a <i>list</i> of <i>strings</i> and <i>symbols</i>. 
+The <i>car</i> of the <i>list</i> is one of the symbols <tt>:absolute</tt>
+<a name="index-g_t_003aabsolute-2466"></a>or
+<tt>:relative</tt>
+<a name="index-g_t_003arelative-2467"></a>, meaning:
+
+     <dl>
+<dt><tt>:absolute</tt><dd>
+
+     <p>A <i>list</i> whose <i>car</i> is the symbol <tt>:absolute</tt> represents
+a directory path starting from the root directory.  The list
+<code>(:absolute)</code> represents the root directory.  The list
+<code>(:absolute "foo" "bar" "baz")</code> represents the directory called
+<code>"/foo/bar/baz"</code> in Unix (except possibly for <i>case</i>).
+
+     <br><dt><tt>:relative</tt><dd>
+
+     <p>A <i>list</i> whose <i>car</i> is the symbol <tt>:relative</tt> represents
+a directory path starting from a default directory. 
+The list <code>(:relative)</code> has the same meaning as <code>nil</code>&nbsp;<!-- /@w -->and hence is not used. 
+The list <code>(:relative "foo" "bar")</code> represents the directory named <code>"bar"</code>
+in the directory named <code>"foo"</code> in the default directory. 
+</dl>
+
+<p>Each remaining element of the <i>list</i> is a <i>string</i> or a <i>symbol</i>.
+
+<p>Each <i>string</i> names a single level of directory structure. 
+The <i>strings</i> should contain only the directory names
+themselves&mdash;no punctuation characters.
+
+<p>In place of a <i>string</i>, at any point in the <i>list</i>, <i>symbols</i>
+can occur to indicate special file notations. 
+The next figure&nbsp;<!-- /@w -->lists the <i>symbols</i> that have standard meanings. 
+Implementations are permitted to add additional <i>objects</i>
+of any <i>type</i> that is disjoint from <code>string</code>
+if necessary to represent features of their file systems that cannot be
+represented with the standard <i>strings</i> and <i>symbols</i>.
+
+<p>Supplying any non-<i>string</i>, including any of the <i>symbols</i> listed below,
+to a file system for which it does not make sense
+signals an error of <i>type</i> <code>file-error</code>. 
+For example, Unix does not support <tt>:wild-inferiors</tt> in most implementations.
+
+<p><a name="index-g_t_003awild-2468"></a><a name="index-g_t_003awild_002dinferiors-2469"></a><a name="index-g_t_003aup-2470"></a><a name="index-g_t_003aback-2471"></a>
+<div class="float">
+<a name="fig19_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Symbol </th><th valign="top">Meaning
+<br></th></tr><tr align="left"><td valign="top"><tt>:wild</tt> </td><td valign="top">Wildcard match of one level of directory structure
+<br></td></tr><tr align="left"><td valign="top"><tt>:wild-inferiors</tt> </td><td valign="top">Wildcard match of any number of directory levels
+<br></td></tr><tr align="left"><td valign="top"><tt>:up</tt> </td><td valign="top">Go upward in directory structure (semantic)
+<br></td></tr><tr align="left"><td valign="top"><tt>:back</tt> </td><td valign="top">Go upward in directory structure (syntactic)
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 19.3: Special Markers In Directory Component</strong></p></div>
+
+<p>The following notes apply to the previous figure:
+
+     <dl>
+<dt>Invalid Combinations<dd>
+
+     <p>Using <tt>:absolute</tt> or <tt>:wild-inferiors</tt>
+immediately followed by <tt>:up</tt> or <tt>:back</tt>
+signals an error of <i>type</i> <code>file-error</code>.
+
+     <br><dt>Syntactic vs Semantic<dd>
+
+     <p>&ldquo;Syntactic&rdquo; means that the action of <tt>:back</tt>
+depends only on the <i>pathname</i>
+and not on the contents of the file system.
+
+     <p>&ldquo;Semantic&rdquo; means that the action of <tt>:up</tt>
+depends on the contents of the file system;
+to resolve a <i>pathname</i> containing
+<tt>:up</tt> to a <i>pathname</i> whose directory component
+contains only <tt>:absolute</tt> and
+<i>strings</i> requires probing the file system.
+
+     <p><tt>:up</tt> differs from
+<tt>:back</tt> only in file systems that support multiple
+names for directories, perhaps via symbolic links.  For example,
+suppose that there is a directory
+<code>(:absolute "X" "Y" "Z")</code>
+linked to
+<code>(:absolute "A" "B" "C")</code>
+and there also exist directories
+<code>(:absolute "A" "B" "Q")</code> and
+<code>(:absolute "X" "Y" "Q")</code>. 
+Then
+<code>(:absolute "X" "Y" "Z" :up "Q")</code>
+designates
+<code>(:absolute "A" "B" "Q")</code>
+while
+<code>(:absolute "X" "Y" "Z" :back "Q")</code>
+designates
+<code>(:absolute "X" "Y" "Q")</code>
+</dl>
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.3.1 Directory Components in Non-Hierarchical File Systems</h5>
+
+<p>In non-hierarchical <i>file systems</i>,
+the only valid <i>list</i> values for the directory component of a <i>pathname</i>
+are <code>(:absolute </code><i>string</i><code>)</code> and <code>(:absolute :wild)</code>. 
+<tt>:relative</tt> directories and the keywords
+<tt>:wild-inferiors</tt>, <tt>:up</tt>, and <tt>:back</tt> are not used
+in non-hierarchical <i>file systems</i>.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.4 Restrictions on Examining a Pathname Name Component</h5>
+
+<p>The name might be a <i>string</i>,
+<tt>:wild</tt>, <tt>:unspecific</tt>, or <code>nil</code>.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.5 Restrictions on Examining a Pathname Type Component</h5>
+
+<p>The type might be a <i>string</i>,
+<tt>:wild</tt>, <tt>:unspecific</tt>, or <code>nil</code>.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.6 Restrictions on Examining a Pathname Version Component</h5>
+
+<p>The version can be any <i>symbol</i> or any <i>integer</i>.
+
+<p>The symbol <tt>:newest</tt> refers to the largest version number
+that already exists in the <i>file system</i>
+when reading, overwriting, appending, superseding, or directory listing
+an existing <i>file</i>. 
+The symbol <tt>:newest</tt> refers to the smallest version number
+greater than any existing version number when creating a new file.
+
+<p>The symbols <code>nil</code>, <tt>:unspecific</tt>, and <tt>:wild</tt> have special meanings and
+restrictions; see <a href="SpecialComponentValues.html#SpecialComponentValues">Section 19.2.2.2 (Special Pathname Component Values)</a>&nbsp;<!-- /@w -->and <a href="ConstructingPathnames.html#ConstructingPathnames">Section 19.2.2.5 (Restrictions on Constructing Pathnames)</a>.
+
+<p>Other <i>symbols</i> and <i>integers</i>
+have <i>implementation-defined</i> meaning.
+
+<h5 class="unnumberedsubsubsec">19.2.2.4.7 Notes about the Pathname Version Component</h5>
+
+<p>It is suggested, but not required, that implementations do the following:
+
+     <ul>
+<li>Use positive <i>integers</i> starting at 1 as version numbers.
+
+     <li>Recognize the symbol <tt>:oldest</tt>
+to designate the smallest existing version number.
+
+     <li>Use <i>keywords</i> for other special versions. 
+</ul>
+
+<h5 class="subsubsection">19.2.2.5 Restrictions on Constructing Pathnames</h5>
+
+<p><a name="ConstructingPathnames"></a>When constructing a <i>pathname</i> from components, conforming programs
+must follow these rules:
+
+     <ul>
+<li>Any component can be <code>nil</code>. 
+<code>nil</code>&nbsp;<!-- /@w -->in the host might mean a default host
+rather than an actual <code>nil</code>&nbsp;<!-- /@w -->in some implementations.
+
+     <li>The host, device, directory, name, and type can be <i>strings</i>.  There
+are <i>implementation-dependent</i> limits on the number and type of
+<i>characters</i> in these <i>strings</i>.
+
+     <li>The directory can be a <i>list</i> of <i>strings</i> and <i>symbols</i>. 
+There are <i>implementation-dependent</i> limits on the <i>list</i>'s
+length and contents.
+
+     <li>The version can be <tt>:newest</tt>.
+
+     <li>Any component can be taken
+from the corresponding component of another <i>pathname</i>. 
+When the two <i>pathnames</i> are for different file systems
+(in implementations that support multiple file systems),
+an appropriate translation occurs. 
+If no meaningful translation is possible,
+an error is signaled. 
+The definitions of &ldquo;appropriate&rdquo; and &ldquo;meaningful&rdquo;
+are <i>implementation-dependent</i>.
+
+     <li>An implementation might support other values for some components,
+but a portable program cannot use those values. 
+A conforming program can use <i>implementation-dependent</i> values
+but this can make it non-portable;
+for example, it might work only with <span class="roman">Unix</span>&nbsp;<!-- /@w -->file systems. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Interpreting-Pathname-Component-Values.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

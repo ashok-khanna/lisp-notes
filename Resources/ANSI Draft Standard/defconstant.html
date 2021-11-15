@@ -1,0 +1,140 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defconstant.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:31 GMT -->
+<head>
+<title>defconstant - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="lambda_002dparameters_002dlimit.html#lambda_002dparameters_002dlimit" title="lambda-parameters-limit">
+<link rel="next" href="defparameter_003b-defvar.html#defparameter_003b-defvar" title="defparameter; defvar">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defconstant"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="defparameter_003b-defvar.html#defparameter_003b-defvar">defparameter; defvar</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="lambda_002dparameters_002dlimit.html#lambda_002dparameters_002dlimit">lambda-parameters-limit</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">defconstant (Macro)</h3>
+
+<p><a name="index-defconstant-472"></a><a name="index-defconstant-473"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defconstant</b><var> name initial-value </var><tt>[</tt><var>documentation</var><tt>]</tt> <span class="roman">→</span><var> name<a name="index-defconstant-474"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>; not evaluated.
+
+<p><var>initial-value</var>&mdash;a <i>form</i>; evaluated.
+
+<p><var>documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>defconstant</code>
+causes the global variable named by <var>name</var> to be
+given a value that is the result of evaluating <var>initial-value</var>.
+
+<p>A constant defined by <code>defconstant</code> can be redefined
+with <code>defconstant</code>. 
+However, the consequences are undefined if an attempt is made to assign
+a <i>value</i> to the <i>symbol</i> using another operator, or to
+assign it to a <i>different</i>
+<i>value</i> using a subsequent
+<code>defconstant</code>.
+
+<p>If <var>documentation</var> is supplied, it is attached to <var>name</var> as a
+<i>documentation string</i> of kind <tt>variable</tt>.
+
+<p><code>defconstant</code>
+normally appears as a <i>top level form</i>, but it is meaningful
+for it to appear as a <i>non-top-level form</i>. 
+However, the compile-time side
+effects described below
+only take place when <code>defconstant</code> appears as a
+<i>top level form</i>.
+
+<p>The consequences are undefined if there are any
+<i>bindings</i>
+of the variable named by <var>name</var> at the time <code>defconstant</code>
+is executed or if the value is not <code>eql</code> to the value of
+<var>initial-value</var>.
+
+<p>The consequences are undefined when constant <i>symbols</i> are rebound
+as either lexical or dynamic variables.  In other words, a reference to a
+<i>symbol</i> declared with <code>defconstant</code> always refers to its global value.
+
+<p>The side effects of the execution of <code>defconstant</code> must
+be equivalent to at least the side effects of the execution of the following
+code:
+
+<pre class="lisp"> (setf (symbol-value '<i>name</i>) <i>initial-value</i>)
+ (setf (documentation '<i>name</i> 'variable) '<i>documentation</i>)
+</pre>
+<p>If a <code>defconstant</code> <i>form</i> appears as a <i>top level form</i>,
+the <i>compiler</i> must recognize that <var>name</var> names
+a <i>constant variable</i>.  An implementation may choose to
+evaluate the value-form at compile time, load time, or both. 
+Therefore, users must ensure that the <var>initial-value</var>
+can be <i>evaluated</i> at compile time
+(regardless of whether or not references to <var>name</var>
+appear in the file) and that it always <i>evaluates</i>
+to the same value.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defconstant this-is-a-constant 'never-changing "for a test") <span class="roman">→</span> THIS-IS-A-CONSTANT
+this-is-a-constant <span class="roman">→</span> NEVER-CHANGING
+ (documentation 'this-is-a-constant 'variable) <span class="roman">→</span> "for a test"
+ (constantp 'this-is-a-constant) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="declaim.html#declaim">declaim</a>,
+<a href="defparameter.html#defparameter">defparameter</a>,
+<a href="defvar.html#defvar">defvar</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="proclaim.html#proclaim">proclaim</a>,
+<a href="ConstantVars.html#ConstantVars">Section 3.1.2.1.1.3 (Constant Variables)</a>,
+<a href="Compilation.html#Compilation">Section 3.2 (Compilation)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defconstant.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+</html>
+

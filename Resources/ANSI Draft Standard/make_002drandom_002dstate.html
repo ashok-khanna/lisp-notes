@@ -1,0 +1,118 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/make_002drandom_002dstate.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:27 GMT -->
+<head>
+<title>make-random-state - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="random_002dstate.html#random_002dstate" title="random-state">
+<link rel="next" href="random.html#random" title="random">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="make-random-state"></a>
+<a name="make_002drandom_002dstate"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="random.html#random">random</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="random_002dstate.html#random_002dstate">random-state</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">make-random-state (Function)</h3>
+
+<p><a name="index-make_002drandom_002dstate-1355"></a><a name="index-make_002drandom_002dstate-1356"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>make-random-state</b> <tt>&amp;optional</tt><var> state </var><span class="roman">→</span><var> new-state<a name="index-make_002drandom_002dstate-1357"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>state</var>&mdash;a <i>random state</i>, or <code>nil</code>, or <code>t</code>. 
+The default is <code>nil</code>.
+
+<p><var>new-state</var>&mdash;a <i>random state</i> <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Creates a <i>fresh</i> <i>object</i> of <i>type</i> <code>random-state</code> suitable
+for use as the <i>value</i> of <code>*random-state*</code>.
+
+<p>If <var>state</var> is a <i>random state</i> <i>object</i>,
+the <var>new-state</var> is a <i>copy</i><sub>5</sub> of that <i>object</i>. 
+If <var>state</var> is <code>nil</code>,
+the <var>new-state</var> is a <i>copy</i><sub>5</sub> of the <i>current random state</i>. 
+If <var>state</var> is <code>t</code>,
+the <var>new-state</var> is a <i>fresh</i> <i>random state</i> <i>object</i>
+that has been randomly initialized by some means.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (let* ((rs1 (make-random-state nil))
+        (rs2 (make-random-state t))
+        (rs3 (make-random-state rs2))
+        (rs4 nil))
+   (list (loop for i from 1 to 10
+               collect (random 100)
+               when (= i 5)
+                do (setq rs4 (make-random-state)))
+         (loop for i from 1 to 10 collect (random 100 rs1))
+         (loop for i from 1 to 10 collect (random 100 rs2))
+         (loop for i from 1 to 10 collect (random 100 rs3))
+         (loop for i from 1 to 10 collect (random 100 rs4))))
+<span class="roman">→</span> ((29 25 72 57 55 68 24 35 54 65)
+    (29 25 72 57 55 68 24 35 54 65)
+    (93 85 53 99 58 62 2 23 23 59)
+    (93 85 53 99 58 62 2 23 23 59)
+    (68 24 35 54 65 54 55 50 59 49))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>state</var> is not a <i>random state</i>, or <code>nil</code>, or <code>t</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="random.html#random">random</a>, <a href="_002arandom_002dstate_002a.html#g_t_002arandom_002dstate_002a">*random-state*</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>One important use of <code>make-random-state</code> is to allow the same
+series of pseudo-random <i>numbers</i> to be generated many times within a
+single program.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/make_002drandom_002dstate.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:27 GMT -->
+</html>
+

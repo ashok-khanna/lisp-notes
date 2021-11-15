@@ -1,0 +1,134 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Data-and-Control-Flow.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:18:38 GMT -->
+<head>
+<title>Data and Control Flow - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Types-and-Classes.html#Types-and-Classes" title="Types and Classes">
+<link rel="next" href="Iteration.html#Iteration" title="Iteration">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Data-and-Control-Flow"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Iteration.html#Iteration">Iteration</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Types-and-Classes.html#Types-and-Classes">Types and Classes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">5 Data and Control Flow</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Generalized-Reference.html#Generalized-Reference">Generalized Reference</a>
+<li><a accesskey="2" href="Transfer-of-Control-to-an-Exit-Point.html#Transfer-of-Control-to-an-Exit-Point">Transfer of Control to an Exit Point</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="3" href="apply.html#apply">apply</a>
+<li><a accesskey="4" href="defun.html#defun">defun</a>
+<li><a accesskey="5" href="fdefinition.html#fdefinition">fdefinition</a>
+<li><a accesskey="6" href="fboundp.html#fboundp">fboundp</a>
+<li><a accesskey="7" href="fmakunbound.html#fmakunbound">fmakunbound</a>
+<li><a accesskey="8" href="flet_003b-labels_003b-macrolet.html#flet_003b-labels_003b-macrolet">flet; labels; macrolet</a>
+<li><a accesskey="9" href="funcall.html#funcall">funcall</a>
+<li><a href="function-_0028Special-Operator_0029.html#function-_0028Special-Operator_0029">function (Special Operator)</a>
+<li><a href="function_002dlambda_002dexpression.html#function_002dlambda_002dexpression">function-lambda-expression</a>
+<li><a href="functionp.html#functionp">functionp</a>
+<li><a href="compiled_002dfunction_002dp.html#compiled_002dfunction_002dp">compiled-function-p</a>
+<li><a href="call_002darguments_002dlimit.html#call_002darguments_002dlimit">call-arguments-limit</a>
+<li><a href="lambda_002dlist_002dkeywords.html#lambda_002dlist_002dkeywords">lambda-list-keywords</a>
+<li><a href="lambda_002dparameters_002dlimit.html#lambda_002dparameters_002dlimit">lambda-parameters-limit</a>
+<li><a href="defconstant.html#defconstant">defconstant</a>
+<li><a href="defparameter_003b-defvar.html#defparameter_003b-defvar">defparameter; defvar</a>
+<li><a href="destructuring_002dbind.html#destructuring_002dbind">destructuring-bind</a>
+<li><a href="let_003b-let_002a.html#let_003b-let_002a">let; let*</a>
+<li><a href="progv.html#progv">progv</a>
+<li><a href="setq.html#setq">setq</a>
+<li><a href="psetq.html#psetq">psetq</a>
+<li><a href="block.html#block">block</a>
+<li><a href="catch.html#catch">catch</a>
+<li><a href="go.html#go">go</a>
+<li><a href="return_002dfrom.html#return_002dfrom">return-from</a>
+<li><a href="return.html#return">return</a>
+<li><a href="tagbody.html#tagbody">tagbody</a>
+<li><a href="throw.html#throw">throw</a>
+<li><a href="unwind_002dprotect.html#unwind_002dprotect">unwind-protect</a>
+<li><a href="nil-_0028Constant-Variable_0029.html#nil-_0028Constant-Variable_0029">nil (Constant Variable)</a>
+<li><a href="not-_0028Function_0029.html#not-_0028Function_0029">not (Function)</a>
+<li><a href="t-_0028Constant-Variable_0029.html#t-_0028Constant-Variable_0029">t (Constant Variable)</a>
+<li><a href="eq.html#eq">eq</a>
+<li><a href="eql-_0028Function_0029.html#eql-_0028Function_0029">eql (Function)</a>
+<li><a href="equal.html#equal">equal</a>
+<li><a href="equalp.html#equalp">equalp</a>
+<li><a href="identity.html#identity">identity</a>
+<li><a href="complement.html#complement">complement</a>
+<li><a href="constantly.html#constantly">constantly</a>
+<li><a href="every_003b-some_003b-notevery_003b-notany.html#every_003b-some_003b-notevery_003b-notany">every; some; notevery; notany</a>
+<li><a href="and-_0028Macro_0029.html#and-_0028Macro_0029">and (Macro)</a>
+<li><a href="cond.html#cond">cond</a>
+<li><a href="if.html#if">if</a>
+<li><a href="or-_0028Macro_0029.html#or-_0028Macro_0029">or (Macro)</a>
+<li><a href="when_003b-unless.html#when_003b-unless">when; unless</a>
+<li><a href="case_003b-ccase_003b-ecase.html#case_003b-ccase_003b-ecase">case; ccase; ecase</a>
+<li><a href="typecase_003b-ctypecase_003b-etypecase.html#typecase_003b-ctypecase_003b-etypecase">typecase; ctypecase; etypecase</a>
+<li><a href="multiple_002dvalue_002dbind.html#multiple_002dvalue_002dbind">multiple-value-bind</a>
+<li><a href="multiple_002dvalue_002dcall.html#multiple_002dvalue_002dcall">multiple-value-call</a>
+<li><a href="multiple_002dvalue_002dlist.html#multiple_002dvalue_002dlist">multiple-value-list</a>
+<li><a href="multiple_002dvalue_002dprog1.html#multiple_002dvalue_002dprog1">multiple-value-prog1</a>
+<li><a href="multiple_002dvalue_002dsetq.html#multiple_002dvalue_002dsetq">multiple-value-setq</a>
+<li><a href="values-_0028Accessor_0029.html#values-_0028Accessor_0029">values (Accessor)</a>
+<li><a href="values_002dlist.html#values_002dlist">values-list</a>
+<li><a href="multiple_002dvalues_002dlimit.html#multiple_002dvalues_002dlimit">multiple-values-limit</a>
+<li><a href="nth_002dvalue.html#nth_002dvalue">nth-value</a>
+<li><a href="prog_003b-prog_002a.html#prog_003b-prog_002a">prog; prog*</a>
+<li><a href="prog1_003b-prog2.html#prog1_003b-prog2">prog1; prog2</a>
+<li><a href="progn.html#progn">progn</a>
+<li><a href="define_002dmodify_002dmacro.html#define_002dmodify_002dmacro">define-modify-macro</a>
+<li><a href="defsetf.html#defsetf">defsetf</a>
+<li><a href="define_002dsetf_002dexpander.html#define_002dsetf_002dexpander">define-setf-expander</a>
+<li><a href="get_002dsetf_002dexpansion.html#get_002dsetf_002dexpansion">get-setf-expansion</a>
+<li><a href="setf_003b-psetf.html#setf_003b-psetf">setf; psetf</a>
+<li><a href="shiftf.html#shiftf">shiftf</a>
+<li><a href="rotatef.html#rotatef">rotatef</a>
+<li><a href="control_002derror.html#control_002derror">control-error</a>
+<li><a href="program_002derror.html#program_002derror">program-error</a>
+<li><a href="undefined_002dfunction.html#undefined_002dfunction">undefined-function</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Data-and-Control-Flow.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:19:49 GMT -->
+</html>
+

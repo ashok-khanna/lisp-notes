@@ -1,0 +1,186 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/equal.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:35 GMT -->
+<head>
+<title>equal - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="eql-_0028Function_0029.html#eql-_0028Function_0029" title="eql (Function)">
+<link rel="next" href="equalp.html#equalp" title="equalp">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="equal"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="equalp.html#equalp">equalp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="eql-_0028Function_0029.html#eql-_0028Function_0029">eql (Function)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">equal (Function)</h3>
+
+<p><a name="index-equal-538"></a><a name="index-equal-539"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>equal</b><var> x y </var><span class="roman">→</span><var> generalized-boolean<a name="index-equal-540"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>x</var>&mdash;an <i>object</i>.
+
+<p><var>y</var>&mdash;an <i>object</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns <i>true</i> if <var>x</var> and <var>y</var> are structurally similar
+(isomorphic) <i>objects</i>.  <i>Objects</i> are treated as follows by
+<code>equal</code>.
+
+     <dl>
+<dt><i>Symbols</i>, <i>Numbers</i>, and <i>Characters</i><dd>
+
+     <p><code>equal</code> is <i>true</i> of two <i>objects</i>
+if they are <i>symbols</i> that are <code>eq</code>,
+if they are <i>numbers</i> that are <code>eql</code>, or
+if they are <i>characters</i> that are <code>eql</code>.
+
+     <br><dt><i>Conses</i><dd>
+
+     <p>For <i>conses</i>, <code>equal</code> is defined recursively as
+the two <i>cars</i> being <code>equal</code>
+and the two <i>cdrs</i> being <code>equal</code>.
+
+     <br><dt><i>Arrays</i><dd>
+
+     <p>Two <i>arrays</i> are <code>equal</code> only if they are <code>eq</code>,
+with one exception:
+<i>strings</i> and <i>bit vectors</i> are compared element-by-element (using <code>eql</code>). 
+If either <var>x</var> or <var>y</var> has a <i>fill pointer</i>, the
+<i>fill pointer</i> limits
+the number of elements examined by <code>equal</code>. 
+Uppercase and lowercase letters in <i>strings</i> are considered by
+<code>equal</code> to be different.
+
+     <br><dt><i>Pathnames</i><dd>
+
+     <p>Two <i>pathnames</i> are <code>equal</code> if and only if
+all the corresponding components
+(host, device, and so on) are
+equivalent.  Whether or not
+uppercase and lowercase letters are considered equivalent
+in <i>strings</i> appearing in components is <i>implementation-dependent</i>. 
+<i>pathnames</i>
+that are <code>equal</code> should be functionally equivalent.
+
+     <br><dt><b>Other (Structures, hash-tables, instances, <small class="dots">...</small>)</b><dd>
+
+     <p>Two other <i>objects</i> are <code>equal</code> only if they are <code>eq</code>.
+
+</dl>
+
+<p><code>equal</code> does not descend any <i>objects</i> other than the
+ones explicitly specified above. 
+The next figure&nbsp;<!-- /@w -->summarizes the information given in the previous list. 
+In addition, the figure specifies the priority of the behavior of <code>equal</code>,
+with upper
+entries taking priority over lower ones.
+
+<div class="float">
+<a name="fig5_002e12"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Type </th><th valign="top">Behavior
+<br></th></tr><tr align="left"><td valign="top"><i>number</i> </td><td valign="top">uses <code>eql</code>
+<br></td></tr><tr align="left"><td valign="top"><i>character</i> </td><td valign="top">uses <code>eql</code>
+<br></td></tr><tr align="left"><td valign="top"><i>cons</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>bit vector</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>string</i> </td><td valign="top">descends
+<br></td></tr><tr align="left"><td valign="top"><i>pathname</i> </td><td valign="top">&ldquo;functionally equivalent&rdquo;
+<br></td></tr><tr align="left"><td valign="top"><i>structure</i> </td><td valign="top">uses <code>eq</code>
+<br></td></tr><tr align="left"><td valign="top">Other <i>array</i> </td><td valign="top">uses <code>eq</code>
+<br></td></tr><tr align="left"><td valign="top"><i>hash table</i> </td><td valign="top">uses <code>eq</code>
+<br></td></tr><tr align="left"><td valign="top">Other <i>object</i> </td><td valign="top">uses <code>eq</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.12: Summary and priorities of behavior of <code>equal</code></strong></p></div>
+
+<p>Any two <i>objects</i> that are <code>eql</code> are also <code>equal</code>.
+
+<p><code>equal</code> may fail to terminate if <var>x</var> or <var>y</var> is circular.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (equal 'a 'b) <span class="roman">→</span> <i>false</i>
+ (equal 'a 'a) <span class="roman">→</span> <i>true</i>
+ (equal 3 3) <span class="roman">→</span> <i>true</i>
+ (equal 3 3.0) <span class="roman">→</span> <i>false</i>
+ (equal 3.0 3.0) <span class="roman">→</span> <i>true</i>
+ (equal #c(3 -4) #c(3 -4)) <span class="roman">→</span> <i>true</i>
+ (equal #c(3 -4.0) #c(3 -4)) <span class="roman">→</span> <i>false</i>
+ (equal (cons 'a 'b) (cons 'a 'c)) <span class="roman">→</span> <i>false</i>
+ (equal (cons 'a 'b) (cons 'a 'b)) <span class="roman">→</span> <i>true</i>
+ (equal #\A #\A) <span class="roman">→</span> <i>true</i>
+ (equal #\A #\a) <span class="roman">→</span> <i>false</i>
+ (equal "Foo" "Foo") <span class="roman">→</span> <i>true</i>
+ (equal "Foo" (copy-seq "Foo")) <span class="roman">→</span> <i>true</i>
+ (equal "FOO" "foo") <span class="roman">→</span> <i>false</i>
+ (equal "This-string" "This-string") <span class="roman">→</span> <i>true</i>
+ (equal "This-string" "this-string") <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="eq.html#eq">eq</a>, <a href="eql-_0028Function_0029.html#eql-_0028Function_0029">eql (Function)</a>, <a href="equalp.html#equalp">equalp</a>, <a href="_003d.html#g_t_003d">=</a>,
+<a href="string_003d.html#string_003d">string=</a>, <a href="string_002dequal.html#string_002dequal">string-equal</a>, <a href="char_003d.html#char_003d">char=</a>,
+<a href="char_002dequal.html#char_002dequal">char-equal</a>, <a href="tree_002dequal.html#tree_002dequal">tree-equal</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><i>Object</i> equality is not a concept for which there is a uniquely
+determined correct algorithm. The appropriateness of an equality
+predicate can be judged only in the context of the needs of some
+particular program. Although these functions take any type of
+argument and their names sound very generic,
+<code>equal</code> and <code>equalp</code> are
+not appropriate for every application.
+
+<p>A rough rule of thumb is that two <i>objects</i> are <code>equal</code>
+if and only if their printed representations are the same.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/equal.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:38 GMT -->
+</html>
+

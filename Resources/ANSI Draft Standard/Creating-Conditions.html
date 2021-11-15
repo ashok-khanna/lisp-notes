@@ -1,0 +1,117 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Creating-Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Creating Conditions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Condition-System-Concepts.html#Condition-System-Concepts" title="Condition System Concepts">
+<link rel="prev" href="Condition-Types.html#Condition-Types" title="Condition Types">
+<link rel="next" href="Printing-Conditions.html#Printing-Conditions" title="Printing Conditions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Creating-Conditions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Printing-Conditions.html#Printing-Conditions">Printing Conditions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Condition-Types.html#Condition-Types">Condition Types</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Condition-System-Concepts.html#Condition-System-Concepts">Condition System Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.1.2 Creating Conditions</h4>
+
+<p>The function <code>make-condition</code> can be used to construct
+a <i>condition</i> <i>object</i> explicitly.  Functions such as <code>error</code>,
+<code>cerror</code>, <code>signal</code>, and <code>warn</code> operate on
+<i>conditions</i> and might create <i>condition</i> <i>objects</i>
+implicitly.  Macros such as <code>ccase</code>, <code>ctypecase</code>,
+<code>ecase</code>, <code>etypecase</code>, <code>check-type</code>, and
+<code>assert</code> might also implicitly create (and <i>signal</i>)
+<i>conditions</i>.
+
+<h5 class="subsubsection">9.1.2.1 Condition Designators</h5>
+
+<p><a name="ConditionDesignators"></a>A number of the functions in the condition system take arguments which
+are identified as
+<a name="index-condition-designator-852"></a><dfn>condition designators</dfn>. 
+By convention, those arguments are notated as
+
+<p>&nbsp;<!-- /@w --><var>datum</var> <tt>&amp;rest</tt> <var>arguments</var>
+
+<p>Taken together, the <var>datum</var> and the <var>arguments</var> are
+&ldquo;<i>designators</i> for a <i>condition</i> of default type <var>default-type</var>.&rdquo;
+How the denoted <i>condition</i> is computed depends on the type of the <var>datum</var>:
+
+     <ul>
+<li>If the <var>datum</var> is a <i>symbol</i>
+naming a <i>condition</i> <i>type</i> <small class="dots">...</small>
+
+     <p>The denoted <i>condition</i> is the result of
+
+     <pre class="lisp">      (apply #'make-condition <var>datum</var> <var>arguments</var>)
+</pre>
+     <li>If the <var>datum</var> is a <i>format control</i> <small class="dots">...</small>
+
+     <p>The denoted <i>condition</i> is the result of
+
+     <pre class="lisp">      (make-condition <var>defaulted-type</var>
+                      :format-control <var>datum</var>
+                      :format-arguments <var>arguments</var>)
+</pre>
+     <p>where the <var>defaulted-type</var> is a <i>subtype</i> of <var>default-type</var>.
+
+     <li>If the <var>datum</var> is a <i>condition</i> <small class="dots">...</small>
+
+     <p>The denoted <i>condition</i> is the <var>datum</var> itself. 
+In this case, unless otherwise specified by the description of the
+<i>operator</i> in question, the <i>arguments</i> must be <i>null</i>;
+that is, the consequences are undefined if any <var>arguments</var> were supplied. 
+</ul>
+
+<p>Note that the <var>default-type</var> gets used only in the case where
+the <var>datum</var> <i>string</i> is supplied.  In the other situations,
+the resulting condition is not necessarily of <i>type</i> <var>default-type</var>.
+
+<p>Here are some illustrations of how different <i>condition designators</i>
+can denote equivalent <i>condition</i> <i>objects</i>:
+
+<pre class="lisp">(let ((c (make-condition 'arithmetic-error :operator '/ :operands '(7 0))))
+  (error c))
+≡ (error 'arithmetic-error :operator '/ :operands '(7 0))
+
+(error "Bad luck.")
+≡ (error 'simple-error :format-control "Bad luck." :format-arguments '())
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Creating-Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

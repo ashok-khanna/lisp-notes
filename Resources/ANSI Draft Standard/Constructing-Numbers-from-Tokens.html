@@ -1,0 +1,190 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Constructing-Numbers-from-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:29 GMT -->
+<head>
+<title>Constructing Numbers from Tokens - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens" title="Interpretation of Tokens">
+<link rel="prev" href="Numbers-as-Tokens.html#Numbers-as-Tokens" title="Numbers as Tokens">
+<link rel="next" href="The-Consing-Dot.html#The-Consing-Dot" title="The Consing Dot">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Constructing-Numbers-from-Tokens"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Consing-Dot.html#The-Consing-Dot">The Consing Dot</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Numbers-as-Tokens.html#Numbers-as-Tokens">Numbers as Tokens</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens">Interpretation of Tokens</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.3.2 Constructing Numbers from Tokens</h4>
+
+<p>A <i>real</i> is constructed directly from a corresponding numeric <i>token</i>;
+see <a href="SyntaxForNumericTokens.html#SyntaxForNumericTokens">Figure 2.9</a>.
+
+<p>A <i>complex</i> is notated as a <code>#C</code> (or <code>#c</code>) followed by a <i>list</i>
+of two <i>reals</i>; see <a href="SharpsignC.html#SharpsignC">Section 2.4.8.11 (Sharpsign C)</a>.
+
+<p>The <i>reader macros</i> <code>#B</code>, <code>#O</code>, <code>#X</code>, and <code>#R</code> may also be useful
+in controlling the input <i>radix</i> in which <i>rationals</i> are parsed;
+see <a href="SharpsignB.html#SharpsignB">Section 2.4.8.7 (Sharpsign B)</a>,
+<a href="SharpsignO.html#SharpsignO">Section 2.4.8.8 (Sharpsign O)</a>,
+<a href="SharpsignX.html#SharpsignX">Section 2.4.8.9 (Sharpsign X)</a>,
+and <a href="SharpsignR.html#SharpsignR">Section 2.4.8.10 (Sharpsign R)</a>.
+
+<p>This section summarizes the full syntax for <i>numbers</i>.
+
+<h5 class="subsubsection">2.3.2.1 Syntax of a Rational</h5>
+
+<h5 class="unnumberedsubsubsec">2.3.2.1.1 Syntax of an Integer</h5>
+
+<p><a name="SyntaxOfIntegers"></a><i>Integers</i> can be written as a sequence of <i>digits</i>,
+optionally preceded by a <i>sign</i> and optionally followed by a decimal point;
+see <a href="SyntaxForNumericTokens.html#SyntaxForNumericTokens">Figure 2.9</a>. 
+When a decimal point is used,
+the <i>digits</i> are taken to be in <i>radix</i> <code>10</code>;
+when no decimal point is used,
+the <i>digits</i> are taken to be in radix given by the <i>current input base</i>.
+
+<p>For information on how <i>integers</i> are printed, see <a href="PrintingIntegers.html#PrintingIntegers">Section 22.1.3.1.1 (Printing Integers)</a>.
+
+<h5 class="unnumberedsubsubsec">2.3.2.1.2 Syntax of a Ratio</h5>
+
+<p><a name="SyntaxOfRatios"></a><i>Ratios</i> can be written as an optional <i>sign</i> followed by two
+non-empty sequences of <i>digits</i> separated by a <i>slash</i>;
+see <a href="SyntaxForNumericTokens.html#SyntaxForNumericTokens">Figure 2.9</a>. 
+The second sequence may not consist
+entirely of zeros. 
+Examples of <i>ratios</i> are in the next figure.
+
+<div class="float">
+<a name="fig2_002e13"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>2/3</code> </td><td valign="top">;This is in canonical form
+<br></td></tr><tr align="left"><td valign="top"><code>4/6</code> </td><td valign="top">;A non-canonical form for 2/3
+<br></td></tr><tr align="left"><td valign="top"><code>-17/23</code> </td><td valign="top">;A ratio preceded by a sign
+<br></td></tr><tr align="left"><td valign="top"><code>-30517578125/32768</code> </td><td valign="top">;This is (-5/2)^15
+<br></td></tr><tr align="left"><td valign="top"><code>10/5</code> </td><td valign="top">;The canonical form for this is <code>2</code>
+<br></td></tr><tr align="left"><td valign="top"><code>#o-101/75</code> </td><td valign="top">;Octal notation for -65/61
+<br></td></tr><tr align="left"><td valign="top"><code>#3r120/21</code> </td><td valign="top">;Ternary notation for 15/7
+<br></td></tr><tr align="left"><td valign="top"><code>#Xbc/ad</code> </td><td valign="top">;Hexadecimal notation for 188/173
+<br></td></tr><tr align="left"><td valign="top"><code>#xFADED/FACADE</code> </td><td valign="top">;Hexadecimal notation for 1027565/16435934
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.13: Examples of Ratios</strong></p></div>
+
+<p>For information on how <i>ratios</i> are printed,
+see <a href="PrintingRatios.html#PrintingRatios">Section 22.1.3.1.2 (Printing Ratios)</a>.
+
+<h5 class="subsubsection">2.3.2.2 Syntax of a Float</h5>
+
+<p><a name="SyntaxOfFloats"></a><i>Floats</i> can be written in either decimal fraction or computerized
+scientific notation: an optional sign, then a non-empty sequence of digits
+with an embedded decimal point,
+then an optional decimal exponent specification. 
+If there is no exponent specifier, then
+the decimal point is required, and there must be digits
+after it. 
+The exponent specifier consists of an <i>exponent marker</i>,
+an optional sign, and a non-empty sequence of digits. 
+If no exponent specifier is present, or if the <i>exponent marker</i> <code>e</code>
+(or <code>E</code>) is used, then
+the format specified
+by <code>*read-default-float-format*</code> is used. 
+See <a href="SyntaxForNumericTokens.html#SyntaxForNumericTokens">Figure 2.9</a>.
+
+<p>An implementation may provide one or more kinds of <i>float</i>
+that collectively make up the <i>type</i> <code>float</code>. 
+The letters <code>s</code>, <code>f</code>, <code>d</code>, and <code>l</code> (or their
+respective uppercase equivalents) explicitly specify the
+use of the <i>types</i> <code>short-float</code>, <code>single-float</code>,
+<code>double-float</code>, and <code>long-float</code>, respectively.
+
+<p>The internal format used for an external representation depends only
+on the <i>exponent marker</i>, and not on the number of decimal digits
+in the external representation.
+
+<p>The next figure&nbsp;<!-- /@w -->contains examples of notations for <i>floats</i>:
+
+<div class="float">
+<a name="fig2_002e14"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>0.0</code> </td><td valign="top">;Floating-point zero in default format
+<br></td></tr><tr align="left"><td valign="top"><code>0E0</code> </td><td valign="top">;As input, this is also floating-point zero in default format. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;As output, this would appear as <code>0.0</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>0e0</code> </td><td valign="top">;As input, this is also floating-point zero in default format. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;As output, this would appear as <code>0.0</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>-.0</code> </td><td valign="top">;As input, this might be a zero or a minus zero,
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">; depending on whether the implementation supports
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">; a distinct minus zero. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;As output, <code>0.0</code> is zero and <code>-0.0</code> is minus zero. 
+<br></td></tr><tr align="left"><td valign="top"><code>0.</code> </td><td valign="top">;On input, the integer zero&mdash;<i>not</i> a floating-point number! 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;Whether this appears as <code>0</code> or <code>0.</code> on output depends
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;on the <i>value</i> of <code>*print-radix*</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>0.0s0</code> </td><td valign="top">;A floating-point zero in short format
+<br></td></tr><tr align="left"><td valign="top"><code>0s0</code> </td><td valign="top">;As input, this is a floating-point zero in short format. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;As output, such a zero would appear as <code>0.0s0</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">; (or as <code>0.0</code> if <tt>short-float</tt> was the default format). 
+<br></td></tr><tr align="left"><td valign="top"><code>6.02E+23</code> </td><td valign="top">;Avogadro's number, in default format
+<br></td></tr><tr align="left"><td valign="top"><code>602E+21</code> </td><td valign="top">;Also Avogadro's number, in default format
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.14: Examples of Floating-point numbers</strong></p></div>
+
+<p>For information on how <i>floats</i> are printed,
+see <a href="PrintingFloats.html#PrintingFloats">Section 22.1.3.1.3 (Printing Floats)</a>.
+
+<h5 class="subsubsection">2.3.2.3 Syntax of a Complex</h5>
+
+<p><a name="SyntaxOfComplexes"></a>A <i>complex</i> has a Cartesian structure,
+with a real part and an imaginary part each of which is a
+<i>real</i>. 
+The parts of a <i>complex</i> are not necessarily <i>floats</i>
+but both parts must be of the same <i>type</i>:
+
+<p>either both are <i>rationals</i>, or both are of the same <i>float</i> <i>subtype</i>. 
+When constructing a <i>complex</i>, if the specified parts are not the
+same <i>type</i>, the parts are converted to be the same <i>type</i>
+internally (<i>i.e.</i>, the <i>rational</i> part is converted to a <i>float</i>). 
+An <i>object</i> of type <code>(complex rational)</code> is converted internally
+and represented thereafter as a <i>rational</i> if its imaginary part is an
+<i>integer</i> whose value is 0.
+
+<p>For further information, see <a href="SharpsignC.html#SharpsignC">Section 2.4.8.11 (Sharpsign C)</a>&nbsp;<!-- /@w -->and <a href="PrintingComplexes.html#PrintingComplexes">Section 22.1.3.1.4 (Printing Complexes)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Constructing-Numbers-from-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

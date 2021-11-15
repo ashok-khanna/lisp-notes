@@ -1,0 +1,111 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/byte_003b-byte_002dsize_003b-byte_002dposition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:31 GMT -->
+<head>
+<title>byte; byte-size; byte-position - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="logtest.html#logtest" title="logtest">
+<link rel="next" href="deposit_002dfield.html#deposit_002dfield" title="deposit-field">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="byte%3b-byte-size%3b-byte-position"></a>
+<a name="byte_003b-byte_002dsize_003b-byte_002dposition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="deposit_002dfield.html#deposit_002dfield">deposit-field</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="logtest.html#logtest">logtest</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">byte, byte-size, byte-position (Function)</h3>
+
+<p><a name="index-byte-1500"></a><a name="index-byte-1501"></a><a name="index-byte_002dsize-1502"></a><a name="index-byte_002dsize-1503"></a><a name="index-byte_002dposition-1504"></a><a name="index-byte_002dposition-1505"></a><a name="byte"></a><a name="byte_002dsize"></a><a name="byte_002dposition"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>byte</b><var> size position </var><span class="roman">→</span><var> bytespec<a name="index-byte-1506"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>byte-size</b><var> bytespec </var><span class="roman">→</span><var> size<a name="index-byte_002dsize-1507"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>byte-position</b><var> bytespec </var><span class="roman">→</span><var> position<a name="index-byte_002dposition-1508"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>size</var>, <var>position</var>&mdash;a non-negative <i>integer</i>.
+
+<p><var>bytespec</var>&mdash;a <i>byte specifier</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>byte</code> returns a <i>byte specifier</i> that indicates
+a <i>byte</i> of width <var>size</var> and whose bits have weights
+2^<var>position</var> + <var>size</var> - 1 through 2^<var>position</var>,
+and whose representation is
+<i>implementation-dependent</i>.
+
+<p><code>byte-size</code> returns the number of bits specified by <var>bytespec</var>.
+
+<p><code>byte-position</code> returns the position specified by <var>bytespec</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq b (byte 100 200)) <span class="roman">→</span> #&lt;BYTE-SPECIFIER size 100 position 200&gt;
+ (byte-size b) <span class="roman">→</span> 100
+ (byte-position b) <span class="roman">→</span> 200
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="ldb.html#ldb">ldb</a>, <a href="dpb.html#dpb">dpb</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (byte-size (byte <var>j</var> <var>k</var>)) ≡ <var>j</var>
+ (byte-position (byte <var>j</var> <var>k</var>)) ≡ <var>k</var>
+</pre>
+<p>A <i>byte</i> of <i>size</i> of <code>0</code> is permissible;
+it refers to a <i>byte</i> of width zero.  For example,
+
+<pre class="lisp"> (ldb (byte 0 3) #o7777) <span class="roman">→</span> 0
+ (dpb #o7777 (byte 0 3) 0) <span class="roman">→</span> 0
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/byte_003b-byte_002dsize_003b-byte_002dposition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:31 GMT -->
+</html>
+

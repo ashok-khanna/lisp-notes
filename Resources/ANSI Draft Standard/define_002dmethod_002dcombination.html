@@ -1,0 +1,603 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dmethod_002dcombination.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:54 GMT -->
+<head>
+<title>define-method-combination - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="compute_002dapplicable_002dmethods.html#compute_002dapplicable_002dmethods" title="compute-applicable-methods">
+<link rel="next" href="find_002dmethod.html#find_002dmethod" title="find-method">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="define-method-combination"></a>
+<a name="define_002dmethod_002dcombination"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="find_002dmethod.html#find_002dmethod">find-method</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="compute_002dapplicable_002dmethods.html#compute_002dapplicable_002dmethods">compute-applicable-methods</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="heading">define-method-combination (Macro)</h3>
+
+<p><a name="index-define_002dmethod_002dcombination-819"></a><a name="index-define_002dmethod_002dcombination-820"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>define-method-combination</b><var> name 〚</var><tt>↓</tt><var>short-form-option〛 </var><span class="roman">→</span><var> name<a name="index-define_002dmethod_002dcombination-821"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>define-method-combination</b><var> name&nbsp;lambda-list<!-- /@w --> </var><tt>(</tt><tt>{</tt><var>method-group-specifier</var><tt>}</tt><var>*</var><tt>)</tt><var><!-- /@w --> </var><tt>[</tt><tt>(</tt><tt>:arguments</tt><var>&nbsp;.&nbsp;args-lambda-list</var><tt>)</tt><tt>]</tt><var><!-- /@w --> </var><tt>[</tt><tt>(</tt><tt>:generic-function</tt><var>&nbsp;&nbsp;generic-function-symbol</var><tt>)</tt><tt>]</tt><var><!-- /@w --> 〚</var><tt>{</tt><var>declaration</var><tt>}</tt><var>*&nbsp;</var><span class="roman">|</span><var>&nbsp;documentation〛<!-- /@w --> </var><tt>{</tt><var>form</var><tt>}</tt><var>*<!-- /@w --> </var><span class="roman">→</span><var> name<a name="index-define_002dmethod_002dcombination-822"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>short-form-option</var>::=<dd><tt>:documentation</tt> <var>documentation</var> | <br> <tt>:identity-with-one-argument</tt> <var>identity-with-one-argument</var> |<br> <tt>:operator</tt> <var>operator</var>
+</dl>
+
+     <dl>
+<dt><var>method-group-specifier</var>::=<dd><tt>(</tt>name <tt>{</tt><tt>{</tt><var>qualifier-pattern</var><tt>}</tt>+ <span class="roman">|</span> predicate<tt>}</tt> 〚<tt>↓</tt>long-form-option〛<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>long-form-option</var>::=<dd><tt>:description</tt> <var>description</var> |<br> <tt>:order</tt> <var>order</var> |<br> <tt>:required</tt> <var>required-p</var>
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>args-lambda-list</var>&mdash;
+a <i>define-method-combination arguments lambda list</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>description</var>&mdash;a <i>format control</i>.
+
+<p><var>documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>
+that must compute and return the <i>form</i> that specifies how
+the <i>methods</i> are combined, that is, the <i>effective method</i>.
+
+<p><var>generic-function-symbol</var>&mdash;a <i>symbol</i>.
+
+<p><var>identity-with-one-argument</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>lambda-list</var>&mdash;<i>ordinary lambda list</i>.
+
+<p><var>name</var>&mdash;a <i>symbol</i>. 
+Non-<i>keyword</i>, <i>non-nil</i> <i>symbols</i> are usually used.
+
+<p><var>operator</var>&mdash;an <i>operator</i>. 
+<var>Name</var> and <var>operator</var> are often the <i>same</i> <i>symbol</i>. 
+This is the default, but it is not required.
+
+<p><var>order</var>&mdash;<tt>:most-specific-first</tt> or <tt>:most-specific-last</tt>; evaluated.
+
+<p><var>predicate</var>&mdash;a <i>symbol</i> that names a <i>function</i> of one argument
+that returns a <i>generalized boolean</i>.
+
+<p><var>qualifier-pattern</var>&mdash;a <i>list</i>,
+or the <i>symbol</i> <tt>*</tt>.
+
+<p><var>required-p</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The macro <code>define-method-combination</code> is used to define new types
+of method combination.
+
+<p>There are two forms of <code>define-method-combination</code>.  The short
+form is a simple facility for the cases that are expected
+to be most commonly needed.  The long form is more powerful but more
+verbose.  It resembles <code>defmacro</code> in that the body is an
+expression, usually using backquote, that computes a <i>form</i>.  Thus
+arbitrary control structures can be implemented.  The long form also
+allows arbitrary processing of method <i>qualifiers</i>.
+
+     <dl>
+<dt><b>Short Form</b><dd>
+
+     <p>The short form syntax of <code>define-method-combination</code> is recognized
+when the second <i>subform</i> is a <i>non-nil</i> symbol or is not present. 
+When the short form is used, <var>name</var> is defined as a type of
+method combination that produces a Lisp form
+<code>(</code><var>operator</var> <var>method-call</var> <var>method-call</var><code> ...)</code>. 
+The <var>operator</var> is a <i>symbol</i> that can be the <i>name</i> of a
+<i>function</i>, <i>macro</i>, or <i>special operator</i>. 
+The <var>operator</var> can be supplied by a keyword option;
+it defaults to <var>name</var>.
+
+     <p>Keyword options for the short form are the following:
+
+          <ul>
+<li>The <tt>:documentation</tt> option is used to document the method-combination type;
+see description of long form below.
+
+          <li>The <tt>:identity-with-one-argument</tt> option enables an optimization
+when its value is <i>true</i> (the default is <i>false</i>).  If there is
+exactly one applicable method and it is a primary method, that method
+serves as the effective method and <var>operator</var> is not called. 
+This optimization avoids the need to create a new effective method and
+avoids the overhead of a <i>function</i> call.  This option is designed to be
+used with operators such as <code>progn</code>, <code>and</code>, <code>+</code>, and
+<code>max</code>.
+
+          <li>The <tt>:operator</tt> option specifies the <i>name</i> of the operator.  The
+<var>operator</var> argument is a <i>symbol</i> that can be the
+<i>name</i> of a <i>function</i>,
+<i>macro</i>, or
+<i>special form</i>. 
+</ul>
+
+     <p>These types of method combination require exactly one <i>qualifier</i> per
+method.  An error is signaled if there are applicable methods with no
+<i>qualifiers</i> or with <i>qualifiers</i> that are not supported by
+the method combination type.
+
+     <p>A method combination procedure defined in this way recognizes two
+roles for methods.  A method whose one <i>qualifier</i> is the symbol naming
+this type of method combination is defined to be a primary method.  At
+least one primary method must be applicable or an error is signaled. 
+A method with <tt>:around</tt> as its one <i>qualifier</i> is an auxiliary
+method that behaves the same as an <i>around method</i> in standard
+method combination.  The <i>function</i> <code>call-next-method</code> can only be
+used in <i>around methods</i>; it cannot be used in primary methods
+defined by the short form of the <code>define-method-combination</code> macro.
+
+     <p>A method combination procedure defined in this way accepts an optional
+argument named <var>order</var>, which defaults to
+<tt>:most-specific-first</tt>.  A value of <tt>:most-specific-last</tt> reverses
+the order of the primary methods without affecting the order of the
+auxiliary methods.
+
+     <p>The short form automatically includes error checking and support for
+<i>around methods</i>.
+
+     <p>For a discussion of built-in method combination types,
+see <a href="BuiltInMethCombTypes.html#BuiltInMethCombTypes">Section 7.6.6.4 (Built-in Method Combination Types)</a>.
+
+     <br><dt><b>Long Form</b><dd>
+
+     <p>The long form syntax of <code>define-method-combination</code> is recognized
+when the second <i>subform</i> is a list.
+
+     <p>The <var>lambda-list</var>
+receives any arguments provided after the <i>name</i> of the method
+combination type in the <tt>:method-combination</tt> option to
+<code>defgeneric</code>.
+
+     <p>A list of method group specifiers follows.  Each specifier selects a subset
+of the applicable methods to play a particular role, either by matching
+their <i>qualifiers</i> against some patterns or by testing their <i>qualifiers</i> with
+a <var>predicate</var>. 
+These method group specifiers define all method <i>qualifiers</i>
+that can be used with this type of method combination.
+
+     <p>The <i>car</i> of each <var>method-group-specifier</var> is a <i>symbol</i>
+which <i>names</i> a <i>variable</i>. 
+During the execution of
+the <i>forms</i> in the body of <code>define-method-combination</code>, this
+<i>variable</i> is bound to a list of the <i>methods</i> in the method group.  The
+<i>methods</i> in this list occur in the order specified by the
+<tt>:order</tt> option.
+
+     <p>If <var>qualifier-pattern</var> is a <i>symbol</i> it must be <tt>*</tt>. 
+A method matches
+a <var>qualifier-pattern</var> if the method's
+list of <i>qualifiers</i> is <code>equal</code>
+to the <var>qualifier-pattern</var> (except that the symbol <tt>*</tt> in a
+<var>qualifier-pattern</var> matches anything).  Thus
+a <var>qualifier-pattern</var> can be one of the
+following:
+the <i>empty list</i>, which matches <i>unqualified methods</i>;
+the symbol <tt>*</tt>, which matches all methods;
+a true list, which matches methods with the same number of <i>qualifiers</i>
+as the length of the list when each <i>qualifier</i> matches
+the corresponding list element; or
+a dotted list that ends in the symbol <tt>*</tt>
+(the <tt>*</tt> matches any number of additional <i>qualifiers</i>).
+
+     <p>Each applicable method is tested against the <var>qualifier-patterns</var> and
+<var>predicates</var> in left-to-right order. 
+As soon as a <var>qualifier-pattern</var> matches
+or a <var>predicate</var> returns true, the method becomes a member of the
+corresponding method group and no further tests are made.  Thus if a method
+could be a member of more than one method group, it joins only the first
+such group.  If a method group has more than one
+<var>qualifier-pattern</var>, a
+method need only satisfy one of the <var>qualifier-patterns</var> to be a member of
+the group.
+
+     <p>The <i>name</i> of a <var>predicate</var> function can appear instead of
+<var>qualifier-patterns</var> in a method group specifier. 
+The <var>predicate</var> is called for
+each method that has not been assigned to an earlier method group; it
+is called with one argument, the method's <i>qualifier</i> <i>list</i>. 
+The <var>predicate</var> should return true if the method is to be a member of the
+method group.  A <var>predicate</var> can be distinguished from a
+<var>qualifier-pattern</var>
+because it is a <i>symbol</i> other than <code>nil</code>&nbsp;<!-- /@w -->or <tt>*</tt>.
+
+     <p>If there is an applicable method that does not fall into any method group,
+the <i>function</i> <code>invalid-method-error</code> is called.
+
+     <p>Method group specifiers can have keyword options following the
+<i>qualifier</i> patterns or predicate.  Keyword options can be distinguished from
+additional <i>qualifier</i> patterns because they are neither lists nor the symbol
+<tt>*</tt>.  The keyword options are as follows:
+
+          <ul>
+<li>The <tt>:description</tt> option is used to provide a description of the
+role of methods in the method group.  Programming environment tools
+use
+<code>(apply #'format stream </code><var>format-control</var><code> (method-qualifiers </code><var>method</var><code>))</code>
+to print this description, which
+is expected to be concise.  This keyword
+option allows the description of a method <i>qualifier</i> to be defined in
+the same module that defines the meaning of the
+method <i>qualifier</i>.  In most cases, <var>format-control</var> will not contain any
+<code>format</code> directives, but they are available for generality. 
+If <tt>:description</tt> is not supplied, a default description is generated
+based on the variable name and the <i>qualifier</i> patterns and on whether
+this method group includes the <i>unqualified methods</i>.
+
+          <li>The <tt>:order</tt> option specifies the order of methods.  The <var>order</var>
+argument is a <i>form</i> that evaluates to
+<tt>:most-specific-first</tt> or <tt>:most-specific-last</tt>.  If it evaluates
+to any other value, an error is signaled. 
+If <tt>:order</tt> is not supplied, it defaults to
+<tt>:most-specific-first</tt>.
+
+          <li>The <tt>:required</tt> option specifies whether at least one method in
+this method group is required. 
+If its value is <i>true</i> and the method group is empty
+(that is, no applicable methods match the <i>qualifier</i> patterns
+or satisfy the predicate),
+an error is signaled. 
+If <tt>:required</tt> is not supplied,
+it defaults to <code>nil</code>. 
+</ul>
+
+     <p>The use of method group specifiers provides a convenient syntax to
+select methods, to divide them among the possible roles, and to perform the
+necessary error checking.  It is possible to perform further filtering
+of methods in the body <i>forms</i> by using normal list-processing operations
+and the functions <code>method-qualifiers</code> and
+<code>invalid-method-error</code>.  It is permissible to use <code>setq</code> on the
+variables named in the method group specifiers and to bind additional
+variables.  It is also possible to bypass the method group specifier
+mechanism and do everything in the body <i>forms</i>.  This is accomplished
+by writing a single method group with <tt>*</tt> as its only
+<var>qualifier-pattern</var>;
+the variable is then bound to a <i>list</i> of all of the
+<i>applicable methods</i>, in most-specific-first order.
+
+     <p>The body <var>forms</var> compute and return the <i>form</i> that specifies
+how the methods are combined, that is, the effective method. 
+The effective method is evaluated in
+the <i>null lexical environment</i> augmented with a local macro definition
+for <code>call-method</code> and with bindings named by
+symbols not <i>accessible</i> from the <code>COMMON-LISP-USER</code> <i>package</i>. 
+Given a method object in one of the
+<i>lists</i> produced by the method group
+specifiers and a <i>list</i> of next methods,
+<code>call-method</code>
+will invoke the method such that <code>call-next-method</code> has available
+the next methods.
+
+     <p>When an effective method has no effect other than to call a single
+method, some implementations employ an optimization that uses the
+single method directly as the effective method, thus avoiding the need
+to create a new effective method.  This optimization is active when
+the effective method form consists entirely of an invocation of
+the <code>call-method</code> macro whose first <i>subform</i> is a method object and
+whose second <i>subform</i> is <code>nil</code>&nbsp;<!-- /@w -->or unsupplied.  Each
+<code>define-method-combination</code> body is responsible for stripping off
+redundant invocations of <code>progn</code>, <code>and</code>,
+<code>multiple-value-prog1</code>, and the like, if this optimization is desired.
+
+     <p>The list <code>(:arguments . </code><var>lambda-list</var><code>)</code> can appear before
+any declarations or <i>documentation string</i>.  This form is useful when
+the method combination type performs some specific behavior as part of
+the combined method and that behavior needs access to the arguments to
+the <i>generic function</i>.  Each parameter variable defined by
+<var>lambda-list</var> is bound to a <i>form</i> that can be inserted into the
+effective method.  When this <i>form</i> is evaluated during execution of the
+effective method, its value is the corresponding argument to the
+<i>generic function</i>; the consequences of using such a <i>form</i> as
+the <var>place</var> in a <code>setf</code> <i>form</i> are undefined. 
+Argument correspondence is computed by dividing the <tt>:arguments</tt> <var>lambda-list</var>
+and the <i>generic function</i> <var>lambda-list</var> into three sections:
+the <i>required parameters</i>,
+the <i>optional parameters</i>,
+and the <i>keyword</i> and <i>rest parameters</i>. 
+The <i>arguments</i> supplied to the <i>generic function</i> for a particular <i>call</i>
+are also divided into three sections;
+the required <i>arguments</i> section contains as many <i>arguments</i>
+as the <i>generic function</i> has <i>required parameters</i>,
+the optional <i>arguments</i> section contains as many arguments
+as the <i>generic function</i> has <i>optional parameters</i>,
+and the keyword/rest <i>arguments</i> section contains the remaining arguments. 
+Each <i>parameter</i> in the required and optional sections of the
+<tt>:arguments</tt> <var>lambda-list</var> accesses the argument at the same position
+in the corresponding section of the <i>arguments</i>. 
+If the section of the <tt>:arguments</tt> <var>lambda-list</var> is shorter,
+extra <i>arguments</i> are ignored. 
+If the section of the <tt>:arguments</tt> <var>lambda-list</var> is longer,
+excess <i>required parameters</i> are bound to forms that evaluate to <code>nil</code>&nbsp;<!-- /@w -->
+and excess <i>optional parameters</i> are <i>bound</i> to their initforms. 
+The <i>keyword parameters</i> and <i>rest parameters</i> in the <tt>:arguments</tt>
+<var>lambda-list</var> access the keyword/rest section of the <i>arguments</i>. 
+If the <tt>:arguments</tt> <var>lambda-list</var> contains <code>&amp;key</code>, it behaves as
+if it also contained <code>&amp;allow-other-keys</code>.
+
+     <p>In addition, <code>&amp;whole</code> <var>var</var> can be placed first in the <tt>:arguments</tt>
+<var>lambda-list</var>.  It causes <var>var</var> to be <i>bound</i> to a <i>form</i>
+that <i>evaluates</i> to a <i>list</i> of all of the <i>arguments</i> supplied
+to the <i>generic function</i>.  This is different from <code>&amp;rest</code> because it
+accesses all of the arguments, not just the keyword/rest <i>arguments</i>.
+
+     <p>Erroneous conditions detected by the body should be reported with
+<code>method-combination-error</code> or <code>invalid-method-error</code>; these
+<i>functions</i>
+add any necessary contextual information to the error message and will
+signal the appropriate error.
+
+     <p>The body <var>forms</var> are evaluated inside of the <i>bindings</i> created by
+the
+<i>lambda list</i> and method group specifiers.
+
+     <p>Declarations at the head of
+the body are positioned directly inside of <i>bindings</i> created by the
+<i>lambda list</i> and outside of the <i>bindings</i> of the method group variables. 
+Thus method group variables cannot be declared in this way.  <code>locally</code> may be used
+around the body, however.
+
+     <p>Within the body <var>forms</var>, <var>generic-function-symbol</var>
+is bound to the <i>generic function</i> <i>object</i>.
+
+     <p><var>Documentation</var> is attached as a <i>documentation string</i>
+to <var>name</var> (as kind <code>method-combination</code>)
+and to the <i>method combination</i> <i>object</i>.
+
+     <p>Note that two methods with identical specializers, but with different
+<i>qualifiers</i>, are not ordered by the algorithm described in Step 2 of
+the method selection and combination process described in
+<a href="Method-Selection-and-Combination.html#Method-Selection-and-Combination">Section 7.6.6 (Method Selection and Combination)</a>.  Normally the two methods play
+different roles in the effective method because they have different
+<i>qualifiers</i>, and no matter how they are ordered in the result of Step
+2, the effective method is the same.  If the two methods play the same
+role and their order matters,
+
+     <p>an error is signaled.  This happens as
+part of the <i>qualifier</i> pattern matching in
+<code>define-method-combination</code>. 
+</dl>
+
+<p>If a <code>define-method-combination</code> <i>form</i> appears as a
+<i>top level form</i>, the <i>compiler</i> must make the
+<i>method combination</i> <i>name</i> be recognized as a valid
+<i>method combination</i> <i>name</i> in subsequent <code>defgeneric</code>
+<i>forms</i>.  However, the <i>method combination</i> is executed
+no earlier than when the <code>define-method-combination</code> <i>form</i>
+is executed, and possibly as late as the time that <i>generic functions</i>
+that use the <i>method combination</i> are executed.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<p>Most examples of the long form of <code>define-method-combination</code> also
+illustrate the use of the related <i>functions</i> that are provided as part
+of the declarative method combination facility.
+
+<pre class="lisp">;;; Examples of the short form of define-method-combination
+
+ (define-method-combination and :identity-with-one-argument t)
+
+ (defmethod func and ((x class1) y) ...)
+
+;;; The equivalent of this example in the long form is:
+
+ (define-method-combination and
+         (&amp;optional (order :most-specific-first))
+         ((around (:around))
+          (primary (and) :order order :required t))
+   (let ((form (if (rest primary)
+                   `(and ,@(mapcar #'(lambda (method)
+                                       `(call-method ,method))
+                                   primary))
+                   `(call-method ,(first primary)))))
+     (if around
+         `(call-method ,(first around)
+                       (,@(rest around)
+                        (make-method ,form)))
+         form)))
+
+;;; Examples of the long form of define-method-combination
+
+;The default method-combination technique
+ (define-method-combination standard ()
+         ((around (:around))
+          (before (:before))
+          (primary () :required t)
+          (after (:after)))
+   (flet ((call-methods (methods)
+            (mapcar #'(lambda (method)
+                        `(call-method ,method))
+                    methods)))
+     (let ((form (if (or before after (rest primary))
+                     `(multiple-value-prog1
+                        (progn ,@(call-methods before)
+                               (call-method ,(first primary)
+                                            ,(rest primary)))
+                        ,@(call-methods (reverse after)))
+                     `(call-method ,(first primary)))))
+       (if around
+           `(call-method ,(first around)
+                         (,@(rest around)
+                          (make-method ,form)))
+           form))))
+
+;A simple way to try several methods until one returns non-nil
+ (define-method-combination or ()
+         ((methods (or)))
+   `(or ,@(mapcar #'(lambda (method)
+                      `(call-method ,method))
+                  methods)))
+
+;A more complete version of the preceding
+ (define-method-combination or
+         (&amp;optional (order ':most-specific-first))
+         ((around (:around))
+          (primary (or)))
+   ;; Process the order argument
+   (case order
+     (:most-specific-first)
+     (:most-specific-last (setq primary (reverse primary)))
+     (otherwise (method-combination-error "~S is an invalid order.~@
+     :most-specific-first and :most-specific-last are the possible values."
+                                          order)))
+   ;; Must have a primary method
+   (unless primary
+     (method-combination-error "A primary method is required."))
+   ;; Construct the form that calls the primary methods
+   (let ((form (if (rest primary)
+                   `(or ,@(mapcar #'(lambda (method)
+                                      `(call-method ,method))
+                                  primary))
+                   `(call-method ,(first primary)))))
+     ;; Wrap the around methods around that form
+     (if around
+         `(call-method ,(first around)
+                       (,@(rest around)
+                        (make-method ,form)))
+         form)))
+
+;The same thing, using the :order and :required keyword options
+ (define-method-combination or
+         (&amp;optional (order ':most-specific-first))
+         ((around (:around))
+          (primary (or) :order order :required t))
+   (let ((form (if (rest primary)
+                   `(or ,@(mapcar #'(lambda (method)
+                                      `(call-method ,method))
+                                  primary))
+                   `(call-method ,(first primary)))))
+     (if around
+         `(call-method ,(first around)
+                       (,@(rest around)
+                        (make-method ,form)))
+         form)))
+
+;This short-form call is behaviorally identical to the preceding
+ (define-method-combination or :identity-with-one-argument t)
+
+;Order methods by positive integer qualifiers
+;:around methods are disallowed to keep the example small
+ (define-method-combination example-method-combination ()
+         ((methods positive-integer-qualifier-p))
+   `(progn ,@(mapcar #'(lambda (method)
+                         `(call-method ,method))
+                     (stable-sort methods #'&lt;
+                       :key #'(lambda (method)
+                                (first (method-qualifiers method)))))))
+
+ (defun positive-integer-qualifier-p (method-qualifiers)
+   (and (= (length method-qualifiers) 1)
+        (typep (first method-qualifiers) '(integer 0 *))))
+
+;;; Example of the use of :arguments
+ (define-method-combination progn-with-lock ()
+         ((methods ()))
+   (:arguments object)
+   `(unwind-protect
+        (progn (lock (object-lock ,object))
+               ,@(mapcar #'(lambda (method)
+                             `(call-method ,method))
+                         methods))
+      (unlock (object-lock ,object))))
+
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The <i>compiler</i> is not required to perform any compile-time side-effects.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Method combination types defined with the short form require exactly
+one <i>qualifier</i> per method. 
+An error of <i>type</i> <code>error</code> is signaled if there are
+applicable methods with no <i>qualifiers</i> or with <i>qualifiers</i> that are not
+supported by the method combination type. 
+At least one primary method must be applicable or
+an error of <i>type</i> <code>error</code> is signaled.
+
+<p>If an applicable method does not fall into any method group, the
+system signals an error of <i>type</i> <code>error</code>
+indicating that the method is invalid for the kind of
+method combination in use.
+
+<p>If the value of the <tt>:required</tt> option is <i>true</i>
+and the method group is empty (that is, no applicable
+methods match the <i>qualifier</i> patterns or satisfy the predicate),
+an error of <i>type</i> <code>error</code> is signaled.
+
+<p>If the <tt>:order</tt> option evaluates to a value other than
+<tt>:most-specific-first</tt> or <tt>:most-specific-last</tt>,
+an error of <i>type</i> <code>error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="call_002dmethod.html#call_002dmethod">call-method</a>,
+<a href="call_002dnext_002dmethod.html#call_002dnext_002dmethod">call-next-method</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="method_002dqualifiers.html#method_002dqualifiers">method-qualifiers</a>,
+<a href="method_002dcombination_002derror.html#method_002dcombination_002derror">method-combination-error</a>,
+<a href="invalid_002dmethod_002derror.html#invalid_002dmethod_002derror">invalid-method-error</a>,
+<a href="defgeneric.html#defgeneric">defgeneric</a>,
+<a href="Method-Selection-and-Combination.html#Method-Selection-and-Combination">Section 7.6.6 (Method Selection and Combination)</a>,
+<a href="BuiltInMethCombTypes.html#BuiltInMethCombTypes">Section 7.6.6.4 (Built-in Method Combination Types)</a>,
+<a href="Syntactic-Interaction-of-Documentation-Strings-and-Declarations.html#Syntactic-Interaction-of-Documentation-Strings-and-Declarations">Section 3.4.11 (Syntactic Interaction of Documentation Strings and Declarations)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <tt>:method-combination</tt> option of <code>defgeneric</code> is used to
+specify that a <i>generic function</i> should use a particular method
+combination type.  The first argument to the <tt>:method-combination</tt>
+option is the <i>name</i> of a method combination type and the remaining
+arguments are options for that type.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dmethod_002dcombination.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:54 GMT -->
+</html>
+

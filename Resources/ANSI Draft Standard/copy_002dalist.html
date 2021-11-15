@@ -1,0 +1,100 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/copy_002dalist.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:00 GMT -->
+<head>
+<title>copy-alist - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot.html#assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot" title="assoc; assoc-if; assoc-if-not">
+<link rel="next" href="pairlis.html#pairlis" title="pairlis">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="copy-alist"></a>
+<a name="copy_002dalist"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="pairlis.html#pairlis">pairlis</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot.html#assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot">assoc; assoc-if; assoc-if-not</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">copy-alist (Function)</h3>
+
+<p><a name="index-copy_002dalist-1996"></a><a name="index-copy_002dalist-1997"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>copy-alist</b><var> alist </var><span class="roman">→</span><var> new-alist<a name="index-copy_002dalist-1998"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>alist</var>&mdash;an <i>association list</i>.
+
+<p><var>new-alist</var>&mdash;an <i>association list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>copy-alist</code> returns a <i>copy</i> of <var>alist</var>.
+
+<p>The <i>list structure</i> of <var>alist</var> is copied,
+and the <i>elements</i> of <var>alist</var> which are <i>conses</i> are
+also copied (as <i>conses</i> only). 
+Any other <i>objects</i> which are referred to,
+whether directly or indirectly,
+by the <var>alist</var> continue to be shared.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">(defparameter *alist* (acons 1 "one" (acons 2 "two" '())))
+*alist* <span class="roman">→</span> ((1 . "one") (2 . "two"))
+(defparameter *list-copy* (copy-list *alist*))
+*list-copy* <span class="roman">→</span> ((1 . "one") (2 . "two"))
+(defparameter *alist-copy* (copy-alist *alist*))
+*alist-copy* <span class="roman">→</span> ((1 . "one") (2 . "two"))
+(setf (cdr (assoc 2 *alist-copy*)) "deux") <span class="roman">→</span> "deux"
+*alist-copy* <span class="roman">→</span> ((1 . "one") (2 . "deux"))
+*alist* <span class="roman">→</span> ((1 . "one") (2 . "two"))
+(setf (cdr (assoc 1 *list-copy*)) "uno") <span class="roman">→</span> "uno"
+*list-copy* <span class="roman">→</span> ((1 . "uno") (2 . "two"))
+*alist* <span class="roman">→</span> ((1 . "uno") (2 . "two"))
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="copy_002dlist.html#copy_002dlist">copy-list</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/copy_002dalist.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:00 GMT -->
+</html>
+

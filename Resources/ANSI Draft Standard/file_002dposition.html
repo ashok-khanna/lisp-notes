@@ -1,0 +1,173 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/file_002dposition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:37 GMT -->
+<head>
+<title>file-position - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="file_002dlength.html#file_002dlength" title="file-length">
+<link rel="next" href="file_002dstring_002dlength.html#file_002dstring_002dlength" title="file-string-length">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="file-position"></a>
+<a name="file_002dposition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="file_002dstring_002dlength.html#file_002dstring_002dlength">file-string-length</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="file_002dlength.html#file_002dlength">file-length</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">file-position (Function)</h3>
+
+<p><a name="index-file_002dposition-2677"></a><a name="index-file_002dposition-2678"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>file-position</b><var> stream </var><span class="roman">→</span><var> position<a name="index-file_002dposition-2679"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>file-position</b><var> stream position-spec </var><span class="roman">→</span><var> success-p<a name="index-file_002dposition-2680"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>stream</var>&mdash;a <i>stream</i>.
+
+<p><var>position-spec</var>&mdash;a <i>file position designator</i>.
+
+<p><var>position</var>&mdash;a <i>file position</i> or <code>nil</code>.
+
+<p><var>success-p</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns or changes the current position within a <var>stream</var>.
+
+<p>When <var>position-spec</var> is not supplied,
+<code>file-position</code> returns the current <i>file position</i> in the <var>stream</var>,
+or <code>nil</code>&nbsp;<!-- /@w -->if this cannot be determined.
+
+<p>When <var>position-spec</var> is supplied,
+the <i>file position</i> in <var>stream</var> is set to that <i>file position</i> (if possible). 
+<code>file-position</code> returns <i>true</i>
+if the repositioning is performed successfully,
+or <i>false</i> if it is not.
+
+<p>An <i>integer</i> returned by <code>file-position</code> of one argument
+should be acceptable as <var>position-spec</var> for use with the same file.
+
+<p>For a character file,
+performing a single <code>read-char</code> or <code>write-char</code> operation
+may cause the file position to be increased by more than 1 because of
+character-set translations (such as translating between the <span class="roman">Common Lisp</span>
+<code>#\Newline</code> character and an external ASCII
+carriage-return/line-feed sequence) and other aspects of the
+implementation.  For a binary file, every <code>read-byte</code>
+or <code>write-byte</code>
+operation increases the file position by 1.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun tester ()
+   (let ((noticed '()) file-written)
+     (flet ((notice (x) (push x noticed) x))
+       (with-open-file (s "test.bin"
+                          :element-type '(unsigned-byte 8)
+                          :direction :output
+                          :if-exists :error)
+          (notice (file-position s)) ;1
+          (write-byte 5 s)
+          (write-byte 6 s)
+          (let ((p (file-position s)))
+            (notice p) ;2
+            (notice (when p (file-position s (1- p))))) ;3
+          (write-byte 7 s)
+          (notice (file-position s)) ;4
+          (setq file-written (truename s)))
+        (with-open-file (s file-written
+                           :element-type '(unsigned-byte 8)
+                           :direction :input)
+          (notice (file-position s)) ;5
+          (let ((length (file-length s)))
+            (notice length) ;6
+            (when length
+              (dotimes (i length)
+                (notice (read-byte s)))))) ;7,...
+        (nreverse noticed))))
+<span class="roman">→</span> tester
+ (tester)
+<span class="roman">→</span> (0 2 T 2 0 2 5 7)
+or<span class="roman">→</span> (0 2 NIL 3 0 3 5 6 7)
+or<span class="roman">→</span> (NIL NIL NIL NIL NIL NIL)
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>When the <var>position-spec</var> argument is supplied,
+the <i>file position</i> in the <var>stream</var> might be moved.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>The value returned by <code>file-position</code> increases monotonically
+as input or output operations are performed.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>position-spec</var> is supplied, but is too large or otherwise inappropriate,
+an error is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="file_002dlength.html#file_002dlength">file-length</a>,
+<a href="file_002dstring_002dlength.html#file_002dstring_002dlength">file-string-length</a>,
+<a href="open.html#open">open</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Implementations that have character files represented
+as a sequence of records of bounded size might choose to encode the
+file position as, for example,
+«record-number»*«max-record-size»+«character-within-record». 
+This is a valid encoding because it increases monotonically as
+each character is read or written, though not necessarily by 1 at
+each step.  An <i>integer</i> might then be considered &ldquo;inappropriate&rdquo;
+as <var>position-spec</var> to <code>file-position</code> if, when decoded into
+record number and character number, it turned out that the
+supplied record was too short for the specified character number.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/file_002dposition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:37 GMT -->
+</html>
+

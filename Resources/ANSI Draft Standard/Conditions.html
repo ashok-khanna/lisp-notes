@@ -1,0 +1,110 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:20:44 GMT -->
+<head>
+<title>Conditions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Structures.html#Structures" title="Structures">
+<link rel="next" href="Symbols.html#Symbols" title="Symbols">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conditions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Symbols.html#Symbols">Symbols</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Structures.html#Structures">Structures</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">9 Conditions</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Condition-System-Concepts.html#Condition-System-Concepts">Condition System Concepts</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="2" href="condition.html#condition">condition</a>
+<li><a accesskey="3" href="warning.html#warning">warning</a>
+<li><a accesskey="4" href="style_002dwarning.html#style_002dwarning">style-warning</a>
+<li><a accesskey="5" href="serious_002dcondition.html#serious_002dcondition">serious-condition</a>
+<li><a accesskey="6" href="error-_0028Condition-Type_0029.html#error-_0028Condition-Type_0029">error (Condition Type)</a>
+<li><a accesskey="7" href="cell_002derror.html#cell_002derror">cell-error</a>
+<li><a accesskey="8" href="cell_002derror_002dname.html#cell_002derror_002dname">cell-error-name</a>
+<li><a accesskey="9" href="parse_002derror.html#parse_002derror">parse-error</a>
+<li><a href="storage_002dcondition.html#storage_002dcondition">storage-condition</a>
+<li><a href="assert.html#assert">assert</a>
+<li><a href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>
+<li><a href="cerror.html#cerror">cerror</a>
+<li><a href="check_002dtype.html#check_002dtype">check-type</a>
+<li><a href="simple_002derror.html#simple_002derror">simple-error</a>
+<li><a href="invalid_002dmethod_002derror.html#invalid_002dmethod_002derror">invalid-method-error</a>
+<li><a href="method_002dcombination_002derror.html#method_002dcombination_002derror">method-combination-error</a>
+<li><a href="signal.html#signal">signal</a>
+<li><a href="simple_002dcondition.html#simple_002dcondition">simple-condition</a>
+<li><a href="simple_002dcondition_002dformat_002dcontrol_003b-simple_002dcondition_002dformat_002darguments.html#simple_002dcondition_002dformat_002dcontrol_003b-simple_002dcondition_002dformat_002darguments">simple-condition-format-control; simple-condition-format-arguments</a>
+<li><a href="warn.html#warn">warn</a>
+<li><a href="simple_002dwarning.html#simple_002dwarning">simple-warning</a>
+<li><a href="invoke_002ddebugger.html#invoke_002ddebugger">invoke-debugger</a>
+<li><a href="break.html#break">break</a>
+<li><a href="_002adebugger_002dhook_002a.html#g_t_002adebugger_002dhook_002a">*debugger-hook*</a>
+<li><a href="_002abreak_002don_002dsignals_002a.html#g_t_002abreak_002don_002dsignals_002a">*break-on-signals*</a>
+<li><a href="handler_002dbind.html#handler_002dbind">handler-bind</a>
+<li><a href="handler_002dcase.html#handler_002dcase">handler-case</a>
+<li><a href="ignore_002derrors.html#ignore_002derrors">ignore-errors</a>
+<li><a href="define_002dcondition.html#define_002dcondition">define-condition</a>
+<li><a href="make_002dcondition.html#make_002dcondition">make-condition</a>
+<li><a href="restart.html#restart">restart</a>
+<li><a href="compute_002drestarts.html#compute_002drestarts">compute-restarts</a>
+<li><a href="find_002drestart.html#find_002drestart">find-restart</a>
+<li><a href="invoke_002drestart.html#invoke_002drestart">invoke-restart</a>
+<li><a href="invoke_002drestart_002dinteractively.html#invoke_002drestart_002dinteractively">invoke-restart-interactively</a>
+<li><a href="restart_002dbind.html#restart_002dbind">restart-bind</a>
+<li><a href="restart_002dcase.html#restart_002dcase">restart-case</a>
+<li><a href="restart_002dname.html#restart_002dname">restart-name</a>
+<li><a href="with_002dcondition_002drestarts.html#with_002dcondition_002drestarts">with-condition-restarts</a>
+<li><a href="with_002dsimple_002drestart.html#with_002dsimple_002drestart">with-simple-restart</a>
+<li><a href="abort-_0028Restart_0029.html#abort-_0028Restart_0029">abort (Restart)</a>
+<li><a href="continue-_0028Restart_0029.html#continue-_0028Restart_0029">continue (Restart)</a>
+<li><a href="muffle_002dwarning-_0028Restart_0029.html#muffle_002dwarning-_0028Restart_0029">muffle-warning (Restart)</a>
+<li><a href="store_002dvalue-_0028Restart_0029.html#store_002dvalue-_0028Restart_0029">store-value (Restart)</a>
+<li><a href="use_002dvalue-_0028Restart_0029.html#use_002dvalue-_0028Restart_0029">use-value (Restart)</a>
+<li><a href="abort_003b-continue_003b-muffle_002dwarning_003b-store_002dvalue_003b-use_002dvalue.html#abort_003b-continue_003b-muffle_002dwarning_003b-store_002dvalue_003b-use_002dvalue">abort; continue; muffle-warning; store-value; use-value</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:21:31 GMT -->
+</html>
+

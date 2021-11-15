@@ -1,0 +1,125 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/butlast_003b-nbutlast.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:52 GMT -->
+<head>
+<title>butlast; nbutlast - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="revappend_003b-nreconc.html#revappend_003b-nreconc" title="revappend; nreconc">
+<link rel="next" href="last.html#last" title="last">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="butlast%3b-nbutlast"></a>
+<a name="butlast_003b-nbutlast"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="last.html#last">last</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="revappend_003b-nreconc.html#revappend_003b-nreconc">revappend; nreconc</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">butlast, nbutlast (Function)</h3>
+
+<p><a name="index-butlast-1936"></a><a name="index-butlast-1937"></a><a name="index-nbutlast-1938"></a><a name="index-nbutlast-1939"></a><a name="butlast"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>butlast</b><var> list </var><tt>&amp;optional</tt><var> n </var><span class="roman">→</span><var> result-list<a name="index-butlast-1940"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>nbutlast</b><var> list </var><tt>&amp;optional</tt><var> n </var><span class="roman">→</span><var> result-list<a name="index-nbutlast-1941"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>list</var>&mdash;a <i>list</i>,
+which might be a <i>dotted list</i> but must not be a <i>circular list</i>.
+
+<p><var>n</var>&mdash;a non-negative <i>integer</i>.
+
+<p><var>result-list</var>&mdash;a <i>list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>butlast</code> returns a copy of <var>list</var> from which the last
+<var>n</var>
+conses
+have been omitted. 
+If <var>n</var> is not supplied, its value is 1. 
+If there are fewer than <var>n</var>
+conses
+in <var>list</var>,
+<code>nil</code>&nbsp;<!-- /@w -->is returned and, in the case of <code>nbutlast</code>,
+<var>list</var> is not modified.
+
+<p><code>nbutlast</code> is like <code>butlast</code>, but <code>nbutlast</code>
+may modify <var>list</var>. 
+It changes the <i>cdr</i> of
+the <i>cons</i> <var>n</var>+1 from the end of the <var>list</var> to <code>nil</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq lst '(1 2 3 4 5 6 7 8 9)) <span class="roman">→</span> (1 2 3 4 5 6 7 8 9)
+ (butlast lst) <span class="roman">→</span> (1 2 3 4 5 6 7 8)
+ (butlast lst 5) <span class="roman">→</span> (1 2 3 4)
+ (butlast lst (+ 5 5)) <span class="roman">→</span> NIL
+ lst <span class="roman">→</span> (1 2 3 4 5 6 7 8 9)
+ (nbutlast lst 3) <span class="roman">→</span> (1 2 3 4 5 6)
+ lst <span class="roman">→</span> (1 2 3 4 5 6)
+ (nbutlast lst 99) <span class="roman">→</span> NIL
+ lst <span class="roman">→</span> (1 2 3 4 5 6)
+ (butlast '(a b c d)) <span class="roman">→</span> (A B C)
+ (butlast '((a b) (c d))) <span class="roman">→</span> ((A B))
+ (butlast '(a)) <span class="roman">→</span> NIL
+ (butlast nil) <span class="roman">→</span> NIL
+ (setq foo (list 'a 'b 'c 'd)) <span class="roman">→</span> (A B C D)
+ (nbutlast foo) <span class="roman">→</span> (A B C)
+ foo <span class="roman">→</span> (A B C)
+ (nbutlast (list 'a)) <span class="roman">→</span> NIL
+ (nbutlast '()) <span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>list</var> is not a <i>proper list</i> or a <i>dotted list</i>. 
+Should signal an error of <i>type</i> <code>type-error</code> if <var>n</var> is not a non-negative <i>integer</i>.
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (butlast <var>list</var> <var>n</var>) ≡ (ldiff <var>list</var> (last <var>list</var> <var>n</var>))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/butlast_003b-nbutlast.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:52 GMT -->
+</html>
+

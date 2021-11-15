@@ -1,0 +1,281 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Control_002dFlow-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>FORMAT Control-Flow Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Layout-Control.html#FORMAT-Layout-Control" title="FORMAT Layout Control">
+<link rel="next" href="FORMAT-Miscellaneous-Operations.html#FORMAT-Miscellaneous-Operations" title="FORMAT Miscellaneous Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Control-Flow-Operations"></a>
+<a name="FORMAT-Control_002dFlow-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Miscellaneous-Operations.html#FORMAT-Miscellaneous-Operations">FORMAT Miscellaneous Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Layout-Control.html#FORMAT-Layout-Control">FORMAT Layout Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.7 FORMAT Control-Flow Operations</h4>
+
+<h5 class="subsubsection">22.3.7.1 Tilde Asterisk: Go-To</h5>
+
+<p><a name="index-Asterisk-_0028format-directive_0029-2855"></a><a name="index-Tilde-Asterisk-_0028format-directive_0029-2856"></a>
+
+<p>The next <i>arg</i> is ignored. 
+<code>~</code><i>n</i><code>*</code> ignores the next <i>n</i> arguments.
+
+<p><code>~:*</code> backs up in the list of
+arguments so that the argument last processed will be processed again. 
+<code>~</code><i>n</i><code>:*</code> backs up <i>n</i> arguments.
+
+<p>When within a <code>~</code><tt>{</tt> construct
+(see below), the ignoring (in either direction) is relative to the list
+of arguments being processed by the iteration.
+
+<p><code>~</code><i>n</i><code>@*</code>
+goes to the <i>n</i>th <i>arg</i>, where 0 means the first one;
+<i>n</i> defaults to 0, so <code>~@*</code> goes back to the first <i>arg</i>. 
+Directives after a <code>~</code><i>n</i><code>@*</code>
+will take arguments in sequence beginning with the one gone to. 
+When within a <code>~</code><tt>{</tt> construct, the &ldquo;goto&rdquo;
+is relative to the list of arguments being processed by the iteration.
+
+<h5 class="subsubsection">22.3.7.2 Tilde Left-Bracket: Conditional Expression</h5>
+
+<p><a name="index-Left_002dBracket-_0028format-directive_0029-2857"></a><a name="index-Tilde-Left_002dBracket-_0028format-directive_0029-2858"></a>
+<code>~[</code><i>str0</i><code>~;</code><i>str1</i><code>~;</code><i>...</i><code>~;</code><i>strn</i><code>~]</code>
+
+<p>This is a set of control strings, called <i>clauses</i>, one of which is
+chosen and used.  The clauses are separated by <code>~;</code>
+and the construct is terminated by <code>~]</code>.  For example,
+
+<p><code>"~[Siamese~;Manx~;Persian~] Cat"</code>
+
+<p>The <i>arg</i>th
+clause is selected, where the first clause is number 0. 
+If a prefix parameter is given (as <code>~</code><i>n</i><code>[</code>),
+then the parameter is used instead of an argument. 
+If <i>arg</i> is out of range then no clause is selected
+and no error is signaled. 
+After the selected alternative has been processed, the control string
+continues after the <code>~]</code>.
+
+<p><code>~[</code><i>str0</i><code>~;</code><i>str1</i><code>~;</code><i>...</i><code>~;</code><i>strn</i><code>~:;</code><i>default</i><code>~]</code>
+has a default case. 
+If the <i>last</i> <code>~;</code> used to separate clauses
+is <code>~:;</code> instead, then the last clause is an else clause
+that is performed if no other clause is selected. 
+For example:
+
+<p><code>"~[Siamese~;Manx~;Persian~:;Alley~] Cat"</code>
+
+<p><code>~:[</code><var>alternative</var><code>~;</code><var>consequent</var><code>~]</code>
+selects the <var>alternative</var> control string if <i>arg</i> is <i>false</i>,
+and selects the <var>consequent</var> control string otherwise.
+
+<p><code>~@[</code><var>consequent</var><code>~]</code>
+tests the argument.  If it is <i>true</i>,
+then the argument is not used up by the <code>~[</code> command
+but remains as the next one to be processed,
+and the one clause <var>consequent</var> is processed. 
+If the <i>arg</i> is <i>false</i>, then the argument is used up,
+and the clause is not processed. 
+The clause therefore should normally use exactly one argument,
+and may expect it to be <i>non-nil</i>. 
+For example:
+
+<pre class="lisp"> (setq *print-level* nil *print-length* 5)
+ (format nil
+        "~@[ print level = ~D~]~@[ print length = ~D~]"
+        *print-level* *print-length*)
+<span class="roman">→</span>  " print length = 5"
+</pre>
+<p>Note also that
+
+<pre class="lisp"> (format <var>stream</var> "...~@[<var>str</var>~]..." ...)
+≡ (format <var>stream</var> "...~:[~;~:*<var>str</var>~]..." ...)
+</pre>
+<p>The combination of <code>~[</code> and <code>#</code> is useful, for
+example, for dealing with English conventions for printing lists:
+
+<pre class="lisp"> (setq foo "Items:~#[ none~; ~S~; ~S and ~S~
+           ~:;~@<tt>{</tt>~#[~; and~] ~S~^&nbsp;<!-- /@w -->,~<tt>}</tt>~].")
+ (format nil foo) <span class="roman">→</span>  "Items: none."
+ (format nil foo 'foo) <span class="roman">→</span>  "Items: FOO."
+ (format nil foo 'foo 'bar) <span class="roman">→</span>  "Items: FOO and BAR."
+ (format nil foo 'foo 'bar 'baz) <span class="roman">→</span>  "Items: FOO, BAR, and BAZ."
+ (format nil foo 'foo 'bar 'baz 'quux) <span class="roman">→</span>  "Items: FOO, BAR, BAZ, and QUUX."
+</pre>
+<h5 class="subsubsection">22.3.7.3 Tilde Right-Bracket: End of Conditional Expression</h5>
+
+<p><a name="index-Right_002dBracket-_0028format-directive_0029-2859"></a><a name="index-Tilde-Right_002dBracket-_0028format-directive_0029-2860"></a>
+<code>~]</code> terminates a <code>~[</code>. 
+The consequences of using it elsewhere are undefined.
+
+<h5 class="subsubsection">22.3.7.4 Tilde Left-Brace: Iteration</h5>
+
+<p><a name="index-Left_002dBrace-_0028format-directive_0029-2861"></a><a name="index-Tilde-Left_002dBrace-_0028format-directive_0029-2862"></a>
+<code>~</code><tt>{</tt><i>str</i><code>~</code><tt>}</tt>
+
+<p>This is an iteration construct.  The argument should be a <i>list</i>,
+which is used as a set of arguments
+as if for a recursive call to <code>format</code>. 
+The <i>string</i> <i>str</i> is used repeatedly as the control string. 
+Each iteration can absorb as many elements of the <i>list</i> as it likes
+as arguments;
+if <i>str</i> uses up two arguments by itself, then two elements of the
+<i>list</i> will get used up each time around the loop. 
+If before any iteration step the <i>list</i>
+is empty, then the iteration is terminated. 
+Also, if a prefix parameter <i>n</i> is given, then there will be at most <i>n</i>
+repetitions of processing of <i>str</i>. 
+Finally, the <code>~^ </code> directive can be
+used to terminate the iteration prematurely.
+
+<p>For example:
+
+<pre class="lisp"> (format nil "The winners are:~<tt>{</tt> ~S~<tt>}</tt>."
+         '(fred harry jill))
+<span class="roman">→</span> "The winners are: FRED HARRY JILL."
+ (format nil "Pairs:~<tt>{</tt> &lt;~S,~S&gt;~<tt>}</tt>."
+         '(a 1 b 2 c 3))
+<span class="roman">→</span> "Pairs: &lt;A,1&gt; &lt;B,2&gt; &lt;C,3&gt;."
+</pre>
+<p><code>~:{ </code><i>str</i><code>~}  </code> is similar,
+but the argument should be a <i>list</i> of sublists. 
+At each repetition step, one sublist
+is used as the set of arguments for
+processing <i>str</i>; on the next repetition, a new sublist
+is used, whether
+or not all of the last sublist had been processed. 
+For example:
+
+<pre class="lisp"> (format nil "Pairs:~:{ &lt;~S,~S&gt;~}&nbsp;<!-- /@w -->."
+                 '((a 1) (b 2) (c 3)))
+<span class="roman">→</span> "Pairs: &lt;A,1&gt; &lt;B,2&gt; &lt;C,3&gt;."
+</pre>
+<p><code>~@{ </code><i>str</i><code>~} </code>
+is similar to <code>~{ </code><i>str</i><code>~}  </code>, but instead of
+using one argument that is a list, all the remaining arguments
+are used as the list of arguments for the iteration. 
+Example:
+
+<pre class="lisp"> (format nil "Pairs:~@{ &lt;~S,~S&gt;~}&nbsp;<!-- /@w -->." 'a 1 'b 2 'c 3)
+<span class="roman">→</span> "Pairs: &lt;A,1&gt; &lt;B,2&gt; &lt;C,3&gt;."
+</pre>
+<p>If the iteration is terminated before all the remaining arguments are
+consumed, then any arguments not processed by the iteration remain to be
+processed by any directives following the iteration construct.
+
+<p><code>~:@{ </code><i>str</i><code>~}  </code>
+combines the features
+of <code>~:{ </code><i>str</i><code>~}  </code>
+and <code>~@{ </code><i>str</i><code>~}  </code>. 
+All the remaining arguments
+are used, and each one must be a <i>list</i>. 
+On each iteration, the next argument is
+used as a <i>list</i> of arguments to <i>str</i>. 
+Example:
+
+<pre class="lisp"> (format nil "Pairs:~:@{ &lt;~S,~S&gt;~}&nbsp;<!-- /@w -->."
+              '(a 1) '(b 2) '(c 3))
+<span class="roman">→</span> "Pairs: &lt;A,1&gt; &lt;B,2&gt; &lt;C,3&gt;."
+</pre>
+<p>Terminating the repetition construct with <code>~:} </code>
+instead of <code>~}  </code>
+forces <i>str</i> to be processed at least once, even if the initial
+list of arguments is null. However, this will not override an explicit
+prefix parameter of zero.
+
+<p>If <i>str</i> is empty, then an argument is used as <i>str</i>. 
+It must be a <i>format control</i>
+and precede any arguments processed by the iteration.  As an example,
+the following are equivalent:
+
+<pre class="lisp">    (apply #'format stream string arguments)
+ ≡ (format stream "~1<tt>{</tt>~:<tt>}</tt>" string arguments)
+</pre>
+<p>This will use <code>string</code> as a formatting string. 
+The <code>~1{ </code> says it will
+be processed at most once, and the <code>~:} </code>
+says it will be processed at least once. 
+Therefore it is processed exactly once, using <code>arguments</code> as the arguments. 
+This case may be handled more clearly by the <code>~?</code> directive,
+but this general feature of <code>~{  </code>
+is more powerful than <code>~?</code>.
+
+<h5 class="subsubsection">22.3.7.5 Tilde Right-Brace: End of Iteration</h5>
+
+<p><a name="index-Right_002dBrace-_0028format-directive_0029-2863"></a><a name="index-Tilde-Right_002dBrace-_0028format-directive_0029-2864"></a>
+
+<p><code>~</code><tt>}</tt> terminates a <code>~</code><tt>{</tt>. 
+The consequences of using it elsewhere are undefined.
+
+<h5 class="subsubsection">22.3.7.6 Tilde Question-Mark: Recursive Processing</h5>
+
+<p><a name="index-Question_002dMark-_0028format-directive_0029-2865"></a><a name="index-Tilde-Question_002dMark-_0028format-directive_0029-2866"></a>
+The next <i>arg</i> must be a <i>format control</i>, and the one after it a <i>list</i>;
+both are consumed by the <code>~?</code> directive. 
+The two are processed as a <var>control-string</var>, with the elements of the <i>list</i>
+as the arguments.  Once the recursive processing
+has been finished, the processing of the control
+string containing the <code>~?</code> directive is resumed. 
+Example:
+
+<pre class="lisp"> (format nil "~? ~D" "&lt;~A ~D&gt;" '("Foo" 5) 7) <span class="roman">→</span> "&lt;Foo 5&gt; 7"
+ (format nil "~? ~D" "&lt;~A ~D&gt;" '("Foo" 5 14) 7) <span class="roman">→</span> "&lt;Foo 5&gt; 7"
+</pre>
+<p>Note that in the second example three arguments are supplied
+to the <i>format string</i> <code>"&lt;~A ~D&gt;"</code>, but only two are processed
+and the third is therefore ignored.
+
+<p>With the <code>@</code>
+modifier, only one <i>arg</i> is directly consumed. 
+The <i>arg</i> must be a <i>string</i>;
+it is processed as part of the control
+string as if it had appeared in place of the <code>~@?</code> construct,
+and any directives in the recursively processed control string may
+consume arguments of the control string containing the <code>~@?</code>
+directive. 
+Example:
+
+<pre class="lisp"> (format nil "~@? ~D" "&lt;~A ~D&gt;" "Foo" 5 7) <span class="roman">→</span> "&lt;Foo 5&gt; 7"
+ (format nil "~@? ~D" "&lt;~A ~D&gt;" "Foo" 5 14 7) <span class="roman">→</span> "&lt;Foo 5&gt; 14"
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Control_002dFlow-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

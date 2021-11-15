@@ -1,0 +1,250 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:22 GMT -->
+<head>
+<title>remove; remove-if; remove-if-not; delete; delete-if; delete-if-not - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Sequences.html#Sequences" title="Sequences">
+<link rel="prev" href="merge.html#merge" title="merge">
+<link rel="next" href="remove_002dduplicates_003b-delete_002dduplicates.html#remove_002dduplicates_003b-delete_002dduplicates" title="remove-duplicates; delete-duplicates">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="remove%3b-remove-if%3b-remove-if-not%3b-delete%3b-delete-if%3b-delete-if-not"></a>
+<a name="remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="remove_002dduplicates_003b-delete_002dduplicates.html#remove_002dduplicates_003b-delete_002dduplicates">remove-duplicates; delete-duplicates</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="merge.html#merge">merge</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Sequences.html#Sequences">Sequences</a>
+<hr>
+</div>
+
+<h3 class="heading">remove, remove-if, remove-if-not, delete, delete-if, delete-if-not (Function)</h3>
+
+<p><a name="index-remove-2394"></a><a name="index-remove-2395"></a><a name="index-remove_002dif-2396"></a><a name="index-remove_002dif-2397"></a><a name="index-remove_002dif_002dnot-2398"></a><a name="index-remove_002dif_002dnot-2399"></a><a name="index-delete-2400"></a><a name="index-delete-2401"></a><a name="index-delete_002dif-2402"></a><a name="index-delete_002dif-2403"></a><a name="index-delete_002dif_002dnot-2404"></a><a name="index-delete_002dif_002dnot-2405"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>remove</b><var> item sequence </var><tt>&amp;key</tt><var> from-end test test-not start end count key </var><span class="roman">→</span><var> result-sequence<a name="index-remove-2406"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>remove-if</b><var> test sequence </var><tt>&amp;key</tt><var> from-end start end count key </var><span class="roman">→</span><var> result-sequence<a name="index-remove_002dif-2407"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>remove-if-not</b><var> test sequence </var><tt>&amp;key</tt><var> from-end start end count key </var><span class="roman">→</span><var> result-sequence<a name="index-remove_002dif_002dnot-2408"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>delete</b><var> item sequence </var><tt>&amp;key</tt><var> from-end test test-not start end count key </var><span class="roman">→</span><var> result-sequence<a name="index-delete-2409"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>delete-if</b><var> test sequence </var><tt>&amp;key</tt><var> from-end start end count key </var><span class="roman">→</span><var> result-sequence<a name="index-delete_002dif-2410"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>delete-if-not</b><var> test sequence </var><tt>&amp;key</tt><var> from-end start end count key </var><span class="roman">→</span><var> result-sequence<a name="index-delete_002dif_002dnot-2411"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>item</var>&mdash;an <i>object</i>.
+
+<p><var>sequence</var>&mdash;a <i>proper sequence</i>.
+
+<p><var>test</var>&mdash;a <i>designator</i> for a <i>function</i>
+of one <i>argument</i> that returns a <i>generalized boolean</i>.
+
+<p><var>from-end</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>test</var>&mdash;a <i>designator</i> for a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>test-not</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>start</var>, <var>end</var>&mdash;<i>bounding index designators</i> of <var>sequence</var>. 
+The defaults for <var>start</var> and <var>end</var> are <code>0</code> and <code>nil</code>, respectively.
+
+<p><var>count</var>&mdash;an <i>integer</i> or <code>nil</code>. 
+The default is <code>nil</code>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>result-sequence</var>&mdash;a <i>sequence</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>remove</code>, <code>remove-if</code>, and <code>remove-if-not</code>
+return a <var>sequence</var> from which
+the elements that <i>satisfy the test</i>
+have been removed.
+
+<p><code>delete</code>, <code>delete-if</code>, and <code>delete-if-not</code>
+are like <code>remove</code>, <code>remove-if</code>, and
+<code>remove-if-not</code> respectively,
+but they may modify <var>sequence</var>.
+
+<p>If <var>sequence</var> is a <i>vector</i>, the result is a
+<i>vector</i> that has the same
+<i>actual array element type</i> as <var>sequence</var>. 
+If <var>sequence</var> is a <i>list</i>, the result is a <i>list</i>.
+
+<p>Supplying a <var>from-end</var> of <i>true</i> matters only when the
+<var>count</var> is provided; in that case only the rightmost <var>count</var> elements
+<i>satisfying the test</i> are deleted.
+
+<p><var>Count</var>, if supplied, limits the number of elements
+removed or deleted; if more than <var>count</var> elements <i>satisfy the test</i>,
+then of these elements only the leftmost or rightmost, depending on
+<var>from-end</var>,
+are deleted or removed,
+as many as specified by <var>count</var>. 
+If <var>count</var> is supplied and negative,
+the behavior is as if zero had been supplied instead. 
+If <var>count</var> is <code>nil</code>, all matching items are affected.
+
+<p>For all these functions,
+elements
+not removed or deleted occur in the same order in the result
+as they did in <var>sequence</var>.
+
+<p><code>remove</code>, <code>remove-if</code>, <code>remove-if-not</code> return
+a <i>sequence</i>
+of the same <i>type</i> as <var>sequence</var>
+that has the same elements except that those in the subsequence
+<i>bounded</i> by <var>start</var> and <var>end</var> and <i>satisfying the test</i>
+have been removed. 
+This is a non-destructive operation. If any
+elements need to be removed, the result will be a copy. 
+The result of <code>remove</code> may share
+with <var>sequence</var>;
+the result may be <i>identical</i> to the input <var>sequence</var>
+if no elements need to be removed.
+
+<p><code>delete</code>, <code>delete-if</code>, and <code>delete-if-not</code>
+return a <i>sequence</i>
+of the same <i>type</i> as <var>sequence</var>
+that has the same elements except that those in the subsequence
+<i>bounded</i> by <var>start</var> and <var>end</var> and <i>satisfying the test</i>
+have been deleted. 
+<var>Sequence</var> may be destroyed and used to construct
+the result; however, the result might or might not be <i>identical</i>
+to <var>sequence</var>.
+
+<p><code>delete</code>, when <var>sequence</var> is a <i>list</i>, is permitted to
+<code>setf</code> any part, <code>car</code> or <code>cdr</code>, of the
+top-level list structure in that <var>sequence</var>. 
+When <var>sequence</var> is a <i>vector</i>,  <code>delete</code> is
+permitted to change the dimensions of the <i>vector</i>
+and to slide its elements into new positions without
+permuting them to produce the resulting <i>vector</i>.
+
+<p><code>delete-if</code> is constrained to behave exactly as follows:
+
+<pre class="lisp"> (delete nil <i>sequence</i>
+             :test #'(lambda (ignore <i>item</i>) (funcall <i>test</i> <i>item</i>))
+             ...)
+</pre>
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (remove 4 '(1 3 4 5 9)) <span class="roman">→</span> (1 3 5 9)
+ (remove 4 '(1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 1 3 5)
+ (remove 4 '(1 2 4 1 3 4 5) :count 1) <span class="roman">→</span> (1 2 1 3 4 5)
+ (remove 4 '(1 2 4 1 3 4 5) :count 1 :from-end t) <span class="roman">→</span> (1 2 4 1 3 5)
+ (remove 3 '(1 2 4 1 3 4 5) :test #'&gt;) <span class="roman">→</span> (4 3 4 5)
+ (setq lst '(list of four elements)) <span class="roman">→</span> (LIST OF FOUR ELEMENTS)
+ (setq lst2 (copy-seq lst)) <span class="roman">→</span> (LIST OF FOUR ELEMENTS)
+ (setq lst3 (delete 'four lst)) <span class="roman">→</span> (LIST OF ELEMENTS)
+ (equal lst lst2) <span class="roman">→</span> <i>false</i>
+ (remove-if #'oddp '(1 2 4 1 3 4 5)) <span class="roman">→</span> (2 4 4)
+ (remove-if #'evenp '(1 2 4 1 3 4 5) :count 1 :from-end t)
+<span class="roman">→</span> (1 2 4 1 3 5)
+ (remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9) :count 2 :from-end t)
+<span class="roman">→</span> (1 2 3 4 5 6 8)
+ (setq tester (list 1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 4 1 3 4 5)
+ (delete 4 tester) <span class="roman">→</span> (1 2 1 3 5)
+ (setq tester (list 1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 4 1 3 4 5)
+ (delete 4 tester :count 1) <span class="roman">→</span> (1 2 1 3 4 5)
+ (setq tester (list 1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 4 1 3 4 5)
+ (delete 4 tester :count 1 :from-end t) <span class="roman">→</span> (1 2 4 1 3 5)
+ (setq tester (list 1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 4 1 3 4 5)
+ (delete 3 tester :test #'&gt;) <span class="roman">→</span> (4 3 4 5)
+ (setq tester (list 1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 4 1 3 4 5)
+ (delete-if #'oddp tester) <span class="roman">→</span> (2 4 4)
+ (setq tester (list 1 2 4 1 3 4 5)) <span class="roman">→</span> (1 2 4 1 3 4 5)
+ (delete-if #'evenp tester :count 1 :from-end t) <span class="roman">→</span> (1 2 4 1 3 5)
+ (setq tester (list 1 2 3 4 5 6)) <span class="roman">→</span> (1 2 3 4 5 6)
+ (delete-if #'evenp tester) <span class="roman">→</span> (1 3 5)
+ tester <span class="roman">→</span> <i>implementation-dependent</i>
+</pre>
+<pre class="lisp"> (setq foo (list 'a 'b 'c)) <span class="roman">→</span> (A B C)
+ (setq bar (cdr foo)) <span class="roman">→</span> (B C)
+ (setq foo (delete 'b foo)) <span class="roman">→</span> (A C)
+ bar <span class="roman">→</span> ((C)) or ...
+ (eq (cdr foo) (car bar)) <span class="roman">→</span> T or ...
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>For <code>delete</code>, <code>delete-if</code>, and <code>delete-if-not</code>,
+<var>sequence</var> may be destroyed and used to construct the result.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should be prepared to signal an error of <i>type</i> <code>type-error</code> if
+<var>sequence</var> is not a <i>proper sequence</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>If <var>sequence</var> is a <i>vector</i>,
+the result might or might not be simple,
+and might or might not be <i>identical</i> to <var>sequence</var>.
+
+<p>The <tt>:test-not</tt> <i>argument</i> is deprecated.
+
+<p>The functions <code>delete-if-not</code> and <code>remove-if-not</code> are deprecated.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:22 GMT -->
+</html>
+

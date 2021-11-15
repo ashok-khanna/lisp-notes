@@ -1,0 +1,153 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/getf.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:00 GMT -->
+<head>
+<title>getf - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="get_002dproperties.html#get_002dproperties" title="get-properties">
+<link rel="next" href="remf.html#remf" title="remf">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="getf"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="remf.html#remf">remf</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="get_002dproperties.html#get_002dproperties">get-properties</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">getf (Accessor)</h3>
+
+<p><a name="index-getf-2014"></a><a name="index-getf-2015"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>getf</b><var> plist indicator </var><tt>&amp;optional</tt><var> default </var><span class="roman">→</span><var> value<a name="index-getf-2016"></a></var><br>
+     </div>
+
+<p><tt>(setf (getf place indicator &amp;optional default) new-value)</tt>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>plist</var>&mdash;a <i>property list</i>.
+
+<p><var>place</var>&mdash;a <i>place</i>, the <i>value</i> of which is a <i>property list</i>.
+
+<p><var>indicator</var>&mdash;an <i>object</i>.
+
+<p><var>default</var>&mdash;an <i>object</i>. 
+The default is <code>nil</code>.
+
+<p><var>value</var>&mdash;an <i>object</i>.
+
+<p><var>new-value</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>getf</code> finds a <i>property</i> on the <var>plist</var>
+whose <i>property indicator</i> is <i>identical</i> to <var>indicator</var>,
+and returns its corresponding <i>property value</i>. 
+If there are multiple <i>properties</i><sub>1</sub> with that <i>property indicator</i>,
+<code>getf</code> uses the first such <i>property</i>. 
+If there is no <i>property</i> with that <i>property indicator</i>,
+<var>default</var> is returned.
+
+<p><code>setf</code> of <code>getf</code> may be used to associate a new <i>object</i>
+with an existing indicator in the <i>property list</i> held by <var>place</var>,
+or to create a new assocation if none exists. 
+If there are multiple <i>properties</i><sub>1</sub> with that <i>property indicator</i>,
+<code>setf</code> of <code>getf</code> associates the <var>new-value</var>
+with the first such <i>property</i>. 
+When a <code>getf</code> <i>form</i> is used as a <code>setf</code> <var>place</var>,
+any <var>default</var> which is supplied is evaluated according to normal
+left-to-right evaluation rules, but its <i>value</i> is ignored.
+
+<p><code>setf</code> of <code>getf</code> is permitted to either
+<i>write</i> the <i>value</i> of <var>place</var> itself,
+or modify of any part, <i>car</i> or <i>cdr</i>,
+of the <i>list structure</i> held by <var>place</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq x '()) <span class="roman">→</span> NIL
+ (getf x 'prop1) <span class="roman">→</span> NIL
+ (getf x 'prop1 7) <span class="roman">→</span> 7
+ (getf x 'prop1) <span class="roman">→</span> NIL
+ (setf (getf x 'prop1) 'val1) <span class="roman">→</span> VAL1
+ (eq (getf x 'prop1) 'val1) <span class="roman">→</span> <i>true</i>
+ (getf x 'prop1) <span class="roman">→</span> VAL1
+ (getf x 'prop1 7) <span class="roman">→</span> VAL1
+ x <span class="roman">→</span> (PROP1 VAL1)
+
+;; Examples of implementation variation permitted.
+ (setq foo (list 'a 'b 'c 'd 'e 'f)) <span class="roman">→</span> (A B C D E F)
+ (setq bar (cddr foo)) <span class="roman">→</span> (C D E F)
+ (remf foo 'c) <span class="roman">→</span> <i>true</i>
+ foo <span class="roman">→</span> (A B E F)
+ bar
+<span class="roman">→</span> (C D E F)
+or<span class="roman">→</span> (C)
+or<span class="roman">→</span> (NIL)
+or<span class="roman">→</span> (C NIL)
+or<span class="roman">→</span> (C D)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="get.html#get">get</a>,
+<a href="get_002dproperties.html#get_002dproperties">get-properties</a>,
+<a href="setf.html#setf">setf</a>,
+<a href="FnFormsAsGenRefs.html#FnFormsAsGenRefs">Section 5.1.2.2 (Function Call Forms as Places)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>There is no way (using <code>getf</code>) to distinguish an absent property
+from one whose value is <var>default</var>; but see <code>get-properties</code>.
+
+<p>Note that while supplying a <i>default</i> argument to <code>getf</code>
+in a <code>setf</code> situation is sometimes not very interesting,
+it is still important because some macros, such as <code>push</code> and
+<code>incf</code>, require a <var>place</var> argument which data is both <i>read</i>
+from and <i>written</i> to.  In such a context, if a <i>default</i>
+argument is to be supplied for the <i>read</i> situation, it must be
+syntactically valid for the <i>write</i> situation as well. For example,
+
+<pre class="lisp"> (let ((plist '()))
+   (incf (getf plist 'count 0))
+   plist) <span class="roman">→</span> (COUNT 1)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/getf.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:01 GMT -->
+</html>
+

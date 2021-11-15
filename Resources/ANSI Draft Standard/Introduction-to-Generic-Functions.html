@@ -1,0 +1,143 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Generic-Functions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Introduction to Generic Functions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods" title="Generic Functions and Methods">
+<link rel="next" href="Introduction-to-Methods.html#Introduction-to-Methods" title="Introduction to Methods">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Generic-Functions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Introduction-to-Methods.html#Introduction-to-Methods">Introduction to Methods</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods">Generic Functions and Methods</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.6.1 Introduction to Generic Functions</h4>
+
+<p>A <a name="index-generic-function-703"></a><dfn>generic function</dfn> is a function whose behavior depends on
+the <i>classes</i> or identities of the <i>arguments</i> supplied to it. 
+A <i>generic function</i> <i>object</i>
+is associated with
+a set of <i>methods</i>,
+a <i>lambda list</i>,
+a <i>method combination</i><sub>2</sub>,
+and other information.
+
+<p>Like an <i>ordinary function</i>, a <i>generic function</i> takes <i>arguments</i>,
+performs a series of operations, and perhaps returns useful <i>values</i>. 
+An <i>ordinary function</i> has a single body of <i>code</i> that is always <i>executed</i>
+when the <i>function</i> is called.  A <i>generic function</i> has a set of bodies
+of <i>code</i> of which a subset is selected for <i>execution</i>. The selected
+bodies of <i>code</i> and the manner of their combination are determined by
+the <i>classes</i> or identities of one or more of the <i>arguments</i> to the
+<i>generic function</i> and by its <i>method combination</i>.
+
+<p><i>Ordinary functions</i> and <i>generic functions</i> are called with identical syntax.
+
+<p><i>Generic functions</i> are true <i>functions</i> that can be passed as <i>arguments</i>
+and used as the first <i>argument</i> to <code>funcall</code> and <code>apply</code>.
+
+<p>A <i>binding</i> of a <i>function name</i> to a <i>generic function</i>
+can be <i>established</i> in one of several ways.  It can be
+<i>established</i> in the <i>global environment</i> by
+<code>ensure-generic-function</code>,
+<code>defmethod</code> (implicitly, due to <code>ensure-generic-function</code>)
+or
+<code>defgeneric</code> (also implicitly, due to <code>ensure-generic-function</code>). 
+No <i>standardized</i> mechanism is provided for <i>establishing</i> a
+<i>binding</i> of a <i>function name</i> to a <i>generic function</i>
+in the <i>lexical environment</i>.
+
+<p>When a <code>defgeneric</code> form is evaluated, one of three actions
+is taken (due to <code>ensure-generic-function</code>):
+
+     <ul>
+<li>If a generic function of the given name already exists,
+the existing generic function object is modified.  Methods specified
+by the current <code>defgeneric</code> form are added, and any methods in the
+existing generic function that were defined by a previous <code>defgeneric</code>
+form are removed.  Methods added by the current <code>defgeneric</code>
+form might replace methods defined by <code>defmethod</code>,
+<code>defclass</code>, <code>define-condition</code>, or <code>defstruct</code>. 
+No other methods in the generic function are affected
+or replaced.
+
+     <li>If the given name names
+an <i>ordinary function</i>,
+a  <i>macro</i>,
+or a <i>special operator</i>,
+an error is signaled.
+
+     <li>Otherwise a generic function is created with the
+methods specified by the method definitions in the <code>defgeneric</code>
+form. 
+</ul>
+
+<p>Some <i>operators</i> permit specification of the options of a
+<i>generic function</i>, such as
+the <i>type</i> of <i>method combination</i> it uses
+or its <i>argument precedence order</i>. 
+These <i>operators</i> will be referred to as
+&ldquo;operators that specify generic function options.&rdquo;
+The only <i>standardized</i> <i>operator</i> in this category is <code>defgeneric</code>.
+
+<p>Some <i>operators</i> define <i>methods</i> for a <i>generic function</i>. 
+These <i>operators</i> will be referred to as
+<a name="index-method_002ddefining-operator-704"></a><dfn>method-defining operators</dfn>;
+their associated <i>forms</i> are called <i>method-defining forms</i>. 
+The <i>standardized</i> <i>method-defining operators</i> are listed in the next figure.
+
+<div class="float">
+<a name="StdMethDefOps"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">defgeneric </td><td valign="top">defmethod </td><td valign="top">defclass
+<br></td></tr><tr align="left"><td valign="top">define-condition </td><td valign="top">defstruct </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 7.1: Standardized Method-Defining Operators</strong></p></div>
+
+<p>Note that of the <i>standardized</i> <i>method-defining operators</i>
+only <code>defgeneric</code>
+can specify <i>generic function</i> options. 
+<code>defgeneric</code> and any <i>implementation-defined</i> <i>operators</i>
+that can specify <i>generic function</i> options
+are also referred to as &ldquo;operators that specify generic function options.&rdquo;
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Generic-Functions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

@@ -1,0 +1,168 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/change_002dclass.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+<head>
+<title>change-class - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="update_002dinstance_002dfor_002dredefined_002dclass.html#update_002dinstance_002dfor_002dredefined_002dclass" title="update-instance-for-redefined-class">
+<link rel="next" href="slot_002dboundp.html#slot_002dboundp" title="slot-boundp">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="change-class"></a>
+<a name="change_002dclass"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="slot_002dboundp.html#slot_002dboundp">slot-boundp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="update_002dinstance_002dfor_002dredefined_002dclass.html#update_002dinstance_002dfor_002dredefined_002dclass">update-instance-for-redefined-class</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="heading">change-class (Standard Generic Function)</h3>
+
+<p><a name="index-change_002dclass-741"></a><a name="index-change_002dclass-742"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Generic Function: <b>change-class</b><var> instance new-class </var><tt>&amp;key</tt> <tt>&amp;allow-other-keys</tt> <span class="roman">→</span><var> instance<a name="index-change_002dclass-743"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Method Signatures:</h5>
+
+<p>change-class <tt>(</tt><var>instance</var> <code>standard-object</code><tt>)</tt>
+<tt>(</tt><var>new-class</var> <code>standard-class</code><tt>)</tt>
+<tt>&amp;rest</tt> initargs
+
+<p>change-class <tt>(</tt><var>instance</var> <code>t</code><tt>)</tt>
+<tt>(</tt><var>new-class</var> <code>symbol</code><tt>)</tt>
+<tt>&amp;rest</tt> initargs
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>instance</var>&mdash;an <i>object</i>.
+
+<p><var>new-class</var>&mdash;a <i>class designator</i>.
+
+<p><var>initargs</var>&mdash;an <i>initialization argument list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The <i>generic function</i> <code>change-class</code> changes the
+<i>class</i> of an <var>instance</var> to <var>new-class</var>. 
+It destructively modifies and returns the <var>instance</var>.
+
+<p>If in the old <i>class</i> there is any <i>slot</i> of the
+same name as a local <i>slot</i> in the <var>new-class</var>,
+the value of that <i>slot</i> is retained.  This means that if
+the <i>slot</i> has a value, the value returned by <code>slot-value</code>
+after <code>change-class</code> is invoked is <code>eql</code> to the
+value returned by <code>slot-value</code> before <code>change-class</code> is
+invoked.  Similarly, if the <i>slot</i> was unbound, it remains
+unbound.  The other <i>slots</i> are initialized as described in
+<a href="Changing-the-Class-of-an-Instance.html#Changing-the-Class-of-an-Instance">Section 7.2 (Changing the Class of an Instance)</a>.
+
+<p>After completing all other actions, <code>change-class</code> invokes
+<code>update-instance-for-different-class</code>.  The
+generic function <code>update-instance-for-different-class</code> can be used
+to assign values to slots in the transformed instance. 
+See <a href="Initializing-Newly-Added-Local-Slots.html#Initializing-Newly-Added-Local-Slots">Section 7.2.2 (Initializing Newly Added Local Slots)</a>.
+
+<p>If the second of the above <i>methods</i> is selected,
+that <i>method</i> invokes <code>change-class</code>
+on <var>instance</var>, <code>(find-class </code><var>new-class</var><code>)</code>,
+and the <var>initargs</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">
+ (defclass position () ())
+
+ (defclass x-y-position (position)
+     ((x :initform 0 :initarg :x)
+      (y :initform 0 :initarg :y)))
+
+ (defclass rho-theta-position (position)
+     ((rho :initform 0)
+      (theta :initform 0)))
+
+ (defmethod update-instance-for-different-class :before ((old x-y-position)
+                                                         (new rho-theta-position)
+                                                         &amp;key)
+   ;; Copy the position information from old to new to make new
+   ;; be a rho-theta-position at the same position as old.
+   (let ((x (slot-value old 'x))
+         (y (slot-value old 'y)))
+     (setf (slot-value new 'rho) (sqrt (+ (* x x) (* y y)))
+           (slot-value new 'theta) (atan y x))))
+
+;;; At this point an instance of the class x-y-position can be
+;;; changed to be an instance of the class rho-theta-position using
+;;; change-class:
+
+ (setq p1 (make-instance 'x-y-position :x 2 :y 0))
+
+ (change-class p1 'rho-theta-position)
+
+;;; The result is that the instance bound to p1 is now an instance of
+;;; the class rho-theta-position.   The update-instance-for-different-class
+;;; method performed the initialization of the rho and theta slots based
+;;; on the value of the x and y slots, which were maintained by
+;;; the old instance.
+
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="update_002dinstance_002dfor_002ddifferent_002dclass.html#update_002dinstance_002dfor_002ddifferent_002dclass">update-instance-for-different-class</a>,
+<a href="Changing-the-Class-of-an-Instance.html#Changing-the-Class-of-an-Instance">Section 7.2 (Changing the Class of an Instance)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The generic function <code>change-class</code> has several semantic
+difficulties.  First, it performs a destructive operation that can be
+invoked within a <i>method</i> on an <i>instance</i> that was used to select that
+<i>method</i>. 
+When multiple <i>methods</i> are involved because <i>methods</i> are being
+combined, the <i>methods</i> currently executing or about to be executed may
+no longer be applicable.  Second, some implementations might use
+compiler optimizations of slot <i>access</i>, and when the <i>class</i> of an
+<i>instance</i> is changed the assumptions the compiler made might be
+violated.  This implies that a programmer must not use
+<code>change-class</code> inside a <i>method</i> if any
+<i>methods</i> for that <i>generic function</i>
+<i>access</i> any <i>slots</i>, or the results are undefined.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/change_002dclass.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+</html>
+

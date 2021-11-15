@@ -1,0 +1,128 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/unread_002dchar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:35 GMT -->
+<head>
+<title>unread-char - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="terpri_003b-fresh_002dline.html#terpri_003b-fresh_002dline" title="terpri; fresh-line">
+<link rel="next" href="write_002dchar.html#write_002dchar" title="write-char">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="unread-char"></a>
+<a name="unread_002dchar"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="write_002dchar.html#write_002dchar">write-char</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="terpri_003b-fresh_002dline.html#terpri_003b-fresh_002dline">terpri; fresh-line</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">unread-char (Function)</h3>
+
+<p><a name="index-unread_002dchar-2653"></a><a name="index-unread_002dchar-2654"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>unread-char</b><var> character </var><tt>&amp;optional</tt><var> input-stream </var><span class="roman">→</span> <code>nil</code><var><a name="index-unread_002dchar-2655"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>character</var>&mdash;a <i>character</i>;
+must be the last <i>character</i> that was read from <var>input-stream</var>.
+
+<p><var>input-stream</var>&mdash;an <i>input</i> <i>stream designator</i>. 
+The default is <i>standard input</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>unread-char</code> places <var>character</var> back onto the front of
+<var>input-stream</var> so that it will again be the next character
+in <var>input-stream</var>.
+
+<p>When <var>input-stream</var> is an <i>echo stream</i>,
+no attempt is made to undo any echoing of the character that might already
+have been done on <var>input-stream</var>. However, characters placed on
+<var>input-stream</var> by <code>unread-char</code> are marked in such a way
+as to inhibit later re-echo by <code>read-char</code>.
+
+<p>It is an error to invoke <code>unread-char</code>
+twice consecutively on the same <i>stream</i>
+without an intervening call to <code>read-char</code>
+(or some other input operation which implicitly reads characters)
+on that <i>stream</i>.
+
+<p>Invoking <code>peek-char</code> or <code>read-char</code> commits all previous characters. 
+The consequences of invoking <code>unread-char</code>
+on any character preceding that which is returned by
+<code>peek-char</code> (including those passed over by
+<code>peek-char</code> that has a <i>non-nil</i> <var>peek-type</var>)
+are unspecified. 
+In particular, the consequences of
+invoking <code>unread-char</code> after <code>peek-char</code>
+are unspecified.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (with-input-from-string (is "0123")
+    (dotimes (i 6)
+      (let ((c (read-char is)))
+        (if (evenp i) (format t "~&amp;~S ~S~%" i c) (unread-char c is)))))
+▷ 0 #\0
+▷ 2 #\1
+▷ 4 #\2
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-input*</code>,
+<code>*terminal-io*</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="peek_002dchar.html#peek_002dchar">peek-char</a>,
+<a href="read_002dchar.html#read_002dchar">read-char</a>,
+<a href="Stream-Concepts.html#Stream-Concepts">Section 21.1 (Stream Concepts)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>unread-char</code> is intended to be an efficient mechanism for allowing
+the <i>Lisp reader</i> and other parsers to perform one-character lookahead
+in <var>input-stream</var>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/unread_002dchar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:35 GMT -->
+</html>
+

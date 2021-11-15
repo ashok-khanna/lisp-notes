@@ -1,0 +1,128 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Semicolon.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Semicolon - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Standard-Macro-Characters.html#Standard-Macro-Characters" title="Standard Macro Characters">
+<link rel="prev" href="Single_002dQuote.html#Single_002dQuote" title="Single-Quote">
+<link rel="next" href="Double_002dQuote.html#Double_002dQuote" title="Double-Quote">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Semicolon"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Double_002dQuote.html#Double_002dQuote">Double-Quote</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Single_002dQuote.html#Single_002dQuote">Single-Quote</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Standard-Macro-Characters.html#Standard-Macro-Characters">Standard Macro Characters</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.4.4 Semicolon</h4>
+
+<p><a name="index-g_t_003b-69"></a><a name="index-Semicolon-_0028reader-macro_0029-70"></a><a name="index-comment-71"></a>
+<b>Syntax:</b> <code>;«</code><var>text</var><code>»</code>
+
+<p>A <i>semicolon</i> introduces <i>characters</i> that are to be ignored,
+such as comments.  The <i>semicolon</i> and all <i>characters</i> up to
+and including the next <i>newline</i> or end of file are ignored.
+
+<h5 class="subsubsection">2.4.4.1 Examples of Semicolon</h5>
+
+<pre class="lisp"> (+ 3 ; three
+    4)
+<span class="roman">→</span> 7
+</pre>
+<h5 class="subsubsection">2.4.4.2 Notes about Style for Semicolon</h5>
+
+<p>Some text editors make assumptions about desired indentation based on
+the number of <i>semicolons</i> that begin a comment.  The following style
+conventions are common, although not by any means universal.
+
+<h5 class="unnumberedsubsubsec">2.4.4.2.1 Use of Single Semicolon</h5>
+
+<p>Comments that begin with a single <i>semicolon</i> are all aligned to
+the same column at the right (sometimes called the &ldquo;comment column&rdquo;). 
+The text of such a comment generally applies only to the line on which it appears. 
+Occasionally two or three contain a single sentence together;
+this is sometimes indicated by indenting all but the first with an additional
+space (after the <i>semicolon</i>).
+
+<h5 class="unnumberedsubsubsec">2.4.4.2.2 Use of Double Semicolon</h5>
+
+<p>Comments that begin with a double <i>semicolon</i> are all aligned to
+the same level of indentation as a <i>form</i> would be at that same
+position in the <i>code</i>. 
+The text of such a comment usually describes
+the state of the <i>program</i> at the point where the comment occurs,
+the <i>code</i> which follows the comment,
+or both.
+
+<h5 class="unnumberedsubsubsec">2.4.4.2.3 Use of Triple Semicolon</h5>
+
+<p>Comments that begin with a triple <i>semicolon</i> are all aligned to
+the left margin.  Usually they are used prior to a definition or set
+of definitions, rather than within a definition.
+
+<h5 class="unnumberedsubsubsec">2.4.4.2.4 Use of Quadruple Semicolon</h5>
+
+<p>Comments that begin with a quadruple <i>semicolon</i> are all aligned to
+the left margin, and generally contain only a short piece of text that
+serve as a title for the code which follows, and might be used in the
+header or footer of a program that prepares code for presentation as
+a hardcopy document.
+
+<h5 class="unnumberedsubsubsec">2.4.4.2.5 Examples of Style for Semicolon</h5>
+
+<pre class="lisp">;;;; Math Utilities
+
+;;; FIB computes the the Fibonacci function in the traditional
+;;; recursive way.
+
+(defun fib (n)
+  (check-type n integer)
+  ;; At this point we're sure we have an integer argument.
+  ;; Now we can get down to some serious computation.
+  (cond ((&lt; n 0)
+         ;; Hey, this is just supposed to be a simple example.
+         ;; Did you really expect me to handle the general case?
+         (error "FIB got ~D as an argument." n))
+        ((&lt; n 2) n)             ;fib[0]=0 and fib[1]=1
+        ;; The cheap cases didn't work.
+        ;; Nothing more to do but recurse.
+        (t (+ (fib (- n 1))     ;The traditional formula
+              (fib (- n 2)))))) ; is fib[n-1]+fib[n-2].
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Semicolon.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

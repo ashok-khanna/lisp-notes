@@ -1,0 +1,130 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/gensym.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>gensym - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Symbols.html#Symbols" title="Symbols">
+<link rel="prev" href="copy_002dsymbol.html#copy_002dsymbol" title="copy-symbol">
+<link rel="next" href="_002agensym_002dcounter_002a.html#g_t_002agensym_002dcounter_002a" title="*gensym-counter*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="gensym"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002agensym_002dcounter_002a.html#g_t_002agensym_002dcounter_002a">*gensym-counter*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="copy_002dsymbol.html#copy_002dsymbol">copy-symbol</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Symbols.html#Symbols">Symbols</a>
+<hr>
+</div>
+
+<h3 class="heading">gensym (Function)</h3>
+
+<p><a name="index-gensym-1012"></a><a name="index-gensym-1013"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>gensym</b> <tt>&amp;optional</tt><var> x </var><span class="roman">→</span><var> new-symbol<a name="index-gensym-1014"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>x</var>&mdash;a <i>string</i> or a non-negative <i>integer</i>. 
+Complicated defaulting behavior; see below.
+
+<p><var>new-symbol</var>&mdash;a <i>fresh</i>, <i>uninterned</i> <i>symbol</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Creates and returns a <i>fresh</i>, <i>uninterned</i> <i>symbol</i>,
+as if by calling <code>make-symbol</code>.  (The only difference between
+<code>gensym</code> and <code>make-symbol</code> is in how the <var>new-symbol</var>'s
+<i>name</i> is determined.)
+
+<p>The <i>name</i> of the <var>new-symbol</var> is the concatenation
+of a prefix, which defaults to <code>"G"</code>, and
+a suffix, which is the decimal representation of a number that
+defaults to the <i>value</i> of <code>*gensym-counter*</code>.
+
+<p>If <var>x</var> is supplied, and is a <i>string</i>, then that <i>string</i>
+is used as a prefix instead of <code>"G"</code> for this call to <code>gensym</code> only.
+
+<p>If <var>x</var> is supplied, and is an <i>integer</i>, then that <i>integer</i>,
+instead of the <i>value</i> of <code>*gensym-counter*</code>, is used as the suffix
+for this call to <code>gensym</code> only.
+
+<p>If and only if no explicit suffix is supplied,
+<code>*gensym-counter*</code> is incremented after it is used.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq sym1 (gensym)) <span class="roman">→</span> #:G3142
+ (symbol-package sym1) <span class="roman">→</span> NIL
+ (setq sym2 (gensym 100)) <span class="roman">→</span> #:G100
+ (setq sym3 (gensym 100)) <span class="roman">→</span> #:G100
+ (eq sym2 sym3) <span class="roman">→</span> <i>false</i>
+ (find-symbol "G100") <span class="roman">→</span> NIL, NIL
+ (gensym "T") <span class="roman">→</span> #:T3143
+ (gensym) <span class="roman">→</span> #:G3144
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>Might increment <code>*gensym-counter*</code>.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*gensym-counter*</code>
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>x</var> is not a <i>string</i> or a non-negative <i>integer</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="gentemp.html#gentemp">gentemp</a>,
+<a href="_002agensym_002dcounter_002a.html#g_t_002agensym_002dcounter_002a">*gensym-counter*</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The ability to pass a numeric argument to <code>gensym</code> has been deprecated;
+explicitly <i>binding</i> <code>*gensym-counter*</code> is now stylistically preferred. 
+(The somewhat baroque conventions for the optional argument are historical
+in nature, and supported primarily for compatibility with older dialects
+of <span class="roman">Lisp</span>.   In modern code, it is recommended that the only kind of argument
+used be a string prefix.  In general, though, to obtain more flexible control
+of the <var>new-symbol</var>'s <i>name</i>, consider using <code>make-symbol</code> instead.)
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/gensym.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

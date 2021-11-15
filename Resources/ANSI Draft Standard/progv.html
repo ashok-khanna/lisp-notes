@@ -1,0 +1,113 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/progv.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+<head>
+<title>progv - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="let_003b-let_002a.html#let_003b-let_002a" title="let; let*">
+<link rel="next" href="setq.html#setq" title="setq">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="progv"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="setq.html#setq">setq</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="let_003b-let_002a.html#let_003b-let_002a">let; let*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">progv (Special Operator)</h3>
+
+<p><a name="index-progv-490"></a><a name="index-progv-491"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>progv</b><var> symbols values </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-progv-492"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbols</var>&mdash;a <i>list</i> of <i>symbols</i>; evaluated.
+
+<p><var>values</var>&mdash;a <i>list</i> of <i>objects</i>; evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <i>forms</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>progv</code> creates new dynamic variable <i>bindings</i> and
+executes each <var>form</var> using those <i>bindings</i>. 
+Each <var>form</var> is evaluated in  order.
+
+<p><code>progv</code> allows <i>binding</i> one or more dynamic
+variables whose names may be determined at run time. 
+Each <var>form</var> is evaluated in order
+with the dynamic variables whose names are in
+<var>symbols</var> bound to corresponding <var>values</var>. 
+If too few <var>values</var>
+are supplied, the remaining <i>symbols</i> are bound and then
+made to have no value. If too many <var>values</var> are
+supplied, the excess values are ignored. 
+The <i>bindings</i> of the dynamic variables are undone on
+exit from <code>progv</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq *x* 1) <span class="roman">→</span> 1
+ (progv '(*x*) '(2) *x*) <span class="roman">→</span> 2
+ *x* <span class="roman">→</span> 1
+
+Assuming *x* is not globally special,
+
+ (let ((*x* 3))
+    (progv '(*x*) '(4)
+      (list *x* (symbol-value '*x*)))) <span class="roman">→</span> (3 4)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="let.html#let">let</a>, <a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Among other things, <code>progv</code> is useful when writing
+interpreters for languages embedded in <span class="roman">Lisp</span>; it provides a handle
+on the mechanism for <i>binding</i> <i>dynamic variables</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/progv.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+</html>
+

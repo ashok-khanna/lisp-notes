@@ -1,0 +1,111 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/upgraded_002darray_002delement_002dtype.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:13 GMT -->
+<head>
+<title>upgraded-array-element-type - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Arrays.html#Arrays" title="Arrays">
+<link rel="prev" href="row_002dmajor_002daref.html#row_002dmajor_002daref" title="row-major-aref">
+<link rel="next" href="array_002ddimension_002dlimit.html#array_002ddimension_002dlimit" title="array-dimension-limit">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="upgraded-array-element-type"></a>
+<a name="upgraded_002darray_002delement_002dtype"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="array_002ddimension_002dlimit.html#array_002ddimension_002dlimit">array-dimension-limit</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="row_002dmajor_002daref.html#row_002dmajor_002daref">row-major-aref</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Arrays.html#Arrays">Arrays</a>
+<hr>
+</div>
+
+<h3 class="heading">upgraded-array-element-type (Function)</h3>
+
+<p><a name="index-upgraded_002darray_002delement_002dtype-2123"></a><a name="index-upgraded_002darray_002delement_002dtype-2124"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>upgraded-array-element-type</b><var> typespec </var><tt>&amp;optional</tt><var> environment </var><span class="roman">→</span><var> upgraded-typespec<a name="index-upgraded_002darray_002delement_002dtype-2125"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>typespec</var>&mdash;a <i>type specifier</i>.
+
+<p><var>environment</var>&mdash;an <i>environment</i> <i>object</i>. 
+The default is <code>nil</code>, denoting the <i>null lexical environment</i>
+and the current <i>global environment</i>.
+
+<p><var>upgraded-typespec</var>&mdash;a <i>type specifier</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns the <i>element type</i> of
+the most <i>specialized</i> <i>array</i> representation capable of
+holding items of the <i>type</i> denoted by <var>typespec</var>.
+
+<p>The <var>typespec</var> is a <i>subtype</i> of
+(and possibly <i>type equivalent</i> to)
+the <var>upgraded-typespec</var>.
+
+<p>If <var>typespec</var> is <code>bit</code>,
+the result is <i>type equivalent</i> to <code>bit</code>. 
+If <var>typespec</var> is <code>base-char</code>,
+the result is <i>type equivalent</i> to <code>base-char</code>. 
+If <var>typespec</var> is <code>character</code>,
+the result is <i>type equivalent</i> to <code>character</code>.
+
+<p>The purpose of <code>upgraded-array-element-type</code> is to reveal how
+an implementation does its <i>upgrading</i>.
+
+<p>The <var>environment</var> is used to expand any <i>derived type specifiers</i>
+that are mentioned in the <var>typespec</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="array_002delement_002dtype.html#array_002delement_002dtype">array-element-type</a>,
+<a href="make_002darray.html#make_002darray">make-array</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Except for storage allocation consequences and dealing correctly with the
+optional <var>environment</var> <i>argument</i>,
+<code>upgraded-array-element-type</code> could be defined as:
+
+<pre class="lisp"> (defun upgraded-array-element-type (type &amp;optional environment)
+   (array-element-type (make-array 0 :element-type type)))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/upgraded_002darray_002delement_002dtype.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:13 GMT -->
+</html>
+

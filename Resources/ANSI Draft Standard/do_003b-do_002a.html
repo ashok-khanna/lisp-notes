@@ -1,0 +1,304 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/do_003b-do_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:48 GMT -->
+<head>
+<title>do; do* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Iteration.html#Iteration" title="Iteration">
+<link rel="prev" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="next" href="dotimes.html#dotimes" title="dotimes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="do%3b-do*"></a>
+<a name="do_003b-do_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="dotimes.html#dotimes">dotimes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Iteration.html#Iteration">Iteration</a>
+<hr>
+</div>
+
+<h3 class="heading">do, do* (Macro)</h3>
+
+<p><a name="index-do-681"></a><a name="index-do-682"></a><a name="index-do_002a-683"></a><a name="index-do_002a-684"></a><a name="do"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>do</b> <tt>(</tt><tt>{</tt><var>var&nbsp;</var><span class="roman">|</span><var>&nbsp;</var><tt>(</tt><var>var&nbsp;</var><tt>[</tt><var>init-form&nbsp;</var><tt>[</tt><var>step-form</var><tt>]</tt><tt>]</tt><tt>)</tt><tt>}</tt><var>*</var><tt>)</tt><var><!-- /@w --> </var><tt>(</tt><var>end-test-form&nbsp;</var><tt>{</tt><var>result-form</var><tt>}</tt><var>*</var><tt>)</tt><var><!-- /@w --> </var><tt>{</tt><var>declaration</var><tt>}</tt><var>*&nbsp;</var><tt>{</tt><var>tag&nbsp;</var><span class="roman">|</span><var>&nbsp;statement</var><tt>}</tt><var>*<!-- /@w --> </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-do-685"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>do*</b> <tt>(</tt><tt>{</tt><var>var&nbsp;</var><span class="roman">|</span><var>&nbsp;</var><tt>(</tt><var>var&nbsp;</var><tt>[</tt><var>init-form&nbsp;</var><tt>[</tt><var>step-form</var><tt>]</tt><tt>]</tt><tt>)</tt><tt>}</tt><var>*</var><tt>)</tt><var><!-- /@w --> </var><tt>(</tt><var>end-test-form&nbsp;</var><tt>{</tt><var>result-form</var><tt>}</tt><var>*</var><tt>)</tt><var><!-- /@w --> </var><tt>{</tt><var>declaration</var><tt>}</tt><var>*&nbsp;</var><tt>{</tt><var>tag&nbsp;</var><span class="roman">|</span><var>&nbsp;statement</var><tt>}</tt><var>*<!-- /@w --> </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-do_002a-686"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>var</var>&mdash;a <i>symbol</i>.
+
+<p><var>init-form</var>&mdash;a <i>form</i>.
+
+<p><var>step-form</var>&mdash;a <i>form</i>.
+
+<p><var>end-test-form</var>&mdash;a <i>form</i>.
+
+<p><var>result-forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>tag</var>&mdash;a <i>go tag</i>; not evaluated.
+
+<p><var>statement</var>&mdash;a <i>compound form</i>; evaluated as described below.
+
+<p><var>results</var>&mdash;if a <code>return</code> or <code>return-from</code> form is executed,
+the <i>values</i> passed from that <i>form</i>;
+otherwise, the <i>values</i> returned by the <var>result-forms</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>do</code> iterates over a group of <var>statements</var>
+while a test condition holds. 
+<code>do</code> accepts an arbitrary number of iteration <var>vars</var>
+which are bound within the iteration and stepped in parallel. 
+An initial value may be supplied for each iteration variable by use of
+an <var>init-form</var>. 
+<var>Step-forms</var> may be used to specify how the
+<var>vars</var> should be updated on succeeding iterations through the loop. 
+<var>Step-forms</var> may be used both to generate successive
+values or to accumulate results. 
+If the <var>end-test-form</var> condition
+is met prior to an execution of the body, the iteration terminates. 
+<var>Tags</var> label <var>statements</var>.
+
+<p><code>do*</code> is exactly like <code>do</code>
+except that the <i>bindings</i> and steppings
+of the <var>vars</var> are performed sequentially rather than in parallel.
+
+<p>Before the first iteration, all the <var>init-forms</var> are evaluated, and
+each <var>var</var> is bound to the value of its respective <var>init-form</var>,
+if supplied. 
+This is a <i>binding</i>, not an assignment; when the loop terminates,
+the old values of those variables will be restored. 
+For <code>do</code>, all
+of the <var>init-forms</var> are evaluated before any <var>var</var>
+is bound. The
+<var>init-forms</var> can refer to the <i>bindings</i> of the <var>vars</var>
+visible before beginning execution of
+<code>do</code>. 
+For <code>do*</code>, the first <var>init-form</var> is evaluated, then the first
+<var>var</var> is bound to that value, then the second <var>init-form</var>
+is evaluated, then the second <var>var</var> is bound, and so on;
+in general, the <i>k</i>th <var>init-form</var> can refer to the new binding
+of the <i>j</i>th <var>var</var> if <i>j</i> &lt; <i>k</i>, and otherwise to the
+old binding of the <i>j</i>th <var>var</var>.
+
+<p>At the beginning of each iteration, after processing the variables,
+the <var>end-test-form</var> is evaluated.  If the result is
+<i>false</i>, execution proceeds with the body of the <code>do</code>
+(or <code>do*</code>) form. 
+If the result is <i>true</i>, the <var>result-forms</var> are evaluated in order
+as an <i>implicit progn</i>,
+and then <code>do</code> or <code>do*</code> returns.
+
+<p>At the beginning of each iteration other than the first,
+<var>vars</var> are updated as follows.  All the <var>step-forms</var>, if supplied,
+are evaluated, from left to right, and the resulting values are
+assigned to the respective <var>vars</var>. 
+Any <var>var</var> that has no associated <var>step-form</var> is not assigned to. 
+For <code>do</code>, all the <var>step-forms</var> are evaluated before any <var>var</var>
+is updated; the assignment of values to <var>vars</var> is done in parallel,
+as if by <code>psetq</code>. 
+Because all of the <var>step-forms</var> are evaluated before any
+of the <var>vars</var> are altered, a <var>step-form</var> when evaluated always has
+access to the old values of all the <var>vars</var>, even if other <var>step-forms</var>
+precede it. 
+For <code>do*</code>, the first <var>step-form</var> is evaluated, then the
+value is assigned to the first <var>var</var>, then the second <var>step-form</var>
+is evaluated, then the value is assigned to the second <var>var</var>, and so on;
+the assignment of values to variables is done sequentially,
+as if by <code>setq</code>. 
+For either <code>do</code> or <code>do*</code>,
+after the <var>vars</var> have been updated,
+the <var>end-test-form</var>
+is evaluated as described above, and the iteration continues.
+
+<p>The remainder of the <code>do</code> (or <code>do*</code>) form constitutes
+an <i>implicit tagbody</i>. 
+<var>Tags</var> may appear within the body of a <code>do</code> loop
+for use by <code>go</code> statements appearing in the body (but such <code>go</code>
+statements may not appear in the variable specifiers, the <var>end-test-form</var>,
+or the <var>result-forms</var>). 
+When the end of a <code>do</code> body is reached, the next iteration cycle
+(beginning with the evaluation of <var>step-forms</var>) occurs.
+
+<p>An <i>implicit block</i> named <code>nil</code>&nbsp;<!-- /@w -->surrounds the entire <code>do</code>
+(or <code>do*</code>) form. 
+A <code>return</code> statement may be used at any point to exit the loop
+immediately.
+
+<p><var>Init-form</var>  is an
+initial value for the <var>var</var> with which it is associated. 
+If <var>init-form</var> is omitted, the initial value of <var>var</var> is <code>nil</code>. 
+If a <var>declaration</var> is supplied for a <var>var</var>, <var>init-form</var>
+must be consistent with the <var>declaration</var>.
+
+<p><var>Declarations</var> can appear at the beginning of a <code>do</code>
+(or <code>do*</code>) body. 
+They apply to code in the <code>do</code> (or <code>do*</code>) body,
+to the <i>bindings</i> of the <code>do</code> (or <code>do*</code>)
+<var>vars</var>,
+to the <var>step-forms</var>,
+to the <var>end-test-form</var>, and to the <var>result-forms</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (do ((temp-one 1 (1+ temp-one))
+       (temp-two 0 (1- temp-two)))
+      ((&gt; (- temp-one temp-two) 5) temp-one)) <span class="roman">→</span> 4
+
+ (do ((temp-one 1 (1+ temp-one))
+       (temp-two 0 (1+ temp-one)))
+      ((= 3 temp-two) temp-one)) <span class="roman">→</span> 3
+
+ (do* ((temp-one 1 (1+ temp-one))
+        (temp-two 0 (1+ temp-one)))
+       ((= 3 temp-two) temp-one)) <span class="roman">→</span> 2
+
+ (do ((j 0 (+ j 1)))
+     (nil)                       ;Do forever.
+   (format t "~%Input ~D:" j)
+   (let ((item (read)))
+     (if (null item) (return)   ;Process items until NIL seen.
+         (format t "~&amp;Output ~D: ~S" j item))))
+▷ Input 0: <kbd>banana</kbd>
+▷ Output 0: BANANA
+▷ Input 1: <kbd>(57 boxes)</kbd>
+▷ Output 1: (57 BOXES)
+▷ Input 2: <kbd>NIL</kbd>
+<span class="roman">→</span> NIL
+
+ (setq a-vector (vector 1 nil 3 nil))
+ (do ((i 0 (+ i 1))     ;Sets every null element of a-vector to zero.
+      (n (array-dimension a-vector 0)))
+     ((= i n))
+   (when (null (aref a-vector i))
+     (setf (aref a-vector i) 0))) <span class="roman">→</span> NIL
+a-vector <span class="roman">→</span> #(1 0 3 0)
+</pre>
+<pre class="lisp"> (do ((x e (cdr x))
+      (oldx x x))
+     ((null x))
+   body)
+</pre>
+<p>is an example of parallel assignment to index variables.  On the first
+iteration, the value of <code>oldx</code> is whatever value <code>x</code> had before
+the <code>do</code> was entered.  On succeeding iterations, <code>oldx</code> contains
+the value that <code>x</code> had on the previous iteration.
+
+<pre class="lisp"> (do ((x foo (cdr x))
+      (y bar (cdr y))
+      (z '() (cons (f (car x) (car y)) z)))
+     ((or (null x) (null y))
+      (nreverse z)))
+</pre>
+<p>does the same thing as <code>(mapcar #'f foo bar)</code>.  The step
+computation for <code>z</code> is an example of the fact that variables
+are stepped in parallel. 
+Also, the body of the loop is empty.
+
+<pre class="lisp"> (defun list-reverse (list)
+        (do ((x list (cdr x))
+             (y '() (cons (car x) y)))
+            ((endp x) y)))
+</pre>
+<p>As an example of nested iterations, consider a data structure that is a
+<i>list</i> of <i>conses</i>. The <i>car</i> of each <i>cons</i> is a
+<i>list</i> of <i>symbols</i>,
+and the <i>cdr</i> of each <i>cons</i> is a
+<i>list</i> of equal length containing
+corresponding values.  Such a data structure is similar to an association
+list,
+but is divided into &ldquo;frames&rdquo;; the overall structure resembles a rib-cage. 
+A lookup function on such a data structure might be:
+
+<pre class="lisp"> (defun ribcage-lookup (sym ribcage)
+        (do ((r ribcage (cdr r)))
+            ((null r) nil)
+          (do ((s (caar r) (cdr s))
+               (v (cdar r) (cdr v)))
+              ((null s))
+            (when (eq (car s) sym)
+              (return-from ribcage-lookup (car v)))))) <span class="roman">→</span> RIBCAGE-LOOKUP
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p>other iteration functions
+(<a href="dolist.html#dolist">dolist</a>, <a href="dotimes.html#dotimes">dotimes</a>, and <a href="loop.html#loop">loop</a>)
+and more primitive functionality
+(<a href="tagbody.html#tagbody">tagbody</a>, <a href="go.html#go">go</a>, <a href="block.html#block">block</a>, <a href="return.html#return">return</a>,
+<a href="let.html#let">let</a>, and <a href="setq.html#setq">setq</a>)
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>If <var>end-test-form</var> is <code>nil</code>, the test will never succeed. 
+This provides an idiom for &ldquo;do forever&rdquo;:
+the body of the <code>do</code> or <code>do*</code>
+is executed repeatedly. 
+The infinite loop can be terminated by the use of <code>return</code>,
+<code>return-from</code>, <code>go</code> to an outer level, or <code>throw</code>.
+
+<p>A <code>do</code> <i>form</i> may be explained in terms of the more primitive <i>forms</i>
+<code>block</code>, <code>return</code>,
+<code>let</code>, <code>loop</code>, <code>tagbody</code>,
+and <code>psetq</code> as follows:
+
+<pre class="lisp"> (block nil
+   (let ((var1 init1)
+         (var2 init2)
+         ...
+         (varn initn))
+     <i>declarations</i>
+     (loop (when end-test (return (progn . result)))
+           (tagbody . tagbody)
+           (psetq var1 step1
+                  var2 step2
+                  ...
+                  varn stepn))))
+</pre>
+<p><code>do*</code> is similar, except that <code>let*</code> and <code>setq</code> replace
+the <code>let</code> and <code>psetq</code>, respectively.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/do_003b-do_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:48 GMT -->
+</html>
+

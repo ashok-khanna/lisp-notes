@@ -1,0 +1,170 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Printing-Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Printing Conditions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Condition-System-Concepts.html#Condition-System-Concepts" title="Condition System Concepts">
+<link rel="prev" href="Creating-Conditions.html#Creating-Conditions" title="Creating Conditions">
+<link rel="next" href="Signaling-and-Handling-Conditions.html#Signaling-and-Handling-Conditions" title="Signaling and Handling Conditions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Printing-Conditions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Signaling-and-Handling-Conditions.html#Signaling-and-Handling-Conditions">Signaling and Handling Conditions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Creating-Conditions.html#Creating-Conditions">Creating Conditions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Condition-System-Concepts.html#Condition-System-Concepts">Condition System Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.1.3 Printing Conditions</h4>
+
+<p>If the <tt>:report</tt> argument to <code>define-condition</code> is used,
+a print function is defined that is called whenever
+the defined <i>condition</i> is printed while the <i>value</i> of <code>*print-escape*</code> is <i>false</i>. 
+This function is called the <a name="index-condition-reporter-853"></a><dfn>condition reporter</dfn>;
+the text which it outputs is called a <a name="index-report-message-854"></a><dfn>report message</dfn>.
+
+<p>When a <i>condition</i> is printed and <code>*print-escape*</code>
+is <i>false</i>, the <i>condition reporter</i> for the <i>condition</i> is invoked. 
+<i>Conditions</i> are printed automatically by functions such as
+<code>invoke-debugger</code>, <code>break</code>, and <code>warn</code>.
+
+<p>When <code>*print-escape*</code> is <i>true</i>, the <i>object</i> should print in an
+abbreviated fashion according to the style of the implementation
+(<i>e.g.</i>, by <code>print-unreadable-object</code>).  It is not required that a
+<i>condition</i> can be recreated by reading its printed representation.
+
+<p>No <i>function</i> is provided for directly <i>accessing</i>
+or invoking <i>condition reporters</i>.
+
+<h5 class="subsubsection">9.1.3.1 Recommended Style in Condition Reporting</h5>
+
+<p>In order to ensure a properly aesthetic result when presenting
+<i>report messages</i> to the user, certain stylistic conventions are
+recommended.
+
+<p>There are stylistic recommendations for the content of the messages
+output by <i>condition reporters</i>, but there are no formal requirements
+on those <i>programs</i>. 
+If a <i>program</i> violates the recommendations for some message, the
+display of that message might be less aesthetic than if the guideline
+had been observed, but the <i>program</i> is still considered a
+<i>conforming program</i>.
+
+<p>The requirements on a <i>program</i> or <i>implementation</i> which
+invokes a <i>condition reporter</i> are somewhat stronger.  A <i>conforming
+program</i> must be permitted to assume that if these style guidelines are
+followed, proper aesthetics will be maintained.  Where appropriate, any
+specific requirements on such routines are explicitly mentioned below.
+
+<h5 class="unnumberedsubsubsec">9.1.3.1.1 Capitalization and Punctuation in Condition Reports</h5>
+
+<p>It is recommended that a <i>report message</i> be a complete sentences, in the
+proper case and correctly punctuated.  In English, for example, this
+means the first letter should be uppercase, and there should be a
+trailing period.
+
+<pre class="lisp"> (error "This is a message")  ; Not recommended
+ (error "this is a message.") ; Not recommended
+
+ (error "This is a message.") ; Recommended instead
+</pre>
+<h5 class="unnumberedsubsubsec">9.1.3.1.2 Leading and Trailing Newlines in Condition Reports</h5>
+
+<p>It is recommended that a <i>report message</i> not begin with any
+introductory text, such as &ldquo;<code>Error: </code>&rdquo; or &ldquo;<code>Warning: </code>&rdquo;
+or even just <i>freshline</i> or <i>newline</i>. 
+Such text is added, if appropriate to the context,
+by the routine invoking the <i>condition reporter</i>.
+
+<p>It is recommended that a <i>report message</i> not be followed
+by a trailing <i>freshline</i> or <i>newline</i>. 
+Such text is added, if appropriate to the context,
+by the routine invoking the <i>condition reporter</i>.
+
+<pre class="lisp"> (error "This is a message.~%")   ; Not recommended
+ (error "~&amp;This is a message.")   ; Not recommended
+ (error "~&amp;This is a message.~%") ; Not recommended
+
+ (error "This is a message.")     ; Recommended instead
+</pre>
+<h5 class="unnumberedsubsubsec">9.1.3.1.3 Embedded Newlines in Condition Reports</h5>
+
+<p>Especially if it is long, it is permissible and appropriate for
+a <i>report message</i> to contain one or more embedded <i>newlines</i>.
+
+<p>If the calling routine conventionally inserts some additional prefix
+(such as &ldquo;<code>Error: </code>&rdquo; or &ldquo;<code>;; Error: </code>&rdquo;) on the first line of
+the message, it must also assure that an appropriate prefix will be
+added to each subsequent line of the output, so that the left edge of
+the message output by the <i>condition reporter</i> will still be properly
+aligned.
+
+<pre class="lisp"> (defun test ()
+   (error "This is an error message.~%It has two lines."))
+
+ ;; Implementation A
+ (test)
+ This is an error message.
+ It has two lines.
+
+ ;; Implementation B
+ (test)
+ ;; Error: This is an error message.
+ ;;        It has two lines.
+
+ ;; Implementation C
+ (test)
+ &gt;&gt; Error: This is an error message.
+           It has two lines.
+</pre>
+<h5 class="unnumberedsubsubsec">9.1.3.1.4 Note about Tabs in Condition Reports</h5>
+
+<p>Because the indentation of a <i>report message</i> might be shifted to the right or
+left by an arbitrary amount, special care should be taken with the
+semi-standard <i>character</i> &lt;Tab&gt;&nbsp;<!-- /@w -->
+(in those <i>implementations</i> that support such a <i>character</i>). 
+Unless the <i>implementation</i> specifically defines its behavior
+in this context, its use should be avoided.
+
+<h5 class="unnumberedsubsubsec">9.1.3.1.5 Mentioning Containing Function in Condition Reports</h5>
+
+<p>The name of the containing function should generally not be mentioned in
+<i>report messages</i>.  It is assumed that the <i>debugger</i> will make this
+information accessible in situations where it is necessary and appropriate.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Printing-Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

@@ -1,0 +1,102 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Additional-Information-about-FORMAT-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+<head>
+<title>Additional Information about FORMAT Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Miscellaneous-Pseudo_002dOperations.html#FORMAT-Miscellaneous-Pseudo_002dOperations" title="FORMAT Miscellaneous Pseudo-Operations">
+<link rel="next" href="Examples-of-FORMAT.html#Examples-of-FORMAT" title="Examples of FORMAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Additional-Information-about-FORMAT-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-FORMAT.html#Examples-of-FORMAT">Examples of FORMAT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Miscellaneous-Pseudo_002dOperations.html#FORMAT-Miscellaneous-Pseudo_002dOperations">FORMAT Miscellaneous Pseudo-Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.10 Additional Information about FORMAT Operations</h4>
+
+<h5 class="subsubsection">22.3.10.1 Nesting of FORMAT Operations</h5>
+
+<p>The case-conversion, conditional, iteration, and justification
+constructs can contain other formatting constructs by bracketing them. 
+These constructs must nest properly with respect to each other. 
+For example, it is not legitimate to put the start of a case-conversion
+construct in each arm of a conditional and the
+end of the case-conversion construct outside the conditional:
+
+<pre class="lisp"> (format nil "~:[abc~:@(def~;ghi~
+:@(jkl~]mno~)" x) ;Invalid!
+</pre>
+<p>This notation is invalid because the <code>~[...~;...~]</code>
+and <code>~(...~)</code> constructs are not properly nested.
+
+<p>The processing indirection caused by the <code>~?</code> directive
+is also a kind of nesting for the purposes of this rule of proper nesting. 
+It is not permitted to
+start a bracketing construct within a string processed
+under control of a <code>~?</code>
+directive and end the construct at some point after the <code>~?</code> construct
+in the string containing that construct, or vice versa. 
+For example, this situation is invalid:
+
+<pre class="lisp"> (format nil "~@?ghi~)" "abc~@(def") ;Invalid!
+</pre>
+<p>This notation
+is invalid because the <code>~?</code>
+and <code>~(...~)</code> constructs are not properly nested.
+
+<h5 class="subsubsection">22.3.10.2 Missing and Additional FORMAT Arguments</h5>
+
+<p>The consequences are undefined if no <var>arg</var> remains for a directive
+requiring an argument.  However, it is permissible for one or more <var>args</var>
+to remain unprocessed by a directive; such <var>args</var> are ignored.
+
+<h5 class="subsubsection">22.3.10.3 Additional FORMAT Parameters</h5>
+
+<p>The consequences are undefined if a format directive is given more parameters
+than it is described here as accepting.
+
+<h5 class="subsubsection">22.3.10.4 Undefined FORMAT Modifier Combinations</h5>
+
+<p>The consequences are undefined if <i>colon</i> or <i>at-sign</i> modifiers
+are given to a directive in a combination not specifically described
+here as being meaningful.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Additional-Information-about-FORMAT-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+</html>
+

@@ -1,0 +1,226 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002dpackage_002diterator.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>with-package-iterator - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Packages.html#Packages" title="Packages">
+<link rel="prev" href="make_002dpackage.html#make_002dpackage" title="make-package">
+<link rel="next" href="unexport.html#unexport" title="unexport">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="with-package-iterator"></a>
+<a name="with_002dpackage_002diterator"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="unexport.html#unexport">unexport</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="make_002dpackage.html#make_002dpackage">make-package</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Packages.html#Packages">Packages</a>
+<hr>
+</div>
+
+<h3 class="heading">with-package-iterator (Macro)</h3>
+
+<p><a name="index-with_002dpackage_002diterator-1101"></a><a name="index-with_002dpackage_002diterator-1102"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>with-package-iterator</b> <tt>(</tt><var>name package-list-form </var><tt>&amp;rest</tt><var> symbol-types</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-with_002dpackage_002diterator-1103"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>.
+
+<p><var>package-list-form</var>&mdash;a <i>form</i>; evaluated once to produce a <var>package-list</var>.
+
+<p><var>package-list</var>&mdash;a <i>designator</i> for a list of <i>package designators</i>.
+
+<p><var>symbol-type</var>&mdash;one of the <i>symbols</i>
+<tt>:internal</tt>, <tt>:external</tt>, or <tt>:inherited</tt>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> of the <var>forms</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Within the lexical scope of the body <var>forms</var>,
+the <var>name</var> is defined via <code>macrolet</code>
+such that successive invocations of <code>(</code><var>name</var><code>)</code>
+will return the <i>symbols</i>, one by one,
+from the <i>packages</i> in <var>package-list</var>.
+
+<p>It is unspecified whether <i>symbols</i> inherited from
+multiple <i>packages</i> are returned more than once. 
+The order of <i>symbols</i> returned does not necessarily reflect the order
+of <i>packages</i> in <var>package-list</var>.  When <var>package-list</var> has
+more than one element, it is unspecified whether duplicate <i>symbols</i> are
+returned once or more than once.
+
+<p><var>Symbol-types</var> controls which <i>symbols</i> that are <i>accessible</i>
+in a <i>package</i> are returned as follows:
+
+     <dl>
+<dt><tt>:internal</tt><dd>
+
+     <p>The <i>symbols</i> that are <i>present</i> in the <i>package</i>,
+but that are not <i>exported</i>.
+
+     <br><dt><tt>:external</tt><dd>
+
+     <p>The <i>symbols</i> that are <i>present</i> in the <i>package</i>
+and are <i>exported</i>.
+
+     <br><dt><tt>:inherited</tt><dd>
+
+     <p>The <i>symbols</i> that are <i>exported</i> by used <i>packages</i>
+and that are not <i>shadowed</i>. 
+</dl>
+
+<p>When more than one argument is supplied for <var>symbol-types</var>,
+a <i>symbol</i> is returned if its <i>accessibility</i> matches
+any one of the <var>symbol-types</var> supplied. 
+Implementations may extend this syntax by recognizing additional
+symbol accessibility types.
+
+<p>An invocation of <code>(</code><var>name</var><code>)</code> returns four values as follows:
+
+     <ol type=1 start=1>
+<li>A flag that indicates whether a <i>symbol</i> is returned
+(true means that a <i>symbol</i> is returned). 
+<li>A <i>symbol</i> that is <i>accessible</i> in one the
+indicated <i>packages</i>. 
+<li>The accessibility type for that <i>symbol</i>;
+<i>i.e.</i>, one of the symbols <tt>:internal</tt>, <tt>:external</tt>, or <tt>:inherited</tt>. 
+<li>The <i>package</i> from which the <i>symbol</i> was obtained. 
+The <i>package</i> is one of the <i>packages</i> present
+or named in <var>package-list</var>.
+     </ol>
+
+<p>After all <i>symbols</i> have been returned by successive invocations of
+<code>(</code><var>name</var><code>)</code>, then only one value is returned, namely <code>nil</code>.
+
+<p>The meaning of the second, third, and fourth <i>values</i> is that the returned
+<i>symbol</i> is <i>accessible</i> in the returned <i>package</i>
+in the way indicated by the second return value as follows:
+
+     <dl>
+<dt><tt>:internal</tt><dd>
+
+     <p>Means <i>present</i> and not <i>exported</i>.
+
+     <br><dt><tt>:external</tt><dd>
+
+     <p>Means <i>present</i> and <i>exported</i>.
+
+     <br><dt><tt>:inherited</tt><dd>
+
+     <p>Means not <i>present</i> (thus not <i>shadowed</i>) but inherited
+from some used <i>package</i>. 
+</dl>
+
+<p>It is unspecified what happens if any of the implicit interior state
+of an iteration is returned outside the dynamic extent of the
+<code>with-package-iterator</code>
+form such as by returning some <i>closure</i> over the invocation <i>form</i>.
+
+<p>Any number of invocations of <code>with-package-iterator</code>
+can be nested, and the body of the innermost one can invoke all of the
+locally <i>established</i> <i>macros</i>, provided all those <i>macros</i>
+have distinct names.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<p>The following function should return <code>t</code>&nbsp;<!-- /@w -->on any <i>package</i>, and signal
+an error if the usage of <code>with-package-iterator</code> does not agree
+with the corresponding usage of <code>do-symbols</code>.
+
+<pre class="lisp"> (defun test-package-iterator (package)
+   (unless (packagep package)
+     (setq package (find-package package)))
+   (let ((all-entries '())
+         (generated-entries '()))
+     (do-symbols (x package)
+       (multiple-value-bind (symbol accessibility)
+           (find-symbol (symbol-name x) package)
+         (push (list symbol accessibility) all-entries)))
+     (with-package-iterator (generator-fn package
+                             :internal :external :inherited)
+       (loop
+         (multiple-value-bind (more? symbol accessibility pkg)
+             (generator-fn)
+           (unless more? (return))
+           (let ((l (multiple-value-list (find-symbol (symbol-name symbol)
+                                                      package))))
+             (unless (equal l (list symbol accessibility))
+               (error "Symbol ~S not found as ~S in package ~A [~S]"
+                      symbol accessibility (package-name package) l))
+             (push l generated-entries)))))
+     (unless (and (subsetp all-entries generated-entries :test #'equal)
+                  (subsetp generated-entries all-entries :test #'equal))
+      (error "Generated entries and Do-Symbols entries don't correspond"))
+     t))
+</pre>
+<p>The following function prints out every <i>present</i> <i>symbol</i>
+(possibly more than once):
+
+<pre class="lisp"> (defun print-all-symbols ()
+   (with-package-iterator (next-symbol (list-all-packages)
+                           :internal :external)
+     (loop
+       (multiple-value-bind (more? symbol) (next-symbol)
+         (if more?
+            (print symbol)
+            (return))))))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p><code>with-package-iterator</code> signals an error of <i>type</i> <code>program-error</code> if
+no <var>symbol-types</var> are supplied or if a <var>symbol-type</var> is not
+recognized  by the implementation is supplied.
+
+<p>The consequences are undefined if the local function named <var>name</var>
+<i>established</i> by <code>with-package-iterator</code> is called after it
+has returned <i>false</i> as its <i>primary value</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002dpackage_002diterator.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

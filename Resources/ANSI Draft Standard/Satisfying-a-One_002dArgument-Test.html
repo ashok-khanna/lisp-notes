@@ -1,0 +1,108 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Satisfying-a-One_002dArgument-Test.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:27 GMT -->
+<head>
+<title>Satisfying a One-Argument Test - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Rules-about-Test-Functions.html#Rules-about-Test-Functions" title="Rules about Test Functions">
+<link rel="prev" href="Satisfying-a-Two_002dArgument-Test.html#Satisfying-a-Two_002dArgument-Test" title="Satisfying a Two-Argument Test">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Satisfying-a-One-Argument-Test"></a>
+<a name="Satisfying-a-One_002dArgument-Test"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Satisfying-a-Two_002dArgument-Test.html#Satisfying-a-Two_002dArgument-Test">Satisfying a Two-Argument Test</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Rules-about-Test-Functions.html#Rules-about-Test-Functions">Rules about Test Functions</a>
+<hr>
+</div>
+
+<h4 class="subsection">17.2.2 Satisfying a One-Argument Test</h4>
+
+<p>When using one of the <i>functions</i> in the next figure,
+the elements E of a <i>sequence</i> S are filtered
+not on the basis of the presence or absence of an object O
+under a two <i>argument</i> <i>predicate</i>,
+as with the <i>functions</i> described in <a href="Satisfying-a-Two_002dArgument-Test.html#Satisfying-a-Two_002dArgument-Test">Section 17.2.1 (Satisfying a Two-Argument Test)</a>,
+but rather on the basis of a one <i>argument</i> <i>predicate</i>.
+
+<div class="float">
+<a name="fig17_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">assoc-if </td><td valign="top">member-if </td><td valign="top">rassoc-if
+<br></td></tr><tr align="left"><td valign="top">assoc-if-not </td><td valign="top">member-if-not </td><td valign="top">rassoc-if-not
+<br></td></tr><tr align="left"><td valign="top">count-if </td><td valign="top">nsubst-if </td><td valign="top">remove-if
+<br></td></tr><tr align="left"><td valign="top">count-if-not </td><td valign="top">nsubst-if-not </td><td valign="top">remove-if-not
+<br></td></tr><tr align="left"><td valign="top">delete-if </td><td valign="top">nsubstitute-if </td><td valign="top">subst-if
+<br></td></tr><tr align="left"><td valign="top">delete-if-not </td><td valign="top">nsubstitute-if-not </td><td valign="top">subst-if-not
+<br></td></tr><tr align="left"><td valign="top">find-if </td><td valign="top">position-if </td><td valign="top">substitute-if
+<br></td></tr><tr align="left"><td valign="top">find-if-not </td><td valign="top">position-if-not </td><td valign="top">substitute-if-not
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 17.3: Operators that have One-Argument Tests to be Satisfied</strong></p></div>
+
+<p>The element E<sub>i</sub> might not be considered directly. 
+If a <tt>:key</tt> <i>argument</i> is provided,
+it is a <i>designator</i> for a <i>function</i> of one <i>argument</i>
+to be called with each E<sub>i</sub> as an <i>argument</i>,
+and <i>yielding</i> an <i>object</i> Z<sub>i</sub> to be used for comparison. 
+(If there is no <tt>:key</tt> <i>argument</i>, Z<sub>i</sub> is E<sub>i</sub>.)
+
+<p><i>Functions</i> defined in this specification and having a name that
+ends in &ldquo;<code>-if</code>&rdquo; accept a first <i>argument</i> that is a <i>designator</i> for a
+<i>function</i> of one <i>argument</i>, Z<sub>i</sub>. 
+An E<sub>i</sub> is said to <a name="index-satisfy-the-test-2291"></a><dfn>satisfy the test</dfn> if this <tt>:test</tt> <i>function</i>
+returns a <i>generalized boolean</i> representing <i>true</i>.
+
+<p><i>Functions</i> defined in this specification and having a name that
+ends in &ldquo;<code>-if-not</code>&rdquo; accept a first <i>argument</i> that is a <i>designator</i> for a
+<i>function</i> of one <i>argument</i>, Z<sub>i</sub>. 
+An E<sub>i</sub> is said to <a name="index-satisfy-the-test-2292"></a><dfn>satisfy the test</dfn> if this <tt>:test</tt> <i>function</i>
+returns a <i>generalized boolean</i> representing <i>false</i>.
+
+<h5 class="subsubsection">17.2.2.1 Examples of Satisfying a One-Argument Test</h5>
+
+<pre class="lisp"> (count-if #'zerop '(1 #C(0.0 0.0) 0 0.0d0 0.0s0 3)) <span class="roman">→</span> 4
+
+ (remove-if-not #'symbolp '(0 1 2 3 4 5 6 7 8 9 A B C D E F))
+<span class="roman">→</span> (A B C D E F)
+ (remove-if (complement #'symbolp) '(0 1 2 3 4 5 6 7 8 9 A B C D E F))
+<span class="roman">→</span> (A B C D E F)
+
+ (count-if #'zerop '("foo" "" "bar" "" "" "baz" "quux") :key #'length)
+<span class="roman">→</span> 3
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Satisfying-a-One_002dArgument-Test.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:27 GMT -->
+</html>
+

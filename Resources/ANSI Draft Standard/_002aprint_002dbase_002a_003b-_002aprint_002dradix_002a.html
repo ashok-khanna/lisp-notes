@@ -1,0 +1,126 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:55 GMT -->
+<head>
+<title>*print-base*; *print-radix* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="_002aprint_002darray_002a.html#g_t_002aprint_002darray_002a" title="*print-array*">
+<link rel="next" href="_002aprint_002dcase_002a.html#g_t_002aprint_002dcase_002a" title="*print-case*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="*print-base*%3b-*print-radix*"></a>
+<a name="g_t_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002aprint_002dcase_002a.html#g_t_002aprint_002dcase_002a">*print-case*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002aprint_002darray_002a.html#g_t_002aprint_002darray_002a">*print-array*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">*print-base*, *print-radix* (Variable)</h3>
+
+<p><a name="index-g_t_002aprint_002dbase_002a-2958"></a><a name="index-g_t_002aprint_002dbase_002a-2959"></a><a name="index-g_t_002aprint_002dradix_002a-2960"></a><a name="index-g_t_002aprint_002dradix_002a-2961"></a>
+
+<h5 class="subsubheading">Value Type:</h5>
+
+<p><code>*print-base*</code>&mdash;a <i>radix</i>. 
+<code>*print-radix*</code>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Initial Value:</h5>
+
+<p>The initial <i>value</i> of <code>*print-base*</code> is <code>10</code>. 
+The initial <i>value</i> of <code>*print-radix*</code> is <i>false</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>*print-base*</code> and <code>*print-radix*</code> control the printing
+of <i>rationals</i>. 
+The <i>value</i> of <code>*print-base*</code> is called the <a name="index-current-output-base-2962"></a><dfn>current output base</dfn>.
+
+<p>The <i>value</i> of <code>*print-base*</code> is the <i>radix</i> in which the printer
+will print <i>rationals</i>.   For radices above <code>10</code>, letters of
+the alphabet are used to represent digits above <code>9</code>.
+
+<p>If the <i>value</i> of <code>*print-radix*</code> is <i>true</i>,
+the printer will print a radix specifier to indicate the <i>radix</i>
+in which it is printing a <i>rational</i> number.  The radix specifier
+is always printed using lowercase letters.  If <code>*print-base*</code>
+is <code>2</code>, <code>8</code>, or <code>16</code>, then the radix specifier used is <code>#b</code>,
+<code>#o</code>, or <code>#x</code>, respectively.  For <i>integers</i>, base ten is
+indicated by a trailing decimal point instead of a leading radix
+specifier; for <i>ratios</i>, <code>#10r</code> is used.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (let ((*print-base* 24.) (*print-radix* t))
+   (print 23.))
+▷ #24rN
+<span class="roman">→</span> 23
+ (setq *print-base* 10) <span class="roman">→</span> 10
+ (setq *print-radix* nil) <span class="roman">→</span> NIL
+ (dotimes (i 35)
+    (let ((*print-base* (+ i 2)))           ;print the decimal number 40
+      (write 40)                            ;in each base from 2 to 36
+      (if (zerop (mod i 10)) (terpri) (format t " "))))
+▷ 101000
+▷ 1111 220 130 104 55 50 44 40 37 34
+▷ 31 2C 2A 28 26 24 22 20 1J 1I
+▷ 1H 1G 1F 1E 1D 1C 1B 1A 19 18
+▷ 17 16 15 14
+<span class="roman">→</span> NIL
+ (dolist (pb '(2 3 8 10 16))
+    (let ((*print-radix* t)                 ;print the integer 10 and
+          (*print-base* pb))                ;the ratio 1/10 in bases 2,
+     (format t "~&amp;~S  ~S~%" 10 1/10)))        ;3, 8, 10, 16
+▷ #b1010  #b1/1010
+▷ #3r101  #3r1/101
+▷ #o12  #o1/12
+▷ 10.  #10r1/10
+▷ #xA  #x1/A
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>Might be <i>bound</i> by <code>format</code>, and <code>write</code>, <code>write-to-string</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="format.html#format">format</a>,
+<a href="write.html#write">write</a>,
+<a href="write_002dto_002dstring.html#write_002dto_002dstring">write-to-string</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:56 GMT -->
+</html>
+

@@ -1,0 +1,126 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conforming-Programs.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:15 GMT -->
+<head>
+<title>Conforming Programs - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conformance.html#Conformance" title="Conformance">
+<link rel="prev" href="Conforming-Implementations.html#Conforming-Implementations" title="Conforming Implementations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conforming-Programs"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conforming-Implementations.html#Conforming-Implementations">Conforming Implementations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conformance.html#Conformance">Conformance</a>
+<hr>
+</div>
+
+<h4 class="subsection">1.5.2 Conforming Programs</h4>
+
+<p><a name="index-conforming-program-41"></a><a name="index-conforming-code-42"></a>
+Code conforming with the requirements of this standard shall adhere to the
+following:
+
+     <ol type=1 start=1>
+<li><i>Conforming code</i> shall use only those features of the
+language syntax and semantics that are
+either specified in this standard
+or defined using the extension mechanisms
+specified in the standard.
+
+     <li><i>Conforming code</i> may use
+<i>implementation-dependent</i> features and values,
+but shall not rely upon
+any particular interpretation of these features and values
+other than those that are discovered by the execution of <i>code</i>.
+
+     <li><i>Conforming code</i> shall not depend on the consequences
+of undefined or unspecified situations.
+
+     <li><i>Conforming code</i> does not use any constructions
+that are prohibited by the standard.
+
+     <li><i>Conforming code</i> does not depend on extensions
+included in an implementation.
+     </ol>
+
+<h5 class="subsubsection">1.5.2.1 Use of Implementation-Defined Language Features</h5>
+
+<p>Note that <i>conforming code</i> may rely on particular
+<i>implementation-defined</i> values or features. Also note that the
+requirements for <i>conforming code</i> and <i>conforming implementations</i> do not
+require that the results produced by conforming code always be the
+same when processed by a <i>conforming implementation</i>. The results may be the
+same, or they may differ.
+
+<p>Conforming code may run in all conforming implementations, but might
+have allowable <i>implementation-defined</i> behavior that makes it
+non-portable code. 
+For example, the following are examples of <i>forms</i> that are conforming, but
+that might return different <i>values</i> in different implementations:
+
+<pre class="lisp"> (evenp most-positive-fixnum) <span class="roman">→</span> <i>implementation-dependent</i>
+ (random) <span class="roman">→</span> <i>implementation-dependent</i>
+ (&gt; lambda-parameters-limit 93) <span class="roman">→</span> <i>implementation-dependent</i>
+ (char-name #\A) <span class="roman">→</span> <i>implementation-dependent</i>
+</pre>
+<h5 class="unnumberedsubsubsec">1.5.2.1.1 Use of Read-Time Conditionals</h5>
+
+<p><a name="ReadTimeConditionals"></a>Use of <code>#+</code> and <code>#-</code> does not automatically disqualify a program
+from being conforming.  A program which uses <code>#+</code> and <code>#-</code> is
+considered conforming if there is no set of <i>features</i> in which the
+program would not be conforming.  Of course, <i>conforming programs</i> are
+not necessarily working programs.  The following program is conforming:
+
+<pre class="lisp">(defun foo ()
+  #+ACME (acme:initialize-something)
+  (print 'hello-there))
+</pre>
+<p>However, this program might or might not work, depending on whether the
+presence of the feature <code>ACME</code> really implies that a function named
+<code>acme:initialize-something</code> is present in the environment.  In effect,
+using <code>#+</code> or <code>#-</code> in a <i>conforming program</i> means that the variable
+<code>*features*</code>
+<a name="index-g_t_002afeatures_002a-43"></a>becomes just one more piece of input data to that
+program.  Like any other data coming into a program, the programmer
+is responsible for assuring that the program does not make unwarranted
+assumptions on the basis of input data.
+
+<h5 class="subsubsection">1.5.2.2 Character Set for Portable Code</h5>
+
+<p><i>Portable code</i> is written using only <i>standard characters</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conforming-Programs.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:15 GMT -->
+</html>
+

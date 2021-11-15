@@ -1,0 +1,162 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Inheritance-of-Slots-and-Slot-Options.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Inheritance of Slots and Slot Options - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Slots.html#Slots" title="Slots">
+<link rel="prev" href="Accessing-Slots.html#Accessing-Slots" title="Accessing Slots">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Inheritance-of-Slots-and-Slot-Options"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Accessing-Slots.html#Accessing-Slots">Accessing Slots</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Slots.html#Slots">Slots</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.5.3 Inheritance of Slots and Slot Options</h4>
+
+<p>The set of the <i>names</i> of all <i>slots</i> <i>accessible</i>
+in an <i>instance</i> of a <i>class</i> C is the union of
+the sets of <i>names</i> of <i>slots</i> defined by C and its
+<i>superclasses</i>. The structure of an <i>instance</i> is
+the set of <i>names</i> of <i>local slots</i> in that <i>instance</i>.
+
+<p>In the simplest case, only one <i>class</i> among C and its <i>superclasses</i>
+defines a <i>slot</i> with a given <i>slot</i> name. 
+If a <i>slot</i> is defined by a <i>superclass</i> of C,
+the <i>slot</i> is said to be inherited.  The characteristics
+of the <i>slot</i> are determined by the <i>slot specifier</i>
+of the defining <i>class</i>. 
+Consider the defining <i>class</i> for
+a slot S.  If the value of the <tt>:allocation</tt>
+slot
+option is <tt>:instance</tt>, then S is a <i>local slot</i> and each
+<i>instance</i>
+of C has its own <i>slot</i> named S that stores its own value.  If the
+value of the <tt>:allocation</tt> slot
+option is <tt>:class</tt>, then S
+is a <i>shared slot</i>, the <i>class</i>
+that defined S stores the value, and all
+<i>instances</i> of C can <i>access</i> that single <i>slot</i>. 
+If the <tt>:allocation</tt> slot option is omitted, <tt>:instance</tt> is used.
+
+<p>In general, more than one <i>class</i> among C and its
+<i>superclasses</i> can
+define a <i>slot</i> with a given <i>name</i>. 
+In such cases, only one <i>slot</i> with
+the given name is <i>accessible</i> in an <i>instance</i>
+of C, and
+the characteristics of that <i>slot</i> are
+a combination of the several <i>slot</i>
+specifiers, computed as follows:
+
+     <ul>
+<li>All the <i>slot specifiers</i> for a given <i>slot</i> name
+are ordered from most specific to least specific, according to the order in C's
+<i>class precedence list</i> of the <i>classes</i> that define them. All references
+to the specificity of <i>slot specifiers</i> immediately below refers to this
+ordering.
+
+     <li>The allocation of a <i>slot</i> is controlled by the most
+specific <i>slot specifier</i>.  If the most specific <i>slot specifier</i>
+does not contain an <tt>:allocation</tt> slot option, <tt>:instance</tt> is used. 
+Less specific <i>slot specifiers</i> do not affect the allocation.
+
+     <li>The default initial value form for a <i>slot</i>
+is the value of the <tt>:initform</tt> slot option in the most specific
+<i>slot specifier</i> that contains one.  If no <i>slot specifier</i>
+contains an <tt>:initform</tt> slot option, the <i>slot</i>
+has no default initial value form.
+
+     <li>The contents of a <i>slot</i> will always be of type
+<code>(and T<sub>1</sub> ... T<sub>n</sub>)</code> where T<sub>1</sub><small class="dots">...</small> T<sub>n</sub> are
+the values of the <tt>:type</tt> slot options contained in all of the
+<i>slot specifiers</i>.  If no <i>slot specifier</i> contains the
+<tt>:type</tt> slot option, the contents of the <i>slot</i> will always be
+of <i>type</i> <code>t</code>. The consequences of attempting to store in a <i>slot</i>
+a value that does not satisfy the <i>type</i> of the <i>slot</i> are undefined.
+
+     <li>The set of initialization arguments that initialize a
+given <i>slot</i> is the union of the initialization arguments declared in
+the <tt>:initarg</tt> slot options in all the <i>slot specifiers</i>.
+
+     <li>The <i>documentation string</i> for a <i>slot</i> is the value of
+the <tt>:documentation</tt> slot option in the most specific <i>slot</i>
+specifier that contains one.  If no <i>slot specifier</i> contains a
+<tt>:documentation</tt> slot option, the <i>slot</i> has no <i>documentation string</i>. 
+</ul>
+
+<p>A consequence of the allocation rule is that a <i>shared slot</i> can be
+<i>shadowed</i>.  For example, if a class C<sub>1</sub> defines
+a <i>slot</i> named S
+whose value for the <tt>:allocation</tt> slot option is <tt>:class</tt>,
+that <i>slot</i> is <i>accessible</i>
+in <i>instances</i> of C<sub>1</sub> and all of its
+<i>subclasses</i>.  However, if C<sub>2</sub> is a <i>subclass</i>
+of C<sub>1</sub> and also
+defines a <i>slot</i> named S, C<sub>1</sub>'s
+<i>slot</i> is not shared
+by <i>instances</i> of C<sub>2</sub> and its <i>subclasses</i>. When a class
+C<sub>1</sub> defines a <i>shared slot</i>, any subclass C<sub>2</sub> of C<sub>1</sub> will share this single <i>slot</i>
+unless the <code>defclass</code> form for
+C<sub>2</sub> specifies a <i>slot</i> of the same
+<i>name</i> or there is a <i>superclass</i>
+of C<sub>2</sub> that precedes C<sub>1</sub> in the <i>class precedence list</i> of
+C<sub>2</sub> that defines a <i>slot</i> of the same name.
+
+<p>A consequence of the type rule is that the value of a <i>slot</i>
+satisfies the type constraint of each <i>slot specifier</i> that
+contributes to that <i>slot</i>.  Because the result of attempting to
+store in a <i>slot</i> a value that does not satisfy the type
+constraint for the <i>slot</i> is undefined, the value in a <i>slot</i>
+might fail to satisfy its type constraint.
+
+<p>The <tt>:reader</tt>, <tt>:writer</tt>, and <tt>:accessor</tt> slot options
+create <i>methods</i> rather than define the characteristics of a <i>slot</i>. 
+Reader and writer <i>methods</i> are inherited in the sense described in
+<a href="Inheritance-of-Methods.html#Inheritance-of-Methods">Section 7.6.7 (Inheritance of Methods)</a>.
+
+<p><i>Methods</i> that <i>access</i> <i>slots</i> use only the name of the
+<i>slot</i> and the <i>type</i> of the <i>slot</i>'s value.  Suppose
+a <i>superclass</i> provides a <i>method</i> that expects to <i>access</i> a
+<i>shared slot</i> of a given <i>name</i>, and a <i>subclass</i> defines
+a <i>local slot</i> with the same <i>name</i>.  If the <i>method</i> provided
+by the <i>superclass</i> is used on an <i>instance</i> of the <i>subclass</i>,
+the <i>method</i> <i>accesses</i> the <i>local slot</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Inheritance-of-Slots-and-Slot-Options.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

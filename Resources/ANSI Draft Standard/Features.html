@@ -1,0 +1,141 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Features.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Features - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="System-Construction-Concepts.html#System-Construction-Concepts" title="System Construction Concepts">
+<link rel="prev" href="Loading.html#Loading" title="Loading">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Features"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Loading.html#Loading">Loading</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="System-Construction-Concepts.html#System-Construction-Concepts">System Construction Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">24.1.2 Features</h4>
+
+<p>A <a name="index-feature-3058"></a><dfn>feature</dfn> is an aspect or attribute
+of <span class="roman">Common Lisp</span>,
+of the <i>implementation</i>,
+or of the <i>environment</i>. 
+A <i>feature</i> is identified by a <i>symbol</i>.
+
+<p>A <i>feature</i> is said to be <a name="index-present-3059"></a><dfn>present</dfn> in a <i>Lisp image</i>
+if and only if the <i>symbol</i> naming it is an <i>element</i> of the
+<i>list</i> held by the <i>variable</i> <code>*features*</code>,
+which is called the <a name="index-features-list-3060"></a><dfn>features list</dfn>.
+
+<h5 class="subsubsection">24.1.2.1 Feature Expressions</h5>
+
+<p><a name="FeatureExpressions"></a>Boolean combinations of <i>features</i>, called
+<a name="index-feature-expression-3061"></a><dfn>feature expressions</dfn>,
+are used by the <code>#+</code> and <code>#-</code> <i>reader macros</i> in order to
+direct conditional <i>reading</i> of <i>expressions</i> by the <i>Lisp reader</i>.
+
+<p>The rules for interpreting a <i>feature expression</i> are as follows:
+
+     <dl>
+<dt><i>feature</i><dd>
+
+     <p>If a <i>symbol</i> naming a <i>feature</i> is used as a <i>feature expression</i>,
+the <i>feature expression</i> succeeds if that <i>feature</i> is <i>present</i>;
+otherwise it fails.
+
+     <br><dt><code>(not </code><var>feature-conditional</var><code>)</code><dd>
+
+     <p>A <tt>not</tt> <i>feature expression</i> succeeds
+if its argument <var>feature-conditional</var> fails;
+otherwise, it succeeds.
+
+     <br><dt><code>(and </code><tt>{</tt><code>feature-conditional</code><tt>}</tt><code>*)</code><dd>
+
+     <p>An <tt>and</tt> <i>feature expression</i> succeeds
+if all of its argument <var>feature-conditionals</var> succeed;
+otherwise, it fails.
+
+     <br><dt><code>(or </code><tt>{</tt><code>feature-conditional</code><tt>}</tt><code>*)</code><dd>
+
+     <p>An <tt>or</tt> <i>feature expression</i> succeeds
+if any of its argument <var>feature-conditionals</var> succeed;
+otherwise, it fails. 
+</dl>
+
+<h5 class="unnumberedsubsubsec">24.1.2.1.1 Examples of Feature Expressions</h5>
+
+<p><a name="FeatureExpExamples"></a>For example, suppose that
+in <i>implementation</i> A, the <i>features</i> <code>spice</code> and <code>perq</code> are <i>present</i>,
+but the <i>feature</i> <code>lispm</code> is not <i>present</i>;
+in <i>implementation</i> B, the feature <code>lispm</code> is <i>present</i>,
+but the <i>features</i> <code>spice</code> and <code>perq</code> are
+not <i>present</i>;
+and
+in <i>implementation</i> C, none of the features <code>spice</code>, <i>lispm</i>, or <code>perq</code> are
+<i>present</i>. 
+The next figure&nbsp;<!-- /@w -->shows some sample <i>expressions</i>, and how they would be
+<i>read</i><sub>2</sub> in these <i>implementations</i>.
+
+<div class="float">
+<a name="fig24_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>(cons #+spice "Spice" #-spice "Lispm" x)</code> </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> A <small class="dots">...</small> </td><td valign="top"><code>(CONS "Spice" X)</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> B <small class="dots">...</small> </td><td valign="top"><code>(CONS "Lispm" X)</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> C <small class="dots">...</small> </td><td valign="top"><code>(CONS "Lispm" X)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>(cons #+spice "Spice" #+LispM "Lispm" x)</code> </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> A <small class="dots">...</small> </td><td valign="top"><code>(CONS "Spice" X)</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> B <small class="dots">...</small> </td><td valign="top"><code>(CONS "Lispm" X)</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> C <small class="dots">...</small> </td><td valign="top"><code>(CONS X)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>(setq a '(1 2 #+perq 43 #+(not perq) 27))</code> </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> A <small class="dots">...</small> </td><td valign="top"><code>(SETQ A '(1 2 43))</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> B <small class="dots">...</small> </td><td valign="top"><code>(SETQ A '(1 2 27))</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> C <small class="dots">...</small> </td><td valign="top"><code>(SETQ A '(1 2 27))</code>
+<br></td></tr><tr align="left"><td valign="top"><code>(let ((a 3) #+(or spice lispm) (b 3)) (foo a))</code> </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> A <small class="dots">...</small> </td><td valign="top"><code>(LET ((A 3) (B 3)) (FOO A))</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> B <small class="dots">...</small> </td><td valign="top"><code>(LET ((A 3) (B 3)) (FOO A))</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> C <small class="dots">...</small> </td><td valign="top"><code>(LET ((A 3)) (FOO A))</code>
+<br></td></tr><tr align="left"><td valign="top"><code>(cons #+Lispm "#+Spice" #+Spice "foo" #-(or Lispm Spice) 7 x)</code> </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> A <small class="dots">...</small> </td><td valign="top"><code>(CONS "foo" X)</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> B <small class="dots">...</small> </td><td valign="top"><code>(CONS "#+Spice" X)</code>
+<br></td></tr><tr align="left"><td valign="top"> in <i>implementation</i> C <small class="dots">...</small> </td><td valign="top"><code>(CONS 7 X)</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 24.1: Features examples</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Features.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

@@ -1,0 +1,186 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/boole.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:30 GMT -->
+<head>
+<title>boole - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="parse_002dinteger.html#parse_002dinteger" title="parse-integer">
+<link rel="next" href="boole_002d1_003b-boole_002d2_003b-boole_002dand_003b-boole_002dandc1_003b-boole_002dandc2_003b-boole_002dc1_003b-boole_002d_002b.html#boole_002d1_003b-boole_002d2_003b-boole_002dand_003b-boole_002dandc1_003b-boole_002dandc2_003b-boole_002dc1_003b-boole_002d_002b" title="boole-1; boole-2; boole-and; boole-andc1; boole-andc2; boole-c1; boole-+">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="boole"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="boole_002d1_003b-boole_002d2_003b-boole_002dand_003b-boole_002dandc1_003b-boole_002dandc2_003b-boole_002dc1_003b-boole_002d_002b.html#boole_002d1_003b-boole_002d2_003b-boole_002dand_003b-boole_002dandc1_003b-boole_002dandc2_003b-boole_002dc1_003b-boole_002d_002b">boole-1; boole-2; boole-and; boole-andc1; boole-andc2; boole-c1; boole-+</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="parse_002dinteger.html#parse_002dinteger">parse-integer</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">boole (Function)</h3>
+
+<p><a name="index-boole-1423"></a><a name="index-boole-1424"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>boole</b><var> op integer-1 integer-2 </var><span class="roman">→</span><var> result-integer<a name="index-boole-1425"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>Op</var>&mdash;a <i>bit-wise logical operation specifier</i>.
+
+<p><var>integer-1</var>&mdash;an <i>integer</i>.
+
+<p><var>integer-2</var>&mdash;an <i>integer</i>.
+
+<p><var>result-integer</var>&mdash;an <i>integer</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>boole</code> performs bit-wise logical operations on
+<var>integer-1</var> and <var>integer-2</var>, which are treated as if
+they were binary and in two's complement representation.
+
+<p>The operation to be performed and the return value are determined by
+<var>op</var>.
+
+<p><code>boole</code> returns the values
+specified for any <var>op</var> in the next figure.
+
+<div class="float">
+<a name="fig12_002e17"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Op </th><th valign="top">Result
+<br></th></tr><tr align="left"><td valign="top"><code>boole-1</code> </td><td valign="top"><var>integer-1</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-2</code> </td><td valign="top"><var>integer-2</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-andc1</code> </td><td valign="top">and complement of <var>integer-1</var> with <var>integer-2</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-andc2</code> </td><td valign="top">and <var>integer-1</var> with complement of <var>integer-2</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-and</code> </td><td valign="top">and
+<br></td></tr><tr align="left"><td valign="top"><code>boole-c1</code> </td><td valign="top">complement of <var>integer-1</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-c2</code> </td><td valign="top">complement of <var>integer-2</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-clr</code> </td><td valign="top">always 0 (all zero bits)
+<br></td></tr><tr align="left"><td valign="top"><code>boole-eqv</code> </td><td valign="top">equivalence (exclusive nor)
+<br></td></tr><tr align="left"><td valign="top"><code>boole-ior</code> </td><td valign="top">inclusive or
+<br></td></tr><tr align="left"><td valign="top"><code>boole-nand</code> </td><td valign="top">not-and
+<br></td></tr><tr align="left"><td valign="top"><code>boole-nor</code> </td><td valign="top">not-or
+<br></td></tr><tr align="left"><td valign="top"><code>boole-orc1</code> </td><td valign="top">or complement of <var>integer-1</var> with <var>integer-2</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-orc2</code> </td><td valign="top">or <var>integer-1</var> with complement of <var>integer-2</var>
+<br></td></tr><tr align="left"><td valign="top"><code>boole-set</code> </td><td valign="top">always -1 (all one bits)
+<br></td></tr><tr align="left"><td valign="top"><code>boole-xor</code> </td><td valign="top">exclusive or
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.17: Bit-Wise Logical Operations</strong></p></div>
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (boole boole-ior 1 16) <span class="roman">→</span> 17
+ (boole boole-and -2 5) <span class="roman">→</span> 4
+ (boole boole-eqv 17 15) <span class="roman">→</span> -31
+
+;;; These examples illustrate the result of applying BOOLE and each
+;;; of the possible values of OP to each possible combination of bits.
+ (progn
+   (format t "~&amp;Results of (BOOLE &lt;op&gt; #b0011 #b0101) ...~
+           ~%---Op-------Decimal-----Binary----Bits---~%")
+   (dolist (symbol '(boole-1     boole-2    boole-and  boole-andc1
+                     boole-andc2 boole-c1   boole-c2   boole-clr
+                     boole-eqv   boole-ior  boole-nand boole-nor
+                     boole-orc1  boole-orc2 boole-set  boole-xor))
+     (let ((result (boole (symbol-value symbol) #b0011 #b0101)))
+       (format t "~&amp; ~A~13T~3,' D~23T~:*~5,' B~31T ...~4,'0B~%"
+               symbol result (logand result #b1111)))))
+▷ Results of (BOOLE &lt;op&gt; #b0011 #b0101) ...
+▷ ---Op-------Decimal-----Binary----Bits---
+▷  BOOLE-1       3          11    ...0011
+▷  BOOLE-2       5         101    ...0101
+▷  BOOLE-AND     1           1    ...0001
+▷  BOOLE-ANDC1   4         100    ...0100
+▷  BOOLE-ANDC2   2          10    ...0010
+▷  BOOLE-C1     -4        -100    ...1100
+▷  BOOLE-C2     -6        -110    ...1010
+▷  BOOLE-CLR     0           0    ...0000
+▷  BOOLE-EQV    -7        -111    ...1001
+▷  BOOLE-IOR     7         111    ...0111
+▷  BOOLE-NAND   -2         -10    ...1110
+▷  BOOLE-NOR    -8       -1000    ...1000
+▷  BOOLE-ORC1   -3         -11    ...1101
+▷  BOOLE-ORC2   -5        -101    ...1011
+▷  BOOLE-SET    -1          -1    ...1111
+▷  BOOLE-XOR     6         110    ...0110
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal <code>type-error</code> if its first argument is not a
+<i>bit-wise logical operation specifier</i> or if any subsequent argument is not
+an <i>integer</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="logand.html#logand">logand</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>In general,
+
+<pre class="lisp"> (boole boole-and x y) ≡ (logand x y)
+</pre>
+<p><i>Programmers</i> who would prefer to use numeric indices rather than
+<i>bit-wise logical operation specifiers</i> can get an equivalent effect
+by a technique such as the following:
+
+<pre class="lisp">;; The order of the values in this `table' are such that
+;; (logand (boole (elt boole-n-vector n) #b0101 #b0011) #b1111) =&gt; n
+ (defconstant boole-n-vector
+    (vector boole-clr   boole-and  boole-andc1 boole-2
+            boole-andc2 boole-1    boole-xor   boole-ior
+            boole-nor   boole-eqv  boole-c1    boole-orc1
+            boole-c2    boole-orc2 boole-nand  boole-set))
+<span class="roman">→</span> BOOLE-N-VECTOR
+ (proclaim '(inline boole-n))
+<span class="roman">→</span> <i>implementation-dependent</i>
+ (defun boole-n (n integer &amp;rest more-integers)
+   (apply #'boole (elt boole-n-vector n) integer more-integers))
+<span class="roman">→</span> BOOLE-N
+ (boole-n #b0111 5 3) <span class="roman">→</span> 7
+ (boole-n #b0001 5 3) <span class="roman">→</span> 1
+ (boole-n #b1101 5 3) <span class="roman">→</span> -3
+ (loop for n from #b0000 to #b1111 collect (boole-n n 5 3))
+<span class="roman">→</span> (0 1 2 3 4 5 6 7 -8 -7 -6 -5 -4 -3 -2 -1)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/boole.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:31 GMT -->
+</html>
+

@@ -1,0 +1,136 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/prog1_003b-prog2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+<head>
+<title>prog1; prog2 - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="prog_003b-prog_002a.html#prog_003b-prog_002a" title="prog; prog*">
+<link rel="next" href="progn.html#progn" title="progn">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="prog1%3b-prog2"></a>
+<a name="prog1_003b-prog2"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="progn.html#progn">progn</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="prog_003b-prog_002a.html#prog_003b-prog_002a">prog; prog*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">prog1, prog2 (Macro)</h3>
+
+<p><a name="index-prog1-639"></a><a name="index-prog1-640"></a><a name="index-prog2-641"></a><a name="index-prog2-642"></a><a name="prog1"></a><a name="prog2"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>prog1</b><var> first-form </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span><var> result-1<a name="index-prog1-643"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>prog2</b><var> first-form second-form </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span><var> result-2<a name="index-prog2-644"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>first-form</var>&mdash;a <i>form</i>; evaluated as described below.
+
+<p><var>second-form</var>&mdash;a <i>form</i>; evaluated as described below.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>; evaluated as described below.
+
+<p><var>result-1</var>&mdash;the <i>primary value</i> resulting from
+the <i>evaluation</i> of <var>first-form</var>.
+
+<p><var>result-2</var>&mdash;the <i>primary value</i> resulting from
+the <i>evaluation</i> of <var>second-form</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>prog1</code> <i>evaluates</i> <var>first-form</var>
+and then <var>forms</var>,
+<i>yielding</i> as its only <i>value</i>
+the <i>primary value</i> <i>yielded</i> by <var>first-form</var>.
+
+<p><code>prog2</code> <i>evaluates</i> <var>first-form</var>,
+then <var>second-form</var>,
+and then <var>forms</var>,
+<i>yielding</i> as its only <i>value</i>
+the <i>primary value</i> <i>yielded</i> by <var>first-form</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq temp 1) <span class="roman">→</span> 1
+ (prog1 temp (print temp) (incf temp) (print temp))
+▷ 1
+▷ 2
+<span class="roman">→</span> 1
+ (prog1 temp (setq temp nil)) <span class="roman">→</span> 2
+ temp <span class="roman">→</span> NIL
+ (prog1 (values 1 2 3) 4) <span class="roman">→</span> 1
+ (setq temp (list 'a 'b 'c))
+ (prog1 (car temp) (setf (car temp) 'alpha)) <span class="roman">→</span> A
+ temp <span class="roman">→</span> (ALPHA B C)
+ (flet ((swap-symbol-values (x y)
+          (setf (symbol-value x)
+                (prog1 (symbol-value y)
+                       (setf (symbol-value y) (symbol-value x))))))
+   (let ((*foo* 1) (*bar* 2))
+     (declare (special *foo* *bar*))
+     (swap-symbol-values '*foo* '*bar*)
+     (values *foo* *bar*)))
+<span class="roman">→</span> 2, 1
+ (setq temp 1) <span class="roman">→</span> 1
+ (prog2 (incf temp) (incf temp) (incf temp)) <span class="roman">→</span> 3
+ temp <span class="roman">→</span> 4
+ (prog2 1 (values 2 3 4) 5) <span class="roman">→</span> 2
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="multiple_002dvalue_002dprog1.html#multiple_002dvalue_002dprog1">multiple-value-prog1</a>,
+<a href="progn.html#progn">progn</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>prog1</code> and <code>prog2</code> are typically used to <i>evaluate</i>
+one or more <i>forms</i> with side effects and return a <i>value</i> that
+must be computed before some or all of the side effects happen.
+
+<pre class="lisp"> (prog1 <tt>{</tt>form<tt>}</tt>*) ≡ (values (multiple-value-prog1 <tt>{</tt>form<tt>}</tt>*))
+ (prog2 <var>form1</var> <tt>{</tt>form<tt>}</tt>*) ≡ (let () <var>form1</var> (prog1 <tt>{</tt>form<tt>}</tt>*))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/prog1_003b-prog2.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+</html>
+

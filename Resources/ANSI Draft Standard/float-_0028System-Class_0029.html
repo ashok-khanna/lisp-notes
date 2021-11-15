@@ -1,0 +1,132 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/float-_0028System-Class_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:08 GMT -->
+<head>
+<title>float (System Class) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="real.html#real" title="real">
+<link rel="next" href="short_002dfloat_003b-single_002dfloat_003b-double_002dfloat_003b-long_002dfloat.html#short_002dfloat_003b-single_002dfloat_003b-double_002dfloat_003b-long_002dfloat" title="short-float; single-float; double-float; long-float">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="float-(System-Class)"></a>
+<a name="float-_0028System-Class_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="short_002dfloat_003b-single_002dfloat_003b-double_002dfloat_003b-long_002dfloat.html#short_002dfloat_003b-single_002dfloat_003b-double_002dfloat_003b-long_002dfloat">short-float; single-float; double-float; long-float</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="real.html#real">real</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">float (System Class)</h3>
+
+<p><a name="index-float-1165"></a><a name="index-float-1166"></a>
+
+<h5 class="subsubheading">Class Precedence List:</h5>
+
+<p><code>float</code>,
+<code>real</code>,
+<code>number</code>,
+<code>t</code>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>A <i>float</i>
+is a mathematical rational (but <i>not</i> a <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>rational</i>)
+of the form
+s· f· b^e-p,
+where s is +1 or -1, the <i>sign</i>;
+b is an <i>integer</i>
+greater than&nbsp;1, the <i>base</i> or <i>radix</i> of the representation;
+p is a positive <i>integer</i>,
+the <i>precision</i> (in base-b digits) of the <i>float</i>;
+f is a positive <i>integer</i>
+between b^p-1 and
+b^p-1 (inclusive), the significand;
+and e is an <i>integer</i>, the exponent. 
+The value of p and the range of&nbsp;e
+depends on the implementation and on the type of <i>float</i>
+within that implementation. In addition, there is a floating-point zero;
+depending on the implementation, there can also be a &ldquo;minus zero&rdquo;. If there
+is no minus zero, then 0.0 and&nbsp;-0.0 are both interpreted as simply a
+floating-point zero. 
+<code>(= 0.0 -0.0)</code> is always true. 
+If there is a minus zero, <code>(eql -0.0 0.0)</code> is <i>false</i>,
+otherwise it is <i>true</i>.
+
+<p>The <i>types</i> <code>short-float</code>, <code>single-float</code>, <code>double-float</code>,
+and <code>long-float</code> are subtypes of <i>type</i> <code>float</code>.  Any two of them must be
+either <i>disjoint</i> <i>types</i> or the <i>same</i> <i>type</i>;
+if the <i>same</i> <i>type</i>, then any other <i>types</i> between them in the
+above ordering must also be the <i>same</i> <i>type</i>.  For example,
+if the <i>type</i> <code>single-float</code> and the <i>type</i> <code>long-float</code> are the <i>same</i> <i>type</i>,
+then the <i>type</i> <code>double-float</code> must be the <i>same</i> <i>type</i> also.
+
+<h5 class="subsubheading">Compound Type Specifier Kind:</h5>
+
+<p>Abbreviating.
+
+<h5 class="subsubheading">Compound Type Specifier Syntax:</h5>
+
+<p>(float <tt>[</tt>lower-limit <tt>[</tt>upper-limit<tt>]</tt><tt>]</tt>)
+
+<h5 class="subsubheading">Compound Type Specifier Arguments:</h5>
+
+<p><var>lower-limit</var>, <var>upper-limit</var>&mdash;<i>interval designators</i>
+for <i>type</i> <code>float</code>. 
+The defaults for each of <var>lower-limit</var> and <var>upper-limit</var> is the <i>symbol</i> <code>*</code>.
+
+<h5 class="subsubheading">Compound Type Specifier Description:</h5>
+
+<p>This denotes the <i>floats</i> on the interval described by
+<var>lower-limit</var> and <var>upper-limit</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="SyntaxForNumericTokens.html#SyntaxForNumericTokens">Figure 2.9</a>,
+<a href="Constructing-Numbers-from-Tokens.html#Constructing-Numbers-from-Tokens">Section 2.3.2 (Constructing Numbers from Tokens)</a>,
+<a href="PrintingFloats.html#PrintingFloats">Section 22.1.3.1.3 (Printing Floats)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Note that all mathematical integers are representable not only as
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>reals</i>, but also as <i>complex floats</i>.  For example,
+possible representations of the mathematical number 1
+include the <i>integer</i> <code>1</code>,
+the <i>float</i> <code>1.0</code>,
+or the <i>complex</i> <code>#C(1.0 0.0)</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/float-_0028System-Class_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:09 GMT -->
+</html>
+

@@ -1,0 +1,143 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/call_002dmethod_003b-make_002dmethod.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:52 GMT -->
+<head>
+<title>call-method; make-method - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="next_002dmethod_002dp.html#next_002dmethod_002dp" title="next-method-p">
+<link rel="next" href="call_002dnext_002dmethod.html#call_002dnext_002dmethod" title="call-next-method">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="call-method%3b-make-method"></a>
+<a name="call_002dmethod_003b-make_002dmethod"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="call_002dnext_002dmethod.html#call_002dnext_002dmethod">call-next-method</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="next_002dmethod_002dp.html#next_002dmethod_002dp">next-method-p</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="heading">call-method, make-method (Local Macro)</h3>
+
+<p><a name="index-call_002dmethod-807"></a><a name="index-call_002dmethod-808"></a><a name="index-make_002dmethod-809"></a><a name="index-make_002dmethod-810"></a><a name="call_002dmethod"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>call-method</b><var> method </var><tt>&amp;optional</tt><var> next-method-list </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-call_002dmethod-811"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>make-method</b><var> form </var><span class="roman">→</span><var> method-object<a name="index-make_002dmethod-812"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>method</var>&mdash;a <i>method</i> <i>object</i>,
+or a <i>list</i> (see below); not evaluated.
+
+<p><var>method-object</var>&mdash;a <i>method</i> <i>object</i>.
+
+<p><var>next-method-list</var>&mdash;a <i>list</i> of <var>method</var> <i>objects</i>; not evaluated.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <i>method</i> invocation.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The macro <code>call-method</code> is used in method combination.  It hides
+the <i>implementation-dependent</i> details of how
+<i>methods</i> are called. The
+macro <code>call-method</code> has <i>lexical scope</i> and
+can only be used within
+an <i>effective method</i> <i>form</i>.
+
+<p>Whether or not <code>call-method</code> is <i>fbound</i> in the
+<i>global environment</i> is <i>implementation-dependent</i>;
+however, the restrictions on redefinition and <i>shadowing</i> of
+<code>call-method</code> are the same as for <i>symbols</i> in the <code>COMMON-LISP</code> <i>package</i>
+which are <i>fbound</i> in the <i>global environment</i>. 
+The consequences of attempting to use <code>call-method</code> outside
+of an <i>effective method</i> <i>form</i> are undefined.
+
+<p>The macro <code>call-method</code> invokes the specified <i>method</i>,
+supplying it with arguments and with definitions for
+<code>call-next-method</code> and for <code>next-method-p</code>. 
+If the invocation of <code>call-method</code> is lexically inside
+of a <code>make-method</code>, the arguments are those that
+were supplied to that method.  Otherwise the arguments are
+those that were supplied to the generic function. 
+The definitions
+of <code>call-next-method</code> and <code>next-method-p</code> rely on
+the specified <var>next-method-list</var>.
+
+<p>If <var>method</var> is a <i>list</i>, the first element of the <i>list</i>
+must be the symbol <code>make-method</code> and the second element must be
+a <i>form</i>.  Such a <i>list</i> specifies a <i>method</i> <i>object</i>
+whose <i>method</i> function has a body that is the given <i>form</i>.
+
+<p><var>Next-method-list</var> can contain <i>method</i> <i>objects</i> or <i>lists</i>,
+the first element of which must be the symbol <code>make-method</code> and the
+second element of which must be a <i>form</i>.
+
+<p>Those are the only two places where <code>make-method</code> can be used. 
+The <i>form</i> used with <code>make-method</code> is evaluated in
+the <i>null lexical environment</i> augmented with a local macro definition
+for <code>call-method</code> and with bindings named by
+symbols not <i>accessible</i> from the <code>COMMON-LISP-USER</code> <i>package</i>.
+
+<p>The <code>call-next-method</code> function available to <var>method</var>
+will call the first <i>method</i> in <var>next-method-list</var>. 
+The <code>call-next-method</code> function
+available in that <i>method</i>, in turn, will call the second
+<i>method</i> in <var>next-method-list</var>, and so on, until
+the list of next <i>methods</i> is exhausted.
+
+<p>If <var>next-method-list</var> is not supplied, the
+<code>call-next-method</code> function available to
+<var>method</var> signals an error of <i>type</i> <code>control-error</code>
+and the <code>next-method-p</code> function
+available to <var>method</var> returns <code>nil</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="call_002dnext_002dmethod.html#call_002dnext_002dmethod">call-next-method</a>,
+<a href="define_002dmethod_002dcombination.html#define_002dmethod_002dcombination">define-method-combination</a>,
+<a href="next_002dmethod_002dp.html#next_002dmethod_002dp">next-method-p</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/call_002dmethod_003b-make_002dmethod.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:52 GMT -->
+</html>
+

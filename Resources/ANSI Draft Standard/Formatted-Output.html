@@ -1,0 +1,169 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Formatted-Output.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:45 GMT -->
+<head>
+<title>Formatted Output - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="The-Lisp-Pretty-Printer.html#The-Lisp-Pretty-Printer" title="The Lisp Pretty Printer">
+<link rel="next" href="copy_002dpprint_002ddispatch.html#copy_002dpprint_002ddispatch" title="copy-pprint-dispatch">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Formatted-Output"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="copy_002dpprint_002ddispatch.html#copy_002dpprint_002ddispatch">copy-pprint-dispatch</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-Lisp-Pretty-Printer.html#The-Lisp-Pretty-Printer">The Lisp Pretty Printer</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="section">22.3 Formatted Output</h3>
+
+<p><code>format</code> is useful for producing nicely formatted text, producing
+good-looking messages, and so on.  <code>format</code> can generate and return
+a <i>string</i> or output to <var>destination</var>.
+
+<p>The <var>control-string</var> argument to <code>format</code> is actually a <i>format control</i>. 
+That is, it can be either a <i>format string</i> or a <i>function</i>,
+for example a <i>function</i> returned
+by the <code>formatter</code> <i>macro</i>.
+
+<p>If it is a <i>function</i>, the <i>function</i> is called with the appropriate
+output stream as its first argument and the data arguments to <code>format</code>
+as its remaining arguments.  The function should perform whatever output is
+necessary and return the unused tail of the arguments (if any).
+
+<p>The compilation process performed by <code>formatter</code> produces a <i>function</i>
+that would do with its <i>arguments</i> as the <code>format</code> interpreter
+would do with those <i>arguments</i>.
+
+<p>The remainder of this section describes what happens if the <var>control-string</var>
+is a <i>format string</i>.
+
+<p><var>Control-string</var> is composed of simple text (<i>characters</i>)
+and embedded directives.
+
+<p><code>format</code> writes the simple text as is;
+each embedded directive specifies further text output
+that is to appear at the corresponding point within the simple text. 
+Most directives use one or more elements of <var>args</var> to
+create their output.
+
+<p>A directive consists of a <i>tilde</i>,
+optional prefix parameters
+separated by commas, optional <i>colon</i> and <i>at-sign</i> modifiers,
+and a single character indicating what kind of directive this is. 
+There is no required ordering between the <i>at-sign</i> and <i>colon</i> modifier. 
+The <i>case</i> of the directive character is ignored. 
+Prefix parameters are notated as signed (sign is optional) decimal numbers,
+or as a <i>single-quote</i> followed by a character. 
+For example, <code>~5,'0d</code> can be used
+to print an <i>integer</i>
+in decimal radix in five columns with leading zeros,
+or <code>~5,'*d</code> to get leading asterisks.
+
+<p>In place of a prefix parameter to a directive, <code>V</code> (or <code>v</code>) can be used. 
+In this case, <code>format</code> takes an argument from <var>args</var> as a parameter to
+the directive.  The argument should be an <i>integer</i> or <i>character</i>. 
+If the <var>arg</var> used by a <code>V</code> parameter is <code>nil</code>,
+the effect is as if the parameter had been omitted. 
+<code>#</code> can be used in place of a prefix parameter; it
+represents the number of <var>args</var> remaining to be processed. 
+When used within a recursive format, in the context of <code>~?</code> or <code>~</code><tt>{</tt>,
+the <code>#</code> prefix parameter represents the number of <i>format arguments</i>
+remaining within the recursive call.
+
+<p>Examples of <i>format strings</i>:
+
+<div class="float">
+<a name="fig22_002e6"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>"~S"</code> </td><td valign="top">;This is an S directive with no parameters or modifiers. 
+<br></td></tr><tr align="left"><td valign="top"><code>"~3,-4:@s"</code> </td><td valign="top">;This is an S directive with two parameters, <code>3</code> and <code>-4</code>,
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">; and both the <i>colon</i> and <i>at-sign</i> flags. 
+<br></td></tr><tr align="left"><td valign="top"><code>"~,+4S"</code> </td><td valign="top">;Here the first prefix parameter is omitted and takes
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">; on its default value, while the second parameter is <code>4</code>.
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 22.6: Examples of format control strings</strong></p></div>
+
+<p><code>format</code> sends the output to <var>destination</var>. 
+If <var>destination</var> is <code>nil</code>,
+<code>format</code> creates and returns a <i>string</i>
+containing the output from <var>control-string</var>. 
+If <var>destination</var> is <i>non-nil</i>,
+it must be a <i>string</i> with a <i>fill pointer</i>,
+a <i>stream</i>, or the symbol <code>t</code>. 
+If <var>destination</var> is a <i>string</i> with a <i>fill pointer</i>,
+the output is added to the end of the <i>string</i>. 
+If <var>destination</var> is a <i>stream</i>,
+the output is sent to that <i>stream</i>. 
+If <var>destination</var> is <code>t</code>,
+the output is sent to <i>standard output</i>.
+
+<p>In the description of the directives that follows,
+the term <i>arg</i> in general
+refers to the next item of the set of <var>args</var> to be processed. 
+The word or phrase at the beginning of each description is a mnemonic
+for the directive. 
+<code>format</code> directives do not bind any of the printer control
+variables (<code>*print-...*</code>) except as specified in the following
+descriptions. 
+Implementations may specify the binding of new, implementation-specific
+printer control variables for each <code>format</code> directive, but they
+may neither bind any standard printer control variables not
+specified in description of a <code>format</code>
+directive nor fail to bind
+any standard printer control variables as specified in the
+description.
+
+<ul class="menu">
+<li><a accesskey="1" href="FORMAT-Basic-Output.html#FORMAT-Basic-Output">FORMAT Basic Output</a>
+<li><a accesskey="2" href="FORMAT-Radix-Control.html#FORMAT-Radix-Control">FORMAT Radix Control</a>
+<li><a accesskey="3" href="FORMAT-Floating_002dPoint-Printers.html#FORMAT-Floating_002dPoint-Printers">FORMAT Floating-Point Printers</a>
+<li><a accesskey="4" href="FORMAT-Printer-Operations.html#FORMAT-Printer-Operations">FORMAT Printer Operations</a>
+<li><a accesskey="5" href="FORMAT-Pretty-Printer-Operations.html#FORMAT-Pretty-Printer-Operations">FORMAT Pretty Printer Operations</a>
+<li><a accesskey="6" href="FORMAT-Layout-Control.html#FORMAT-Layout-Control">FORMAT Layout Control</a>
+<li><a accesskey="7" href="FORMAT-Control_002dFlow-Operations.html#FORMAT-Control_002dFlow-Operations">FORMAT Control-Flow Operations</a>
+<li><a accesskey="8" href="FORMAT-Miscellaneous-Operations.html#FORMAT-Miscellaneous-Operations">FORMAT Miscellaneous Operations</a>
+<li><a accesskey="9" href="FORMAT-Miscellaneous-Pseudo_002dOperations.html#FORMAT-Miscellaneous-Pseudo_002dOperations">FORMAT Miscellaneous Pseudo-Operations</a>
+<li><a href="Additional-Information-about-FORMAT-Operations.html#Additional-Information-about-FORMAT-Operations">Additional Information about FORMAT Operations</a>
+<li><a href="Examples-of-FORMAT.html#Examples-of-FORMAT">Examples of FORMAT</a>
+<li><a href="Notes-about-FORMAT.html#Notes-about-FORMAT">Notes about FORMAT</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Formatted-Output.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:45 GMT -->
+</html>
+

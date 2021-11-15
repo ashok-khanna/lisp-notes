@@ -1,0 +1,101 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002dcondition_002drestarts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>with-condition-restarts - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="restart_002dname.html#restart_002dname" title="restart-name">
+<link rel="next" href="with_002dsimple_002drestart.html#with_002dsimple_002drestart" title="with-simple-restart">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="with-condition-restarts"></a>
+<a name="with_002dcondition_002drestarts"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="with_002dsimple_002drestart.html#with_002dsimple_002drestart">with-simple-restart</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="restart_002dname.html#restart_002dname">restart-name</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">with-condition-restarts (Macro)</h3>
+
+<p><a name="index-with_002dcondition_002drestarts-960"></a><a name="index-with_002dcondition_002drestarts-961"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>with-condition-restarts</b><var> condition-form restarts-form </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-with_002dcondition_002drestarts-962"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>condition-form</var>&mdash;a <i>form</i>; <i>evaluated</i> to produce a <var>condition</var>.
+
+<p><var>condition</var>&mdash;a <i>condition</i> <i>object</i> resulting from the
+<i>evaluation</i> of <var>condition-form</var>.
+
+<p><var>restart-form</var>&mdash;a <i>form</i>; <i>evaluated</i> to produce a <var>restart-list</var>.
+
+<p><var>restart-list</var>&mdash;a <i>list</i> of <i>restart</i> <i>objects</i> resulting
+from the <i>evaluation</i> of <var>restart-form</var>.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>; evaluated.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by <var>forms</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>First, the <var>condition-form</var> and <var>restarts-form</var> are <i>evaluated</i>
+in normal left-to-right order; the <i>primary values</i> yielded by these
+<i>evaluations</i> are respectively called the <var>condition</var>
+and the <var>restart-list</var>.
+
+<p>Next, the <var>forms</var> are <i>evaluated</i> in a <i>dynamic environment</i>
+in which each <i>restart</i> in <var>restart-list</var> is associated with
+the <var>condition</var>.  See <a href="AssocRestartWithCond.html#AssocRestartWithCond">Section 9.1.4.2.4 (Associating a Restart with a Condition)</a>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="restart_002dcase.html#restart_002dcase">restart-case</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Usually this <i>macro</i> is not used explicitly in code,
+since <code>restart-case</code> handles most of the common cases
+in a way that is syntactically more concise.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002dcondition_002drestarts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:56 GMT -->
+</html>
+

@@ -1,0 +1,221 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defmacro.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:04 GMT -->
+<head>
+<title>defmacro - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="define_002dcompiler_002dmacro.html#define_002dcompiler_002dmacro" title="define-compiler-macro">
+<link rel="next" href="macro_002dfunction.html#macro_002dfunction" title="macro-function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defmacro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="macro_002dfunction.html#macro_002dfunction">macro-function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="define_002dcompiler_002dmacro.html#define_002dcompiler_002dmacro">define-compiler-macro</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">defmacro (Macro)</h3>
+
+<p><a name="index-defmacro-267"></a><a name="index-defmacro-268"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defmacro</b><var> name lambda-list 〚</var><tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><span class="roman">|</span><var> documentation〛 </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span><var> name<a name="index-defmacro-269"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>.
+
+<p><var>lambda-list</var>&mdash;a <i>macro lambda list</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Defines <var>name</var> as a <i>macro</i>
+by associating a <i>macro function</i> with that <var>name</var>
+in the global environment. 
+The <i>macro function</i> is defined in the same <i>lexical environment</i>
+in which the <code>defmacro</code> <i>form</i> appears.
+
+<p>The parameter variables in <var>lambda-list</var> are bound to
+destructured portions of the macro call.
+
+<p>The expansion function
+accepts two arguments, a <i>form</i> and an
+<i>environment</i>.  The expansion function returns a <i>form</i>. 
+The body of the expansion function is specified by <var>forms</var>. 
+<var>Forms</var> are executed in order.  The value of the
+last <var>form</var> executed is returned as the expansion of the
+<i>macro</i>. 
+The body <var>forms</var> of the expansion function (but not the <var>lambda-list</var>)
+are implicitly enclosed in a <i>block</i> whose name is <var>name</var>.
+
+<p>The <var>lambda-list</var> conforms to the requirements described in <a href="Macro-Lambda-Lists.html#Macro-Lambda-Lists">Section 3.4.4 (Macro Lambda Lists)</a>.
+
+<p><var>Documentation</var> is attached as a <i>documentation string</i>
+to <var>name</var> (as kind <code>function</code>)
+and to the <i>macro function</i>.
+
+<p><code>defmacro</code> can be used to redefine a <i>macro</i> or to replace
+a <i>function</i> definition with a <i>macro</i> definition.
+
+<p>Recursive expansion of the <i>form</i> returned must terminate,
+including the expansion of other <i>macros</i> which are <i>subforms</i>
+of other <i>forms</i> returned.
+
+<p>The consequences are undefined if the result of fully macroexpanding
+a <i>form</i>
+contains any <i>circular</i> <i>list structure</i> except in <i>literal objects</i>.
+
+<p>If a <code>defmacro</code> <i>form</i> appears as a <i>top level form</i>,
+the <i>compiler</i> must store the <i>macro</i> definition at compile time,
+so that occurrences of the macro later on in the file can be expanded correctly. 
+Users must ensure that the body of the <i>macro</i> can be evaluated at
+compile time if it is referenced within the <i>file</i> being <i>compiled</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defmacro mac1 (a b) "Mac1 multiplies and adds"
+            `(+ ,a (* ,b 3))) <span class="roman">→</span> MAC1
+ (mac1 4 5) <span class="roman">→</span> 19
+ (documentation 'mac1 'function) <span class="roman">→</span> "Mac1 multiplies and adds"
+ (defmacro mac2 (&amp;optional (a 2 b) (c 3 d) &amp;rest x) `'(,a ,b ,c ,d ,x)) <span class="roman">→</span> MAC2
+ (mac2 6) <span class="roman">→</span> (6 T 3 NIL NIL)
+ (mac2 6 3 8) <span class="roman">→</span> (6 T 3 T (8))
+ (defmacro mac3 (&amp;whole r a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    `'(,r ,a ,b ,c ,d ,x)) <span class="roman">→</span> MAC3
+ (mac3 1 6 :d 8 :c 9 :d 10) <span class="roman">→</span> ((MAC3 1 6 :D 8 :C 9 :D 10) 1 6 9 8 (:D 8 :C 9 :D 10))
+</pre>
+<p>The stipulation that
+an embedded <i>destructuring lambda list</i> is permitted only
+where <i>ordinary lambda list</i> syntax would permit a parameter name
+but not a <i>list</i> is made to prevent ambiguity.  For example,
+the following is not valid:
+
+<pre class="lisp"> (defmacro loser (x &amp;optional (a b &amp;rest c) &amp;rest z)
+   ...)
+</pre>
+<p>because <i>ordinary lambda list</i> syntax does permit a
+<i>list</i> following <tt>&amp;optional</tt>;
+the list <code>(a b &amp;rest c)</code> would be interpreted as describing an
+optional parameter named <code>a</code> whose default value is that of the
+form <code>b</code>, with a supplied-p parameter named <code>&amp;rest</code> (not valid),
+and an extraneous symbol <code>c</code> in the list (also not valid).  An almost
+correct way to express this is
+
+<pre class="lisp"> (defmacro loser (x &amp;optional ((a b &amp;rest c)) &amp;rest z)
+   ...)
+</pre>
+<p>The extra set of parentheses removes the ambiguity.  However, the
+definition is now incorrect because a macro call such as <code>(loser (car pool))</code>
+would not provide any argument form for the lambda list <code>(a b &amp;rest c)</code>,
+and so the default value against which to match the <i>lambda list</i> would be
+<code>nil</code>&nbsp;<!-- /@w -->because no explicit default value was specified. 
+The consequences of this are  unspecified
+since the empty list, <code>nil</code>, does not have <i>forms</i> to satisfy the
+parameters <code>a</code> and <code>b</code>.  The fully correct definition would be either
+
+<pre class="lisp"> (defmacro loser (x &amp;optional ((a b &amp;rest c) '(nil nil)) &amp;rest z)
+   ...)
+</pre>
+<p>or
+
+<pre class="lisp"> (defmacro loser (x &amp;optional ((&amp;optional a b &amp;rest c)) &amp;rest z)
+   ...)
+</pre>
+<p>These differ slightly: the first requires that if the macro call
+specifies <code>a</code> explicitly then it must also specify <code>b</code> explicitly,
+whereas the second does not have this requirement.  For example,
+
+<pre class="lisp"> (loser (car pool) ((+ x 1)))
+</pre>
+<p>would be a valid call for the second definition but not for the first.
+
+<pre class="lisp"> (defmacro dm1a (&amp;whole x) `',x)
+ (macroexpand '(dm1a))  <span class="roman">→</span> (QUOTE (DM1A))
+ (macroexpand '(dm1a a)) is an error.
+
+ (defmacro dm1b (&amp;whole x a &amp;optional b) `'(,x ,a ,b))
+ (macroexpand '(dm1b))  is an error.
+ (macroexpand '(dm1b q))  <span class="roman">→</span> (QUOTE ((DM1B Q) Q NIL))
+ (macroexpand '(dm1b q r)) <span class="roman">→</span> (QUOTE ((DM1B Q R) Q R))
+ (macroexpand '(dm1b q r s)) is an error.
+</pre>
+<pre class="lisp"> (defmacro dm2a (&amp;whole form a b) `'(form ,form a ,a b ,b))
+ (macroexpand '(dm2a x y)) <span class="roman">→</span> (QUOTE (FORM (DM2A X Y) A X B Y))
+ (dm2a x y) <span class="roman">→</span> (FORM (DM2A X Y) A X B Y)
+
+ (defmacro dm2b (&amp;whole form a (&amp;whole b (c . d) &amp;optional (e 5))
+                 &amp;body f &amp;environment env)
+   ``(,',form ,,a ,',b ,',(macroexpand c env) ,',d ,',e ,',f))
+ ;Note that because backquote is involved, implementations may differ
+ ;slightly in the nature (though not the functionality) of the expansion.
+ (macroexpand '(dm2b x1 (((incf x2) x3 x4)) x5 x6))
+ <span class="roman">→</span> (LIST* '(DM2B X1 (((INCF X2) X3 X4))
+                   X5 X6)
+            X1
+            '((((INCF X2) X3 X4)) (SETQ X2 (+ X2 1)) (X3 X4) 5 (X5 X6))),
+     T
+ (let ((x1 5))
+   (macrolet ((segundo (x) `(cadr ,x)))
+     (dm2b x1 (((segundo x2) x3 x4)) x5 x6)))
+ <span class="roman">→</span> ((DM2B X1 (((SEGUNDO X2) X3 X4)) X5 X6)
+      5 (((SEGUNDO X2) X3 X4)) (CADR X2) (X3 X4) 5 (X5 X6))
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="define_002dcompiler_002dmacro.html#define_002dcompiler_002dmacro">define-compiler-macro</a>,
+<a href="destructuring_002dbind.html#destructuring_002dbind">destructuring-bind</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="macroexpand.html#macroexpand">macroexpand</a>,
+<a href="_002amacroexpand_002dhook_002a.html#g_t_002amacroexpand_002dhook_002a">*macroexpand-hook*</a>,
+<a href="macrolet.html#macrolet">macrolet</a>,
+<a href="macro_002dfunction.html#macro_002dfunction">macro-function</a>,
+<a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>,
+<a href="Compilation.html#Compilation">Section 3.2 (Compilation)</a>,
+<a href="Syntactic-Interaction-of-Documentation-Strings-and-Declarations.html#Syntactic-Interaction-of-Documentation-Strings-and-Declarations">Section 3.4.11 (Syntactic Interaction of Documentation Strings and Declarations)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defmacro.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:06 GMT -->
+</html>
+

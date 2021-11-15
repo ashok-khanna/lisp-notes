@@ -1,0 +1,136 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dsymbol_002dmacro.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:07 GMT -->
+<head>
+<title>define-symbol-macro - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="macroexpand_003b-macroexpand_002d1.html#macroexpand_003b-macroexpand_002d1" title="macroexpand; macroexpand-1">
+<link rel="next" href="symbol_002dmacrolet.html#symbol_002dmacrolet" title="symbol-macrolet">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="define-symbol-macro"></a>
+<a name="define_002dsymbol_002dmacro"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="symbol_002dmacrolet.html#symbol_002dmacrolet">symbol-macrolet</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="macroexpand_003b-macroexpand_002d1.html#macroexpand_003b-macroexpand_002d1">macroexpand; macroexpand-1</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">define-symbol-macro (Macro)</h3>
+
+<p><a name="index-define_002dsymbol_002dmacro-279"></a><a name="index-define_002dsymbol_002dmacro-280"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>define-symbol-macro</b><var> symbol expansion </var><span class="roman">→</span><var> symbol<a name="index-define_002dsymbol_002dmacro-281"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbol</var>&mdash;a <i>symbol</i>.
+
+<p><var>expansion</var>&mdash;a <i>form</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Provides a mechanism for globally affecting the <i>macro expansion</i>
+of the indicated <var>symbol</var>.
+
+<p>Globally establishes an expansion function for the <i>symbol macro</i>
+named by <var>symbol</var>. 
+The only guaranteed property of an expansion <i>function</i> for a <i>symbol macro</i>
+is that when it is applied to the <i>form</i> and the <i>environment</i> it returns
+the correct expansion.  (In particular, it is <i>implementation-dependent</i>
+whether the expansion is conceptually stored in the expansion function,
+the <i>environment</i>, or both.)
+
+<p>Each global reference to <var>symbol</var> (<i>i.e.</i>, not <i>shadowed</i><sub>2</sub> by a
+<i>binding</i> for a <i>variable</i> or <i>symbol macro</i> named by
+the same <i>symbol</i>) is expanded by the normal macro expansion process;
+see <a href="SymbolsAsForms.html#SymbolsAsForms">Section 3.1.2.1.1 (Symbols as Forms)</a>. 
+The expansion of a <i>symbol macro</i> is subject to further <i>macro expansion</i>
+in the same <i>lexical environment</i> as the <i>symbol macro</i> reference,
+exactly analogous to normal <i>macros</i>.
+
+<p>The consequences are unspecified if a <code>special</code> declaration is made for
+<var>symbol</var> while in the scope of this definition (<i>i.e.</i>, when it is not
+<i>shadowed</i><sub>2</sub> by a <i>binding</i> for a <i>variable</i>
+or <i>symbol macro</i> named by the same <i>symbol</i>).
+
+<p>Any use of <code>setq</code> to set the value of
+the <var>symbol</var>
+while in the scope of this definition
+is treated as if it were a <code>setf</code>. 
+<code>psetq</code> of <var>symbol</var>
+is treated as if it were a <code>psetf</code>, and
+<code>multiple-value-setq</code>
+is treated as if it were a <code>setf</code> of <code>values</code>.
+
+<p>A <i>binding</i> for a <i>symbol macro</i> can be <i>shadowed</i><sub>2</sub>
+
+<p>by <code>let</code> or <code>symbol-macrolet</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">(defvar *things* (list 'alpha 'beta 'gamma)) <span class="roman">→</span> *THINGS*
+
+(define-symbol-macro thing1 (first *things*)) <span class="roman">→</span> THING1
+(define-symbol-macro thing2 (second *things*)) <span class="roman">→</span> THING2
+(define-symbol-macro thing3 (third *things*)) <span class="roman">→</span> THING3
+
+thing1 <span class="roman">→</span> ALPHA
+(setq thing1 'ONE) <span class="roman">→</span> ONE
+*things* <span class="roman">→</span> (ONE BETA GAMMA)
+(multiple-value-setq (thing2 thing3) (values 'two 'three)) <span class="roman">→</span> TWO
+thing3 <span class="roman">→</span> THREE
+*things* <span class="roman">→</span> (ONE TWO THREE)
+
+(list thing2 (let ((thing2 2)) thing2)) <span class="roman">→</span> (TWO 2)
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>symbol</var> is already defined as a <i>global variable</i>,
+an error of <i>type</i> <code>program-error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="symbol_002dmacrolet.html#symbol_002dmacrolet">symbol-macrolet</a>,
+<a href="macroexpand.html#macroexpand">macroexpand</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dsymbol_002dmacro.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:08 GMT -->
+</html>
+

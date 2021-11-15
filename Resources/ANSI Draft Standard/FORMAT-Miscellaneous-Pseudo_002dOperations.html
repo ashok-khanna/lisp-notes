@@ -1,0 +1,183 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Miscellaneous-Pseudo_002dOperations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+<head>
+<title>FORMAT Miscellaneous Pseudo-Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Miscellaneous-Operations.html#FORMAT-Miscellaneous-Operations" title="FORMAT Miscellaneous Operations">
+<link rel="next" href="Additional-Information-about-FORMAT-Operations.html#Additional-Information-about-FORMAT-Operations" title="Additional Information about FORMAT Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Miscellaneous-Pseudo-Operations"></a>
+<a name="FORMAT-Miscellaneous-Pseudo_002dOperations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Additional-Information-about-FORMAT-Operations.html#Additional-Information-about-FORMAT-Operations">Additional Information about FORMAT Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Miscellaneous-Operations.html#FORMAT-Miscellaneous-Operations">FORMAT Miscellaneous Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.9 FORMAT Miscellaneous Pseudo-Operations</h4>
+
+<h5 class="subsubsection">22.3.9.1 Tilde Semicolon: Clause Separator</h5>
+
+<p><a name="index-Semicolon-_0028format-directive_0029-2873"></a><a name="index-Tilde-Semicolon-_0028format-directive_0029-2874"></a>
+This separates clauses in <code>~[</code> and <code>~&lt;</code> constructs. 
+The consequences of using it elsewhere are undefined.
+
+<h5 class="subsubsection">22.3.9.2 Tilde Circumflex: Escape Upward</h5>
+
+<p><a name="index-Circumflex-_0028format-directive_0029-2875"></a><a name="index-Tilde-Circumflex-_0028format-directive_0029-2876"></a>
+<code>~^ </code>
+
+<p>This is an escape construct.  If there are no more arguments remaining to
+be processed, then the immediately
+enclosing <code>~{  </code> or <code>~&lt;</code> construct
+is terminated.  If there is no such enclosing construct, then the entire
+formatting operation is terminated. 
+In the <code>~&lt;</code> case, the formatting
+is performed, but no more segments are processed before doing the
+justification. 
+<code>~^ </code> may appear anywhere in a <code>~{  </code>
+construct.
+
+<pre class="lisp"> (setq donestr "Done.~^ ~D warning~:P.~^ ~D error~:P.")
+<span class="roman">→</span> "Done.~^ ~D warning~:P.~^ ~D error~:P."
+ (format nil donestr) <span class="roman">→</span> "Done."
+ (format nil donestr 3) <span class="roman">→</span> "Done. 3 warnings."
+ (format nil donestr 1 5) <span class="roman">→</span> "Done. 1 warning. 5 errors."
+</pre>
+<p>If a prefix parameter is given, then termination occurs if the parameter
+is zero.  (Hence <code>~^</code> is equivalent to
+<code>~#^</code>.)  If two
+parameters are given, termination occurs if they are equal. 
+  If three
+parameters are given, termination occurs if the first is less than or
+equal to the second and the second is less than or equal to the third. 
+Of course, this is useless if all the prefix parameters are constants; at
+least one of them should be a <code>#</code> or a <code>V</code> parameter.
+
+<p>If <code>~^</code> is used within a <code>~:{  </code>
+construct, then it terminates
+the current iteration step because in the standard case it tests for
+remaining arguments of the current step only; the next iteration step
+commences immediately.  <code>~:^</code> is used to terminate
+the iteration process. 
+<code>~:^</code>
+may be used only if the command it would terminate is
+<code>~:{  </code> or <code>~:@{  </code>. 
+The entire iteration process is terminated if and only if the sublist that is
+supplying the arguments for the current iteration step is the last sublist in
+the case of <code>~:{ </code>,
+or the last <code>format</code>
+argument in the case of <code>~:@{  </code>. 
+<code>~:^</code> is not
+equivalent to <code>~#:^</code>;
+the latter terminates the entire iteration if and only if no
+arguments remain for the current iteration step. 
+For example:
+
+<pre class="lisp"> (format nil "~:{&nbsp;<!-- /@w -->~@?~:^&nbsp;<!-- /@w -->...~}&nbsp;<!-- /@w -->" '(("a") ("b"))) <span class="roman">→</span> "a...b"
+</pre>
+<p>If <code>~^</code> appears within a control string being processed
+under the control of a <code>~?</code> directive, but not within
+any <code>~{  </code> or <code>~&lt;</code> construct within that string,
+then the string being
+processed will be terminated, thereby ending processing
+of the <code>~?</code> directive.  Processing then
+continues within the string
+containing the <code>~?</code> directive at the point following that directive.
+
+<p>If <code>~^</code>
+appears within a <code>~[</code> or <code>~(</code> construct,
+then all the commands up to the <code>~^</code> are properly selected
+or case-converted,
+the <code>~[</code> or <code>~(</code> processing is terminated,
+and the outward search continues
+for a <code>~{  </code> or <code>~&lt;</code> construct
+to be terminated.  For example:
+
+<pre class="lisp"> (setq tellstr "~@(~@[~R~]~^ ~A!~)")
+<span class="roman">→</span> "~@(~@[~R~]~^ ~A!~)"
+ (format nil tellstr 23) <span class="roman">→</span> "Twenty-three!"
+ (format nil tellstr nil "losers") <span class="roman">→</span> " Losers!"
+ (format nil tellstr 23 "losers") <span class="roman">→</span> "Twenty-three losers!"
+</pre>
+<p>Following are examples of the use of <code>~^</code>
+within a <code>~&lt;</code> construct.
+
+<pre class="lisp"> (format nil "~15&lt;~S~;~^~S~;~^~S~&gt;" 'foo)
+<span class="roman">→</span>  "            FOO"
+ (format nil "~15&lt;~S~;~^~S~;~^~S~&gt;" 'foo 'bar)
+<span class="roman">→</span>  "FOO         BAR"
+ (format nil "~15&lt;~S~;~^~S~;~^~S~&gt;" 'foo 'bar 'baz)
+<span class="roman">→</span>  "FOO   BAR   BAZ"
+</pre>
+<h5 class="subsubsection">22.3.9.3 Tilde Newline: Ignored Newline</h5>
+
+<p><a name="index-Newline-_0028format-directive_0029-2877"></a><a name="index-Tilde-Newline-_0028format-directive_0029-2878"></a>
+<i>Tilde</i> immediately followed by a <i>newline</i> ignores the <i>newline</i>
+and any following non-newline <i>whitespace</i><sub>1</sub> characters. 
+With a <code>:</code>,
+the <i>newline</i> is ignored,
+but any following <i>whitespace</i><sub>1</sub> is left in place. 
+With an <code>@</code>,
+the <i>newline</i> is left in place,
+but any following <i>whitespace</i><sub>1</sub> is ignored. 
+For example:
+
+<pre class="lisp"> (defun type-clash-error (fn nargs argnum right-type wrong-type)
+   (format *error-output*
+           "~&amp;~S requires its ~:[~:R~;~*~]~
+           argument to be of type ~S,~%but it was called ~
+           with an argument of type ~S.~%"
+           fn (eql nargs 1) argnum right-type wrong-type))
+ (type-clash-error 'aref nil 2 'integer 'vector)  prints:
+AREF requires its second argument to be of type INTEGER,
+but it was called with an argument of type VECTOR.
+NIL
+ (type-clash-error 'car 1 1 'list 'short-float)  prints:
+CAR requires its argument to be of type LIST,
+but it was called with an argument of type SHORT-FLOAT.
+NIL
+</pre>
+<p>Note that in this example newlines appear in the output only as specified
+by the <code>~&amp;</code> and <code>~%</code> directives; the
+actual newline characters
+in the control string are suppressed because each is preceded by a tilde.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Miscellaneous-Pseudo_002dOperations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+</html>
+

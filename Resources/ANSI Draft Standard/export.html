@@ -1,0 +1,158 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/export.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>export - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Packages.html#Packages" title="Packages">
+<link rel="prev" href="package.html#package" title="package">
+<link rel="next" href="find_002dsymbol.html#find_002dsymbol" title="find-symbol">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="export"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="find_002dsymbol.html#find_002dsymbol">find-symbol</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="package.html#package">package</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Packages.html#Packages">Packages</a>
+<hr>
+</div>
+
+<h3 class="heading">export (Function)</h3>
+
+<p><a name="index-export-1068"></a><a name="index-export-1069"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>export</b><var> symbols </var><tt>&amp;optional</tt><var> package </var><span class="roman">→</span> <code>t</code><var><a name="index-export-1070"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbols</var>&mdash;a <i>designator</i> for a <i>list</i> of <i>symbols</i>.
+
+<p><var>package</var>&mdash;a <i>package designator</i>. 
+The default is the <i>current package</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>export</code> makes one or more <var>symbols</var> that are <i>accessible</i>
+in <var>package</var> (whether directly or by inheritance) be <i>external symbols</i>
+of that <var>package</var>.
+
+<p>If any of the <var>symbols</var> is already <i>accessible</i> as
+an <i>external symbol</i> of <var>package</var>,
+<code>export</code> has no effect on that <i>symbol</i>. 
+If the <var>symbol</var> is
+<i>present</i> in <var>package</var>
+as an internal symbol, it is simply changed to external status. 
+If it is <i>accessible</i> as an <i>internal symbol</i> via <code>use-package</code>,
+it
+is first <i>imported</i> into <var>package</var>,
+then <i>exported</i>. 
+(The <var>symbol</var> is then <i>present</i> in the <var>package</var>
+whether or not <var>package</var> continues to use the <i>package</i> through
+which the <i>symbol</i> was originally inherited.)
+
+<p><code>export</code> makes
+each <var>symbol</var>
+<i>accessible</i> to all the <i>packages</i> that use <var>package</var>. 
+All of these <i>packages</i> are checked for name conflicts:
+<code>(export </code><i>s</i> <i>p</i><code>)</code> does
+<code>(find-symbol (symbol-name </code><i>s</i><code>) </code><i>q</i><code>)</code> for each package <i>q</i>
+in <code>(package-used-by-list </code><i>p</i><code>)</code>.  Note that in the usual case of
+an <code>export</code> during the initial definition of a <i>package</i>,
+the
+result of <code>package-used-by-list</code>
+is <code>nil</code>&nbsp;<!-- /@w -->and the name-conflict checking
+takes negligible time. 
+When multiple changes are to be made,
+for example when <code>export</code>
+is given a <var>list</var> of <var>symbols</var>, it is
+permissible for the implementation to process each change separately,
+so that aborting from a name
+conflict caused by any but the first <var>symbol</var> in the
+<i>list</i> does not unexport the
+first <var>symbol</var> in the <var>list</var>. 
+However, aborting from a name-conflict error
+caused by <code>export</code>
+of one of <var>symbols</var> does not leave that <i>symbol</i>
+<i>accessible</i>
+to some <i>packages</i>
+and <i>inaccessible</i> to others; with respect to
+each of <var>symbols</var> processed, <code>export</code>
+behaves as if it were as an atomic operation.
+
+<p>A name conflict in <code>export</code> between one of
+<var>symbols</var> being exported and a
+<i>symbol</i> already <i>present</i> in a <i>package</i>
+that would inherit the
+newly-exported <i>symbol</i>
+may be resolved in favor of the exported <i>symbol</i>
+by uninterning the other one, or in favor of the already-present
+<i>symbol</i> by making it a shadowing symbol.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (make-package 'temp :use nil) <span class="roman">→</span> #&lt;PACKAGE "TEMP"&gt;
+ (use-package 'temp) <span class="roman">→</span> T
+ (intern "TEMP-SYM" 'temp) <span class="roman">→</span> TEMP::TEMP-SYM, NIL
+ (find-symbol "TEMP-SYM") <span class="roman">→</span> NIL, NIL
+ (export (find-symbol "TEMP-SYM" 'temp) 'temp) <span class="roman">→</span> T
+ (find-symbol "TEMP-SYM") <span class="roman">→</span> TEMP-SYM, :INHERITED
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The package system is modified.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><i>Accessible</i> <i>symbols</i>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If any of the <var>symbols</var> is not <i>accessible</i> at all in <var>package</var>,
+an error of <i>type</i> <code>package-error</code> is signaled that is <i>correctable</i>
+by permitting the <i>user</i>
+to interactively specify whether that <i>symbol</i> should be <i>imported</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="import.html#import">import</a>,
+<a href="unexport.html#unexport">unexport</a>,
+<a href="Package-Concepts.html#Package-Concepts">Section 11.1 (Package Concepts)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/export.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

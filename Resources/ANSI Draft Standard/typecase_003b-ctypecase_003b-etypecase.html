@@ -1,0 +1,241 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/typecase_003b-ctypecase_003b-etypecase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:43 GMT -->
+<head>
+<title>typecase; ctypecase; etypecase - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="case_003b-ccase_003b-ecase.html#case_003b-ccase_003b-ecase" title="case; ccase; ecase">
+<link rel="next" href="multiple_002dvalue_002dbind.html#multiple_002dvalue_002dbind" title="multiple-value-bind">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="typecase%3b-ctypecase%3b-etypecase"></a>
+<a name="typecase_003b-ctypecase_003b-etypecase"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="multiple_002dvalue_002dbind.html#multiple_002dvalue_002dbind">multiple-value-bind</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="case_003b-ccase_003b-ecase.html#case_003b-ccase_003b-ecase">case; ccase; ecase</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">typecase, ctypecase, etypecase (Macro)</h3>
+
+<p><a name="index-typecase-594"></a><a name="index-typecase-595"></a><a name="index-ctypecase-596"></a><a name="index-ctypecase-597"></a><a name="index-etypecase-598"></a><a name="index-etypecase-599"></a><a name="typecase"></a><a name="ctypecase"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>typecase</b><var> keyform </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><tt>[</tt><tt>↓</tt><var>otherwise-clause</var><tt>]</tt> <span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-typecase-600"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>ctypecase</b><var> keyplace </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-ctypecase-601"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>etypecase</b><var> keyform </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-etypecase-602"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>normal-clause</var>::=<dd><tt>(</tt>type <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>otherwise-clause</var>::=<dd><tt>(</tt><tt>{</tt>otherwise | t<tt>}</tt> <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>clause</var>::=<dd>normal-clause | otherwise-clause
+</dl>
+
+<p><a name="index-otherwise-603"></a><a name="index-t-604"></a>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>keyform</var>&mdash;a <i>form</i>; evaluated to produce a <var>test-key</var>.
+
+<p><var>keyplace</var>&mdash;a <i>form</i>; evaluated initially to produce a <var>test-key</var>. 
+Possibly also used later as a <i>place</i> if no <var>types</var> match.
+
+<p><var>test-key</var>&mdash;an object produced by evaluating <var>keyform</var> or <var>keyplace</var>.
+
+<p><var>type</var>&mdash;a <i>type specifier</i>.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <var>forms</var>
+in the matching <var>clause</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>These <i>macros</i> allow the conditional execution of a body of <var>forms</var>
+in a <var>clause</var> that is selected by matching the <var>test-key</var> on the basis
+of its <i>type</i>.
+
+<p>The <var>keyform</var> or <var>keyplace</var> is <i>evaluated</i> to produce the
+<var>test-key</var>.
+
+<p>Each of the <var>normal-clauses</var> is then considered in turn. 
+If the <var>test-key</var> is of the <i>type</i>
+given by the <var>clauses</var>'s <var>type</var>,
+the <var>forms</var> in that <var>clause</var> are
+<var>evaluated</var> as an <i>implicit progn</i>, and the <i>values</i>
+it returns are returned as the value of the <code>typecase</code>,
+<code>ctypecase</code>, or <code>etypecase</code> <i>form</i>.
+
+<p>These <i>macros</i> differ only in their <i>behavior</i> when
+no <var>normal-clause</var> matches; specifically:
+
+     <dl>
+<dt><code>typecase</code><dd>
+
+     <p>If no <var>normal-clause</var> matches, and there is an <var>otherwise-clause</var>,
+then that <var>otherwise-clause</var> automatically matches; the <var>forms</var> in
+that <var>clause</var> are <var>evaluated</var> as an <i>implicit progn</i>,
+and the <i>values</i> it returns are returned as the value of the <code>typecase</code>.
+
+     <p>If there is no <var>otherwise-clause</var>, <code>typecase</code> returns <code>nil</code>.
+
+     <br><dt><code>ctypecase</code><dd>
+
+     <p>If no <var>normal-clause</var> matches,
+a <i>correctable</i> <i>error</i> of <i>type</i> <code>type-error</code> is signaled. 
+The offending datum is the <var>test-key</var> and
+the expected type is <i>type equivalent</i> to <code>(or </code><var>type1</var> <var>type2</var><code> ...)</code>. 
+the <code>store-value</code> restart can be used to correct the error.
+
+     <p>If the <code>store-value</code> restart is invoked, its <i>argument</i> becomes the
+new <var>test-key</var>, and is stored in <var>keyplace</var> as if by
+<code>(setf </code><var>keyplace</var> <var>test-key</var><code>)</code>. 
+Then <code>ctypecase</code> starts over, considering each <var>clause</var> anew.
+
+     <p>If the <code>store-value</code> restart is invoked interactively,
+the user is prompted for a new <var>test-key</var> to use.
+
+     <p>The subforms of <var>keyplace</var> might be evaluated again if
+none of the cases holds.
+
+     <br><dt><code>etypecase</code><dd>
+
+     <p>If no <var>normal-clause</var> matches,
+a <i>non-correctable</i> <i>error</i> of <i>type</i> <code>type-error</code> is signaled. 
+The offending datum is the <var>test-key</var> and
+the expected type is <i>type equivalent</i> to <code>(or </code><var>type1</var> <var>type2</var><code> ...)</code>.
+
+     <p>Note that in contrast with <code>ctypecase</code>,
+the caller of <code>etypecase</code> may rely on the fact that <code>etypecase</code>
+does not return if a <var>normal-clause</var> does not match. 
+</dl>
+
+<p>In all three cases, is permissible for more than one <var>clause</var> to specify a
+matching <i>type</i>, particularly if one is a <i>subtype</i> of another;
+the earliest applicable <var>clause</var> is chosen.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;;; (Note that the parts of this example which use TYPE-OF
+;;;  are implementation-dependent.)
+ (defun what-is-it (x)
+   (format t "~&amp;~S is ~A.~%"
+           x (typecase x
+               (float "a float")
+               (null "a symbol, boolean false, or the empty list")
+               (list "a list")
+               (t (format nil "a(n) ~(~A~)" (type-of x))))))
+<span class="roman">→</span> WHAT-IS-IT
+ (map 'nil #'what-is-it '(nil (a b) 7.0 7 box))
+▷ NIL is a symbol, boolean false, or the empty list.
+▷ (A B) is a list.
+▷ 7.0 is a float.
+▷ 7 is a(n) integer.
+▷ BOX is a(n) symbol.
+<span class="roman">→</span> NIL
+ (setq x 1/3)
+<span class="roman">→</span> 1/3
+ (ctypecase x
+     (integer (* x 4))
+     (symbol  (symbol-value x)))
+▷ Error: The value of X, 1/3, is neither an integer nor a symbol.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Specify a value to use instead.
+▷  2: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>:CONTINUE 1</kbd>
+▷ Use value: <kbd>3.7</kbd>
+▷ Error: The value of X, 3.7, is neither an integer nor a symbol.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Specify a value to use instead.
+▷  2: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>:CONTINUE 1</kbd>
+▷ Use value: <kbd>12</kbd>
+<span class="roman">→</span> 48
+ x <span class="roman">→</span> 12
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>ctypecase</code> and <code>etypecase</code>, since they might signal an error,
+are potentially affected by existing <var>handlers</var> and <code>*debug-io*</code>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p><code>ctypecase</code> and <code>etypecase</code> signal an error of <i>type</i> <code>type-error</code>
+if no <var>normal-clause</var> matches.
+
+<p>The <i>compiler</i> may choose to issue a warning of <i>type</i> <code>style-warning</code>
+if a <var>clause</var> will never be selected because it is completely
+shadowed by earlier clauses.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="case.html#case">case</a>,
+<a href="cond.html#cond">cond</a>,
+<a href="setf.html#setf">setf</a>,
+<a href="Generalized-Reference.html#Generalized-Reference">Section 5.1 (Generalized Reference)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp">(typecase <var>test-key</var>
+  <tt>{</tt>(<var>type</var> <tt>{</tt>form<tt>}</tt>*)<tt>}</tt>*)
+≡
+(let ((#1=#:g0001 <var>test-key</var>))
+  (cond <tt>{</tt>((typep #1# '<var>type</var>) <tt>{</tt>form<tt>}</tt>*)<tt>}</tt>*))
+</pre>
+<p>The specific error message used by <code>etypecase</code> and <code>ctypecase</code> can vary
+between implementations.  In situations where control of the specific wording
+of the error message is important, it is better to use <code>typecase</code> with an
+<var>otherwise-clause</var> that explicitly signals an error with an appropriate
+message.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/typecase_003b-ctypecase_003b-etypecase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:43 GMT -->
+</html>
+

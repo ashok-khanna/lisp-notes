@@ -1,0 +1,91 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/continue-_0028Restart_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:59 GMT -->
+<head>
+<title>continue (Restart) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="abort-_0028Restart_0029.html#abort-_0028Restart_0029" title="abort (Restart)">
+<link rel="next" href="muffle_002dwarning-_0028Restart_0029.html#muffle_002dwarning-_0028Restart_0029" title="muffle-warning (Restart)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="continue-(Restart)"></a>
+<a name="continue-_0028Restart_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="muffle_002dwarning-_0028Restart_0029.html#muffle_002dwarning-_0028Restart_0029">muffle-warning (Restart)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="abort-_0028Restart_0029.html#abort-_0028Restart_0029">abort (Restart)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">continue (Restart)</h3>
+
+<p><a name="index-continue-968"></a><a name="index-continue-969"></a>
+
+<h5 class="subsubheading">Data Arguments Required:</h5>
+
+<p>None.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>the <code>continue</code> restart is generally part of protocols where there is
+a single &ldquo;obvious&rdquo; way to continue, such as in
+<code>break</code> and <code>cerror</code>.  Some
+user-defined protocols may also wish to incorporate it for similar reasons. 
+In general, however, it is more reliable to design a special purpose restart
+with a name that more directly suits the particular application.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (let ((x 3))
+   (handler-bind ((error #'(lambda (c)
+                             (let ((r (find-restart 'continue c)))
+                               (when r (invoke-restart r))))))
+     (cond ((not (floatp x))
+            (cerror "Try floating it." "~D is not a float." x)
+            (float x))
+           (t x)))) <span class="roman">→</span> 3.0
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="Restarts.html#Restarts">Section 9.1.4.2 (Restarts)</a>,
+<a href="InterfacesToRestarts.html#InterfacesToRestarts">Section 9.1.4.2.2 (Interfaces to Restarts)</a>,
+<a href="invoke_002drestart.html#invoke_002drestart">invoke-restart</a>,
+<a href="continue.html#continue">continue</a> (<i>function</i>),
+<a href="assert.html#assert">assert</a>,
+<a href="cerror.html#cerror">cerror</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/continue-_0028Restart_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:00 GMT -->
+</html>
+

@@ -1,0 +1,98 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Ordering-of-Characters.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+<head>
+<title>Ordering of Characters - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Character-Concepts.html#Character-Concepts" title="Character Concepts">
+<link rel="prev" href="Identity-of-Characters.html#Identity-of-Characters" title="Identity of Characters">
+<link rel="next" href="Character-Names.html#Character-Names" title="Character Names">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Ordering-of-Characters"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Character-Names.html#Character-Names">Character Names</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Identity-of-Characters.html#Identity-of-Characters">Identity of Characters</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Character-Concepts.html#Character-Concepts">Character Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">13.1.6 Ordering of Characters</h4>
+
+<p>The total ordering on <i>characters</i> is guaranteed to have
+the following properties:
+
+     <ul>
+<li>If two <i>characters</i> have the same <i>implementation-defined</i> <i>attributes</i>,
+then their ordering by <code>char&lt;</code> is consistent with the numerical
+ordering by the predicate <code>&lt;</code> on their code <i>attributes</i>.
+
+     <li>If two <i>characters</i> differ in any <i>attribute</i>, then they
+are not <code>char=</code>.
+
+     <li>The total ordering is not necessarily the same as the total ordering
+on the <i>integers</i> produced by applying <code>char-int</code> to the
+<i>characters</i>.
+
+     <li>While <i>alphabetic</i><sub>1</sub> <i>standard characters</i> of a given <i>case</i>
+must
+obey a partial ordering,
+they need not be contiguous; it is permissible for
+<i>uppercase</i> and <i>lowercase</i> <i>characters</i> to be interleaved. 
+Thus <code>(char&lt;= #\a x #\z)</code>
+is not a valid way of determining whether or not <code>x</code> is a
+<i>lowercase</i> <i>character</i>.
+
+</ul>
+
+<p>Of the <i>standard characters</i>,
+those which are <i>alphanumeric</i> obey the following partial ordering:
+
+<pre class="lisp"> A&lt;B&lt;C&lt;D&lt;E&lt;F&lt;G&lt;H&lt;I&lt;J&lt;K&lt;L&lt;M&lt;N&lt;O&lt;P&lt;Q&lt;R&lt;S&lt;T&lt;U&lt;V&lt;W&lt;X&lt;Y&lt;Z
+ a&lt;b&lt;c&lt;d&lt;e&lt;f&lt;g&lt;h&lt;i&lt;j&lt;k&lt;l&lt;m&lt;n&lt;o&lt;p&lt;q&lt;r&lt;s&lt;t&lt;u&lt;v&lt;w&lt;x&lt;y&lt;z
+ 0&lt;1&lt;2&lt;3&lt;4&lt;5&lt;6&lt;7&lt;8&lt;9
+ either 9&lt;A or Z&lt;0
+ either 9&lt;a or z&lt;0
+</pre>
+<p>This implies that, for <i>standard characters</i>, <i>alphabetic</i><sub>1</sub>
+
+<p>ordering holds within each <i>case</i> (<i>uppercase</i> and <i>lowercase</i>),
+and that the <i>numeric</i> <i>characters</i> as a group are not interleaved
+with <i>alphabetic</i> <i>characters</i>. 
+However, the ordering or possible interleaving of <i>uppercase</i> <i>characters</i>
+and <i>lowercase</i> <i>characters</i> is <i>implementation-defined</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Ordering-of-Characters.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+</html>
+

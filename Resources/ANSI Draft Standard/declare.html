@@ -1,0 +1,177 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/declare.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:08 GMT -->
+<head>
+<title>declare - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="declaim.html#declaim" title="declaim">
+<link rel="next" href="ignore_003b-ignorable.html#ignore_003b-ignorable" title="ignore; ignorable">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="declare"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="ignore_003b-ignorable.html#ignore_003b-ignorable">ignore; ignorable</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="declaim.html#declaim">declaim</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">declare (Symbol)</h3>
+
+<p><a name="index-declare-293"></a><a name="index-declare-294"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>declare</b> <tt>{</tt><var>declaration-specifier</var><tt>}</tt><var>*<a name="index-declare-295"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments:</h5>
+
+<p><var>declaration-specifier</var>&mdash;a <i>declaration specifier</i>; not evaluated.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>A <tt>declare</tt> <i>expression</i>, sometimes called a <i>declaration</i>,
+can occur only at the beginning of the bodies of certain <i>forms</i>;
+that is, it may be preceded only by other <tt>declare</tt> <i>expressions</i>,
+or by a <i>documentation string</i> if the context permits.
+
+<p>A <tt>declare</tt> <i>expression</i> can occur in a <i>lambda expression</i>
+or in any of the <i>forms</i> listed in the next figure.
+
+<div class="float">
+<a name="fig3_002e23"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">defgeneric </td><td valign="top">do-external-symbols </td><td valign="top">prog
+<br></td></tr><tr align="left"><td valign="top">define-compiler-macro </td><td valign="top">do-symbols </td><td valign="top">prog*
+<br></td></tr><tr align="left"><td valign="top">define-method-combination </td><td valign="top">dolist </td><td valign="top">restart-case
+<br></td></tr><tr align="left"><td valign="top">define-setf-expander </td><td valign="top">dotimes </td><td valign="top">symbol-macrolet
+<br></td></tr><tr align="left"><td valign="top">defmacro </td><td valign="top">flet </td><td valign="top">with-accessors
+<br></td></tr><tr align="left"><td valign="top">defmethod </td><td valign="top">handler-case </td><td valign="top">with-hash-table-iterator
+<br></td></tr><tr align="left"><td valign="top">defsetf </td><td valign="top">labels </td><td valign="top">with-input-from-string
+<br></td></tr><tr align="left"><td valign="top">deftype </td><td valign="top">let </td><td valign="top">with-open-file
+<br></td></tr><tr align="left"><td valign="top">defun </td><td valign="top">let* </td><td valign="top">with-open-stream
+<br></td></tr><tr align="left"><td valign="top">destructuring-bind </td><td valign="top">locally </td><td valign="top">with-output-to-string
+<br></td></tr><tr align="left"><td valign="top">do </td><td valign="top">macrolet </td><td valign="top">with-package-iterator
+<br></td></tr><tr align="left"><td valign="top">do* </td><td valign="top">multiple-value-bind </td><td valign="top">with-slots
+<br></td></tr><tr align="left"><td valign="top">do-all-symbols </td><td valign="top">pprint-logical-block </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.23: Standardized Forms In Which Declarations Can Occur</strong></p></div>
+
+<p>A <tt>declare</tt> <i>expression</i> can only occur
+where specified by the syntax of these <i>forms</i>. 
+The consequences of attempting to evaluate a <tt>declare</tt> <i>expression</i>
+are undefined.  In situations where such <i>expressions</i> can appear,
+explicit checks are made for their presence and they are never actually evaluated;
+it is for this reason that they
+are called  &ldquo;<tt>declare</tt> <i>expressions</i>&rdquo;
+rather than &ldquo;<tt>declare</tt> <i>forms</i>.&rdquo;
+
+<p><i>Macro forms</i> cannot expand into declarations;
+<tt>declare</tt> <i>expressions</i> must appear as actual <i>subexpressions</i> of
+the <i>form</i> to which they refer.
+
+<p>The next figure&nbsp;<!-- /@w -->shows a list of <i>declaration identifiers</i>
+that can be used with <tt>declare</tt>.
+
+<div class="float">
+<a name="fig3_002e24"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">dynamic-extent </td><td valign="top">ignore </td><td valign="top">optimize
+<br></td></tr><tr align="left"><td valign="top">ftype </td><td valign="top">inline </td><td valign="top">special
+<br></td></tr><tr align="left"><td valign="top">ignorable </td><td valign="top">notinline </td><td valign="top">type
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.24: Local Declaration Specifiers</strong></p></div>
+
+<p>An implementation is free to support other (<i>implementation-defined</i>)
+<i>declaration identifiers</i> as well.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun nonsense (k x z)
+   (foo z x)                     ;First call to foo
+   (let ((j (foo k x))           ;Second call to foo
+         (x (* k k)))
+     (declare (inline foo) (special x z))
+     (foo x j z)))               ;Third call to foo
+</pre>
+<p>In this example,
+the <code>inline</code> declaration applies
+only to the third call to <code>foo</code>, but not to the first or second ones. 
+The <code>special</code> declaration of <code>x</code> causes <code>let</code>
+to make a dynamic <i>binding</i> for <code>x</code>, and causes the reference to
+<code>x</code>
+in the body of <code>let</code> to be a dynamic reference. 
+The reference to <code>x</code> in the second call to <code>foo</code> is a local reference
+to the second parameter of <code>nonsense</code>. 
+The reference to <code>x</code> in the first call to <code>foo</code> is a local
+reference, not a <code>special</code> one.  The <code>special</code> declaration of <code>z</code>
+causes the reference to <code>z</code> in the
+third
+call
+to <code>foo</code> to be a dynamic reference; it does not
+refer to the parameter to <code>nonsense</code> named <code>z</code>, because that
+parameter <i>binding</i> has not been declared to be <code>special</code>. 
+(The <code>special</code> declaration of <code>z</code> does not appear in the body
+of <code>defun</code>,  but in an inner <i>form</i>, and therefore does not
+affect the <i>binding</i> of the <i>parameter</i>.)
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The consequences  of trying to use a <tt>declare</tt> <i>expression</i> as
+a <i>form</i> to be <i>evaluated</i> are undefined.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="proclaim.html#proclaim">proclaim</a>,
+<a href="Type-Specifiers.html#Type-Specifiers">Section 4.2.3 (Type Specifiers)</a>,
+<a href="declaration.html#declaration">declaration</a>,
+<a href="dynamic_002dextent.html#dynamic_002dextent">dynamic-extent</a>,
+<a href="ftype.html#ftype">ftype</a>,
+<a href="ignorable.html#ignorable">ignorable</a>,
+<a href="ignore.html#ignore">ignore</a>,
+<a href="inline.html#inline">inline</a>,
+<a href="notinline.html#notinline">notinline</a>,
+<a href="optimize.html#optimize">optimize</a>,
+<a href="type.html#type">type</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/declare.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:12 GMT -->
+</html>
+

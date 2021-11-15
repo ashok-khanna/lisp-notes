@@ -1,0 +1,156 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/catch.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:33 GMT -->
+<head>
+<title>catch - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="block.html#block" title="block">
+<link rel="next" href="go.html#go" title="go">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="catch"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="go.html#go">go</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="block.html#block">block</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">catch (Special Operator)</h3>
+
+<p><a name="index-catch-502"></a><a name="index-catch-503"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>catch</b><var> tag </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-catch-504"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>tag</var>&mdash;a <i>catch tag</i>; evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;if the <var>forms</var> exit normally,
+the <i>values</i> returned by the <var>forms</var>;
+if a throw occurs to the <var>tag</var>,
+the <i>values</i> that are thrown.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>catch</code> is used as the destination of a non-local
+control transfer by <code>throw</code>. 
+<var>Tags</var> are used to find the <code>catch</code>
+to which a <code>throw</code> is transferring control. 
+<code>(catch 'foo </code><i>form</i><code>)</code> catches a
+<code>(throw 'foo </code><i>form</i><code>)</code> but not a
+<code>(throw 'bar </code><i>form</i><code>)</code>.
+
+<p>The order of execution of <code>catch</code> follows:
+<a name="index-order-of-evaluation-505"></a><a name="index-evaluation-order-506"></a>
+
+     <ol type=1 start=1>
+<li><var>Tag</var> is evaluated. 
+It serves as the name of the
+<code>catch</code>.
+
+     <li><var>Forms</var> are then evaluated as an implicit <code>progn</code>,
+and the results of the last <var>form</var> are returned unless a
+<code>throw</code> occurs.
+
+     <li>If a <code>throw</code> occurs
+during the execution of one of the <var>forms</var>, control
+is transferred  to the <code>catch</code> <i>form</i> whose <var>tag</var>
+is <code>eq</code> to
+the tag argument of the <code>throw</code>
+and which is the most recently established <code>catch</code> with that
+<var>tag</var>. 
+No further evaluation of <var>forms</var> occurs.
+
+     <li>The <var>tag</var> <i>established</i>
+by <code>catch</code> is <i>disestablished</i>
+just before the results are returned.
+     </ol>
+
+<p>If during the execution of one of the <var>forms</var>, a <code>throw</code>
+is executed whose tag is <code>eq</code> to the <code>catch</code> tag,
+then the values specified by the <code>throw</code> are
+returned as the result of the dynamically most recently established
+<code>catch</code> form with that tag.
+
+<p>The mechanism for <code>catch</code> and <code>throw</code> works even
+if <code>throw</code> is not within the lexical scope of <code>catch</code>. 
+<code>throw</code> must occur within the <i>dynamic extent</i>
+of the <i>evaluation</i> of the body of a <code>catch</code> with a corresponding <var>tag</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (catch 'dummy-tag 1 2 (throw 'dummy-tag 3) 4) <span class="roman">→</span> 3
+ (catch 'dummy-tag 1 2 3 4) <span class="roman">→</span> 4
+ (defun throw-back (tag) (throw tag t)) <span class="roman">→</span> THROW-BACK
+ (catch 'dummy-tag (throw-back 'dummy-tag) 2) <span class="roman">→</span> T
+
+ ;; Contrast behavior of this example with corresponding example of BLOCK.
+ (catch 'c
+   (flet ((c1 () (throw 'c 1)))
+     (catch 'c (c1) (print 'unreachable))
+     2)) <span class="roman">→</span> 2
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error of <i>type</i> <code>control-error</code> is signaled
+if <code>throw</code> is done
+when there is no suitable <code>catch</code> <var>tag</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="throw.html#throw">throw</a>, <a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>It is customary for <i>symbols</i> to be used
+as <var>tags</var>, but any <i>object</i> is permitted. 
+However, numbers should not be
+used because the comparison is done using <code>eq</code>.
+
+<p><code>catch</code> differs from <code>block</code> in that
+<code>catch</code>
+tags have dynamic <i>scope</i> while
+<code>block</code> names have <i>lexical scope</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/catch.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:33 GMT -->
+</html>
+

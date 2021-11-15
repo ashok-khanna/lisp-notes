@@ -1,0 +1,193 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Redefining-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Redefining Classes - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Classes.html#Classes" title="Classes">
+<link rel="prev" href="Determining-the-Class-Precedence-List.html#Determining-the-Class-Precedence-List" title="Determining the Class Precedence List">
+<link rel="next" href="Integrating-Types-and-Classes.html#Integrating-Types-and-Classes" title="Integrating Types and Classes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Redefining-Classes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Integrating-Types-and-Classes.html#Integrating-Types-and-Classes">Integrating Types and Classes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Determining-the-Class-Precedence-List.html#Determining-the-Class-Precedence-List">Determining the Class Precedence List</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Classes.html#Classes">Classes</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.3.6 Redefining Classes</h4>
+
+<p>A <i>class</i> that is a <i>direct instance</i> of <code>standard-class</code> can
+be redefined if the new <i>class</i> is also
+a <i>direct instance</i> of <code>standard-class</code>. 
+Redefining a <i>class</i> modifies the existing
+<i>class</i> <i>object</i> to reflect the new <i>class</i> definition; it does not
+create a new <i>class</i> <i>object</i> for the <i>class</i>. 
+Any <i>method</i> <i>object</i> created by a <tt>:reader</tt>, <tt>:writer</tt>,
+or <tt>:accessor</tt> option specified by the old <code>defclass</code> form is
+removed from the corresponding <i>generic function</i>. 
+<i>Methods</i> specified by the new <code>defclass</code> form are added.
+
+<p>When the class C is redefined, changes are propagated to its <i>instances</i>
+and to <i>instances</i> of any of its <i>subclasses</i>.  Updating such an
+<i>instance</i> occurs at an <i>implementation-dependent</i> time, but no later than
+the next time a <i>slot</i>
+of that <i>instance</i> is read or written.  Updating an
+<i>instance</i>
+does not change its identity as defined by the <i>function</i> <code>eq</code>. 
+The updating process may change the <i>slots</i> of that
+particular <i>instance</i>,
+but it does not create a new <i>instance</i>.  Whether
+updating an <i>instance</i> consumes storage is <i>implementation-dependent</i>.
+
+<p>Note that redefining a <i>class</i> may cause <i>slots</i> to be added or
+deleted.  If a <i>class</i> is redefined in a way that changes the set of
+<i>local slots</i> <i>accessible</i> in <i>instances</i>, the <i>instances</i>
+are updated.  It is <i>implementation-dependent</i> whether <i>instances</i>
+are updated if a <i>class</i> is redefined in a way that does not change
+the set of <i>local slots</i> <i>accessible</i> in <i>instances</i>.
+
+<p>The value of a <i>slot</i>
+that is specified as shared both in the old <i>class</i>
+and in the new <i>class</i> is retained. 
+If such a <i>shared slot</i> was unbound
+in the old <i>class</i>, it is unbound in the new <i>class</i>. 
+<i>Slots</i> that
+were local in the old <i>class</i> and that are shared in the new
+<i>class</i> are
+initialized.  Newly added <i>shared slots</i> are initialized.
+
+<p>Each newly added <i>shared slot</i> is set to the result of evaluating the
+<i>captured initialization form</i> for the <i>slot</i> that was specified
+in the <code>defclass</code> <i>form</i> for the new <i>class</i>. 
+If there was no <i>initialization form</i>, the <i>slot</i> is unbound.
+
+<p>If a <i>class</i> is redefined in such a way that the set of
+<i>local slots</i> <i>accessible</i> in an <i>instance</i> of the <i>class</i>
+is changed, a two-step process of updating the <i>instances</i> of the
+<i>class</i> takes place.  The process may be explicitly started by
+invoking the generic function <code>make-instances-obsolete</code>.  This
+two-step process can happen in other circumstances in some implementations. 
+For example, in some implementations this two-step process is
+triggered if the order of <i>slots</i> in storage is changed.
+
+<p>The first step modifies the structure of the <i>instance</i> by adding new
+<i>local slots</i> and discarding <i>local slots</i> that are not
+defined in the new version of the <i>class</i>.  The second step
+initializes the newly-added <i>local slots</i> and performs any other
+user-defined actions. These two steps are further specified
+in the next two sections.
+
+<h5 class="subsubsection">4.3.6.1 Modifying the Structure of Instances</h5>
+
+<p>The first step modifies the structure of <i>instances</i> of the redefined
+<i>class</i> to conform to its new <i>class</i> definition. 
+<i>Local slots</i> specified
+by the new <i>class</i> definition that are not specified as either local or
+shared by the old <i>class</i> are added, and <i>slots</i>
+not specified as either
+local or shared by the new <i>class</i> definition that are specified as
+local by the old <i>class</i> are discarded. 
+The <i>names</i> of these added and discarded
+<i>slots</i> are passed as arguments
+to <code>update-instance-for-redefined-class</code>
+as described in the next section.
+
+<p>The values of <i>local slots</i> specified by both the new and old
+<i>classes</i> are retained. If such a <i>local slot</i> was unbound,
+it remains unbound.
+
+<p>The value of a <i>slot</i> that is specified as shared in the old
+<i>class</i> and as local in the new <i>class</i> is retained.  If such
+a <i>shared slot</i> was unbound, the <i>local slot</i> is unbound.
+
+<h5 class="subsubsection">4.3.6.2 Initializing Newly Added Local Slots</h5>
+
+<p>The second step initializes the newly added <i>local slots</i> and performs
+any other user-defined actions.  This step is implemented by the generic
+function <code>update-instance-for-redefined-class</code>, which is called after
+completion of the first step of modifying the structure of the
+<i>instance</i>.
+
+<p>The generic function <code>update-instance-for-redefined-class</code> takes
+four required arguments: the <i>instance</i> being updated after it has
+undergone the first step, a list of the names of <i>local slots</i> that were
+added, a list of the names of <i>local slots</i> that were discarded, and a
+property list containing the <i>slot</i> names and values of
+<i>slots</i> that were
+discarded and had values.  Included among the discarded <i>slots</i> are
+<i>slots</i> that were local in the old <i>class</i> and that are shared in the new
+<i>class</i>.
+
+<p>The generic function <code>update-instance-for-redefined-class</code> also
+takes any number of initialization arguments.  When it is called by
+the system to update an <i>instance</i> whose <i>class</i>
+has been redefined, no
+initialization arguments are provided.
+
+<p>There is a system-supplied primary <i>method</i> for
+<code>update-instance-for-redefined-class</code> whose <i>parameter specializer</i>
+for its <i>instance</i> argument is the <i>class</i> <code>standard-object</code>. 
+First this <i>method</i> checks the validity of initialization arguments and signals an
+error if an initialization argument is supplied that is not declared
+as valid.  (For more information, see <a href="Declaring-the-Validity-of-Initialization-Arguments.html#Declaring-the-Validity-of-Initialization-Arguments">Section 7.1.2 (Declaring the Validity of Initialization Arguments)</a>.) 
+Then it calls the generic function
+<code>shared-initialize</code> with the following arguments: the
+<i>instance</i>,
+the list of <i>names</i> of
+the newly added <i>slots</i>, and the initialization
+arguments it received.
+
+<h5 class="subsubsection">4.3.6.3 Customizing Class Redefinition</h5>
+
+<p><i>Methods</i> for <code>update-instance-for-redefined-class</code> may be
+defined to specify actions to be taken when an <i>instance</i> is updated. 
+If only <i>after methods</i> for <code>update-instance-for-redefined-class</code> are
+defined, they will be run after the system-supplied primary <i>method</i> for
+initialization and therefore will not interfere with the default
+behavior of <code>update-instance-for-redefined-class</code>.  Because no
+initialization arguments are passed to <code>update-instance-for-redefined-class</code>
+when it is called by the system, the
+<i>initialization forms</i> for <i>slots</i>
+that are filled by <i>before methods</i> for <code>update-instance-for-redefined-class</code>
+will not be evaluated by <code>shared-initialize</code>.
+
+<p><i>Methods</i> for <code>shared-initialize</code> may be defined to customize
+<i>class</i> redefinition.  For more information, see <a href="Shared_002dInitialize.html#Shared_002dInitialize">Section 7.1.5 (Shared-Initialize)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Redefining-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

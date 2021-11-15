@@ -1,0 +1,119 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002f-_0028Function_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:17 GMT -->
+<head>
+<title>/ (Function) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="_002d-_0028Function_0029.html#g_t_002d-_0028Function_0029" title="- (Function)">
+<link rel="next" href="1_002b_003b-1_002d.html#g_t1_002b_003b-1_002d" title="1+; 1-">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="%2f-(Function)"></a>
+<a name="g_t_002f-_0028Function_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="1_002b_003b-1_002d.html#g_t1_002b_003b-1_002d">1+; 1-</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002d-_0028Function_0029.html#g_t_002d-_0028Function_0029">- (Function)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">/ (Function)</h3>
+
+<p><a name="index-g_t_002f-1298"></a><a name="index-g_t_002f-1299"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>/</b><var> number </var><span class="roman">→</span><var> reciprocal<a name="index-g_t_002f-1300"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>/</b><var> numerator </var><tt>&amp;rest</tt><var> denominators+ </var><span class="roman">→</span><var> quotient<a name="index-g_t_002f-1301"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>number</var>, <var>denominator</var>&mdash;a non-zero <i>number</i>.
+
+<p><var>numerator</var>, <var>quotient</var>, <var>reciprocal</var>&mdash;a <i>number</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The <i>function</i> <code>/</code> performs division or reciprocation.
+
+<p>If no <var>denominators</var> are supplied,
+the <i>function</i> <code>/</code> returns the reciprocal of <var>number</var>.
+
+<p>If at least one <var>denominator</var> is supplied,
+the <i>function</i> <code>/</code> divides the <var>numerator</var> by all of the <var>denominators</var>
+and returns the resulting <var>quotient</var>.
+
+<p>If each <i>argument</i> is either an <i>integer</i> or a <i>ratio</i>,
+and the result is not an <i>integer</i>, then it is a <i>ratio</i>.
+
+<p>The <i>function</i> <code>/</code> performs necessary type conversions.
+
+<p>If any <var>argument</var> is a <i>float</i> then
+the rules of floating-point contagion apply;
+see <a href="Floating_002dpoint-Computations.html#Floating_002dpoint-Computations">Section 12.1.4 (Floating-point Computations)</a>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (/ 12 4) <span class="roman">→</span> 3
+ (/ 13 4) <span class="roman">→</span> 13/4
+ (/ -8) <span class="roman">→</span> -1/8
+ (/ 3 4 5) <span class="roman">→</span> 3/20
+ (/ 0.5) <span class="roman">→</span> 2.0
+ (/ 20 5) <span class="roman">→</span> 4
+ (/ 5 20) <span class="roman">→</span> 1/4
+ (/ 60 -2 3 5.0) <span class="roman">→</span> -2.0
+ (/ 2 #c(2 2)) <span class="roman">→</span> #C(1/2 -1/2)
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The consequences are unspecified if any <i>argument</i> other than the first is zero. 
+If there is only one <i>argument</i>, the consequences are unspecified if it is zero.
+
+<p>Might signal <code>type-error</code> if some <i>argument</i> is not a <i>number</i>. 
+Might signal <code>division-by-zero</code> if division by zero is attempted. 
+Might signal <code>arithmetic-error</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="floor.html#floor">floor</a>, <a href="ceiling.html#ceiling">ceiling</a>, <a href="truncate.html#truncate">truncate</a>, <a href="round.html#round">round</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002f-_0028Function_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:20 GMT -->
+</html>
+

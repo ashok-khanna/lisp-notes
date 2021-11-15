@@ -1,0 +1,299 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Standardized-Packages.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+<head>
+<title>Standardized Packages - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Package-Concepts.html#Package-Concepts" title="Package Concepts">
+<link rel="prev" href="Introduction-to-Packages.html#Introduction-to-Packages" title="Introduction to Packages">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Standardized-Packages"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-Packages.html#Introduction-to-Packages">Introduction to Packages</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Package-Concepts.html#Package-Concepts">Package Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">11.1.2 Standardized Packages</h4>
+
+<p>This section describes the <i>packages</i> that are available
+in every <i>conforming implementation</i>.  A summary of the
+<i>names</i> and <i>nicknames</i> of those <i>standardized</i> <i>packages</i>
+is given in the next figure.
+
+<div class="float">
+<a name="fig11_002e2"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Name </th><th valign="top">Nicknames
+<br></th></tr><tr align="left"><td valign="top"><code>COMMON-LISP</code> </td><td valign="top"><code>CL</code>
+<br></td></tr><tr align="left"><td valign="top"><code>COMMON-LISP-USER</code> </td><td valign="top"><code>CL-USER</code>
+<br></td></tr><tr align="left"><td valign="top"><code>KEYWORD</code> </td><td valign="top"><i>none</i>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 11.2: Standardized Package Names</strong></p></div>
+
+<h5 class="subsubsection">11.1.2.1 The COMMON-LISP Package</h5>
+
+<p><a name="index-COMMON_002dLISP-1060"></a><a name="index-CL-1061"></a>
+
+<p>The <code>COMMON-LISP</code> <i>package</i> contains the primitives of the <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->system as
+defined by this specification.  Its <i>external</i> <i>symbols</i> include
+all of the <i>defined names</i> (except for <i>defined names</i> in
+the <code>KEYWORD</code> <i>package</i>) that are present in the <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->system,
+such as <code>car</code>, <code>cdr</code>,  <code>*package*</code>, etc. 
+The <code>COMMON-LISP</code> <i>package</i> has the <i>nickname</i> <code>CL</code>.
+
+<p>The <code>COMMON-LISP</code> <i>package</i> has as <i>external</i> <i>symbols</i> those
+symbols enumerated in the figures in <a href="Symbols-in-the-COMMON_002dLISP-Package.html#Symbols-in-the-COMMON_002dLISP-Package">Section 1.9 (Symbols in the COMMON-LISP Package)</a>, and no others. 
+These <i>external</i> <i>symbols</i> are <i>present</i> in the <code>COMMON-LISP</code> <i>package</i>
+but their <i>home package</i> need not be the <code>COMMON-LISP</code> <i>package</i>.
+
+<p>For example, the symbol <code>HELP</code> cannot be an <i>external symbol</i> of
+the <code>COMMON-LISP</code> <i>package</i> because it is not mentioned in <a href="Symbols-in-the-COMMON_002dLISP-Package.html#Symbols-in-the-COMMON_002dLISP-Package">Section 1.9 (Symbols in the COMMON-LISP Package)</a>. 
+In contrast, the <i>symbol</i> <tt>variable</tt>
+must be an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i>
+even though it has no definition
+because it is listed in that section
+(to support its use as a valid second <i>argument</i> to the <i>function</i> <code>documentation</code>).
+
+<p>The <code>COMMON-LISP</code> <i>package</i> can have additional <i>internal symbols</i>.
+
+<h5 class="unnumberedsubsubsec">11.1.2.1.1 Constraints on the COMMON-LISP Package for Conforming Implementations</h5>
+
+<p>In a <i>conforming implementation</i>,
+an <i>external</i> <i>symbol</i> of the <code>COMMON-LISP</code> <i>package</i> can have
+a <i>function</i>, <i>macro</i>, or <i>special operator</i> definition,
+a <i>global variable</i> definition
+(or other status as a <i>dynamic variable</i>
+due to a <code>special</code> <i>proclamation</i>),
+or a <i>type</i> definition
+only if explicitly permitted in this standard. 
+For example,
+<code>fboundp</code> <i>yields</i> <i>false</i>
+for any <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i>
+that is not the <i>name</i> of a <i>standardized</i>
+<i>function</i>, <i>macro</i> or <i>special operator</i>,
+and
+<code>boundp</code> returns <i>false</i>
+for any <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i>
+that is not the <i>name</i> of a <i>standardized</i> <i>global variable</i>. 
+It also follows that
+<i>conforming programs</i> can use <i>external symbols</i> of the <code>COMMON-LISP</code> <i>package</i>
+as the <i>names</i> of local <i>lexical variables</i>
+with confidence that those <i>names</i> have not been <i>proclaimed</i> <code>special</code>
+by the <i>implementation</i>
+unless those <i>symbols</i> are
+<i>names</i> of <i>standardized</i> <i>global variables</i>.
+
+<p>A <i>conforming implementation</i> must not place any <i>property</i> on
+an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i> using a <i>property indicator</i>
+that is either an <i>external symbol</i> of any <i>standardized</i> <i>package</i>
+or a <i>symbol</i> that is otherwise <i>accessible</i> in the <code>COMMON-LISP-USER</code> <i>package</i>.
+
+<h5 class="unnumberedsubsubsec">11.1.2.1.2 Constraints on the COMMON-LISP Package for Conforming Programs</h5>
+
+<p><a name="index-redefinition-1062"></a>Except where explicitly allowed, the consequences are undefined if any
+of the following actions are performed on an <i>external symbol</i>
+of the <code>COMMON-LISP</code> <i>package</i>:
+
+     <ol type=1 start=1>
+
+     <li><i>Binding</i> or altering its value (lexically or dynamically). 
+(Some exceptions are noted below.)
+
+     <li>Defining,
+undefining,
+or <i>binding</i> it as a <i>function</i>. 
+(Some exceptions are noted below.)
+
+     <li>Defining,
+undefining,
+or <i>binding</i> it as a <i>macro</i>
+or <i>compiler macro</i>. 
+(Some exceptions are noted below.)
+
+     <li>Defining it as a <i>type specifier</i>
+(via <code>defstruct</code>,
+<code>defclass</code>,
+<code>deftype</code>,
+<code>define-condition</code>).
+
+     <li>Defining it as a structure (via <code>defstruct</code>).
+
+     <li>Defining it as a <i>declaration</i>
+with a <code>declaration</code> <i>proclamation</i>.
+
+     <li>Defining it as a <i>symbol macro</i>.
+
+     <li>Altering its <i>home package</i>.
+
+     <li>Tracing it  (via <code>trace</code>).
+
+     <li>Declaring or proclaiming it
+<code>special</code>
+(via <tt>declare</tt>,
+<code>declaim</code>,
+or <code>proclaim</code>).
+
+     <li>Declaring or proclaiming its <code>type</code> or <code>ftype</code>
+(via <tt>declare</tt>,
+<code>declaim</code>,
+or <code>proclaim</code>). 
+(Some exceptions are noted below.)
+
+     <li>Removing it from the <code>COMMON-LISP</code> <i>package</i>.
+
+     <li>Defining a <i>setf expander</i> for it
+(via <code>defsetf</code> or <code>define-setf-method</code>).
+
+     <li>Defining, undefining, or binding its <i>setf function name</i>.
+
+     <li>Defining it as a <i>method combination</i> type
+(via <code>define-method-combination</code>).
+
+     <li>Using it as the class-name argument
+to <code>setf</code> of <code>find-class</code>.
+
+     <li>Binding it as a <i>catch tag</i>.
+
+     <li>Binding it as a <i>restart</i> <i>name</i>.
+
+     <li>Defining a <i>method</i>
+for a <i>standardized</i> <i>generic function</i>
+which is <i>applicable</i> when all of the <i>arguments</i>
+are <i>direct instances</i> of <i>standardized</i> <i>classes</i>.
+
+     </ol>
+
+<h5 class="unnumberedsubsubsec">11.1.2.1.2.1 Some Exceptions to Constraints on the COMMON-LISP Package for Conforming Programs</h5>
+
+<p>If an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i>
+is not globally defined as a <i>standardized</i> <i>dynamic variable</i>
+or <i>constant variable</i>,
+it is allowed to lexically <i>bind</i> it
+and to declare the <code>type</code> of that <i>binding</i>,
+and
+it is allowed to locally <i>establish</i> it as a <i>symbol macro</i>
+(<i>e.g.</i>, with <code>symbol-macrolet</code>).
+
+<p>Unless explicitly specified otherwise,
+if an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i>
+is globally defined as a <i>standardized</i> <i>dynamic variable</i>,
+it is permitted to <i>bind</i> or <i>assign</i> that <i>dynamic variable</i>
+provided that the &ldquo;Value Type&rdquo; constraints on the <i>dynamic variable</i>
+are maintained, and that the new <i>value</i> of the <i>variable</i>
+is consistent with the stated purpose of the <i>variable</i>.
+
+<p>If an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i> is not defined
+as a <i>standardized</i> <i>function</i>, <i>macro</i>, or <i>special operator</i>,
+it is allowed to lexically <i>bind</i> it as a <i>function</i> (<i>e.g.</i>, with <code>flet</code>),
+to declare the <code>ftype</code> of that <i>binding</i>,
+and
+(in <i>implementations</i> which provide the ability to do so)
+to <code>trace</code> that <i>binding</i>.
+
+<p>If an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i> is not defined
+as a <i>standardized</i> <i>function</i>, <i>macro</i>, or <i>special operator</i>,
+it is allowed to lexically <i>bind</i> it as a <i>macro</i> (<i>e.g.</i>, with <code>macrolet</code>).
+
+<p>If an <i>external symbol</i> of the <code>COMMON-LISP</code> <i>package</i> is not defined
+as a <i>standardized</i> <i>function</i>, <i>macro</i>, or <i>special operator</i>,
+it is allowed to lexically <i>bind</i> its <i>setf function name</i>
+as a <i>function</i>,
+and to declare the <code>ftype</code> of that <i>binding</i>.
+
+<h5 class="subsubsection">11.1.2.2 The COMMON-LISP-USER Package</h5>
+
+<p><a name="index-COMMON_002dLISP_002dUSER-1063"></a><a name="index-CL_002dUSER-1064"></a>
+The <code>COMMON-LISP-USER</code> <i>package</i> is the <i>current package</i> when
+a <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->system starts up.  This <i>package</i> <i>uses</i> the <code>COMMON-LISP</code> <i>package</i>. 
+The <code>COMMON-LISP-USER</code> <i>package</i> has the <i>nickname</i> <code>CL-USER</code>. 
+The <code>COMMON-LISP-USER</code> <i>package</i> can have additional <i>symbols</i> <i>interned</i> within it;
+it can <i>use</i> other <i>implementation-defined</i> <i>packages</i>.
+
+<h5 class="subsubsection">11.1.2.3 The KEYWORD Package</h5>
+
+<p><a name="index-KEYWORD-1065"></a>
+The <code>KEYWORD</code> <i>package</i> contains <i>symbols</i>, called <i>keywords</i><sub>1</sub>,
+that are typically used as special markers in <i>programs</i>
+and their associated data <i>expressions</i><sub>1</sub>.
+
+<p><i>Symbol</i> <i>tokens</i> that start with a <i>package marker</i>
+are parsed by the <i>Lisp reader</i> as <i>symbols</i>
+in the <code>KEYWORD</code> <i>package</i>; see <a href="Symbols-as-Tokens.html#Symbols-as-Tokens">Section 2.3.4 (Symbols as Tokens)</a>. 
+This makes it notationally convenient to use <i>keywords</i>
+when communicating between programs in different <i>packages</i>. 
+For example, the mechanism for passing <i>keyword parameters</i> in a <i>call</i> uses
+<i>keywords</i><sub>1</sub> to name the corresponding <i>arguments</i>;
+see <a href="Ordinary-Lambda-Lists.html#Ordinary-Lambda-Lists">Section 3.4.1 (Ordinary Lambda Lists)</a>.
+
+<p><i>Symbols</i> in the <code>KEYWORD</code> <i>package</i> are, by definition, of <i>type</i> <code>keyword</code>.
+
+<h5 class="unnumberedsubsubsec">11.1.2.3.1 Interning a Symbol in the KEYWORD Package</h5>
+
+<p>The <code>KEYWORD</code> <i>package</i> is treated differently than other <i>packages</i>
+in that special actions are taken when a <i>symbol</i> is <i>interned</i> in it. 
+In particular, when a <i>symbol</i> is <i>interned</i> in the <code>KEYWORD</code> <i>package</i>,
+it is automatically made to be an <i>external symbol</i>
+and is automatically made to be a <i>constant variable</i> with itself as a <i>value</i>.
+
+<h5 class="unnumberedsubsubsec">11.1.2.3.2 Notes about The KEYWORD Package</h5>
+
+<p>It is generally best to confine the use of <i>keywords</i> to situations in which
+there are a finitely enumerable set of names to be selected between.  For example,
+if there were two states of a light switch, they might be called <tt>:on</tt> and <tt>:off</tt>.
+
+<p>In situations where the set of names is not finitely enumerable
+(<i>i.e.</i>, where name conflicts might arise)
+it is frequently best to use <i>symbols</i> in some <i>package</i>
+other than <code>KEYWORD</code> so that conflicts will be naturally avoided. 
+For example, it is generally not wise for a <i>program</i> to use a <i>keyword</i><sub>1</sub>
+
+<p>as a <i>property indicator</i>, since if there were ever another <i>program</i>
+that did the same thing, each would clobber the other's data.
+
+<h5 class="subsubsection">11.1.2.4 Implementation-Defined Packages</h5>
+
+<p>Other, <i>implementation-defined</i> <i>packages</i> might be present
+in the initial <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->environment.
+
+<p>It is recommended, but not required, that the documentation for a
+<i>conforming implementation</i> contain a full list of all <i>package</i> names
+initially present in that <i>implementation</i> but not specified in this specification. 
+(See also the <i>function</i> <code>list-all-packages</code>.)
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Standardized-Packages.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+</html>
+

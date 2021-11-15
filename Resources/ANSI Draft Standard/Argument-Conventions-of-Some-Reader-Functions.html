@@ -1,0 +1,144 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Argument-Conventions-of-Some-Reader-Functions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+<head>
+<title>Argument Conventions of Some Reader Functions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Reader-Concepts.html#Reader-Concepts" title="Reader Concepts">
+<link rel="prev" href="Effect-of-Readtable-Case-on-the-Lisp-Reader.html#Effect-of-Readtable-Case-on-the-Lisp-Reader" title="Effect of Readtable Case on the Lisp Reader">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Argument-Conventions-of-Some-Reader-Functions"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Effect-of-Readtable-Case-on-the-Lisp-Reader.html#Effect-of-Readtable-Case-on-the-Lisp-Reader">Effect of Readtable Case on the Lisp Reader</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Reader-Concepts.html#Reader-Concepts">Reader Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">23.1.3 Argument Conventions of Some Reader Functions</h4>
+
+<h5 class="subsubsection">23.1.3.1 The EOF-ERROR-P argument</h5>
+
+<p><var>Eof-error-p</var> in input function calls
+controls what happens if input is from a file (or any other
+input source that has a definite end) and the end of the file is reached. 
+If <var>eof-error-p</var> is <i>true</i> (the default),
+an error of <i>type</i> <code>end-of-file</code> is signaled
+at end of file.  If it is <i>false</i>, then no error is signaled, and instead
+the function returns <var>eof-value</var>.
+
+<p>Functions such as <code>read</code> that read the representation
+of an <i>object</i> rather than a single
+character always signals an error, regardless of <var>eof-error-p</var>, if
+the file ends in the middle of an object representation. 
+For example, if a file does
+not contain enough right parentheses to balance the left parentheses in
+it, <code>read</code> signals an error.  If a file ends in a
+<i>symbol</i> or a <i>number</i>
+immediately followed by end-of-file, <code>read</code> reads the
+<i>symbol</i> or
+<i>number</i>
+successfully and when called again will
+act according to <var>eof-error-p</var>. 
+Similarly, the <i>function</i> <code>read-line</code>
+successfully reads the last line of a file even if that line
+is terminated by end-of-file rather than the newline character. 
+Ignorable text, such as lines containing only <i>whitespace</i><sub>2</sub> or comments,
+are not considered to begin an <i>object</i>;
+if <code>read</code> begins to read an <i>expression</i> but sees only such
+ignorable text, it does not consider the file to end in the middle of an <i>object</i>. 
+Thus an <var>eof-error-p</var> argument controls what happens
+when the file ends between <i>objects</i>.
+
+<h5 class="subsubsection">23.1.3.2 The RECURSIVE-P argument</h5>
+
+<p>If <var>recursive-p</var> is supplied and not <code>nil</code>, it specifies that
+this function call is not an outermost call to <code>read</code> but an
+embedded call, typically from a <i>reader macro function</i>. 
+It is important to distinguish such recursive calls for three reasons.
+
+     <ol type=1 start=1>
+<li>An outermost call establishes the context within which the
+<code>#</code><var>n</var><code>=</code> and <code>#</code><var>n</var><code>#</code> syntax is scoped.  Consider, for example,
+the expression
+
+     <pre class="lisp">      (cons '#3=(p q r) '(x y . #3#))
+</pre>
+     <p>If the <i>single-quote</i> <i>reader macro</i> were defined in this way:
+
+     <pre class="lisp">      (set-macro-character #\'       ;incorrect
+         #'(lambda (stream char)
+              (declare (ignore char))
+              (list 'quote (read stream))))
+</pre>
+     <p>then each call to the <i>single-quote</i> <i>reader macro function</i> would establish
+independent contexts for the scope of <code>read</code> information, including the scope of
+identifications between markers like &ldquo;<code>#3=</code>&rdquo; and &ldquo;<code>#3#</code>&rdquo;.  However, for
+this expression, the scope was clearly intended to be determined by the outer set
+of parentheses, so such a definition would be incorrect. 
+The correct way to define the <i>single-quote</i>
+<i>reader macro</i> uses <var>recursive-p</var>:
+
+     <pre class="lisp">      (set-macro-character #\'       ;correct
+         #'(lambda (stream char)
+              (declare (ignore char))
+              (list 'quote (read stream t nil t))))
+</pre>
+     <li>A recursive call does not alter whether the reading process
+is to preserve <i>whitespace</i><sub>2</sub> or not (as determined by whether the
+outermost call was to <code>read</code> or <code>read-preserving-whitespace</code>). 
+Suppose again that <i>single-quote</i>
+were to be defined as shown above in the incorrect definition. 
+Then a call to <code>read-preserving-whitespace</code>
+that read the expression <code>'foo&lt;Space&gt;</code> would fail to preserve the space
+character following the symbol <code>foo</code> because the <i>single-quote</i>
+<i>reader macro function</i> calls <code>read</code>,
+not <code>read-preserving-whitespace</code>,
+to read the following expression (in this case <code>foo</code>). 
+The correct definition, which passes the value <i>true</i> for <var>recursive-p</var>
+to <code>read</code>, allows the outermost call to determine
+whether <i>whitespace</i><sub>2</sub> is preserved.
+
+     <li>When end-of-file is encountered and the <var>eof-error-p</var> argument
+is not <code>nil</code>, the kind of error that is signaled may depend on the value
+of <var>recursive-p</var>.  If <var>recursive-p</var>
+is <i>true</i>, then the end-of-file
+is deemed to have occurred within the middle of a printed representation;
+if <var>recursive-p</var> is <i>false</i>, then the end-of-file may be deemed to have
+occurred between <i>objects</i> rather than within the middle of one.
+     </ol>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Argument-Conventions-of-Some-Reader-Functions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+</html>
+

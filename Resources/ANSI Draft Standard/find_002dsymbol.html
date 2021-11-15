@@ -1,0 +1,147 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/find_002dsymbol.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>find-symbol - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Packages.html#Packages" title="Packages">
+<link rel="prev" href="export.html#export" title="export">
+<link rel="next" href="find_002dpackage.html#find_002dpackage" title="find-package">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="find-symbol"></a>
+<a name="find_002dsymbol"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="find_002dpackage.html#find_002dpackage">find-package</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="export.html#export">export</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Packages.html#Packages">Packages</a>
+<hr>
+</div>
+
+<h3 class="heading">find-symbol (Function)</h3>
+
+<p><a name="index-find_002dsymbol-1071"></a><a name="index-find_002dsymbol-1072"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>find-symbol</b><var> string </var><tt>&amp;optional</tt><var> package </var><span class="roman">→</span><var> symbol, status<a name="index-find_002dsymbol-1073"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>string</var>&mdash;a <i>string</i>.
+
+<p><var>package</var>&mdash;a <i>package designator</i>. 
+The default is the <i>current package</i>.
+
+<p><var>symbol</var>&mdash;a <i>symbol</i> accessible in the <var>package</var>,
+or <code>nil</code>.
+
+<p><var>status</var>&mdash;one of <tt>:inherited</tt>, <tt>:external</tt>, <tt>:internal</tt>, or <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>find-symbol</code> locates a <i>symbol</i> whose <i>name</i> is
+<var>string</var> in a <i>package</i>. 
+If a <i>symbol</i> named <var>string</var> is found in <var>package</var>,
+directly or by inheritance, the <i>symbol</i>
+found is returned as the first
+value; the second value is as follows:
+
+     <dl>
+<dt><tt>:internal</tt><dd>
+
+     <p>If the <i>symbol</i> is <i>present</i> in <var>package</var>
+as an <i>internal symbol</i>.
+
+     <br><dt><tt>:external</tt><dd>
+
+     <p>If the <i>symbol</i> is <i>present</i> in <var>package</var>
+as an <i>external symbol</i>.
+
+     <br><dt><tt>:inherited</tt><dd>
+
+     <p>If the <i>symbol</i> is inherited by <var>package</var>
+through <code>use-package</code>,
+but is not <i>present</i> in <var>package</var>. 
+</dl>
+
+<p>If no such <i>symbol</i> is <i>accessible</i> in <var>package</var>,
+both values are <code>nil</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (find-symbol "NEVER-BEFORE-USED") <span class="roman">→</span> NIL, NIL
+ (find-symbol "NEVER-BEFORE-USED") <span class="roman">→</span> NIL, NIL
+ (intern "NEVER-BEFORE-USED") <span class="roman">→</span> NEVER-BEFORE-USED, NIL
+ (intern "NEVER-BEFORE-USED") <span class="roman">→</span> NEVER-BEFORE-USED, :INTERNAL
+ (find-symbol "NEVER-BEFORE-USED") <span class="roman">→</span> NEVER-BEFORE-USED, :INTERNAL
+ (find-symbol "never-before-used") <span class="roman">→</span> NIL, NIL
+ (find-symbol "CAR" 'common-lisp-user) <span class="roman">→</span> CAR, :INHERITED
+ (find-symbol "CAR" 'common-lisp) <span class="roman">→</span> CAR, :EXTERNAL
+ (find-symbol "NIL" 'common-lisp-user) <span class="roman">→</span> NIL, :INHERITED
+ (find-symbol "NIL" 'common-lisp) <span class="roman">→</span> NIL, :EXTERNAL
+ (find-symbol "NIL" (prog1 (make-package "JUST-TESTING" :use '())
+                           (intern "NIL" "JUST-TESTING")))
+<span class="roman">→</span> JUST-TESTING::NIL, :INTERNAL
+ (export 'just-testing::nil 'just-testing)
+ (find-symbol "NIL" 'just-testing) <span class="roman">→</span> JUST-TESTING:NIL, :EXTERNAL
+ (find-symbol "NIL" "KEYWORD")
+<span class="roman">→</span> NIL, NIL
+or<span class="roman">→</span> :NIL, :EXTERNAL
+ (find-symbol (symbol-name :nil) "KEYWORD") <span class="roman">→</span> :NIL, :EXTERNAL
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>intern</code>,
+<code>import</code>,
+<code>export</code>,
+<code>use-package</code>,
+<code>unintern</code>,
+<code>unexport</code>,
+<code>unuse-package</code>
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="intern.html#intern">intern</a>, <a href="find_002dall_002dsymbols.html#find_002dall_002dsymbols">find-all-symbols</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>find-symbol</code> is operationally equivalent to <code>intern</code>,
+except that it never creates a new <i>symbol</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/find_002dsymbol.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

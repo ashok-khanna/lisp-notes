@@ -1,0 +1,205 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Reader-Algorithm.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:35:58 GMT -->
+<head>
+<title>Reader Algorithm - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Syntax.html#Syntax" title="Syntax">
+<link rel="prev" href="Character-Syntax.html#Character-Syntax" title="Character Syntax">
+<link rel="next" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens" title="Interpretation of Tokens">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Reader-Algorithm"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens">Interpretation of Tokens</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Character-Syntax.html#Character-Syntax">Character Syntax</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Syntax.html#Syntax">Syntax</a>
+<hr>
+</div>
+
+<h3 class="section">2.2 Reader Algorithm</h3>
+
+<p>This section describes the algorithm used by the <i>Lisp reader</i>
+to parse <i>objects</i> from an <i>input</i> <i>character</i> <i>stream</i>,
+including how the <i>Lisp reader</i> processes <i>macro characters</i>.
+
+<p>When dealing with <i>tokens</i>, the reader's basic function is to distinguish
+representations of <i>symbols</i> from those of <i>numbers</i>. 
+When a <i>token</i> is accumulated, it is assumed to represent a <i>number</i> if it
+satisfies the syntax for numbers listed in <a href="SyntaxForNumericTokens.html#SyntaxForNumericTokens">Figure 2.9</a>. 
+If it does not represent a <i>number</i>,
+it is then assumed to be a <i>potential number</i>
+if it satisfies the rules governing the syntax for a <i>potential number</i>. 
+If a valid <i>token</i> is neither a representation of a <i>number</i>
+nor a <i>potential number</i>,
+it represents a <i>symbol</i>.
+
+<p>The algorithm performed by the <i>Lisp reader</i> is as follows:
+
+     <ol type=1 start=1>
+<li>If at end of file, end-of-file processing is performed as specified
+in <code>read</code>. 
+Otherwise,
+one <i>character</i>, <var>x</var>,  is read from the <i>input</i> <i>stream</i>, and
+dispatched according to the <i>syntax type</i> of <var>x</var> to one
+of steps 2 to 7.
+
+     <li>If <var>x</var> is an <i>invalid</i> <i>character</i>,
+an error of <i>type</i> <code>reader-error</code> is signaled.
+
+     <li>If <var>x</var> is a <i>whitespace</i><sub>2</sub> <i>character</i>,
+then it is discarded and step 1 is re-entered.
+
+     <li>If <var>x</var> is a <i>terminating</i> or <i>non-terminating</i> <i>macro character</i>
+then its associated <i>reader macro function</i> is called with two <i>arguments</i>,
+the <i>input</i> <i>stream</i> and <var>x</var>.
+
+     <p>The <i>reader macro function</i> may read <i>characters</i>
+from the <i>input</i> <i>stream</i>;
+if it does, it will see those <i>characters</i> following the <i>macro character</i>. 
+The <i>Lisp reader</i> may be invoked recursively from the <i>reader macro function</i>.
+
+     <p>The <i>reader macro function</i> must not have any side effects other than on the
+<i>input</i> <i>stream</i>;
+because of backtracking and restarting of the <code>read</code> operation,
+front ends to the <i>Lisp reader</i> (<i>e.g.</i>, &ldquo;editors&rdquo; and &ldquo;rubout handlers&rdquo;)
+may cause the <i>reader macro function</i> to be called repeatedly during the
+reading of a single <i>expression</i> in which <var>x</var> only appears once.
+
+     <p>The <i>reader macro function</i> may return zero values or one value. 
+If one value is returned,
+then that value is returned as the result of the read operation;
+the algorithm is done. 
+If zero values are returned, then step 1 is re-entered.
+
+     <li>If <var>x</var> is a <i>single escape</i> <i>character</i>
+then the next <i>character</i>, <var>y</var>, is read, or an error of <i>type</i> <code>end-of-file</code>
+is signaled if at the end of file. 
+<var>y</var> is treated as if it is a <i>constituent</i>
+whose only <i>constituent trait</i> is <i>alphabetic</i><sub>2</sub>. 
+<var>y</var> is used to begin a <i>token</i>, and step 8 is entered.
+
+     <li>If <var>x</var> is a <i>multiple escape</i> <i>character</i>
+then a <i>token</i> (initially
+containing no <i>characters</i>) is  begun and step 9 is entered.
+
+     <li>If <var>x</var> is a <i>constituent</i> <i>character</i>, then it begins a <i>token</i>. 
+After the <i>token</i> is read in, it will be interpreted
+either as a <span class="roman">Lisp</span>&nbsp;<!-- /@w --><i>object</i> or as being of invalid syntax. 
+If the <i>token</i> represents an <i>object</i>,
+that <i>object</i> is returned as the result of the read operation. 
+If the <i>token</i> is of invalid syntax, an error is signaled. 
+If <var>x</var> is a <i>character</i> with <i>case</i>,
+it might be replaced with the corresponding <i>character</i> of the opposite <i>case</i>,
+depending on the <i>readtable case</i> of the <i>current readtable</i>,
+as outlined in <a href="Effect-of-Readtable-Case-on-the-Lisp-Reader.html#Effect-of-Readtable-Case-on-the-Lisp-Reader">Section 23.1.2 (Effect of Readtable Case on the Lisp Reader)</a>. 
+<var>X</var> is used to begin a <i>token</i>, and step 8 is entered.
+
+     <li>At this point a <i>token</i> is being accumulated, and an even number
+of <i>multiple escape</i> <i>characters</i> have been encountered. 
+If at end of file, step 10 is entered. 
+Otherwise, a <i>character</i>, <var>y</var>, is read, and
+one of the following actions is performed according to its <i>syntax type</i>:
+
+          <ul>
+<li>If <var>y</var> is a <i>constituent</i> or <i>non-terminating</i> <i>macro character</i>:
+
+               <ul>
+<li>If <var>y</var> is a <i>character</i> with <i>case</i>,
+it might be replaced with the corresponding <i>character</i> of the opposite <i>case</i>,
+depending on the <i>readtable case</i> of the <i>current readtable</i>,
+as outlined in <a href="Effect-of-Readtable-Case-on-the-Lisp-Reader.html#Effect-of-Readtable-Case-on-the-Lisp-Reader">Section 23.1.2 (Effect of Readtable Case on the Lisp Reader)</a>. 
+<li><var>Y</var> is appended to the <i>token</i> being built. 
+<li>Step 8 is repeated. 
+</ul>
+
+          <li>If <var>y</var> is a <i>single escape</i> <i>character</i>, then the next <i>character</i>,
+<var>z</var>, is read, or an error of <i>type</i> <code>end-of-file</code> is signaled if at end of file. 
+<var>Z</var> is treated as if it is a <i>constituent</i>
+whose only <i>constituent trait</i> is <i>alphabetic</i><sub>2</sub>. 
+<var>Z</var> is appended to the <i>token</i> being built,
+and step 8 is repeated.
+
+          <li>If <var>y</var> is a <i>multiple escape</i> <i>character</i>,
+then step 9 is entered.
+
+          <li>If <var>y</var> is an <i>invalid</i> <i>character</i>,
+an error of <i>type</i> <code>reader-error</code> is signaled.
+
+          <li>If <var>y</var> is a <i>terminating</i> <i>macro character</i>,
+then it terminates the <i>token</i>. 
+First the <i>character</i> <var>y</var> is unread (see <code>unread-char</code>),
+and then step 10 is entered.
+
+          <li>If <var>y</var> is a <i>whitespace</i><sub>2</sub> <i>character</i>, then it terminates
+the <i>token</i>.  First the <i>character</i> <var>y</var> is unread
+if appropriate (see <code>read-preserving-whitespace</code>),
+and then step 10 is entered. 
+</ul>
+
+     <li>At this point a <i>token</i> is being accumulated, and an odd number
+of <i>multiple escape</i> <i>characters</i> have been encountered. 
+If at end of file, an error of <i>type</i> <code>end-of-file</code> is signaled. 
+Otherwise, a <i>character</i>, <var>y</var>, is read, and
+one of the following actions is performed according to its <i>syntax type</i>:
+
+          <ul>
+<li>If <var>y</var> is a <i>constituent</i>, macro, or <i>whitespace</i><sub>2</sub> <i>character</i>,
+<var>y</var> is treated as a <i>constituent</i>
+whose only <i>constituent trait</i> is <i>alphabetic</i><sub>2</sub>. 
+<var>Y</var> is appended to the <i>token</i> being built, and step 9 is repeated.
+
+          <li>If <var>y</var> is a <i>single escape</i> <i>character</i>, then the next <i>character</i>,
+<var>z</var>, is read, or an error of <i>type</i> <code>end-of-file</code> is signaled if at end of file. 
+<var>Z</var> is treated as a <i>constituent</i>
+whose only <i>constituent trait</i> is <i>alphabetic</i><sub>2</sub>. 
+<var>Z</var> is appended to the <i>token</i> being built,
+and step 9 is repeated.
+
+          <li>If <var>y</var> is a <i>multiple escape</i> <i>character</i>,
+then step 8 is entered.
+
+          <li>If <var>y</var> is an <i>invalid</i> <i>character</i>,
+an error of <i>type</i> <code>reader-error</code> is signaled. 
+</ul>
+
+     <li>An entire <i>token</i> has been accumulated. 
+The <i>object</i> represented by the <i>token</i> is returned
+as the result of the read operation,
+or an error of <i>type</i> <code>reader-error</code> is signaled if the <i>token</i> is not of valid syntax.
+     </ol>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Reader-Algorithm.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:35:58 GMT -->
+</html>
+

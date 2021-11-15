@@ -1,0 +1,97 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Congruent Lambda-lists for all Methods of a Generic Function - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods" title="Generic Functions and Methods">
+<link rel="prev" href="Agreement-on-Parameter-Specializers-and-Qualifiers.html#Agreement-on-Parameter-Specializers-and-Qualifiers" title="Agreement on Parameter Specializers and Qualifiers">
+<link rel="next" href="Keyword-Arguments-in-Generic-Functions-and-Methods.html#Keyword-Arguments-in-Generic-Functions-and-Methods" title="Keyword Arguments in Generic Functions and Methods">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Congruent-Lambda-lists-for-all-Methods-of-a-Generic-Function"></a>
+<a name="Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Keyword-Arguments-in-Generic-Functions-and-Methods.html#Keyword-Arguments-in-Generic-Functions-and-Methods">Keyword Arguments in Generic Functions and Methods</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Agreement-on-Parameter-Specializers-and-Qualifiers.html#Agreement-on-Parameter-Specializers-and-Qualifiers">Agreement on Parameter Specializers and Qualifiers</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods">Generic Functions and Methods</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.6.4 Congruent Lambda-lists for all Methods of a Generic Function</h4>
+
+<p>These rules define the congruence of a set of <i>lambda lists</i>, including the
+<i>lambda list</i> of each method for a given generic function and the
+<i>lambda list</i> specified for the generic function itself, if given.
+
+     <ol type=1 start=1>
+
+     <li>Each <i>lambda list</i> must have the same number of required
+parameters.
+
+     <li>Each <i>lambda list</i> must have the same number of optional
+parameters.  Each method can supply its own default for an optional
+parameter.
+
+     <li>If any <i>lambda list</i> mentions <code>&amp;rest</code> or <code>&amp;key</code>, each
+<i>lambda list</i> must mention one or both of them.
+
+     <li>If the <i>generic function</i> <i>lambda list</i>
+mentions <code>&amp;key</code>, each
+method must accept all of the keyword names mentioned after <code>&amp;key</code>,
+either by accepting them explicitly, by specifying <code>&amp;allow-other-keys</code>,
+or by specifying <code>&amp;rest</code> but not <code>&amp;key</code>. 
+Each method can accept additional keyword arguments of its own.  The
+checking of the validity of keyword names is done in the generic
+function, not in each method. 
+A method is invoked as if the keyword
+argument pair whose name is <tt>:allow-other-keys</tt> and whose value
+is <i>true</i> were supplied, though no such argument pair will be passed.
+
+     <li>The use of <code>&amp;allow-other-keys</code> need not be consistent
+across <i>lambda lists</i>.  If <code>&amp;allow-other-keys</code> is mentioned in
+the <i>lambda list</i> of any applicable <i>method</i> or of the <i>generic function</i>,
+any keyword arguments may be mentioned in the call to the <i>generic function</i>.
+
+     <li>The use of <code>&amp;aux</code> need not be consistent across methods.
+
+     <p>If a <i>method-defining operator</i> that cannot specify <i>generic function</i> options
+creates a <i>generic function</i>, and if the <i>lambda list</i> for the method
+mentions keyword arguments, the <i>lambda list</i> of the generic function
+will mention <code>&amp;key</code> (but no keyword arguments).
+     </ol>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

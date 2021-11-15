@@ -1,0 +1,97 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Types-and-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:18:04 GMT -->
+<head>
+<title>Types and Classes - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="next" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Types-and-Classes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">4 Types and Classes</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Introduction-to-Types-and-Classes.html#Introduction-to-Types-and-Classes">Introduction to Types and Classes</a>
+<li><a accesskey="2" href="Types.html#Types">Types</a>
+<li><a accesskey="3" href="Classes.html#Classes">Classes</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="4" href="nil-_0028Type_0029.html#nil-_0028Type_0029">nil (Type)</a>
+<li><a accesskey="5" href="boolean.html#boolean">boolean</a>
+<li><a accesskey="6" href="function-_0028System-Class_0029.html#function-_0028System-Class_0029">function (System Class)</a>
+<li><a accesskey="7" href="compiled_002dfunction.html#compiled_002dfunction">compiled-function</a>
+<li><a accesskey="8" href="generic_002dfunction.html#generic_002dfunction">generic-function</a>
+<li><a accesskey="9" href="standard_002dgeneric_002dfunction.html#standard_002dgeneric_002dfunction">standard-generic-function</a>
+<li><a href="class.html#class">class</a>
+<li><a href="built_002din_002dclass.html#built_002din_002dclass">built-in-class</a>
+<li><a href="structure_002dclass.html#structure_002dclass">structure-class</a>
+<li><a href="standard_002dclass.html#standard_002dclass">standard-class</a>
+<li><a href="method.html#method">method</a>
+<li><a href="standard_002dmethod.html#standard_002dmethod">standard-method</a>
+<li><a href="structure_002dobject.html#structure_002dobject">structure-object</a>
+<li><a href="standard_002dobject.html#standard_002dobject">standard-object</a>
+<li><a href="method_002dcombination.html#method_002dcombination">method-combination</a>
+<li><a href="t-_0028System-Class_0029.html#t-_0028System-Class_0029">t (System Class)</a>
+<li><a href="satisfies.html#satisfies">satisfies</a>
+<li><a href="member-_0028Type-Specifier_0029.html#member-_0028Type-Specifier_0029">member (Type Specifier)</a>
+<li><a href="not-_0028Type-Specifier_0029.html#not-_0028Type-Specifier_0029">not (Type Specifier)</a>
+<li><a href="and-_0028Type-Specifier_0029.html#and-_0028Type-Specifier_0029">and (Type Specifier)</a>
+<li><a href="or-_0028Type-Specifier_0029.html#or-_0028Type-Specifier_0029">or (Type Specifier)</a>
+<li><a href="values-_0028Type-Specifier_0029.html#values-_0028Type-Specifier_0029">values (Type Specifier)</a>
+<li><a href="eql-_0028Type-Specifier_0029.html#eql-_0028Type-Specifier_0029">eql (Type Specifier)</a>
+<li><a href="coerce.html#coerce">coerce</a>
+<li><a href="deftype.html#deftype">deftype</a>
+<li><a href="subtypep.html#subtypep">subtypep</a>
+<li><a href="type_002dof.html#type_002dof">type-of</a>
+<li><a href="typep.html#typep">typep</a>
+<li><a href="type_002derror.html#type_002derror">type-error</a>
+<li><a href="type_002derror_002ddatum_003b-type_002derror_002dexpected_002dtype.html#type_002derror_002ddatum_003b-type_002derror_002dexpected_002dtype">type-error-datum; type-error-expected-type</a>
+<li><a href="simple_002dtype_002derror.html#simple_002dtype_002derror">simple-type-error</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Types-and-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:18:38 GMT -->
+</html>
+

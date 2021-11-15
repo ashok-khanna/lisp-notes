@@ -1,0 +1,80 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Changing-the-Class-of-an-Instance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+<head>
+<title>Changing the Class of an Instance - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization" title="Object Creation and Initialization">
+<link rel="next" href="Reinitializing-an-Instance.html#Reinitializing-an-Instance" title="Reinitializing an Instance">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Changing-the-Class-of-an-Instance"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Reinitializing-an-Instance.html#Reinitializing-an-Instance">Reinitializing an Instance</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="section">7.2 Changing the Class of an Instance</h3>
+
+<p>The <i>function</i> <code>change-class</code> can be used to change the <i>class</i>
+of an <i>instance</i> from its current class, C<sub>from<!-- /@w --></sub>,
+to a different class, C<sub>to<!-- /@w --></sub>; it changes the
+structure of the <i>instance</i> to conform to the definition of the class
+C<sub>to<!-- /@w --></sub>.
+
+<p>Note that changing the <i>class</i> of an <i>instance</i> may cause
+<i>slots</i> to be added or deleted.  Changing the <i>class</i> of an
+<i>instance</i> does not change its identity as defined by the
+<code>eq</code> function.
+
+<p>When <code>change-class</code> is invoked on an <i>instance</i>, a two-step
+updating process takes place.  The first step modifies the structure of
+the <i>instance</i> by adding new <i>local slots</i> and discarding
+<i>local slots</i> that are not specified in the new version of the <i>instance</i>. 
+The second step initializes the newly added <i>local slots</i> and performs
+any other user-defined actions. These two steps are further described in the
+two following sections.
+
+<ul class="menu">
+<li><a accesskey="1" href="Modifying-the-Structure-of-the-Instance.html#Modifying-the-Structure-of-the-Instance">Modifying the Structure of the Instance</a>
+<li><a accesskey="2" href="Initializing-Newly-Added-Local-Slots.html#Initializing-Newly-Added-Local-Slots">Initializing Newly Added Local Slots</a>
+<li><a accesskey="3" href="Customizing-the-Change-of-Class-of-an-Instance.html#Customizing-the-Change-of-Class-of-an-Instance">Customizing the Change of Class of an Instance</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Changing-the-Class-of-an-Instance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:50 GMT -->
+</html>
+

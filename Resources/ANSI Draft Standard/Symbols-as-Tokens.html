@@ -1,0 +1,143 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Symbols-as-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Symbols as Tokens - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens" title="Interpretation of Tokens">
+<link rel="prev" href="The-Consing-Dot.html#The-Consing-Dot" title="The Consing Dot">
+<link rel="next" href="Valid-Patterns-for-Tokens.html#Valid-Patterns-for-Tokens" title="Valid Patterns for Tokens">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Symbols-as-Tokens"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Valid-Patterns-for-Tokens.html#Valid-Patterns-for-Tokens">Valid Patterns for Tokens</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="The-Consing-Dot.html#The-Consing-Dot">The Consing Dot</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens">Interpretation of Tokens</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.3.4 Symbols as Tokens</h4>
+
+<p>Any <i>token</i> that is not a <i>potential number</i>,
+does not contain a <i>package marker</i>,
+and does not consist entirely of dots
+will always be interpreted as a <i>symbol</i>. 
+Any <i>token</i> that is a <i>potential number</i> but does not fit the
+number syntax is a reserved <i>token</i> and
+has an <i>implementation-dependent</i> interpretation. 
+In all other cases, the <i>token</i> is construed to be the name of a <i>symbol</i>.
+
+<p>Examples of the printed representation of <i>symbols</i> are in the next figure. 
+For presentational simplicity,
+these examples assume that
+the <i>readtable case</i> of the <i>current readtable</i> is <tt>:upcase</tt>.
+
+<div class="float">
+<a name="fig2_002e15"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>FROBBOZ</code> </td><td valign="top">The <i>symbol</i> whose <i>name</i> is <code>FROBBOZ</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>frobboz</code> </td><td valign="top">Another way to notate the same <i>symbol</i>. 
+<br></td></tr><tr align="left"><td valign="top"><code>fRObBoz</code> </td><td valign="top">Yet another way to notate it. 
+<br></td></tr><tr align="left"><td valign="top"><code>unwind-protect</code> </td><td valign="top">A <i>symbol</i> with a hyphen in its <i>name</i>. 
+<br></td></tr><tr align="left"><td valign="top"><code>+$</code> </td><td valign="top">The <i>symbol</i> named <code>+$</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>1+</code> </td><td valign="top">The <i>symbol</i> named <code>1+</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>+1</code> </td><td valign="top">This is the <i>integer</i> <code>1</code>,
+not a <i>symbol</i>. 
+<br></td></tr><tr align="left"><td valign="top"><code>pascal_style</code> </td><td valign="top">This <i>symbol</i> has an underscore
+in its <i>name</i>. 
+<br></td></tr><tr align="left"><td valign="top"><code>file.rel.43</code> </td><td valign="top">This <i>symbol</i> has periods in its <i>name</i>. 
+<br></td></tr><tr align="left"><td valign="top"><code>\(</code> </td><td valign="top">The <i>symbol</i> whose <i>name</i> is <code>(</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>\+1</code> </td><td valign="top">The <i>symbol</i> whose <i>name</i> is <code>+1</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>+\1</code> </td><td valign="top">Also the <i>symbol</i> whose <i>name</i> is <code>+1</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>\frobboz</code> </td><td valign="top">The <i>symbol</i> whose <i>name</i> is <code>fROBBOZ</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>3.14159265\s0</code> </td><td valign="top">The <i>symbol</i> whose <i>name</i>
+is <code>3.14159265s0</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>3.14159265\S0</code> </td><td valign="top">A different <i>symbol</i>,  whose <i>name</i> is <code>3.14159265S0</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>3.14159265s0</code> </td><td valign="top">A possible <i>short float</i>
+approximation to π.
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.15: Examples of the printed representation of symbols (Part 1 of 2)</strong></p></div>
+
+<div class="float">
+<a name="fig2_002e16"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>APL\\360</code> </td><td valign="top">The <i>symbol</i> whose <i>name</i>
+is <code>APL\360</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>apl\\360</code> </td><td valign="top">Also the <i>symbol</i> whose <i>name</i>  is <code>APL\360</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>\(b^2\)&nbsp;<!-- /@w -->-&nbsp;<!-- /@w -->4*a*c</code> </td><td valign="top">The <i>name</i> is <code>(B^2) - 4*A*C</code>. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">Parentheses and two spaces in it. 
+<br></td></tr><tr align="left"><td valign="top"><code>\(\b^2\)&nbsp;<!-- /@w -->-\4*\a*\c</code> </td><td valign="top">The <i>name</i> is <code>(b^2) - 4*a*c</code>. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">Letters explicitly lowercase. 
+<br></td></tr><tr align="left"><td valign="top"><code>|"|</code> </td><td valign="top">The same as writing <code>\"</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|(b^2) - 4*a*c|</code> </td><td valign="top">The <i>name</i> is <code>(b^2) - 4*a*c</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|frobboz|</code> </td><td valign="top">The <i>name</i> is <code>frobboz</code>, not <code>FROBBOZ</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|APL\360|</code> </td><td valign="top">The <i>name</i> is <code>APL360</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|APL\\360|</code> </td><td valign="top">The <i>name</i> is <code>APL\360</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|apl\\360|</code> </td><td valign="top">The <i>name</i> is <code>apl\360</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|\|\||</code> </td><td valign="top">Same as <code>\|\|</code> &mdash;the <i>name</i> is <code>||</code>. 
+<br></td></tr><tr align="left"><td valign="top"><code>|(B^2) - 4*A*C|</code> </td><td valign="top">The <i>name</i> is <code>(B^2) - 4*A*C</code>. 
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">Parentheses and two spaces in it. 
+<br></td></tr><tr align="left"><td valign="top"><code>|(b^2) - 4*a*c|</code> </td><td valign="top">The <i>name</i> is <code>(b^2) - 4*a*c</code>.
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.16: Examples of the printed representation of symbols (Part 2 of 2)</strong></p></div>
+
+<p>In the process of parsing a <i>symbol</i>,
+it is <i>implementation-dependent</i> which
+<i>implementation-defined</i> <i>attributes</i> are removed
+from the <i>characters</i> forming a <i>token</i> that represents a <i>symbol</i>.
+
+<p>When parsing the syntax for a <i>symbol</i>,
+the <i>Lisp reader</i> looks up the <i>name</i> of that <i>symbol</i>
+in the <i>current package</i>. 
+This lookup may involve looking in other
+<i>packages</i> whose <i>external symbols</i>
+are inherited by the <i>current package</i>.  If the name is found,
+the corresponding <i>symbol</i> is returned.  If the name is not found
+(that is, there is no <i>symbol</i>
+of that name <i>accessible</i> in the <i>current package</i>),
+a new <i>symbol</i> is created and is placed in the <i>current package</i>
+as an <i>internal symbol</i>.  The <i>current package</i> becomes the owner
+(<i>home package</i>) of the <i>symbol</i>,
+and the <i>symbol</i> becomes interned in the <i>current package</i>. 
+If the name is later read again while this same <i>package</i> is
+current, the same <i>symbol</i> will be found and returned.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Symbols-as-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

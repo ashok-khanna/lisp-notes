@@ -1,0 +1,230 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defparameter_003b-defvar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+<head>
+<title>defparameter; defvar - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="defconstant.html#defconstant" title="defconstant">
+<link rel="next" href="destructuring_002dbind.html#destructuring_002dbind" title="destructuring-bind">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defparameter%3b-defvar"></a>
+<a name="defparameter_003b-defvar"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="destructuring_002dbind.html#destructuring_002dbind">destructuring-bind</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="defconstant.html#defconstant">defconstant</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">defparameter, defvar (Macro)</h3>
+
+<p><a name="index-defparameter-475"></a><a name="index-defparameter-476"></a><a name="index-defvar-477"></a><a name="index-defvar-478"></a><a name="defparameter"></a><a name="defvar"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defparameter</b><var> name initial-value </var><tt>[</tt><var>documentation</var><tt>]</tt> <span class="roman">→</span><var> name<a name="index-defparameter-479"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>defvar</b><var> name </var><tt>[</tt><var>initial-value </var><tt>[</tt><var>documentation</var><tt>]</tt><tt>]</tt> <span class="roman">→</span><var> name<a name="index-defvar-480"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>; not evaluated.
+
+<p><var>initial-value</var>&mdash;a <i>form</i>;
+for <code>defparameter</code>, it is always <i>evaluated</i>,
+but for <code>defvar</code> it is <i>evaluated</i>
+only if <var>name</var> is not already <i>bound</i>.
+
+<p><var>documentation</var>&mdash;a <var>string</var>; not evaluated.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>defparameter</code> and <code>defvar</code> <i>establish</i> <var>name</var>
+as a <i>dynamic variable</i>.
+
+<p><code>defparameter</code> unconditionally
+<i>assigns</i> the <var>initial-value</var> to the <i>dynamic variable</i> named <var>name</var>. 
+<code>defvar</code>, by contrast, <i>assigns</i> <var>initial-value</var> (if supplied)
+to the <i>dynamic variable</i> named <var>name</var>
+only if <var>name</var> is not already <i>bound</i>.
+
+<p>If no <var>initial-value</var> is supplied,
+<code>defvar</code> leaves the <i>value cell</i> of
+the <i>dynamic variable</i> named <var>name</var> undisturbed;
+if <var>name</var> was previously <i>bound</i>, its old <i>value</i> persists,
+and if it was previously <i>unbound</i>, it remains <i>unbound</i>.
+
+<p>If <var>documentation</var> is supplied, it is attached to <var>name</var> as a
+<i>documentation string</i> of kind <tt>variable</tt>.
+
+<p><code>defparameter</code> and <code>defvar</code> normally appear as a <i>top level form</i>,
+but it is meaningful for them to appear as <i>non-top-level forms</i>.  However,
+the compile-time side effects described below only take place when
+they appear as <i>top level forms</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defparameter *p* 1) <span class="roman">→</span> *P*
+ *p* <span class="roman">→</span> 1
+ (constantp '*p*) <span class="roman">→</span> <i>false</i>
+ (setq *p* 2) <span class="roman">→</span> 2
+ (defparameter *p* 3) <span class="roman">→</span> *P*
+ *p* <span class="roman">→</span> 3
+
+ (defvar *v* 1) <span class="roman">→</span> *V*
+ *v* <span class="roman">→</span> 1
+ (constantp '*v*) <span class="roman">→</span> <i>false</i>
+ (setq *v* 2) <span class="roman">→</span> 2
+ (defvar *v* 3) <span class="roman">→</span> *V*
+ *v* <span class="roman">→</span> 2
+
+ (defun foo ()
+   (let ((*p* 'p) (*v* 'v))
+     (bar))) <span class="roman">→</span> FOO
+ (defun bar () (list *p* *v*)) <span class="roman">→</span> BAR
+ (foo) <span class="roman">→</span> (P V)
+</pre>
+<p>The principal operational distinction between <code>defparameter</code> and <code>defvar</code>
+is that <code>defparameter</code> makes an unconditional assignment to <var>name</var>,
+while <code>defvar</code> makes a conditional one.  In practice, this means that
+<code>defparameter</code> is useful in situations where loading or reloading the definition
+would want to pick up a new value of the variable, while <code>defvar</code> is used in
+situations where the old value would want to be retained if the file were loaded or reloaded. 
+For example, one might create a file which contained:
+
+<pre class="lisp"> (defvar *the-interesting-numbers* '())
+ (defmacro define-interesting-number (name n)
+   `(progn (defvar ,name ,n)
+           (pushnew ,name *the-interesting-numbers*)
+           ',name))
+ (define-interesting-number *my-height* 168) ;cm
+ (define-interesting-number *my-weight* 13)  ;stones
+</pre>
+<p>Here the initial value, <code>()</code>, for the variable <code>*the-interesting-numbers*</code>
+is just a seed that we are never likely to want to reset to something else
+once something has been grown from it.  As such, we have used <code>defvar</code>
+to avoid having the <code>*interesting-numbers*</code> information reset if the file is
+loaded a second time.  It is true that the two calls to
+<code>define-interesting-number</code> here would be reprocessed, but
+if there were additional calls in another file, they would not be and that
+information would be lost.  On the other hand, consider the following code:
+
+<pre class="lisp"> (defparameter *default-beep-count* 3)
+ (defun beep (&amp;optional (n *default-beep-count*))
+   (dotimes (i n) (si:%beep 1000. 100000.) (sleep 0.1)))
+</pre>
+<p>Here we could easily imagine editing the code to change the initial value of
+<code>*default-beep-count*</code>, and then reloading the file to pick up the new value. 
+In order to make value updating easy, we have used <code>defparameter</code>.
+
+<p>On the other hand, there is potential value to using <code>defvar</code> in this
+situation.  For example, suppose that someone had predefined an alternate
+value for <code>*default-beep-count*</code>, or had loaded the file and then manually
+changed the value.  In both cases, if we had used <code>defvar</code> instead of
+<code>defparameter</code>, those user preferences would not be overridden by
+(re)loading the file.
+
+<p>The choice of whether to use <code>defparameter</code> or <code>defvar</code> has
+visible consequences to programs, but is nevertheless often made for subjective
+reasons.
+
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>If a <code>defvar</code> or <code>defparameter</code> <i>form</i> appears as a <i>top level form</i>,
+the <i>compiler</i> must recognize that the <var>name</var> has been
+proclaimed <code>special</code>.  However, it must neither <i>evaluate</i>
+the <var>initial-value</var> <i>form</i> nor <i>assign</i> the
+<i>dynamic variable</i> named <var>name</var> at compile time.
+
+<p>There may be additional (<i>implementation-defined</i>) compile-time or
+run-time side effects, as long as such effects do not interfere with the
+correct operation of <i>conforming programs</i>.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>defvar</code> is affected by whether <var>name</var> is already <i>bound</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="declaim.html#declaim">declaim</a>,
+<a href="defconstant.html#defconstant">defconstant</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="Compilation.html#Compilation">Section 3.2 (Compilation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>It is customary to name <i>dynamic variables</i> with an <i>asterisk</i>
+at the beginning and end of the name.  e.g., <code>*foo*</code> is a good name for
+a <i>dynamic variable</i>, but not for a <i>lexical variable</i>;
+<code>foo</code> is a good name for a <i>lexical variable</i>,
+but not for a <i>dynamic variable</i>. 
+This naming convention is observed for all <i>defined names</i> in <span class="roman">Common Lisp</span>;
+however, neither <i>conforming programs</i> nor <i>conforming implementations</i>
+are obliged to adhere to this convention.
+
+<p>The intent of the permission for additional side effects is to allow
+<i>implementations</i> to do normal &ldquo;bookkeeping&rdquo; that accompanies
+definitions.  For example, the <i>macro expansion</i> of a <code>defvar</code>
+or <code>defparameter</code> <i>form</i> might include code that arranges to
+record the name of the source file in which the definition occurs.
+
+<p><code>defparameter</code> and <code>defvar</code> might be defined as follows:
+
+<pre class="lisp"> (defmacro defparameter (name initial-value
+                         &amp;optional (documentation nil documentation-p))
+   `(progn (declaim (special ,name))
+           (setf (symbol-value ',name) ,initial-value)
+           ,(when documentation-p
+              `(setf (documentation ',name 'variable) ',documentation))
+           ',name))
+ (defmacro defvar (name &amp;optional
+                        (initial-value nil initial-value-p)
+                        (documentation nil documentation-p))
+   `(progn (declaim (special ,name))
+           ,(when initial-value-p
+              `(unless (boundp ',name)
+                 (setf (symbol-value ',name) ,initial-value)))
+           ,(when documentation-p
+              `(setf (documentation ',name 'variable) ',documentation))
+           ',name))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defparameter_003b-defvar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+</html>
+

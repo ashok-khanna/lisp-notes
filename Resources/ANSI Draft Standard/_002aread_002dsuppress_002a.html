@@ -1,0 +1,164 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aread_002dsuppress_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:04 GMT -->
+<head>
+<title>*read-suppress* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Reader.html#Reader" title="Reader">
+<link rel="prev" href="_002aread_002deval_002a.html#g_t_002aread_002deval_002a" title="*read-eval*">
+<link rel="next" href="_002areadtable_002a.html#g_t_002areadtable_002a" title="*readtable*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="*read-suppress*"></a>
+<a name="g_t_002aread_002dsuppress_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002areadtable_002a.html#g_t_002areadtable_002a">*readtable*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002aread_002deval_002a.html#g_t_002aread_002deval_002a">*read-eval*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Reader.html#Reader">Reader</a>
+<hr>
+</div>
+
+<h3 class="heading">*read-suppress* (Variable)</h3>
+
+<p><a name="index-g_t_002aread_002dsuppress_002a-3048"></a><a name="index-g_t_002aread_002dsuppress_002a-3049"></a>
+
+<h5 class="subsubheading">Value Type:</h5>
+
+<p>a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Initial Value:</h5>
+
+<p><i>false</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>This variable is intended primarily to support the operation of the
+read-time conditional notations <code>#+</code> and <code>#-</code>. It is important for the
+<i>reader macros</i> which implement these notations
+to be able to skip over the printed representation of an
+<i>expression</i> despite the possibility that the syntax of the skipped
+<i>expression</i> may not be entirely valid for the current implementation,
+since <code>#+</code> and <code>#-</code> exist in order to allow the same program to be
+shared among several <span class="roman">Lisp</span>&nbsp;<!-- /@w -->implementations (including dialects other than <span class="roman">Common Lisp</span>)
+despite small incompatibilities of syntax.
+
+<p>If it is <i>false</i>, the <i>Lisp reader</i> operates normally.
+
+<p>If the <i>value</i> of <code>*read-suppress*</code> is <i>true</i>,
+<code>read</code>,
+<code>read-preserving-whitespace</code>,
+<code>read-delimited-list</code>,
+and <code>read-from-string</code>
+all return a <i>primary value</i> of <code>nil</code>&nbsp;<!-- /@w -->when they complete successfully;
+however, they continue to parse the representation of an <i>object</i>
+in the normal way, in order to skip over the <i>object</i>,
+and continue to indicate <i>end of file</i> in the normal way. 
+Except as noted below,
+any <i>standardized</i> <i>reader macro</i><sub>2</sub>
+
+<p>that is defined to <i>read</i><sub>2</sub>
+
+<p>a following <i>object</i> or <i>token</i>
+will do so,
+but not signal an error if the <i>object</i>
+read is not of an appropriate type or syntax. 
+The <i>standard syntax</i> and its associated <i>reader macros</i>
+will not construct any new <i>objects</i>
+(<i>e.g.</i>, when reading the representation of a <i>symbol</i>,
+no <i>symbol</i> will be constructed or interned).
+
+     <dl>
+<dt>Extended tokens<dd>
+
+     <p>All extended tokens are completely uninterpreted. 
+Errors such as those that might otherwise be signaled due to
+detection of invalid <i>potential numbers</i>,
+invalid patterns of <i>package markers</i>,
+and invalid uses of the <i>dot</i> character are suppressed.
+
+     <br><dt>Dispatching macro characters (including <i>sharpsign</i>)<dd>
+
+     <p><i>Dispatching macro characters</i> continue to parse an infix numerical
+argument, and invoke the dispatch function.  The <i>standardized</i>
+<i>sharpsign</i> <i>reader macros</i> do not enforce any constraints
+on either the presence of or the value of the numerical argument.
+
+     <br><dt><code>#=</code><dd>
+
+     <p>The <code>#=</code> notation is totally ignored.  It does not read
+a following <i>object</i>. It produces no <i>object</i>,
+but is treated as <i>whitespace</i><sub>2</sub>.
+
+     <br><dt><code>##</code><dd>
+
+     <p>The <code>##</code> notation always produces <code>nil</code>. 
+</dl>
+
+<p>No matter what the <i>value</i> of <code>*read-suppress*</code>,
+parentheses still continue to delimit and construct <i>lists</i>;
+the <code>#(</code> notation continues to delimit <i>vectors</i>;
+and comments, <i>strings</i>,
+and the <i>single-quote</i> and <i>backquote</i> notations continue to be
+interpreted properly.  Such situations as
+<code>')</code>,<code>#&lt;</code>,
+<code>#)</code>, and <code>#&lt;Space&gt;</code> continue to signal errors.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (let ((*read-suppress* t))
+   (mapcar #'read-from-string
+           '("#(foo bar baz)" "#P(:type :lisp)" "#c1.2"
+             "#.(PRINT 'FOO)" "#3AHELLO" "#S(INTEGER)"
+             "#*ABC" "#\GARBAGE" "#RALPHA" "#3R444")))
+<span class="roman">→</span> (NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="read.html#read">read</a>,
+<a href="Syntax.html#Syntax">Chapter 2 (Syntax)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><i>Programmers</i> and <i>implementations</i> that define additional
+<i>macro characters</i> are strongly encouraged to make them respect
+<code>*read-suppress*</code> just as <i>standardized</i> <i>macro characters</i> do. 
+That is, when the <i>value</i> of <code>*read-suppress*</code> is <i>true</i>,
+they should ignore type errors when reading a following <i>object</i>
+and the <i>functions</i> that implement <i>dispatching macro characters</i>
+should tolerate <code>nil</code>&nbsp;<!-- /@w -->as their infix <i>parameter</i> value even if a numeric
+value would ordinarily be required.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aread_002dsuppress_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:04 GMT -->
+</html>
+

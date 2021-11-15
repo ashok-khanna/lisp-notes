@@ -1,0 +1,143 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/rassoc_003b-rassoc_002dif_003b-rassoc_002dif_002dnot.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:00 GMT -->
+<head>
+<title>rassoc; rassoc-if; rassoc-if-not - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="pairlis.html#pairlis" title="pairlis">
+<link rel="next" href="get_002dproperties.html#get_002dproperties" title="get-properties">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="rassoc%3b-rassoc-if%3b-rassoc-if-not"></a>
+<a name="rassoc_003b-rassoc_002dif_003b-rassoc_002dif_002dnot"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="get_002dproperties.html#get_002dproperties">get-properties</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pairlis.html#pairlis">pairlis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">rassoc, rassoc-if, rassoc-if-not (Function)</h3>
+
+<p><a name="index-rassoc-2002"></a><a name="index-rassoc-2003"></a><a name="index-rassoc_002dif-2004"></a><a name="index-rassoc_002dif-2005"></a><a name="index-rassoc_002dif_002dnot-2006"></a><a name="index-rassoc_002dif_002dnot-2007"></a><a name="rassoc"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>rassoc</b><var> item alist </var><tt>&amp;key</tt><var> key test test-not </var><span class="roman">→</span><var> entry<a name="index-rassoc-2008"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>rassoc-if</b><var> predicate alist </var><tt>&amp;key</tt><var> key </var><span class="roman">→</span><var> entry<a name="index-rassoc_002dif-2009"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>rassoc-if-not</b><var> predicate alist </var><tt>&amp;key</tt><var> key </var><span class="roman">→</span><var> entry<a name="index-rassoc_002dif_002dnot-2010"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>item</var>&mdash;an <i>object</i>.
+
+<p><var>alist</var>&mdash;an <i>association list</i>.
+
+<p><var>predicate</var>&mdash;a <i>designator</i> for
+a <i>function</i> of one <i>argument</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>test</var>&mdash;a <i>designator</i> for a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>test-not</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>entry</var>&mdash;a <i>cons</i> that is an <i>element</i> of the <var>alist</var>,
+or <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>rassoc</code>, <code>rassoc-if</code>, and <code>rassoc-if-not</code>
+return the first <i>cons</i> whose <i>cdr</i>
+<i>satisfies the test</i>. 
+If no such <i>cons</i> is found, <code>nil</code>
+is returned.
+
+<p>If <code>nil</code>&nbsp;<!-- /@w -->appears in <var>alist</var> in place of a pair, it is  ignored.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq alist '((1 . "one") (2 . "two") (3 . 3)))
+<span class="roman">→</span> ((1 . "one") (2 . "two") (3 . 3))
+ (rassoc 3 alist) <span class="roman">→</span> (3 . 3)
+ (rassoc "two" alist) <span class="roman">→</span> NIL
+ (rassoc "two" alist :test 'equal) <span class="roman">→</span> (2 . "two")
+ (rassoc 1 alist :key #'(lambda (x) (if (numberp x) (/ x 3)))) <span class="roman">→</span> (3 . 3)
+ (rassoc 'a '((a . b) (b . c) (c . a) (z . a))) <span class="roman">→</span> (C . A)
+ (rassoc-if #'stringp alist) <span class="roman">→</span> (1 . "one")
+ (rassoc-if-not #'vectorp alist) <span class="roman">→</span> (3 . 3)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="assoc.html#assoc">assoc</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <tt>:test-not</tt> parameter is deprecated.
+
+<p>The <i>function</i> <code>rassoc-if-not</code> is deprecated.
+
+<p>It is possible to <code>rplaca</code> the result of <code>rassoc</code>,
+provided that it is not <code>nil</code>, in order to &ldquo;update&rdquo; <var>alist</var>.
+
+<p>The expressions
+
+<pre class="lisp"> (rassoc item list :test fn)
+</pre>
+<p>and
+
+<pre class="lisp"> (find item list :test fn :key #'cdr)
+</pre>
+<p>are equivalent in meaning, except when the <code>item</code> is <code>nil</code>
+and <code>nil</code>&nbsp;<!-- /@w -->appears in place of a pair in the <var>alist</var>. 
+See the <i>function</i> <a href="assoc.html#assoc">assoc</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/rassoc_003b-rassoc_002dif_003b-rassoc_002dif_002dnot.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:00 GMT -->
+</html>
+

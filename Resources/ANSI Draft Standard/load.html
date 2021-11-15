@@ -1,0 +1,221 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/load.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:05 GMT -->
+<head>
+<title>load - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="System-Construction.html#System-Construction" title="System Construction">
+<link rel="prev" href="compile_002dfile_002dpathname.html#compile_002dfile_002dpathname" title="compile-file-pathname">
+<link rel="next" href="with_002dcompilation_002dunit.html#with_002dcompilation_002dunit" title="with-compilation-unit">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="load"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="with_002dcompilation_002dunit.html#with_002dcompilation_002dunit">with-compilation-unit</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="compile_002dfile_002dpathname.html#compile_002dfile_002dpathname">compile-file-pathname</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="System-Construction.html#System-Construction">System Construction</a>
+<hr>
+</div>
+
+<h3 class="heading">load (Function)</h3>
+
+<p><a name="index-load-3068"></a><a name="index-load-3069"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>load</b><var> filespec </var><tt>&amp;key</tt><var> verbose&nbsp;print<!-- /@w --> if-does-not-exist&nbsp;external-format<!-- /@w --> </var><span class="roman">→</span><var> generalized-boolean<a name="index-load-3070"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>filespec</var>&mdash;a <i>stream</i>, or a <i>pathname designator</i>. 
+The default is taken from <code>*default-pathname-defaults*</code>.
+
+<p><var>verbose</var>&mdash;a <i>generalized boolean</i>. 
+The default is the <i>value</i> of <code>*load-verbose*</code>.
+
+<p><var>print</var>&mdash;a <i>generalized boolean</i>. 
+The default is the <i>value</i> of <code>*load-print*</code>.
+
+<p><var>if-does-not-exist</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>true</i>.
+
+<p><var>external-format</var>&mdash;an <i>external file format designator</i>. 
+The default is <tt>:default</tt>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>load</code> <i>loads</i> the <i>file</i> named by <var>filespec</var>
+into the <span class="roman">Lisp</span>&nbsp;<!-- /@w -->environment.
+
+<p>The manner in which a <i>source file</i>
+is distinguished from a <i>compiled file</i> is <i>implementation-dependent</i>. 
+If the file specification is not complete and both a <i>source file</i> and a
+<i>compiled file</i> exist which might match,
+then which of those files <code>load</code> selects is <i>implementation-dependent</i>.
+
+<p>If <var>filespec</var> is a <i>stream</i>,
+<code>load</code> determines what kind of <i>stream</i> it is
+and loads directly from the <i>stream</i>. 
+If <var>filespec</var> is a <i>logical pathname</i>,
+it is translated into a <i>physical pathname</i>
+as if by calling <code>translate-logical-pathname</code>.
+
+<p><code>load</code> sequentially executes each <i>form</i> it encounters
+in the <i>file</i> named by <var>filespec</var>. 
+If the <i>file</i> is a <i>source file</i>
+and the <i>implementation</i> chooses to perform <i>implicit compilation</i>,
+<code>load</code> must recognize <i>top level forms</i>
+as described in <a href="TopLevelForms.html#TopLevelForms">Section 3.2.3.1 (Processing of Top Level Forms)</a>
+and arrange for each <i>top level form</i> to be executed
+before beginning <i>implicit compilation</i> of the next. 
+(Note, however, that processing of <code>eval-when</code> <i>forms</i>
+by <code>load</code> is controlled by the <tt>:execute</tt> situation.)
+
+<p>If <var>verbose</var> is <i>true</i>,
+<code>load</code> prints a message in the form of a comment
+(<i>i.e.</i>, with a leading <i>semicolon</i>)
+to <i>standard output</i> indicating what <i>file</i> is being <i>loaded</i>
+and other useful information. 
+If <var>verbose</var> is <i>false</i>,
+<code>load</code> does not print this information.
+
+<p>If <var>print</var> is <i>true</i>,
+<code>load</code> incrementally prints information to <i>standard output</i>
+showing the progress of the <i>loading</i> process. 
+For a <i>source file</i>,
+this information might mean printing the <i>values</i>
+<i>yielded</i> by each <i>form</i> in the <i>file</i>
+as soon as those <i>values</i> are returned. 
+For a <i>compiled file</i>,
+what is printed might not reflect precisely the contents of the <i>source file</i>,
+but some information is generally printed. 
+If <var>print</var> is <i>false</i>,
+<code>load</code> does not print this information.
+
+<p>If the file named by <var>filespec</var> is successfully loaded,
+<code>load</code> returns <i>true</i>.
+
+<p>If the file does not exist,
+the specific action taken depends on <var>if-does-not-exist</var>:
+if it is <code>nil</code>, <code>load</code> returns <code>nil</code>;
+otherwise, <code>load</code> signals an error.
+
+<p>The <var>external-format</var> specifies the <i>external file format</i>
+to be used when opening the <i>file</i> (see the <i>function</i> <a href="open.html#open">open</a>),
+except that when the <i>file</i> named by <var>filespec</var> is a <i>compiled file</i>,
+the <var>external-format</var> is ignored. 
+<code>compile-file</code> and <code>load</code> cooperate
+in an <i>implementation-dependent</i> way to assure
+the preservation of the <i>similarity</i> of <i>characters</i>
+referred to in the <i>source file</i>
+at the time the <i>source file</i> was processed by the <i>file compiler</i>
+under a given <i>external file format</i>,
+regardless of the value of <var>external-format</var>
+at the time the <i>compiled file</i> is <i>loaded</i>.
+
+<p><code>load</code> binds <code>*readtable*</code> and <code>*package*</code>
+to the values they held before <i>loading</i> the file.
+
+<p><code>*load-truename*</code> is <i>bound</i> by <code>load</code> to hold
+the <i>truename</i> of the <i>pathname</i> of the file being <i>loaded</i>.
+
+<p><code>*load-pathname*</code> is <i>bound</i> by <code>load</code> to hold
+a <i>pathname</i> that represents <var>filespec</var> merged against the defaults. 
+That is, <code>(pathname (merge-pathnames </code><var>filespec</var><code>))</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;Establish a data file...
+ (with-open-file (str "data.in" :direction :output :if-exists :error)
+   (print 1 str) (print '(setq a 888) str) t)
+<span class="roman">→</span> T
+ (load "data.in") <span class="roman">→</span> <i>true</i>
+ a <span class="roman">→</span> 888
+ (load (setq p (merge-pathnames "data.in")) :verbose t)
+; Loading contents of file /fred/data.in
+; Finished loading /fred/data.in
+<span class="roman">→</span> <i>true</i>
+ (load p :print t)
+; Loading contents of file /fred/data.in
+;  1
+;  888
+; Finished loading /fred/data.in
+<span class="roman">→</span> <i>true</i>
+</pre>
+<pre class="lisp"> ;----[Begin file SETUP]----
+ (in-package "MY-STUFF")
+ (defmacro compile-truename () `',*compile-file-truename*)
+ (defvar *my-compile-truename* (compile-truename) "Just for debugging.")
+ (defvar *my-load-pathname* *load-pathname*)
+ (defun load-my-system ()
+   (dolist (module-name '("FOO" "BAR" "BAZ"))
+     (load (merge-pathnames module-name *my-load-pathname*))))
+ ;----[End of file SETUP]----
+
+
+ (load "SETUP")
+ (load-my-system)
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>The implementation, and the host computer's file system.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <tt>:if-does-not-exist</tt> is supplied and is <i>true</i>, or is not supplied,
+<code>load</code> signals an error of <i>type</i> <code>file-error</code> if the file named by
+<var>filespec</var> does not exist,
+or if the <i>file system</i> cannot perform the requested operation.
+
+<p>An error of <i>type</i> <code>file-error</code> might be signaled if
+<code>(wild-pathname-p </code><var>filespec</var><code>)</code> returns <i>true</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>,
+<a href="merge_002dpathnames.html#merge_002dpathnames">merge-pathnames</a>,
+<a href="_002aload_002dverbose_002a.html#g_t_002aload_002dverbose_002a">*load-verbose*</a>,
+<a href="_002adefault_002dpathname_002ddefaults_002a.html#g_t_002adefault_002dpathname_002ddefaults_002a">*default-pathname-defaults*</a>,
+<a href="pathname-_0028System-Class_0029.html#pathname-_0028System-Class_0029">pathname (System Class)</a>,
+<a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="File-System-Concepts.html#File-System-Concepts">Section 20.1 (File System Concepts)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/load.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:07 GMT -->
+</html>
+

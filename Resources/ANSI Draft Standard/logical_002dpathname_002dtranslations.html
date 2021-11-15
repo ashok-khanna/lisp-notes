@@ -1,0 +1,244 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/logical_002dpathname_002dtranslations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:26 GMT -->
+<head>
+<title>logical-pathname-translations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Filenames.html#Filenames" title="Filenames">
+<link rel="prev" href="load_002dlogical_002dpathname_002dtranslations.html#load_002dlogical_002dpathname_002dtranslations" title="load-logical-pathname-translations">
+<link rel="next" href="logical_002dpathname-_0028Function_0029.html#logical_002dpathname-_0028Function_0029" title="logical-pathname (Function)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="logical-pathname-translations"></a>
+<a name="logical_002dpathname_002dtranslations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="logical_002dpathname-_0028Function_0029.html#logical_002dpathname-_0028Function_0029">logical-pathname (Function)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="load_002dlogical_002dpathname_002dtranslations.html#load_002dlogical_002dpathname_002dtranslations">load-logical-pathname-translations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Filenames.html#Filenames">Filenames</a>
+<hr>
+</div>
+
+<h3 class="heading">logical-pathname-translations (Accessor)</h3>
+
+<p><a name="index-logical_002dpathname_002dtranslations-2506"></a><a name="index-logical_002dpathname_002dtranslations-2507"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>logical-pathname-translations</b><var> host </var><span class="roman">→</span><var> translations<a name="index-logical_002dpathname_002dtranslations-2508"></a></var><br>
+     </div>
+
+<p><tt>(setf (logical-pathname-translations host) new-translations)</tt>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>host</var>&mdash;a <i>logical host designator</i>.
+
+<p><var>translations</var>, <var>new-translations</var>&mdash;a <i>list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns the host's <i>list</i> of translations. 
+Each translation is a <i>list</i> of at least two elements:
+<i>from-wildcard</i> and <i>to-wildcard</i>.  Any
+additional elements are <i>implementation-defined</i>. 
+<i>From-wildcard</i> is a
+<i>logical pathname</i> whose host is <var>host</var>. 
+<i>To-wildcard</i> is a <i>pathname</i>.
+
+<p><code>(setf (logical-pathname-translations </code><var>host</var><code>) </code><i>translations</i><code>)</code> sets a
+<i>logical pathname</i> host's
+<i>list</i> of <i>translations</i>.  If <var>host</var>
+is a <i>string</i> that has
+not been previously used as
+a <i>logical pathname</i> host, a new
+<i>logical pathname</i> host is defined;
+otherwise an existing host's translations are
+replaced.  <i>logical pathname</i> host names are compared with <code>string-equal</code>.
+
+<p>When setting the translations list, each <i>from-wildcard</i>
+can be a <i>logical pathname</i> whose
+host is <var>host</var> or a <i>logical pathname</i> namestring
+parseable by <code>(parse-namestring </code><i>string</i> <i>host</i><code>)</code>,
+where <i>host</i>
+represents the appropriate <i>object</i> as defined
+by <code>parse-namestring</code>. Each
+<i>to-wildcard</i> can be anything coercible to a
+<i>pathname</i> by
+<code>(pathname </code><i>to-wildcard</i><code>)</code>. 
+If <i>to-wildcard</i> coerces to a <i>logical pathname</i>,
+<code>translate-logical-pathname</code>
+will perform repeated translation steps when
+it uses it.
+
+<p><var>host</var> is either the host component of a
+<i>logical pathname</i> or a
+<i>string</i> that has been defined
+as a <i>logical pathname</i> host name by <code>setf</code> of
+<code>logical-pathname-translations</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> ;;;A very simple example of setting up a logical pathname host.  No
+ ;;;translations are necessary to get around file system restrictions, so
+ ;;;all that is necessary is to specify the root of the physical directory
+ ;;;tree that contains the logical file system.
+ ;;;The namestring syntax on the right-hand side is implementation-dependent.
+ (setf (logical-pathname-translations "foo")
+       '(("**;*.*.*"              "MY-LISPM:&gt;library&gt;foo&gt;**&gt;")))
+ 
+ ;;;Sample use of that logical pathname.  The return value
+ ;;;is implementation-dependent.
+ (translate-logical-pathname "foo:bar;baz;mum.quux.3")
+<span class="roman">→</span> #P"MY-LISPM:&gt;library&gt;foo&gt;bar&gt;baz&gt;mum.quux.3"
+ 
+ 
+ ;;;A more complex example, dividing the files among two file servers
+ ;;;and several different directories.  This Unix doesn't support
+ ;;;:WILD-INFERIORS in the directory, so each directory level must
+ ;;;be translated individually.  No file name or type translations
+ ;;;are required except for .MAIL to .MBX.
+ ;;;The namestring syntax on the right-hand side is implementation-dependent.
+ (setf (logical-pathname-translations "prog")
+       '(("RELEASED;*.*.*"        "MY-UNIX:/sys/bin/my-prog/")
+         ("RELEASED;*;*.*.*"      "MY-UNIX:/sys/bin/my-prog/*/")
+         ("EXPERIMENTAL;*.*.*"    "MY-UNIX:/usr/Joe/development/prog/")
+         ("EXPERIMENTAL;DOCUMENTATION;*.*.*"
+                                  "MY-VAX:SYS$DISK:[JOE.DOC]")
+         ("EXPERIMENTAL;*;*.*.*"  "MY-UNIX:/usr/Joe/development/prog/*/")
+         ("MAIL;**;*.MAIL"        "MY-VAX:SYS$DISK:[JOE.MAIL.PROG...]*.MBX")))
+ 
+ ;;;Sample use of that logical pathname.  The return value
+ ;;;is implementation-dependent.
+ (translate-logical-pathname "prog:mail;save;ideas.mail.3")
+<span class="roman">→</span> #P"MY-VAX:SYS$DISK:[JOE.MAIL.PROG.SAVE]IDEAS.MBX.3"
+ 
+ 
+ ;;;Example translations for a program that uses three files main.lisp,
+ ;;;auxiliary.lisp, and documentation.lisp.  These translations might be
+ ;;;supplied by a software supplier as examples.
+ 
+ ;;;For Unix with long file names
+ (setf (logical-pathname-translations "prog")
+       '(("CODE;*.*.*"             "/lib/prog/")))
+ 
+ ;;;Sample use of that logical pathname.  The return value
+ ;;;is implementation-dependent.
+ (translate-logical-pathname "prog:code;documentation.lisp")
+<span class="roman">→</span> #P"/lib/prog/documentation.lisp"
+ 
+ ;;;For Unix with 14-character file names, using .lisp as the type
+ (setf (logical-pathname-translations "prog")
+       '(("CODE;DOCUMENTATION.*.*" "/lib/prog/docum.*")
+         ("CODE;*.*.*"             "/lib/prog/")))
+
+ ;;;Sample use of that logical pathname.  The return value
+ ;;;is implementation-dependent.
+ (translate-logical-pathname "prog:code;documentation.lisp")
+<span class="roman">→</span> #P"/lib/prog/docum.lisp"
+ 
+ 
+ ;;;For Unix with 14-character file names, using .l as the type
+ ;;;The second translation shortens the compiled file type to .b
+ (setf (logical-pathname-translations "prog")
+       `(("**;*.LISP.*"            ,(logical-pathname "PROG:**;*.L.*"))
+         (,(compile-file-pathname (logical-pathname "PROG:**;*.LISP.*"))
+                                   ,(logical-pathname "PROG:**;*.B.*"))
+         ("CODE;DOCUMENTATION.*.*" "/lib/prog/documentatio.*")
+         ("CODE;*.*.*"             "/lib/prog/")))
+ 
+ ;;;Sample use of that logical pathname.  The return value
+ ;;;is implementation-dependent.
+ (translate-logical-pathname "prog:code;documentation.lisp")
+<span class="roman">→</span> #P"/lib/prog/documentatio.l"
+ 
+ 
+ ;;;For a Cray with 6 character names and no directories, types, or versions.
+ (setf (logical-pathname-translations "prog")
+       (let ((l '(("MAIN" "PGMN")
+                  ("AUXILIARY" "PGAUX")
+                  ("DOCUMENTATION" "PGDOC")))
+             (logpath (logical-pathname "prog:code;"))
+             (phypath (pathname "XXX")))
+         (append
+           ;; Translations for source files
+           (mapcar #'(lambda (x)
+                       (let ((log (first x))
+                             (phy (second x)))
+                         (list (make-pathname :name log
+                                              :type "LISP"
+                                              :version :wild
+                                              :defaults logpath)
+                               (make-pathname :name phy
+                                              :defaults phypath))))
+                   l)
+           ;; Translations for compiled files
+           (mapcar #'(lambda (x)
+                       (let* ((log (first x))
+                              (phy (second x))
+                              (com (compile-file-pathname
+                                     (make-pathname :name log
+                                                    :type "LISP"
+                                                    :version :wild
+                                                    :defaults logpath))))
+                         (setq phy (concatenate 'string phy "B"))
+                         (list com
+                               (make-pathname :name phy
+                                              :defaults phypath))))
+                   l))))
+
+ ;;;Sample use of that logical pathname.  The return value
+ ;;;is implementation-dependent.
+ (translate-logical-pathname "prog:code;documentation.lisp")
+<span class="roman">→</span> #P"PGDOC"
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>host</var> is incorrectly supplied,
+an error of <i>type</i> <code>type-error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Implementations can define additional <i>functions</i>
+that operate on <i>logical pathname</i> hosts,
+for example to specify additional translation rules or options.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/logical_002dpathname_002dtranslations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:26 GMT -->
+</html>
+

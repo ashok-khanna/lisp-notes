@@ -1,0 +1,195 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/print_002dobject.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:49 GMT -->
+<head>
+<title>print-object - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="pprint_002dtab.html#pprint_002dtab" title="pprint-tab">
+<link rel="next" href="print_002dunreadable_002dobject.html#print_002dunreadable_002dobject" title="print-unreadable-object">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="print-object"></a>
+<a name="print_002dobject"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="print_002dunreadable_002dobject.html#print_002dunreadable_002dobject">print-unreadable-object</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pprint_002dtab.html#pprint_002dtab">pprint-tab</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">print-object (Standard Generic Function)</h3>
+
+<p><a name="index-print_002dobject-2923"></a><a name="index-print_002dobject-2924"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Generic Function: <b>print-object</b><var> object stream </var><span class="roman">→</span><var> object<a name="index-print_002dobject-2925"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Method Signatures:</h5>
+
+<p>print-object <tt>(</tt><var>object</var> standard-object<tt>)</tt> <var>stream</var>
+ print-object <tt>(</tt><var>object</var> structure-object<tt>)</tt> <var>stream</var>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>stream</var>&mdash;a <i>stream</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The <i>generic function</i> <code>print-object</code> writes the printed representation of <var>object</var>
+to <var>stream</var>. 
+The <i>function</i> <code>print-object</code> is called by the <i>Lisp printer</i>;
+it should not be called by the user.
+
+<p>Each implementation is required to provide a <i>method</i> on
+the <i>class</i> <code>standard-object</code> and on the <i>class</i> <code>structure-object</code>. 
+In addition, each <i>implementation</i> must provide
+<i>methods</i> on enough other <i>classes</i>
+so as to ensure that there is always an applicable <i>method</i>. 
+Implementations are free to add <i>methods</i> for other <i>classes</i>. 
+Users may write <i>methods</i> for <code>print-object</code> for their own
+<i>classes</i> if they do not wish to inherit an
+<i>implementation-dependent</i> <i>method</i>.
+
+<p>The <i>method</i> on the <i>class</i> <code>structure-object</code> prints the object in the
+default <code>#S</code> notation; see <a href="PrintingStructures.html#PrintingStructures">Section 22.1.3.12 (Printing Structures)</a>.
+
+<p><i>Methods</i> on <code>print-object</code> are responsible for implementing
+their part of the semantics of the <i>printer control variables</i>, as follows:
+
+     <dl>
+<dt><code>*print-readably*</code><dd>
+
+     <p>All methods for <code>print-object</code> must obey <code>*print-readably*</code>. 
+This includes both user-defined methods and <i>implementation-defined</i> methods. 
+Readable printing of <i>structures</i> and <i>standard objects</i>
+is controlled by their <code>print-object</code> method,
+not by their <code>make-load-form</code> <i>method</i>. 
+<i>Similarity</i> for these <i>objects</i> is application dependent
+and hence is defined to be whatever these <i>methods</i> do;
+see <a href="Similarity.html#Similarity">Section 3.2.4.2 (Similarity of Literal Objects)</a>.
+
+     <br><dt><code>*print-escape*</code><dd>
+
+     <p>Each <i>method</i> must implement <code>*print-escape*</code>.
+
+     <br><dt><code>*print-pretty*</code><dd>
+
+     <p>The <i>method</i> may wish to perform specialized line breaking
+or other output conditional on the <i>value</i> of <code>*print-pretty*</code>. 
+For further information,
+see (for example) the <i>macro</i> <code>pprint-fill</code>. 
+See also <a href="PPrintDispatchTables.html#PPrintDispatchTables">Section 22.2.1.4 (Pretty Print Dispatch Tables)</a>&nbsp;<!-- /@w -->and <a href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer">Section 22.2.2 (Examples of using the Pretty Printer)</a>.
+
+     <br><dt><code>*print-length*</code><dd>
+
+     <p><i>Methods</i> that produce output of indefinite length must obey
+<code>*print-length*</code>. 
+For further information,
+see (for example) the <i>macros</i> <code>pprint-logical-block</code>
+and <code>pprint-pop</code>. 
+See also <a href="PPrintDispatchTables.html#PPrintDispatchTables">Section 22.2.1.4 (Pretty Print Dispatch Tables)</a>&nbsp;<!-- /@w -->and <a href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer">Section 22.2.2 (Examples of using the Pretty Printer)</a>.
+
+     <br><dt><code>*print-level*</code><dd>
+
+     <p>The printer takes care of <code>*print-level*</code> automatically,
+provided that each <i>method</i> handles exactly one level of structure and
+calls <code>write</code> (or an equivalent <i>function</i>) recursively if
+there are more structural levels.  The printer's decision of whether an
+<i>object</i> has components (and therefore should not be printed when the
+printing depth is not less than <code>*print-level*</code>) is
+<i>implementation-dependent</i>.  In some implementations its
+<code>print-object</code> <i>method</i> is not called;
+in others the <i>method</i> is called,
+and the determination that the <i>object</i> has components is based on what
+it tries to write to the <var>stream</var>.
+
+     <br><dt><code>*print-circle*</code><dd>
+
+     <p>When the <i>value</i> of <code>*print-circle*</code> is <i>true</i>,
+a user-defined
+<code>print-object</code> <i>method</i>
+can print <i>objects</i> to the supplied <i>stream</i>
+using <code>write</code>,
+<code>prin1</code>,
+<code>princ</code>,
+or <code>format</code>
+and expect circularities to be detected
+and printed using the <code>#</code><i>n</i><code>#</code> syntax. 
+If a user-defined
+<code>print-object</code> <i>method</i>
+prints to a <i>stream</i> other than the one
+that was supplied, then circularity detection starts over for that
+<i>stream</i>.  See <code>*print-circle*</code>.
+
+     <br><dt><code>*print-base*</code>, <code>*print-radix*</code>, <code>*print-case*</code>,  <code>*print-gensym*</code>, and <code>*print-array*</code><dd>
+
+     <p>These <i>printer control variables</i> apply to specific types of <i>objects</i>
+and are handled by the <i>methods</i> for those <i>objects</i>. 
+</dl>
+
+<p>If these rules are not obeyed, the results are undefined.
+
+<p>In general, the printer and the <code>print-object</code> methods should not
+rebind the print control variables as they operate recursively through the
+structure, but this is <i>implementation-dependent</i>.
+
+<p>In some implementations the <var>stream</var> argument passed to a
+<code>print-object</code> <i>method</i> is not the original <i>stream</i>,
+but is an intermediate <i>stream</i> that implements part of the printer. 
+<i>methods</i> should therefore not depend on the identity of this <i>stream</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="pprint_002dfill.html#pprint_002dfill">pprint-fill</a>,
+<a href="pprint_002dlogical_002dblock.html#pprint_002dlogical_002dblock">pprint-logical-block</a>,
+<a href="pprint_002dpop.html#pprint_002dpop">pprint-pop</a>,
+<a href="write.html#write">write</a>,
+<a href="_002aprint_002dreadably_002a.html#g_t_002aprint_002dreadably_002a">*print-readably*</a>,
+<a href="_002aprint_002descape_002a.html#g_t_002aprint_002descape_002a">*print-escape*</a>,
+<a href="_002aprint_002dpretty_002a.html#g_t_002aprint_002dpretty_002a">*print-pretty*</a>,
+<a href="_002aprint_002dlength_002a.html#g_t_002aprint_002dlength_002a">*print-length*</a>,
+<a href="Default-Print_002dObject-Methods.html#Default-Print_002dObject-Methods">Section 22.1.3 (Default Print-Object Methods)</a>,
+<a href="PrintingStructures.html#PrintingStructures">Section 22.1.3.12 (Printing Structures)</a>,
+<a href="PPrintDispatchTables.html#PPrintDispatchTables">Section 22.2.1.4 (Pretty Print Dispatch Tables)</a>,
+<a href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer">Section 22.2.2 (Examples of using the Pretty Printer)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/print_002dobject.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+</html>
+

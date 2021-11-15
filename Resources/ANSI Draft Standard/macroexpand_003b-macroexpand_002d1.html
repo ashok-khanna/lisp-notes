@@ -1,0 +1,212 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/macroexpand_003b-macroexpand_002d1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:06 GMT -->
+<head>
+<title>macroexpand; macroexpand-1 - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="macro_002dfunction.html#macro_002dfunction" title="macro-function">
+<link rel="next" href="define_002dsymbol_002dmacro.html#define_002dsymbol_002dmacro" title="define-symbol-macro">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="macroexpand%3b-macroexpand-1"></a>
+<a name="macroexpand_003b-macroexpand_002d1"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="define_002dsymbol_002dmacro.html#define_002dsymbol_002dmacro">define-symbol-macro</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="macro_002dfunction.html#macro_002dfunction">macro-function</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">macroexpand, macroexpand-1 (Function)</h3>
+
+<p><a name="index-macroexpand-273"></a><a name="index-macroexpand-274"></a><a name="index-macroexpand_002d1-275"></a><a name="index-macroexpand_002d1-276"></a><a name="macroexpand"></a><a name="macroexpand_002d1"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>macroexpand</b><var> form </var><tt>&amp;optional</tt><var> env </var><span class="roman">→</span><var> expansion, expanded-p<a name="index-macroexpand-277"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>macroexpand-1</b><var> form </var><tt>&amp;optional</tt><var> env </var><span class="roman">→</span><var> expansion, expanded-p<a name="index-macroexpand_002d1-278"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<p><var>env</var>&mdash;an <i>environment</i> <i>object</i>. 
+The default is <code>nil</code>.
+
+<p><var>expansion</var>&mdash;a <i>form</i>.
+
+<p><var>expanded-p</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>macroexpand</code> and <code>macroexpand-1</code> expand <i>macros</i>.
+
+<p>If <var>form</var> is a <i>macro form</i>,
+then <code>macroexpand-1</code> expands the <i>macro form</i> call once.
+
+<p><code>macroexpand</code>
+repeatedly expands <var>form</var> until it is no longer a <i>macro form</i>. 
+In effect, <code>macroexpand</code> calls <code>macroexpand-1</code> repeatedly
+until the <i>secondary value</i> it returns is <code>nil</code>.
+
+<p>If <var>form</var> is a <i>macro form</i>,
+then the <var>expansion</var> is a <i>macro expansion</i>
+and <var>expanded-p</var> is <i>true</i>. 
+Otherwise,
+the <var>expansion</var> is the given <var>form</var>
+and <var>expanded-p</var> is <i>false</i>.
+
+<p>Macro expansion is carried out as follows. 
+Once <code>macroexpand-1</code> has
+determined that the <var>form</var> is a <i>macro form</i>,
+it obtains an appropriate expansion <i>function</i> for the
+<i>macro</i> or <i>symbol macro</i>. 
+The value of
+<code>*macroexpand-hook*</code> is
+coerced to a <i>function</i> and
+then called as a <i>function</i> of three arguments:
+the expansion <i>function</i>,
+the <var>form</var>,
+and the <var>env</var>. 
+The <i>value</i> returned from this call is taken to be the expansion
+of the <var>form</var>.
+
+<p>In addition to <i>macro</i> definitions in the global environment,
+any local macro definitions established within <var>env</var> by <code>macrolet</code>
+or <code>symbol-macrolet</code> are considered. 
+If only <var>form</var> is supplied as an argument,
+then the environment is effectively null, and only global macro definitions
+as established by <code>defmacro</code> are considered. 
+<i>Macro</i> definitions are shadowed by local <i>function</i> definitions.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defmacro alpha (x y) `(beta ,x ,y)) <span class="roman">→</span> ALPHA
+ (defmacro beta (x y) `(gamma ,x ,y)) <span class="roman">→</span> BETA
+ (defmacro delta (x y) `(gamma ,x ,y)) <span class="roman">→</span> EPSILON
+ (defmacro expand (form &amp;environment env)
+   (multiple-value-bind (expansion expanded-p)
+       (macroexpand form env)
+     `(values ',expansion ',expanded-p))) <span class="roman">→</span> EXPAND
+ (defmacro expand-1 (form &amp;environment env)
+   (multiple-value-bind (expansion expanded-p)
+       (macroexpand-1 form env)
+     `(values ',expansion ',expanded-p))) <span class="roman">→</span> EXPAND-1
+ 
+ 
+;; Simple examples involving just the global environment
+ (macroexpand-1 '(alpha a b)) <span class="roman">→</span> (BETA A B), <i>true</i>
+ (expand-1 (alpha a b)) <span class="roman">→</span> (BETA A B), <i>true</i>
+ (macroexpand '(alpha a b)) <span class="roman">→</span> (GAMMA A B), <i>true</i>
+ (expand (alpha a b)) <span class="roman">→</span> (GAMMA A B), <i>true</i>
+ (macroexpand-1 'not-a-macro) <span class="roman">→</span> NOT-A-MACRO, <i>false</i>
+ (expand-1 not-a-macro) <span class="roman">→</span> NOT-A-MACRO, <i>false</i>
+ (macroexpand '(not-a-macro a b)) <span class="roman">→</span> (NOT-A-MACRO A B), <i>false</i>
+ (expand (not-a-macro a b)) <span class="roman">→</span> (NOT-A-MACRO A B), <i>false</i>
+ 
+ 
+;; Examples involving lexical environments
+ (macrolet ((alpha (x y) `(delta ,x ,y)))
+   (macroexpand-1 '(alpha a b))) <span class="roman">→</span> (BETA A B), <i>true</i>
+ (macrolet ((alpha (x y) `(delta ,x ,y)))
+   (expand-1 (alpha a b))) <span class="roman">→</span> (DELTA A B), <i>true</i>
+ (macrolet ((alpha (x y) `(delta ,x ,y)))
+   (macroexpand '(alpha a b))) <span class="roman">→</span> (GAMMA A B), <i>true</i>
+ (macrolet ((alpha (x y) `(delta ,x ,y)))
+   (expand (alpha a b))) <span class="roman">→</span> (GAMMA A B), <i>true</i>
+ (macrolet ((beta (x y) `(epsilon ,x ,y)))
+   (expand (alpha a b))) <span class="roman">→</span> (EPSILON A B), <i>true</i>
+ (let ((x (list 1 2 3)))
+   (symbol-macrolet ((a (first x)))
+     (expand a))) <span class="roman">→</span> (FIRST X), <i>true</i>
+ (let ((x (list 1 2 3)))
+   (symbol-macrolet ((a (first x)))
+     (macroexpand 'a))) <span class="roman">→</span> A, <i>false</i>
+ (symbol-macrolet ((b (alpha x y)))
+   (expand-1 b)) <span class="roman">→</span> (ALPHA X Y), <i>true</i>
+ (symbol-macrolet ((b (alpha x y)))
+   (expand b)) <span class="roman">→</span> (GAMMA X Y), <i>true</i>
+ (symbol-macrolet ((b (alpha x y))
+                   (a b))
+   (expand-1 a)) <span class="roman">→</span> B, <i>true</i>
+ (symbol-macrolet ((b (alpha x y))
+                   (a b))
+   (expand a)) <span class="roman">→</span> (GAMMA X Y), <i>true</i>
+ 
+ 
+;; Examples of shadowing behavior
+ (flet ((beta (x y) (+ x y)))
+   (expand (alpha a b))) <span class="roman">→</span> (BETA A B), <i>true</i>
+ (macrolet ((alpha (x y) `(delta ,x ,y)))
+   (flet ((alpha (x y) (+ x y)))
+     (expand (alpha a b)))) <span class="roman">→</span> (ALPHA A B), <i>false</i>
+ (let ((x (list 1 2 3)))
+   (symbol-macrolet ((a (first x)))
+     (let ((a x))
+       (expand a)))) <span class="roman">→</span> A, <i>false</i>
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>defmacro</code>,
+<code>setf</code> of <code>macro-function</code>,
+<code>macrolet</code>,
+<code>symbol-macrolet</code>
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="_002amacroexpand_002dhook_002a.html#g_t_002amacroexpand_002dhook_002a">*macroexpand-hook*</a>,
+<a href="defmacro.html#defmacro">defmacro</a>,
+<a href="setf.html#setf">setf</a> of <a href="macro_002dfunction.html#macro_002dfunction">macro-function</a>,
+<a href="macrolet.html#macrolet">macrolet</a>,
+<a href="symbol_002dmacrolet.html#symbol_002dmacrolet">symbol-macrolet</a>,
+<a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Neither <code>macroexpand</code> nor <code>macroexpand-1</code>
+makes any explicit attempt to expand <i>macro forms</i> that are
+either <i>subforms</i> of the <var>form</var>
+or <i>subforms</i> of the <var>expansion</var>. 
+Such expansion might occur implicitly, however,
+due to the semantics or implementation of the <i>macro function</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/macroexpand_003b-macroexpand_002d1.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:07 GMT -->
+</html>
+

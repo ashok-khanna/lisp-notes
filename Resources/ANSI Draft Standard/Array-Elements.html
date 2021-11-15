@@ -1,0 +1,128 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Array-Elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Array Elements - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Array-Concepts.html#Array-Concepts" title="Array Concepts">
+<link rel="next" href="Specialized-Arrays.html#Specialized-Arrays" title="Specialized Arrays">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Array-Elements"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Specialized-Arrays.html#Specialized-Arrays">Specialized Arrays</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Array-Concepts.html#Array-Concepts">Array Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">15.1.1 Array Elements</h4>
+
+<p>An <i>array</i> contains a set of <i>objects</i> called <i>elements</i>
+that can be referenced individually according to a rectilinear coordinate system.
+
+<h5 class="subsubsection">15.1.1.1 Array Indices</h5>
+
+<p>An <i>array</i> <i>element</i> is referred to by a (possibly empty) series of indices. 
+The length of the series must equal the <i>rank</i> of the <i>array</i>. 
+Each index must be a non-negative <i>fixnum</i>
+less than the corresponding <i>array</i> <i>dimension</i>. 
+<i>Array</i> indexing is zero-origin.
+
+<h5 class="subsubsection">15.1.1.2 Array Dimensions</h5>
+
+<p>An axis of an <i>array</i> is called a <a name="index-dimension-2053"></a><dfn>dimension</dfn>.
+
+<p>Each <i>dimension</i> is a non-negative
+<i>fixnum</i>;
+if any dimension of an <i>array</i> is zero, the <i>array</i> has no elements. 
+It is permissible for a <i>dimension</i> to be zero,
+in which case the <i>array</i> has no elements,
+and any attempt to <i>access</i> an <i>element</i>
+is an error.  However, other properties of the <i>array</i>,
+such as the <i>dimensions</i> themselves, may be used.
+
+<h5 class="unnumberedsubsubsec">15.1.1.2.1 Implementation Limits on Individual Array Dimensions</h5>
+
+<p>An <i>implementation</i> may impose a limit on <i>dimensions</i> of an <i>array</i>,
+but there is a minimum requirement on that limit.  See the <i>variable</i> <a href="array_002ddimension_002dlimit.html#array_002ddimension_002dlimit">array-dimension-limit</a>.
+
+<h5 class="subsubsection">15.1.1.3 Array Rank</h5>
+
+<p>An <i>array</i> can have any number of <i>dimensions</i> (including zero). 
+The number of <i>dimensions</i> is called the <a name="index-rank-2054"></a><dfn>rank</dfn>.
+
+<p>If the rank of an <i>array</i> is zero then the <i>array</i> is said to have
+no <i>dimensions</i>, and the product of the dimensions (see <code>array-total-size</code>)
+is then 1; a zero-rank <i>array</i> therefore has a single element.
+
+<h5 class="unnumberedsubsubsec">15.1.1.3.1 Vectors</h5>
+
+<p>An <i>array</i> of <i>rank</i> one (<i>i.e.</i>, a one-dimensional <i>array</i>)
+is called a <a name="index-vector-2055"></a><dfn>vector</dfn>.
+
+<h5 class="unnumberedsubsubsec">15.1.1.3.1.1 Fill Pointers</h5>
+
+<p>A <a name="index-fill-pointer-2056"></a><dfn>fill pointer</dfn> is a non-negative <i>integer</i> no
+larger than the total number of <i>elements</i> in a <i>vector</i>. 
+Not all <i>vectors</i> have <i>fill pointers</i>. 
+See the <i>functions</i> <a href="make_002darray.html#make_002darray">make-array</a> and <code>adjust-array</code>.
+
+<p>An <i>element</i> of a <i>vector</i> is said to be <a name="index-active-2057"></a><dfn>active</dfn> if it has
+an index that is greater than or equal to zero,
+but less than the <i>fill pointer</i> (if any). 
+For an <i>array</i> that has no <i>fill pointer</i>,
+all <i>elements</i> are considered <i>active</i>.
+
+<p>Only <i>vectors</i> may have <i>fill pointers</i>;
+multidimensional <i>arrays</i> may not. 
+A multidimensional <i>array</i> that is displaced to a <i>vector</i>
+that has a <i>fill pointer</i> can be created.
+
+<h5 class="unnumberedsubsubsec">15.1.1.3.2 Multidimensional Arrays</h5>
+
+<h5 class="unnumberedsubsubsec">15.1.1.3.2.1 Storage Layout for Multidimensional Arrays</h5>
+
+<p>Multidimensional <i>arrays</i> store their components in row-major order;
+that is, internally a multidimensional <i>array</i> is stored as a
+one-dimensional <i>array</i>, with the multidimensional index sets
+ordered lexicographically, last index varying fastest.
+
+<h5 class="unnumberedsubsubsec">15.1.1.3.2.2 Implementation Limits on Array Rank</h5>
+
+<p>An <i>implementation</i> may impose a limit on the <i>rank</i> of an <i>array</i>,
+but there is a minimum requirement on that limit.  See the <i>variable</i> <a href="array_002drank_002dlimit.html#array_002drank_002dlimit">array-rank-limit</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Array-Elements.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

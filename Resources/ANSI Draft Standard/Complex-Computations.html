@@ -1,0 +1,150 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Complex-Computations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+<head>
+<title>Complex Computations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Number-Concepts.html#Number-Concepts" title="Number Concepts">
+<link rel="prev" href="Floating_002dpoint-Computations.html#Floating_002dpoint-Computations" title="Floating-point Computations">
+<link rel="next" href="Interval-Designators.html#Interval-Designators" title="Interval Designators">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Complex-Computations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Interval-Designators.html#Interval-Designators">Interval Designators</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Floating_002dpoint-Computations.html#Floating_002dpoint-Computations">Floating-point Computations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Number-Concepts.html#Number-Concepts">Number Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">12.1.5 Complex Computations</h4>
+
+<p>The following rules apply to <i>complex</i> computations:
+
+<h5 class="subsubsection">12.1.5.1 Rule of Complex Substitutability</h5>
+
+<p>Except during the execution of irrational and transcendental <i>functions</i>,
+no numerical <i>function</i> ever <i>yields</i> a <i>complex</i> unless
+one or more of its <i>arguments</i> is a <i>complex</i>.
+
+<h5 class="subsubsection">12.1.5.2 Rule of Complex Contagion</h5>
+
+<p><a name="RuleOfComplexContagion"></a>When a
+<i>real</i>
+and
+a <i>complex</i> are both part of a computation,
+the
+<i>real</i>
+is first converted to a <i>complex</i> by providing an imaginary part of <code>0</code>.
+
+<h5 class="subsubsection">12.1.5.3 Rule of Canonical Representation for Complex Rationals</h5>
+
+<p><a name="RuleOfCanonRepForComplexRationals"></a>If the result of any computation would be a <i>complex</i>
+number whose real part is of <i>type</i> <code>rational</code> and whose imaginary
+part is zero, the result is converted to the <i>rational</i>
+which is the real part. 
+This rule does not apply to <i>complex</i> numbers whose parts
+are <i>floats</i>. 
+For example, <code>#C(5 0)</code> and <code>5</code> are not <i>different</i> <i>objects</i> in <span class="roman">Common Lisp</span>
+(they are always the <i>same</i> under <code>eql</code>);
+<code>#C(5.0 0.0)</code> and <code>5.0</code> are always <i>different</i> <i>objects</i> in <span class="roman">Common Lisp</span>
+(they are never the <i>same</i> under <code>eql</code>,
+although they are the <i>same</i> under <code>equalp</code> and <code>=</code>).
+
+<h5 class="unnumberedsubsubsec">12.1.5.3.1 Examples of Rule of Canonical Representation for Complex Rationals</h5>
+
+<pre class="lisp"> #c(1.0 1.0) <span class="roman">→</span> #C(1.0 1.0)
+ #c(0.0 0.0) <span class="roman">→</span> #C(0.0 0.0)
+ #c(1.0 1) <span class="roman">→</span> #C(1.0 1.0)
+ #c(0.0 0) <span class="roman">→</span> #C(0.0 0.0)
+ #c(1 1) <span class="roman">→</span> #C(1 1)
+ #c(0 0) <span class="roman">→</span> 0
+ (typep #c(1 1) '(complex (eql 1))) <span class="roman">→</span> <i>true</i>
+ (typep #c(0 0) '(complex (eql 0))) <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubsection">12.1.5.4 Principal Values and Branch Cuts</h5>
+
+<p>Many of the irrational and transcendental functions are multiply defined
+in the complex domain; for example, there are in general an infinite
+number of complex values for the logarithm function.  In each such
+case, a <i>principal</i> <i>value</i> must be chosen for the function to return. 
+In general, such values cannot be chosen so as to make the range
+continuous; lines in the domain
+called branch cuts must be defined, which in turn
+define the discontinuities in the range. 
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->defines the branch cuts, <i>principal</i> <i>values</i>, and boundary
+conditions for the complex functions following &ldquo;Principal Values and Branch Cuts in Complex APL.&rdquo; The branch
+cut rules that apply to each function are located with the description of
+that function.
+
+<p>The next figure&nbsp;<!-- /@w -->lists
+the identities that are obeyed
+throughout the applicable portion of the complex domain, even on
+the branch cuts:
+
+<div class="float">
+<a name="fig12_002e9"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">sin i z = i sinh z </td><td valign="top">sinh i z = i sin z </td><td valign="top">arctan  i z = i arctanh z
+<br></td></tr><tr align="left"><td valign="top">cos i z = cosh z </td><td valign="top">cosh i z = cos z </td><td valign="top">arcsinh i z = i arcsin z
+<br></td></tr><tr align="left"><td valign="top">tan i z = i tanh z </td><td valign="top">arcsin i z = i arcsinh z </td><td valign="top">arctanh i z = i arctan z
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.9: Trigonometric Identities for Complex Domain</strong></p></div>
+
+<p>The quadrant numbers referred to in the discussions of branch cuts are as illustrated
+in the next figure.
+
+<div class="float">
+<a name="fig12_002e10"></a>
+<pre class="example">                               Positive
+                            Imaginary Axis
+
+                                   :
+                               II  :  I
+                                   :
+    Negative Real Axis .......................  Positive Real Axis
+                                   :
+                              III  :  IV
+                                   :
+
+                               Negative
+                            Imaginary Axis
+</pre>
+<p><strong class="float-caption">Figure 12.10: Quadrant Numbering for Branch Cuts</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Complex-Computations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+</html>
+

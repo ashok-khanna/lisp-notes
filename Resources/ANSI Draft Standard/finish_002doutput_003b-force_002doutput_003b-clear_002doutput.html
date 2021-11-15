@@ -1,0 +1,121 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+<head>
+<title>finish-output; force-output; clear-output - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="clear_002dinput.html#clear_002dinput" title="clear-input">
+<link rel="next" href="y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp.html#y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp" title="y-or-n-p; yes-or-no-p">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="finish-output%3b-force-output%3b-clear-output"></a>
+<a name="finish_002doutput_003b-force_002doutput_003b-clear_002doutput"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp.html#y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp">y-or-n-p; yes-or-no-p</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="clear_002dinput.html#clear_002dinput">clear-input</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">finish-output, force-output, clear-output (Function)</h3>
+
+<p><a name="index-finish_002doutput-2705"></a><a name="index-finish_002doutput-2706"></a><a name="index-force_002doutput-2707"></a><a name="index-force_002doutput-2708"></a><a name="index-clear_002doutput-2709"></a><a name="index-clear_002doutput-2710"></a><a name="clear_002doutput"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>finish-output</b> <tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span> <code>nil</code><var><a name="index-finish_002doutput-2711"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>force-output</b> <tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span> <code>nil</code><var><a name="index-force_002doutput-2712"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>clear-output</b> <tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span> <code>nil</code><var><a name="index-clear_002doutput-2713"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>output-stream</var>&mdash;an <i>output</i> <i>stream designator</i>. 
+The default is <i>standard output</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>finish-output</code>, <code>force-output</code>, and <code>clear-output</code>
+exercise control over the internal handling of buffered stream output.
+
+<p><code>finish-output</code> attempts to ensure that any buffered output
+sent to <var>output-stream</var> has reached its destination, and then returns.
+
+<p><code>force-output</code> initiates the emptying of any
+internal buffers but does not wait for completion
+or acknowledgment to return.
+
+<p><code>clear-output</code> attempts to abort any
+outstanding output operation in progress in order
+to allow as little output as possible
+to continue to the destination.
+
+<p>If any of these operations does not make sense for <var>output-stream</var>,
+then it does nothing. 
+The precise actions of these <i>functions</i> are <i>implementation-dependent</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;; Implementation A
+ (progn (princ "am i seen?") (clear-output))
+<span class="roman">→</span> NIL
+
+;; Implementation B
+ (progn (princ "am i seen?") (clear-output))
+▷ am i seen?
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-output*</code>
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>output-stream</var> is not a <i>stream designator</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="clear_002dinput.html#clear_002dinput">clear-input</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+</html>
+

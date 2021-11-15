@@ -1,0 +1,110 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/random.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:27 GMT -->
+<head>
+<title>random - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="make_002drandom_002dstate.html#make_002drandom_002dstate" title="make-random-state">
+<link rel="next" href="random_002dstate_002dp.html#random_002dstate_002dp" title="random-state-p">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="random"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="random_002dstate_002dp.html#random_002dstate_002dp">random-state-p</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="make_002drandom_002dstate.html#make_002drandom_002dstate">make-random-state</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">random (Function)</h3>
+
+<p><a name="index-random-1358"></a><a name="index-random-1359"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>random</b><var> limit </var><tt>&amp;optional</tt><var> random-state </var><span class="roman">→</span><var> random-number<a name="index-random-1360"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>limit</var>&mdash;a positive <i>integer</i>,
+or a positive <i>float</i>.
+
+<p><var>random-state</var>&mdash;a <i>random state</i>. 
+The default is the <i>current random state</i>.
+
+<p><var>random-number</var>&mdash;a non-negative <i>number</i>
+less than <var>limit</var>
+and of the same <i>type</i> as <var>limit</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns a pseudo-random number that is a non-negative <i>number</i>
+less than <var>limit</var> and of the same <i>type</i> as <var>limit</var>.
+
+<p>The <var>random-state</var>, which is modified by this function,
+encodes the internal state maintained by the random number generator.
+
+<p>An approximately uniform choice distribution is used.  If <var>limit</var>
+is an <i>integer</i>, each of the possible results occurs with
+(approximate) probability 1/<var>limit</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (&lt;= 0 (random 1000) 1000) <span class="roman">→</span> <i>true</i>
+ (let ((state1 (make-random-state))
+       (state2 (make-random-state)))
+   (= (random 1000 state1) (random 1000 state2))) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The <var>random-state</var> is modified.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>limit</var> is not a positive <i>integer</i> or a positive <i>real</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="make_002drandom_002dstate.html#make_002drandom_002dstate">make-random-state</a>, <a href="_002arandom_002dstate_002a.html#g_t_002arandom_002dstate_002a">*random-state*</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>See <cite>Common Lisp: The Language</cite>&nbsp;<!-- /@w -->for information about generating random numbers.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/random.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:27 GMT -->
+</html>
+

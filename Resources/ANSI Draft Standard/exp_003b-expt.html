@@ -1,0 +1,165 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/exp_003b-expt.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:22 GMT -->
+<head>
+<title>exp; expt - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="evenp_003b-oddp.html#evenp_003b-oddp" title="evenp; oddp">
+<link rel="next" href="gcd.html#gcd" title="gcd">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="exp%3b-expt"></a>
+<a name="exp_003b-expt"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="gcd.html#gcd">gcd</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="evenp_003b-oddp.html#evenp_003b-oddp">evenp; oddp</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">exp, expt (Function)</h3>
+
+<p><a name="index-exp-1317"></a><a name="index-exp-1318"></a><a name="index-expt-1319"></a><a name="index-expt-1320"></a><a name="exp"></a><a name="expt"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>exp</b><var> number </var><span class="roman">→</span><var> result<a name="index-exp-1321"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>expt</b><var> base-number power-number </var><span class="roman">→</span><var> result<a name="index-expt-1322"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>number</var>&mdash;a <i>number</i>.
+
+<p><var>base-number</var>&mdash;a <i>number</i>.
+
+<p><var>power-number</var>&mdash;a <i>number</i>.
+
+<p><var>result</var>&mdash;a <i>number</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>exp</code> and <code>expt</code> perform exponentiation.
+
+<p><code>exp</code> returns <i>e</i> raised to the power <var>number</var>,
+where <i>e</i> is the base of the natural logarithms. 
+<code>exp</code> has no branch cut.
+
+<p><code>expt</code> returns <var>base-number</var>
+raised to the power <var>power-number</var>. 
+If the <var>base-number</var> is a <i>rational</i>
+and <var>power-number</var> is
+an <i>integer</i>,
+the calculation is exact and the result will be of <i>type</i> <code>rational</code>;
+otherwise a floating-point approximation might result. 
+For <code>expt</code> of a <i>complex rational</i> to an <i>integer</i> power,
+the calculation must be exact and the result is
+of type <code>(or rational (complex rational))</code>.
+
+<p>The result of <code>expt</code> can be a <i>complex</i>,
+even when neither argument is a <i>complex</i>,
+if <var>base-number</var> is negative and <var>power-number</var>
+is not an <i>integer</i>. 
+The result is always the <i>principal</i> <i>complex</i> <i>value</i>. 
+For example, <code>(expt -8 1/3)</code> is not permitted to return <code>-2</code>,
+even though <code>-2</code> is one of the cube roots of <code>-8</code>. 
+The <i>principal</i> cube root is a <i>complex</i>
+approximately equal to <code>#C(1.0 1.73205)</code>, not <code>-2</code>.
+
+<p><code>expt</code> is defined
+as <i>b^x = e^x log b</i>. 
+This defines the <i>principal</i> <i>values</i> precisely.  The range of
+<code>expt</code> is the entire complex plane.  Regarded
+as a function of <i>x</i>, with <i>b</i> fixed, there is no branch cut. 
+Regarded as a function of <i>b</i>, with <i>x</i> fixed, there is in general
+a branch cut along the negative real axis, continuous with quadrant II. 
+The domain excludes the origin. 
+By definition, 0^0=1.  If <i>b</i>=0 and the real part of <i>x</i> is strictly
+positive, then
+<i>b^x</i>=0. For all other values of <i>x</i>, 0^<i>x</i>
+is an error.
+
+<p>When <var>power-number</var> is an <i>integer</i> <code>0</code>,
+then the result is always the value one in the <i>type</i>
+of <var>base-number</var>,
+even if the <var>base-number</var> is zero (of any <i>type</i>).  That is:
+
+<pre class="lisp"> (expt x 0) ≡ (coerce 1 (type-of x))
+</pre>
+<p>If <var>power-number</var> is a zero of any other <i>type</i>,
+then the result is also the value one, in the <i>type</i> of the arguments
+after the application of the contagion rules in <a href="NumericContagionRules.html#NumericContagionRules">Section 12.1.1.2 (Contagion in Numeric Operations)</a>,
+with one exception:
+the consequences are undefined if <var>base-number</var> is zero when <var>power-number</var>
+is zero and not of <i>type</i> <code>integer</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (exp 0) <span class="roman">→</span> 1.0
+ (exp 1) <span class="roman">→</span> 2.718282
+ (exp (log 5)) <span class="roman">→</span> 5.0
+ (expt 2 8) <span class="roman">→</span> 256
+ (expt 4 .5) <span class="roman">→</span> 2.0
+ (expt #c(0 1) 2) <span class="roman">→</span> -1
+ (expt #c(2 2) 3) <span class="roman">→</span> #C(-16 16)
+ (expt #c(2 2) 4) <span class="roman">→</span> -64
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="log.html#log">log</a>,
+<a href="FloatSubstitutability.html#FloatSubstitutability">Section 12.1.3.3 (Rule of Float Substitutability)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Implementations of <code>expt</code> are permitted to use different algorithms
+for the cases of a <var>power-number</var> of <i>type</i> <code>rational</code>
+and a <var>power-number</var> of <i>type</i> <code>float</code>.
+
+<p>Note that by the following logic,
+<code>(sqrt (expt </code><i>x</i><code> 3))</code> is not equivalent to
+<code>(expt </code><i>x</i><code> 3/2)</code>.
+
+<pre class="lisp"> (setq x (exp (/ (* 2 pi #c(0 1)) 3)))         ;exp(2.pi.i/3)
+ (expt x 3) <span class="roman">→</span> 1 ;except for round-off error
+ (sqrt (expt x 3)) <span class="roman">→</span> 1 ;except for round-off error
+ (expt x 3/2) <span class="roman">→</span> -1 ;except for round-off error
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/exp_003b-expt.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:22 GMT -->
+</html>
+

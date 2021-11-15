@@ -1,0 +1,115 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Effect-of-Readtable-Case-on-the-Lisp-Reader.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+<head>
+<title>Effect of Readtable Case on the Lisp Reader - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Reader-Concepts.html#Reader-Concepts" title="Reader Concepts">
+<link rel="prev" href="Dynamic-Control-of-the-Lisp-Reader.html#Dynamic-Control-of-the-Lisp-Reader" title="Dynamic Control of the Lisp Reader">
+<link rel="next" href="Argument-Conventions-of-Some-Reader-Functions.html#Argument-Conventions-of-Some-Reader-Functions" title="Argument Conventions of Some Reader Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Effect-of-Readtable-Case-on-the-Lisp-Reader"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Argument-Conventions-of-Some-Reader-Functions.html#Argument-Conventions-of-Some-Reader-Functions">Argument Conventions of Some Reader Functions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Dynamic-Control-of-the-Lisp-Reader.html#Dynamic-Control-of-the-Lisp-Reader">Dynamic Control of the Lisp Reader</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Reader-Concepts.html#Reader-Concepts">Reader Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">23.1.2 Effect of Readtable Case on the Lisp Reader</h4>
+
+<p>The <i>readtable case</i> of the <i>current readtable</i> affects the <i>Lisp reader</i>
+in the following ways:
+
+     <dl>
+<dt><tt>:upcase</tt><dd>
+
+     <p>When the <i>readtable case</i> is <tt>:upcase</tt>,
+unescaped constituent <i>characters</i> are converted to <i>uppercase</i>,
+as specified in <a href="Reader-Algorithm.html#Reader-Algorithm">Section 2.2 (Reader Algorithm)</a>.
+
+     <br><dt><tt>:downcase</tt><dd>
+
+     <p>When the <i>readtable case</i> is <tt>:downcase</tt>,
+unescaped constituent <i>characters</i> are converted to <i>lowercase</i>.
+
+     <br><dt><tt>:preserve</tt><dd>
+
+     <p>When the <i>readtable case</i> is <tt>:preserve</tt>,
+the case of all <i>characters</i> remains unchanged.
+
+     <br><dt><tt>:invert</tt><dd>
+
+     <p>When the <i>readtable case</i> is <tt>:invert</tt>,
+then if all of the unescaped letters in the extended token are of the same <i>case</i>,
+those (unescaped) letters are converted to the opposite <i>case</i>. 
+</dl>
+
+<h5 class="subsubsection">23.1.2.1 Examples of Effect of Readtable Case on the Lisp Reader</h5>
+
+<p><a name="ReadtableCaseReadExamples"></a>
+<pre class="lisp"> (defun test-readtable-case-reading ()
+   (let ((*readtable* (copy-readtable nil)))
+     (format t "READTABLE-CASE  Input   Symbol-name~
+              ~%-----------------------------------~
+              ~%")
+     (dolist (readtable-case '(:upcase :downcase :preserve :invert))
+       (setf (readtable-case *readtable*) readtable-case)
+       (dolist (input '("ZEBRA" "Zebra" "zebra"))
+         (format t "~&amp;:~A~16T~A~24T~A"
+                 (string-upcase readtable-case)
+                 input
+                 (symbol-name (read-from-string input)))))))
+</pre>
+<p>The output from <code>(test-readtable-case-reading)</code> should be as follows:
+
+<pre class="lisp"> READTABLE-CASE     Input Symbol-name
+ -------------------------------------
+    :UPCASE         ZEBRA   ZEBRA
+    :UPCASE         Zebra   ZEBRA
+    :UPCASE         zebra   ZEBRA
+    :DOWNCASE       ZEBRA   zebra
+    :DOWNCASE       Zebra   zebra
+    :DOWNCASE       zebra   zebra
+    :PRESERVE       ZEBRA   ZEBRA
+    :PRESERVE       Zebra   Zebra
+    :PRESERVE       zebra   zebra
+    :INVERT         ZEBRA   zebra
+    :INVERT         Zebra   Zebra
+    :INVERT         zebra   ZEBRA
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Effect-of-Readtable-Case-on-the-Lisp-Reader.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+</html>
+

@@ -1,0 +1,348 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Floating_002dPoint-Printers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>FORMAT Floating-Point Printers - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Radix-Control.html#FORMAT-Radix-Control" title="FORMAT Radix Control">
+<link rel="next" href="FORMAT-Printer-Operations.html#FORMAT-Printer-Operations" title="FORMAT Printer Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Floating-Point-Printers"></a>
+<a name="FORMAT-Floating_002dPoint-Printers"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Printer-Operations.html#FORMAT-Printer-Operations">FORMAT Printer Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Radix-Control.html#FORMAT-Radix-Control">FORMAT Radix Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.3 FORMAT Floating-Point Printers</h4>
+
+<h5 class="subsubsection">22.3.3.1 Tilde F: Fixed-Format Floating-Point</h5>
+
+<p><a name="index-F-_0028format-directive_0029-2827"></a><a name="index-Tilde-F-_0028format-directive_0029-2828"></a>
+The next <i>arg</i> is printed as a <i>float</i>.
+
+<p>The full form is <code>~</code><i>w</i><code>,</code><i>d</i><code>,</code><i>k</i><code>,</code><i>overflowchar</i><code>,</code><i>padchar</i><code>F</code>. 
+The parameter <i>w</i>
+is the width of the field to be printed; <i>d</i> is the number
+of digits to print after the decimal point; <i>k</i> is a scale factor
+that defaults to zero.
+
+<p>Exactly <i>w</i> characters will
+be output.  First, leading copies of the character <i>padchar</i>
+(which defaults to a space) are printed, if necessary, to pad the
+field on the left. 
+If the <i>arg</i> is negative, then a minus sign is printed;
+if the <i>arg</i> is not negative, then a plus sign is printed
+if and only if the <code>@</code>
+modifier was supplied.  Then a sequence
+of digits, containing a single embedded decimal point, is printed;
+this represents the magnitude of the value of <i>arg</i> times 10^<i>k</i>,
+rounded to <i>d</i> fractional digits. 
+When rounding up and rounding down would produce printed values
+equidistant from the scaled value of <i>arg</i>, then the implementation
+is free to use either one.  For example, printing the argument
+<code>6.375</code> using the format <code>~4,2F</code> may correctly produce
+either <code>6.37</code> or <code>6.38</code>. 
+Leading zeros are not permitted, except that a single
+zero digit is output before the decimal point if the printed value
+is less than one, and this single zero digit is not output
+at all if <i>w</i>=<i>d</i>+1.
+
+<p>If it is impossible to print the value in the required format in a field
+of width <i>w</i>, then one of two actions is taken.  If the
+parameter <i>overflowchar</i> is supplied, then <i>w</i> copies of that
+parameter are printed instead of the scaled value of <i>arg</i>. 
+If the <i>overflowchar</i> parameter is omitted, then the scaled value
+is printed using more than <i>w</i> characters, as many more as may be
+needed.
+
+<p>If the <i>w</i> parameter is omitted, then the field is of variable width. 
+In effect, a value is chosen
+for <i>w</i> in such a way that no leading pad characters need to be printed
+and exactly <i>d</i> characters will follow the decimal point. 
+For example, the directive <code>~,2F</code> will print exactly
+two digits after the decimal point and as many as necessary before the
+decimal point.
+
+<p>If the parameter <i>d</i> is omitted, then there is no constraint
+on the number of digits to appear after the decimal point. 
+A value is chosen for <i>d</i> in such a way that as many digits
+as possible may be printed subject to the width constraint
+imposed by the parameter <i>w</i> and the constraint that no trailing
+zero digits may appear in the fraction, except that if the
+fraction to be printed is zero, then a single zero digit should
+appear after the decimal point if permitted by the width constraint.
+
+<p>If both <i>w</i> and <i>d</i> are omitted, then the effect is to print
+the value using ordinary free-format output; <code>prin1</code> uses this format
+for any number whose magnitude is either zero or between
+10^-3 (inclusive) and 10^7 (exclusive).
+
+<p>If <i>w</i> is omitted, then if the magnitude of <i>arg</i> is so large (or, if
+<i>d</i> is also omitted, so small) that more than 100 digits would have to
+be printed, then an implementation is free, at its discretion, to print
+the number using exponential notation instead, as if by the directive
+<code>~E</code> (with all parameters to <code>~E</code> defaulted, not
+taking their values from the <code>~F</code> directive).
+
+<p>If <i>arg</i> is a <i>rational</i>
+number, then it is coerced to be a <i>single float</i>
+and then printed.  Alternatively, an implementation is permitted to
+process a <i>rational</i>
+number by any other method that has essentially the
+same behavior but avoids loss of precision or overflow
+because of the coercion.  If <i>w</i> and <i>d</i> are
+not supplied and the number has no exact decimal representation,
+for example <code>1/3</code>, some precision cutoff must be chosen
+by the implementation since only a finite number of digits may be printed.
+
+<p>If <i>arg</i> is a <i>complex</i> number or some non-numeric
+<i>object</i>,
+then it is printed using the format directive <code>~</code><i>w</i><code>D</code>,
+thereby printing it in decimal radix and a minimum field width of <i>w</i>.
+
+<p><code>~F</code> binds
+<code>*print-escape*</code> to <i>false</i>
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.3.2 Tilde E: Exponential Floating-Point</h5>
+
+<p><a name="index-E-_0028format-directive_0029-2829"></a><a name="index-Tilde-E-_0028format-directive_0029-2830"></a>
+The next <i>arg</i> is printed as a <i>float</i> in exponential notation.
+
+<p>The full form is
+<code>~</code><i>w</i><code>,</code><i>d</i><code>,</code><i>e</i><code>,</code><i>k</i><code>,</code><i>overflowchar</i><code>,</code><i>padchar</i><code>,</code><i>exponentchar</i><code>E</code>. 
+The parameter <i>w</i>
+is the width of the field to be printed; <i>d</i> is the number
+of digits to print after the decimal point; <i>e</i> is the number
+of digits to use when printing the exponent;
+<i>k</i> is a scale factor that defaults to one (not zero).
+
+<p>Exactly <i>w</i> characters will
+be output.  First, leading copies of the character <i>padchar</i>
+(which defaults to a space) are printed, if necessary, to pad the
+field on the left. 
+If the <i>arg</i> is negative, then a minus sign is printed;
+if the <i>arg</i> is not negative, then a plus sign is printed
+if and only if the <code>@</code>
+modifier was supplied.  Then a sequence
+of digits containing a single embedded decimal point is printed. 
+The form of this sequence of digits depends on the scale factor <i>k</i>. 
+If <i>k</i> is zero, then <i>d</i> digits are printed after the decimal
+point, and a single zero digit appears before the decimal point if
+the total field width will permit it.  If <i>k</i> is positive,
+then it must be strictly less than <i>d</i>+2;  <i>k</i> significant digits
+are printed before the decimal point, and <i>d</i>&minus; <i>k</i>+1
+digits are printed after the decimal point.  If <i>k</i> is negative,
+then it must be strictly greater than &minus; <i>d</i>;
+a single zero digit appears before the decimal point if
+the total field width will permit it, and after the decimal point
+are printed first
+&minus; <i>k</i> zeros and then <i>d</i>+<i>k</i> significant digits. 
+The printed fraction must be properly rounded. 
+When rounding up and rounding down would produce printed values
+equidistant from the scaled value of <i>arg</i>, then the implementation
+is free to use either one.  For example, printing the argument
+<code>637.5</code> using the format <code>~8,2E</code> may correctly produce
+either <code>6.37E+2</code> or <code>6.38E+2</code>.
+
+<p>Following the digit sequence, the exponent is printed. 
+First the character parameter <i>exponentchar</i> is printed; if this
+parameter is omitted, then the <i>exponent marker</i> that
+<code>prin1</code> would use is printed, as determined from the
+type of the <i>float</i> and the current value of
+<code>*read-default-float-format*</code>. 
+Next, either a plus sign or a minus sign
+is printed, followed by <i>e</i> digits representing the power of
+ten by which the printed fraction must be multiplied
+to properly represent the rounded value of <i>arg</i>.
+
+<p>If it is impossible to print the value in the required format in a field
+of width <i>w</i>, possibly because <i>k</i> is too large or too small
+or because the exponent cannot be printed in <i>e</i> character positions,
+then one of two actions is taken.  If the
+parameter <i>overflowchar</i> is supplied, then <i>w</i> copies of that
+parameter are printed instead of the scaled value of <i>arg</i>. 
+If the <i>overflowchar</i> parameter is omitted, then the scaled value
+is printed using more than <i>w</i> characters, as many more as may be
+needed; if the problem is that <i>d</i> is too small for the supplied <i>k</i>
+or that <i>e</i> is too small, then a larger value is used for <i>d</i> or <i>e</i>
+as may be needed.
+
+<p>If the <i>w</i> parameter is omitted, then the field is of variable width. 
+In effect a value is chosen
+for <i>w</i> in such a way that no leading pad characters need to be printed.
+
+<p>If the parameter <i>d</i> is omitted, then there is no constraint
+on the number of digits to appear. 
+A value is chosen for <i>d</i> in such a way that as many digits
+as possible may be printed subject to the width constraint
+imposed by the parameter <i>w</i>, the constraint of the scale factor <i>k</i>,
+and the constraint that no trailing
+zero digits may appear in the fraction, except that if the
+fraction to be printed is zero then a single zero digit should
+appear after the decimal point.
+
+<p>If the parameter <i>e</i> is omitted, then the exponent is printed
+using the smallest number of digits necessary to represent its value.
+
+<p>If all of <i>w</i>, <i>d</i>, and <i>e</i> are omitted, then the effect is to print
+the value using ordinary free-format exponential-notation output;
+<code>prin1</code> uses
+a similar
+format for any non-zero number whose magnitude
+is less than 10^-3 or greater than or equal to 10^7. 
+The only difference is that the <code>~E</code>
+directive always prints a plus or minus sign in front of the
+exponent, while <code>prin1</code> omits the plus sign if the exponent is
+non-negative.
+
+<p>If <i>arg</i> is a <i>rational</i>
+number, then it is coerced to be a <i>single float</i>
+and then printed.  Alternatively, an implementation is permitted to
+process a <i>rational</i>
+number by any other method that has essentially the
+same behavior but avoids loss of precision or overflow
+because of the coercion.  If <i>w</i> and <i>d</i> are
+unsupplied and the number has no exact decimal representation,
+for example <code>1/3</code>, some precision cutoff must be chosen
+by the implementation since only a finite number of digits may be printed.
+
+<p>If <i>arg</i> is a <i>complex</i> number or some non-numeric
+<i>object</i>,
+then it is printed using the format directive <code>~</code><i>w</i><code>D</code>,
+thereby printing it in decimal radix and a minimum field width of <i>w</i>.
+
+<p><code>~E</code> binds
+<code>*print-escape*</code> to <i>false</i>
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.3.3 Tilde G: General Floating-Point</h5>
+
+<p><a name="index-G-_0028format-directive_0029-2831"></a><a name="index-Tilde-G-_0028format-directive_0029-2832"></a>
+The next <i>arg</i> is printed as a <i>float</i>
+in either fixed-format or exponential notation as appropriate.
+
+<p>The full form is <code>~</code><i>w</i><code>,</code><i>d</i><code>,</code><i>e</i><code>,</code><i>k</i><code>,</code><i>overflowchar</i><code>,</code><i>padchar</i><code>,</code><i>exponentchar</i><code>G</code>. 
+The format in which to print <i>arg</i> depends on the magnitude (absolute
+value) of the <i>arg</i>.  Let <i>n</i> be an integer such that
+10^<i>n</i>-1 ≤ |<i>arg</i>| &lt; 10^<i>n</i>. 
+Let <i>ee</i> equal <i>e</i>+2, or 4 if <i>e</i> is omitted. 
+Let <i>ww</i> equal <i>w</i>&minus; <i>ee</i>,
+or <code>nil</code>&nbsp;<!-- /@w -->if <i>w</i> is omitted.  If <i>d</i> is omitted, first let <i>q</i>
+be the number of digits needed to print <i>arg</i> with no loss
+of information and without leading or trailing zeros;
+then let <i>d</i> equal <code>(max </code><i>q</i><code> (min </code><i>n</i><code> 7))</code>. 
+Let <i>dd</i> equal <i>d</i>&minus; <i>n</i>.
+
+<p>If 0 ≤ <i>dd</i> ≤ <i>d</i>, then <i>arg</i> is printed
+as if by the format directives
+
+<p><code>~</code><i>ww</i><code>,</code><i>dd</i><code>,,</code><i>overflowchar</i><code>,</code><i>padchar</i><code>F~</code><i>ee</i><code>@T</code>
+
+<p>Note that the scale factor <i>k</i> is not passed to the <code>~F</code>
+directive.  For all other values of <i>dd</i>, <i>arg</i> is printed as if
+by the format directive
+
+<p><code>~</code><i>w</i><code>,</code><i>d</i><code>,</code><i>e</i><code>,</code><i>k</i><code>,</code><i>overflowchar</i><code>,</code><i>padchar</i><code>,</code><i>exponentchar</i><code>E</code>
+
+<p>In either case, an <code>@</code>
+modifier is supplied to the <code>~F</code>
+or <code>~E</code> directive if and only if one was supplied to the
+<code>~G</code> directive.
+
+<p><code>~G</code> binds
+<code>*print-escape*</code> to <i>false</i>
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.3.4 Tilde Dollarsign: Monetary Floating-Point</h5>
+
+<p><a name="index-Dollarsign-_0028format-directive_0029-2833"></a><a name="index-Tilde-Dollarsign-_0028format-directive_0029-2834"></a>
+The next <i>arg</i> is printed as a <i>float</i> in fixed-format notation.
+
+<p>The full form is <code>~</code><i>d</i><code>,</code><i>n</i><code>,</code><i>w</i><code>,</code><i>padchar</i><code>$</code>. 
+The parameter <i>d</i> is the number
+of digits to print after the decimal point (default value 2);
+<i>n</i> is the minimum number of digits to print before the decimal
+point (default value 1);
+<i>w</i> is the minimum total width of the field to be printed (default
+value 0).
+
+<p>First padding and the sign are output. 
+If the <i>arg</i> is negative, then a minus sign is printed;
+if the <i>arg</i> is not negative, then a plus sign is printed
+if and only if the <code>@</code> modifier was supplied. 
+If the <code>:</code> modifier is used, the sign appears before any padding,
+and otherwise after the padding. 
+If <i>w</i> is supplied and the number of other characters to be output
+is less than <i>w</i>, then copies of <i>padchar</i> (which defaults
+to a space) are output to
+make the total field width equal <i>w</i>. 
+Then <i>n</i> digits are printed for the integer part of <i>arg</i>,
+with leading zeros if necessary; then a decimal point;
+then <i>d</i> digits of fraction, properly rounded.
+
+<p>If the magnitude of <i>arg</i> is so large that more than <i>m</i> digits would
+have to be printed, where <i>m</i> is the larger of <i>w</i> and 100, then an
+implementation is free, at its discretion, to print the number using
+exponential notation instead, as if by the directive
+<code>~</code><i>w</i><code>,</code><i>q</i><code>,,,,</code><i>padchar</i><code>E</code>, where <i>w</i> and <i>padchar</i> are
+present or omitted according to whether they were present or omitted in
+the <code>~$</code> directive, and where <i>q</i>=<i>d</i>+<i>n</i>&minus; 1,
+where <i>d</i> and <i>n</i> are the (possibly default) values given to the
+<code>~$</code> directive.
+
+<p>If <i>arg</i> is a <i>rational</i>
+number, then it is coerced to be a <i>single float</i>
+and then printed.  Alternatively, an implementation is permitted to
+process a <i>rational</i> number by any
+other method that has essentially the
+same behavior but avoids loss of precision or overflow
+because of the coercion.
+
+<p>If <i>arg</i> is a <i>complex</i> number or some non-numeric
+<i>object</i>,
+then it is printed using the format directive <code>~</code><i>w</i><code>D</code>,
+thereby printing it in decimal radix and a minimum field width of <i>w</i>.
+
+<p><code>~$</code> binds <code>*print-escape*</code> to <i>false</i>
+and <code>*print-readably*</code> to <i>false</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Floating_002dPoint-Printers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

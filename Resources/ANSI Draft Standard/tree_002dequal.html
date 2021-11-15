@@ -1,0 +1,125 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/tree_002dequal.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:49 GMT -->
+<head>
+<title>tree-equal - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot.html#subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot" title="subst; subst-if; subst-if-not; nsubst; nsubst-if; nsubst-if-not">
+<link rel="next" href="copy_002dlist.html#copy_002dlist" title="copy-list">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="tree-equal"></a>
+<a name="tree_002dequal"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="copy_002dlist.html#copy_002dlist">copy-list</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot.html#subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot">subst; subst-if; subst-if-not; nsubst; nsubst-if; nsubst-if-not</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">tree-equal (Function)</h3>
+
+<p><a name="index-tree_002dequal-1868"></a><a name="index-tree_002dequal-1869"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>tree-equal</b><var> tree-1 tree-2 </var><tt>&amp;key</tt><var> test test-not </var><span class="roman">→</span><var> generalized-boolean<a name="index-tree_002dequal-1870"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>tree-1</var>&mdash;a <i>tree</i>.
+
+<p><var>tree-2</var>&mdash;a <i>tree</i>.
+
+<p><var>test</var>&mdash;a <i>designator</i> for a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>test-not</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>tree-equal</code> tests whether two trees are of the same shape
+and have the same leaves. 
+<code>tree-equal</code> returns <i>true</i> if <var>tree-1</var> and <var>tree-2</var>  are
+both <i>atoms</i> and <i>satisfy the test</i>,
+or if they are both <i>conses</i> and
+the <i>car</i> of <var>tree-1</var> is <code>tree-equal</code> to
+the <i>car</i> of <var>tree-2</var> and
+the <i>cdr</i> of <var>tree-1</var> is <code>tree-equal</code> to
+the <i>cdr</i> of <var>tree-2</var>. 
+Otherwise, <code>tree-equal</code> returns <i>false</i>.
+
+<p><code>tree-equal</code> recursively compares <i>conses</i> but not any
+other <i>objects</i> that have components.
+
+<p>The first argument to the <tt>:test</tt> or <tt>:test-not</tt>
+function is <var>tree-1</var> or a <i>car</i> or <i>cdr</i> of <var>tree-1</var>;
+the second argument is <var>tree-2</var> or a <i>car</i>
+or <i>cdr</i> of <var>tree-2</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq tree1 '(1 (1 2))
+       tree2 '(1 (1 2))) <span class="roman">→</span> (1 (1 2))
+ (tree-equal tree1 tree2) <span class="roman">→</span> <i>true</i>
+ (eql tree1 tree2) <span class="roman">→</span> <i>false</i>
+ (setq tree1 '('a ('b 'c))
+       tree2 '('a ('b 'c))) <span class="roman">→</span> ('a ('b 'c))
+<span class="roman">→</span> ((QUOTE A) ((QUOTE B) (QUOTE C)))
+ (tree-equal tree1 tree2 :test 'eq) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The consequences are undefined
+if both <var>tree-1</var> and <var>tree-2</var> are circular.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="equal.html#equal">equal</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <tt>:test-not</tt> parameter is deprecated.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/tree_002dequal.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:49 GMT -->
+</html>
+

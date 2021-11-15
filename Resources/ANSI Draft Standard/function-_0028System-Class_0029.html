@@ -1,0 +1,189 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/function-_0028System-Class_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:14 GMT -->
+<head>
+<title>function (System Class) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Types-and-Classes.html#Types-and-Classes" title="Types and Classes">
+<link rel="prev" href="boolean.html#boolean" title="boolean">
+<link rel="next" href="compiled_002dfunction.html#compiled_002dfunction" title="compiled-function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="function-(System-Class)"></a>
+<a name="function-_0028System-Class_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="compiled_002dfunction.html#compiled_002dfunction">compiled-function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="boolean.html#boolean">boolean</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Types-and-Classes.html#Types-and-Classes">Types and Classes</a>
+<hr>
+</div>
+
+<h3 class="heading">function (System Class)</h3>
+
+<p><a name="index-function-353"></a><a name="index-function-354"></a>
+
+<h5 class="subsubheading">Class Precedence List:</h5>
+
+<p><code>function</code>,
+<code>t</code>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>A <i>function</i> is an <i>object</i> that represents code
+to be executed when an appropriate number of arguments is supplied. 
+A <i>function</i> is produced by
+the <code>function</code> <i>special form</i>,
+the <i>function</i> <code>coerce</code>,
+or
+the <i>function</i> <code>compile</code>. 
+A <i>function</i> can be directly invoked by using it as the first argument to
+<code>funcall</code>, <code>apply</code>, or <code>multiple-value-call</code>.
+
+<h5 class="subsubheading">Compound Type Specifier Kind:</h5>
+
+<p>Specializing.
+
+<h5 class="subsubheading">Compound Type Specifier Syntax:</h5>
+
+<p>(function <tt>[</tt>arg-typespec <tt>[</tt>value-typespec<tt>]</tt><tt>]</tt>)
+
+     <dl>
+<dt><var>arg-typespec</var>::=<dd><tt>(</tt><tt>{</tt>typespec<tt>}</tt>* <br> &nbsp;<!-- /@w --><tt>[</tt><tt>&amp;optional</tt> <tt>{</tt>typespec<tt>}</tt>*<tt>]</tt> <br> &nbsp;<!-- /@w --><tt>[</tt><tt>&amp;rest</tt> <var>typespec</var><tt>]</tt> <br> &nbsp;<!-- /@w --><tt>[</tt><tt>&amp;key</tt> <tt>{</tt><tt>(</tt>keyword typespec<tt>)</tt><tt>}</tt>*<tt>]</tt><tt>)</tt>
+</dl>
+
+<h5 class="subsubheading">Compound Type Specifier Arguments:</h5>
+
+<p><var>typespec</var>&mdash;a <i>type specifier</i>.
+
+<p><var>value-typespec</var>&mdash;a <i>type specifier</i>.
+
+<h5 class="subsubheading">Compound Type Specifier Description:</h5>
+
+<p>The list form of the <code>function</code> <i>type-specifier</i>
+can be used only for declaration and not for discrimination. 
+Every element of this <i>type</i> is
+a <i>function</i> that accepts arguments of the
+types
+specified by the  <var>argj-types</var> and returns values that are
+members of the <i>types</i> specified by <var>value-type</var>. The
+<code>&amp;optional</code>, <code>&amp;rest</code>, <code>&amp;key</code>,
+and <code>&amp;allow-other-keys</code>
+markers can appear in the list of argument types. 
+The <i>type specifier</i> provided
+with <code>&amp;rest</code> is the <i>type</i>
+of each actual argument, not the <i>type</i> of the
+corresponding variable.
+
+<p>The <code>&amp;key</code> parameters
+should be supplied as lists of the form <code>(</code><var>keyword</var> <var>type</var><code>)</code>. 
+The <var>keyword</var> must be a valid keyword-name symbol
+as must be supplied in the actual arguments of a
+call. 
+This is usually a <i>symbol</i> in the <code>KEYWORD</code> <i>package</i> but can be any <i>symbol</i>. 
+When <code>&amp;key</code> is given in a
+<code>function</code> <i>type specifier</i> <i>lambda list</i>,
+the <i>keyword parameters</i> given
+are exhaustive unless <code>&amp;allow-other-keys</code> is also present. 
+<code>&amp;allow-other-keys</code> is an indication
+that other keyword arguments might actually be
+supplied and, if supplied, can be used. 
+For example,
+the <i>type</i> of the <i>function</i> <code>make-list</code> could be declared as follows:
+
+<pre class="lisp"> (function ((integer 0) &amp;key (:initial-element t)) list)
+</pre>
+<p>The <var>value-type</var> can be a <code>values</code>
+<i>type specifier</i> in order to indicate the
+<i>types</i> of <i>multiple values</i>.
+
+<p>Consider a declaration of the following form:
+
+<pre class="lisp"> (ftype (function (arg0-type arg1-type ...) val-type) f))
+</pre>
+<p>Any <i>form</i>
+<code>(f arg0 arg1 ...)</code>
+within the scope of
+that declaration is equivalent to the following:
+
+<pre class="lisp"> (the val-type (f (the arg0-type arg0) (the arg1-type arg1) ...))
+</pre>
+<p>That is, the consequences are undefined if any of the arguments are
+not of the specified <i>types</i> or the result is not of the
+specified <i>type</i>. In particular, if any argument is not of the
+correct <i>type</i>, the result is not guaranteed to be of the
+specified <i>type</i>.
+
+<p>Thus, an <code>ftype</code> declaration for a <i>function</i>
+describes <i>calls</i> to the <i>function</i>, not the actual definition
+of the <i>function</i>.
+
+<p>Consider a declaration of the following form:
+
+<pre class="lisp"> (type (function (arg0-type arg1-type ...) val-type) fn-valued-variable)
+</pre>
+<p>This declaration has the interpretation that, within the scope of the
+declaration, the consequences are unspecified if the value of <code>fn-valued-variable</code> is called with arguments not of the specified
+<i>types</i>; the value resulting from a valid call will be of type
+<code>val-type</code>.
+
+<p>As with variable type declarations, nested declarations
+imply intersections of <i>types</i>, as follows:
+
+     <ul>
+<li>Consider the following two
+declarations of <code>ftype</code>:
+
+     <pre class="lisp">      (ftype (function (arg0-type1 arg1-type1 ...) val-type1) f))
+</pre>
+     <p>and
+
+     <pre class="lisp">      (ftype (function (arg0-type2 arg1-type2 ...) val-type2) f))
+</pre>
+     <p>If both these declarations are in effect,
+then within the shared scope of the declarations, calls to <code>f</code> can be
+treated as if <code>f</code> were declared as follows:
+
+     <pre class="lisp">      (ftype (function ((and arg0-type1 arg0-type2) (and arg1-type1 arg1-type2 ...) ...)
+                       (and val-type1 val-type2))
+             f))
+</pre>
+     <p>It is permitted to ignore one or all of the <code>ftype</code> declarations in force.
+
+     <li>If two (or more) type declarations are in effect for a variable, and
+they are both <code>function</code> declarations, the declarations combine similarly. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/function-_0028System-Class_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:14 GMT -->
+</html>
+

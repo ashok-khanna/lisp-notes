@@ -1,0 +1,112 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Initialize_002dInstance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Initialize-Instance - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization" title="Object Creation and Initialization">
+<link rel="prev" href="Shared_002dInitialize.html#Shared_002dInitialize" title="Shared-Initialize">
+<link rel="next" href="Definitions-of-Make_002dInstance-and-Initialize_002dInstance.html#Definitions-of-Make_002dInstance-and-Initialize_002dInstance" title="Definitions of Make-Instance and Initialize-Instance">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Initialize-Instance"></a>
+<a name="Initialize_002dInstance"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Definitions-of-Make_002dInstance-and-Initialize_002dInstance.html#Definitions-of-Make_002dInstance-and-Initialize_002dInstance">Definitions of Make-Instance and Initialize-Instance</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Shared_002dInitialize.html#Shared_002dInitialize">Shared-Initialize</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.1.6 Initialize-Instance</h4>
+
+<p>The <i>generic function</i> <code>initialize-instance</code> is called by
+<code>make-instance</code> to initialize a newly created <i>instance</i>. 
+It uses <i>standard method combination</i>.  <i>Methods</i> for
+<code>initialize-instance</code> can be defined in order to perform any
+initialization that cannot be achieved
+simply by supplying initial values for <i>slots</i>.
+
+<p>During initialization, <code>initialize-instance</code> is invoked
+after the following actions have been taken:
+
+     <ul>
+<li>The <i>defaulted initialization argument list</i>
+has been computed by combining the supplied <i>initialization argument list</i>
+with any default initialization arguments for the <i>class</i>.
+
+     <li>The validity of the <i>defaulted initialization argument list</i>
+has been checked.  If any of the initialization arguments has not
+been declared as valid, an error is signaled.
+
+     <li>A new <i>instance</i> whose <i>slots</i>
+are unbound has been created. 
+</ul>
+
+<p>The generic function <code>initialize-instance</code> is called with the
+new <i>instance</i> and the defaulted initialization arguments.  There is
+a system-supplied primary <i>method</i> for <code>initialize-instance</code>
+whose <i>parameter specializer</i> is the <i>class</i> <code>standard-object</code>.  This
+<i>method</i> calls the generic function
+<code>shared-initialize</code> to fill in
+the <i>slots</i> according to the initialization arguments and the
+<tt>:initform</tt> forms for the <i>slots</i>; the generic function
+<code>shared-initialize</code> is called with the following arguments: the <i>instance</i>,
+<code>t</code>, and the defaulted initialization arguments.
+
+<p>Note that <code>initialize-instance</code> provides the
+<i>defaulted initialization argument list</i> in its call to <code>shared-initialize</code>,
+so the first step performed by the system-supplied primary <i>method</i> for
+<code>shared-initialize</code> takes into account both the initialization
+arguments provided in the call to <code>make-instance</code> and the
+<i>defaulted initialization argument list</i>.
+
+<p><i>Methods</i> for <code>initialize-instance</code> can be defined to specify
+actions to be taken when an <i>instance</i> is initialized. 
+If only <i>after methods</i> for <code>initialize-instance</code> are defined, they will be
+run after the system-supplied primary <i>method</i> for initialization and
+therefore will not interfere with the default behavior of
+<code>initialize-instance</code>.
+
+<p>The object system&nbsp;<!-- /@w -->provides two <i>functions</i> that are useful in the bodies of
+<code>initialize-instance</code> methods.  The <i>function</i> <code>slot-boundp</code>
+returns a <i>generic boolean</i> value that indicates whether a specified <i>slot</i> has a
+value; this provides a mechanism for writing <i>after methods</i> for
+<code>initialize-instance</code> that initialize <i>slots</i> only if they have
+not already been initialized.  The <i>function</i> <code>slot-makunbound</code>
+causes the <i>slot</i> to have no value.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Initialize_002dInstance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

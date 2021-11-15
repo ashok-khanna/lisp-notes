@@ -1,0 +1,133 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/break.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>break - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="invoke_002ddebugger.html#invoke_002ddebugger" title="invoke-debugger">
+<link rel="next" href="_002adebugger_002dhook_002a.html#g_t_002adebugger_002dhook_002a" title="*debugger-hook*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="break"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002adebugger_002dhook_002a.html#g_t_002adebugger_002dhook_002a">*debugger-hook*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="invoke_002ddebugger.html#invoke_002ddebugger">invoke-debugger</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">break (Function)</h3>
+
+<p><a name="index-break-915"></a><a name="index-break-916"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>break</b> <tt>&amp;optional</tt><var> format-control </var><tt>&amp;rest</tt><var> format-arguments </var><span class="roman">→</span> <code>nil</code><var><a name="index-break-917"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>format-control</var>&mdash;a <i>format control</i>. 
+The default is <i>implementation-dependent</i>.
+
+<p><var>format-arguments</var>&mdash;<i>format arguments</i> for the <var>format-control</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>break</code> <i>formats</i> <var>format-control</var> and <var>format-arguments</var>
+and then goes directly into the debugger without allowing any possibility of
+interception by programmed error-handling facilities.
+
+<p>If the <code>continue</code> restart is used while in the debugger,
+<code>break</code> immediately returns <code>nil</code>&nbsp;<!-- /@w -->without taking any unusual recovery action.
+
+<p><code>break</code> binds <code>*debugger-hook*</code> to <code>nil</code>&nbsp;<!-- /@w -->
+before attempting to enter the debugger.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (break "You got here with arguments: ~:S." '(FOO 37 A))
+▷ BREAK: You got here with these arguments: FOO, 37, A.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Return from BREAK.
+▷  2: Top level.
+▷ Debug&gt; :CONTINUE 1
+▷ Return from BREAK.
+<span class="roman">→</span> NIL
+
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The debugger is entered.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*debug-io*</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>, <a href="invoke_002ddebugger.html#invoke_002ddebugger">invoke-debugger</a>.
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>break</code> is used as a way of inserting temporary debugging
+&ldquo;breakpoints&rdquo; in a program, not as a way of signaling errors. 
+For this reason, <code>break</code> does not take the <var>continue-format-control</var>
+<i>argument</i> that <code>cerror</code> takes. 
+This and the lack of any possibility of interception by
+<i>condition</i> <i>handling</i> are the only program-visible
+differences between <code>break</code> and <code>cerror</code>.
+
+<p>The user interface aspects of <code>break</code> and <code>cerror</code> are
+permitted to vary more widely, in order to accomodate the interface
+needs of the <i>implementation</i>. For example, it is permissible for a
+<i>Lisp read-eval-print loop</i> to be entered by <code>break</code> rather
+than the conventional debugger.
+
+<p><code>break</code> could be defined by:
+
+<pre class="lisp"> (defun break (&amp;optional (format-control "Break") &amp;rest format-arguments)
+   (with-simple-restart (continue "Return from BREAK.")
+     (let ((*debugger-hook* nil))
+       (invoke-debugger
+           (make-condition 'simple-condition
+                           :format-control format-control
+                           :format-arguments format-arguments))))
+   nil)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/break.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

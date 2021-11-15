@@ -1,0 +1,110 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Objects.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:19:55 GMT -->
+<head>
+<title>Objects - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Iteration.html#Iteration" title="Iteration">
+<link rel="next" href="Structures.html#Structures" title="Structures">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Objects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Structures.html#Structures">Structures</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Iteration.html#Iteration">Iteration</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">7 Objects</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>
+<li><a accesskey="2" href="Changing-the-Class-of-an-Instance.html#Changing-the-Class-of-an-Instance">Changing the Class of an Instance</a>
+<li><a accesskey="3" href="Reinitializing-an-Instance.html#Reinitializing-an-Instance">Reinitializing an Instance</a>
+<li><a accesskey="4" href="Meta_002dObjects.html#Meta_002dObjects">Meta-Objects</a>
+<li><a accesskey="5" href="Slots.html#Slots">Slots</a>
+<li><a accesskey="6" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods">Generic Functions and Methods</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="7" href="function_002dkeywords.html#function_002dkeywords">function-keywords</a>
+<li><a accesskey="8" href="ensure_002dgeneric_002dfunction.html#ensure_002dgeneric_002dfunction">ensure-generic-function</a>
+<li><a accesskey="9" href="allocate_002dinstance.html#allocate_002dinstance">allocate-instance</a>
+<li><a href="reinitialize_002dinstance.html#reinitialize_002dinstance">reinitialize-instance</a>
+<li><a href="shared_002dinitialize-_0028Standard-Generic-Function_0029.html#shared_002dinitialize-_0028Standard-Generic-Function_0029">shared-initialize (Standard Generic Function)</a>
+<li><a href="update_002dinstance_002dfor_002ddifferent_002dclass.html#update_002dinstance_002dfor_002ddifferent_002dclass">update-instance-for-different-class</a>
+<li><a href="update_002dinstance_002dfor_002dredefined_002dclass.html#update_002dinstance_002dfor_002dredefined_002dclass">update-instance-for-redefined-class</a>
+<li><a href="change_002dclass.html#change_002dclass">change-class</a>
+<li><a href="slot_002dboundp.html#slot_002dboundp">slot-boundp</a>
+<li><a href="slot_002dexists_002dp.html#slot_002dexists_002dp">slot-exists-p</a>
+<li><a href="slot_002dmakunbound.html#slot_002dmakunbound">slot-makunbound</a>
+<li><a href="slot_002dmissing.html#slot_002dmissing">slot-missing</a>
+<li><a href="slot_002dunbound.html#slot_002dunbound">slot-unbound</a>
+<li><a href="slot_002dvalue.html#slot_002dvalue">slot-value</a>
+<li><a href="method_002dqualifiers.html#method_002dqualifiers">method-qualifiers</a>
+<li><a href="no_002dapplicable_002dmethod.html#no_002dapplicable_002dmethod">no-applicable-method</a>
+<li><a href="no_002dnext_002dmethod.html#no_002dnext_002dmethod">no-next-method</a>
+<li><a href="remove_002dmethod.html#remove_002dmethod">remove-method</a>
+<li><a href="make_002dinstance.html#make_002dinstance">make-instance</a>
+<li><a href="make_002dinstances_002dobsolete.html#make_002dinstances_002dobsolete">make-instances-obsolete</a>
+<li><a href="make_002dload_002dform.html#make_002dload_002dform">make-load-form</a>
+<li><a href="make_002dload_002dform_002dsaving_002dslots.html#make_002dload_002dform_002dsaving_002dslots">make-load-form-saving-slots</a>
+<li><a href="with_002daccessors.html#with_002daccessors">with-accessors</a>
+<li><a href="with_002dslots.html#with_002dslots">with-slots</a>
+<li><a href="defclass.html#defclass">defclass</a>
+<li><a href="defgeneric.html#defgeneric">defgeneric</a>
+<li><a href="defmethod.html#defmethod">defmethod</a>
+<li><a href="find_002dclass.html#find_002dclass">find-class</a>
+<li><a href="next_002dmethod_002dp.html#next_002dmethod_002dp">next-method-p</a>
+<li><a href="call_002dmethod_003b-make_002dmethod.html#call_002dmethod_003b-make_002dmethod">call-method; make-method</a>
+<li><a href="call_002dnext_002dmethod.html#call_002dnext_002dmethod">call-next-method</a>
+<li><a href="compute_002dapplicable_002dmethods.html#compute_002dapplicable_002dmethods">compute-applicable-methods</a>
+<li><a href="define_002dmethod_002dcombination.html#define_002dmethod_002dcombination">define-method-combination</a>
+<li><a href="find_002dmethod.html#find_002dmethod">find-method</a>
+<li><a href="add_002dmethod.html#add_002dmethod">add-method</a>
+<li><a href="initialize_002dinstance-_0028Standard-Generic-Function_0029.html#initialize_002dinstance-_0028Standard-Generic-Function_0029">initialize-instance (Standard Generic Function)</a>
+<li><a href="class_002dname.html#class_002dname">class-name</a>
+<li><a href="setf-class_002dname.html#setf-class_002dname">setf class-name</a>
+<li><a href="class_002dof.html#class_002dof">class-of</a>
+<li><a href="unbound_002dslot.html#unbound_002dslot">unbound-slot</a>
+<li><a href="unbound_002dslot_002dinstance.html#unbound_002dslot_002dinstance">unbound-slot-instance</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Objects.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:20:42 GMT -->
+</html>
+

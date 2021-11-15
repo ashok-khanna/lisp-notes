@@ -1,0 +1,348 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/open.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:37 GMT -->
+<head>
+<title>open - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="file_002dstring_002dlength.html#file_002dstring_002dlength" title="file-string-length">
+<link rel="next" href="stream_002dexternal_002dformat.html#stream_002dexternal_002dformat" title="stream-external-format">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="open"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="stream_002dexternal_002dformat.html#stream_002dexternal_002dformat">stream-external-format</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="file_002dstring_002dlength.html#file_002dstring_002dlength">file-string-length</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">open (Function)</h3>
+
+<p><a name="index-open-2684"></a><a name="index-open-2685"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>open</b><var> filespec </var><tt>&amp;key</tt><var> direction&nbsp;element-type<!-- /@w --> if-exists&nbsp;if-does-not-exist&nbsp;external-format<!-- /@w --> </var><span class="roman">→</span><var> stream<a name="index-open-2686"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>filespec</var>&mdash;a <i>pathname designator</i>.
+
+<p><var>direction</var>&mdash;one of <tt>:input</tt>, <tt>:output</tt>, <tt>:io</tt>, or <tt>:probe</tt>. 
+The default is <tt>:input</tt>.
+
+<p><var>element-type</var>&mdash;a <i>type specifier</i>
+for <i>recognizable subtype</i> of <code>character</code>;
+or a <i>type specifier</i>
+for a <i>finite</i> <i>recognizable subtype</i> of <i>integer</i>;
+or one of the <i>symbols</i>
+<tt>signed-byte</tt>,
+<tt>unsigned-byte</tt>,
+or <tt>:default</tt>. 
+The default is <code>character</code>.
+
+<p><var>if-exists</var>&mdash;one of <tt>:error</tt>, <tt>:new-version</tt>, <tt>:rename</tt>,
+<tt>:rename-and-delete</tt>, <tt>:overwrite</tt>, <tt>:append</tt>,
+<tt>:supersede</tt>, or <code>nil</code>. 
+The default is <tt>:new-version</tt> if the version component of <var>filespec</var> is <tt>:newest</tt>,
+or <tt>:error</tt> otherwise.
+
+<p><var>if-does-not-exist</var>&mdash;one of <tt>:error</tt>, <tt>:create</tt>, or <code>nil</code>. 
+The default is <tt>:error</tt> if <var>direction</var> is <tt>:input</tt>
+or <var>if-exists</var> is <tt>:overwrite</tt> or <tt>:append</tt>;
+<tt>:create</tt> if <var>direction</var> is <tt>:output</tt> or <tt>:io</tt>,
+and <var>if-exists</var> is neither <tt>:overwrite</tt> nor <tt>:append</tt>;
+or <code>nil</code>&nbsp;<!-- /@w -->when <var>direction</var> is <tt>:probe</tt>.
+
+<p><var>external-format</var>&mdash;an <i>external file format designator</i>. 
+The default is <tt>:default</tt>.
+
+<p><var>stream</var>&mdash;a <i>file stream</i> or <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>open</code> creates, opens, and returns a <i>file stream</i>
+that is connected to the file specified by <var>filespec</var>. 
+<var>Filespec</var> is the name of the file to be opened. 
+If the <var>filespec</var> <i>designator</i> is a <i>stream</i>,
+that <i>stream</i> is not closed first or otherwise affected.
+
+<p>The keyword arguments to <code>open</code> specify the characteristics
+of the <i>file stream</i> that is returned, and how to handle errors.
+
+<p>If <var>direction</var> is <tt>:input</tt>
+or <tt>:probe</tt>,
+or if <var>if-exists</var> is not <tt>:new-version</tt>
+and the version component of the <var>filespec</var> is <tt>:newest</tt>,
+then the file opened is that file already existing in the file system
+that has a version greater than that of any other file in the file system
+whose other pathname components are the same as those of <var>filespec</var>.
+
+<p>An implementation is required to recognize all of
+the <code>open</code> keyword options
+and to do something reasonable in the context of the host operating
+system. 
+For example, if a file system does not support distinct file
+versions and does not distinguish the notions of deletion and expunging,
+<tt>:new-version</tt> might be treated the same as
+<tt>:rename</tt> or <tt>:supersede</tt>, and <tt>:rename-and-delete</tt> might
+be treated the same as <tt>:supersede</tt>.
+
+     <dl>
+<dt><tt>:direction</tt><dd>
+
+     <p>These are the possible values for <var>direction</var>,
+and how they affect the nature of the <i>stream</i> that is created:
+
+          <dl>
+<dt><tt>:input</tt><dd>
+
+          <p>Causes the creation of an <i>input</i> <i>file stream</i>.
+
+          <br><dt><tt>:output</tt><dd>
+
+          <p>Causes the creation of an <i>output</i> <i>file stream</i>.
+
+          <br><dt><tt>:io</tt><dd>
+
+          <p>Causes the creation of a <i>bidirectional</i> <i>file stream</i>.
+
+          <br><dt><tt>:probe</tt><dd>
+
+          <p>Causes the creation of a &ldquo;no-directional&rdquo; <i>file stream</i>;
+in effect, the <i>file stream</i> is created
+and then closed prior to being returned by <code>open</code>. 
+</dl>
+
+     <br><dt><tt>:element-type</tt><dd>
+
+     <p>The <var>element-type</var> specifies the unit of transaction for the <i>file stream</i>. 
+If it is <tt>:default</tt>,
+the unit is determined by <i>file system</i>,
+possibly based on the <i>file</i>.
+
+     <br><dt><tt>:if-exists</tt><dd>
+
+     <p><var>if-exists</var> specifies the action to be taken if <var>direction</var> is
+<tt>:output</tt> or <tt>:io</tt> and a file of the name <var>filespec</var>
+already exists. 
+If <var>direction</var> is <tt>:input</tt>, not supplied, or <tt>:probe</tt>,
+<var>if-exists</var> is ignored. 
+These are the results of <code>open</code> as modified by <var>if-exists</var>:
+
+          <dl>
+<dt><tt>:error</tt><dd>
+
+          <p>An error of <i>type</i> <code>file-error</code> is signaled.
+
+          <br><dt><tt>:new-version</tt><dd>
+
+          <p>A new file is created with a larger version number.
+
+          <br><dt><tt>:rename</tt><dd>
+
+          <p>The existing file is renamed to some other name and then a new file is created.
+
+          <br><dt><tt>:rename-and-delete</tt><dd>
+
+          <p>The existing file is renamed to some other name,
+then it is deleted but not expunged, and then a new file is created.
+
+          <br><dt><tt>:overwrite</tt><dd>
+
+          <p>Output operations on the <i>stream</i> destructively modify the existing file. 
+If <var>direction</var> is <tt>:io</tt> the file is opened in a bidirectional mode
+that allows both reading and writing.  The file pointer is initially
+positioned at the beginning of the file; however, the file is not truncated
+back to length zero when it is opened.
+
+          <br><dt><tt>:append</tt><dd>
+
+          <p>Output operations on the <i>stream</i> destructively modify the existing file. 
+The file pointer is initially positioned at the end of the file.
+
+          <p>If <var>direction</var> is <tt>:io</tt>,
+the file is opened in a bidirectional mode that allows both reading and writing.
+
+          <br><dt><tt>:supersede</tt><dd>
+
+          <p>The existing file is superseded;
+that is, a new file with the same name as the old one is created. 
+If possible, the implementation should not destroy the old file until the new
+<i>stream</i> is closed.
+
+          <br><dt><code>nil</code><dd>
+
+          <p>No file or <i>stream</i> is created;
+instead, <code>nil</code>&nbsp;<!-- /@w -->is returned to indicate failure. 
+</dl>
+
+     <br><dt><tt>:if-does-not-exist</tt><dd>
+
+     <p><var>if-does-not-exist</var>
+specifies the action to be taken if
+a file of name <var>filespec</var> does not already exist. 
+These are the results of <code>open</code> as modified by <var>if-does-not-exist</var>:
+
+          <dl>
+<dt><tt>:error</tt><dd>
+
+          <p>An error of <i>type</i> <code>file-error</code> is signaled.
+
+          <br><dt><tt>:create</tt><dd>
+
+          <p>An empty file is created. 
+Processing continues  as if the file
+had already existed but no processing as
+directed by <var>if-exists</var> is performed.
+
+          <br><dt><code>nil</code><dd>
+
+          <p>No file or <i>stream</i> is created;
+instead, <code>nil</code>&nbsp;<!-- /@w -->is returned to indicate failure. 
+</dl>
+
+     <br><dt><tt>:external-format</tt><dd>
+
+     <p>This option selects an <i>external file format</i> for the <i>file</i>:
+The only <i>standardized</i> value for this option is <tt>:default</tt>,
+although <i>implementations</i> are permitted to define additional
+<i>external file formats</i> and <i>implementation-dependent</i> values
+returned by <code>stream-external-format</code> can also be used by <i>conforming programs</i>.
+
+     <p>The <var>external-format</var> is meaningful for
+any kind of <i>file stream</i> whose <i>element type</i>
+is a <i>subtype</i> of <i>character</i>. 
+This option is ignored for <i>streams</i> for which it is not meaningful;
+however, <i>implementations</i> may define other <i>element types</i>
+for which it is meaningful. 
+The consequences are unspecified if a <i>character</i> is written
+that cannot be represented by the given <i>external file format</i>. 
+</dl>
+
+<p>When a file is opened, a <i>file stream</i> is constructed to serve
+as the file system's ambassador to the <span class="roman">Lisp</span>&nbsp;<!-- /@w -->environment;
+operations on the <i>file stream</i> are reflected by operations on the file
+in the file system.
+
+<p>A file can be deleted, renamed, or destructively modified by <code>open</code>.
+
+<p>For information about opening relative pathnames,
+see <a href="Merging-Pathnames.html#Merging-Pathnames">Section 19.2.3 (Merging Pathnames)</a>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (open <i>filespec</i> :direction :probe)  <span class="roman">→</span> #&lt;Closed Probe File Stream...&gt;
+ (setq q (merge-pathnames (user-homedir-pathname) "test"))
+<span class="roman">→</span> #&lt;PATHNAME :HOST NIL :DEVICE <i>device-name</i> :DIRECTORY <i>directory-name</i>
+    :NAME "test" :TYPE NIL :VERSION :NEWEST&gt;
+ (open <i>filespec</i> :if-does-not-exist :create) <span class="roman">→</span> #&lt;Input File Stream...&gt;
+ (setq s (open <i>filespec</i> :direction :probe)) <span class="roman">→</span> #&lt;Closed Probe File Stream...&gt;
+ (truename s) <span class="roman">→</span> #&lt;PATHNAME :HOST NIL :DEVICE <i>device-name</i> :DIRECTORY
+    <i>directory-name</i> :NAME <i>filespec</i> :TYPE <i>extension</i> :VERSION 1&gt;
+ (open s :direction :output :if-exists nil) <span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>The nature and state of the host computer's <i>file system</i>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>if-exists</var> is <tt>:error</tt>, (subject to the
+constraints on the meaning of <var>if-exists</var> listed above),
+an error of <i>type</i> <code>file-error</code> is signaled.
+
+<p>If <var>if-does-not-exist</var> is <tt>:error</tt> (subject to the
+constraints on the meaning of <var>if-does-not-exist</var> listed above),
+an error of <i>type</i> <code>file-error</code> is signaled.
+
+<p>If it is impossible for an implementation to handle some option
+in a manner close to what is specified here,
+an error of <i>type</i> <code>error</code> might be signaled.
+
+<p>An error of <i>type</i> <code>file-error</code> is signaled if
+<code>(wild-pathname-p </code><var>filespec</var><code>)</code> returns true.
+
+<p>An error of <i>type</i> <code>error</code> is signaled if the <var>external-format</var>
+is not understood by the <i>implementation</i>.
+
+<p>The various <i>file systems</i> in existence today have widely differing capabilities,
+and some aspects of the <i>file system</i> are beyond the scope of this specification
+to define.  A given <i>implementation</i> might not be able to support all of these options
+in exactly the manner stated.  An <i>implementation</i> is required to recognize all of
+these option keywords and to try to do something &ldquo;reasonable&rdquo; in the context of the
+host <i>file system</i>.  Where necessary to accomodate the <i>file system</i>,
+an <i>implementation</i> deviate slightly from the semantics specified here without
+being disqualified for consideration as a <i>conforming implementation</i>. 
+If it is utterly impossible for an <i>implementation</i> to handle some option
+in a manner similar to what is specified here, it may simply signal an error.
+
+<p>With regard to the <tt>:element-type</tt> option, if a <i>type</i> is
+requested that is not supported by the <i>file system</i>, a substitution of types
+such as that which goes on in <i>upgrading</i> is permissible.  As a minimum
+requirement, it should be the case that opening an <i>output</i> <i>stream</i>
+to a <i>file</i> in a given <i>element type</i> and later opening
+an <i>input</i> <i>stream</i> to the same <i>file</i> in the same <i>element type</i>
+should work compatibly.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="with_002dopen_002dfile.html#with_002dopen_002dfile">with-open-file</a>,
+<a href="close.html#close">close</a>,
+<a href="pathname-_0028System-Class_0029.html#pathname-_0028System-Class_0029">pathname (System Class)</a>,
+<a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="Merging-Pathnames.html#Merging-Pathnames">Section 19.2.3 (Merging Pathnames)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>open</code> does not automatically close the file when an abnormal
+exit occurs.
+
+<p>When <var>element-type</var> is a <i>subtype</i> of <code>character</code>,
+<code>read-char</code> and/or <code>write-char</code> can be
+used on the resulting <i>file stream</i>.
+
+<p>When <var>element-type</var> is a <i>subtype</i> of <i>integer</i>,
+<code>read-byte</code> and/or <code>write-byte</code> can be used on the resulting <i>file stream</i>.
+
+<p>When <var>element-type</var> is <tt>:default</tt>,
+the <i>type</i> can be determined by using <code>stream-element-type</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/open.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:37 GMT -->
+</html>
+

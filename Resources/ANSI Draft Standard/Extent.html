@@ -1,0 +1,113 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Extent.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Extent - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation.html#Evaluation" title="Evaluation">
+<link rel="prev" href="Shadowing.html#Shadowing" title="Shadowing">
+<link rel="next" href="Return-Values.html#Return-Values" title="Return Values">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Extent"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Return-Values.html#Return-Values">Return Values</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Shadowing.html#Shadowing">Shadowing</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation.html#Evaluation">Evaluation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.1.6 Extent</h4>
+
+<p><code>Contorted-example</code> works only because the
+<i>function</i> named by <code>f</code> is invoked during the <i>extent</i> of the
+<i>exit point</i>. 
+Once the flow of execution has left the block,
+the <i>exit point</i> is <i>disestablished</i>.  For example:
+
+<pre class="lisp"> (defun invalid-example ()
+   (let ((y (block here #'(lambda (z) (return-from here z)))))
+     (if (numberp y) y (funcall y 5))))
+</pre>
+<p>One might expect the call <code>(invalid-example)</code> to produce <code>5</code>
+by the following incorrect reasoning:
+<code>let</code> binds <code>y</code> to the
+value of <code>block</code>; this value is a <i>function</i> resulting
+from the <i>lambda expression</i>.  Because <code>y</code> is not a number, it is
+invoked on the value <code>5</code>.  The <code>return-from</code> should then
+return this value from the
+<i>exit point</i> named <code>here</code>, thereby
+exiting from the block again and giving <code>y</code> the value <code>5</code>
+which, being a number, is then returned as the value of the call
+to <code>invalid-example</code>.
+
+<p>The argument fails only because <i>exit points</i> have
+<i>dynamic extent</i>.  The argument is correct up to the execution of
+<code>return-from</code>.  The execution of <code>return-from</code>
+should signal an error of <i>type</i> <code>control-error</code>, however, not
+because it cannot refer to the <i>exit point</i>, but because it
+does correctly refer to an <i>exit point</i> and that
+<i>exit point</i> has been <i>disestablished</i>.
+
+<p>A reference by name to a dynamic <i>exit point</i> binding such as
+a <i>catch tag</i> refers to the most recently
+<i>established</i> <i>binding</i> of that name that has not been
+<i>disestablished</i>.  For example:
+
+<pre class="lisp"> (defun fun1 (x)
+   (catch 'trap (+ 3 (fun2 x))))
+ (defun fun2 (y)
+   (catch 'trap (* 5 (fun3 y))))
+ (defun fun3 (z)
+   (throw 'trap z))
+</pre>
+<p>Consider the call <code>(fun1 7)</code>.  The result is <code>10</code>.  At the time
+the <code>throw</code> is executed, there are two outstanding catchers with the
+name <code>trap</code>: one established within procedure <code>fun1</code>, and the other
+within procedure <code>fun2</code>.  The latter is the more recent, and so the
+value <code>7</code> is returned from <code>catch</code> in <code>fun2</code>. 
+Viewed from within <code>fun3</code>, the <code>catch</code>
+in <code>fun2</code> shadows the one in <code>fun1</code>. 
+Had <code>fun2</code> been defined as
+
+<pre class="lisp"> (defun fun2 (y)
+   (catch 'snare (* 5 (fun3 y))))
+</pre>
+<p>then the two <i>exit points</i>
+would have different <i>names</i>, and therefore the one
+in <code>fun1</code> would not be shadowed.  The result would then have been <code>7</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Extent.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

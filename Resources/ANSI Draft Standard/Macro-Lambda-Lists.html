@@ -1,0 +1,337 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Macro-Lambda-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:12 GMT -->
+<head>
+<title>Macro Lambda Lists - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Lambda-Lists.html#Lambda-Lists" title="Lambda Lists">
+<link rel="prev" href="Specialized-Lambda-Lists.html#Specialized-Lambda-Lists" title="Specialized Lambda Lists">
+<link rel="next" href="Destructuring-Lambda-Lists.html#Destructuring-Lambda-Lists" title="Destructuring Lambda Lists">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Macro-Lambda-Lists"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Destructuring-Lambda-Lists.html#Destructuring-Lambda-Lists">Destructuring Lambda Lists</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Specialized-Lambda-Lists.html#Specialized-Lambda-Lists">Specialized Lambda Lists</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Lambda-Lists.html#Lambda-Lists">Lambda Lists</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.4.4 Macro Lambda Lists</h4>
+
+<p>A <a name="index-macro-lambda-list-220"></a><dfn>macro lambda list</dfn> is used in describing <i>macros</i>
+defined by the <i>operators</i> in the next figure.
+
+<div class="float">
+<a name="fig3_002e17"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">define-compiler-macro </td><td valign="top">defmacro </td><td valign="top">macrolet
+<br></td></tr><tr align="left"><td valign="top">define-setf-expander </td><td valign="top"></td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.17: Operators that use Macro Lambda Lists</strong></p></div>
+
+<p>With the additional restriction that
+an <i>environment parameter</i> may appear only once
+(at any of the positions indicated),
+a <i>macro lambda list</i> has the following syntax:
+
+     <dl>
+<dt><var>reqvars</var>::=<dd><tt>{</tt>var | <tt>↓</tt>pattern<tt>}</tt>*
+</dl>
+
+     <dl>
+<dt><var>optvars</var>::=<dd>[<tt>&amp;optional</tt> <tt>{</tt>var | (<tt>{</tt>var
+<tt>↓</tt>pattern<tt>}</tt> [init-form [supplied-p-parameter]])<tt>}</tt>*]
+</dl>
+
+     <dl>
+<dt><var>restvars</var>::=<dd>[<tt>{</tt><tt>&amp;rest</tt> | <tt>&amp;body</tt><tt>}</tt> <tt>{</tt>var | <tt>↓</tt>pattern<tt>}</tt>]
+</dl>
+
+     <dl>
+<dt><var>keyvars</var>::=<dd>[<tt>&amp;key</tt> <tt>{</tt>var | (<tt>{</tt>var | (keyword-name
+<tt>{</tt>var | <tt>↓</tt>pattern<tt>}</tt>)<tt>}</tt> [init-form [supplied-p-parameter]])<tt>}</tt>*
+[<tt>&amp;allow-other-keys</tt>]]
+</dl>
+
+     <dl>
+<dt><var>auxvars</var>::=<dd>[<tt>&amp;aux</tt> <tt>{</tt>var | (var [init-form])<tt>}</tt>*]
+</dl>
+
+     <dl>
+<dt><var>envvar</var>::=<dd><tt>[</tt><tt>&amp;environment</tt> <var>var</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>wholevar</var>::=<dd><tt>[</tt><tt>&amp;whole</tt> <var>var</var><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>lambda-list</var>::=<dd><tt>(</tt><tt>↓</tt>wholevar <tt>↓</tt>envvar <tt>↓</tt>reqvars <tt>↓</tt>envvar <tt>↓</tt>optvars <tt>↓</tt>envvar<br> <tt>↓</tt>restvar <tt>↓</tt>envvar <tt>↓</tt>keyvars <tt>↓</tt>envvar <tt>↓</tt>auxvars <tt>↓</tt>envvar<tt>)</tt>&nbsp;<!-- /@w -->|<br> <tt>(</tt><tt>↓</tt>wholevar <tt>↓</tt>envvar <tt>↓</tt>reqvars <tt>↓</tt>envvar <tt>↓</tt>optvars <tt>↓</tt>envvar <code>.</code> <var>var</var><tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>pattern</var>::=<dd><tt>(</tt><tt>↓</tt>wholevar <tt>↓</tt>reqvars <tt>↓</tt>optvars <tt>↓</tt>restvar <tt>↓</tt>keyvars <tt>↓</tt>auxvars<tt>)</tt> |<br> <tt>(</tt><tt>↓</tt>wholevar <tt>↓</tt>reqvars <tt>↓</tt>optvars <code>.</code> <var>var</var><tt>)</tt>
+</dl>
+
+<p>A <i>macro lambda list</i> can contain
+the <i>lambda list keywords</i> shown in the next figure.
+
+<div class="float">
+<a name="fig3_002e18"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>&amp;allow-other-keys</code> </td><td valign="top"><code>&amp;environment</code> </td><td valign="top"><code>&amp;rest</code>
+<br></td></tr><tr align="left"><td valign="top"><code>&amp;aux</code> </td><td valign="top"><code>&amp;key</code> </td><td valign="top"><code>&amp;whole</code>
+<br></td></tr><tr align="left"><td valign="top"><code>&amp;body</code> </td><td valign="top"><code>&amp;optional</code> </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.18: Lambda List Keywords used by Macro Lambda Lists</strong></p></div>
+
+<p><i>Optional parameters</i> (introduced by <code>&amp;optional</code>) and
+<i>keyword parameters</i> (introduced by <code>&amp;key</code>)
+can be supplied in a <i>macro lambda list</i>,
+just as in an <i>ordinary lambda list</i>. 
+Both may contain default initialization forms and <i>supplied-p parameters</i>.
+
+<p><code>&amp;body</code>
+<a name="index-g_t_0026body-221"></a>is identical in function to <code>&amp;rest</code>,
+but it can be used to inform certain output-formatting
+and editing functions that the remainder of the <i>form</i> is
+treated as a body, and should be indented accordingly. 
+Only one of <code>&amp;body</code> or <code>&amp;rest</code> can be used at any particular level;
+see <a href="DestructuringByLambdaLists.html#DestructuringByLambdaLists">Section 3.4.4.1 (Destructuring by Lambda Lists)</a>. 
+<code>&amp;body</code> can appear at any level of a
+<i>macro lambda list</i>;
+for details, see <a href="DestructuringByLambdaLists.html#DestructuringByLambdaLists">Section 3.4.4.1 (Destructuring by Lambda Lists)</a>.
+
+<p><code>&amp;whole</code>
+<a name="index-g_t_0026whole-222"></a>is followed by a single variable that is bound to the
+entire macro-call form; this is the value that the <i>macro function</i>
+receives as its first argument. 
+If <code>&amp;whole</code> and a following variable appear,
+they must appear first in <var>lambda-list</var>,
+before any other parameter or <i>lambda list keyword</i>. 
+<code>&amp;whole</code> can appear at any level of a <i>macro lambda list</i>. 
+At inner levels, the <code>&amp;whole</code> variable is bound to
+the corresponding part of the argument,
+as with <code>&amp;rest</code>, but unlike <code>&amp;rest</code>, other arguments are also allowed. 
+The use of <code>&amp;whole</code> does not affect the pattern of arguments
+specified.
+
+<p><code>&amp;environment</code>
+<a name="index-g_t_0026environment-223"></a>is followed by a single variable that is bound
+to an <i>environment</i> representing the <i>lexical environment</i> in which the
+macro call is to be interpreted. 
+This <i>environment</i>
+should be used with
+<code>macro-function</code>,
+<code>get-setf-expansion</code>,
+<code>compiler-macro-function</code>,
+and
+<code>macroexpand</code>
+(for example) in computing the expansion of the macro, to ensure that any
+<i>lexical bindings</i> or definitions established in the
+<i>compilation environment</i> are taken into account. 
+<code>&amp;environment</code> can only appear at the top level of a
+<i>macro lambda list</i>, and can only
+appear once, but can appear anywhere in that list;
+the <code>&amp;environment</code> <i>parameter</i> is <i>bound</i> along with <code>&amp;whole</code>
+before any other <i>variables</i> in the <i>lambda list</i>, regardless of where
+<code>&amp;environment</code> appears in the <i>lambda list</i>. 
+The <i>object</i> that is bound to the
+<i>environment parameter</i> has <i>dynamic extent</i>.
+
+<p>Destructuring allows a <i>macro lambda list</i> to express
+the structure of a macro call syntax. 
+If no <i>lambda list keywords</i> appear,
+then the <i>macro lambda list</i> is a <i>tree</i>
+containing parameter names at the leaves. 
+The pattern and the <i>macro form</i> must have compatible <i>tree structure</i>;
+that is, their <i>tree structure</i> must be equivalent,
+or it must differ only in that some <i>leaves</i> of the pattern
+match <i>non-atomic</i> <i>objects</i> of the <i>macro form</i>. 
+For information about error detection in this <i>situation</i>,
+see <a href="DestructuringMismatch.html#DestructuringMismatch">Section 3.5.1.7 (Destructuring Mismatch)</a>.
+
+<p>A destructuring <i>lambda list</i>
+(whether at top level or embedded)
+can
+be dotted, ending
+in a parameter name.  This situation is treated exactly as if the
+parameter name that ends the <i>list</i> had appeared preceded by <code>&amp;rest</code>.
+
+<p>It is permissible for a <i>macro</i> <i>form</i> (or a <i>subexpression</i> of a
+<i>macro</i> <i>form</i>)
+to be a <i>dotted list</i>
+only  when <code>(... &amp;rest var)</code> or <code>(... . var)</code> is used to match
+it. It is the responsibility of the <i>macro</i> to recognize and deal
+with such situations.
+
+<h5 class="subsubsection">3.4.4.1 Destructuring by Lambda Lists</h5>
+
+<p><a name="DestructuringByLambdaLists"></a>Anywhere in a <i>macro lambda list</i> where a parameter
+name can appear, and where <i>ordinary lambda list</i> syntax
+(as described in <a href="Ordinary-Lambda-Lists.html#Ordinary-Lambda-Lists">Section 3.4.1 (Ordinary Lambda Lists)</a>) does not
+otherwise allow a <i>list</i>, a <i>destructuring lambda list</i>
+can appear in place
+of the parameter name.  When this is done, then the argument
+that would match the parameter is treated as a (possibly dotted) <i>list</i>,
+to be used as an argument list for satisfying the
+parameters in the embedded <i>lambda list</i>. 
+This is known as destructuring.
+
+<p>Destructuring is the process of decomposing a compound <i>object</i> into
+its component parts, using an abbreviated, declarative syntax, rather
+than writing it out by hand using the primitive component-accessing
+functions.  Each component part is bound to a variable.
+
+<p>A destructuring operation requires an <i>object</i> to be decomposed,
+a pattern that specifies what components are to be extracted, and the names
+of the variables whose values are to be the components.
+
+<h5 class="unnumberedsubsubsec">3.4.4.1.1 Data-directed Destructuring by Lambda Lists</h5>
+
+<p>In data-directed destructuring,
+the pattern is a sample <i>object</i> of the <i>type</i> to be decomposed. 
+Wherever a component is to be extracted,
+a <i>symbol</i> appears in the pattern;
+this <i>symbol</i> is the name of the variable whose value will be that component.
+
+<h5 class="unnumberedsubsubsec">3.4.4.1.1.1 Examples of Data-directed Destructuring by Lambda Lists</h5>
+
+<p>An example pattern is
+
+<p><code>(a b c)</code>
+
+<p>which destructures a list of three elements.  The variable <code>a</code> is assigned
+to the first element, <code>b</code> to the second, etc.  A more complex example
+is
+
+<p><code>((first . rest) . more)</code>
+
+<p>The important features of data-directed destructuring are its syntactic
+simplicity and the ability to extend it to lambda-list-directed destructuring.
+
+<h5 class="unnumberedsubsubsec">3.4.4.1.2 Lambda-list-directed Destructuring by Lambda Lists</h5>
+
+<p>An extension of data-directed destructuring of <i>trees</i> is
+lambda-list-directed destructuring.  This derives from the analogy
+between the three-element destructuring pattern
+
+<p><code>(first second third)</code>
+
+<p>and the three-argument <i>lambda list</i>
+
+<p><code>(first second third)</code>
+
+<p>Lambda-list-directed destructuring is identical to data-directed destructuring
+if no <i>lambda list keywords</i> appear in the pattern. 
+Any list in the pattern (whether a sub-list or the whole pattern itself)
+that contains a <i>lambda list keyword</i> is interpreted specially. 
+Elements of the list to the left of the first
+<i>lambda list keyword</i> are treated as destructuring patterns, as usual, but the
+remaining elements of the list are treated like a function's
+<i>lambda list</i>
+except that where a variable would normally be required, an arbitrary
+destructuring pattern is allowed.  Note that in case of ambiguity,
+<i>lambda list</i> syntax is preferred over destructuring syntax.  Thus, after
+<code>&amp;optional</code> a list of elements is a list of a destructuring pattern
+and a default value form.
+
+<p>The detailed behavior of each <i>lambda list keyword</i> in a
+lambda-list-directed destructuring
+pattern is as follows:
+
+     <dl>
+<dt><code>&amp;optional</code><dd>
+
+     <p>Each following element is a variable or a list of a destructuring
+pattern, a default value form, and a supplied-p variable.  The default value and
+the supplied-p variable can be omitted. 
+If the list being destructured ends
+early, so that it does not have an element to match against this destructuring
+(sub)-pattern, the default form is evaluated and destructured instead.  The
+supplied-p variable receives the value
+<code>nil</code>&nbsp;<!-- /@w -->if the default form is used, <code>t</code>&nbsp;<!-- /@w -->otherwise.
+
+     <br><dt><code>&amp;rest</code>, <code>&amp;body</code><dd>
+
+     <p>The next element is a destructuring pattern that matches the
+rest of the list.  <code>&amp;body</code> is identical to <code>&amp;rest</code> but declares that what
+is being matched is a list of forms that constitutes the body of <i>form</i>. 
+This next element must be the last unless a <i>lambda list keyword</i> follows it.
+
+     <br><dt><code>&amp;aux</code><dd>
+
+     <p>The remaining elements are not destructuring patterns at all, but are
+auxiliary variable bindings.
+
+     <br><dt><code>&amp;whole</code><dd>
+
+     <p>The next element is a destructuring pattern that matches the entire
+form in a macro, or the entire <i>subexpression</i> at inner levels.
+
+     <br><dt><code>&amp;key</code><dd>
+
+     <p>Each following element is one of
+
+          <dl>
+<dt><dd>
+a <i>variable</i>,
+
+          <br><dt>or<dd>
+a list of a variable,
+an optional initialization form,
+and an optional supplied-p variable.
+
+          <br><dt>or<dd>
+a list of a list of a keyword and a destructuring pattern,
+an optional initialization form,
+and an optional supplied-p variable. 
+</dl>
+
+     <p>The rest of the list being destructured
+is taken to be alternating keywords and values and is taken apart appropriately.
+
+     <br><dt><code>&amp;allow-other-keys</code><dd>
+
+     <p>Stands by itself. 
+</dl>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Macro-Lambda-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:14 GMT -->
+</html>
+

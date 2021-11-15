@@ -1,0 +1,118 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/complex-_0028Function_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:27 GMT -->
+<head>
+<title>complex (Function) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="cis.html#cis" title="cis">
+<link rel="next" href="complexp.html#complexp" title="complexp">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="complex-(Function)"></a>
+<a name="complex-_0028Function_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="complexp.html#complexp">complexp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="cis.html#cis">cis</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">complex (Function)</h3>
+
+<p><a name="index-complex-1372"></a><a name="index-complex-1373"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>complex</b><var> realpart </var><tt>&amp;optional</tt><var> imagpart </var><span class="roman">→</span><var> complex<a name="index-complex-1374"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>realpart</var>&mdash;a <i>real</i>.
+
+<p><var>imagpart</var>&mdash;a <i>real</i>.
+
+<p><var>complex</var>&mdash;a <i>rational</i> or a <i>complex</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>complex</code> returns a <i>number</i>
+whose real      part is <var>realpart</var>
+and whose imaginary part is <var>imagpart</var>.
+
+<p>If <var>realpart</var> is a <i>rational</i>
+and <var>imagpart</var> is the <i>rational</i> number zero,
+the result of <code>complex</code> is <var>realpart</var>, a <i>rational</i>. 
+Otherwise, the result is a <i>complex</i>.
+
+<p>If either <var>realpart</var> or <var>imagpart</var> is a <i>float</i>,
+the non-<i>float</i> is converted to a <i>float</i>
+before the <i>complex</i> is created. 
+If <var>imagpart</var> is not supplied, the imaginary part is a
+zero of the same <i>type</i> as <var>realpart</var>; <i>i.e.</i>,
+<code>(coerce 0 (type-of </code><var>realpart</var><code>))</code> is
+effectively used.
+
+<p>Type upgrading implies a movement upwards in the type
+hierarchy lattice. 
+In the case of <i>complexes</i>, the <var>type-specifier</var>
+
+<p>must be a subtype of
+<code>(upgraded-complex-part-type </code><var>type-specifier</var><code>)</code>. 
+If <var>type-specifier1</var> is a subtype of <var>type-specifier2</var>, then
+<code>(upgraded-complex-element-type '</code><var>type-specifier1</var><code>)</code>
+must also be a subtype of
+<code>(upgraded-complex-element-type '</code><var>type-specifier2</var><code>)</code>. 
+Two disjoint types can be upgraded into
+the same thing.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (complex 0) <span class="roman">→</span> 0
+ (complex 0.0) <span class="roman">→</span> #C(0.0 0.0)
+ (complex 1 1/2) <span class="roman">→</span> #C(1 1/2)
+ (complex 1 .99) <span class="roman">→</span> #C(1.0 0.99)
+ (complex 3/2 0.0) <span class="roman">→</span> #C(1.5 0.0)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="realpart.html#realpart">realpart</a>,
+<a href="imagpart.html#imagpart">imagpart</a>,
+<a href="SharpsignC.html#SharpsignC">Section 2.4.8.11 (Sharpsign C)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/complex-_0028Function_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:30 GMT -->
+</html>
+

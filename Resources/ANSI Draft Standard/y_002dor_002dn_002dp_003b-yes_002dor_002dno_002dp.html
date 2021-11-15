@@ -1,0 +1,143 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+<head>
+<title>y-or-n-p; yes-or-no-p - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html#finish_002doutput_003b-force_002doutput_003b-clear_002doutput" title="finish-output; force-output; clear-output">
+<link rel="next" href="make_002dsynonym_002dstream.html#make_002dsynonym_002dstream" title="make-synonym-stream">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="y-or-n-p%3b-yes-or-no-p"></a>
+<a name="y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="make_002dsynonym_002dstream.html#make_002dsynonym_002dstream">make-synonym-stream</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html#finish_002doutput_003b-force_002doutput_003b-clear_002doutput">finish-output; force-output; clear-output</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">y-or-n-p, yes-or-no-p (Function)</h3>
+
+<p><a name="index-y_002dor_002dn_002dp-2714"></a><a name="index-y_002dor_002dn_002dp-2715"></a><a name="index-yes_002dor_002dno_002dp-2716"></a><a name="index-yes_002dor_002dno_002dp-2717"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>y-or-n-p</b> <tt>&amp;optional</tt><var> control </var><tt>&amp;rest</tt><var> arguments </var><span class="roman">→</span><var> generalized-boolean<a name="index-y_002dor_002dn_002dp-2718"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>yes-or-no-p</b> <tt>&amp;optional</tt><var> control </var><tt>&amp;rest</tt><var> arguments </var><span class="roman">→</span><var> generalized-boolean<a name="index-yes_002dor_002dno_002dp-2719"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>control</var>&mdash;a <i>format control</i>.
+
+<p><var>arguments</var>&mdash;<i>format arguments</i> for <var>control</var>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>These functions ask a question and parse a response from the user. 
+They return <i>true</i> if the answer is affirmative,
+or <i>false</i> if the answer is negative.
+
+<p><code>y-or-n-p</code> is for asking the user a question whose answer is either
+&ldquo;yes&rdquo; or &ldquo;no.&rdquo;
+It is intended that the reply require
+the user to answer a yes-or-no question with a single
+character. 
+<code>yes-or-no-p</code> is also for asking the user a question
+whose answer is either &ldquo;Yes&rdquo; or &ldquo;No.&rdquo;
+It is intended that the reply require
+the user to take more action than just a single keystroke, such as typing
+the full word <code>yes</code> or <code>no</code> followed by a newline.
+
+<p><code>y-or-n-p</code> types out a message (if supplied), reads an answer
+in some <i>implementation-dependent</i> manner (intended to be short and simple,
+such as reading a single character such as <code>Y</code> or <code>N</code>). 
+<code>yes-or-no-p</code> types out a message (if supplied),
+attracts the user's attention (for example, by ringing
+the terminal's bell),
+and reads an answer
+in some <i>implementation-dependent</i> manner (intended to be multiple characters,
+such as <code>YES</code> or <code>NO</code>).
+
+<p>If <var>format-control</var> is supplied and not <code>nil</code>,
+then a <code>fresh-line</code> operation is performed; then
+a message is printed as if <var>format-control</var> and <var>arguments</var>
+were given to <code>format</code>. 
+In any case, <code>yes-or-no-p</code> and <code>y-or-n-p</code> will provide
+a prompt such as &ldquo;<code>(Y or N)</code>&rdquo; or &ldquo;<code>(Yes or No)</code>&rdquo; if appropriate.
+
+<p>All input and output are performed using <i>query I/O</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (y-or-n-p "(t or nil) given by")
+▷ (t or nil) given by (Y or N) <kbd>Y</kbd>
+<span class="roman">→</span> <i>true</i>
+ (yes-or-no-p "a ~S message" 'frightening)
+▷ a FRIGHTENING message (Yes or No) <kbd>no</kbd>
+<span class="roman">→</span> <i>false</i>
+ (y-or-n-p "Produce listing file?")
+▷ Produce listing file?
+▷ Please respond with Y or N. <kbd>n</kbd>
+<span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>Output to and input from <i>query I/O</i> will occur.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*query-io*</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="format.html#format">format</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>yes-or-no-p</code> and <code>yes-or-no-p</code> do not add question marks
+to the end of the prompt string, so any desired question mark or other
+punctuation should be explicitly included in the text query.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+</html>
+

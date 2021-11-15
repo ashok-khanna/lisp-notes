@@ -1,0 +1,164 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Rational-Computations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+<head>
+<title>Rational Computations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Number-Concepts.html#Number-Concepts" title="Number Concepts">
+<link rel="prev" href="Implementation_002dDependent-Numeric-Constants.html#Implementation_002dDependent-Numeric-Constants" title="Implementation-Dependent Numeric Constants">
+<link rel="next" href="Floating_002dpoint-Computations.html#Floating_002dpoint-Computations" title="Floating-point Computations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Rational-Computations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Floating_002dpoint-Computations.html#Floating_002dpoint-Computations">Floating-point Computations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Implementation_002dDependent-Numeric-Constants.html#Implementation_002dDependent-Numeric-Constants">Implementation-Dependent Numeric Constants</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Number-Concepts.html#Number-Concepts">Number Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">12.1.3 Rational Computations</h4>
+
+<p>The rules in this section apply to <i>rational</i> computations.
+
+<h5 class="subsubsection">12.1.3.1 Rule of Unbounded Rational Precision</h5>
+
+<p>Rational computations cannot overflow in the usual sense
+(though there may not be enough storage to represent a result),
+since <i>integers</i> and <i>ratios</i> may in principle be of any magnitude.
+
+<h5 class="subsubsection">12.1.3.2 Rule of Canonical Representation for Rationals</h5>
+
+<p>If any computation produces a result that is a mathematical ratio of two integers
+such that the denominator evenly divides the numerator, then the result is converted
+to the equivalent <i>integer</i>.
+
+<p>If the denominator does not evenly divide the numerator,
+the canonical representation of a <i>rational</i> number is as the <i>ratio</i>
+that numerator and that denominator, where the greatest common divisor of
+the numerator and denominator is one, and where the denominator is positive
+and greater than one.
+
+<p>When used as input (in the default syntax),
+the notation <code>-0</code> always denotes the <i>integer</i> <code>0</code>. 
+A <i>conforming implementation</i> must not have a
+representation of &ldquo;minus zero&rdquo; for <i>integers</i>
+that is distinct from its representation of zero for <i>integers</i>. 
+However, such a distinction is possible for <i>floats</i>;
+see the <i>type</i> <code>float</code>.
+
+<h5 class="subsubsection">12.1.3.3 Rule of Float Substitutability</h5>
+
+<p><a name="FloatSubstitutability"></a>When the arguments to an irrational mathematical <i>function</i>
+
+<p>are all <i>rational</i> and the true mathematical result
+is also (mathematically) rational, then unless otherwise noted
+an implementation is free to return either an accurate
+<i>rational</i> result
+or a <i>single float</i> approximation. 
+If the arguments are all <i>rational</i>
+but the result cannot be expressed
+as a <i>rational</i> number, then a <i>single float</i>
+approximation is always returned.
+
+<p>If the arguments to
+an irrational
+mathematical <i>function</i> are all of type
+<code>(or rational (complex rational))</code>
+and the true mathematical result is
+(mathematically) a complex number with rational real and imaginary
+parts, then unless otherwise noted an implementation is free to return
+either an accurate result of type <code>(or rational (complex rational))</code>
+or
+a <i>single float</i>
+(permissible only if the imaginary part of the true mathematical
+result is zero) or <code>(complex single-float)</code>. If the arguments are
+all of type <code>(or rational (complex rational))</code>
+but the result cannot be
+expressed as a <i>rational</i> or <i>complex rational</i>,
+then the returned
+value will be of <i>type</i> <code>single-float</code>
+(permissible only if the imaginary
+part of the true mathematical result is zero) or <code>(complex single-float)</code>.
+
+<p>Float substitutability applies neither to the rational <i>functions</i>
+<code>+</code>,
+<code>-</code>,
+<code>*</code>,
+and <code>/</code>
+nor to the related <i>operators</i>
+<code>1+</code>,
+<code>1-</code>,
+<code>incf</code>,
+<code>decf</code>,
+and <code>conjugate</code>. 
+For rational <i>functions</i>,
+if all arguments are <i>rational</i>,
+then the result is <i>rational</i>;
+if all arguments are of type <code>(or rational (complex rational))</code>,
+then the result is of type <code>(or rational (complex rational))</code>.
+
+<div class="float">
+<a name="fig12_002e8"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Function </th><th valign="top">Sample Results
+<br></th></tr><tr align="left"><td valign="top"><code>abs</code> </td><td valign="top"><code>(abs #c(3 4)) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->5 </code><i>or</i><code> 5.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>acos</code> </td><td valign="top"><code>(acos 1) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>acosh</code> </td><td valign="top"><code>(acosh 1) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>asin</code> </td><td valign="top"><code>(asin 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>asinh</code> </td><td valign="top"><code>(asinh 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>atan</code> </td><td valign="top"><code>(atan 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>atanh</code> </td><td valign="top"><code>(atanh 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>cis</code> </td><td valign="top"><code>(cis 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->1 </code><i>or</i><code> #c(1.0 0.0)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>cos</code> </td><td valign="top"><code>(cos 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->1 </code><i>or</i><code> 1.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>cosh</code> </td><td valign="top"><code>(cosh 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->1 </code><i>or</i><code> 1.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>exp</code> </td><td valign="top"><code>(exp 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->1 </code><i>or</i><code> 1.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>expt</code> </td><td valign="top"><code>(expt 8 1/3) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->2 </code><i>or</i><code> 2.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>log</code> </td><td valign="top"><code>(log 1) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>(log 8 2) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->3 </code><i>or</i><code> 3.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>phase</code> </td><td valign="top"><code>(phase 7) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>signum</code> </td><td valign="top"><code>(signum #c(3 4)) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->#c(3/5 4/5) </code><i>or</i><code> #c(0.6 0.8)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>sin</code> </td><td valign="top"><code>(sin 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>sinh</code> </td><td valign="top"><code>(sinh 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>sqrt</code> </td><td valign="top"><code>(sqrt 4) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->2 </code><i>or</i><code> 2.0</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>(sqrt 9/16) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->3/4 </code><i>or</i><code> 0.75</code>
+<br></td></tr><tr align="left"><td valign="top"><code>tan</code> </td><td valign="top"><code>(tan 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr><tr align="left"><td valign="top"><code>tanh</code> </td><td valign="top"><code>(tanh 0) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->0 </code><i>or</i><code> 0.0</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.8: Functions Affected by Rule of Float Substitutability</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Rational-Computations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+</html>
+

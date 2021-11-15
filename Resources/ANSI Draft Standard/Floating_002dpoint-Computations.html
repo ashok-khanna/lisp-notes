@@ -1,0 +1,125 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Floating_002dpoint-Computations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+<head>
+<title>Floating-point Computations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Number-Concepts.html#Number-Concepts" title="Number Concepts">
+<link rel="prev" href="Rational-Computations.html#Rational-Computations" title="Rational Computations">
+<link rel="next" href="Complex-Computations.html#Complex-Computations" title="Complex Computations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Floating-point-Computations"></a>
+<a name="Floating_002dpoint-Computations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Complex-Computations.html#Complex-Computations">Complex Computations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Rational-Computations.html#Rational-Computations">Rational Computations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Number-Concepts.html#Number-Concepts">Number Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">12.1.4 Floating-point Computations</h4>
+
+<p>The following rules apply to floating point computations.
+
+<h5 class="subsubsection">12.1.4.1 Rule of Float and Rational Contagion</h5>
+
+<p><a name="RuleOfFloatAndRationalContagion"></a>When <i>rationals</i> and <i>floats</i> are combined by a numerical function,
+the <i>rational</i> is first converted to a <i>float</i> of the same format. 
+For <i>functions</i> such as <code>+</code> that take more than two arguments,
+it is permitted that part of the operation be carried out exactly using
+<i>rationals</i> and the rest be done using floating-point arithmetic.
+
+<p>When <i>rationals</i> and <i>floats</i> are compared by a numerical function,
+the <i>function</i> <code>rational</code> is effectively called to convert the <i>float</i>
+to a <i>rational</i> and then an exact
+comparison is performed. In the case of <i>complex</i> numbers,
+the real and imaginary parts are effectively handled individually.
+
+<h5 class="unnumberedsubsubsec">12.1.4.1.1 Examples of Rule of Float and Rational Contagion</h5>
+
+<pre class="lisp"> ;;;; Combining rationals with floats.
+ ;;; This example assumes an implementation in which
+ ;;; (float-radix 0.5) is 2 (as in IEEE) or 16 (as in IBM/360),
+ ;;; or else some other implementation in which 1/2 has an exact
+ ;;;  representation in floating point.
+ (+ 1/2 0.5) <span class="roman">→</span> 1.0
+ (- 1/2 0.5d0) <span class="roman">→</span> 0.0d0
+ (+ 0.5 -0.5 1/2) <span class="roman">→</span> 0.5
+
+ ;;;; Comparing rationals with floats.
+ ;;; This example assumes an implementation in which the default float
+ ;;; format is IEEE single-float, IEEE double-float, or some other format
+ ;;; in which 5/7 is rounded upwards by FLOAT.
+ (&lt; 5/7 (float 5/7)) <span class="roman">→</span> <i>true</i>
+ (&lt; 5/7 (rational (float 5/7))) <span class="roman">→</span> <i>true</i>
+ (&lt; (float 5/7) (float 5/7)) <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubsection">12.1.4.2 Rule of Float Approximation</h5>
+
+<p>Computations with <i>floats</i> are only approximate,
+although they are described as if the results
+were mathematically accurate. 
+Two mathematically identical
+expressions may be computationally different because of errors
+inherent in the floating-point approximation process. 
+The precision of a <i>float</i> is not necessarily
+correlated with the accuracy of that number. 
+For instance, 3.142857142857142857 is a more precise approximation
+to π than 3.14159, but the latter is more accurate. 
+The precision refers to the number of bits retained in the representation. 
+When an operation combines a <i>short float</i> with a
+<i>long float</i>,
+the result will be a <i>long float</i>. 
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->functions assume that the accuracy of
+arguments to them does not exceed their precision.  Therefore
+when two <i>small floats</i>
+are combined, the result is a <i>small float</i>. 
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->functions
+never convert automatically from a larger size to a smaller one.
+
+<h5 class="subsubsection">12.1.4.3 Rule of Float Underflow and Overflow</h5>
+
+<p>An error of <i>type</i> <code>floating-point-overflow</code>
+or <code>floating-point-underflow</code> should be signaled if a
+floating-point computation causes exponent overflow or underflow, respectively.
+
+<h5 class="subsubsection">12.1.4.4 Rule of Float Precision Contagion</h5>
+
+<p><a name="RuleOfFloatPrecisionContagion"></a>The result of a numerical function is a <i>float</i> of the
+largest format among all the floating-point arguments to the <i>function</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Floating_002dpoint-Computations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+</html>
+

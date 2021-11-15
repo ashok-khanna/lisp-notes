@@ -1,0 +1,108 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Keyword-Arguments-in-Generic-Functions-and-Methods.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Keyword Arguments in Generic Functions and Methods - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods" title="Generic Functions and Methods">
+<link rel="prev" href="Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html#Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function" title="Congruent Lambda-lists for all Methods of a Generic Function">
+<link rel="next" href="Method-Selection-and-Combination.html#Method-Selection-and-Combination" title="Method Selection and Combination">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Keyword-Arguments-in-Generic-Functions-and-Methods"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Method-Selection-and-Combination.html#Method-Selection-and-Combination">Method Selection and Combination</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html#Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function">Congruent Lambda-lists for all Methods of a Generic Function</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generic-Functions-and-Methods.html#Generic-Functions-and-Methods">Generic Functions and Methods</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.6.5 Keyword Arguments in Generic Functions and Methods</h4>
+
+<p>When a generic function or any of its methods mentions
+<code>&amp;key</code> in a <i>lambda list</i>, the specific set of keyword
+arguments accepted by the generic function varies according to the
+applicable methods.  The set of keyword arguments accepted by the
+generic function for a particular call is the union of the keyword
+arguments accepted by all applicable methods and the keyword arguments
+mentioned after <code>&amp;key</code> in the generic function definition,
+if any.  A method that has <code>&amp;rest</code> but not <code>&amp;key</code> does not affect the
+set of acceptable keyword arguments.  If
+the <i>lambda list</i> of any applicable method or of the generic
+function definition contains <code>&amp;allow-other-keys</code>, all
+keyword arguments are accepted by the generic function.
+
+<p>The <i>lambda list</i> congruence rules require that each method
+accept all of the keyword arguments mentioned after <code>&amp;key</code> in the
+generic function definition, by accepting them explicitly, by
+specifying <code>&amp;allow-other-keys</code>, or by specifying <code>&amp;rest</code> but
+not <code>&amp;key</code>.  Each method can accept additional keyword arguments
+of its own, in addition to the keyword arguments mentioned in the
+generic function definition.
+
+<p>If a <i>generic function</i> is passed a keyword argument that no applicable
+method accepts, an error should be signaled; see <a href="Error-Checking-in-Function-Calls.html#Error-Checking-in-Function-Calls">Section 3.5 (Error Checking in Function Calls)</a>.
+
+<h5 class="subsubsection">7.6.5.1 Examples of Keyword Arguments in Generic Functions and Methods</h5>
+
+<p>For example, suppose there are two methods defined for <code>width</code>
+as follows:
+
+<pre class="lisp"> (defmethod width ((c character-class) &amp;key font) ...)
+
+ (defmethod width ((p picture-class) &amp;key pixel-size) ...)
+</pre>
+<p class="noindent">Assume that there are no other methods and no generic
+function definition for <code>width</code>. The evaluation of the
+following form should signal an error because
+the keyword argument <tt>:pixel-size</tt> is not accepted by the applicable method.
+
+<pre class="lisp"> (width (make-instance `character-class :char #\Q)
+        :font 'baskerville :pixel-size 10)
+</pre>
+<p>The evaluation of the following form should signal an error.
+
+<pre class="lisp"> (width (make-instance `picture-class :glyph (glyph #\Q))
+        :font 'baskerville :pixel-size 10)
+</pre>
+<p>The evaluation of the following form will not signal an error
+if the class named <code>character-picture-class</code> is a subclass of
+both <code>picture-class</code> and <code>character-class</code>.
+
+<pre class="lisp"> (width (make-instance `character-picture-class :char #\Q)
+        :font 'baskerville :pixel-size 10)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Keyword-Arguments-in-Generic-Functions-and-Methods.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

@@ -1,0 +1,146 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Overview-of-The-Lisp-Printer.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+<head>
+<title>Overview of The Lisp Printer - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-Lisp-Printer.html#The-Lisp-Printer" title="The Lisp Printer">
+<link rel="next" href="Printer-Dispatching.html#Printer-Dispatching" title="Printer Dispatching">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Overview-of-The-Lisp-Printer"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Printer-Dispatching.html#Printer-Dispatching">Printer Dispatching</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Lisp-Printer.html#The-Lisp-Printer">The Lisp Printer</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.1.1 Overview of The Lisp Printer</h4>
+
+<p><span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->provides a representation of most <i>objects</i> in the form
+of printed text called the printed representation. 
+Functions such as <code>print</code> take an <i>object</i>
+and send the characters of its printed representation to a <i>stream</i>. 
+The collection of routines that does this is known as the (<span class="roman">Common Lisp</span>) printer.
+
+<p>Reading a printed representation
+typically
+produces an <i>object</i> that is <code>equal</code> to the
+originally printed <i>object</i>.
+
+<h5 class="subsubsection">22.1.1.1 Multiple Possible Textual Representations</h5>
+
+<p>Most <i>objects</i> have more than one possible textual representation. 
+For example, the positive <i>integer</i> with a magnitude of twenty-seven
+can be textually expressed in any of these ways:
+
+<pre class="lisp"> 27    27.    #o33    #x1B    #b11011    #.(* 3 3 3)    81/3
+</pre>
+<p>A list containing the two symbols <code>A</code> and <code>B</code> can also be textually
+expressed in a variety of ways:
+
+<pre class="lisp"> (A B)    (a b)    (  a  b )    (\A |B|)
+(|\A|
+  B
+)
+</pre>
+<p>In general,
+from the point of view of the <i>Lisp reader</i>,
+wherever <i>whitespace</i> is permissible in a textual representation,
+any number of <i>spaces</i> and <i>newlines</i> can appear in <i>standard syntax</i>.
+
+<p>When a function such as <code>print</code> produces a printed representation,
+it must choose
+from among many possible textual representations. 
+In most cases, it chooses a
+program readable representation,
+but in certain cases it might use a more compact notation that is not
+program-readable.
+
+<p>A number of option variables, called
+<a name="index-printer-control-variable-2792"></a><dfn>printer control variables</dfn>,
+are provided to permit control of individual aspects of the
+printed representation of <i>objects</i>. 
+The next figure&nbsp;<!-- /@w -->shows the <i>standardized</i> <i>printer control variables</i>;
+there might also be <i>implementation-defined</i> <i>printer control variables</i>.
+
+<div class="float">
+<a name="StdPrinterControlVars"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*print-array* </td><td valign="top">*print-gensym* </td><td valign="top">*print-pprint-dispatch*
+<br></td></tr><tr align="left"><td valign="top">*print-base* </td><td valign="top">*print-length* </td><td valign="top">*print-pretty*
+<br></td></tr><tr align="left"><td valign="top">*print-case* </td><td valign="top">*print-level* </td><td valign="top">*print-radix*
+<br></td></tr><tr align="left"><td valign="top">*print-circle* </td><td valign="top">*print-lines* </td><td valign="top">*print-readably*
+<br></td></tr><tr align="left"><td valign="top">*print-escape* </td><td valign="top">*print-miser-width* </td><td valign="top">*print-right-margin*
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 22.1: Standardized Printer Control Variables</strong></p></div>
+
+<p>In addition to the <i>printer control variables</i>,
+the following additional <i>defined names</i>
+relate to or affect the behavior of the <i>Lisp printer</i>:
+
+<div class="float">
+<a name="fig22_002e2"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*package* </td><td valign="top">*read-eval* </td><td valign="top">readtable-case
+<br></td></tr><tr align="left"><td valign="top">*read-default-float-format* </td><td valign="top">*readtable* </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 22.2: Additional Influences on the Lisp printer.</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">22.1.1.1.1 Printer Escaping</h5>
+
+<p>The <i>variable</i> <code>*print-escape*</code> controls whether the <i>Lisp printer</i>
+tries to produce notations such as escape characters and package prefixes.
+
+<p>The <i>variable</i> <code>*print-readably*</code> can be used to override
+many of the individual aspects controlled by the other
+<i>printer control variables</i> when program-readable output
+is especially important.
+
+<p>One of the many effects of making the <i>value</i> of <code>*print-readably*</code> be <i>true</i>
+is that the <i>Lisp printer</i> behaves as if <code>*print-escape*</code> were also <i>true</i>. 
+For notational convenience, we say that
+if the value of either <code>*print-readably*</code> or <code>*print-escape*</code> is <i>true</i>,
+then <a name="index-printer-escaping-2793"></a><dfn>printer escaping</dfn> is &ldquo;enabled&rdquo;;
+and we say that
+if the values of both <code>*print-readably*</code> and <code>*print-escape*</code> are <i>false</i>,
+then <i>printer escaping</i> is &ldquo;disabled&rdquo;.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Overview-of-The-Lisp-Printer.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+</html>
+

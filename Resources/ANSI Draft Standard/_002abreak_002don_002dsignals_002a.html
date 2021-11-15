@@ -1,0 +1,131 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002abreak_002don_002dsignals_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>*break-on-signals* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="_002adebugger_002dhook_002a.html#g_t_002adebugger_002dhook_002a" title="*debugger-hook*">
+<link rel="next" href="handler_002dbind.html#handler_002dbind" title="handler-bind">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="*break-on-signals*"></a>
+<a name="g_t_002abreak_002don_002dsignals_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="handler_002dbind.html#handler_002dbind">handler-bind</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002adebugger_002dhook_002a.html#g_t_002adebugger_002dhook_002a">*debugger-hook*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">*break-on-signals* (Variable)</h3>
+
+<p><a name="index-g_t_002abreak_002don_002dsignals_002a-920"></a><a name="index-g_t_002abreak_002don_002dsignals_002a-921"></a>
+
+<h5 class="subsubheading">Value Type:</h5>
+
+<p>a <i>type specifier</i>.
+
+<h5 class="subsubheading">Initial Value:</h5>
+
+<p><code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>When <code>(typep </code><i>condition</i><code> *break-on-signals*)</code> returns <i>true</i>,
+calls to <code>signal</code>, and to other <i>operators</i> such as <code>error</code>
+that implicitly call <code>signal</code>, enter the debugger prior to
+<i>signaling</i> the <i>condition</i>.
+
+<p>the <code>continue</code> restart can be used to continue with the normal
+<i>signaling</i> process when a break occurs process due to
+<code>*break-on-signals*</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> *break-on-signals* <span class="roman">→</span> NIL
+ (ignore-errors (error 'simple-error :format-control "Fooey!"))
+<span class="roman">→</span> NIL, #&lt;SIMPLE-ERROR 32207172&gt;
+
+ (let ((*break-on-signals* 'error))
+   (ignore-errors (error 'simple-error :format-control "Fooey!")))
+▷ Break: Fooey!
+▷ BREAK entered because of *BREAK-ON-SIGNALS*.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Continue to signal.
+▷  2: Top level.
+▷ Debug&gt; <kbd>:CONTINUE 1</kbd>
+▷ Continue to signal.
+<span class="roman">→</span> NIL, #&lt;SIMPLE-ERROR 32212257&gt;
+
+ (let ((*break-on-signals* 'error))
+   (error 'simple-error :format-control "Fooey!"))
+▷ Break: Fooey!
+▷ BREAK entered because of *BREAK-ON-SIGNALS*.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Continue to signal.
+▷  2: Top level.
+▷ Debug&gt; <kbd>:CONTINUE 1</kbd>
+▷ Continue to signal.
+▷ Error: Fooey!
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Top level.
+▷ Debug&gt; <kbd>:CONTINUE 1</kbd>
+▷ Top level.
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="break.html#break">break</a>,
+<a href="signal.html#signal">signal</a>, <a href="warn.html#warn">warn</a>, <a href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>,
+<a href="typep.html#typep">typep</a>,
+<a href="Condition-System-Concepts.html#Condition-System-Concepts">Section 9.1 (Condition System Concepts)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>*break-on-signals*</code> is intended primarily for use in debugging code that
+does signaling.   When setting <code>*break-on-signals*</code>, the user is
+encouraged to choose the most restrictive specification that suffices. 
+Setting <code>*break-on-signals*</code> effectively violates the modular handling of
+<i>condition</i> signaling.  In practice, the complete effect of setting
+<code>*break-on-signals*</code> might be unpredictable in some cases since the user
+might not be aware of the variety or number of calls to <code>signal</code>
+that are used in code called only incidentally.
+
+<p><code>*break-on-signals*</code> enables an early entry to the debugger but such an
+entry does not preclude an additional entry to the debugger in the case of
+operations such as <code>error</code> and <code>cerror</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002abreak_002don_002dsignals_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

@@ -1,0 +1,364 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defclass.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:51 GMT -->
+<head>
+<title>defclass - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="with_002dslots.html#with_002dslots" title="with-slots">
+<link rel="next" href="defgeneric.html#defgeneric" title="defgeneric">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defclass"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="defgeneric.html#defgeneric">defgeneric</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="with_002dslots.html#with_002dslots">with-slots</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="heading">defclass (Macro)</h3>
+
+<p><a name="index-defclass-792"></a><a name="index-defclass-793"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defclass</b><var> class-name </var><tt>(</tt><tt>{</tt><var>superclass-name</var><tt>}</tt><var>*</var><tt>)</tt> <tt>(</tt><tt>{</tt><i>slot-specifier</i><tt>}</tt><var>*</var><tt>)</tt> <tt>[</tt><tt>[</tt><var>↓</var><i>class-option</i><var><!-- /@w --></var><tt>]</tt><tt>]</tt> <span class="roman">→</span><var> new-class<a name="index-defclass-794"></a></var><br>
+     </div>
+
+     <dl>
+<dt><i>slot-specifier::=</i><dd><i>slot-name</i> | (<i>slot-name</i> 〚↓<i>slot-option</i>〛)
+
+     <br><dt><i>slot-name::= symbol</i>
+<br><dt><i>slot-option::=</i><dd><tt>{</tt><tt>:reader</tt> reader-function-name<tt>}</tt>* |<br>
+<tt>{</tt><tt>:writer</tt> writer-function-name<tt>}</tt>* |<br>
+<tt>{</tt><tt>:accessor</tt> reader-function-name<tt>}</tt>* |<br>
+<tt>{</tt><tt>:allocation</tt> allocation-type<tt>}</tt> |<br>
+<tt>{</tt><tt>:initarg</tt> initarg-name<tt>}</tt>* |<br>
+<tt>{</tt><tt>:initform</tt> form<tt>}</tt> |<br>
+<tt>{</tt><tt>:type</tt> type-specifier<tt>}</tt> |<br>
+<tt>{</tt><tt>:documentation</tt> <i>string</i><tt>}</tt>
+
+     <br><dt><i>function-name::= </i><tt>{</tt><i>symbol</i><tt> | (setf </tt><i>symbol</i><tt>)}</tt>
+<br><dt><i>class-option::=</i><dd>(<tt>:default-initargs</tt> . initarg-list) |<br>
+(<tt>:documentation</tt> <i>string</i>) |<br>
+(<tt>:metaclass</tt> class-name)
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>Class-name</var>&mdash;a <i>non-nil</i> <i>symbol</i>.
+
+<p><var>Superclass-name</var>&mdash;a <i>non-nil</i> <i>symbol</i>.
+
+<p><var>Slot-name</var>&mdash;a <i>symbol</i>. 
+The <var>slot-name</var> argument is
+a <i>symbol</i> that is syntactically valid for use as a variable name.
+
+<p><var>Reader-function-name</var>&mdash;a <i>non-nil</i> <i>symbol</i>. 
+<tt>:reader</tt> can be supplied more than once for a given <i>slot</i>.
+
+<p><var>Writer-function-name</var>&mdash;a <i>generic function</i> name. 
+<tt>:writer</tt> can be supplied more than once for a given <i>slot</i>.
+
+<p><var>Reader-function-name</var>&mdash;a <i>non-nil</i> <i>symbol</i>. 
+<tt>:accessor</tt> can be supplied more than once for a given <i>slot</i>.
+
+<p><var>Allocation-type</var>&mdash;(member <tt>:instance</tt> <tt>:class</tt>). 
+<tt>:allocation</tt> can be supplied once at most for a given <i>slot</i>.
+
+<p><var>Initarg-name</var>&mdash;a <i>symbol</i>. 
+<tt>:initarg</tt> can be supplied more than once for a given <i>slot</i>.
+
+<p><var>Form</var>&mdash;a <i>form</i>. 
+<tt>:init-form</tt> can be supplied once at most for a given <i>slot</i>.
+
+<p><var>Type-specifier</var>&mdash;a <i>type specifier</i>. 
+<tt>:type</tt> can be supplied once at most for a given <i>slot</i>.
+
+<p><var>Class-option</var>&mdash; refers to the <i>class</i> as a whole or to all class <i>slots</i>.
+
+<p><var>Initarg-list</var>&mdash;a <i>list</i> of alternating initialization argument
+<i>names</i> and default initial value <i>forms</i>. 
+<tt>:default-initargs</tt> can be supplied at most once.
+
+<p><var>Class-name</var>&mdash;a <i>non-nil</i> <i>symbol</i>. 
+<tt>:metaclass</tt> can be supplied once at most.
+
+<p><var>new-class</var>&mdash;the new <i>class</i> <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The macro <code>defclass</code> defines a new named <i>class</i>.  It returns
+the new <i>class</i> <i>object</i> as its result.
+
+<p>The syntax of <code>defclass</code> provides options for specifying
+initialization arguments for <i>slots</i>, for specifying default
+initialization values for <i>slots</i>, and for requesting that
+<i>methods</i> on specified <i>generic functions</i> be automatically
+generated for reading and writing the values of <i>slots</i>. 
+No reader or writer functions are defined by default;
+their generation must be explicitly requested.  However,
+<i>slots</i> can always be <i>accessed</i> using <code>slot-value</code>.
+
+<p>Defining a new <i>class</i> also causes a <i>type</i> of the same name to be
+defined.  The predicate <code>(typep </code><var>object</var> <var>class-name</var><code>)</code> returns
+true if the <i>class</i> of the given <var>object</var> is
+the <i>class</i> named by <var>class-name</var> itself or
+a subclass of the class <var>class-name</var>.  A <i>class</i> <i>object</i>
+can be used as a <i>type specifier</i>. 
+Thus <code>(typep </code><var>object</var> <var>class</var><code>)</code> returns <i>true</i>
+if the <i>class</i> of the <var>object</var> is
+<var>class</var> itself or a subclass of <var>class</var>.
+
+<p>The <var>class-name</var> argument specifies the <i>proper name</i>
+of the new <i>class</i>. 
+If a <i>class</i> with the same <i>proper name</i> already exists
+and that <i>class</i> is an <i>instance</i> of <code>standard-class</code>,
+and if the <code>defclass</code> form for the definition of the new <i>class</i>
+specifies a <i>class</i> of <i>class</i> <code>standard-class</code>,
+the existing <i>class</i> is redefined,
+and instances of it (and its <i>subclasses</i>) are updated
+to the new definition at the time that they are next <i>accessed</i>. 
+For details, see <a href="Redefining-Classes.html#Redefining-Classes">Section 4.3.6 (Redefining Classes)</a>.
+
+<p>Each <var>superclass-name</var> argument
+specifies a direct <i>superclass</i> of the new <i>class</i>. 
+If the <i>superclass</i> list is empty, then the <i>superclass</i>
+defaults depending on the <i>metaclass</i>,
+with <code>standard-object</code> being the
+default for <code>standard-class</code>.
+
+<p>The new <i>class</i> will
+inherit <i>slots</i> and <i>methods</i>
+from each of its direct <i>superclasses</i>, from
+their direct <i>superclasses</i>, and so on. 
+For a discussion of how <i>slots</i> and <i>methods</i> are inherited,
+see <a href="Inheritance.html#Inheritance">Section 4.3.4 (Inheritance)</a>.
+
+<p>The following slot options are available:
+
+     <ul>
+<li>The <tt>:reader</tt> slot option specifies that an <i>unqualified method</i> is
+to be defined on the <i>generic function</i> named <var>reader-function-name</var>
+to read the value of the given <i>slot</i>.
+
+     <li>The <tt>:writer</tt> slot option specifies that an <i>unqualified method</i> is
+to be defined on the <i>generic function</i> named <var>writer-function-name</var>
+to write the value of the <i>slot</i>.
+
+     <li>The <tt>:accessor</tt> slot option specifies that an <i>unqualified method</i>
+is to be defined on the generic function named <var>reader-function-name</var>
+to read the value of the given <i>slot</i>
+and that an <i>unqualified method</i> is to be defined on the
+<i>generic function</i> named <code>(setf </code><var>reader-function-name</var><code>)</code> to be
+used with <code>setf</code> to modify the value of the <i>slot</i>.
+
+     <li>The <tt>:allocation</tt> slot option is used to specify where storage is
+to be allocated for the given <i>slot</i>.  Storage for a
+<i>slot</i> can be located
+in each instance or in the <i>class</i> <i>object</i> itself. 
+The value of the <var>allocation-type</var> argument can be
+either the keyword <tt>:instance</tt>
+or the keyword <tt>:class</tt>.    If the <tt>:allocation</tt>
+slot option is not specified, the effect is the same as specifying
+<code>:allocation :instance</code>.
+
+          <ul>
+<li>If <var>allocation-type</var> is <tt>:instance</tt>, a <i>local slot</i> of
+the name <var>slot-name</var> is allocated in each instance of the
+<i>class</i>.
+
+          <li>If <var>allocation-type</var> is <tt>:class</tt>, a shared
+<i>slot</i> of the given
+name is allocated in the <i>class</i> <i>object</i> created by this <code>defclass</code>
+form.  The value of the <i>slot</i> is shared by all
+<i>instances</i> of the <i>class</i>. 
+If a class C<sub>1</sub> defines such a <i>shared slot</i>, any
+subclass C<sub>2</sub> of
+C<sub>1</sub> will share this single <i>slot</i> unless the <code>defclass</code> form
+for C<sub>2</sub> specifies a <i>slot</i> of the same <i>name</i> or there is a
+superclass of C<sub>2</sub> that precedes C<sub>1</sub> in the class precedence
+list of C<sub>2</sub> and that defines a <i>slot</i> of the same <i>name</i>. 
+</ul>
+
+     <li>The <tt>:initform</tt> slot option is used to provide a default
+initial value form to be used in the initialization of the <i>slot</i>.  This
+<i>form</i> is evaluated every time it is used to initialize the
+<i>slot</i>.  The
+lexical environment in which this <i>form</i> is evaluated is the lexical
+environment in which the <code>defclass</code> form was evaluated. 
+Note that the lexical environment refers both to variables and to
+functions.  For <i>local slots</i>, the dynamic environment is the dynamic
+environment in which <code>make-instance</code> is called; for shared
+<i>slots</i>, the dynamic environment is the dynamic environment in which the
+<code>defclass</code> form was evaluated. 
+See <a href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Section 7.1 (Object Creation and Initialization)</a>.
+
+     <p>No implementation is permitted to extend the syntax of <code>defclass</code>
+to allow <code>(</code><var>slot-name</var> <var>form</var><code>)</code> as an abbreviation for
+<code>(</code><var>slot-name</var><code> :initform </code><var>form</var><code>)</code>.
+
+     <li>The <tt>:initarg</tt> slot option declares an initialization
+argument named <var>initarg-name</var> and specifies that this
+initialization argument initializes the given <i>slot</i>.  If the
+initialization argument has a value in the call to
+<code>initialize-instance</code>, the value will be stored into the given <i>slot</i>,
+and the slot's <tt>:initform</tt> slot option, if any, is not
+evaluated.  If none of the initialization arguments specified for a
+given <i>slot</i> has a value, the <i>slot</i> is initialized according to the
+<tt>:initform</tt> slot option, if specified.
+
+     <li>The <tt>:type</tt> slot option specifies that the contents of the
+<i>slot</i> will always be of the specified data type.  It effectively
+declares the result type of the reader generic function when applied
+to an <i>object</i> of this <i>class</i>.  The consequences of attempting to store in a
+<i>slot</i> a value that does not satisfy the type of the <i>slot</i> are undefined. 
+The <tt>:type</tt> slot option is further discussed in
+<a href="Inheritance-of-Slots-and-Slot-Options.html#Inheritance-of-Slots-and-Slot-Options">Section 7.5.3 (Inheritance of Slots and Slot Options)</a>.
+
+     <li>The <tt>:documentation</tt> slot option provides a <i>documentation string</i>
+for the <i>slot</i>.  <tt>:documentation</tt> can be supplied once at most
+for a given <i>slot</i>. 
+</ul>
+
+<p>Each class option is an option that refers to the <i>class</i> as a whole. 
+The following class options are available:
+
+     <ul>
+<li>The <tt>:default-initargs</tt> class option is followed by a list of
+alternating initialization argument <i>names</i> and default initial value
+forms.  If any of these initialization arguments does not appear in
+the initialization argument list supplied to <code>make-instance</code>, the
+corresponding default initial value form is evaluated, and the
+initialization argument <i>name</i> and the <i>form</i>'s value are added to the end
+of the initialization argument list before the instance is created;
+see <a href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Section 7.1 (Object Creation and Initialization)</a>. 
+The default initial value form is evaluated each time it is used.  The lexical
+environment in which this <i>form</i> is evaluated is the lexical environment
+in which the <code>defclass</code> form was evaluated.  The dynamic
+environment is the dynamic environment in which <code>make-instance</code>
+was called.  If an initialization argument <i>name</i> appears more than once
+in a <tt>:default-initargs</tt> class option, an error is signaled.
+
+     <li>The <tt>:documentation</tt> class option causes a <i>documentation string</i>
+to be attached with the <i>class</i> <i>object</i>,
+and attached with kind <tt>type</tt> to the <var>class-name</var>. 
+<tt>:documentation</tt> can be supplied once at most.
+
+     <li>The <tt>:metaclass</tt> class option is used to specify that
+instances of the <i>class</i> being defined are to have a different metaclass
+than the default provided by the system (the <i>class</i> <code>standard-class</code>). 
+</ul>
+
+<p>Note the following rules of <code>defclass</code> for <i>standard classes</i>:
+
+     <ul>
+<li>It is not required that the <i>superclasses</i> of a <i>class</i> be defined before
+the <code>defclass</code> form for that <i>class</i> is evaluated.
+
+     <li>All the <i>superclasses</i> of a <i>class</i> must be defined before
+an <i>instance</i> of the <i>class</i> can be made.
+
+     <li>A <i>class</i> must be defined before it can be used as a parameter
+specializer in a <code>defmethod</code> form. 
+</ul>
+
+<p>The object system&nbsp;<!-- /@w -->can be extended to cover situations where these rules are not
+obeyed.
+
+<p>Some slot options are inherited by a <i>class</i> from its
+<i>superclasses</i>, and
+some can be shadowed or altered by providing a local slot description. 
+No class options except <tt>:default-initargs</tt> are inherited.  For a
+detailed description of how <i>slots</i> and slot options are inherited,
+see <a href="Inheritance-of-Slots-and-Slot-Options.html#Inheritance-of-Slots-and-Slot-Options">Section 7.5.3 (Inheritance of Slots and Slot Options)</a>.
+
+<p>The options to <code>defclass</code> can be extended.  It is required that
+all implementations signal an error if they observe a class option or
+a slot option that is not implemented locally.
+
+<p>It is valid to specify more than one reader, writer, accessor, or
+initialization argument for a <i>slot</i>.  No other slot option can
+appear
+more than once in a single slot description, or an error is
+signaled.
+
+<p>If no reader, writer, or accessor is specified for a <i>slot</i>,
+the <i>slot</i> can only be <i>accessed</i> by the <i>function</i> <code>slot-value</code>.
+
+<p>If a <code>defclass</code> <i>form</i> appears as a <i>top level form</i>,
+the <i>compiler</i> must make the <i>class</i> <i>name</i> be recognized as a
+valid <i>type</i> <i>name</i> in subsequent declarations (as for <code>deftype</code>)
+and be recognized as a valid <i>class</i> <i>name</i> for <code>defmethod</code>
+<i>parameter specializers</i> and for use as the <tt>:metaclass</tt> option of a
+subsequent <code>defclass</code>.  The <i>compiler</i> must make
+the <i>class</i> definition
+available to be returned by <code>find-class</code> when its <var>environment</var>
+<i>argument</i> is a value received as the <i>environment parameter</i> of a <i>macro</i>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If there are any duplicate slot names,
+an error of <i>type</i> <code>program-error</code> is signaled.
+
+<p>If an initialization argument <i>name</i> appears more than once in
+<tt>:default-initargs</tt> class option,
+an error of <i>type</i> <code>program-error</code> is signaled.
+
+<p>If any of the following slot options appears more than once in a
+single slot description, an error of <i>type</i> <code>program-error</code>
+is signaled: <tt>:allocation</tt>,
+<tt>:initform</tt>, <tt>:type</tt>, <tt>:documentation</tt>.
+
+<p>It is required that all implementations signal
+an error of <i>type</i> <code>program-error</code> if they observe a class option
+or a slot option that is not implemented locally.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="documentation.html#documentation">documentation</a>,
+<a href="initialize_002dinstance-_0028Standard-Generic-Function_0029.html#initialize_002dinstance-_0028Standard-Generic-Function_0029">initialize-instance (Standard Generic Function)</a>,
+<a href="make_002dinstance.html#make_002dinstance">make-instance</a>,
+<a href="slot_002dvalue.html#slot_002dvalue">slot-value</a>,
+<a href="Classes.html#Classes">Section 4.3 (Classes)</a>,
+<a href="Inheritance.html#Inheritance">Section 4.3.4 (Inheritance)</a>,
+<a href="Redefining-Classes.html#Redefining-Classes">Section 4.3.6 (Redefining Classes)</a>,
+<a href="Determining-the-Class-Precedence-List.html#Determining-the-Class-Precedence-List">Section 4.3.5 (Determining the Class Precedence List)</a>,
+<a href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Section 7.1 (Object Creation and Initialization)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defclass.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:51 GMT -->
+</html>
+

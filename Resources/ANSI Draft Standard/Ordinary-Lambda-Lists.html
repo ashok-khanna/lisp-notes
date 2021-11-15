@@ -1,0 +1,380 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Ordinary-Lambda-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:09 GMT -->
+<head>
+<title>Ordinary Lambda Lists - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Lambda-Lists.html#Lambda-Lists" title="Lambda Lists">
+<link rel="next" href="Generic-Function-Lambda-Lists.html#Generic-Function-Lambda-Lists" title="Generic Function Lambda Lists">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Ordinary-Lambda-Lists"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Generic-Function-Lambda-Lists.html#Generic-Function-Lambda-Lists">Generic Function Lambda Lists</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Lambda-Lists.html#Lambda-Lists">Lambda Lists</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.4.1 Ordinary Lambda Lists</h4>
+
+<p>An <a name="index-ordinary-lambda-list-212"></a><dfn>ordinary lambda list</dfn> is used to describe how a set of
+<i>arguments</i> is received by an <i>ordinary</i> <i>function</i>. 
+The <i>defined names</i> in the next figure&nbsp;<!-- /@w -->are those which use
+<i>ordinary lambda lists</i>:
+
+<div class="float">
+<a name="fig3_002e12"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">define-method-combination </td><td valign="top">handler-case </td><td valign="top">restart-case
+<br></td></tr><tr align="left"><td valign="top">defun </td><td valign="top">labels </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">flet </td><td valign="top">lambda </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.12: Standardized Operators that use Ordinary Lambda Lists</strong></p></div>
+
+<p>An <i>ordinary lambda list</i> can contain the <i>lambda list keywords</i> shown
+in the next figure.
+
+<div class="float">
+<a name="fig3_002e13"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>&amp;allow-other-keys</code> </td><td valign="top"><code>&amp;key</code> </td><td valign="top"><code>&amp;rest</code>
+<br></td></tr><tr align="left"><td valign="top"><code>&amp;aux</code> </td><td valign="top"><code>&amp;optional</code> </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.13: Lambda List Keywords used by Ordinary Lambda Lists</strong></p></div>
+
+<p>Each <i>element</i> of a <i>lambda list</i> is either a parameter specifier
+or a <i>lambda list keyword</i>. 
+Implementations are free to provide additional <i>lambda list keywords</i>. 
+For a list of all <i>lambda list keywords</i>
+used by the implementation, see <code>lambda-list-keywords</code>.
+
+<p>The syntax for <i>ordinary lambda lists</i> is as follows:
+
+     <dl>
+<dt><var>lambda-list</var>::=<dd><tt>(</tt><tt>{</tt>var<tt>}</tt>*<br> &nbsp;<!-- /@w --><tt>[</tt><tt>&amp;optional</tt> <tt>{</tt>var <span class="roman">|</span> (var [init-form [supplied-p-parameter]])<tt>}</tt>*<tt>]</tt><br> &nbsp;<!-- /@w --><tt>[</tt><tt>&amp;rest</tt> <var>var</var><tt>]</tt><br> &nbsp;<!-- /@w --><code>[</code><tt>&amp;key</tt>&nbsp;<tt>{</tt>var&nbsp;(<tt>{</tt>var&nbsp;<span class="roman">|</span>&nbsp;(keyword-name&nbsp;var)<tt>}</tt>&nbsp;[init-form&nbsp;[supplied-p-parameter]])<tt>}</tt>*<!-- /@w -->  <tt>[</tt><tt>&amp;allow-other-keys</tt><tt>]</tt><code>]</code><!-- /@w --><br> &nbsp;<!-- /@w --><tt>[</tt><tt>&amp;aux</tt> <tt>{</tt>var <span class="roman">|</span> (var [init-form])<tt>}</tt>*<tt>]</tt><tt>)</tt><br>
+</dl>
+
+<p>A <var>var</var> or <var>supplied-p-parameter</var> must be a <i>symbol</i>
+that is not the name of a <i>constant variable</i>.
+
+<p>An <var>init-form</var> can be any <i>form</i>. 
+Whenever any <var>init-form</var> is evaluated for any parameter
+specifier, that <i>form</i> may refer to any parameter variable to
+the left of the specifier in which the <var>init-form</var> appears,
+including any <var>supplied-p-parameter</var> variables, and may rely
+on the fact that no other parameter variable has yet been bound
+(including its own parameter variable).
+
+<p>A <var>keyword-name</var> can be any <i>symbol</i>,
+but by convention is normally a <i>keyword</i><sub>1</sub>;
+all <i>standardized</i> <i>functions</i> follow that convention.
+
+<p>An <i>ordinary lambda list</i> has five parts, any or all of which may be empty. 
+For information about the treatment of argument mismatches,
+see <a href="Error-Checking-in-Function-Calls.html#Error-Checking-in-Function-Calls">Section 3.5 (Error Checking in Function Calls)</a>.
+
+<h5 class="subsubsection">3.4.1.1 Specifiers for the required parameters</h5>
+
+<p>These are all the parameter specifiers up to
+the first <i>lambda list keyword</i>;
+if there are no <i>lambda list keywords</i>,
+then all the specifiers are for required parameters. 
+Each required parameter is specified by a parameter variable <var>var</var>. 
+<var>var</var> is bound as a lexical variable unless it is declared <code>special</code>.
+
+<p>If there are <code>n</code> required parameters (<code>n</code> may be zero),
+there must be at least <code>n</code> passed arguments, and the
+required parameters are bound to the first <code>n</code> passed arguments;
+see <a href="Error-Checking-in-Function-Calls.html#Error-Checking-in-Function-Calls">Section 3.5 (Error Checking in Function Calls)</a>. 
+The other parameters are then processed using any remaining arguments.
+
+<h5 class="subsubsection">3.4.1.2 Specifiers for optional parameters</h5>
+
+<p><a name="index-g_t_0026optional-213"></a>
+If <code>&amp;optional</code> is present,
+the optional parameter specifiers are those following
+<code>&amp;optional</code>
+up to the next <i>lambda list keyword</i> or the end of the list. 
+If optional parameters are specified, then each one is processed as
+follows.  If any unprocessed arguments remain, then the parameter variable
+<var>var</var> is bound to the next remaining argument, just as for a required
+parameter.  If no arguments remain, however, then <var>init-form</var>
+is evaluated, and the parameter variable
+is bound to the resulting value
+(or to <code>nil</code>&nbsp;<!-- /@w -->if no <var>init-form</var> appears
+in the parameter specifier). 
+If another variable name <var>supplied-p-parameter</var>
+appears in the specifier, it is bound
+to <i>true</i> if an argument had been available, and to <i>false</i> if no
+argument remained (and therefore <var>init-form</var> had to be evaluated). 
+<var>Supplied-p-parameter</var>
+is bound not to an argument but to a value indicating whether or not
+an argument had been supplied for the corresponding <var>var</var>.
+
+<h5 class="subsubsection">3.4.1.3 A specifier for a rest parameter</h5>
+
+<p><a name="index-g_t_0026rest-214"></a>
+<code>&amp;rest</code>, if present, must be followed by a single <i>rest parameter</i>
+specifier, which in turn must be followed by another
+<i>lambda list keyword</i> or the end of the <i>lambda list</i>.  After all
+optional parameter specifiers have been processed, then there may or
+may not be a <i>rest parameter</i>.  If there is a <i>rest parameter</i>, it is
+bound to a <i>list</i> of all as-yet-unprocessed arguments.  If
+no unprocessed arguments remain, the <i>rest parameter</i> is bound to the
+<i>empty list</i>.  If there is no <i>rest parameter</i> and there are no
+<i>keyword parameters</i>, then an error
+should be signaled if
+any unprocessed arguments remain; see <a href="Error-Checking-in-Function-Calls.html#Error-Checking-in-Function-Calls">Section 3.5 (Error Checking in Function Calls)</a>. 
+The value of a <i>rest parameter</i>
+is permitted, but not required, to share structure with the
+last argument to <code>apply</code>.
+
+<p><a name="index-g_t_0026key-215"></a><a name="index-g_t_0026allow_002dother_002dkeys-216"></a>
+
+<h5 class="subsubsection">3.4.1.4 Specifiers for keyword parameters</h5>
+
+<p>If <code>&amp;key</code>
+is present, all specifiers up to the next <i>lambda list keyword</i>
+or the end of the <i>list</i> are keyword parameter specifiers. 
+When keyword parameters are processed,
+the same arguments are processed that
+would be made into a <i>list</i> for a <i>rest parameter</i>. 
+It is permitted to specify both <code>&amp;rest</code> and <code>&amp;key</code>. 
+In this case the remaining arguments are used for both purposes;
+that is, all remaining arguments are made into a <i>list</i> for the
+<i>rest parameter</i>, and are also processed for the <code>&amp;key</code> parameters. 
+If <code>&amp;key</code> is specified, there must remain
+an even number of arguments; see <a href="OddNumberOfKeyArgs.html#OddNumberOfKeyArgs">Section 3.5.1.6 (Odd Number of Keyword Arguments)</a>. 
+These arguments are considered as pairs,
+the first argument in each pair being interpreted as a name
+and the second as the corresponding value. 
+The first <i>object</i> of each pair must be a <i>symbol</i>;
+see <a href="InvalidKeyArgs.html#InvalidKeyArgs">Section 3.5.1.5 (Invalid Keyword Arguments)</a>. 
+The keyword parameter specifiers may optionally be followed by the
+<i>lambda list keyword</i> <code>&amp;allow-other-keys</code>.
+
+<p>In each keyword parameter specifier must be a name <var>var</var> for
+the parameter variable. 
+If the <var>var</var> appears alone or in a <code>(</code><var>var</var> <var>init-form</var><code>)</code>
+combination, the keyword name used when matching <i>arguments</i> to <i>parameters</i>
+is a <i>symbol</i> in the <code>KEYWORD</code> <i>package</i> whose <i>name</i> is the
+<i>same</i> (under <code>string=</code>) as <var>var</var>'s. 
+If the notation <code>((</code><var>keyword-name</var> <var>var</var><code>) </code><var>init-form</var><code>)</code> is used,
+then the keyword name used to match <i>arguments</i> to <i>parameters</i> is
+<var>keyword-name</var>, which may be a <i>symbol</i> in any <i>package</i>. 
+(Of course, if it is not a <i>symbol</i> in the <code>KEYWORD</code> <i>package</i>,
+it does not necessarily self-evaluate, so care must be taken when calling the function
+to make sure that normal evaluation still yields the keyword name.) 
+Thus
+
+<pre class="lisp"> (defun foo (&amp;key radix (type 'integer)) ...)
+</pre>
+<p>means exactly the same as
+
+<pre class="lisp"> (defun foo (&amp;key ((:radix radix)) ((:type type) 'integer)) ...)
+</pre>
+<p>The keyword parameter specifiers are, like all parameter specifiers,
+effectively processed from left to right.  For each keyword parameter
+specifier, if there is an argument pair whose name matches that
+specifier's name (that is, the names are <code>eq</code>), then the
+parameter variable for that specifier is bound to the second item (the
+value) of that argument pair.  If more than one such argument pair
+matches, the leftmost argument pair is used.  If no such argument pair
+exists, then the <var>init-form</var> for that specifier is evaluated and
+the parameter variable is bound to that value (or to <code>nil</code>&nbsp;<!-- /@w -->if no
+<var>init-form</var> was specified).  <var>supplied-p-parameter</var> is
+treated as for <code>&amp;optional</code> parameters: it is bound to <i>true</i> if there
+was a matching argument pair, and to <i>false</i> otherwise.
+
+<p>Unless keyword argument checking is suppressed,
+an argument pair must a name matched by a parameter specifier;
+see <a href="UnrecognizedKeyArgs.html#UnrecognizedKeyArgs">Section 3.5.1.4 (Unrecognized Keyword Arguments)</a>.
+
+<p>If keyword argument checking is suppressed,
+then it is permitted for an argument pair
+to match no parameter specifier, and the argument pair is ignored, but
+such an argument pair is accessible through the <i>rest parameter</i> if
+one was supplied.  The purpose of these mechanisms is to allow sharing
+of argument lists among several <i>lambda expressions</i> and to
+allow either the caller or the called <i>lambda expression</i> to
+specify that such sharing may be taking place.
+
+<p>Note that if <code>&amp;key</code> is present, a keyword argument of <tt>:allow-other-keys</tt>
+is always permitted&mdash;regardless of whether the associated value is <i>true</i>
+or <i>false</i>.  However, if the value is <i>false</i>, other non-matching
+keywords are not tolerated (unless <code>&amp;allow-other-keys</code> was used).
+
+<p>Furthermore, if the receiving argument list specifies a regular argument which
+would be flagged by <tt>:allow-other-keys</tt>, then <tt>:allow-other-keys</tt> has both
+its special-cased meaning (identifying whether additional keywords are permitted)
+and its normal meaning (data flow into the function in question).
+
+<h5 class="unnumberedsubsubsec">3.4.1.4.1 Suppressing Keyword Argument Checking</h5>
+
+<p><a name="SuppressingKeyArgChecks"></a>If <code>&amp;allow-other-keys</code> was specified in the <i>lambda list</i> of a <i>function</i>,
+<i>keyword</i><sub>2</sub> <i>argument</i> checking is suppressed in calls
+to that <i>function</i>.
+
+<p>If the <tt>:allow-other-keys</tt> <i>argument</i> is <i>true</i> in a call to a <i>function</i>,
+<i>keyword</i><sub>2</sub> <i>argument</i> checking is suppressed
+in that call.
+
+<p>The <tt>:allow-other-keys</tt> <i>argument</i> is permissible in all situations involving
+<i>keyword</i><sub>2</sub> <i>arguments</i>, even when its associated <i>value</i>
+is <i>false</i>.
+
+<h5 class="unnumberedsubsubsec">3.4.1.4.1.1 Examples of Suppressing Keyword Argument Checking</h5>
+
+<pre class="lisp">;;; The caller can supply :ALLOW-OTHER-KEYS T to suppress checking.
+ ((lambda (&amp;key x) x) :x 1 :y 2 :allow-other-keys t) <span class="roman">→</span> 1
+;;; The callee can use &amp;ALLOW-OTHER-KEYS to suppress checking.
+ ((lambda (&amp;key x &amp;allow-other-keys) x) :x 1 :y 2) <span class="roman">→</span> 1
+;;; :ALLOW-OTHER-KEYS NIL is always permitted.
+ ((lambda (&amp;key) t) :allow-other-keys nil) <span class="roman">→</span> T
+;;; As with other keyword arguments, only the left-most pair
+;;; named :ALLOW-OTHER-KEYS has any effect.
+ ((lambda (&amp;key x) x)
+  :x 1 :y 2 :allow-other-keys t :allow-other-keys nil)
+<span class="roman">→</span> 1
+;;; Only the left-most pair named :ALLOW-OTHER-KEYS has any effect,
+;;; so in safe code this signals a PROGRAM-ERROR (and might enter the
+;;; debugger).  In unsafe code, the consequences are undefined.
+ ((lambda (&amp;key x) x)                   ;This call is not valid
+  :x 1 :y 2 :allow-other-keys nil :allow-other-keys t)
+</pre>
+<h5 class="subsubsection">3.4.1.5 Specifiers for <code>&amp;aux</code> variables</h5>
+
+<p><a name="index-g_t_0026aux-217"></a>
+These are not really parameters.  If the <i>lambda list keyword</i>
+<code>&amp;aux</code> is present, all specifiers after it are auxiliary variable
+specifiers.  After all parameter specifiers have been processed, the
+auxiliary variable specifiers (those following <tt>&amp;aux</tt>) are processed
+from left to right.  For each one, <var>init-form</var> is evaluated and
+<var>var</var> is bound to that value (or to <code>nil</code>&nbsp;<!-- /@w -->if no <var>init-form</var>
+was specified).  <code>&amp;aux</code> variable processing is analogous to
+<code>let*</code> processing.
+
+<pre class="lisp"> (lambda (x y &amp;aux (a (car x)) (b 2) c) (list x y a b c))
+    ≡ (lambda (x y) (let* ((a (car x)) (b 2) c) (list x y a b c)))
+</pre>
+<h5 class="subsubsection">3.4.1.6 Examples of Ordinary Lambda Lists</h5>
+
+<p>Here are some examples involving <i>optional parameters</i> and <i>rest parameters</i>:
+
+<pre class="lisp"> ((lambda (a b) (+ a (* b 3))) 4 5) <span class="roman">→</span> 19
+ ((lambda (a &amp;optional (b 2)) (+ a (* b 3))) 4 5) <span class="roman">→</span> 19
+ ((lambda (a &amp;optional (b 2)) (+ a (* b 3))) 4) <span class="roman">→</span> 10
+ ((lambda (&amp;optional (a 2 b) (c 3 d) &amp;rest x) (list a b c d x)))
+<span class="roman">→</span> (2 NIL 3 NIL NIL)
+ ((lambda (&amp;optional (a 2 b) (c 3 d) &amp;rest x) (list a b c d x)) 6)
+<span class="roman">→</span> (6 T 3 NIL NIL)
+ ((lambda (&amp;optional (a 2 b) (c 3 d) &amp;rest x) (list a b c d x)) 6 3)
+<span class="roman">→</span> (6 T 3 T NIL)
+ ((lambda (&amp;optional (a 2 b) (c 3 d) &amp;rest x) (list a b c d x)) 6 3 8)
+<span class="roman">→</span> (6 T 3 T (8))
+ ((lambda (&amp;optional (a 2 b) (c 3 d) &amp;rest x) (list a b c d x))
+  6 3 8 9 10 11)
+<span class="roman">→</span> (6 t 3 t (8 9 10 11))
+</pre>
+<p>Here are some examples involving <i>keyword parameters</i>:
+
+<pre class="lisp"> ((lambda (a b &amp;key c d) (list a b c d)) 1 2) <span class="roman">→</span> (1 2 NIL NIL)
+ ((lambda (a b &amp;key c d) (list a b c d)) 1 2 :c 6) <span class="roman">→</span> (1 2 6 NIL)
+ ((lambda (a b &amp;key c d) (list a b c d)) 1 2 :d 8) <span class="roman">→</span> (1 2 NIL 8)
+ ((lambda (a b &amp;key c d) (list a b c d)) 1 2 :c 6 :d 8) <span class="roman">→</span> (1 2 6 8)
+ ((lambda (a b &amp;key c d) (list a b c d)) 1 2 :d 8 :c 6) <span class="roman">→</span> (1 2 6 8)
+ ((lambda (a b &amp;key c d) (list a b c d)) :a 1 :d 8 :c 6) <span class="roman">→</span> (:a 1 6 8)
+ ((lambda (a b &amp;key c d) (list a b c d)) :a :b :c :d) <span class="roman">→</span> (:a :b :d NIL)
+ ((lambda (a b &amp;key ((:sea c)) d) (list a b c d)) 1 2 :sea 6) <span class="roman">→</span> (1 2 6 NIL)
+ ((lambda (a b &amp;key ((c c)) d) (list a b c d)) 1 2 'c 6) <span class="roman">→</span> (1 2 6 NIL)
+</pre>
+<p>Here are some examples involving <i>optional parameters</i>, <i>rest parameters</i>,
+and <i>keyword parameters</i> together:
+
+<pre class="lisp"> ((lambda (a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    (list a b c d x)) 1)
+<span class="roman">→</span> (1 3 NIL 1 ())
+ ((lambda (a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    (list a b c d x)) 1 2)
+<span class="roman">→</span> (1 2 NIL 1 ())
+ ((lambda (a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    (list a b c d x)) :c 7)
+<span class="roman">→</span> (:c 7 NIL :c ())
+ ((lambda (a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    (list a b c d x)) 1 6 :c 7)
+<span class="roman">→</span> (1 6 7 1 (:c 7))
+ ((lambda (a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    (list a b c d x)) 1 6 :d 8)
+<span class="roman">→</span> (1 6 NIL 8 (:d 8))
+ ((lambda (a &amp;optional (b 3) &amp;rest x &amp;key c (d a))
+    (list a b c d x)) 1 6 :d 8 :c 9 :d 10)
+<span class="roman">→</span> (1 6 9 8 (:d 8 :c 9 :d 10))
+</pre>
+<p>As an example of the use of <code>&amp;allow-other-keys</code> and
+<tt>:allow-other-keys</tt>, consider a <i>function</i> that takes two named
+arguments of its own and also accepts additional named arguments to be
+passed to <code>make-array</code>:
+
+<pre class="lisp"> (defun array-of-strings (str dims &amp;rest named-pairs
+                          &amp;key (start 0) end &amp;allow-other-keys)
+   (apply #'make-array dims
+          :initial-element (subseq str start end)
+          :allow-other-keys t
+          named-pairs))
+</pre>
+<p>This <i>function</i> takes a <i>string</i> and dimensioning
+information and returns an <i>array</i> of the specified
+dimensions, each of whose elements is the specified
+<i>string</i>.  However, <tt>:start</tt> and <tt>:end</tt> named
+arguments may be used to specify that a substring of the given
+<i>string</i> should be used.  In addition, the presence of
+<code>&amp;allow-other-keys</code> in the <i>lambda list</i> indicates that the
+caller may supply additional named arguments; the <i>rest parameter</i>
+provides access to them.  These additional named arguments are passed
+to <code>make-array</code>.  The <i>function</i> <code>make-array</code>
+normally does not allow the named arguments <tt>:start</tt>
+and <tt>:end</tt> to be used, and an error should be
+signaled if such named arguments are supplied to <code>make-array</code>. 
+However, the presence in the call to <code>make-array</code>
+of the named argument <tt>:allow-other-keys</tt> with
+a <i>true</i> value causes any extraneous named arguments, including
+<tt>:start</tt> and <tt>:end</tt>, to be acceptable and ignored.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Ordinary-Lambda-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:12 GMT -->
+</html>
+

@@ -1,0 +1,96 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Sequence-Concepts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+<head>
+<title>Sequence Concepts - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Sequences.html#Sequences" title="Sequences">
+<link rel="next" href="Rules-about-Test-Functions.html#Rules-about-Test-Functions" title="Rules about Test Functions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Sequence-Concepts"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Rules-about-Test-Functions.html#Rules-about-Test-Functions">Rules about Test Functions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Sequences.html#Sequences">Sequences</a>
+<hr>
+</div>
+
+<h3 class="section">17.1 Sequence Concepts</h3>
+
+<p>A <a name="index-sequence-2287"></a><dfn>sequence</dfn> is an ordered collection of <i>elements</i>,
+implemented as either a <i>vector</i> or a <i>list</i>.
+
+<p><i>Sequences</i> can be created by the <i>function</i> <code>make-sequence</code>,
+as well as other <i>functions</i> that create <i>objects</i>
+of <i>types</i> that are <i>subtypes</i> of <code>sequence</code>
+(<i>e.g.</i>, <code>list</code>, <code>make-list</code>, <code>mapcar</code>, and <code>vector</code>).
+
+<p>A <a name="index-sequence-function-2288"></a><dfn>sequence function</dfn> is a <i>function</i>
+defined by this specification
+or added as an extension by the <i>implementation</i>
+that operates on one or more <i>sequences</i>. 
+Whenever a <i>sequence function</i> must construct and return
+a new <i>vector</i>, it always returns a <i>simple vector</i>. 
+Similarly, any <i>strings</i> constructed will be <i>simple strings</i>.
+
+<div class="float">
+<a name="SequenceFunctions"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">concatenate </td><td valign="top">length </td><td valign="top">remove
+<br></td></tr><tr align="left"><td valign="top">copy-seq </td><td valign="top">map </td><td valign="top">remove-duplicates
+<br></td></tr><tr align="left"><td valign="top">count </td><td valign="top">map-into </td><td valign="top">remove-if
+<br></td></tr><tr align="left"><td valign="top">count-if </td><td valign="top">merge </td><td valign="top">remove-if-not
+<br></td></tr><tr align="left"><td valign="top">count-if-not </td><td valign="top">mismatch </td><td valign="top">replace
+<br></td></tr><tr align="left"><td valign="top">delete </td><td valign="top">notany </td><td valign="top">reverse
+<br></td></tr><tr align="left"><td valign="top">delete-duplicates </td><td valign="top">notevery </td><td valign="top">search
+<br></td></tr><tr align="left"><td valign="top">delete-if </td><td valign="top">nreverse </td><td valign="top">some
+<br></td></tr><tr align="left"><td valign="top">delete-if-not </td><td valign="top">nsubstitute </td><td valign="top">sort
+<br></td></tr><tr align="left"><td valign="top">elt </td><td valign="top">nsubstitute-if </td><td valign="top">stable-sort
+<br></td></tr><tr align="left"><td valign="top">every </td><td valign="top">nsubstitute-if-not </td><td valign="top">subseq
+<br></td></tr><tr align="left"><td valign="top">fill </td><td valign="top">position </td><td valign="top">substitute
+<br></td></tr><tr align="left"><td valign="top">find </td><td valign="top">position-if </td><td valign="top">substitute-if
+<br></td></tr><tr align="left"><td valign="top">find-if </td><td valign="top">position-if-not </td><td valign="top">substitute-if-not
+<br></td></tr><tr align="left"><td valign="top">find-if-not </td><td valign="top">reduce </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 17.1: Standardized Sequence Functions</strong></p></div>
+
+<ul class="menu">
+<li><a accesskey="1" href="General-Restrictions-on-Parameters-that-must-be-Sequences.html#General-Restrictions-on-Parameters-that-must-be-Sequences">General Restrictions on Parameters that must be Sequences</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Sequence-Concepts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+</html>
+

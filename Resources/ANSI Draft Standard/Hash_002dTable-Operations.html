@@ -1,0 +1,107 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Hash_002dTable-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+<head>
+<title>Hash-Table Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Hash-Table-Concepts.html#Hash-Table-Concepts" title="Hash Table Concepts">
+<link rel="next" href="Modifying-Hash-Table-Keys.html#Modifying-Hash-Table-Keys" title="Modifying Hash Table Keys">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Hash-Table-Operations"></a>
+<a name="Hash_002dTable-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Modifying-Hash-Table-Keys.html#Modifying-Hash-Table-Keys">Modifying Hash Table Keys</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Hash-Table-Concepts.html#Hash-Table-Concepts">Hash Table Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">18.1.1 Hash-Table Operations</h4>
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable
+to <i>hash tables</i>.  The following rules apply to <i>hash tables</i>.
+
+     <ul>
+<li>A <i>hash table</i> can only associate one value with a given
+key. If an attempt is made to add a second value for a given key,
+the second value will replace the first. 
+Thus, adding a value to a <i>hash table</i> is a destructive operation;
+the <i>hash table</i> is modified.
+
+     <li>There are four kinds of <i>hash tables</i>:
+those whose keys are compared with <code>eq</code>,
+those whose keys are compared with <code>eql</code>,
+those whose keys are compared with <code>equal</code>, and
+those whose keys are compared with <code>equalp</code>.
+
+     <li><i>Hash tables</i> are created by <code>make-hash-table</code>. 
+<code>gethash</code> is used to look up a key and find the associated value. 
+New entries are added to <i>hash tables</i> using <code>setf</code> with <code>gethash</code>. 
+<code>remhash</code> is used to remove an entry. 
+For example:
+
+     <pre class="lisp">      (setq a (make-hash-table)) <span class="roman">→</span> #&lt;HASH-TABLE EQL 0/120 32536573&gt;
+      (setf (gethash 'color a) 'brown) <span class="roman">→</span> BROWN
+      (setf (gethash 'name a) 'fred) <span class="roman">→</span> FRED
+      (gethash 'color a) <span class="roman">→</span> BROWN, <i>true</i>
+      (gethash 'name a) <span class="roman">→</span> FRED, <i>true</i>
+      (gethash 'pointy a) <span class="roman">→</span> NIL, <i>false</i>
+</pre>
+     <p>In this example, the symbols <code>color</code> and <code>name</code> are being used as
+keys, and the symbols <code>brown</code> and <code>fred</code> are being used as the
+associated values.  The <i>hash table</i>
+has two items in it, one of which
+associates from <code>color</code> to <code>brown</code>, and the other of which
+associates from <code>name</code> to <code>fred</code>.
+
+     <li>A key or a value may be any <i>object</i>.
+
+     <li>The existence of an entry in the <i>hash table</i> can be determined
+from the <i>secondary value</i> returned by <code>gethash</code>. 
+</ul>
+
+<div class="float">
+<a name="fig18_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">clrhash </td><td valign="top">hash-table-p </td><td valign="top">remhash
+<br></td></tr><tr align="left"><td valign="top">gethash </td><td valign="top">make-hash-table </td><td valign="top">sxhash
+<br></td></tr><tr align="left"><td valign="top">hash-table-count </td><td valign="top">maphash </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 18.1: Hash-table defined names</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Hash_002dTable-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+</html>
+

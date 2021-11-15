@@ -1,0 +1,115 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Lambda-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:35:59 GMT -->
+<head>
+<title>Lambda Lists - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="Declarations.html#Declarations" title="Declarations">
+<link rel="next" href="Error-Checking-in-Function-Calls.html#Error-Checking-in-Function-Calls" title="Error Checking in Function Calls">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Lambda-Lists"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Error-Checking-in-Function-Calls.html#Error-Checking-in-Function-Calls">Error Checking in Function Calls</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Declarations.html#Declarations">Declarations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="section">3.4 Lambda Lists</h3>
+
+<p>A <a name="index-lambda-list-211"></a><dfn>lambda list</dfn> is a <i>list</i> that
+specifies a set of <i>parameters</i> (sometimes called <i>lambda variables</i>)
+and a protocol for receiving <i>values</i> for those <i>parameters</i>.
+
+<p>There are several kinds of <i>lambda lists</i>.
+
+<div class="float">
+<a name="fig3_002e10"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Context </th><th valign="top">Kind of Lambda List
+<br></th></tr><tr align="left"><td valign="top"><code>defun</code> <i>form</i> </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>defmacro</code> <i>form</i> </td><td valign="top"><i>macro lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><i>lambda expression</i> </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>flet</code> local <i>function</i> definition </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>labels</code> local <i>function</i> definition </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>handler-case</code> <var>clause</var> specification </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>restart-case</code> <var>clause</var> specification </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>macrolet</code> local <i>macro</i> definition </td><td valign="top"><i>macro lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>define-method-combination</code> </td><td valign="top"><i>ordinary lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>define-method-combination</code> <tt>:arguments</tt> option </td><td valign="top"><i>define-method-combination arguments lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>defstruct</code> <tt>:constructor</tt> option </td><td valign="top"><i>boa lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>defgeneric</code> <i>form</i> </td><td valign="top"><i>generic function lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>defgeneric</code> <i>method</i> clause </td><td valign="top"><i>specialized lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>defmethod</code> <i>form</i> </td><td valign="top"><i>specialized lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>defsetf</code> <i>form</i> </td><td valign="top"><i>defsetf lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>define-setf-expander</code> <i>form</i> </td><td valign="top"><i>macro lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>deftype</code> <i>form</i> </td><td valign="top"><i>deftype lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>destructuring-bind</code> <i>form</i> </td><td valign="top"><i>destructuring lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>define-compiler-macro</code> <i>form</i> </td><td valign="top"><i>macro lambda list</i>
+<br></td></tr><tr align="left"><td valign="top"><code>define-modify-macro</code> <i>form</i> </td><td valign="top"><i>define-modify-macro lambda list</i>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.10: What Kind of Lambda Lists to Use</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable
+to <i>lambda lists</i>.
+
+<div class="float">
+<a name="fig3_002e11"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">lambda-list-keywords </td><td valign="top">lambda-parameters-limit </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.11: Defined names applicable to lambda lists</strong></p></div>
+
+<ul class="menu">
+<li><a accesskey="1" href="Ordinary-Lambda-Lists.html#Ordinary-Lambda-Lists">Ordinary Lambda Lists</a>
+<li><a accesskey="2" href="Generic-Function-Lambda-Lists.html#Generic-Function-Lambda-Lists">Generic Function Lambda Lists</a>
+<li><a accesskey="3" href="Specialized-Lambda-Lists.html#Specialized-Lambda-Lists">Specialized Lambda Lists</a>
+<li><a accesskey="4" href="Macro-Lambda-Lists.html#Macro-Lambda-Lists">Macro Lambda Lists</a>
+<li><a accesskey="5" href="Destructuring-Lambda-Lists.html#Destructuring-Lambda-Lists">Destructuring Lambda Lists</a>
+<li><a accesskey="6" href="Boa-Lambda-Lists.html#Boa-Lambda-Lists">Boa Lambda Lists</a>
+<li><a accesskey="7" href="Defsetf-Lambda-Lists.html#Defsetf-Lambda-Lists">Defsetf Lambda Lists</a>
+<li><a accesskey="8" href="Deftype-Lambda-Lists.html#Deftype-Lambda-Lists">Deftype Lambda Lists</a>
+<li><a accesskey="9" href="Define_002dmodify_002dmacro-Lambda-Lists.html#Define_002dmodify_002dmacro-Lambda-Lists">Define-modify-macro Lambda Lists</a>
+<li><a href="Define_002dmethod_002dcombination-Arguments-Lambda-Lists.html#Define_002dmethod_002dcombination-Arguments-Lambda-Lists">Define-method-combination Arguments Lambda Lists</a>
+<li><a href="Syntactic-Interaction-of-Documentation-Strings-and-Declarations.html#Syntactic-Interaction-of-Documentation-Strings-and-Declarations">Syntactic Interaction of Documentation Strings and Declarations</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Lambda-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:35:59 GMT -->
+</html>
+

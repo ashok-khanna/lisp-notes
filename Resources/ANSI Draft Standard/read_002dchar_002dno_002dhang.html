@@ -1,0 +1,136 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/read_002dchar_002dno_002dhang.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:35 GMT -->
+<head>
+<title>read-char-no-hang - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="read_002dchar.html#read_002dchar" title="read-char">
+<link rel="next" href="terpri_003b-fresh_002dline.html#terpri_003b-fresh_002dline" title="terpri; fresh-line">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="read-char-no-hang"></a>
+<a name="read_002dchar_002dno_002dhang"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="terpri_003b-fresh_002dline.html#terpri_003b-fresh_002dline">terpri; fresh-line</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="read_002dchar.html#read_002dchar">read-char</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">read-char-no-hang (Function)</h3>
+
+<p><a name="index-read_002dchar_002dno_002dhang-2644"></a><a name="index-read_002dchar_002dno_002dhang-2645"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>read-char-no-hang</b> <tt>&amp;optional</tt><var> input-stream&nbsp;eof-error-p<!-- /@w --> eof-value&nbsp;recursive-p<!-- /@w --> </var><span class="roman">→</span><var> char<a name="index-read_002dchar_002dno_002dhang-2646"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>input-stream</var>&mdash;an <i>input</i> <i>stream designator</i>. 
+The default is <i>standard input</i>.
+
+<p><var>eof-error-p</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>true</i>.
+
+<p><var>eof-value</var>&mdash;an <i>object</i>. 
+The default is <code>nil</code>.
+
+<p><var>recursive-p</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>char</var>&mdash;a <i>character</i> or <code>nil</code>&nbsp;<!-- /@w -->or the <var>eof-value</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>read-char-no-hang</code> returns a character
+from <var>input-stream</var> if such a character is available.  If no character
+is available, <code>read-char-no-hang</code> returns <code>nil</code>.
+
+<p>If <var>recursive-p</var> is <i>true</i>, this call is expected to be
+embedded in a higher-level call to <code>read</code> or a similar
+<i>function</i> used by the <i>Lisp reader</i>.
+
+<p>If an <i>end of file</i><sub>2</sub> occurs and <var>eof-error-p</var> is <i>false</i>,
+<var>eof-value</var> is returned.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;; This code assumes an implementation in which a newline is not
+;; required to terminate input from the console.
+ (defun test-it ()
+   (unread-char (read-char))
+   (list (read-char-no-hang)
+         (read-char-no-hang)
+         (read-char-no-hang)))
+<span class="roman">→</span> TEST-IT
+;; Implementation A, where a Newline is not required to terminate
+;; interactive input on the console.
+ (test-it)
+▷ <kbd>a</kbd>
+<span class="roman">→</span> (#\a NIL NIL)
+;; Implementation B, where a Newline is required to terminate
+;; interactive input on the console, and where that Newline remains
+;; on the input stream.
+ (test-it)
+▷ <kbd>a↩</kbd>
+<span class="roman">→</span> (#\a #\Newline NIL)
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-input*</code>,
+<code>*terminal-io*</code>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If an <i>end of file</i><sub>2</sub> occurs
+when <var>eof-error-p</var> is <i>true</i>,
+an error of <i>type</i> <code>end-of-file</code> is signaled .
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="listen.html#listen">listen</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>read-char-no-hang</code> is exactly like <code>read-char</code>, except
+that if it would be necessary to wait in order to get a character (as
+from a keyboard), <code>nil</code>&nbsp;<!-- /@w -->is immediately returned without waiting.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/read_002dchar_002dno_002dhang.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:35 GMT -->
+</html>
+

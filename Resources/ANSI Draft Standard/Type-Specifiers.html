@@ -1,0 +1,260 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Type-Specifiers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Type Specifiers - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Types.html#Types" title="Types">
+<link rel="prev" href="Type-Relationships.html#Type-Relationships" title="Type Relationships">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Type-Specifiers"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Type-Relationships.html#Type-Relationships">Type Relationships</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Types.html#Types">Types</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.2.3 Type Specifiers</h4>
+
+<p><i>Type specifiers</i> can be <i>symbols</i>, <i>classes</i>, or <i>lists</i>. 
+<a href="StandardizedAtomicTypeSpecs.html#StandardizedAtomicTypeSpecs">Figure 4.2</a>&nbsp;<!-- /@w -->lists <i>symbols</i> that are
+<i>standardized</i> <i>atomic type specifiers</i>, and
+<a href="StandardizedCompoundTypeSpecNames.html#StandardizedCompoundTypeSpecNames">Figure 4.3</a>&nbsp;<!-- /@w -->lists
+<i>standardized</i> <i>compound type specifier</i> <i>names</i>. 
+For syntax information, see the dictionary entry for the corresponding <i>type specifier</i>. 
+It is possible to define new <i>type specifiers</i> using
+<code>defclass</code>,
+<code>define-condition</code>,
+<code>defstruct</code>,
+or
+<code>deftype</code>.
+
+<div class="float">
+<a name="StandardizedAtomicTypeSpecs"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">arithmetic-error </td><td valign="top">function </td><td valign="top">simple-condition
+<br></td></tr><tr align="left"><td valign="top">array </td><td valign="top">generic-function </td><td valign="top">simple-error
+<br></td></tr><tr align="left"><td valign="top">atom </td><td valign="top">hash-table </td><td valign="top">simple-string
+<br></td></tr><tr align="left"><td valign="top">base-char </td><td valign="top">integer </td><td valign="top">simple-type-error
+<br></td></tr><tr align="left"><td valign="top">base-string </td><td valign="top">keyword </td><td valign="top">simple-vector
+<br></td></tr><tr align="left"><td valign="top">bignum </td><td valign="top">list </td><td valign="top">simple-warning
+<br></td></tr><tr align="left"><td valign="top">bit </td><td valign="top">logical-pathname </td><td valign="top">single-float
+<br></td></tr><tr align="left"><td valign="top">bit-vector </td><td valign="top">long-float </td><td valign="top">standard-char
+<br></td></tr><tr align="left"><td valign="top">broadcast-stream </td><td valign="top">method </td><td valign="top">standard-class
+<br></td></tr><tr align="left"><td valign="top">built-in-class </td><td valign="top">method-combination </td><td valign="top">standard-generic-function
+<br></td></tr><tr align="left"><td valign="top">cell-error </td><td valign="top">nil </td><td valign="top">standard-method
+<br></td></tr><tr align="left"><td valign="top">character </td><td valign="top">null </td><td valign="top">standard-object
+<br></td></tr><tr align="left"><td valign="top">class </td><td valign="top">number </td><td valign="top">storage-condition
+<br></td></tr><tr align="left"><td valign="top">compiled-function </td><td valign="top">package </td><td valign="top">stream
+<br></td></tr><tr align="left"><td valign="top">complex </td><td valign="top">package-error </td><td valign="top">stream-error
+<br></td></tr><tr align="left"><td valign="top">concatenated-stream </td><td valign="top">parse-error </td><td valign="top">string
+<br></td></tr><tr align="left"><td valign="top">condition </td><td valign="top">pathname </td><td valign="top">string-stream
+<br></td></tr><tr align="left"><td valign="top">cons </td><td valign="top">print-not-readable </td><td valign="top">structure-class
+<br></td></tr><tr align="left"><td valign="top">control-error </td><td valign="top">program-error </td><td valign="top">structure-object
+<br></td></tr><tr align="left"><td valign="top">division-by-zero </td><td valign="top">random-state </td><td valign="top">style-warning
+<br></td></tr><tr align="left"><td valign="top">double-float </td><td valign="top">ratio </td><td valign="top">symbol
+<br></td></tr><tr align="left"><td valign="top">echo-stream </td><td valign="top">rational </td><td valign="top">synonym-stream
+<br></td></tr><tr align="left"><td valign="top">end-of-file </td><td valign="top">reader-error </td><td valign="top">t
+<br></td></tr><tr align="left"><td valign="top">error </td><td valign="top">readtable </td><td valign="top">two-way-stream
+<br></td></tr><tr align="left"><td valign="top">extended-char </td><td valign="top">real </td><td valign="top">type-error
+<br></td></tr><tr align="left"><td valign="top">file-error </td><td valign="top">restart </td><td valign="top">unbound-slot
+<br></td></tr><tr align="left"><td valign="top">file-stream </td><td valign="top">sequence </td><td valign="top">unbound-variable
+<br></td></tr><tr align="left"><td valign="top">fixnum </td><td valign="top">serious-condition </td><td valign="top">undefined-function
+<br></td></tr><tr align="left"><td valign="top">float </td><td valign="top">short-float </td><td valign="top">unsigned-byte
+<br></td></tr><tr align="left"><td valign="top">floating-point-inexact </td><td valign="top">signed-byte </td><td valign="top">vector
+<br></td></tr><tr align="left"><td valign="top">floating-point-invalid-operation </td><td valign="top">simple-array </td><td valign="top">warning
+<br></td></tr><tr align="left"><td valign="top">floating-point-overflow </td><td valign="top">simple-base-string </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">floating-point-underflow </td><td valign="top">simple-bit-vector </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 4.2: Standardized Atomic Type Specifiers</strong></p></div>
+
+<p>If a <i>type specifier</i> is a <i>list</i>, the <i>car</i> of the <i>list</i>
+is a <i>symbol</i>, and the rest of the <i>list</i> is subsidiary
+<i>type</i> information.  Such a <i>type specifier</i> is called
+a <a name="index-compound-type-specifier-334"></a><dfn>compound type specifier</dfn>. 
+Except as explicitly stated otherwise,
+the subsidiary items can be unspecified. 
+The unspecified subsidiary items are indicated
+by writing <code>*</code>.  For example, to completely specify
+a <i>vector</i>, the <i>type</i> of the elements
+and the length of the <i>vector</i> must be present.
+
+<pre class="lisp"> (vector double-float 100)
+</pre>
+<p>The following leaves the length unspecified:
+
+<pre class="lisp"> (vector double-float *)
+</pre>
+<p>The following leaves the element type unspecified:
+
+<pre class="lisp"> (vector * 100)
+</pre>
+<p>Suppose that two <i>type specifiers</i> are the same except that the first
+has a <code>*</code> where the second has a more explicit specification. 
+Then the second denotes a <i>subtype</i>
+of the <i>type</i> denoted by the first.
+
+<p>If a <i>list</i> has one or more unspecified items at the end,
+those items can be dropped. 
+If dropping all occurrences of <code>*</code> results in a <i>singleton</i> <i>list</i>,
+then the parentheses can be dropped as well (the list can be replaced
+by the <i>symbol</i> in its <i>car</i>). 
+For example,
+<code>(vector double-float *)</code>
+can be abbreviated to <code>(vector double-float)</code>,
+and <code>(vector * *)</code> can be abbreviated to <code>(vector)</code>
+and then to
+<code>vector</code>.
+
+<div class="float">
+<a name="StandardizedCompoundTypeSpecNames"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">and </td><td valign="top">long-float </td><td valign="top">simple-base-string
+<br></td></tr><tr align="left"><td valign="top">array </td><td valign="top">member </td><td valign="top">simple-bit-vector
+<br></td></tr><tr align="left"><td valign="top">base-string </td><td valign="top">mod </td><td valign="top">simple-string
+<br></td></tr><tr align="left"><td valign="top">bit-vector </td><td valign="top">not </td><td valign="top">simple-vector
+<br></td></tr><tr align="left"><td valign="top">complex </td><td valign="top">or </td><td valign="top">single-float
+<br></td></tr><tr align="left"><td valign="top">cons </td><td valign="top">rational </td><td valign="top">string
+<br></td></tr><tr align="left"><td valign="top">double-float </td><td valign="top">real </td><td valign="top">unsigned-byte
+<br></td></tr><tr align="left"><td valign="top">eql </td><td valign="top">satisfies </td><td valign="top">values
+<br></td></tr><tr align="left"><td valign="top">float </td><td valign="top">short-float </td><td valign="top">vector
+<br></td></tr><tr align="left"><td valign="top">function </td><td valign="top">signed-byte </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">integer </td><td valign="top">simple-array </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 4.3: Standardized Compound Type Specifier Names</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->show the <i>defined names</i> that can be used as
+<i>compound type specifier</i> <i>names</i>
+but that cannot be used as <i>atomic type specifiers</i>.
+
+<div class="float">
+<a name="fig4_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">and </td><td valign="top">mod </td><td valign="top">satisfies
+<br></td></tr><tr align="left"><td valign="top">eql </td><td valign="top">not </td><td valign="top">values
+<br></td></tr><tr align="left"><td valign="top">member </td><td valign="top">or </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 4.4: Standardized Compound-Only Type Specifier Names</strong></p></div>
+
+<p>New <i>type specifiers</i> can come into existence in two ways.
+
+     <ul>
+<li>Defining a structure by using <code>defstruct</code> without using
+the <tt>:type</tt> specifier or defining a <i>class</i> by using
+<code>defclass</code>
+or <code>define-condition</code>
+automatically causes the name of the structure
+or class to be a new <i>type specifier</i> <i>symbol</i>. 
+<li><code>deftype</code> can be used to define
+<a name="index-derived-type-specifier-335"></a><dfn>derived type specifiers</dfn>,
+which act as `abbreviations' for other <i>type specifiers</i>. 
+</ul>
+
+<p>A <i>class</i> <i>object</i> can be used as a <i>type specifier</i>. 
+When used this way, it denotes the set of all members of that <i>class</i>.
+
+<p>The next figure&nbsp;<!-- /@w -->shows some <i>defined names</i> relating to
+<i>types</i> and <i>declarations</i>.
+
+<div class="float">
+<a name="TypesAndDeclsNames"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">coerce </td><td valign="top">defstruct </td><td valign="top">subtypep
+<br></td></tr><tr align="left"><td valign="top">declaim </td><td valign="top">deftype </td><td valign="top">the
+<br></td></tr><tr align="left"><td valign="top">declare </td><td valign="top">ftype </td><td valign="top">type
+<br></td></tr><tr align="left"><td valign="top">defclass </td><td valign="top">locally </td><td valign="top">type-of
+<br></td></tr><tr align="left"><td valign="top">define-condition </td><td valign="top">proclaim </td><td valign="top">typep
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 4.5: Defined names relating to types and declarations.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows all <i>defined names</i> that are <i>type specifier</i> <i>names</i>,
+whether for <i>atomic type specifiers</i> or <i>compound type specifiers</i>;
+this list is the union of the lists in <a href="StandardizedAtomicTypeSpecs.html#StandardizedAtomicTypeSpecs">Figure 4.2</a>&nbsp;<!-- /@w -->
+and <a href="StandardizedCompoundTypeSpecNames.html#StandardizedCompoundTypeSpecNames">Figure 4.3</a>.
+
+<div class="float">
+<a name="StandardizedTypeSpecifierNames"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">and </td><td valign="top">function </td><td valign="top">simple-array
+<br></td></tr><tr align="left"><td valign="top">arithmetic-error </td><td valign="top">generic-function </td><td valign="top">simple-base-string
+<br></td></tr><tr align="left"><td valign="top">array </td><td valign="top">hash-table </td><td valign="top">simple-bit-vector
+<br></td></tr><tr align="left"><td valign="top">atom </td><td valign="top">integer </td><td valign="top">simple-condition
+<br></td></tr><tr align="left"><td valign="top">base-char </td><td valign="top">keyword </td><td valign="top">simple-error
+<br></td></tr><tr align="left"><td valign="top">base-string </td><td valign="top">list </td><td valign="top">simple-string
+<br></td></tr><tr align="left"><td valign="top">bignum </td><td valign="top">logical-pathname </td><td valign="top">simple-type-error
+<br></td></tr><tr align="left"><td valign="top">bit </td><td valign="top">long-float </td><td valign="top">simple-vector
+<br></td></tr><tr align="left"><td valign="top">bit-vector </td><td valign="top">member </td><td valign="top">simple-warning
+<br></td></tr><tr align="left"><td valign="top">broadcast-stream </td><td valign="top">method </td><td valign="top">single-float
+<br></td></tr><tr align="left"><td valign="top">built-in-class </td><td valign="top">method-combination </td><td valign="top">standard-char
+<br></td></tr><tr align="left"><td valign="top">cell-error </td><td valign="top">mod </td><td valign="top">standard-class
+<br></td></tr><tr align="left"><td valign="top">character </td><td valign="top">nil </td><td valign="top">standard-generic-function
+<br></td></tr><tr align="left"><td valign="top">class </td><td valign="top">not </td><td valign="top">standard-method
+<br></td></tr><tr align="left"><td valign="top">compiled-function </td><td valign="top">null </td><td valign="top">standard-object
+<br></td></tr><tr align="left"><td valign="top">complex </td><td valign="top">number </td><td valign="top">storage-condition
+<br></td></tr><tr align="left"><td valign="top">concatenated-stream </td><td valign="top">or </td><td valign="top">stream
+<br></td></tr><tr align="left"><td valign="top">condition </td><td valign="top">package </td><td valign="top">stream-error
+<br></td></tr><tr align="left"><td valign="top">cons </td><td valign="top">package-error </td><td valign="top">string
+<br></td></tr><tr align="left"><td valign="top">control-error </td><td valign="top">parse-error </td><td valign="top">string-stream
+<br></td></tr><tr align="left"><td valign="top">division-by-zero </td><td valign="top">pathname </td><td valign="top">structure-class
+<br></td></tr><tr align="left"><td valign="top">double-float </td><td valign="top">print-not-readable </td><td valign="top">structure-object
+<br></td></tr><tr align="left"><td valign="top">echo-stream </td><td valign="top">program-error </td><td valign="top">style-warning
+<br></td></tr><tr align="left"><td valign="top">end-of-file </td><td valign="top">random-state </td><td valign="top">symbol
+<br></td></tr><tr align="left"><td valign="top">eql </td><td valign="top">ratio </td><td valign="top">synonym-stream
+<br></td></tr><tr align="left"><td valign="top">error </td><td valign="top">rational </td><td valign="top">t
+<br></td></tr><tr align="left"><td valign="top">extended-char </td><td valign="top">reader-error </td><td valign="top">two-way-stream
+<br></td></tr><tr align="left"><td valign="top">file-error </td><td valign="top">readtable </td><td valign="top">type-error
+<br></td></tr><tr align="left"><td valign="top">file-stream </td><td valign="top">real </td><td valign="top">unbound-slot
+<br></td></tr><tr align="left"><td valign="top">fixnum </td><td valign="top">restart </td><td valign="top">unbound-variable
+<br></td></tr><tr align="left"><td valign="top">float </td><td valign="top">satisfies </td><td valign="top">undefined-function
+<br></td></tr><tr align="left"><td valign="top">floating-point-inexact </td><td valign="top">sequence </td><td valign="top">unsigned-byte
+<br></td></tr><tr align="left"><td valign="top">floating-point-invalid-operation </td><td valign="top">serious-condition </td><td valign="top">values
+<br></td></tr><tr align="left"><td valign="top">floating-point-overflow </td><td valign="top">short-float </td><td valign="top">vector
+<br></td></tr><tr align="left"><td valign="top">floating-point-underflow </td><td valign="top">signed-byte </td><td valign="top">warning
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 4.6: Standardized Type Specifier Names</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Type-Specifiers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

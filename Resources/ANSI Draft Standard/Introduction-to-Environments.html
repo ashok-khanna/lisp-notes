@@ -1,0 +1,168 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Environments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Introduction to Environments - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation.html#Evaluation" title="Evaluation">
+<link rel="next" href="The-Evaluation-Model.html#The-Evaluation-Model" title="The Evaluation Model">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Environments"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="The-Evaluation-Model.html#The-Evaluation-Model">The Evaluation Model</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation.html#Evaluation">Evaluation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.1.1 Introduction to Environments</h4>
+
+<p>A <a name="index-binding-160"></a><dfn>binding</dfn> is an association between a <i>name</i> and
+that which the name denotes.  <i>Bindings</i> are <i>established</i>
+in a <i>lexical environment</i> or a <i>dynamic environment</i>
+by particular <i>special operators</i>.
+
+<p>An <a name="index-environment-161"></a><dfn>environment</dfn> is a set of <i>bindings</i> and other information
+used during evaluation (<i>e.g.</i>, to associate meanings with names).
+
+<p><i>Bindings</i> in an <i>environment</i> are partitioned into
+<a name="index-namespace-162"></a><dfn>namespaces</dfn>. 
+A single <i>name</i> can simultaneously have more than one
+associated <i>binding</i> per <i>environment</i>,
+but can have only one associated <i>binding</i> per <i>namespace</i>.
+
+<h5 class="subsubsection">3.1.1.1 The Global Environment</h5>
+
+<p>The <a name="index-global-environment-163"></a><dfn>global environment</dfn> is that part of an <i>environment</i>
+that contains <i>bindings</i> with both <i>indefinite scope</i>
+and <i>indefinite extent</i>. 
+The <i>global environment</i> contains, among other things, the following:
+
+     <ul>
+<li><i>bindings</i> of <i>dynamic variables</i> and <i>constant variables</i>. 
+<li><i>bindings</i> of <i>functions</i>, <i>macros</i>, and <i>special operators</i>. 
+<li><i>bindings</i> of <i>compiler macros</i>. 
+<li><i>bindings</i> of <i>type</i> and <i>class</i> <i>names</i>
+<li>information about <i>proclamations</i>. 
+</ul>
+
+<h5 class="subsubsection">3.1.1.2 Dynamic Environments</h5>
+
+<p>A <a name="index-dynamic-environment-164"></a><dfn>dynamic environment</dfn> for <i>evaluation</i> is that part of an
+<i>environment</i> that contains <i>bindings</i> whose duration
+is bounded by points of <i>establishment</i> and <i>disestablishment</i>
+within the execution of the <i>form</i> that
+established the <i>binding</i>. 
+A <i>dynamic environment</i> contains, among other things, the following:
+
+     <ul>
+<li><i>bindings</i> for <i>dynamic variables</i>. 
+<li>information about <i>active</i> <i>catch tags</i>. 
+<li>information about <i>exit points</i> established by <code>unwind-protect</code>. 
+<li>information about <i>active</i> <i>handlers</i> and <i>restarts</i>. 
+</ul>
+
+<p>The <i>dynamic environment</i> that is active at any given point
+in the <i>execution</i> of a <i>program</i> is referred to by
+definite reference as &ldquo;the current <i>dynamic environment</i>,&rdquo;
+or sometimes as just &ldquo;the <i>dynamic environment</i>.&rdquo;
+
+<p>Within a given <i>namespace</i>,
+a <i>name</i> is said to be <i>bound</i>
+in a <i>dynamic environment</i> if there is a <i>binding</i>
+associated with its <i>name</i> in the <i>dynamic environment</i>
+or, if not, there is a <i>binding</i>
+associated with its name in the <i>global environment</i>.
+
+<h5 class="subsubsection">3.1.1.3 Lexical Environments</h5>
+
+<p>A <a name="index-lexical-environment-165"></a><dfn>lexical environment</dfn> for <i>evaluation</i> at some position in a <i>program</i>
+is that part of the <i>environment</i> that contains information having
+<i>lexical scope</i> within the <i>forms</i> containing that position. 
+A <i>lexical environment</i> contains, among other things, the following:
+
+     <ul>
+<li><i>bindings</i> of <i>lexical variables</i> and <i>symbol macros</i>. 
+<li><i>bindings</i> of <i>functions</i> and <i>macros</i>. 
+(Implicit in this is information about those <i>compiler macros</i>
+that are locally disabled.) 
+<li><i>bindings</i> of <i>block tags</i>. 
+<li><i>bindings</i> of <i>go tags</i>. 
+<li>information about <i>declarations</i>. 
+</ul>
+
+<p>The <i>lexical environment</i> that is active at any given position
+in a <i>program</i> being semantically processed is referred to by
+definite reference as &ldquo;the current <i>lexical environment</i>,&rdquo;
+or sometimes as just &ldquo;the <i>lexical environment</i>.&rdquo;
+
+<p>Within a given <i>namespace</i>,
+a <i>name</i> is said to be <i>bound</i> in a <i>lexical environment</i>
+if there is a <i>binding</i>
+associated with its <i>name</i>
+in the <i>lexical environment</i> or, if not, there is a <i>binding</i>
+associated with its name in the <i>global environment</i>.
+
+<h5 class="unnumberedsubsubsec">3.1.1.3.1 The Null Lexical Environment</h5>
+
+<p><a name="NullLexicalEnv"></a>The <a name="index-null-lexical-environment-166"></a><dfn>null lexical environment</dfn> is equivalent to the <i>global environment</i>.
+
+<p>Although in general the representation of an <i>environment</i> <i>object</i>
+is <i>implementation-dependent</i>, <code>nil</code>&nbsp;<!-- /@w -->can be used in any situation where an
+<i>environment</i> <i>object</i> is called for in order to denote
+the <i>null lexical environment</i>.
+
+<h5 class="subsubsection">3.1.1.4 Environment Objects</h5>
+
+<p><a name="EnvObjs"></a>Some <i>operators</i> make use of an <i>object</i>,
+called an <a name="index-environment-object-167"></a><dfn>environment object</dfn>,
+that represents the set of <i>lexical bindings</i> needed to perform
+semantic analysis on a <i>form</i> in a given <i>lexical environment</i>. 
+The set of <i>bindings</i> in an <i>environment object</i>
+may be a subset of the <i>bindings</i> that would be needed to actually
+perform an <i>evaluation</i>; for example, <i>values</i> associated with
+<i>variable</i> <i>names</i> and <i>function names</i> in the corresponding
+<i>lexical environment</i> might not be available in an <i>environment object</i>.
+
+<p>The <i>type</i> and nature of an <i>environment object</i> is <i>implementation-dependent</i>. 
+The <i>values</i> of <i>environment parameters</i> to <i>macro functions</i>
+are examples of <i>environment objects</i>.
+
+<p>The <i>object</i> <code>nil</code>&nbsp;<!-- /@w -->when used as an <i>environment object</i>
+denotes the <i>null lexical environment</i>;
+see <a href="NullLexicalEnv.html#NullLexicalEnv">Section 3.1.1.3.1 (The Null Lexical Environment)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Environments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+</html>
+

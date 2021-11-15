@@ -1,0 +1,139 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/broadcast_002dstream.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:31 GMT -->
+<head>
+<title>broadcast-stream - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="stream.html#stream" title="stream">
+<link rel="next" href="concatenated_002dstream.html#concatenated_002dstream" title="concatenated-stream">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="broadcast-stream"></a>
+<a name="broadcast_002dstream"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="concatenated_002dstream.html#concatenated_002dstream">concatenated-stream</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="stream.html#stream">stream</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">broadcast-stream (System Class)</h3>
+
+<p><a name="index-broadcast_002dstream-2600"></a><a name="index-broadcast_002dstream-2601"></a>
+
+<h5 class="subsubheading">Class Precedence List:</h5>
+
+<p><code>broadcast-stream</code>,
+<code>stream</code>,
+<code>t</code>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>A <i>broadcast stream</i> is an <i>output</i> <i>stream</i> which
+has associated with it a set of zero or more <i>output</i> <i>streams</i>
+such that any output sent to the <i>broadcast stream</i> gets passed on
+as output to each of the associated <i>output</i> <i>streams</i>. 
+(If a <i>broadcast stream</i> has no <i>component streams</i>,
+then all output to the <i>broadcast stream</i> is discarded.)
+
+<p>The set of operations that may be performed on a <i>broadcast stream</i>
+is the intersection of those for its associated <i>output</i> <i>streams</i>.
+
+<p>Some output operations (<i>e.g.</i>, <code>fresh-line</code>) return <i>values</i> based on the
+state of the <i>stream</i> at the time of the operation. 
+Since these <i>values</i> might differ for each of the <i>component streams</i>,
+it is necessary to describe their return value specifically:
+
+     <ul>
+<li><code>stream-element-type</code> returns
+the value from the last component stream,
+or <code>t</code> if there are no component streams.
+
+     <li><code>fresh-line</code> returns
+the value from the last component stream,
+or <code>nil</code>&nbsp;<!-- /@w -->if there are no component streams.
+
+     <li>The functions
+<code>file-length</code>,
+<code>file-position</code>,
+<code>file-string-length</code>,
+and <code>stream-external-format</code>
+return the value from the last component stream;
+if there are no component streams,
+<code>file-length</code> and <code>file-position</code> return <code>0</code>,
+<code>file-string-length</code> returns <code>1</code>,
+and <code>stream-external-format</code> returns <tt>:default</tt>.
+
+     <li>The functions <code>streamp</code> and <code>output-stream-p</code>
+always return <i>true</i> for <i>broadcast streams</i>.
+
+     <li>The functions <code>open-stream-p</code> tests whether the <i>broadcast stream</i>
+is <i>open</i><sub>2</sub>, not whether its component streams are <i>open</i>.
+
+     <li>The functions <code>input-stream-p</code> and <i>interactive-stream-p</i>
+return an <i>implementation-defined</i>, <i>generalized boolean</i> value.
+
+     <li>For the input operations
+<code>clear-input</code>
+<code>listen</code>,
+<code>peek-char</code>,
+<code>read-byte</code>,
+<code>read-char-no-hang</code>,
+<code>read-char</code>,
+<code>read-line</code>,
+and <code>unread-char</code>,
+the consequences are undefined if the indicated operation is performed. 
+However, an <i>implementation</i> is permitted
+to define such a behavior as an <i>implementation-dependent</i> extension. 
+</ul>
+
+<p>For any output operations not having their return values explicitly specified above
+or elsewhere in this document, it is defined that
+the <i>values</i> returned by such an operation are
+the <i>values</i> resulting from performing the operation
+on the last of its <i>component streams</i>;
+the <i>values</i> resulting from performing the operation
+on all preceding <i>streams</i> are discarded. 
+If there are no <i>component streams</i>,
+the value is <i>implementation-dependent</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="broadcast_002dstream_002dstreams.html#broadcast_002dstream_002dstreams">broadcast-stream-streams</a>,
+<a href="make_002dbroadcast_002dstream.html#make_002dbroadcast_002dstream">make-broadcast-stream</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/broadcast_002dstream.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:31 GMT -->
+</html>
+

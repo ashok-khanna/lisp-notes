@@ -1,0 +1,284 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/adjust_002darray.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:11 GMT -->
+<head>
+<title>adjust-array - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Arrays.html#Arrays" title="Arrays">
+<link rel="prev" href="make_002darray.html#make_002darray" title="make-array">
+<link rel="next" href="adjustable_002darray_002dp.html#adjustable_002darray_002dp" title="adjustable-array-p">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="adjust-array"></a>
+<a name="adjust_002darray"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="adjustable_002darray_002dp.html#adjustable_002darray_002dp">adjustable-array-p</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="make_002darray.html#make_002darray">make-array</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Arrays.html#Arrays">Arrays</a>
+<hr>
+</div>
+
+<h3 class="heading">adjust-array (Function)</h3>
+
+<p><a name="index-adjust_002darray-2078"></a><a name="index-adjust_002darray-2079"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>adjust-array</b><var> array new-dimensions </var><tt>&amp;key</tt><var> element-type<!-- /@w --> initial-element<!-- /@w --> initial-contents<!-- /@w --> fill-pointer<!-- /@w --> displaced-to<!-- /@w --> displaced-index-offset<!-- /@w --> </var><span class="roman">→</span><var> adjusted-array<a name="index-adjust_002darray-2080"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>array</var>&mdash;an <i>array</i>.
+
+<p><var>new-dimensions</var>&mdash;a <i>valid array dimension</i>
+or a <i>list</i> of <i>valid array dimensions</i>.
+
+<p><var>element-type</var>&mdash;a <i>type specifier</i>.
+
+<p><var>initial-element</var>&mdash;an <i>object</i>. 
+<var>Initial-element</var> must not be supplied if either
+<var>initial-contents</var> or <var>displaced-to</var> is supplied.
+
+<p><var>initial-contents</var>&mdash;an <i>object</i>. 
+If <i>array</i> has rank greater than zero, then <var>initial-contents</var>
+is composed of nested <i>sequences</i>, the depth of which must equal
+the rank of <var>array</var>.  Otherwise, <i>array</i> is zero-dimensional and
+<var>initial-contents</var> supplies the single element. 
+<var>initial-contents</var> must not be supplied if either
+<var>initial-element</var> or <var>displaced-to</var> is given.
+
+<p><var>fill-pointer</var>&mdash;a <i>valid fill pointer</i> for the
+<i>array</i> to be created, or <code>t</code>, or <code>nil</code>. 
+The default is <code>nil</code>.
+
+<p><var>displaced-to</var>&mdash;an <i>array</i> or <code>nil</code>. 
+<var>initial-elements</var> and <var>initial-contents</var> must not be supplied
+if <var>displaced-to</var> is supplied.
+
+<p><var>displaced-index-offset</var>&mdash;an <i>object</i> of <i>type</i> <code>(fixnum 0 </code><i>n</i><code>)</code>
+where <i>n</i> is <code>(array-total-size </code><var>displaced-to</var><code>)</code>. 
+<var>displaced-index-offset</var> may be supplied only if <var>displaced-to</var> is supplied.
+
+<p><var>adjusted-array</var>&mdash;an <i>array</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>adjust-array</code> changes the dimensions or elements of <var>array</var>. 
+The result is an <i>array</i> of the same <i>type</i> and rank as <var>array</var>,
+that is either the modified <var>array</var>,
+or a newly created <i>array</i> to which
+<var>array</var> can be displaced, and that has
+the given <var>new-dimensions</var>.
+
+<p><var>New-dimensions</var> specify the size of each <i>dimension</i> of <var>array</var>.
+
+<p><var>Element-type</var> specifies the <i>type</i> of the <i>elements</i>
+of the resulting <i>array</i>.  If <var>element-type</var> is supplied,
+the consequences are unspecified if
+the <i>upgraded array element type</i> of <var>element-type</var>
+is not the same as the <i>actual array element type</i> of <var>array</var>.
+
+<p>If <var>initial-contents</var> is supplied, it is treated as for
+<code>make-array</code>.  In this case none of the original contents of
+<var>array</var> appears in the resulting <i>array</i>.
+
+<p>If <var>fill-pointer</var> is an <i>integer</i>,
+it becomes the <i>fill pointer</i> for the resulting <i>array</i>. 
+If <var>fill-pointer</var> is the symbol <code>t</code>,
+it indicates that the size of the resulting <i>array</i>
+should be used as the <i>fill pointer</i>. 
+If <var>fill-pointer</var> is <code>nil</code>,
+it indicates that the <i>fill pointer</i> should be left as it is.
+
+<p>If <var>displaced-to</var>
+<i>non-nil</i>, a <i>displaced array</i>
+is created. The resulting <i>array</i> shares its contents with the <i>array</i> given by
+<var>displaced-to</var>. 
+The resulting <i>array</i> cannot contain more elements than the <i>array</i>
+it is displaced to. 
+If <var>displaced-to</var> is not supplied or <code>nil</code>,
+the resulting <i>array</i> is not a <i>displaced array</i>. 
+If array A is created displaced to array B and subsequently
+array B is given to <code>adjust-array</code>, array A will still be
+displaced to array B. 
+Although <var>array</var> might be a <i>displaced array</i>,
+the resulting <i>array</i> is not a <i>displaced array</i> unless
+<var>displaced-to</var> is supplied and not <code>nil</code>. 
+The interaction between <code>adjust-array</code> and
+displaced <i>arrays</i>
+is as follows given three <i>arrays</i>, <code>A</code>, <code>B</code>, and&nbsp;<code>C</code>:
+
+     <dl>
+<dt><code>A</code> is not displaced before or after the call<dd>
+
+     <pre class="lisp">      (adjust-array A ...)
+</pre>
+     <p>The dimensions of <code>A</code> are altered, and the
+contents rearranged as appropriate. 
+Additional elements of <code>A</code> are taken from
+<var>initial-element</var>. 
+The use of <var>initial-contents</var> causes all old contents to be
+discarded.
+
+     <br><dt><code>A</code> is not displaced before, but is displaced to  <code>C</code> after the call<dd>
+
+     <pre class="lisp">      (adjust-array A ... :displaced-to C)
+</pre>
+     <p>None of the original contents of <code>A</code> appears in
+<code>A</code> afterwards; <code>A</code> now contains
+the contents of <code>C</code>, without any rearrangement of <code>C</code>.
+
+     <br><dt><code>A</code> is displaced to <code>B</code>  before the call, and is displaced to <code>C</code> after  the call<dd>
+
+     <pre class="lisp">      (adjust-array A ... :displaced-to B)
+      (adjust-array A ... :displaced-to C)
+</pre>
+     <p><code>B</code> and <code>C</code> might be the same. The contents of <code>B</code> do not appear in
+<code>A</code> afterward unless such contents also happen to be in <code>C</code>  If
+<var>displaced-index-offset</var>
+is not supplied in the <code>adjust-array</code> call, it defaults
+to zero; the old offset into <code>B</code> is not retained.
+
+     <br><dt><code>A</code> is displaced to <code>B</code> before the call, but not displaced afterward.<dd>
+
+     <pre class="lisp">      (adjust-array A ... :displaced-to B)
+      (adjust-array A ... :displaced-to nil)
+</pre>
+     <p><code>A</code> gets a
+new &ldquo;data region,&rdquo; and contents of <code>B</code> are copied into it as appropriate to
+maintain the existing old contents; additional elements of <code>A</code>
+are taken from
+<var>initial-element</var> if supplied.  However,
+the use of <var>initial-contents</var> causes all old contents
+to be discarded. 
+</dl>
+
+<p>If <var>displaced-index-offset</var> is supplied,
+it specifies the offset
+of the resulting <i>array</i> from the beginning of
+the <i>array</i> that it is displaced to. 
+If <var>displaced-index-offset</var> is not supplied, the offset is&nbsp;0. 
+The size of the resulting <i>array</i> plus the
+offset value cannot exceed the size of
+the <i>array</i> that it is displaced to.
+
+<p>If only <var>new-dimensions</var>
+and an <var>initial-element</var> argument are supplied,
+those elements of <var>array</var> that
+are still in bounds appear in the resulting <i>array</i>. The elements of
+the resulting <i>array</i> that are not in the bounds of
+<i>array</i> are initialized
+to <var>initial-element</var>; if <var>initial-element</var> is not provided,
+the consequences of later reading any such new <i>element</i> of <var>new-array</var>
+before it has been initialized
+are undefined.
+
+<p>If <var>initial-contents</var> or <var>displaced-to</var> is supplied,
+then none of the original contents of <var>array</var> appears in the new <i>array</i>.
+
+<p>The consequences are unspecified if <var>array</var> is adjusted
+to a size smaller than its <i>fill pointer</i> without supplying
+the <var>fill-pointer</var> argument so that its <i>fill-pointer</i>
+is properly adjusted in the process.
+
+<p>If <code>A</code> is displaced to <code>B</code>, the consequences are unspecified
+if <code>B</code> is adjusted in such a way that it no longer has enough elements
+to satisfy <code>A</code>.
+
+<p>If <code>adjust-array</code> is applied to an <i>array</i> that is <i>actually adjustable</i>,
+the <i>array</i> returned is <i>identical</i> to <var>array</var>. 
+If the <i>array</i> returned by <code>adjust-array</code>
+is <i>distinct</i> from <var>array</var>, then the argument <var>array</var> is unchanged.
+
+<p>Note that if an <i>array</i> A is displaced to another <i>array</i> B,
+and B is displaced to another <i>array</i> C, and B is altered by
+<code>adjust-array</code>, A must now refer to the adjust contents of B. 
+This means that an implementation cannot collapse the chain to make A
+refer to C directly and forget that the chain of reference passes through
+B.  However, caching techniques are permitted as long as they preserve the
+semantics specified here.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (adjustable-array-p
+  (setq ada (adjust-array
+              (make-array '(2 3)
+                          :adjustable t
+                          :initial-contents '((a b c) (1 2 3)))
+              '(4 6)))) <span class="roman">→</span> T
+ (array-dimensions ada) <span class="roman">→</span> (4 6)
+ (aref ada 1 1) <span class="roman">→</span> 2
+ (setq beta (make-array '(2 3) :adjustable t))
+<span class="roman">→</span> #2A((NIL NIL NIL) (NIL NIL NIL))
+ (adjust-array beta '(4 6) :displaced-to ada)
+<span class="roman">→</span> #2A((A B C NIL NIL NIL)
+       (1 2 3 NIL NIL NIL)
+       (NIL NIL NIL NIL NIL NIL)
+       (NIL NIL NIL NIL NIL NIL))
+ (array-dimensions beta) <span class="roman">→</span> (4 6)
+ (aref beta 1 1) <span class="roman">→</span> 2
+</pre>
+<p>Suppose that the 4-by-4 array in <code>m</code> looks like this:
+
+<pre class="lisp">#2A(( alpha     beta      gamma     delta )
+    ( epsilon   zeta      eta       theta )
+    ( iota      kappa     lambda    mu    )
+    ( nu        xi        omicron   pi    ))
+</pre>
+<p>Then the result of
+
+<pre class="lisp"> (adjust-array m '(3 5) :initial-element 'baz)
+</pre>
+<p>is a 3-by-5 array with contents
+
+<pre class="lisp">#2A(( alpha     beta      gamma     delta     baz )
+    ( epsilon   zeta      eta       theta     baz )
+    ( iota      kappa     lambda    mu        baz ))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error of <i>type</i> <code>error</code> is signaled if <var>fill-pointer</var> is supplied
+and <i>non-nil</i> but <var>array</var> has no <i>fill pointer</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="adjustable_002darray_002dp.html#adjustable_002darray_002dp">adjustable-array-p</a>,    <a href="make_002darray.html#make_002darray">make-array</a>,
+<a href="array_002ddimension_002dlimit.html#array_002ddimension_002dlimit">array-dimension-limit</a>, <a href="array_002dtotal_002dsize_002dlimit.html#array_002dtotal_002dsize_002dlimit">array-total-size-limit</a>,
+<a href="array.html#array">array</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/adjust_002darray.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:11 GMT -->
+</html>
+

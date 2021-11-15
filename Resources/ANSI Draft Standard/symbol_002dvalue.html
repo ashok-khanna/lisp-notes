@@ -1,0 +1,131 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/symbol_002dvalue.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>symbol-value - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Symbols.html#Symbols" title="Symbols">
+<link rel="prev" href="symbol_002dplist.html#symbol_002dplist" title="symbol-plist">
+<link rel="next" href="get.html#get" title="get">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="symbol-value"></a>
+<a name="symbol_002dvalue"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="get.html#get">get</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="symbol_002dplist.html#symbol_002dplist">symbol-plist</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Symbols.html#Symbols">Symbols</a>
+<hr>
+</div>
+
+<h3 class="heading">symbol-value (Accessor)</h3>
+
+<p><a name="index-symbol_002dvalue-1032"></a><a name="index-symbol_002dvalue-1033"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>symbol-value</b><var> symbol </var><span class="roman">→</span><var> value<a name="index-symbol_002dvalue-1034"></a></var><br>
+     </div>
+
+<p><tt>(setf (symbol-value symbol) new-value)</tt>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbol</var>&mdash;a <i>symbol</i> that must have a <i>value</i>.
+
+<p><var>value</var>, <var>new-value</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><i>Accesses</i> the <i>symbol</i>'s <i>value cell</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setf (symbol-value 'a) 1) <span class="roman">→</span> 1
+ (symbol-value 'a) <span class="roman">→</span> 1
+ ;; SYMBOL-VALUE cannot see lexical variables.
+ (let ((a 2)) (symbol-value 'a)) <span class="roman">→</span> 1
+ (let ((a 2)) (setq a 3) (symbol-value 'a)) <span class="roman">→</span> 1
+ ;; SYMBOL-VALUE can see dynamic variables.
+ (let ((a 2))
+   (declare (special a))
+   (symbol-value 'a)) <span class="roman">→</span> 2
+ (let ((a 2))
+   (declare (special a))
+   (setq a 3)
+   (symbol-value 'a)) <span class="roman">→</span> 3
+ (let ((a 2))
+   (setf (symbol-value 'a) 3)
+   a) <span class="roman">→</span> 2
+ a <span class="roman">→</span> 3
+ (symbol-value 'a) <span class="roman">→</span> 3
+ (let ((a 4))
+   (declare (special a))
+   (let ((b (symbol-value 'a)))
+     (setf (symbol-value 'a) 5)
+     (values a b))) <span class="roman">→</span> 5, 4
+ a <span class="roman">→</span> 3
+ (symbol-value :any-keyword) <span class="roman">→</span> :ANY-KEYWORD
+ (symbol-value 'nil) <span class="roman">→</span> NIL
+ (symbol-value '()) <span class="roman">→</span> NIL
+ ;; The precision of this next one is <i>implementation-dependent</i>.
+ (symbol-value 'pi) <span class="roman">→</span> 3.141592653589793d0
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>makunbound</code>,
+<code>set</code>,
+<code>setq</code>
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>symbol</var> is not a <i>symbol</i>.
+
+<p>Should signal <code>unbound-variable</code> if <var>symbol</var> is <i>unbound</i>
+and an attempt is made to <i>read</i> its <i>value</i>.  (No such error is signaled
+on an attempt to <i>write</i> its <i>value</i>.)
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="boundp.html#boundp">boundp</a>, <a href="makunbound.html#makunbound">makunbound</a>, <a href="set.html#set">set</a>, <a href="setq.html#setq">setq</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>symbol-value</code> can be used to get the value of a <i>constant variable</i>. 
+<code>symbol-value</code> cannot <i>access</i> the value of a <i>lexical variable</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/symbol_002dvalue.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

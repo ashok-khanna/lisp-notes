@@ -1,0 +1,282 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Packages.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Introduction to Packages - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Package-Concepts.html#Package-Concepts" title="Package Concepts">
+<link rel="next" href="Standardized-Packages.html#Standardized-Packages" title="Standardized Packages">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Packages"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Standardized-Packages.html#Standardized-Packages">Standardized Packages</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Package-Concepts.html#Package-Concepts">Package Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">11.1.1 Introduction to Packages</h4>
+
+<p>A <a name="index-package-1052"></a><dfn>package</dfn> establishes a mapping from names to <i>symbols</i>. 
+At any given time, one <i>package</i> is current. 
+The <a name="index-current-package-1053"></a><dfn>current package</dfn> is the one that is the <i>value</i> of <code>*package*</code>. 
+When using the <i>Lisp reader</i>,
+it is possible to refer to <i>symbols</i> in <i>packages</i>
+other than the current one through the use of <i>package prefixes</i> in the
+printed representation of the <i>symbol</i>.
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable
+to <i>packages</i>. 
+Where an <i>operator</i>
+takes an argument that is either a <i>symbol</i> or a <i>list</i>
+of <i>symbols</i>,
+an argument of <code>nil</code>&nbsp;<!-- /@w -->is treated as an empty <i>list</i> of <i>symbols</i>. 
+Any <var>package</var> argument may be either a <i>string</i>, a <i>symbol</i>, or
+a <i>package</i>.  If a <i>symbol</i> is supplied, its name will be used
+as the <i>package</i> name.
+
+<div class="float">
+<a name="fig11_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*modules* </td><td valign="top">import </td><td valign="top">provide
+<br></td></tr><tr align="left"><td valign="top">*package* </td><td valign="top">in-package </td><td valign="top">rename-package
+<br></td></tr><tr align="left"><td valign="top">defpackage </td><td valign="top">intern </td><td valign="top">require
+<br></td></tr><tr align="left"><td valign="top">do-all-symbols </td><td valign="top">list-all-packages </td><td valign="top">shadow
+<br></td></tr><tr align="left"><td valign="top">do-external-symbols </td><td valign="top">make-package </td><td valign="top">shadowing-import
+<br></td></tr><tr align="left"><td valign="top">do-symbols </td><td valign="top">package-name </td><td valign="top">unexport
+<br></td></tr><tr align="left"><td valign="top">export </td><td valign="top">package-nicknames </td><td valign="top">unintern
+<br></td></tr><tr align="left"><td valign="top">find-all-symbols </td><td valign="top">package-shadowing-symbols </td><td valign="top">unuse-package
+<br></td></tr><tr align="left"><td valign="top">find-package </td><td valign="top">package-use-list </td><td valign="top">use-package
+<br></td></tr><tr align="left"><td valign="top">find-symbol </td><td valign="top">package-used-by-list </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 11.1: Some Defined Names related to Packages</strong></p></div>
+
+<h5 class="subsubsection">11.1.1.1 Package Names and Nicknames</h5>
+
+<p>Each <i>package</i> has a <i>name</i> (a <i>string</i>) and perhaps some <i>nicknames</i>
+(also <i>strings</i>). 
+These are assigned when the <i>package</i> is created and can be changed later.
+
+<p>There is a single namespace for <i>packages</i>. 
+The <i>function</i> <code>find-package</code> translates a package
+<i>name</i> or <i>nickname</i> into the associated <i>package</i>. 
+The <i>function</i> <code>package-name</code> returns the <i>name</i> of a <i>package</i>. 
+The <i>function</i> <code>package-nicknames</code> returns
+a <i>list</i> of all <i>nicknames</i> for a <i>package</i>. 
+<code>rename-package</code> removes a <i>package</i>'s
+current <i>name</i> and <i>nicknames</i> and replaces them with new ones
+specified by the caller.
+
+<h5 class="subsubsection">11.1.1.2 Symbols in a Package</h5>
+
+<h5 class="unnumberedsubsubsec">11.1.1.2.1 Internal and External Symbols</h5>
+
+<p>The mappings in a <i>package</i> are divided into two classes, external and internal. 
+The <i>symbols</i> targeted by these different mappings
+are called <i>external symbols</i> and <i>internal symbols</i>
+<a name="index-internal-symbol-1054"></a>of the
+<i>package</i>. Within a <i>package</i>, a name refers to one
+<i>symbol</i> or to none; if it does refer
+to a <i>symbol</i>, then it is either external or internal in that
+<i>package</i>, but not both. 
+<a name="index-external-symbol-1055"></a><dfn>External symbols</dfn>
+are part of the package's public interface to other <i>packages</i>. 
+<i>Symbols</i> become <i>external symbols</i> of a given
+<i>package</i> if they have been <i>exported</i> from that <i>package</i>.
+
+<p>A <i>symbol</i> has the same <i>name</i> no matter what <i>package</i>
+it is <i>present</i> in, but it might be an <i>external symbol</i> of some <i>packages</i>
+and an <i>internal symbol</i> of others.
+
+<h5 class="unnumberedsubsubsec">11.1.1.2.2 Package Inheritance</h5>
+
+<p><i>Packages</i> can be built up in layers.  From one point of view,
+a <i>package</i> is a single collection
+of mappings from <i>strings</i> into <i>internal symbols</i> and
+<i>external symbols</i>. 
+However, some of these mappings might be established within the <i>package</i>
+itself, while other mappings are inherited from other <i>packages</i>
+via <code>use-package</code>. 
+A <i>symbol</i> is said to be <a name="index-present-1056"></a><dfn>present</dfn> in a <i>package</i>
+if the mapping is in the <i>package</i> itself and is
+not inherited from somewhere else.
+
+<p>There is no way to inherit the <i>internal symbols</i> of another <i>package</i>;
+to refer to an <i>internal symbol</i> using the <i>Lisp reader</i>,
+a <i>package</i> containing the <i>symbol</i>
+must be made to be the <i>current package</i>,
+a <i>package prefix</i> must be used,
+or the <i>symbol</i> must be <i>imported</i> into the <i>current package</i>.
+
+<h5 class="unnumberedsubsubsec">11.1.1.2.3 Accessibility of Symbols in a Package</h5>
+
+<p>A <i>symbol</i> becomes <a name="index-accessible-1057"></a><dfn>accessible</dfn> in a <i>package</i>
+if that is its <i>home package</i> when it is created,
+or if it is <i>imported</i> into that <i>package</i>,
+or by inheritance via <code>use-package</code>.
+
+<p>If a <i>symbol</i> is <i>accessible</i> in a <i>package</i>,
+it can be referred to when using the <i>Lisp reader</i>
+without a <i>package prefix</i> when that <i>package</i> is the <i>current package</i>,
+regardless of whether it is <i>present</i> or inherited.
+
+<p><i>Symbols</i> from one <i>package</i> can be made <i>accessible</i>
+in another <i>package</i> in two ways.
+
+     <ul>
+<li>Any individual <i>symbol</i> can be added to a <i>package</i> by use
+of <code>import</code>.  After the call to <code>import</code> the
+<i>symbol</i> is <i>present</i> in the importing <i>package</i>. 
+The status of the <i>symbol</i> in the <i>package</i>
+it came from (if any) is unchanged, and the <i>home package</i> for
+this <i>symbol</i> is unchanged. 
+Once <i>imported</i>, a <i>symbol</i> is <i>present</i> in the
+importing <i>package</i>
+and can be removed only by calling <code>unintern</code>.
+
+     <p>A <i>symbol</i> is <i>shadowed</i><sub>3</sub> by another <i>symbol</i>
+in some <i>package</i> if the first <i>symbol</i> would be <i>accessible</i>
+by inheritance if not for the presence of the second <i>symbol</i>. 
+See <code>shadowing-import</code>.
+
+     <li>The second mechanism for making <i>symbols</i> from one <i>package</i>
+<i>accessible</i> in another is provided by <code>use-package</code>. 
+All of the <i>external symbols</i> of the used <i>package</i> are inherited
+by the using <i>package</i>. 
+The <i>function</i> <code>unuse-package</code> undoes the effects of a previous <code>use-package</code>. 
+</ul>
+
+<h5 class="unnumberedsubsubsec">11.1.1.2.4 Locating a Symbol in a Package</h5>
+
+<p>When a <i>symbol</i> is to be located in a given <i>package</i>
+the following occurs:
+
+     <ul>
+<li>The <i>external symbols</i> and <i>internal symbols</i> of the
+<i>package</i> are searched for the <i>symbol</i>. 
+<li>The <i>external symbols</i> of the used <i>packages</i> are
+searched
+in some unspecified order.  The
+order does not matter; see the rules for handling name
+conflicts listed below. 
+</ul>
+
+<h5 class="unnumberedsubsubsec">11.1.1.2.5 Prevention of Name Conflicts in Packages</h5>
+
+<p>Within one <i>package</i>, any particular name can refer to at most one
+<i>symbol</i>.  A name conflict is said to occur when there would be more than
+one candidate <i>symbol</i>.  Any time a name conflict is about to occur,
+a <i>correctable</i> <i>error</i> is signaled.
+
+<p>The following rules apply to name conflicts:
+
+     <ul>
+<li>Name conflicts are detected when they become possible, that is, when the
+package structure is altered.  Name
+conflicts are not checked during every name lookup.
+
+     <li>If the <i>same</i> <i>symbol</i> is <i>accessible</i> to a <i>package</i>
+through more than one path, there is no name conflict. 
+A <i>symbol</i> cannot conflict with itself. 
+Name conflicts occur only between <i>distinct</i> <i>symbols</i> with
+the same name (under <code>string=</code>).
+
+     <li>Every <i>package</i> has a list of shadowing <i>symbols</i>. 
+A shadowing <i>symbol</i> takes precedence over any other <i>symbol</i> of
+the same name that would otherwise be <i>accessible</i> in the <i>package</i>. 
+A name conflict involving a shadowing symbol is always resolved in favor of
+the shadowing <i>symbol</i>, without signaling an error (except for one
+exception involving <code>import</code>). 
+See <code>shadow</code> and <code>shadowing-import</code>.
+
+     <li>The functions <code>use-package</code>, <code>import</code>, and
+<code>export</code> check for name conflicts.
+
+     <li><code>shadow</code> and <code>shadowing-import</code>
+never signal a name-conflict error.
+
+     <li><code>unuse-package</code> and <code>unexport</code>
+do not need to do any name-conflict checking. 
+<code>unintern</code> does name-conflict checking only when a <i>symbol</i>
+being <i>uninterned</i> is a <i>shadowing symbol</i>
+<a name="index-shadowing-symbol-1058"></a>.
+
+     <li>Giving a shadowing symbol to <code>unintern</code>
+can uncover a name conflict that had
+previously been resolved by the shadowing.
+
+     <li>Package functions signal name-conflict errors of <i>type</i> <code>package-error</code> before making any
+change to the package structure.  When multiple changes are to be made,
+it is
+permissible for the implementation to process each change separately. 
+For example, when <code>export</code> is given a
+<i>list</i> of
+<i>symbols</i>,
+aborting from a name
+conflict caused by the second <i>symbol</i>
+in the <i>list</i> might still export the
+first <i>symbol</i> in the <i>list</i>. 
+However, a name-conflict error caused by <code>export</code>
+of a single <i>symbol</i> will be signaled before
+that <i>symbol</i>'s <i>accessibility</i> in any <i>package</i> is changed.
+
+     <li>Continuing from a name-conflict error must offer the user a chance to
+resolve the name conflict in favor of either of the candidates.  The
+<i>package</i>
+structure should be altered to reflect the resolution of the
+name conflict, via <code>shadowing-import</code>,
+<code>unintern</code>,
+or <code>unexport</code>.
+
+     <li>A name conflict in <code>use-package</code> between a <i>symbol</i>
+<i>present</i> in the using <i>package</i> and an <i>external symbol</i> of the used
+<i>package</i> is resolved in favor of the first <i>symbol</i> by making it a
+shadowing <i>symbol</i>, or in favor of the second <i>symbol</i> by uninterning
+the first <i>symbol</i> from the using <i>package</i>.
+
+     <li>A name conflict in <code>export</code> or <code>unintern</code>
+due to a <i>package</i>'s inheriting two <i>distinct</i> <i>symbols</i>
+with the <i>same</i> <i>name</i> (under <code>string=</code>)
+from two other <i>packages</i> can be resolved in
+favor of either <i>symbol</i> by importing it into the using
+<i>package</i> and making it a <i>shadowing symbol</i>
+<a name="index-shadowing-symbol-1059"></a>,
+just as with <code>use-package</code>. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Packages.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

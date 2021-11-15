@@ -1,0 +1,207 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/coerce.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:16 GMT -->
+<head>
+<title>coerce - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Types-and-Classes.html#Types-and-Classes" title="Types and Classes">
+<link rel="prev" href="eql-_0028Type-Specifier_0029.html#eql-_0028Type-Specifier_0029" title="eql (Type Specifier)">
+<link rel="next" href="deftype.html#deftype" title="deftype">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="coerce"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="deftype.html#deftype">deftype</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="eql-_0028Type-Specifier_0029.html#eql-_0028Type-Specifier_0029">eql (Type Specifier)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Types-and-Classes.html#Types-and-Classes">Types and Classes</a>
+<hr>
+</div>
+
+<h3 class="heading">coerce (Function)</h3>
+
+<p><a name="index-coerce-396"></a><a name="index-coerce-397"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>coerce</b><var> object result-type </var><span class="roman">→</span><var> result<a name="index-coerce-398"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>result-type</var>&mdash;a <i>type specifier</i>.
+
+<p><var>result</var>&mdash;an <i>object</i>, of <i>type</i> <var>result-type</var>
+except in situations described in <a href="RuleOfCanonRepForComplexRationals.html#RuleOfCanonRepForComplexRationals">Section 12.1.5.3 (Rule of Canonical Representation for Complex Rationals)</a>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><i>Coerces</i> the <var>object</var> to <i>type</i> <var>result-type</var>.
+
+<p>If <var>object</var> is already of <i>type</i> <var>result-type</var>,
+the <var>object</var> itself is returned, regardless of whether it
+would have been possible in general to coerce an <i>object</i> of
+some other <i>type</i> to <var>result-type</var>.
+
+<p>Otherwise, the <var>object</var> is <i>coerced</i> to <i>type</i> <var>result-type</var>
+according to the following rules:
+
+     <dl>
+<dt><code>sequence</code><dd>
+
+     <p>If the <var>result-type</var> is a <i>recognizable subtype</i> of <code>list</code>,
+and the <i>object</i> is a <i>sequence</i>,
+then the <var>result</var> is a <i>list</i>
+that has the <i>same</i> <i>elements</i> as <var>object</var>.
+
+     <p>If the <var>result-type</var> is a <i>recognizable subtype</i> of <code>vector</code>,
+and the <i>object</i> is a <i>sequence</i>,
+then the <var>result</var> is a <i>vector</i>
+that has the <i>same</i> <i>elements</i> as <var>object</var>. 
+If <var>result-type</var> is a specialized <i>type</i>,
+the <var>result</var> has an <i>actual array element type</i> that is the result of
+<i>upgrading</i> the element type part of that <i>specialized</i> <i>type</i>. 
+If no element type is specified, the element type defaults to <code>t</code>. 
+If the <i>implementation</i> cannot determine the element type, an error is signaled.
+
+     <br><dt><code>character</code><dd>
+
+     <p>If the <var>result-type</var> is <code>character</code>
+and the <i>object</i> is a <i>character designator</i>,
+the <var>result</var> is the <i>character</i> it denotes.
+
+     <br><dt><code>complex</code><dd>
+
+     <p>If the <var>result-type</var> is <code>complex</code>
+and the <i>object</i> is a <i>real</i>,
+then the <var>result</var> is obtained by constructing a <i>complex</i>
+whose real part is the <i>object</i> and
+whose imaginary part is the result of <i>coercing</i> an <i>integer</i> zero
+to the <i>type</i> of the <i>object</i> (using <code>coerce</code>). 
+(If the real part is a <i>rational</i>, however,
+then the result must be represented as a <i>rational</i> rather
+than a <i>complex</i>; see <a href="RuleOfCanonRepForComplexRationals.html#RuleOfCanonRepForComplexRationals">Section 12.1.5.3 (Rule of Canonical Representation for Complex Rationals)</a>. 
+So, for example, <code>(coerce 3 'complex)</code> is permissible,
+but will return <code>3</code>, which is not a <i>complex</i>.)
+
+     <br><dt><code>float</code><dd>
+
+     <p>If the <var>result-type</var> is any of <code>float</code>,
+<code>short-float</code>,
+<code>single-float</code>,
+<code>double-float</code>,
+<code>long-float</code>,
+and the <i>object</i> is a
+<i>real</i>,
+then the <var>result</var> is a <i>float</i> of <i>type</i> <var>result-type</var>
+which is equal in sign and magnitude to the <i>object</i> to whatever degree of
+representational precision is permitted by that <i>float</i> representation. 
+(If the <var>result-type</var> is <code>float</code>
+and <var>object</var> is not already a <i>float</i>,
+then the <var>result</var> is a <i>single float</i>.)
+
+     <br><dt><code>function</code><dd>
+
+     <p>If the <var>result-type</var> is <code>function</code>,
+and <var>object</var> is any
+<i>function name</i>
+that is <i>fbound</i>
+but that is globally defined neither as a <i>macro name</i> nor as a <i>special operator</i>,
+then the <var>result</var> is the <i>functional value</i> of <var>object</var>.
+
+     <p>If the <var>result-type</var> is <code>function</code>,
+and <var>object</var> is a <i>lambda expression</i>,
+then the <var>result</var> is a <i>closure</i> of <var>object</var>
+in the <i>null lexical environment</i>.
+
+     <br><dt><code>t</code><dd>
+
+     <p>Any <var>object</var> can be <i>coerced</i> to an <i>object</i> of <i>type</i> <code>t</code>. 
+In this case, the <var>object</var> is simply returned. 
+</dl>
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (coerce '(a b c) 'vector) <span class="roman">→</span> #(A B C)
+ (coerce 'a 'character) <span class="roman">→</span> #\A
+ (coerce 4.56 'complex) <span class="roman">→</span> #C(4.56 0.0)
+ (coerce 4.5s0 'complex) <span class="roman">→</span> #C(4.5s0 0.0s0)
+ (coerce 7/2 'complex) <span class="roman">→</span> 7/2
+ (coerce 0 'short-float) <span class="roman">→</span> 0.0s0
+ (coerce 3.5L0 'float) <span class="roman">→</span> 3.5L0
+ (coerce 7/2 'float) <span class="roman">→</span> 3.5
+ (coerce (cons 1 2) t) <span class="roman">→</span> (1 . 2)
+</pre>
+<p>All the following <i>forms</i> should signal an error:
+
+<pre class="lisp"> (coerce '(a b c) '(vector * 4))
+ (coerce #(a b c) '(vector * 4))
+ (coerce '(a b c) '(vector * 2))
+ (coerce #(a b c) '(vector * 2))
+ (coerce "foo" '(string 2))
+ (coerce #(#\a #\b #\c) '(string 2))
+ (coerce '(0 1) '(simple-bit-vector 3))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If a coercion is not possible, an error of <i>type</i> <code>type-error</code> is signaled.
+
+<p><code>(coerce x 'nil)</code> always signals an error of <i>type</i> <code>type-error</code>.
+
+<p>An error
+of <i>type</i> <code>error</code> is signaled
+if the <var>result-type</var> is <code>function</code> but
+<var>object</var> is a <i>symbol</i> that is not <i>fbound</i> or
+if the <i>symbol</i> names a <i>macro</i> or a <i>special operator</i>.
+
+<p>An error of <i>type</i> <code>type-error</code> should be signaled if <var>result-type</var>
+specifies the number of elements and <var>object</var> is of a different length.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="rational.html#rational">rational</a>, <a href="floor.html#floor">floor</a>, <a href="char_002dcode.html#char_002dcode">char-code</a>, <a href="char_002dint.html#char_002dint">char-int</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Coercions from <i>floats</i> to <i>rationals</i>
+and from <i>ratios</i> to <i>integers</i>
+are not provided because of rounding problems.
+
+<pre class="lisp"> (coerce x 't) ≡ (identity x) ≡ x
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/coerce.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:19 GMT -->
+</html>
+

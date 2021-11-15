@@ -1,0 +1,133 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conditional-Execution-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Conditional Execution Clauses - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="prev" href="Unconditional-Execution-Clauses.html#Unconditional-Execution-Clauses" title="Unconditional Execution Clauses">
+<link rel="next" href="Miscellaneous-Clauses.html#Miscellaneous-Clauses" title="Miscellaneous Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conditional-Execution-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Miscellaneous-Clauses.html#Miscellaneous-Clauses">Miscellaneous Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Unconditional-Execution-Clauses.html#Unconditional-Execution-Clauses">Unconditional Execution Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.6 Conditional Execution Clauses</h4>
+
+<p>The <code>if</code>, <code>when</code>, and <code>unless</code> constructs
+establish conditional control in a <code>loop</code>. If the test
+passes, the succeeding loop clause is executed. If the test does
+not pass, the succeeding clause is skipped, and program control
+moves to the clause that follows the <i>loop keyword</i>
+<code>else</code>. If the test does not pass and no <code>else</code>
+clause is supplied, control is transferred to the clause or
+construct following the entire conditional clause.
+
+<p>If conditional clauses are nested, each <code>else</code> is paired
+with the closest preceding conditional clause that has no
+associated <code>else</code> or <code>end</code>.
+
+<p>In the <code>if</code> and <code>when</code> clauses, which are
+synonymous, the test passes if the value of <var>form</var> is
+<i>true</i>.
+
+<p>In the <code>unless</code> clause,
+the test passes if the value of <var>form</var> is <i>false</i>.
+
+<p>Clauses that follow the test expression can be grouped by using
+the <i>loop keyword</i> <code>and</code> to produce a conditional block consisting of
+a compound clause.
+
+<p>The <i>loop keyword</i> <code>it</code> can be used to refer to the result
+of the test expression in a clause. 
+Use the <i>loop keyword</i> <code>it</code> in place of the form in a
+<code>return</code> clause or an <i>accumulation</i> clause that is
+inside a conditional execution clause. 
+If multiple clauses are connected with <code>and</code>, the <code>it</code>
+construct must be in the first clause in the block.
+
+<p>The optional <i>loop keyword</i> <code>end</code> marks the end of the clause.  If this
+keyword is not supplied, the next <i>loop keyword</i> marks the end.  The construct
+<code>end</code> can be used to distinguish the scoping of compound clauses.
+
+<h5 class="subsubsection">6.1.6.1 Examples of WHEN clause</h5>
+
+<pre class="lisp">;; Signal an exceptional condition.
+ (loop for item in '(1 2 3 a 4 5)
+       when (not (numberp item))
+        return (cerror "enter new value" "non-numeric value: ~s" item))
+Error: non-numeric value: A
+
+;; The previous example is equivalent to the following one.
+ (loop for item in '(1 2 3 a 4 5)
+       when (not (numberp item))
+        do (return
+            (cerror "Enter new value" "non-numeric value: ~s" item)))
+Error: non-numeric value: A
+</pre>
+<pre class="lisp">;; This example parses a simple printed string representation from
+;; BUFFER (which is itself a string) and returns the index of the
+;; closing double-quote character.
+ (let ((buffer "\"a\" \"b\""))
+   (loop initially (unless (char= (char buffer 0) #\")
+                     (loop-finish))
+         for i of-type fixnum from 1 below (length (the string buffer))
+         when (char= (char buffer i) #\")
+          return i))
+<span class="roman">→</span> 2
+
+;; The collected value is returned.
+ (loop for i from 1 to 10
+       when (&gt; i 5)
+         collect i
+       finally (prin1 'got-here))
+▷ GOT-HERE
+<span class="roman">→</span> (6 7 8 9 10)
+
+;; Return both the count of collected numbers and the numbers.
+ (loop for i from 1 to 10
+       when (&gt; i 5)
+         collect i into number-list
+         and count i into number-count
+       finally (return (values number-count number-list)))
+<span class="roman">→</span> 5, (6 7 8 9 10)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conditional-Execution-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

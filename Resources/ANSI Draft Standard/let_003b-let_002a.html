@@ -1,0 +1,181 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/let_003b-let_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+<head>
+<title>let; let* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="destructuring_002dbind.html#destructuring_002dbind" title="destructuring-bind">
+<link rel="next" href="progv.html#progv" title="progv">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="let%3b-let*"></a>
+<a name="let_003b-let_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="progv.html#progv">progv</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="destructuring_002dbind.html#destructuring_002dbind">destructuring-bind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">let, let* (Special Operator)</h3>
+
+<p><a name="index-let-484"></a><a name="index-let-485"></a><a name="index-let_002a-486"></a><a name="index-let_002a-487"></a><a name="let"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>let</b> <tt>(</tt><tt>{</tt><var>var </var><span class="roman">|</span><var> (var [init-form])</var><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-let-488"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Special Form: <b>let*</b> <tt>(</tt><tt>{</tt><var>var </var><span class="roman">|</span><var> (var [init-form])</var><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-let_002a-489"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>var</var>&mdash;a <i>symbol</i>.
+
+<p><var>init-form</var>&mdash;a <i>form</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <i>forms</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>let</code> and <code>let*</code>
+create new variable <i>bindings</i> and
+execute a series of <var>forms</var> that use these <i>bindings</i>. 
+<code>let</code> performs the <i>bindings</i> in parallel and
+<code>let*</code> does them sequentially.
+
+<p>The form
+
+<pre class="lisp"> (let ((<var>var1</var> <var>init-form-1</var>)
+       (<var>var2</var> <var>init-form-2</var>)
+       ...
+       (<var>varm</var> <var>init-form-m</var>))
+   <var>declaration1</var>
+   <var>declaration2</var>
+   ...
+   <var>declarationp</var>
+   <var>form1</var>
+   <var>form2</var>
+   ...
+   <var>formn</var>)
+</pre>
+<p>first evaluates the expressions <var>init-form-1</var>, <var>init-form-2</var>, and so on,
+in that order, saving the resulting values. 
+Then all of the variables <var>varj</var> are bound to the corresponding
+values; each <i>binding</i> is lexical unless
+there is a <code>special</code> declaration to the contrary. 
+The expressions <var>formk</var> are then evaluated
+in order; the values of all but the last are discarded
+(that is, the body of a <code>let</code>
+is an <i>implicit progn</i>).
+
+<p><code>let*</code>
+is similar to <code>let</code>, but the <i>bindings</i> of variables
+are performed sequentially rather than in parallel. 
+The expression for the <var>init-form</var> of a
+<var>var</var> can refer to <var>vars</var>
+previously bound in the <code>let*</code>.
+
+<p>The form
+
+<pre class="lisp"> (let* ((<var>var1</var> <var>init-form-1</var>)
+        (<var>var2</var> <var>init-form-2</var>)
+        ...
+        (<var>varm</var> <var>init-form-m</var>))
+   <var>declaration1</var>
+   <var>declaration2</var>
+   ...
+   <var>declarationp</var>
+   <var>form1</var>
+   <var>form2</var>
+   ...
+   <var>formn</var>)
+</pre>
+<p>first evaluates the expression <var>init-form-1</var>, then binds the variable
+<var>var1</var> to that value; then it evaluates <var>init-form-2</var> and binds
+<var>var2</var>, and so on. 
+The expressions <var>formj</var> are then evaluated
+in order; the values of all but the last are discarded
+(that is, the body of <code>let*</code> is an implicit <code>progn</code>).
+
+<p>For both <code>let</code> and <code>let*</code>,
+if there is not an <var>init-form</var> associated with a <var>var</var>,
+<var>var</var> is initialized to <code>nil</code>.
+
+<p>The special form <code>let</code>
+has the property that the <i>scope</i>
+of the name binding does not include any
+initial value form. 
+For <code>let*</code>, a variable's <i>scope</i> also includes the
+remaining initial value forms for subsequent variable bindings.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq a 'top) <span class="roman">→</span> TOP
+ (defun dummy-function () a) <span class="roman">→</span> DUMMY-FUNCTION
+ (let ((a 'inside) (b a))
+    (format nil "~S ~S ~S" a b (dummy-function))) <span class="roman">→</span> "INSIDE TOP TOP"
+ (let* ((a 'inside) (b a))
+    (format nil "~S ~S ~S" a b (dummy-function))) <span class="roman">→</span> "INSIDE INSIDE TOP"
+ (let ((a 'inside) (b a))
+    (declare (special a))
+    (format nil "~S ~S ~S" a b (dummy-function))) <span class="roman">→</span> "INSIDE TOP INSIDE"
+</pre>
+<p>The code
+
+<pre class="lisp"> (let (x)
+   (declare (integer x))
+   (setq x (gcd y z))
+   ...)
+</pre>
+<p>is incorrect; although <code>x</code> is indeed set before it is used,
+and is set to a value of the declared type <i>integer</i>, nevertheless
+<code>x</code> initially takes on the value <code>nil</code>&nbsp;<!-- /@w -->in violation of the type
+declaration.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="progv.html#progv">progv</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/let_003b-let_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:32 GMT -->
+</html>
+

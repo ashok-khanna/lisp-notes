@@ -1,0 +1,293 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Value-Accumulation-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Value Accumulation Clauses - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="prev" href="Variable-Initialization-and-Stepping-Clauses.html#Variable-Initialization-and-Stepping-Clauses" title="Variable Initialization and Stepping Clauses">
+<link rel="next" href="Termination-Test-Clauses.html#Termination-Test-Clauses" title="Termination Test Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Value-Accumulation-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Termination-Test-Clauses.html#Termination-Test-Clauses">Termination Test Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Variable-Initialization-and-Stepping-Clauses.html#Variable-Initialization-and-Stepping-Clauses">Variable Initialization and Stepping Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.3 Value Accumulation Clauses</h4>
+
+<p>The constructs <code>collect</code>, <code>collecting</code>,
+<code>append</code>, <code>appending</code>,
+<code>nconc</code>, <code>nconcing</code>,
+<code>count</code>, <code>counting</code>,
+<code>maximize</code>, <code>maximizing</code>,
+<code>minimize</code>, <code>minimizing</code>,
+<code>sum</code>, and <code>summing</code>,
+allow values to be accumulated in a <code>loop</code>.
+
+<p>The constructs <code>collect</code>,
+<code>collecting</code>, <code>append</code>, <code>appending</code>,
+<code>nconc</code>, and <code>nconcing</code>,
+designate clauses that
+accumulate values in <i>lists</i> and return them. 
+The constructs <code>count</code>, <code>counting</code>,
+<code>maximize</code>, <code>maximizing</code>, <code>minimize</code>, <code>minimizing</code>,
+<code>sum</code>, and <code>summing</code> designate clauses that accumulate and
+return numerical values.
+
+<p>During each iteration,  the constructs
+<code>collect</code> and <code>collecting</code>
+collect the value of the supplied
+<var>form</var> into a <i>list</i>. 
+When iteration terminates, the <i>list</i> is returned. 
+The argument <var>var</var> is
+set to the <i>list</i>
+of collected values; if <var>var</var> is supplied, the <code>loop</code>
+does not return the final <i>list</i> automatically.  If
+<var>var</var> is not
+supplied, it is equivalent to supplying an internal name for
+<var>var</var> and returning its value in a <code>finally</code> clause. 
+The <var>var</var> argument
+is bound as if by the construct <code>with</code>. 
+No mechanism is provided for declaring the <i>type</i> of <var>var</var>;
+it must be of <i>type</i> <code>list</code>.
+
+<p>The constructs <code>append</code>, <code>appending</code>,
+<code>nconc</code>, and  <code>nconcing</code>
+are similar to <code>collect</code> except that the
+values of the supplied <var>form</var> must be <i>lists</i>.
+
+     <ul>
+<li>The <code>append</code> keyword causes its <i>list</i> values to be concatenated
+into a single <i>list</i>, as if
+they were arguments to the <i>function</i> <code>append</code>.
+
+     <li>The <code>nconc</code> keyword causes its <i>list</i> values to be concatenated
+into a single <i>list</i>,
+as if they were arguments to the <i>function</i> <code>nconc</code>. 
+</ul>
+
+<p>The argument <var>var</var> is
+set to the <i>list</i> of
+concatenated values; if <var>var</var> is supplied,
+<code>loop</code>
+does not return the final <i>list</i> automatically. 
+The <var>var</var> argument
+is bound as if by the construct <code>with</code>. 
+A <i>type</i> cannot be supplied for <var>var</var>;
+it must be of <i>type</i> <code>list</code>. 
+The construct <code>nconc</code>
+destructively modifies its argument <i>lists</i>.
+
+<p>The <code>count</code> construct counts the number of times
+that the supplied <var>form</var> returns <i>true</i>. 
+The argument <var>var</var> accumulates the number of occurrences;
+if <var>var</var> is supplied,
+<code>loop</code> does not return the final count automatically. 
+The <var>var</var> argument is bound as if by the construct <code>with</code>
+to a zero of the appropriate type. 
+Subsequent values (including any necessary coercions)
+are computed as if by the function <code>1+</code>. 
+If <code>into</code> <var>var</var> is used,
+a <i>type</i> can be supplied  for <var>var</var> with the <var>type-spec</var> argument;
+the consequences are unspecified if a nonnumeric <i>type</i> is supplied. 
+If there is no <code>into</code> variable,
+the optional <var>type-spec</var> argument
+applies to the internal variable that is keeping the count. 
+The default <i>type</i> is <i>implementation-dependent</i>;
+but it must be
+a supertype of <i>type</i> <code>fixnum</code>.
+
+<p>The <code>maximize</code> and
+<code>minimize</code>
+constructs compare
+the value of the supplied <var>form</var> obtained during the first
+iteration with values obtained in successive iterations. 
+The maximum (for <code>maximize</code>) or minimum (for <code>minimize</code>)
+value encountered is determined
+(as if by the <i>function</i> <code>max</code> for <code>maximize</code> and
+as if by the <i>function</i> <code>min</code> for <code>minimize</code>)
+and returned. 
+If the <code>maximize</code> or <code>minimize</code> clause
+is never executed, the accumulated value is unspecified. 
+The argument <var>var</var> accumulates the maximum or minimum value;
+if <var>var</var> is supplied,
+<code>loop</code> does not return the maximum or minimum automatically. 
+The <var>var</var> argument is bound as if by the construct <code>with</code>. 
+If <code>into</code> <var>var</var> is used,
+a <i>type</i> can be supplied for <var>var</var> with the <var>type-spec</var> argument;
+the consequences are unspecified if a nonnumeric <i>type</i> is supplied. 
+If there is no <code>into</code> variable,
+the optional <var>type-spec</var> argument applies to the internal variable
+that is keeping the maximum or minimum value. 
+The default <i>type</i>
+is <i>implementation-dependent</i>; but it
+must be a supertype of <i>type</i> <code>real</code>.
+
+<p>The <code>sum</code> construct forms a cumulative sum
+of the successive <i>primary values</i> of the supplied <var>form</var>
+at each iteration. 
+The argument <var>var</var> is used to accumulate the sum;
+if <var>var</var> is supplied,
+<code>loop</code> does not return the final sum automatically. 
+The <var>var</var> argument is bound as if by the construct <code>with</code>
+to a zero of the appropriate type. 
+Subsequent values (including any necessary coercions) are computed as if by the <i>function</i> <code>+</code>. 
+If <code>into</code> <var>var</var> is used,
+a <i>type</i> can be supplied for <var>var</var> with the <var>type-spec</var> argument;
+the consequences are unspecified if a nonnumeric <i>type</i> is supplied. 
+If there is no <code>into</code> variable,
+the optional <var>type-spec</var> argument applies to the internal variable
+that is keeping the sum. 
+The default <i>type</i>
+is <i>implementation-dependent</i>; but it
+must be a supertype of <i>type</i> <code>number</code>.
+
+<p>If <code>into</code> is used,
+the construct does not provide a default return value;
+however, the variable is available
+for use in any <code>finally</code> clause.
+
+<p>Certain kinds of accumulation clauses can be combined in a <code>loop</code>
+if their destination is the same
+(the result of <code>loop</code> or an <code>into</code> <var>var</var>)
+because they are considered to accumulate conceptually compatible quantities. 
+In particular,
+any elements of following sets of accumulation clauses can be mixed
+with other elements of the same set for the same destination
+in a <code>loop</code> <i>form</i>:
+
+     <ul>
+<li><code>collect</code>, <code>append</code>, <code>nconc</code>
+
+     <li><code>sum</code>, <code>count</code>
+
+     <li><code>maximize</code>, <code>minimize</code>
+</ul>
+
+<pre class="lisp">;; Collect every name and the kids in one list by using
+;; COLLECT and APPEND.
+ (loop for name in '(fred sue alice joe june)
+       for kids in '((bob ken) () () (kris sunshine) ())
+       collect name
+       append kids)
+<span class="roman">→</span> (FRED BOB KEN SUE ALICE JOE KRIS SUNSHINE JUNE)
+</pre>
+<p>Any two
+clauses that do not accumulate the same <i>type</i> of
+<i>object</i>
+can coexist in a <code>loop</code> only
+if each clause accumulates its values into
+a different
+<i>variable</i>.
+
+<h5 class="subsubsection">6.1.3.1 Examples of COLLECT clause</h5>
+
+<pre class="lisp">;; Collect all the symbols in a list.
+ (loop for i in '(bird 3 4 turtle (1 . 4) horse cat)
+       when (symbolp i) collect i)
+<span class="roman">→</span> (BIRD TURTLE HORSE CAT)
+
+;; Collect and return odd numbers.
+ (loop for i from 1 to 10
+       if (oddp i) collect i)
+<span class="roman">→</span> (1 3 5 7 9)
+
+;; Collect items into local variable, but don't return them.
+ (loop for i in '(a b c d) by #'cddr
+       collect i into my-list
+       finally (print my-list))
+▷ (A C)
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubsection">6.1.3.2 Examples of APPEND and NCONC clauses</h5>
+
+<pre class="lisp">;; Use APPEND to concatenate some sublists.
+  (loop for x in '((a) (b) ((c)))
+        append x)
+<span class="roman">→</span> (A B (C))
+
+;; NCONC some sublists together.  Note that only lists made by the
+;; call to LIST are modified.
+  (loop for i upfrom 0
+        as x in '(a b (c))
+        nconc (if (evenp i) (list x) nil))
+<span class="roman">→</span> (A (C))
+</pre>
+<h5 class="subsubsection">6.1.3.3 Examples of COUNT clause</h5>
+
+<pre class="lisp"> (loop for i in '(a b nil c nil d e)
+       count i)
+<span class="roman">→</span> 5
+</pre>
+<h5 class="subsubsection">6.1.3.4 Examples of MAXIMIZE and MINIMIZE clauses</h5>
+
+<pre class="lisp"> (loop for i in '(2 1 5 3 4)
+       maximize i)
+<span class="roman">→</span> 5
+ (loop for i in '(2 1 5 3 4)
+       minimize i)
+<span class="roman">→</span> 1
+
+;; In this example, FIXNUM applies to the internal variable that holds
+;; the maximum value.
+ (setq series '(1.2 4.3 5.7))
+<span class="roman">→</span> (1.2 4.3 5.7)
+ (loop for v in series
+       maximize (round v) of-type fixnum)
+<span class="roman">→</span> 6
+
+;; In this example, FIXNUM applies to the variable RESULT.
+ (loop for v of-type float in series
+       minimize (round v) into result of-type fixnum
+       finally (return result))
+<span class="roman">→</span> 1
+</pre>
+<h5 class="subsubsection">6.1.3.5 Examples of SUM clause</h5>
+
+<pre class="lisp"> (loop for i of-type fixnum in '(1 2 3 4 5)
+       sum i)
+<span class="roman">→</span> 15
+ (setq series '(1.2 4.3 5.7))
+<span class="roman">→</span> (1.2 4.3 5.7)
+ (loop for v in series
+       sum (* 2.0 v))
+<span class="roman">→</span> 22.4
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Value-Accumulation-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

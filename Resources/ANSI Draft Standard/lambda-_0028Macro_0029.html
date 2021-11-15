@@ -1,0 +1,101 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/lambda-_0028Macro_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:01 GMT -->
+<head>
+<title>lambda (Macro) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="lambda-_0028Symbol_0029.html#lambda-_0028Symbol_0029" title="lambda (Symbol)">
+<link rel="next" href="compile.html#compile" title="compile">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="lambda-(Macro)"></a>
+<a name="lambda-_0028Macro_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="compile.html#compile">compile</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="lambda-_0028Symbol_0029.html#lambda-_0028Symbol_0029">lambda (Symbol)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">lambda (Macro)</h3>
+
+<p><a name="index-lambda-235"></a><a name="index-lambda-236"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>lambda</b><var> lambda-list 〚</var><tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><span class="roman">|</span><var> documentation〛 </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span><var> function<a name="index-lambda-237"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>lambda-list</var>&mdash;an <i>ordinary lambda list</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<p><var>function</var>&mdash;a <i>function</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Provides a shorthand notation for a <code>function</code> <i>special form</i>
+involving a <i>lambda expression</i> such that:
+
+<pre class="lisp">    (lambda <var>lambda-list</var> 〚<tt>{</tt>declaration<tt>}</tt>* <span class="roman">|</span> documentation〛 <tt>{</tt>form<tt>}</tt>*)
+ ≡ (function (lambda <var>lambda-list</var> 〚<tt>{</tt>declaration<tt>}</tt>* <span class="roman">|</span> documentation〛 <tt>{</tt>form<tt>}</tt>*))
+ ≡ #'(lambda <var>lambda-list</var> 〚<tt>{</tt>declaration<tt>}</tt>* <span class="roman">|</span> documentation〛 <tt>{</tt>form<tt>}</tt>*)
+</pre>
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (funcall (lambda (x) (+ x 3)) 4) <span class="roman">→</span> 7
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="lambda-_0028Symbol_0029.html#lambda-_0028Symbol_0029">lambda (Symbol)</a> (symbol)
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>This macro could be implemented by:
+
+<pre class="lisp">(defmacro lambda (&amp;whole form &amp;rest bvl-decls-and-body)
+  (declare (ignore bvl-decls-and-body))
+  `#',form)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/lambda-_0028Macro_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:01 GMT -->
+</html>
+

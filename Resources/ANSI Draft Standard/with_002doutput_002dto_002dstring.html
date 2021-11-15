@@ -1,0 +1,142 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002doutput_002dto_002dstring.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+<head>
+<title>with-output-to-string - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="with_002dinput_002dfrom_002dstring.html#with_002dinput_002dfrom_002dstring" title="with-input-from-string">
+<link rel="next" href="_002adebug_002dio_002a_003b-_002aerror_002doutput_002a_003b-_002aquery_002dio_002a_003b-_002astandard_002dinput_002a_003b-_002astandard_002dout_002b.html#g_t_002adebug_002dio_002a_003b-_002aerror_002doutput_002a_003b-_002aquery_002dio_002a_003b-_002astandard_002dinput_002a_003b-_002astandard_002dout_002b" title="*debug-io*; *error-output*; *query-io*; *standard-input*; *standard-out+">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="with-output-to-string"></a>
+<a name="with_002doutput_002dto_002dstring"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002adebug_002dio_002a_003b-_002aerror_002doutput_002a_003b-_002aquery_002dio_002a_003b-_002astandard_002dinput_002a_003b-_002astandard_002dout_002b.html#g_t_002adebug_002dio_002a_003b-_002aerror_002doutput_002a_003b-_002aquery_002dio_002a_003b-_002astandard_002dinput_002a_003b-_002astandard_002dout_002b">*debug-io*; *error-output*; *query-io*; *standard-input*; *standard-out+</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="with_002dinput_002dfrom_002dstring.html#with_002dinput_002dfrom_002dstring">with-input-from-string</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">with-output-to-string (Macro)</h3>
+
+<p><a name="index-with_002doutput_002dto_002dstring-2768"></a><a name="index-with_002doutput_002dto_002dstring-2769"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>with-output-to-string</b> <tt>(</tt><var>var </var><tt>&amp;optional</tt><var> string-form </var><tt>&amp;key</tt><var> element-type</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-with_002doutput_002dto_002dstring-2770"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>var</var>&mdash;a <i>variable</i> <i>name</i>.
+
+<p><var>string-form</var>&mdash;a <i>form</i> or <code>nil</code>;
+if <i>non-nil</i>, evaluated to produce <var>string</var>.
+
+<p><var>string</var>&mdash;a <i>string</i> that has a <i>fill pointer</i>.
+
+<p><var>element-type</var>&mdash;a <i>type specifier</i>; evaluated. 
+The default is <code>character</code>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;If a <var>string-form</var> is not supplied or <code>nil</code>,
+a <i>string</i>; otherwise,
+the <i>values</i> returned by the <var>forms</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>with-output-to-string</code> creates a
+character <i>output</i> <i>stream</i>, performs a series of operations
+that may send results to this <i>stream</i>, and then closes the <i>stream</i>.
+
+<p>The <var>element-type</var> names the <i>type</i> of the elements
+of the <i>stream</i>; a <i>stream</i> is constructed of the most specialized
+<i>type</i> that can accommodate elements of the given <i>type</i>.
+
+<p>The body is executed as an <i>implicit progn</i> with <var>var</var>
+bound to an <i>output</i> <i>string stream</i>. 
+All output to that <i>string stream</i> is saved in a <i>string</i>.
+
+<p>If <var>string</var> is supplied, <var>element-type</var> is ignored,
+and the output is incrementally appended to <var>string</var> as
+if by use of <code>vector-push-extend</code>.
+
+<p>The <i>output</i> <i>stream</i>
+is automatically closed on exit from <code>with-output-from-string</code>,
+no matter whether the exit is normal or abnormal. 
+The <i>output</i> <i>string stream</i> to which the <i>variable</i> <var>var</var>
+is <i>bound</i> has <i>dynamic extent</i>;
+its <i>extent</i> ends when the <i>form</i> is exited.
+
+<p>If no <var>string</var> is provided, then <code>with-output-from-string</code>
+produces a <i>stream</i> that accepts characters and returns a <i>string</i>
+of the indicated <var>element-type</var>. 
+If <var>string</var> is provided,
+<code>with-output-to-string</code> returns the results of evaluating the last <var>form</var>.
+
+<p>The consequences are undefined if an attempt is made to <i>assign</i>
+the <i>variable</i> <var>var</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq fstr (make-array '(0) :element-type 'base-char
+                             :fill-pointer 0 :adjustable t)) <span class="roman">→</span> ""
+ (with-output-to-string (s fstr)
+    (format s "here's some output")
+    (input-stream-p s)) <span class="roman">→</span> <i>false</i>
+ fstr <span class="roman">→</span> "here's some output"
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The <var>string</var> is modified.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The consequences are undefined if destructive modifications are performed
+directly on the <var>string</var> during the <i>dynamic extent</i> of the call.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="make_002dstring_002doutput_002dstream.html#make_002dstring_002doutput_002dstream">make-string-output-stream</a>,
+<a href="vector_002dpush_002dextend.html#vector_002dpush_002dextend">vector-push-extend</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002doutput_002dto_002dstring.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:38 GMT -->
+</html>
+

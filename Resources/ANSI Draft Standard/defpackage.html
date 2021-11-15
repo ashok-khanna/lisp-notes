@@ -1,0 +1,308 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defpackage.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>defpackage - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Packages.html#Packages" title="Packages">
+<link rel="prev" href="use_002dpackage.html#use_002dpackage" title="use-package">
+<link rel="next" href="do_002dsymbols_003b-do_002dexternal_002dsymbols_003b-do_002dall_002dsymbols.html#do_002dsymbols_003b-do_002dexternal_002dsymbols_003b-do_002dall_002dsymbols" title="do-symbols; do-external-symbols; do-all-symbols">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defpackage"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="do_002dsymbols_003b-do_002dexternal_002dsymbols_003b-do_002dall_002dsymbols.html#do_002dsymbols_003b-do_002dexternal_002dsymbols_003b-do_002dall_002dsymbols">do-symbols; do-external-symbols; do-all-symbols</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="use_002dpackage.html#use_002dpackage">use-package</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Packages.html#Packages">Packages</a>
+<hr>
+</div>
+
+<h3 class="heading">defpackage (Macro)</h3>
+
+<p><a name="index-defpackage-1119"></a><a name="index-defpackage-1120"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defpackage</b><var> defined-package-name 〚</var><tt>↓</tt><var>option〛 </var><span class="roman">→</span><var> package<a name="index-defpackage-1121"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>option</var>::=<dd><tt>{</tt><tt>(</tt><tt>:nicknames</tt> <tt>{</tt>nickname<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>(</tt><tt>:documentation</tt> <i>string</i><tt>)</tt> | <br> <tt>{</tt><tt>(</tt><tt>:use</tt> <tt>{</tt>package-name<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>{</tt><tt>(</tt><tt>:shadow</tt> <tt>{</tt><tt>↓</tt>symbol-name<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>{</tt><tt>(</tt><tt>:shadowing-import-from</tt> <var>package-name</var> <tt>{</tt><tt>↓</tt>symbol-name<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>{</tt><tt>(</tt><tt>:import-from</tt> <var>package-name</var> <tt>{</tt><tt>↓</tt>symbol-name<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>{</tt><tt>(</tt><tt>:export</tt> <tt>{</tt><tt>↓</tt>symbol-name<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>{</tt><tt>(</tt><tt>:intern</tt> <tt>{</tt><tt>↓</tt>symbol-name<tt>}</tt>*<tt>)</tt><tt>}</tt>* | <br> <tt>(</tt><tt>:size</tt> <i>integer</i><tt>)</tt>
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>defined-package-name</var>&mdash;a <i>string designator</i>.
+
+<p><var>package-name</var>&mdash;a <i>package designator</i>.
+
+<p><var>nickname</var>&mdash;a <i>string designator</i>.
+
+<p><var>symbol-name</var>&mdash;a <i>string designator</i>.
+
+<p><var>package</var>&mdash;the <i>package</i> named <var>package-name</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>defpackage</code> creates a <i>package</i> as specified and returns
+the <i>package</i>.
+
+<p>If <var>defined-package-name</var> already refers to an existing
+<i>package</i>, the name-to-package mapping for that name is not changed. 
+If the new definition is at variance with the current state of that
+<i>package</i>, the consequences are undefined;  an implementation
+might choose to modify the existing <i>package</i> to reflect the
+new definition.  If <var>defined-package-name</var> is a <i>symbol</i>,
+its <i>name</i> is used.
+
+<p>The standard <i>options</i> are described below.
+
+     <dl>
+<dt><tt>:nicknames</tt><dd>
+
+     <p>The arguments to <tt>:nicknames</tt> set the <i>package</i>'s nicknames to the
+supplied names.
+
+     <br><dt><tt>:documentation</tt><dd>
+
+     <p>The argument to <tt>:documentation</tt> specifies a <i>documentation string</i>;
+it is attached as a <i>documentation string</i> to the <i>package</i>. 
+At most one <tt>:documentation</tt> option
+can appear in a single <code>defpackage</code> <i>form</i>.
+
+     <br><dt><tt>:use</tt><dd>
+
+     <p>The arguments to <tt>:use</tt> set the <i>packages</i> that the <i>package</i>
+named by <var>package-name</var>
+will inherit from. If <tt>:use</tt> is not supplied,
+it defaults to the same <i>implementation-dependent</i> value as the <tt>:use</tt> <i>argument</i> to
+<code>make-package</code>.
+
+     <br><dt><tt>:shadow</tt><dd>
+
+     <p>The arguments to <tt>:shadow</tt>, <var>symbol-names</var>, name <i>symbols</i>
+that are to be created in the <i>package</i> being defined. 
+These <i>symbols</i> are added to the list of shadowing
+<i>symbols</i> effectively as if by <code>shadow</code>.
+
+     <br><dt><tt>:shadowing-import-from</tt><dd>
+
+     <p>The <i>symbols</i> named by the argument <var>symbol-names</var>
+are found (involving a lookup as if by <code>find-symbol</code>)
+in the specified <var>package-name</var>.  The resulting <i>symbols</i>
+are <i>imported</i> into the <i>package</i> being defined, and
+placed on the shadowing symbols list as if by <code>shadowing-import</code>. 
+In no case are <i>symbols</i> created in any <i>package</i>
+other than the one being defined.
+
+     <br><dt><tt>:import-from</tt><dd>
+
+     <p>The <i>symbols</i> named by the argument <var>symbol-names</var>
+are found in the <i>package</i> named by <var>package-name</var> and
+they are <i>imported</i> into the <i>package</i> being defined. 
+In no case are <i>symbols</i> created in any <i>package</i>
+other than the one being defined.
+
+     <br><dt><tt>:export</tt><dd>
+
+     <p>The <i>symbols</i> named by
+the argument <var>symbol-names</var>  are found
+or created in the <i>package</i> being defined
+and <i>exported</i>. 
+The <tt>:export</tt> option interacts
+with the <tt>:use</tt> option, since inherited <i>symbols</i>
+can be used rather than new ones created. 
+The <tt>:export</tt> option interacts
+with the
+<tt>:import-from</tt> and <tt>:shadowing-import-from</tt> options, since
+<i>imported</i>
+symbols can be used rather than new ones created. 
+If an argument to the <tt>:export</tt> option is <i>accessible</i> as
+an (inherited) <i>internal symbol</i> via <code>use-package</code>, that the
+<i>symbol</i> named by <var>symbol-name</var>
+is first <i>imported</i> into the <i>package</i> being
+defined, and is then <i>exported</i> from that <i>package</i>.
+
+     <br><dt><tt>:intern</tt><dd>
+
+     <p>The <i>symbols</i> named by the argument <var>symbol-names</var>
+are found or created in the <i>package</i> being defined. 
+The <tt>:intern</tt> option interacts with the
+<tt>:use</tt> option, since inherited <i>symbols</i>
+can be used rather than new ones created.
+
+     <br><dt><tt>:size</tt><dd>
+
+     <p>The argument to the <tt>:size</tt> option
+declares the approximate number of <i>symbols</i> expected in the
+<i>package</i>. 
+This is an efficiency hint only and might be ignored by an
+implementation. 
+</dl>
+
+<p>The order in which the options appear in a
+<code>defpackage</code> form is irrelevant. 
+The order in which they are executed is as follows:
+
+     <ol type=1 start=1>
+<li><tt>:shadow</tt> and <tt>:shadowing-import-from</tt>. 
+<li><tt>:use</tt>. 
+<li><tt>:import-from</tt> and <tt>:intern</tt>. 
+<li><tt>:export</tt>.
+     </ol>
+
+<p>Shadows are established first, since they might  be necessary to block
+spurious name conflicts when the <tt>:use</tt>
+option is processed. The <tt>:use</tt> option is executed
+next so that <tt>:intern</tt> and <tt>:export</tt> options can refer to normally
+inherited <i>symbols</i>. 
+The <tt>:export</tt> option is executed last so that it can refer to
+<i>symbols</i> created by any of the other options; in
+particular, <i>shadowing symbols</i> and
+<i>imported</i> <i>symbols</i> can be made external.
+
+<p>If a defpackage <i>form</i> appears as a <i>top level form</i>,
+all of the actions normally performed by this <i>macro</i>
+at load time must also be performed at compile time.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defpackage "MY-PACKAGE"
+   (:nicknames "MYPKG" "MY-PKG")
+   (:use "COMMON-LISP")
+   (:shadow "CAR" "CDR")
+   (:shadowing-import-from "VENDOR-COMMON-LISP"  "CONS")
+   (:import-from "VENDOR-COMMON-LISP"  "GC")
+   (:export "EQ" "CONS" "FROBOLA")
+   )
+
+
+ (defpackage my-package
+   (:nicknames mypkg :MY-PKG)  ; remember Common Lisp conventions for case
+   (:use common-lisp)          ; conversion on symbols
+   (:shadow CAR :cdr #:cons)
+   (:export "CONS")            ; this is the shadowed one.
+   )
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>Existing <i>packages</i>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If one of the supplied <tt>:nicknames</tt> already
+refers to an existing <i>package</i>,
+an error of <i>type</i> <code>package-error</code> is signaled.
+
+<p>An error of <i>type</i> <code>program-error</code> should be signaled if <tt>:size</tt> or <tt>:documentation</tt>
+appears more than once.
+
+<p>Since <i>implementations</i> might allow extended <i>options</i>
+an error of <i>type</i> <code>program-error</code> should be signaled
+if an <i>option</i> is present that is not
+actually supported in the host <i>implementation</i>.
+
+<p>The collection of <var>symbol-name</var> arguments given to the options
+<tt>:shadow</tt>, <tt>:intern</tt>,
+<tt>:import-from</tt>, and <tt>:shadowing-import-from</tt> must
+all be disjoint; additionally, the <var>symbol-name</var> arguments given to
+<tt>:export</tt> and <tt>:intern</tt>
+must be disjoint. 
+Disjoint in this context is defined as no two of the <var>symbol-names</var>
+being <code>string=</code> with each other. If either condition is
+violated, an error of <i>type</i> <code>program-error</code> should be signaled.
+
+<p>For the <tt>:shadowing-import-from</tt> and <tt>:import-from</tt> options,
+a <i>correctable</i> <i>error</i> of <i>type</i> <code>package-error</code>
+is signaled if no <i>symbol</i> is
+<i>accessible</i> in the <i>package</i> named by
+<var>package-name</var> for one of the argument <var>symbol-names</var>.
+
+<p>Name conflict errors are handled by the underlying calls to
+<code>make-package</code>, <code>use-package</code>, <code>import</code>, and
+<code>export</code>. See <a href="Package-Concepts.html#Package-Concepts">Section 11.1 (Package Concepts)</a>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="documentation.html#documentation">documentation</a>,
+<a href="Package-Concepts.html#Package-Concepts">Section 11.1 (Package Concepts)</a>,
+<a href="Compilation.html#Compilation">Section 3.2 (Compilation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <tt>:intern</tt> option is useful if an <tt>:import-from</tt> or a
+<tt>:shadowing-import-from</tt> option in a subsequent call to <code>defpackage</code>
+(for some other <i>package</i>) expects to find
+these <i>symbols</i> <i>accessible</i> but not necessarily external.
+
+<p>It is recommended that the entire <i>package</i> definition is put
+in a single place, and that all the <i>package</i> definitions of a
+program are in a single file.  This file can be <i>loaded</i> before
+<i>loading</i> or compiling anything else that depends on those
+<i>packages</i>. Such a file can be read in the <code>COMMON-LISP-USER</code> <i>package</i>,
+avoiding any initial state issues.
+
+<p><code>defpackage</code> cannot be used to create two &ldquo;mutually
+recursive&rdquo; packages, such as:
+
+<pre class="lisp"> (defpackage my-package
+   (:use common-lisp your-package)    ;requires your-package to exist first
+   (:export "MY-FUN"))
+ (defpackage your-package
+   (:use common-lisp)
+   (:import-from my-package "MY-FUN") ;requires my-package to exist first
+   (:export "MY-FUN"))
+</pre>
+<p>However, nothing prevents the user from using the
+<i>package</i>-affecting functions
+such as <code>use-package</code>,
+<code>import</code>, and <code>export</code> to establish such links
+after a more standard use of <code>defpackage</code>.
+
+<p>The macroexpansion of <code>defpackage</code>
+could usefully canonicalize the names
+into <i>strings</i>,
+so that even if a source file has random <i>symbols</i> in the
+<code>defpackage</code> form, the compiled file would only contain
+<i>strings</i>.
+
+<p>Frequently additional <i>implementation-dependent</i> options take the
+form of a <i>keyword</i> standing by itself as an abbreviation for a list
+<code>(keyword T)</code>; this syntax should be properly reported as an unrecognized
+option in implementations that do not support it.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defpackage.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

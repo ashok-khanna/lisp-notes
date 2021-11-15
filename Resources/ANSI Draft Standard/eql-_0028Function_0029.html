@@ -1,0 +1,162 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/eql-_0028Function_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:34 GMT -->
+<head>
+<title>eql (Function) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="eq.html#eq" title="eq">
+<link rel="next" href="equal.html#equal" title="equal">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="eql-(Function)"></a>
+<a name="eql-_0028Function_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="equal.html#equal">equal</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="eq.html#eq">eq</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">eql (Function)</h3>
+
+<p><a name="index-eql-535"></a><a name="index-eql-536"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>eql</b><var> x y </var><span class="roman">→</span><var> generalized-boolean<a name="index-eql-537"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>x</var>&mdash;an <i>object</i>.
+
+<p><var>y</var>&mdash;an <i>object</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The value of <code>eql</code> is <i>true</i> of two objects, <var>x</var> and
+<var>y</var>, in the folowing cases:
+
+     <ol type=1 start=1>
+<li>If <var>x</var> and <var>y</var> are <code>eq</code>. 
+<li>If <var>x</var> and <var>y</var> are both <i>numbers</i>
+of the same <i>type</i> and the same value. 
+<li>If they are both <i>characters</i> that represent the
+same character.
+     </ol>
+
+<p>Otherwise the value of <code>eql</code> is <i>false</i>.
+
+<p>If an implementation supports positive and negative zeros as <i>distinct</i> values,
+then <code>(eql 0.0 -0.0)</code> returns <i>false</i>. 
+Otherwise, when the syntax <code>-0.0</code> is read it is interpreted as the value <code>0.0</code>,
+and so <code>(eql 0.0 -0.0)</code> returns <i>true</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (eql 'a 'b) <span class="roman">→</span> <i>false</i>
+ (eql 'a 'a) <span class="roman">→</span> <i>true</i>
+ (eql 3 3) <span class="roman">→</span> <i>true</i>
+ (eql 3 3.0) <span class="roman">→</span> <i>false</i>
+ (eql 3.0 3.0) <span class="roman">→</span> <i>true</i>
+ (eql #c(3 -4) #c(3 -4)) <span class="roman">→</span> <i>true</i>
+ (eql #c(3 -4.0) #c(3 -4)) <span class="roman">→</span> <i>false</i>
+ (eql (cons 'a 'b) (cons 'a 'c)) <span class="roman">→</span> <i>false</i>
+ (eql (cons 'a 'b) (cons 'a 'b)) <span class="roman">→</span> <i>false</i>
+ (eql '(a . b) '(a . b))
+<span class="roman">→</span> <i>true</i>
+or<span class="roman">→</span> <i>false</i>
+ (progn (setq x (cons 'a 'b)) (eql x x)) <span class="roman">→</span> <i>true</i>
+ (progn (setq x '(a . b)) (eql x x)) <span class="roman">→</span> <i>true</i>
+ (eql #\A #\A) <span class="roman">→</span> <i>true</i>
+ (eql "Foo" "Foo")
+<span class="roman">→</span> <i>true</i>
+or<span class="roman">→</span> <i>false</i>
+ (eql "Foo" (copy-seq "Foo")) <span class="roman">→</span> <i>false</i>
+ (eql "FOO" "foo") <span class="roman">→</span> <i>false</i>
+</pre>
+<p>Normally <code>(eql 1.0s0 1.0d0)</code> is false, under the assumption
+that <code>1.0s0</code> and <code>1.0d0</code> are of distinct data types. 
+However, implementations that do not provide four distinct floating-point
+formats are permitted to &ldquo;collapse&rdquo; the four formats into some
+smaller number of them; in such an implementation <code>(eql 1.0s0 1.0d0)</code>
+might be true.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="eq.html#eq">eq</a>,
+<a href="equal.html#equal">equal</a>,
+<a href="equalp.html#equalp">equalp</a>,
+<a href="_003d.html#g_t_003d">=</a>,
+<a href="char_003d.html#char_003d">char=</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>eql</code> is the same as <code>eq</code>, except that if the
+arguments are <i>characters</i> or <i>numbers</i>
+of the same type then their
+values are compared.  Thus <code>eql</code> tells whether two <i>objects</i>
+are conceptually the same, whereas <code>eq</code> tells whether two
+<i>objects</i> are implementationally identical.  It is for this reason
+that <code>eql</code>, not <code>eq</code>, is the default comparison predicate
+for <i>operators</i> that take <i>sequences</i>
+as arguments.
+
+<p><code>eql</code> may not be true of two <i>floats</i>
+even when they represent the same
+value.  <code>=</code> is used to compare
+mathematical values.
+
+<p>Two <i>complex</i> numbers are considered to be <code>eql</code>
+if their real parts are <code>eql</code>
+and their imaginary parts are <code>eql</code>. 
+For example, <code>(eql #C(4 5) #C(4 5))</code> is <i>true</i> and
+<code>(eql #C(4 5) #C(4.0 5.0))</code> is <i>false</i>. 
+Note that while <code>(eql #C(5.0 0.0) 5.0)</code> is <i>false</i>,
+<code>(eql #C(5 0) 5)</code> is <i>true</i>. 
+In the case of <code>(eql #C(5.0 0.0) 5.0)</code> the
+two arguments are of different types,
+and so cannot satisfy <code>eql</code>. 
+In the case of <code>(eql #C(5 0) 5)</code>,
+<code>#C(5 0)</code> is not a <i>complex</i> number, but
+is automatically reduced
+to the <i>integer</i> <code>5</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/eql-_0028Function_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:35 GMT -->
+</html>
+

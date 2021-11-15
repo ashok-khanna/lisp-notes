@@ -1,0 +1,151 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-Miscellaneous-Loop-Features.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Examples of Miscellaneous Loop Features - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="prev" href="Miscellaneous-Clauses.html#Miscellaneous-Clauses" title="Miscellaneous Clauses">
+<link rel="next" href="Notes-about-Loop.html#Notes-about-Loop" title="Notes about Loop">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-Miscellaneous-Loop-Features"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Notes-about-Loop.html#Notes-about-Loop">Notes about Loop</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Miscellaneous-Clauses.html#Miscellaneous-Clauses">Miscellaneous Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.8 Examples of Miscellaneous Loop Features</h4>
+
+<pre class="lisp"> (let ((i 0))                     ; no loop keywords are used
+    (loop (incf i) (if (= i 3) (return i)))) <span class="roman">→</span> 3
+ (let ((i 0)(j 0))
+    (tagbody
+      (loop (incf j 3) (incf i) (if (= i 3) (go exit)))
+      exit)
+    j) <span class="roman">→</span> 9
+</pre>
+<p>In the following example, the variable <code>x</code> is stepped
+before <code>y</code> is stepped; thus, the value of <code>y</code>
+reflects the updated value of <code>x</code>:
+
+<pre class="lisp"> (loop for x from 1 to 10
+       for y = nil then x
+       collect (list x y))
+<span class="roman">→</span> ((1 NIL) (2 2) (3 3) (4 4) (5 5) (6 6) (7 7) (8 8) (9 9) (10 10))
+</pre>
+<p>In this example, <code>x</code> and <code>y</code> are stepped in <i>parallel</i>:
+
+<pre class="lisp"> (loop for x from 1 to 10
+       and y = nil then x
+       collect (list x y))
+<span class="roman">→</span> ((1 NIL) (2 1) (3 2) (4 3) (5 4) (6 5) (7 6) (8 7) (9 8) (10 9))
+</pre>
+<h5 class="subsubsection">6.1.8.1 Examples of clause grouping</h5>
+
+<pre class="lisp">;; Group conditional clauses.
+ (loop for i in '(1 324 2345 323 2 4 235 252)
+       when (oddp i)
+         do (print i)
+         and collect i into odd-numbers
+         and do (terpri)
+       else                              ; I is even.
+         collect i into even-numbers
+       finally
+         (return (values odd-numbers even-numbers)))
+▷ 1
+▷
+▷ 2345
+▷
+▷ 323
+▷
+▷ 235
+<span class="roman">→</span> (1 2345 323 235), (324 2 4 252)
+
+;; Collect numbers larger than 3.
+ (loop for i in '(1 2 3 4 5 6)
+       when (and (&gt; i 3) i)
+       collect it)                      ; IT refers to (and (&gt; i 3) i).
+<span class="roman">→</span> (4 5 6)
+
+;; Find a number in a list.
+ (loop for i in '(1 2 3 4 5 6)
+       when (and (&gt; i 3) i)
+       return it)
+<span class="roman">→</span> 4
+
+;; The above example is similar to the following one.
+ (loop for i in '(1 2 3 4 5 6)
+       thereis (and (&gt; i 3) i))
+<span class="roman">→</span> 4
+
+ 
+ 
+;; Nest conditional clauses.
+ (let ((list '(0 3.0 apple 4 5 9.8 orange banana)))
+   (loop for i in list
+         when (numberp i)
+           when (floatp i)
+             collect i into float-numbers
+           else                                  ; Not (floatp i)
+             collect i into other-numbers
+         else                                    ; Not (numberp i)
+           when (symbolp i)
+             collect i into symbol-list
+           else                                  ; Not (symbolp i)
+             do (error "found a funny value in list ~S, value ~S~%" list i)
+         finally (return (values float-numbers other-numbers symbol-list))))
+<span class="roman">→</span> (3.0 9.8), (0 4 5), (APPLE ORANGE BANANA)
+
+;; Without the END preposition, the last AND would apply to the
+;; inner IF rather than the outer one.
+ (loop for x from 0 to 3
+       do (print x)
+       if (zerop (mod x 2))
+         do (princ " a")
+          and if (zerop (floor x 2))
+                do (princ " b")
+                end
+          and do (princ " c"))
+▷ 0  a b c
+▷ 1
+▷ 2  a c
+▷ 3
+<span class="roman">→</span> NIL
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-Miscellaneous-Loop-Features.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

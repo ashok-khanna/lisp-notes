@@ -1,0 +1,142 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Valid-Patterns-for-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Valid Patterns for Tokens - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens" title="Interpretation of Tokens">
+<link rel="prev" href="Symbols-as-Tokens.html#Symbols-as-Tokens" title="Symbols as Tokens">
+<link rel="next" href="Package-System-Consistency-Rules.html#Package-System-Consistency-Rules" title="Package System Consistency Rules">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Valid-Patterns-for-Tokens"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Package-System-Consistency-Rules.html#Package-System-Consistency-Rules">Package System Consistency Rules</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Symbols-as-Tokens.html#Symbols-as-Tokens">Symbols as Tokens</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Interpretation-of-Tokens.html#Interpretation-of-Tokens">Interpretation of Tokens</a>
+<hr>
+</div>
+
+<h4 class="subsection">2.3.5 Valid Patterns for Tokens</h4>
+
+<p>The valid patterns for <i>tokens</i> are summarized in the next figure.
+
+<div class="float">
+<a name="fig2_002e17"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><i>nnnnn</i> </td><td valign="top">a <i>number</i>
+<br></td></tr><tr align="left"><td valign="top"><i>xxxxx</i> </td><td valign="top">a <i>symbol</i> in the <i>current package</i>
+<br></td></tr><tr align="left"><td valign="top"><code>:</code><i>xxxxx</i> </td><td valign="top">a <i>symbol</i> in the the <code>KEYWORD</code> <i>package</i>
+<br></td></tr><tr align="left"><td valign="top"><i>ppppp</i><code>:</code><i>xxxxx</i> </td><td valign="top">an <i>external symbol</i>
+in the <i>ppppp</i> <i>package</i>
+<br></td></tr><tr align="left"><td valign="top"><i>ppppp</i><code>::</code><i>xxxxx</i> </td><td valign="top">a (possibly internal) <i>symbol</i>  in the <i>ppppp</i> <i>package</i>
+<br></td></tr><tr align="left"><td valign="top"><code>:</code><i>nnnnn</i> </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><i>ppppp</i><code>:</code><i>nnnnn</i> </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><i>ppppp</i><code>::</code><i>nnnnn</i> </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><code>::</code><i>aaaaa</i> </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><i>aaaaa</i><code>:</code> </td><td valign="top">undefined
+<br></td></tr><tr align="left"><td valign="top"><i>aaaaa</i><code>:</code><i>aaaaa</i><code>:</code><i>aaaaa</i> </td><td valign="top">undefined
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 2.17: Valid patterns for tokens</strong></p></div>
+
+<p>Note that <i>nnnnn</i> has number syntax,
+neither <i>xxxxx</i> nor <i>ppppp</i> has number syntax,
+and <i>aaaaa</i> has any syntax.
+
+<p>A summary of rules concerning <i>package markers</i> follows. 
+In each case, examples are offered to illustrate the case;
+for presentational simplicity, the examples assume that
+the <i>readtable case</i> of the <i>current readtable</i> is <tt>:upcase</tt>.
+
+     <ol type=1 start=1>
+<li>If there is a single <i>package marker</i>, and it occurs at the beginning of the
+<i>token</i>, then the <i>token</i> is interpreted as a <i>symbol</i> in the <code>KEYWORD</code> <i>package</i>. 
+It also sets the <code>symbol-value</code> of the newly-created <i>symbol</i> to that
+same <i>symbol</i> so that the <i>symbol</i> will self-evaluate.
+
+     <p>For example,
+<code>:bar</code>, when read, interns <code>BAR</code> as an <i>external symbol</i> in the <code>KEYWORD</code> <i>package</i>.
+
+     <li>If there is a single <i>package marker</i> not at the beginning or end of the
+<i>token</i>, then it divides the <i>token</i> into two parts.  The first part
+specifies a <i>package</i>;
+the second part is the name of an <i>external symbol</i>
+available in that package.
+
+     <p>For example,
+<code>foo:bar</code>, when read, looks up <code>BAR</code> among the <i>external symbols</i> of
+the <i>package</i> named <code>FOO</code>.
+
+     <li>If there are two adjacent <i>package markers</i> not at the beginning or end of the
+<i>token</i>, then they divide the <i>token</i> into two parts.  The first part
+specifies a <i>package</i>;
+the second part is the name of a <i>symbol</i> within
+that <i>package</i> (possibly an <i>internal symbol</i>).
+
+     <p>For example,
+<code>foo::bar</code>, when read, interns <code>BAR</code> in the <i>package</i> named <code>FOO</code>.
+
+     <li>If the <i>token</i> contains no <i>package markers</i>,
+and does not have <i>potential number</i> syntax,
+then the entire <i>token</i> is the name of the <i>symbol</i>. 
+The <i>symbol</i> is looked up in the <i>current package</i>.
+
+     <p>For example,
+<code>bar</code>, when read, interns <code>BAR</code> in the <i>current package</i>.
+
+     <li>The consequences are unspecified if any other pattern of <i>package markers</i>
+in a <i>token</i> is used. 
+All other uses of <i>package markers</i> within names of <i>symbols</i>
+are not defined by this standard
+but are reserved for <i>implementation-dependent</i> use.
+     </ol>
+
+<p>For example,
+assuming the <i>readtable case</i> of the <i>current readtable</i> is <tt>:upcase</tt>,
+<code>editor:buffer</code> refers to the <i>external symbol</i>
+named <code>BUFFER</code> present in the <i>package</i> named <code>editor</code>,
+regardless of whether there is a <i>symbol</i> named <code>BUFFER</code> in
+the <i>current package</i>.  If there is no <i>package</i> named
+<code>editor</code>, or if no <i>symbol</i> named <code>BUFFER</code>
+is present in <code>editor</code>, or if <code>BUFFER</code> is not exported by
+<code>editor</code>, the reader signals
+a correctable error. 
+If <code>editor::buffer</code> is seen, the effect is exactly the same as
+reading <code>buffer</code> with the <code>EDITOR</code> <i>package</i> being the <i>current package</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Valid-Patterns-for-Tokens.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

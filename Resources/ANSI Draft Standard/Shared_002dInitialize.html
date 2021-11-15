@@ -1,0 +1,124 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Shared_002dInitialize.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Shared-Initialize - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization" title="Object Creation and Initialization">
+<link rel="prev" href="Rules-for-Initialization-Arguments.html#Rules-for-Initialization-Arguments" title="Rules for Initialization Arguments">
+<link rel="next" href="Initialize_002dInstance.html#Initialize_002dInstance" title="Initialize-Instance">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Shared-Initialize"></a>
+<a name="Shared_002dInitialize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Initialize_002dInstance.html#Initialize_002dInstance">Initialize-Instance</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Rules-for-Initialization-Arguments.html#Rules-for-Initialization-Arguments">Rules for Initialization Arguments</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.1.5 Shared-Initialize</h4>
+
+<p>The <i>generic function</i> <code>shared-initialize</code> is used to fill the
+<i>slots</i>
+of an <i>instance</i>
+using initialization arguments and <tt>:initform</tt>
+forms when an <i>instance</i> is created, when an
+<i>instance</i> is re-initialized,
+when an <i>instance</i>
+is updated to conform to a redefined <i>class</i>, and when
+an <i>instance</i> is updated to conform to a different <i>class</i>. 
+It uses
+standard <i>method</i> combination. It takes the following arguments: the
+<i>instance</i> to be initialized, a
+specification of a set of <i>names</i> of <i>slots</i>
+<i>accessible</i> in that <i>instance</i>, and any number of initialization
+arguments.  The arguments after the first two must form an
+<i>initialization argument list</i>.
+
+<p>The second argument to <code>shared-initialize</code> may be one of the following:
+
+     <ul>
+<li>It can be a (possibly empty) <i>list</i> of <i>slot</i> names,
+which specifies the set of those <i>slot</i> names.
+
+     <li>It can be the symbol <code>t</code>, which specifies the set of all of the <i>slots</i>. 
+</ul>
+
+<p>There is a system-supplied primary <i>method</i> for <code>shared-initialize</code>
+whose first <i>parameter specializer</i> is the <i>class</i> <code>standard-object</code>. 
+This <i>method</i> behaves as follows on each <i>slot</i>,
+whether shared or local:
+
+     <ul>
+<li>If an initialization argument in the
+<i>initialization argument list</i> specifies a value for that <i>slot</i>,
+that value is stored
+into the <i>slot</i>, even if a value has already been stored in the <i>slot</i>
+before the <i>method</i> is run. 
+The affected <i>slots</i> are independent of which
+<i>slots</i> are indicated by the second argument to <code>shared-initialize</code>.
+
+     <li>Any <i>slots</i>
+indicated by the second argument that are still
+unbound at this point are initialized according to their
+<tt>:initform</tt> forms.  For any such <i>slot</i>
+that has an <tt>:initform</tt> form,
+that <i>form</i> is evaluated in the
+lexical environment of its defining
+<code>defclass</code> form and the result is stored into the <i>slot</i>. 
+For example,
+if a <i>before method</i> stores a value in the
+<i>slot</i>, the <tt>:initform</tt> form will not be used to supply a value
+for the <i>slot</i>.  If
+the second argument specifies a <i>name</i> that does not correspond to any
+<i>slots</i> <i>accessible</i>
+in the <i>instance</i>, the results are unspecified.
+
+     <li>The rules mentioned in <a href="Rules-for-Initialization-Arguments.html#Rules-for-Initialization-Arguments">Section 7.1.4 (Rules for Initialization Arguments)</a> are obeyed. 
+</ul>
+
+<p>The generic function <code>shared-initialize</code> is called by the
+system-supplied primary <i>methods</i>
+for <code>reinitialize-instance</code>,
+<code>update-instance-for-different-class</code>,
+<code>update-instance-for-redefined-class</code>, and
+<code>initialize-instance</code>.  Thus, <i>methods</i> can be written for
+<code>shared-initialize</code> to specify actions that should be taken in all of
+these contexts.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Shared_002dInitialize.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

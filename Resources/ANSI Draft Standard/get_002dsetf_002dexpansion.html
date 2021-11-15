@@ -1,0 +1,116 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/get_002dsetf_002dexpansion.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:48 GMT -->
+<head>
+<title>get-setf-expansion - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="define_002dsetf_002dexpander.html#define_002dsetf_002dexpander" title="define-setf-expander">
+<link rel="next" href="setf_003b-psetf.html#setf_003b-psetf" title="setf; psetf">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="get-setf-expansion"></a>
+<a name="get_002dsetf_002dexpansion"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="setf_003b-psetf.html#setf_003b-psetf">setf; psetf</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="define_002dsetf_002dexpander.html#define_002dsetf_002dexpander">define-setf-expander</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">get-setf-expansion (Function)</h3>
+
+<p><a name="index-get_002dsetf_002dexpansion-658"></a><a name="index-get_002dsetf_002dexpansion-659"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>get-setf-expansion</b><var> place </var><tt>&amp;optional</tt><var> environment </var><span class="roman">→</span><var> vars, vals, store-vars, writer-form, reader-form<a name="index-get_002dsetf_002dexpansion-660"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>place</var>&mdash;a <i>place</i>.
+
+<p><var>environment</var>&mdash;an <i>environment</i> <i>object</i>.
+
+<p><var>vars, vals, store-vars, writer-form, reader-form</var>&mdash;a <i>setf expansion</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Determines
+five values constituting the <i>setf expansion</i> for <var>place</var>
+in <var>environment</var>; see <a href="SetfExpansions.html#SetfExpansions">Section 5.1.1.2 (Setf Expansions)</a>.
+
+<p>If <var>environment</var> is not supplied or <code>nil</code>,
+the environment is the <i>null lexical environment</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (get-setf-expansion 'x)
+<span class="roman">→</span> NIL, NIL, (#:G0001), (SETQ X #:G0001), X
+</pre>
+<pre class="lisp">;;; This macro is like POP
+
+ (defmacro xpop (place &amp;environment env)
+   (multiple-value-bind (dummies vals new setter getter)
+                        (get-setf-expansion place env)
+      `(let* (,@(mapcar #'list dummies vals) (,(car new) ,getter))
+         (if (cdr new) (error "Can't expand this."))
+         (prog1 (car ,(car new))
+                (setq ,(car new) (cdr ,(car new)))
+                ,setter))))
+
+ (defsetf frob (x) (value)
+     `(setf (car ,x) ,value)) <span class="roman">→</span> FROB
+;;; The following is an error; an error might be signaled at macro expansion time
+ (flet ((frob (x) (cdr x)))  ;Invalid
+   (xpop (frob z)))
+
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="defsetf.html#defsetf">defsetf</a>,
+<a href="define_002dsetf_002dexpander.html#define_002dsetf_002dexpander">define-setf-expander</a>,
+<a href="setf.html#setf">setf</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Any <i>compound form</i> is a valid <i>place</i>,
+since any <i>compound form</i> whose <i>operator</i> <var>f</var> has no <i>setf expander</i>
+are expanded into a call to <code>(setf </code><var>f</var><code>)</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/get_002dsetf_002dexpansion.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:48 GMT -->
+</html>
+

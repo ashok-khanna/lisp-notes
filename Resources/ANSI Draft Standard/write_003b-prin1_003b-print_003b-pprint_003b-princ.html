@@ -1,0 +1,242 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/write_003b-prin1_003b-print_003b-pprint_003b-princ.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+<head>
+<title>write; prin1; print; pprint; princ - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="set_002dpprint_002ddispatch.html#set_002dpprint_002ddispatch" title="set-pprint-dispatch">
+<link rel="next" href="write_002dto_002dstring_003b-prin1_002dto_002dstring_003b-princ_002dto_002dstring.html#write_002dto_002dstring_003b-prin1_002dto_002dstring_003b-princ_002dto_002dstring" title="write-to-string; prin1-to-string; princ-to-string">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="write%3b-prin1%3b-print%3b-pprint%3b-princ"></a>
+<a name="write_003b-prin1_003b-print_003b-pprint_003b-princ"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="write_002dto_002dstring_003b-prin1_002dto_002dstring_003b-princ_002dto_002dstring.html#write_002dto_002dstring_003b-prin1_002dto_002dstring_003b-princ_002dto_002dstring">write-to-string; prin1-to-string; princ-to-string</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="set_002dpprint_002ddispatch.html#set_002dpprint_002ddispatch">set-pprint-dispatch</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">write, prin1, print, pprint, princ (Function)</h3>
+
+<p><a name="index-write-2932"></a><a name="index-write-2933"></a><a name="index-prin1-2934"></a><a name="index-prin1-2935"></a><a name="index-print-2936"></a><a name="index-print-2937"></a><a name="index-pprint-2938"></a><a name="index-pprint-2939"></a><a name="index-princ-2940"></a><a name="index-princ-2941"></a><a name="write"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>write</b><var> object </var><tt>&amp;key</tt><var> array base case circle escape gensym<br>
+length level lines miser-width pprint-dispatch<br>
+pretty radix readably right-margin stream<br> </var><span class="roman">→</span><var> object<a name="index-write-2942"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>prin1</b><var> object </var><tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span><var> object<a name="index-prin1-2943"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>princ</b><var> object </var><tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span><var> object<a name="index-princ-2944"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>print</b><var> object </var><tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span><var> object<a name="index-print-2945"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>pprint</b><var> object </var><tt>&amp;optional</tt><var> output-stream </var><span class="roman">→</span><var> &lt;no </var><i>values</i><var>&gt;<a name="index-pprint-2946"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>output-stream</var>&mdash;an <i>output</i> <i>stream designator</i>. 
+The default is <i>standard output</i>.
+
+<p><var>array</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>base</var>&mdash;a <i>radix</i>.
+
+<p><var>case</var>&mdash;a <i>symbol</i> of <i>type</i> <code>(member :upcase :downcase :capitalize)</code>.
+
+<p><var>circle</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>escape</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>gensym</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>length</var>&mdash;a non-negative <i>integer</i>, or <code>nil</code>.
+
+<p><var>level</var>&mdash;a non-negative <i>integer</i>, or <code>nil</code>.
+
+<p><var>lines</var>&mdash;a non-negative <i>integer</i>, or <code>nil</code>.
+
+<p><var>miser-width</var>&mdash;a non-negative <i>integer</i>, or <code>nil</code>.
+
+<p><var>pprint-dispatch</var>&mdash;a <i>pprint dispatch table</i>.
+
+<p><var>pretty</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>radix</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>readably</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>right-margin</var>&mdash;a non-negative <i>integer</i>, or <code>nil</code>.
+
+<p><var>stream</var>&mdash;an <i>output</i> <i>stream designator</i>. 
+The default is <i>standard output</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>write</code>, <code>prin1</code>, <code>princ</code>, <code>print</code>, and <code>pprint</code>
+write the printed representation of <var>object</var> to <var>output-stream</var>.
+
+<p><code>write</code> is the general entry point to the <i>Lisp printer</i>. 
+For each explicitly supplied <i>keyword parameter</i> named in the next figure,
+the corresponding <i>printer control variable</i> is dynamically bound to its <i>value</i>
+while printing goes on;
+for each <i>keyword parameter</i> in the next figure&nbsp;<!-- /@w -->that is not explicitly supplied,
+the value of the corresponding <i>printer control variable</i> is the same as it was
+at the time <code>write</code> was invoked. 
+Once the appropriate <i>bindings</i> are <i>established</i>,
+the <i>object</i> is output by the <i>Lisp printer</i>.
+
+<div class="float">
+<a name="fig22_002e7"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Parameter </th><th valign="top">Corresponding Dynamic Variable
+<br></th></tr><tr align="left"><td valign="top"><var>array</var> </td><td valign="top"><code>*print-array*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>base</var> </td><td valign="top"><code>*print-base*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>case</var> </td><td valign="top"><code>*print-case*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>circle</var> </td><td valign="top"><code>*print-circle*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>escape</var> </td><td valign="top"><code>*print-escape*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>gensym</var> </td><td valign="top"><code>*print-gensym*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>length</var> </td><td valign="top"><code>*print-length*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>level</var> </td><td valign="top"><code>*print-level*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>lines</var> </td><td valign="top"><code>*print-lines*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>miser-width</var> </td><td valign="top"><code>*print-miser-width*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>pprint-dispatch</var> </td><td valign="top"><code>*print-pprint-dispatch*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>pretty</var> </td><td valign="top"><code>*print-pretty*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>radix</var> </td><td valign="top"><code>*print-radix*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>readably</var> </td><td valign="top"><code>*print-readably*</code>
+<br></td></tr><tr align="left"><td valign="top"><var>right-margin</var> </td><td valign="top"><code>*print-right-margin*</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 22.7: Argument correspondences for the WRITE function.</strong></p></div>
+
+<p><code>prin1</code>, <code>princ</code>, <code>print</code>, and <code>pprint</code> implicitly
+<i>bind</i> certain print parameters to particular values.  The remaining parameter
+values are taken from
+<code>*print-array*</code>,
+<code>*print-base*</code>,
+<code>*print-case*</code>,
+<code>*print-circle*</code>,
+<code>*print-escape*</code>,
+<code>*print-gensym*</code>,
+<code>*print-length*</code>,
+<code>*print-level*</code>,
+<code>*print-lines*</code>,
+<code>*print-miser-width*</code>,
+<code>*print-pprint-dispatch*</code>,
+<code>*print-pretty*</code>,
+<code>*print-radix*</code>,
+and <code>*print-right-margin*</code>.
+
+<p><code>prin1</code> produces output suitable for input to <code>read</code>. 
+It binds <code>*print-escape*</code> to <i>true</i>.
+
+<p><code>princ</code> is just like <code>prin1</code> except that the
+output has no <i>escape</i> <i>characters</i>. 
+It binds <code>*print-escape*</code>   to <i>false</i>
+and <code>*print-readably*</code> to <i>false</i>. 
+The general rule is that output from <code>princ</code> is intended to look
+good to people, while output from <code>prin1</code> is intended to
+be acceptable to <code>read</code>.
+
+<p><code>print</code> is just like <code>prin1</code>
+except that the printed representation
+of <var>object</var> is preceded by a newline
+and followed by a space.
+
+<p><code>pprint</code> is just like <code>print</code> except that the trailing
+space is omitted and
+<var>object</var> is printed with the <code>*print-pretty*</code> flag <i>non-nil</i>
+to produce pretty output.
+
+<p><var>Output-stream</var> specifies the <i>stream</i> to which
+output is to be sent.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-output*</code>,
+<code>*terminal-io*</code>,
+<code>*print-escape*</code>,
+<code>*print-radix*</code>,
+<code>*print-base*</code>,
+<code>*print-circle*</code>,
+<code>*print-pretty*</code>,
+<code>*print-level*</code>,
+<code>*print-length*</code>,
+<code>*print-case*</code>,
+<code>*print-gensym*</code>,
+<code>*print-array*</code>,
+<code>*read-default-float-format*</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="readtable_002dcase.html#readtable_002dcase">readtable-case</a>,
+<a href="FORMAT-Printer-Operations.html#FORMAT-Printer-Operations">Section 22.3.4 (FORMAT Printer Operations)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <i>functions</i> <code>prin1</code> and <code>print</code> do not bind <code>*print-readably*</code>.
+
+<pre class="lisp"> (prin1 object output-stream)
+≡ (write object :stream output-stream :escape t)
+</pre>
+<pre class="lisp"> (princ object output-stream)
+≡ (write object stream output-stream :escape nil :readably nil)
+</pre>
+<pre class="lisp"> (print object output-stream)
+≡ (progn (terpri output-stream)
+           (write object :stream output-stream
+                         :escape t)
+           (write-char #\space output-stream))
+</pre>
+<pre class="lisp"> (pprint object output-stream)
+≡ (write object :stream output-stream :escape t :pretty t)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/write_003b-prin1_003b-print_003b-pprint_003b-princ.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+</html>
+

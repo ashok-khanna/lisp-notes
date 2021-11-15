@@ -1,0 +1,228 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Pretty-Printer-Concepts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Pretty Printer Concepts - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-Lisp-Pretty-Printer.html#The-Lisp-Pretty-Printer" title="The Lisp Pretty Printer">
+<link rel="next" href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer" title="Examples of using the Pretty Printer">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pretty-Printer-Concepts"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Examples-of-using-the-Pretty-Printer.html#Examples-of-using-the-Pretty-Printer">Examples of using the Pretty Printer</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-Lisp-Pretty-Printer.html#The-Lisp-Pretty-Printer">The Lisp Pretty Printer</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.2.1 Pretty Printer Concepts</h4>
+
+<p>The facilities provided by the <a name="index-pretty-printer-2797"></a><dfn>pretty printer</dfn> permit
+<i>programs</i> to redefine the way in which <i>code</i> is displayed,
+and allow the full power of <i>pretty printing</i> to be applied
+to complex combinations of data structures.
+
+<p>Whether any given style of output is in fact &ldquo;pretty&rdquo; is inherently a
+somewhat subjective issue.  However, since the effect of the
+<i>pretty printer</i> can be customized by <i>conforming programs</i>,
+the necessary flexibility is provided for individual <i>programs</i>
+to achieve an arbitrary degree of aesthetic control.
+
+<p>By providing direct access to the mechanisms within the pretty printer
+that make dynamic decisions about layout, the macros and functions
+<code>pprint-logical-block</code>, <code>pprint-newline</code>, and
+<code>pprint-indent</code> make it possible to specify pretty printing
+layout rules as a part of any function that produces output.  They also
+make it very easy for the detection of circularity and sharing, and
+abbreviation based on length and nesting depth to be supported by the
+function.
+
+<p>The <i>pretty printer</i> is driven entirely by dispatch based on
+the <i>value</i> of <code>*print-pprint-dispatch*</code>. 
+The <i>function</i> <code>set-pprint-dispatch</code> makes it possible
+for <i>conforming programs</i> to associate new pretty printing
+functions with a <i>type</i>.
+
+<h5 class="subsubsection">22.2.1.1 Dynamic Control of the Arrangement of Output</h5>
+
+<p><a name="DynamicControlofOutput"></a>The actions of the <i>pretty printer</i> when a piece of output is too
+large to fit in the space available can be precisely controlled. 
+Three concepts underlie
+the way these operations work&mdash;<a name="index-logical-blocks-2798"></a><dfn>logical blocks</dfn>,
+<a name="index-conditional-newlines-2799"></a><dfn>conditional newlines</dfn>,
+and <a name="index-sections-2800"></a><dfn>sections</dfn>. 
+Before proceeding further, it is important to define these terms.
+
+<p>The first line of the next figure&nbsp;<!-- /@w -->shows a schematic piece of output.  Each of
+the characters in the output is represented by &ldquo;<code>-</code>&rdquo;.  The positions of
+conditional newlines are indicated by digits.  The beginnings and ends of
+logical blocks are indicated by &ldquo;<code>&lt;</code>&rdquo; and &ldquo;<code>&gt;</code>&rdquo; respectively.
+
+<p>The output as a whole is a logical block and the outermost section.  This
+section is indicated by the <code>0</code>'s on the second line of Figure 1.  Logical
+blocks nested within the output are specified by the macro
+<code>pprint-logical-block</code>.  Conditional newline positions are specified
+by calls to <code>pprint-newline</code>.  Each conditional newline defines
+two sections (one before it and one after it) and is associated with a
+third (the section immediately containing it).
+
+<p>The section after a conditional newline consists of: all the output up to,
+but not including, (a) the next conditional newline immediately contained
+in the same logical block; or if (a) is not applicable, (b) the next
+newline that is at a lesser level of nesting in logical blocks; or if (b)
+is not applicable, (c) the end of the output.
+
+<p>The section before a conditional newline consists of: all the output back
+to, but not including, (a) the previous conditional newline that is
+immediately contained in the same logical block; or if (a) is not
+applicable, (b) the beginning of the immediately containing logical block. 
+The last four lines in Figure 1 indicate the sections before and after the
+four conditional newlines.
+
+<p>The section immediately containing a conditional newline is the shortest
+section that contains the conditional newline in question.  In the next figure,
+the first conditional newline is immediately contained in the section
+marked with <code>0</code>'s, the second and third conditional newlines are immediately
+contained in the section before the fourth conditional newline, and the
+fourth conditional newline is immediately contained in the section after
+the first conditional newline.
+
+<div class="float">
+<a name="fig22_002e3"></a>
+<pre class="lisp"> &lt;-1---&lt;--&lt;--2---3-&gt;--4--&gt;-&gt;
+ 000000000000000000000000000
+ 11 111111111111111111111111
+           22 222
+              333 3333
+        44444444444444 44444
+</pre>
+<p><strong class="float-caption">Figure 22.3: Example of Logical Blocks, Conditional Newlines, and Sections</strong></p></div>
+
+<p>Whenever possible, the pretty printer displays the entire contents of a
+section on a single line.  However, if the section is too long to fit in
+the space available, line breaks are inserted at conditional newline
+positions within the section.
+
+<h5 class="subsubsection">22.2.1.2 Format Directive Interface</h5>
+
+<p>The primary interface to operations for dynamically determining the
+arrangement of output is provided through the functions and macros of the
+pretty printer.  The next figure&nbsp;<!-- /@w -->shows the defined names related to <i>pretty printing</i>.
+
+<div class="float">
+<a name="fig22_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*print-lines* </td><td valign="top">pprint-dispatch </td><td valign="top">pprint-pop
+<br></td></tr><tr align="left"><td valign="top">*print-miser-width* </td><td valign="top">pprint-exit-if-list-exhausted </td><td valign="top">pprint-tab
+<br></td></tr><tr align="left"><td valign="top">*print-pprint-dispatch* </td><td valign="top">pprint-fill </td><td valign="top">pprint-tabular
+<br></td></tr><tr align="left"><td valign="top">*print-right-margin* </td><td valign="top">pprint-indent </td><td valign="top">set-pprint-dispatch
+<br></td></tr><tr align="left"><td valign="top">copy-pprint-dispatch </td><td valign="top">pprint-linear </td><td valign="top">write
+<br></td></tr><tr align="left"><td valign="top">format </td><td valign="top">pprint-logical-block </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">formatter </td><td valign="top">pprint-newline </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 22.4: Defined names related to pretty printing.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->identifies a set of <i>format directives</i> which serve
+as an alternate interface to the same pretty printing operations in a
+more textually compact form.
+
+<div class="float">
+<a name="fig22_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">&lsquo;<samp><span class="samp">~I</span></samp>&rsquo; </td><td valign="top">&lsquo;<samp><span class="samp">~W</span></samp>&rsquo; </td><td valign="top">&lsquo;<samp><span class="samp">~&lt;...&nbsp;:&gt;</span></samp>&rsquo;
+<br></td></tr><tr align="left"><td valign="top">&lsquo;<samp><span class="samp">~:T</span></samp>&rsquo; </td><td valign="top">&lsquo;<samp><span class="samp">~/.../</span></samp>&rsquo; </td><td valign="top">&lsquo;<samp><span class="samp">~_</span></samp>&rsquo;
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 22.5: Format directives related to Pretty Printing</strong></p></div>
+
+<h5 class="subsubsection">22.2.1.3 Compiling Format Strings</h5>
+
+<p><a name="CompilingFormatStrings"></a>A <i>format string</i> is essentially a program in a special-purpose language
+that performs printing, and that is interpreted by the <i>function</i> <code>format</code>. 
+The <code>formatter</code> <i>macro</i> provides the efficiency of using a <i>compiled function</i>
+to do that same printing but without losing the textual compactness of <i>format strings</i>.
+
+<p>A <a name="index-format-control-2801"></a><dfn>format control</dfn> is either a <i>format string</i> or a <i>function</i>
+that was returned by the the <code>formatter</code> <i>macro</i>.
+
+<h5 class="subsubsection">22.2.1.4 Pretty Print Dispatch Tables</h5>
+
+<p><a name="PPrintDispatchTables"></a>A <a name="index-pprint-dispatch-table-2802"></a><dfn>pprint dispatch table</dfn> is a mapping from keys to pairs of values. 
+Each key is a <i>type specifier</i>. 
+The values associated with a key are
+a &ldquo;function&rdquo; (specifically, a <i>function designator</i> or <code>nil</code>)
+and a &ldquo;numerical priority&rdquo; (specifically, a <i>real</i>). 
+Basic insertion and retrieval is done based on the keys with the equality
+of keys being tested by <code>equal</code>.
+
+<p>When <code>*print-pretty*</code> is <i>true</i>,
+the <a name="index-current-pprint-dispatch-table-2803"></a><dfn>current pprint dispatch table</dfn> (in <code>*print-pprint-dispatch*</code>)
+controls how <i>objects</i> are printed. 
+The information in this table takes precedence over
+all other mechanisms for specifying how to print <i>objects</i>. 
+In particular, it
+has priority over
+user-defined <code>print-object</code> <i>methods</i>
+because the <i>current pprint dispatch table</i> is consulted first.
+
+<p>The function is chosen from the <i>current pprint dispatch table</i>
+by finding the highest priority function
+that is associated with a <i>type specifier</i> that matches the <i>object</i>;
+if there is more than one such function,
+it is <i>implementation-dependent</i> which is used.
+
+<p>However, if there is no
+information in the table
+about how to <i>pretty print</i> a particular kind of <i>object</i>,
+a <i>function</i> is invoked which uses <code>print-object</code> to print the <i>object</i>. 
+The value of <code>*print-pretty*</code> is still <i>true</i>
+when this function is <i>called</i>,
+and individual methods for <code>print-object</code> might still elect to
+produce output in a special format conditional on the <i>value</i> of <code>*print-pretty*</code>.
+
+<h5 class="subsubsection">22.2.1.5 Pretty Printer Margins</h5>
+
+<p>A primary goal of pretty printing is to keep the output between a pair of
+margins. 
+The column where the output begins is taken as the left margin. 
+If the current column cannot be determined at the time output begins,
+the left margin is assumed to be zero. 
+The right margin is controlled by <code>*print-right-margin*</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Pretty-Printer-Concepts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

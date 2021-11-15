@@ -1,0 +1,165 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/typep.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:20 GMT -->
+<head>
+<title>typep - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Types-and-Classes.html#Types-and-Classes" title="Types and Classes">
+<link rel="prev" href="type_002dof.html#type_002dof" title="type-of">
+<link rel="next" href="type_002derror.html#type_002derror" title="type-error">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="typep"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="type_002derror.html#type_002derror">type-error</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="type_002dof.html#type_002dof">type-of</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Types-and-Classes.html#Types-and-Classes">Types and Classes</a>
+<hr>
+</div>
+
+<h3 class="heading">typep (Function)</h3>
+
+<p><a name="index-typep-408"></a><a name="index-typep-409"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>typep</b><var> object type-specifier </var><tt>&amp;optional</tt><var> environment </var><span class="roman">→</span><var> generalized-boolean<a name="index-typep-410"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>type-specifier</var>&mdash;any <i>type specifier</i> except
+<tt>values</tt>, or a <i>type specifier</i> list
+whose first element is either <tt>function</tt> or <tt>values</tt>.
+
+<p><var>environment</var>&mdash;an <i>environment</i> <i>object</i>. 
+The default is <code>nil</code>, denoting the <i>null lexical environment</i>
+and the and current <i>global environment</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns <i>true</i> if <var>object</var> is of the <i>type</i> specified by <var>type-specifier</var>; otherwise, returns <i>false</i>.
+
+<p>A <var>type-specifier</var> of the form <code>(satisfies fn)</code>
+is handled by applying the function <code>fn</code> to <var>object</var>.
+
+<p><code>(typep </code><var>object</var><code> '(array </code><var>type-specifier</var><code>))</code>,
+where <var>type-specifier</var> is not <code>*</code>,
+returns <i>true</i> if and only if <var>object</var> is an <i>array</i>
+that could be the result
+of supplying <var>type-specifier</var>
+as the <tt>:element-type</tt> argument to <code>make-array</code>. 
+<code>(array *)</code> refers to all <i>arrays</i>
+regardless of element type, while <code>(array </code><var>type-specifier</var><code>)</code>
+refers only to those <i>arrays</i>
+that can result from giving <var>type-specifier</var> as the
+<tt>:element-type</tt> argument to <code>make-array</code>. 
+A similar interpretation applies to <code>(simple-array </code><var>type-specifier</var><code>)</code>
+and <code>(vector </code><var>type-specifier</var><code>)</code>. 
+See <a href="ArrayUpgrading.html#ArrayUpgrading">Section 15.1.2.1 (Array Upgrading)</a>.
+
+<p><code>(typep </code><var>object</var><code> '(complex </code><var>type-specifier</var><code>))</code>
+returns <i>true</i> for all <i>complex</i> numbers that can result from
+giving <i>numbers</i> of type <var>type-specifier</var>
+to the <i>function</i> <code>complex</code>, plus all other <i>complex</i> numbers
+of the same specialized representation. 
+Both the real and the imaginary parts of any such
+<i>complex</i> number must satisfy:
+
+<pre class="lisp"> (typep realpart 'type-specifier)
+ (typep imagpart 'type-specifier)
+</pre>
+<p>See the <i>function</i> <a href="upgraded_002dcomplex_002dpart_002dtype.html#upgraded_002dcomplex_002dpart_002dtype">upgraded-complex-part-type</a>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (typep 12 'integer) <span class="roman">→</span> <i>true</i>
+ (typep (1+ most-positive-fixnum) 'fixnum) <span class="roman">→</span> <i>false</i>
+ (typep nil t) <span class="roman">→</span> <i>true</i>
+ (typep nil nil) <span class="roman">→</span> <i>false</i>
+ (typep 1 '(mod 2)) <span class="roman">→</span> <i>true</i>
+ (typep #c(1 1) '(complex (eql 1))) <span class="roman">→</span> <i>true</i>
+;; To understand this next example, you might need to refer to
+;; <a href="RuleOfCanonRepForComplexRationals.html#RuleOfCanonRepForComplexRationals">Section 12.1.5.3 (Rule of Canonical Representation for Complex Rationals)</a>.
+ (typep #c(0 0) '(complex (eql 0))) <span class="roman">→</span> <i>false</i>
+</pre>
+<p>Let <code>A<sub>x</sub></code> and <code>A<sub>y</sub></code> be two <i>type specifiers</i> that
+denote different <i>types</i>, but for which
+
+<pre class="lisp"> (upgraded-array-element-type 'A<sub>x</sub>)
+</pre>
+<p>and
+
+<pre class="lisp"> (upgraded-array-element-type 'A<sub>y</sub>)
+</pre>
+<p>denote the same <i>type</i>.  Notice that
+
+<pre class="lisp"> (typep (make-array 0 :element-type 'A<sub>x</sub>) '(array A<sub>x</sub>)) <span class="roman">→</span> <i>true</i>
+ (typep (make-array 0 :element-type 'A<sub>y</sub>) '(array A<sub>y</sub>)) <span class="roman">→</span> <i>true</i>
+ (typep (make-array 0 :element-type 'A<sub>x</sub>) '(array A<sub>y</sub>)) <span class="roman">→</span> <i>true</i>
+ (typep (make-array 0 :element-type 'A<sub>y</sub>) '(array A<sub>x</sub>)) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error of <i>type</i> <code>error</code> is signaled if <var>type-specifier</var> is <code>values</code>,
+or a <i>type specifier</i> list whose first element is either
+<tt>function</tt> or <tt>values</tt>.
+
+<p>The consequences are undefined if
+the <var>type-specifier</var> is not a <i>type specifier</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="type_002dof.html#type_002dof">type-of</a>,
+<a href="upgraded_002darray_002delement_002dtype.html#upgraded_002darray_002delement_002dtype">upgraded-array-element-type</a>,
+<a href="upgraded_002dcomplex_002dpart_002dtype.html#upgraded_002dcomplex_002dpart_002dtype">upgraded-complex-part-type</a>,
+<a href="Type-Specifiers.html#Type-Specifiers">Section 4.2.3 (Type Specifiers)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><i>Implementations</i> are encouraged to recognize and optimize the case of
+<code>(typep </code><var>x</var><code> (the class </code><var>y</var><code>))</code>,
+since it does not involve any need for expansion
+of <code>deftype</code> information at runtime.
+
+<pre class="lisp">
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/typep.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:21 GMT -->
+</html>
+

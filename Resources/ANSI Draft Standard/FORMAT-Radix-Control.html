@@ -1,0 +1,174 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Radix-Control.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>FORMAT Radix Control - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Basic-Output.html#FORMAT-Basic-Output" title="FORMAT Basic Output">
+<link rel="next" href="FORMAT-Floating_002dPoint-Printers.html#FORMAT-Floating_002dPoint-Printers" title="FORMAT Floating-Point Printers">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Radix-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Floating_002dPoint-Printers.html#FORMAT-Floating_002dPoint-Printers">FORMAT Floating-Point Printers</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Basic-Output.html#FORMAT-Basic-Output">FORMAT Basic Output</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.2 FORMAT Radix Control</h4>
+
+<h5 class="subsubsection">22.3.2.1 Tilde R: Radix</h5>
+
+<p><a name="index-R-_0028format-directive_0029-2817"></a><a name="index-Tilde-R-_0028format-directive_0029-2818"></a>
+<code>~</code><i>n</i><code>R</code> prints <i>arg</i> in radix <i>n</i>. 
+The modifier flags and any remaining parameters are used as for
+the <code>~D</code> directive. 
+<code>~D</code> is the same as <code>~10R</code>. 
+The full form is
+<code>~</code><i>radix</i><code>,</code><i>mincol</i><code>,</code><i>padchar</i><code>,</code><i>commachar</i><code>,</code><i>comma-interval</i><code>R</code>.
+
+<p>If no prefix parameters are given to <code>~R</code>, then a different
+interpretation is given.  The argument should be an <i>integer</i>. 
+For example, if <i>arg</i> is 4:
+
+     <ul>
+<li><code>~R</code> prints <i>arg</i> as a cardinal English number: <code>four</code>.
+
+     <li><code>~:R</code> prints <i>arg</i> as an ordinal English number: <code>fourth</code>.
+
+     <li><code>~@R</code> prints <i>arg</i> as a Roman numeral: <code>IV</code>.
+
+     <li><code>~:@R</code> prints <i>arg</i> as an old Roman numeral: <code>IIII</code>. 
+</ul>
+
+<p>For example:
+
+<pre class="lisp"> (format nil "~,,' ,4:B" 13) <span class="roman">→</span> "1101"
+ (format nil "~,,' ,4:B" 17) <span class="roman">→</span> "1 0001"
+ (format nil "~19,0,' ,4:B" 3333) <span class="roman">→</span> "0000 1101 0000 0101"
+ (format nil "~3,,,' ,2:R" 17) <span class="roman">→</span> "1 22"
+ (format nil "~,,'|,2:D" #xFFFF) <span class="roman">→</span>  "6|55|35"
+</pre>
+<p>If and only if the first parameter, <i>n</i>, is supplied,
+<code>~R</code> binds
+<code>*print-escape*</code> to <i>false</i>,
+<code>*print-radix*</code> to <i>false</i>,
+<code>*print-base*</code> to <i>n</i>,
+and <code>*print-readably*</code> to <i>false</i>.
+
+<p>If and only if no parameters are supplied,
+<code>~R</code> binds <code>*print-base*</code> to <code>10</code>.
+
+<h5 class="subsubsection">22.3.2.2 Tilde D: Decimal</h5>
+
+<p><a name="index-D-_0028format-directive_0029-2819"></a><a name="index-Tilde-D-_0028format-directive_0029-2820"></a>
+An <i>arg</i>, which should be an <i>integer</i>,
+is printed in decimal radix. 
+<code>~D</code> will never put a decimal point after the number.
+
+<p><code>~</code><i>mincol</i><code>D</code> uses
+a column width of <i>mincol</i>; spaces are inserted on
+the left if the number requires fewer than <i>mincol</i> columns for its digits
+and sign.  If the number doesn't fit in <i>mincol</i> columns, additional columns
+are used as needed.
+
+<p><code>~</code><i>mincol</i><code>,</code><i>padchar</i><code>D</code> uses <i>padchar</i> as the pad character
+instead of space.
+
+<p>If <i>arg</i> is not an <i>integer</i>, it is printed in <code>~A</code> format and decimal base.
+
+<p>The <code>@</code> modifier causes the number's sign to be printed always; the default
+is to print it only if the number is negative. 
+The <code>:</code> modifier causes commas to be printed between groups of digits;
+<i>commachar</i> may be used to change the character used as the comma. 
+<i>comma-interval</i>
+must be an <i>integer</i> and defaults to 3.  When the <code>:</code>
+modifier is given to any of
+these directives, the <i>commachar</i>
+is printed between groups of <i>comma-interval</i>
+digits.
+
+<p>Thus the most general form of <code>~D</code> is
+<code>~</code><i>mincol</i><code>,</code><i>padchar</i><code>,</code><i>commachar</i><code>,</code><i>comma-interval</i><code>D</code>.
+
+<p><code>~D</code> binds
+<code>*print-escape*</code> to <i>false</i>,
+<code>*print-radix*</code> to <i>false</i>,
+<code>*print-base*</code> to <code>10</code>,
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.2.3 Tilde B: Binary</h5>
+
+<p><a name="index-B-_0028format-directive_0029-2821"></a><a name="index-Tilde-B-_0028format-directive_0029-2822"></a>
+This is just like <code>~D</code> but prints in binary radix (radix 2)
+instead of decimal.  The full form is therefore
+<code>~</code><i>mincol</i><code>,</code><i>padchar</i><code>,</code><i>commachar</i><code>,</code><i>comma-interval</i><code>B</code>.
+
+<p><code>~B</code> binds
+<code>*print-escape*</code> to <i>false</i>,
+<code>*print-radix*</code> to <i>false</i>,
+<code>*print-base*</code> to <code>2</code>,
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.2.4 Tilde O: Octal</h5>
+
+<p><a name="index-O-_0028format-directive_0029-2823"></a><a name="index-Tilde-O-_0028format-directive_0029-2824"></a>
+This is just like <code>~D</code> but prints in octal radix (radix 8)
+instead of decimal.  The full form is therefore
+<code>~</code><i>mincol</i><code>,</code><i>padchar</i><code>,</code><i>commachar</i><code>,</code><i>comma-interval</i><code>O</code>.
+
+<p><code>~O</code> binds
+<code>*print-escape*</code> to <i>false</i>,
+<code>*print-radix*</code> to <i>false</i>,
+<code>*print-base*</code> to <code>8</code>,
+and <code>*print-readably*</code> to <i>false</i>.
+
+<h5 class="subsubsection">22.3.2.5 Tilde X: Hexadecimal</h5>
+
+<p><a name="index-X-_0028format-directive_0029-2825"></a><a name="index-Tilde-X-_0028format-directive_0029-2826"></a>
+This is just like <code>~D</code> but prints in hexadecimal radix
+(radix 16) instead of decimal.  The full form is therefore
+<code>~</code><i>mincol</i><code>,</code><i>padchar</i><code>,</code><i>commachar</i><code>,</code><i>comma-interval</i><code>X</code>.
+
+<p><code>~X</code> binds
+<code>*print-escape*</code> to <i>false</i>,
+<code>*print-radix*</code> to <i>false</i>,
+<code>*print-base*</code> to <code>16</code>,
+and <code>*print-readably*</code> to <i>false</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Radix-Control.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

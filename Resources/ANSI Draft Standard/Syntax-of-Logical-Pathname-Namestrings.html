@@ -1,0 +1,169 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Syntax-of-Logical-Pathname-Namestrings.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:40 GMT -->
+<head>
+<title>Syntax of Logical Pathname Namestrings - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Logical-Pathnames.html#Logical-Pathnames" title="Logical Pathnames">
+<link rel="next" href="Logical-Pathname-Components.html#Logical-Pathname-Components" title="Logical Pathname Components">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Syntax-of-Logical-Pathname-Namestrings"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Logical-Pathname-Components.html#Logical-Pathname-Components">Logical Pathname Components</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Logical-Pathnames.html#Logical-Pathnames">Logical Pathnames</a>
+<hr>
+</div>
+
+<h4 class="subsection">19.3.1 Syntax of Logical Pathname Namestrings</h4>
+
+<p>The syntax of a <i>logical pathname</i> <i>namestring</i> is as follows. 
+(Note that unlike many notational descriptions in this document,
+this is a syntactic description of character sequences,
+not a structural description of <i>objects</i>.)
+
+     <dl>
+<dt><var>logical-pathname</var>::=<dd><tt>[</tt><tt>↓</tt>host <var>host-marker</var><tt>]</tt> <br> <tt>[</tt><tt>↓</tt><var>relative-directory-marker</var><tt>]</tt> <tt>{</tt><tt>↓</tt>directory <var>directory-marker</var><tt>}</tt>* <br> <tt>[</tt><tt>↓</tt>name<tt>]</tt> <tt>[</tt><var>type-marker</var> <tt>↓</tt>type <tt>[</tt><var>version-marker</var> <tt>↓</tt>version<tt>]</tt><tt>]</tt>
+</dl>
+
+     <dl>
+<dt><var>host</var>::=<dd><tt>↓</tt>word
+</dl>
+
+     <dl>
+<dt><var>directory</var>::=<dd><tt>↓</tt>word | <tt>↓</tt>wildcard-word | <tt>↓</tt>wild-inferiors-word
+</dl>
+
+     <dl>
+<dt><var>name</var>::=<dd><tt>↓</tt>word | <tt>↓</tt>wildcard-word
+</dl>
+
+     <dl>
+<dt><var>type</var>::=<dd><tt>↓</tt>word | <tt>↓</tt>wildcard-word
+</dl>
+
+     <dl>
+<dt><var>version</var>::=<dd><tt>↓</tt>pos-int | <var>newest-word</var> | <var>wildcard-version</var>
+</dl>
+
+<p><var>host-marker</var>&mdash;a <i>colon</i>.
+
+<p><var>relative-directory-marker</var>&mdash;a <i>semicolon</i>.
+
+<p><var>directory-marker</var>&mdash;a <i>semicolon</i>.
+
+<p><var>type-marker</var>&mdash;a <i>dot</i>.
+
+<p><var>version-marker</var>&mdash;a <i>dot</i>.
+
+<p><var>wild-inferiors-word</var>&mdash;The two character sequence &ldquo;<code>**</code>&rdquo; (two <i>asterisks</i>).
+
+<p><var>newest-word</var>&mdash;The six character sequence &ldquo;<code>newest</code>&rdquo;
+or the six character sequence &ldquo;<code>NEWEST</code>&rdquo;.
+
+<p><var>wildcard-version</var>&mdash;an <i>asterisk</i>.
+
+<p><var>wildcard-word</var>&mdash;one or more <i>asterisks</i>, uppercase letters,
+digits, and hyphens, including at least one <i>asterisk</i>,
+with no two <i>asterisks</i> adjacent.
+
+<p><var>word</var>&mdash;one or more uppercase letters, digits, and hyphens.
+
+<p><var>pos-int</var>&mdash;a positive <i>integer</i>.
+
+<h5 class="subsubsection">19.3.1.1 Additional Information about Parsing Logical Pathname Namestrings</h5>
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.1 The Host part of a Logical Pathname Namestring</h5>
+
+<p>The <var>host</var> must have been defined as a <i>logical pathname</i> host;
+this can be done by using <code>setf</code> of <code>logical-pathname-translations</code>.
+
+<p>The <i>logical pathname</i> host name <code>"SYS"</code> is reserved for the implementation. 
+The existence and meaning of <code>SYS:</code> <i>logical pathnames</i>
+is <i>implementation-defined</i>.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.2 The Device part of a Logical Pathname Namestring</h5>
+
+<p>There is no syntax for a <i>logical pathname</i> device since
+the device component of a <i>logical pathname</i> is always <tt>:unspecific</tt>;
+see <a href="LogicalPathCompUnspecific.html#LogicalPathCompUnspecific">Section 19.3.2.1 (Unspecific Components of a Logical Pathname)</a>.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.3 The Directory part of a Logical Pathname Namestring</h5>
+
+<p>If a <var>relative-directory-marker</var> precedes the <var>directories</var>,
+the directory component parsed is as <i>relative</i>;
+otherwise, the directory component is parsed as <i>absolute</i>.
+
+<p>If a <var>wild-inferiors-marker</var> is specified,
+it parses into <tt>:wild-inferiors</tt>.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.4 The Type part of a Logical Pathname Namestring</h5>
+
+<p>The <var>type</var> of a <i>logical pathname</i> for a <i>source file</i>
+is <code>"LISP"</code>.   This should be translated into whatever type is
+appropriate in a physical pathname.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.5 The Version part of a Logical Pathname Namestring</h5>
+
+<p>Some <i>file systems</i> do not have <var>versions</var>. 
+<i>Logical pathname</i> translation to such a <i>file system</i>
+ignores the <var>version</var>. 
+This implies that a program cannot rely on being able to store
+more than one version of a file named by a <i>logical pathname</i>.
+
+<p>If a <var>wildcard-version</var> is specified,
+it parses into <tt>:wild</tt>.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.6 Wildcard Words in a Logical Pathname Namestring</h5>
+
+<p>Each <i>asterisk</i> in a <var>wildcard-word</var> matches a sequence of
+zero or more characters.  The <var>wildcard-word</var> &ldquo;<code>*</code>&rdquo;
+parses into <tt>:wild</tt>; other <i>wildcard-words</i> parse into <i>strings</i>.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.7 Lowercase Letters in a Logical Pathname Namestring</h5>
+
+<p>When parsing <var>words</var> and <var>wildcard-words</var>,
+lowercase letters are translated to uppercase.
+
+<h5 class="unnumberedsubsubsec">19.3.1.1.8 Other Syntax in a Logical Pathname Namestring</h5>
+
+<p>The consequences of using characters other than those specified here
+in a <i>logical pathname</i> <i>namestring</i> are unspecified.
+
+<p>The consequences of using any value not specified here as a
+<i>logical pathname</i> component are unspecified.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Syntax-of-Logical-Pathname-Namestrings.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+</html>
+

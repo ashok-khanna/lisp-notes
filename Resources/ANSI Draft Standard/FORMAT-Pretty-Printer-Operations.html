@@ -1,0 +1,180 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Pretty-Printer-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>FORMAT Pretty Printer Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Printer-Operations.html#FORMAT-Printer-Operations" title="FORMAT Printer Operations">
+<link rel="next" href="FORMAT-Layout-Control.html#FORMAT-Layout-Control" title="FORMAT Layout Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Pretty-Printer-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Layout-Control.html#FORMAT-Layout-Control">FORMAT Layout Control</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Printer-Operations.html#FORMAT-Printer-Operations">FORMAT Printer Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.5 FORMAT Pretty Printer Operations</h4>
+
+<p>The following constructs provide access to the <i>pretty printer</i>:
+
+<h5 class="subsubsection">22.3.5.1 Tilde Underscore: Conditional Newline</h5>
+
+<p><a name="TildeUnderscore"></a><a name="index-Underscore-_0028format-directive_0029-2841"></a><a name="index-Tilde-Underscore-_0028format-directive_0029-2842"></a>
+Without any modifiers, <code>~_</code> is the same as <code>(pprint-newline :linear)</code>. 
+<code>~@_</code>  is the same as <code>(pprint-newline :miser)</code>. 
+<code>~:_</code>  is the same as <code>(pprint-newline :fill)</code>. 
+<code>~:@_</code> is the same as <code>(pprint-newline :mandatory)</code>.
+
+<h5 class="subsubsection">22.3.5.2 Tilde Less-Than-Sign: Logical Block</h5>
+
+<p><a name="TildeLessThanLogicalBlock"></a><a name="index-Less_002dThan_002dSign-_0028format-directive_0029-2843"></a><a name="index-Tilde-Less_002dThan_002dSign-_0028format-directive_0029-2844"></a>
+<code>~&lt;...~:&gt;</code>
+
+<p>If <code>~:&gt;</code> is used to terminate a <code>~&lt;...~&gt;</code>,
+the directive is equivalent to a call to <code>pprint-logical-block</code>. 
+The argument corresponding to the <code>~&lt;...~:&gt;</code> directive is treated in
+the same way as the <i>list</i> argument to <code>pprint-logical-block</code>,
+thereby providing automatic support for non-<i>list</i> arguments and
+the detection of circularity, sharing, and depth abbreviation. 
+The portion of the <var>control-string</var> nested within the <code>~&lt;...~:&gt;</code>
+specifies the <tt>:prefix</tt> (or <tt>:per-line-prefix</tt>), <tt>:suffix</tt>,
+and body of the <code>pprint-logical-block</code>.
+
+<p>The <var>control-string</var> portion enclosed by <code>~&lt;...~:&gt;</code> can be divided
+into segments <code>~&lt;</code><var>prefix</var><code>~;</code><var>body</var><code>~;</code><var>suffix</var><code>~:&gt;</code>
+by <code>~;</code> directives.  If the first section is terminated by <code>~@;</code>,
+it specifies a per-line prefix rather than a simple prefix. 
+The <var>prefix</var> and <var>suffix</var> cannot contain format directives. 
+An error is signaled if either the prefix or suffix fails to be a
+constant string or if the enclosed portion is divided into more than three segments.
+
+<p>If the enclosed portion is divided into only two segments, the <var>suffix</var>
+defaults to the null string.  If the enclosed portion consists of only
+a single segment, both the <var>prefix</var> and the <var>suffix</var> default to
+the null string.  If the <i>colon</i> modifier is used (<i>i.e.</i>, <code>~:&lt;...~:&gt;</code>),
+the <var>prefix</var> and <var>suffix</var> default to <code>"("</code> and <code>")"</code>
+(respectively) instead of the null string.
+
+<p>The body segment can be any arbitrary <i>format string</i>. 
+This <i>format string</i> is applied to the elements of the list
+corresponding to the <code>~&lt;...~:&gt;</code> directive as a whole. 
+Elements are extracted from this list using <code>pprint-pop</code>,
+thereby providing automatic support for malformed lists, and the detection
+of circularity, sharing, and length abbreviation. 
+Within the body segment, <code>~^</code> acts like <code>pprint-exit-if-list-exhausted</code>.
+
+<p><code>~&lt;...~:&gt;</code> supports a feature not supported by <code>pprint-logical-block</code>. 
+If <code>~:@&gt;</code> is used to terminate the directive (<i>i.e.</i>, <code>~&lt;...~:@&gt;</code>),
+then a fill-style conditional newline is automatically inserted after each
+group of blanks immediately contained in the body (except for blanks
+after a &nbsp;&lt;Newline&gt;&nbsp;<!-- /@w -->directive).  This makes it easy to achieve the
+equivalent of paragraph filling.
+
+<p>If the <i>at-sign</i> modifier is used with <code>~&lt;...~:&gt;</code>, the entire remaining argument
+list is passed to the directive as its argument.  All of the remaining
+arguments are always consumed by <code>~@&lt;...~:&gt;</code>, even if they are not all used
+by the <i>format string</i> nested in the directive.  Other than the difference in
+its argument, <code>~@&lt;...~:&gt;</code> is exactly the same as <code>~&lt;...~:&gt;</code> except that
+circularity detection is not applied if <code>~@&lt;...~:&gt;</code> is encountered at top
+level in a <i>format string</i>.  This ensures that circularity detection is
+applied only to data lists, not to <i>format argument</i> <i>lists</i>.
+
+<p><code>" . #</code><var>n</var><code>#"</code> is printed if circularity or sharing has to be indicated
+for its argument as a whole.
+
+<p>To a considerable extent, the basic form of the directive <code>~&lt;...~&gt;</code> is
+incompatible with the dynamic control of the arrangement of output by
+<code>~W</code>, <code>~_</code>, <code>~&lt;...~:&gt;</code>, <code>~I</code>, and <code>~:T</code>.  As a result, an error
+is signaled if any of these directives is nested within <code>~&lt;...~&gt;</code>. 
+Beyond this, an error is also signaled if the <code>~&lt;...~:;...~&gt;</code> form of
+<code>~&lt;...~&gt;</code> is used in the same <i>format string</i> with
+<code>~W</code>, <code>~_</code>, <code>~&lt;...~:&gt;</code>, <code>~I</code>, or <code>~:T</code>.
+
+<p>See also <a href="TildeLessThanJustification.html#TildeLessThanJustification">Section 22.3.6.2 (Tilde Less-Than-Sign. Justification)</a>.
+
+<h5 class="subsubsection">22.3.5.3 Tilde I: Indent</h5>
+
+<p><a name="TildeI"></a><a name="index-I-_0028format-directive_0029-2845"></a><a name="index-Tilde-I-_0028format-directive_0029-2846"></a>
+<code>~</code><var>n</var><code>I</code>  is the same as <code>(pprint-indent :block n)</code>.
+
+<p><code>~</code><var>n</var><code>:I</code> is the same as <code>(pprint-indent :current n)</code>. 
+In both cases, <var>n</var> defaults to zero, if it is omitted.
+
+<h5 class="subsubsection">22.3.5.4 Tilde Slash: Call Function</h5>
+
+<p><a name="index-Slash-_0028format-directive_0029-2847"></a><a name="index-Tilde-Slash-_0028format-directive_0029-2848"></a>
+<code>~/</code><var>name</var><code>/</code>
+
+<p>User defined functions can be called from within a format
+string by using the directive <code>~/</code><var>name</var><code>/</code>. 
+The <i>colon</i> modifier, the <i>at-sign</i> modifier, and arbitrarily many parameters
+can be specified with the <code>~/</code><var>name</var><code>/</code> directive. 
+<var>name</var> can be any arbitrary string that does not contain a "/". 
+All of the characters in <var>name</var> are treated as if they were upper case. 
+If <var>name</var> contains a single <i>colon</i> (<code>:</code>) or double <i>colon</i> (<code>::</code>),
+then everything up to but not including the first <code>":"</code> or <code>"::"</code>
+is taken to be a <i>string</i> that names a <i>package</i>. 
+Everything after the first <code>":"</code> or <code>"::"</code> (if any) is taken to be a
+<i>string</i> that names a <code>symbol</code>.  The function corresponding to a
+<code>~/name/</code> directive is obtained by looking up the <i>symbol</i>
+that has the indicated name in the indicated <i>package</i>. 
+If <var>name</var> does not contain a <code>":"</code> or <code>"::"</code>,
+then the whole <var>name</var> string is looked up in the <code>COMMON-LISP-USER</code> <i>package</i>.
+
+<p>When a <code>~/name/</code> directive is encountered,
+the indicated function is called with four or more arguments. 
+The first four arguments are:
+the output stream,
+the <i>format argument</i> corresponding to the directive,
+a <i>generalized boolean</i> that is <i>true</i> if the <i>colon</i> modifier was used,
+and a <i>generalized boolean</i> that is <i>true</i> if the <i>at-sign</i> modifier was used. 
+The remaining arguments consist of any parameters specified with the directive. 
+The function should print the argument appropriately. 
+Any values returned by the function are ignored.
+
+<p>The three <i>functions</i>
+<code>pprint-linear</code>,
+<code>pprint-fill</code>,
+and <code>pprint-tabular</code>
+are specifically designed so that they can be called by <code>~/.../</code>
+(<i>i.e.</i>, <code>~/pprint-linear/</code>, <code>~/pprint-fill/</code>, and <code>~/pprint-tabular/</code>). 
+In particular they take <i>colon</i> and <i>at-sign</i> arguments.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Pretty-Printer-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+</html>
+

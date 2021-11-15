@@ -1,0 +1,105 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Initialization-Arguments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Initialization Arguments - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization" title="Object Creation and Initialization">
+<link rel="next" href="Declaring-the-Validity-of-Initialization-Arguments.html#Declaring-the-Validity-of-Initialization-Arguments" title="Declaring the Validity of Initialization Arguments">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Initialization-Arguments"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Declaring-the-Validity-of-Initialization-Arguments.html#Declaring-the-Validity-of-Initialization-Arguments">Declaring the Validity of Initialization Arguments</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.1.1 Initialization Arguments</h4>
+
+<p>An initialization argument controls <i>object</i> creation and
+initialization.  It is often convenient to use keyword <i>symbols</i>
+to name initialization arguments, but the <i>name</i> of an
+initialization argument can be any <i>symbol</i>, including <code>nil</code>.  An
+initialization argument can be used in two ways: to fill a <i>slot</i>
+with a value or to provide an argument for an initialization
+<i>method</i>.  A single initialization argument can be used for both
+purposes.
+
+<p>An <i>initialization argument list</i> is a
+<i>property list</i> of
+initialization argument names and values. 
+Its structure is identical
+to a <i>property list</i> and also
+to the portion of an argument list
+processed for <code>&amp;key</code> parameters. 
+As in those lists,
+if an initialization
+argument name appears more than once in an initialization argument list,
+the leftmost occurrence supplies the value and the remaining occurrences
+are ignored.  The arguments to <code>make-instance</code> (after the first
+argument) form an <i>initialization argument list</i>.
+
+<p>An initialization argument can be associated with a <i>slot</i>.  If
+the initialization argument has a value in the <i>initialization
+argument list</i>, the value is stored into the <i>slot</i> of the newly
+created <i>object</i>, overriding any <tt>:initform</tt> form associated
+with the <i>slot</i>.  A single initialization argument can initialize
+more than one <i>slot</i>.  An initialization argument that initializes
+a <i>shared slot</i> stores its value into the <i>shared slot</i>,
+replacing any previous value.
+
+<p>An initialization argument can be associated with a <i>method</i>.  When
+an <i>object</i> is created and a particular initialization argument is
+supplied, the <i>generic functions</i> <code>initialize-instance</code>,
+<code>shared-initialize</code>, and <code>allocate-instance</code> are called
+with that initialization argument's name and value as a keyword argument
+pair.  If a value for the initialization argument is not supplied in the
+<i>initialization argument list</i>, the <i>method</i>'s
+<i>lambda list</i> supplies a default value.
+
+<p>Initialization arguments are used in four situations: when making an
+<i>instance</i>, when re-initializing an <i>instance</i>, when updating
+an <i>instance</i> to conform to a redefined <i>class</i>, and when
+updating an <i>instance</i> to conform to the definition of a different
+<i>class</i>.
+
+<p>Because initialization arguments are used to control the creation and
+initialization of an <i>instance</i> of some particular <i>class</i>,
+we say that an initialization argument is
+&ldquo;an initialization argument for&rdquo; that <i>class</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Initialization-Arguments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

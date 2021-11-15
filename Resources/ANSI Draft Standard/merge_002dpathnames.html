@@ -1,0 +1,175 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/merge_002dpathnames.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:30 GMT -->
+<head>
+<title>merge-pathnames - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Filenames.html#Filenames" title="Filenames">
+<link rel="prev" href="translate_002dpathname.html#translate_002dpathname" title="translate-pathname">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="merge-pathnames"></a>
+<a name="merge_002dpathnames"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="translate_002dpathname.html#translate_002dpathname">translate-pathname</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Filenames.html#Filenames">Filenames</a>
+<hr>
+</div>
+
+<h3 class="heading">merge-pathnames (Function)</h3>
+
+<p><a name="index-merge_002dpathnames-2544"></a><a name="index-merge_002dpathnames-2545"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>merge-pathnames</b><var> pathname </var><tt>&amp;optional</tt><var> default-pathname default-version </var><span class="roman">→</span><var> merged-pathname<a name="index-merge_002dpathnames-2546"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>pathname</var>&mdash;a <i>pathname designator</i>.
+
+<p><var>default-pathname</var>&mdash;a <i>pathname designator</i>. 
+The default is the <i>value</i> of <code>*default-pathname-defaults*</code>.
+
+<p><var>default-version</var>&mdash;a <i>valid pathname version</i>. 
+The default is <tt>:newest</tt>.
+
+<p><var>merged-pathname</var>&mdash;a <i>pathname</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Constructs a <i>pathname</i> from <var>pathname</var>
+by filling in any unsupplied components with the corresponding values
+from <var>default-pathname</var> and <var>default-version</var>.
+
+<p>Defaulting of pathname components
+is done by filling in components taken from another <i>pathname</i>. 
+This is especially useful for cases such as
+a program that has an input file and an output file. 
+Unspecified components of the output pathname will come from the input pathname,
+except that the type should not default
+to the type of the input pathname
+but rather to the appropriate default type for output from the program;
+for example, see the <i>function</i> <a href="compile_002dfile_002dpathname.html#compile_002dfile_002dpathname">compile-file-pathname</a>.
+
+<p>If no version is supplied, <var>default-version</var> is used. 
+If <var>default-version</var> is <code>nil</code>, the version component will remain unchanged.
+
+<p>If <var>pathname</var> explicitly specifies a host and not a device, and
+if the host component of <var>default-pathname</var> matches the host component
+of <var>pathname</var>, then the device is taken from the <var>default-pathname</var>;
+otherwise the device will be the default file device for that host.  If
+<var>pathname</var> does not specify a host, device, directory, name,
+or type, each such component is copied from <var>default-pathname</var>. 
+If <var>pathname</var> does not specify a name, then the version, if not provided, will
+come from <var>default-pathname</var>, just like the other components.  If
+<var>pathname</var> does specify a name, then the version is not affected
+by <var>default-pathname</var>. If this process leaves the
+version missing, the <var>default-version</var> is used. 
+If the host's file name syntax provides a way
+to input a version without a name or type, the user can let the name
+and type default but supply a version different from the one in <var>default-pathname</var>.
+
+<p>If <var>pathname</var> is a <i>stream</i>, <var>pathname</var> effectively
+becomes <code>(pathname </code><var>pathname</var><code>)</code>. <code>merge-pathnames</code>
+can be used on either an open or a closed <i>stream</i>.
+
+<p>If <var>pathname</var> is a <i>pathname</i>
+it represents the name used to open the file. This may be, but is
+not required to be, the actual name of the file.
+
+<p><code>merge-pathnames</code> recognizes a <i>logical pathname</i> <i>namestring</i>
+when <var>default-pathname</var> is a <i>logical pathname</i>,
+or when the <i>namestring</i> begins with
+the name of a defined <i>logical host</i> followed by a <i>colon</i>. 
+In the first of these two cases,
+the host portion of the <i>logical pathname</i> <i>namestring</i>
+and its following <i>colon</i> are optional.
+
+<p><code>merge-pathnames</code> returns a
+<i>logical pathname</i> if and only if
+its first argument is a <i>logical pathname</i>,
+or its first argument is a <i>logical pathname</i> <i>namestring</i> with an explicit host,
+or its first argument does not specify a host
+and the <var>default-pathname</var> is a <i>logical pathname</i>.
+
+<p><i>Pathname</i> merging treats a relative directory specially. 
+If <code>(pathname-directory </code><var>pathname</var><code>)</code> is a <i>list</i> whose
+<i>car</i> is <tt>:relative</tt>, and
+<code>(pathname-directory </code><var>default-pathname</var><code>)</code> is a <i>list</i>, then
+the merged directory is the value of
+
+<pre class="lisp"> (append (pathname-directory <var>default-pathname</var>)
+         (cdr  ;remove :relative from the front
+           (pathname-directory <var>pathname</var>)))
+</pre>
+<p>except that if the resulting <i>list</i> contains a <i>string</i> or <tt>:wild</tt>
+immediately followed by <tt>:back</tt>, both of them are removed.  This removal of
+redundant <tt>:back</tt> <i>keywords</i> is repeated as many times as possible. 
+If <code>(pathname-directory </code><var>default-pathname</var><code>)</code> is not a <i>list</i> or
+<code>(pathname-directory </code><var>pathname</var><code>)</code> is not a <i>list</i>
+whose <i>car</i> is <tt>:relative</tt>, the merged directory is
+<code>(or (pathname-directory </code><var>pathname</var><code>) (pathname-directory </code><var>default-pathname</var><code>))</code>
+
+<p><code>merge-pathnames</code> maps customary case in <var>pathname</var>
+into customary case in the output <i>pathname</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (merge-pathnames "CMUC::FORMAT"
+                  "CMUC::PS:&lt;LISPIO&gt;.FASL")
+<span class="roman">→</span> #P"CMUC::PS:&lt;LISPIO&gt;FORMAT.FASL.0"
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="_002adefault_002dpathname_002ddefaults_002a.html#g_t_002adefault_002dpathname_002ddefaults_002a">*default-pathname-defaults*</a>,
+<a href="pathname-_0028System-Class_0029.html#pathname-_0028System-Class_0029">pathname (System Class)</a>,
+<a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="File-System-Concepts.html#File-System-Concepts">Section 20.1 (File System Concepts)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The net effect
+is that if just a name is supplied,
+the host, device, directory, and type will come from <var>default-pathname</var>,
+but the version will come from <var>default-version</var>. 
+If nothing or just a directory is supplied,
+the name, type, and version will come from <var>default-pathname</var> together.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/merge_002dpathnames.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:30 GMT -->
+</html>
+

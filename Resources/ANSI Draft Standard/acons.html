@@ -1,0 +1,99 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/acons.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:57 GMT -->
+<head>
+<title>acons - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon.html#mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon" title="mapc; mapcar; mapcan; mapl; maplist; mapcon">
+<link rel="next" href="assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot.html#assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot" title="assoc; assoc-if; assoc-if-not">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="acons"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot.html#assoc_003b-assoc_002dif_003b-assoc_002dif_002dnot">assoc; assoc-if; assoc-if-not</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon.html#mapc_003b-mapcar_003b-mapcan_003b-mapl_003b-maplist_003b-mapcon">mapc; mapcar; mapcan; mapl; maplist; mapcon</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">acons (Function)</h3>
+
+<p><a name="index-acons-1984"></a><a name="index-acons-1985"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>acons</b><var> key datum alist </var><span class="roman">→</span><var> new-alist<a name="index-acons-1986"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>key</var>&mdash;an <i>object</i>.
+
+<p><var>datum</var>&mdash;an <i>object</i>.
+
+<p><var>alist</var>&mdash;an <i>association list</i>.
+
+<p><var>new-alist</var>&mdash;an <i>association list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Creates a <i>fresh</i> <i>cons</i>,
+the <i>cdr</i> of which is <var>alist</var> and
+the <i>car</i> of which is another <i>fresh</i> <i>cons</i>,
+the <i>car</i> of which is <var>key</var> and
+the <i>cdr</i> of which is <var>datum</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq alist '()) <span class="roman">→</span> NIL
+ (acons 1 "one" alist) <span class="roman">→</span> ((1 . "one"))
+ alist <span class="roman">→</span> NIL
+ (setq alist (acons 1 "one" (acons 2 "two" alist))) <span class="roman">→</span> ((1 . "one") (2 . "two"))
+ (assoc 1 alist) <span class="roman">→</span> (1 . "one")
+ (setq alist (acons 1 "uno" alist)) <span class="roman">→</span> ((1 . "uno") (1 . "one") (2 . "two"))
+ (assoc 1 alist) <span class="roman">→</span> (1 . "uno")
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="assoc.html#assoc">assoc</a>, <a href="pairlis.html#pairlis">pairlis</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp">(acons <var>key</var> <var>datum</var> <var>alist</var>) ≡ (cons (cons <var>key</var> <var>datum</var>) <var>alist</var>)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/acons.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:58 GMT -->
+</html>
+

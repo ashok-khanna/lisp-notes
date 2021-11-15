@@ -1,0 +1,148 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Numbers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:22:23 GMT -->
+<head>
+<title>Numbers - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Packages.html#Packages" title="Packages">
+<link rel="next" href="Characters.html#Characters" title="Characters">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Numbers"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Characters.html#Characters">Characters</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Packages.html#Packages">Packages</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">12 Numbers</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Number-Concepts.html#Number-Concepts">Number Concepts</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="2" href="number.html#number">number</a>
+<li><a accesskey="3" href="complex-_0028System-Class_0029.html#complex-_0028System-Class_0029">complex (System Class)</a>
+<li><a accesskey="4" href="real.html#real">real</a>
+<li><a accesskey="5" href="float-_0028System-Class_0029.html#float-_0028System-Class_0029">float (System Class)</a>
+<li><a accesskey="6" href="short_002dfloat_003b-single_002dfloat_003b-double_002dfloat_003b-long_002dfloat.html#short_002dfloat_003b-single_002dfloat_003b-double_002dfloat_003b-long_002dfloat">short-float; single-float; double-float; long-float</a>
+<li><a accesskey="7" href="rational-_0028System-Class_0029.html#rational-_0028System-Class_0029">rational (System Class)</a>
+<li><a accesskey="8" href="ratio.html#ratio">ratio</a>
+<li><a accesskey="9" href="integer.html#integer">integer</a>
+<li><a href="signed_002dbyte.html#signed_002dbyte">signed-byte</a>
+<li><a href="unsigned_002dbyte.html#unsigned_002dbyte">unsigned-byte</a>
+<li><a href="mod-_0028Type-Specifier_0029.html#mod-_0028Type-Specifier_0029">mod (Type Specifier)</a>
+<li><a href="bit-_0028Type_0029.html#bit-_0028Type_0029">bit (Type)</a>
+<li><a href="fixnum.html#fixnum">fixnum</a>
+<li><a href="bignum.html#bignum">bignum</a>
+<li><a href="_003d_003b-_002f_003d_003b-_003c_003b-_003e_003b-_003c_003d_003b-_003e_003d.html#g_t_003d_003b-_002f_003d_003b-_003c_003b-_003e_003b-_003c_003d_003b-_003e_003d">=; /=; &lt;; &gt;; &lt;=; &gt;=</a>
+<li><a href="max_003b-min.html#max_003b-min">max; min</a>
+<li><a href="minusp_003b-plusp.html#minusp_003b-plusp">minusp; plusp</a>
+<li><a href="zerop.html#zerop">zerop</a>
+<li><a href="floor_003b-ffloor_003b-ceiling_003b-fceiling_003b-truncate_003b-ftruncate_003b-round_003b-fround.html#floor_003b-ffloor_003b-ceiling_003b-fceiling_003b-truncate_003b-ftruncate_003b-round_003b-fround">floor; ffloor; ceiling; fceiling; truncate; ftruncate; round; fround</a>
+<li><a href="sin_003b-cos_003b-tan.html#sin_003b-cos_003b-tan">sin; cos; tan</a>
+<li><a href="asin_003b-acos_003b-atan.html#asin_003b-acos_003b-atan">asin; acos; atan</a>
+<li><a href="pi.html#pi">pi</a>
+<li><a href="sinh_003b-cosh_003b-tanh_003b-asinh_003b-acosh_003b-atanh.html#sinh_003b-cosh_003b-tanh_003b-asinh_003b-acosh_003b-atanh">sinh; cosh; tanh; asinh; acosh; atanh</a>
+<li><a href="_002a-_0028Function_0029.html#g_t_002a-_0028Function_0029">* (Function)</a>
+<li><a href="_002b-_0028Function_0029.html#g_t_002b-_0028Function_0029">+ (Function)</a>
+<li><a href="_002d-_0028Function_0029.html#g_t_002d-_0028Function_0029">- (Function)</a>
+<li><a href="_002f-_0028Function_0029.html#g_t_002f-_0028Function_0029">/ (Function)</a>
+<li><a href="1_002b_003b-1_002d.html#g_t1_002b_003b-1_002d">1+; 1-</a>
+<li><a href="abs.html#abs">abs</a>
+<li><a href="evenp_003b-oddp.html#evenp_003b-oddp">evenp; oddp</a>
+<li><a href="exp_003b-expt.html#exp_003b-expt">exp; expt</a>
+<li><a href="gcd.html#gcd">gcd</a>
+<li><a href="incf_003b-decf.html#incf_003b-decf">incf; decf</a>
+<li><a href="lcm.html#lcm">lcm</a>
+<li><a href="log.html#log">log</a>
+<li><a href="mod_003b-rem.html#mod_003b-rem">mod; rem</a>
+<li><a href="signum.html#signum">signum</a>
+<li><a href="sqrt_003b-isqrt.html#sqrt_003b-isqrt">sqrt; isqrt</a>
+<li><a href="random_002dstate.html#random_002dstate">random-state</a>
+<li><a href="make_002drandom_002dstate.html#make_002drandom_002dstate">make-random-state</a>
+<li><a href="random.html#random">random</a>
+<li><a href="random_002dstate_002dp.html#random_002dstate_002dp">random-state-p</a>
+<li><a href="_002arandom_002dstate_002a.html#g_t_002arandom_002dstate_002a">*random-state*</a>
+<li><a href="numberp.html#numberp">numberp</a>
+<li><a href="cis.html#cis">cis</a>
+<li><a href="complex-_0028Function_0029.html#complex-_0028Function_0029">complex (Function)</a>
+<li><a href="complexp.html#complexp">complexp</a>
+<li><a href="conjugate.html#conjugate">conjugate</a>
+<li><a href="phase.html#phase">phase</a>
+<li><a href="realpart_003b-imagpart.html#realpart_003b-imagpart">realpart; imagpart</a>
+<li><a href="upgraded_002dcomplex_002dpart_002dtype.html#upgraded_002dcomplex_002dpart_002dtype">upgraded-complex-part-type</a>
+<li><a href="realp.html#realp">realp</a>
+<li><a href="numerator_003b-denominator.html#numerator_003b-denominator">numerator; denominator</a>
+<li><a href="rational_003b-rationalize.html#rational_003b-rationalize">rational; rationalize</a>
+<li><a href="rationalp.html#rationalp">rationalp</a>
+<li><a href="ash.html#ash">ash</a>
+<li><a href="integer_002dlength.html#integer_002dlength">integer-length</a>
+<li><a href="integerp.html#integerp">integerp</a>
+<li><a href="parse_002dinteger.html#parse_002dinteger">parse-integer</a>
+<li><a href="boole.html#boole">boole</a>
+<li><a href="boole_002d1_003b-boole_002d2_003b-boole_002dand_003b-boole_002dandc1_003b-boole_002dandc2_003b-boole_002dc1_003b-boole_002d_002b.html#boole_002d1_003b-boole_002d2_003b-boole_002dand_003b-boole_002dandc1_003b-boole_002dandc2_003b-boole_002dc1_003b-boole_002d_002b">boole-1; boole-2; boole-and; boole-andc1; boole-andc2; boole-c1; boole-+</a>
+<li><a href="logand_003b-logandc1_003b-logandc2_003b-logeqv_003b-logior_003b-lognand_003b-lognor_003b-lognot_003b-lo_002b.html#logand_003b-logandc1_003b-logandc2_003b-logeqv_003b-logior_003b-lognand_003b-lognor_003b-lognot_003b-lo_002b">logand; logandc1; logandc2; logeqv; logior; lognand; lognor; lognot; lo+</a>
+<li><a href="logbitp.html#logbitp">logbitp</a>
+<li><a href="logcount.html#logcount">logcount</a>
+<li><a href="logtest.html#logtest">logtest</a>
+<li><a href="byte_003b-byte_002dsize_003b-byte_002dposition.html#byte_003b-byte_002dsize_003b-byte_002dposition">byte; byte-size; byte-position</a>
+<li><a href="deposit_002dfield.html#deposit_002dfield">deposit-field</a>
+<li><a href="dpb.html#dpb">dpb</a>
+<li><a href="ldb.html#ldb">ldb</a>
+<li><a href="ldb_002dtest.html#ldb_002dtest">ldb-test</a>
+<li><a href="mask_002dfield.html#mask_002dfield">mask-field</a>
+<li><a href="most_002dpositive_002dfixnum_003b-most_002dnegative_002dfixnum.html#most_002dpositive_002dfixnum_003b-most_002dnegative_002dfixnum">most-positive-fixnum; most-negative-fixnum</a>
+<li><a href="decode_002dfloat_003b-scale_002dfloat_003b-float_002dradix_003b-float_002dsign_003b-float_002ddigits_003b-float_002b.html#decode_002dfloat_003b-scale_002dfloat_003b-float_002dradix_003b-float_002dsign_003b-float_002ddigits_003b-float_002b">decode-float; scale-float; float-radix; float-sign; float-digits; float+</a>
+<li><a href="float-_0028Function_0029.html#float-_0028Function_0029">float (Function)</a>
+<li><a href="floatp.html#floatp">floatp</a>
+<li><a href="most_002dpositive_002dshort_002dfloat_003b-least_002dpositive_002dshort_002dfloat_003b-least_002dpositive_002dn_002b.html#most_002dpositive_002dshort_002dfloat_003b-least_002dpositive_002dshort_002dfloat_003b-least_002dpositive_002dn_002b">most-positive-short-float; least-positive-short-float; least-positive-n+</a>
+<li><a href="short_002dfloat_002depsilon_003b-short_002dfloat_002dnegative_002depsilon_003b-single_002dfloat_002depsilon_002b.html#short_002dfloat_002depsilon_003b-short_002dfloat_002dnegative_002depsilon_003b-single_002dfloat_002depsilon_002b">short-float-epsilon; short-float-negative-epsilon; single-float-epsilon+</a>
+<li><a href="arithmetic_002derror.html#arithmetic_002derror">arithmetic-error</a>
+<li><a href="arithmetic_002derror_002doperands_003b-arithmetic_002derror_002doperation.html#arithmetic_002derror_002doperands_003b-arithmetic_002derror_002doperation">arithmetic-error-operands; arithmetic-error-operation</a>
+<li><a href="division_002dby_002dzero.html#division_002dby_002dzero">division-by-zero</a>
+<li><a href="floating_002dpoint_002dinvalid_002doperation.html#floating_002dpoint_002dinvalid_002doperation">floating-point-invalid-operation</a>
+<li><a href="floating_002dpoint_002dinexact.html#floating_002dpoint_002dinexact">floating-point-inexact</a>
+<li><a href="floating_002dpoint_002doverflow.html#floating_002dpoint_002doverflow">floating-point-overflow</a>
+<li><a href="floating_002dpoint_002dunderflow.html#floating_002dpoint_002dunderflow">floating-point-underflow</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Numbers.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:23:48 GMT -->
+</html>
+

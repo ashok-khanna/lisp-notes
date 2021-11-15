@@ -1,0 +1,239 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Numeric-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Numeric Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Number-Concepts.html#Number-Concepts" title="Number Concepts">
+<link rel="next" href="Implementation_002dDependent-Numeric-Constants.html#Implementation_002dDependent-Numeric-Constants" title="Implementation-Dependent Numeric Constants">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Numeric-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Implementation_002dDependent-Numeric-Constants.html#Implementation_002dDependent-Numeric-Constants">Implementation-Dependent Numeric Constants</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Number-Concepts.html#Number-Concepts">Number Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">12.1.1 Numeric Operations</h4>
+
+<p><span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->provides a large variety of operations related to <i>numbers</i>. 
+This section provides an overview of those operations by grouping them
+into categories that emphasize some of the relationships among them.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> relating to
+arithmetic operations.
+
+<div class="float">
+<a name="fig12_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">* </td><td valign="top">1+ </td><td valign="top">gcd
+<br></td></tr><tr align="left"><td valign="top">+ </td><td valign="top">1- </td><td valign="top">incf
+<br></td></tr><tr align="left"><td valign="top">- </td><td valign="top">conjugate </td><td valign="top">lcm
+<br></td></tr><tr align="left"><td valign="top">/ </td><td valign="top">decf </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.1: Operators relating to Arithmetic.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>defined names</i> relating to
+exponential, logarithmic, and trigonometric operations.
+
+<div class="float">
+<a name="fig12_002e2"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">abs </td><td valign="top">cos </td><td valign="top">signum
+<br></td></tr><tr align="left"><td valign="top">acos </td><td valign="top">cosh </td><td valign="top">sin
+<br></td></tr><tr align="left"><td valign="top">acosh </td><td valign="top">exp </td><td valign="top">sinh
+<br></td></tr><tr align="left"><td valign="top">asin </td><td valign="top">expt </td><td valign="top">sqrt
+<br></td></tr><tr align="left"><td valign="top">asinh </td><td valign="top">isqrt </td><td valign="top">tan
+<br></td></tr><tr align="left"><td valign="top">atan </td><td valign="top">log </td><td valign="top">tanh
+<br></td></tr><tr align="left"><td valign="top">atanh </td><td valign="top">phase </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">cis </td><td valign="top">pi </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.2: Defined names relating to Exponentials, Logarithms, and Trigonometry.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> relating to
+numeric comparison and predication.
+
+<div class="float">
+<a name="fig12_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">/= </td><td valign="top">&gt;= </td><td valign="top">oddp
+<br></td></tr><tr align="left"><td valign="top">&lt; </td><td valign="top">evenp </td><td valign="top">plusp
+<br></td></tr><tr align="left"><td valign="top">&lt;= </td><td valign="top">max </td><td valign="top">zerop
+<br></td></tr><tr align="left"><td valign="top">= </td><td valign="top">min </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">&gt; </td><td valign="top">minusp </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.3: Operators for numeric comparison and predication.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>defined names</i> relating to
+numeric type manipulation and coercion.
+
+<div class="float">
+<a name="fig12_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">ceiling </td><td valign="top">float-radix </td><td valign="top">rational
+<br></td></tr><tr align="left"><td valign="top">complex </td><td valign="top">float-sign </td><td valign="top">rationalize
+<br></td></tr><tr align="left"><td valign="top">decode-float </td><td valign="top">floor </td><td valign="top">realpart
+<br></td></tr><tr align="left"><td valign="top">denominator </td><td valign="top">fround </td><td valign="top">rem
+<br></td></tr><tr align="left"><td valign="top">fceiling </td><td valign="top">ftruncate </td><td valign="top">round
+<br></td></tr><tr align="left"><td valign="top">ffloor </td><td valign="top">imagpart </td><td valign="top">scale-float
+<br></td></tr><tr align="left"><td valign="top">float </td><td valign="top">integer-decode-float </td><td valign="top">truncate
+<br></td></tr><tr align="left"><td valign="top">float-digits </td><td valign="top">mod </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">float-precision </td><td valign="top">numerator </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.4: Defined names relating to numeric type manipulation and coercion.</strong></p></div>
+
+<h5 class="subsubsection">12.1.1.1 Associativity and Commutativity in Numeric Operations</h5>
+
+<p>For functions that are mathematically associative (and possibly commutative),
+a <i>conforming implementation</i> may process the <i>arguments</i> in any manner
+consistent with associative (and possibly commutative) rearrangement.  This does not
+affect the order in which the <i>argument</i> <i>forms</i> are <i>evaluated</i>;
+for a discussion of evaluation order, see <a href="FunctionForms.html#FunctionForms">Section 3.1.2.1.2.3 (Function Forms)</a>. 
+What is unspecified is only the order in which the <i>parameter</i> <i>values</i>
+are processed.  This implies that <i>implementations</i> may differ in which
+automatic <i>coercions</i> are applied; see <a href="NumericContagionRules.html#NumericContagionRules">Section 12.1.1.2 (Contagion in Numeric Operations)</a>.
+
+<p>A <i>conforming program</i> can control the order of processing explicitly by
+separating the operations into separate (possibly nested) <i>function forms</i>,
+or by writing explicit calls to <i>functions</i> that perform coercions.
+
+<h5 class="unnumberedsubsubsec">12.1.1.1.1 Examples of Associativity and Commutativity in Numeric Operations</h5>
+
+<p>Consider the following expression, in which we assume that <code>1.0</code> and
+<code>1.0e-15</code> both denote <i>single floats</i>:
+
+<pre class="lisp"> (+ 1/3 2/3 1.0d0 1.0 1.0e-15)
+</pre>
+<p>One <i>conforming implementation</i> might
+process the <i>arguments</i> from left to right,
+first adding <code>1/3</code> and <code>2/3</code> to get <code>1</code>,
+then converting that to a <i>double float</i>
+for combination with <code>1.0d0</code>,
+then successively converting and adding <code>1.0</code> and <code>1.0e-15</code>.
+
+<p>Another <i>conforming implementation</i> might process the <i>arguments</i> from
+right to left, first performing a <i>single float</i> addition of <code>1.0</code> and
+<code>1.0e-15</code> (perhaps losing accuracy in the process), then converting the sum to
+a <i>double float</i> and adding <code>1.0d0</code>, then converting <code>2/3</code> to a
+<i>double float</i> and adding it, and then converting <code>1/3</code> and adding that.
+
+<p>A third <i>conforming implementation</i> might first scan all the <i>arguments</i>,
+process all the <i>rationals</i> first to keep that part of the computation exact,
+then find an <i>argument</i> of the largest floating-point format among all the
+<i>arguments</i> and add that, and then add in all other <i>arguments</i>, converting
+each in turn (all in a perhaps misguided attempt to make the computation as accurate
+as possible).
+
+<p>In any case, all three strategies are legitimate.
+
+<p>A <i>conforming program</i> could control the order by writing, for example,
+
+<pre class="lisp"> (+ (+ 1/3 2/3) (+ 1.0d0 1.0e-15) 1.0)
+</pre>
+<h5 class="subsubsection">12.1.1.2 Contagion in Numeric Operations</h5>
+
+<p><a name="NumericContagionRules"></a>For information about the contagion rules for implicit coercions of <i>arguments</i>
+in numeric operations, see
+<a href="RuleOfFloatPrecisionContagion.html#RuleOfFloatPrecisionContagion">Section 12.1.4.4 (Rule of Float Precision Contagion)</a>,
+<a href="RuleOfFloatAndRationalContagion.html#RuleOfFloatAndRationalContagion">Section 12.1.4.1 (Rule of Float and Rational Contagion)</a>,
+and <a href="RuleOfComplexContagion.html#RuleOfComplexContagion">Section 12.1.5.2 (Rule of Complex Contagion)</a>.
+
+<h5 class="subsubsection">12.1.1.3 Viewing Integers as Bits and Bytes</h5>
+
+<h5 class="unnumberedsubsubsec">12.1.1.3.1 Logical Operations on Integers</h5>
+
+<p>Logical operations require <i>integers</i> as arguments;
+an error of <i>type</i> <code>type-error</code> should be signaled
+if an argument is supplied that is not an <i>integer</i>. 
+<i>Integer</i> arguments to logical operations are treated as if
+they were represented in two's-complement notation.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>defined names</i> relating to
+logical operations on numbers.
+
+<div class="float">
+<a name="fig12_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">ash </td><td valign="top">boole-ior </td><td valign="top">logbitp
+<br></td></tr><tr align="left"><td valign="top">boole </td><td valign="top">boole-nand </td><td valign="top">logcount
+<br></td></tr><tr align="left"><td valign="top">boole-1 </td><td valign="top">boole-nor </td><td valign="top">logeqv
+<br></td></tr><tr align="left"><td valign="top">boole-2 </td><td valign="top">boole-orc1 </td><td valign="top">logior
+<br></td></tr><tr align="left"><td valign="top">boole-and </td><td valign="top">boole-orc2 </td><td valign="top">lognand
+<br></td></tr><tr align="left"><td valign="top">boole-andc1 </td><td valign="top">boole-set </td><td valign="top">lognor
+<br></td></tr><tr align="left"><td valign="top">boole-andc2 </td><td valign="top">boole-xor </td><td valign="top">lognot
+<br></td></tr><tr align="left"><td valign="top">boole-c1 </td><td valign="top">integer-length </td><td valign="top">logorc1
+<br></td></tr><tr align="left"><td valign="top">boole-c2 </td><td valign="top">logand </td><td valign="top">logorc2
+<br></td></tr><tr align="left"><td valign="top">boole-clr </td><td valign="top">logandc1 </td><td valign="top">logtest
+<br></td></tr><tr align="left"><td valign="top">boole-eqv </td><td valign="top">logandc2 </td><td valign="top">logxor
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.5: Defined names relating to logical operations on numbers.</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">12.1.1.3.2 Byte Operations on Integers</h5>
+
+<p>The byte-manipulation <i>functions</i> use <i>objects</i>
+called <i>byte specifiers</i> to designate the size and position
+of a specific <i>byte</i> within an <i>integer</i>. 
+The representation of a <i>byte specifier</i> is <i>implementation-dependent</i>;
+it might or might not be a <i>number</i>. 
+The <i>function</i> <code>byte</code> will construct a <i>byte specifier</i>,
+which various other byte-manipulation <i>functions</i> will accept.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>defined names</i> relating to
+manipulating <i>bytes</i> of <i>numbers</i>.
+
+<div class="float">
+<a name="fig12_002e6"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">byte </td><td valign="top">deposit-field </td><td valign="top">ldb-test
+<br></td></tr><tr align="left"><td valign="top">byte-position </td><td valign="top">dpb </td><td valign="top">mask-field
+<br></td></tr><tr align="left"><td valign="top">byte-size </td><td valign="top">ldb </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.6: Defined names relating to byte manipulation.</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Numeric-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:38 GMT -->
+</html>
+

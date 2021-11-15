@@ -1,0 +1,179 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Declaration-Scope.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+<head>
+<title>Declaration Scope - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Declarations.html#Declarations" title="Declarations">
+<link rel="prev" href="Declaration-Identifiers.html#Declaration-Identifiers" title="Declaration Identifiers">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Declaration-Scope"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Declaration-Identifiers.html#Declaration-Identifiers">Declaration Identifiers</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Declarations.html#Declarations">Declarations</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.3.4 Declaration Scope</h4>
+
+<p><i>Declarations</i> can be divided into two kinds: those that apply to the
+<i>bindings</i> of <i>variables</i> or <i>functions</i>; and those that
+do not apply to <i>bindings</i>.
+
+<p>A <i>declaration</i> that appears at the head of a binding <i>form</i>
+and applies to a <i>variable</i> or <i>function</i> <i>binding</i>
+made by that <i>form</i> is called a <a name="index-bound-declaration-209"></a><dfn>bound declaration</dfn>;
+such a <i>declaration</i> affects both the <i>binding</i> and
+any references within the <i>scope</i> of the <i>declaration</i>.
+
+<p><i>Declarations</i> that are not <i>bound declarations</i> are called
+<a name="index-free-declaration-210"></a><dfn>free declarations</dfn>.
+
+<p>A <i>free declaration</i> in a <i>form</i> F1 that applies to a <i>binding</i>
+for a <i>name</i> N <i>established</i> by some <i>form</i> F2
+of which F1 is a <i>subform</i>
+affects only references to N within F1; it does not to apply to
+other references to N outside of F1, nor does it affect the manner
+in which the <i>binding</i> of N by F2 is <i>established</i>.
+
+<p><i>Declarations</i> that do not apply to <i>bindings</i> can only appear
+as <i>free declarations</i>.
+
+<p>The <i>scope</i> of a <i>bound declaration</i> is the same as the
+<i>lexical scope</i>
+of the <i>binding</i> to which it applies;
+for <i>special variables</i>,
+this means the <i>scope</i> that the <i>binding</i>
+would have had had it been a <i>lexical binding</i>.
+
+<p>Unless explicitly stated otherwise, the <i>scope</i> of a
+<i>free declaration</i> includes only the body <i>subforms</i> of
+the <i>form</i> at whose head it appears, and no other <i>subforms</i>. 
+The <i>scope</i> of <i>free declarations</i> specifically does not
+include <i>initialization forms</i> for <i>bindings</i> established
+by the <i>form</i> containing the <i>declarations</i>.
+
+<p>Some <i>iteration forms</i> include step, end-test, or result
+<i>subforms</i> that are also included in the <i>scope</i>
+of <i>declarations</i> that appear in the <i>iteration form</i>. 
+Specifically, the <i>iteration forms</i> and <i>subforms</i> involved
+are:
+
+     <ul>
+<li><code>do</code>, <code>do*</code>:
+<var>step-forms</var>, <var>end-test-form</var>, and <var>result-forms</var>. 
+<li><code>dolist</code>, <code>dotimes</code>:
+<var>result-form</var>
+<li><code>do-all-symbols</code>, <code>do-external-symbols</code>, <code>do-symbols</code>:
+<var>result-form</var>
+</ul>
+
+<h5 class="subsubsection">3.3.4.1 Examples of Declaration Scope</h5>
+
+<p>Here is an example illustrating the <i>scope</i> of <i>bound declarations</i>.
+
+<pre class="lisp"> (let ((x 1))                ;[1] 1st occurrence of x
+   (declare (special x))     ;[2] 2nd occurrence of x
+   (let ((x 2))              ;[3] 3rd occurrence of x
+     (let ((old-x x)         ;[4] 4th occurrence of x
+           (x 3))            ;[5] 5th occurrence of x
+       (declare (special x)) ;[6] 6th occurrence of x
+       (list old-x x))))     ;[7] 7th occurrence of x
+<span class="roman">→</span> (2 3)
+</pre>
+<p>The first occurrence of <code>x</code> <i>establishes</i> a <i>dynamic binding</i>
+of <code>x</code> because of the <code>special</code> <i>declaration</i> for <code>x</code>
+in the second line.  The third occurrence of <code>x</code> <i>establishes</i> a
+<i>lexical binding</i> of <code>x</code> (because there is no <code>special</code>
+<i>declaration</i> in the corresponding <code>let</code> <i>form</i>). 
+The fourth occurrence of <code>x</code> <i>x</i> is a reference to the
+<i>lexical binding</i> of <code>x</code> established in the third line. 
+The fifth occurrence of <code>x</code> <i>establishes</i> a <i>dynamic binding</i>
+of <i>x</i> for the body of the <code>let</code> <i>form</i> that begins on
+that line because of the <code>special</code> <i>declaration</i> for <code>x</code>
+in the sixth line. The reference to <code>x</code> in the fourth line is not
+affected by the <code>special</code> <i>declaration</i> in the sixth line
+because that reference is not within the &ldquo;would-be <i>lexical scope</i>&rdquo;
+of the <i>variable</i> <code>x</code> in the fifth line.  The reference to <code>x</code>
+in the seventh line is a reference to the <i>dynamic binding</i> of <i>x</i>
+<i>established</i> in the fifth line.
+
+<p>Here is another example, to illustrate the <i>scope</i> of a
+<i>free declaration</i>.  In the following:
+
+<pre class="lisp"> (lambda (&amp;optional (x (foo 1))) ;[1]
+   (declare (notinline foo))     ;[2]
+   (foo x))                      ;[3]
+</pre>
+<p>the <i>call</i> to <code>foo</code> in the first line might be
+compiled inline even though the <i>call</i> to <code>foo</code> in
+the third line must not be.  This is because
+the <code>notinline</code> <i>declaration</i>
+for <code>foo</code> in the second line applies only to the body on the
+third line.  In order to suppress inlining for both <i>calls</i>,
+one might write:
+
+<pre class="lisp"> (locally (declare (notinline foo)) ;[1]
+   (lambda (&amp;optional (x (foo 1)))  ;[2]
+     (foo x)))                      ;[3]
+</pre>
+<p>or, alternatively:
+
+<pre class="lisp"> (lambda (&amp;optional                               ;[1]
+            (x (locally (declare (notinline foo)) ;[2]
+                 (foo 1))))                       ;[3]
+   (declare (notinline foo))                      ;[4]
+   (foo x))                                       ;[5]
+</pre>
+<p>Finally, here is an example that shows the <i>scope</i> of
+<i>declarations</i> in an <i>iteration form</i>.
+
+<pre class="lisp"> (let ((x  1))                     ;[1]
+   (declare (special x))           ;[2]
+     (let ((x 2))                  ;[3]
+       (dotimes (i x x)            ;[4]
+         (declare (special x)))))  ;[5]
+<span class="roman">→</span> 1
+</pre>
+<p>In this example, the first reference to <code>x</code> on the fourth line is to
+the <i>lexical binding</i> of <code>x</code> established on the third line. 
+However, the second occurrence of <code>x</code> on the fourth line lies within
+the <i>scope</i> of the <i>free declaration</i> on the fifth line
+(because this is the <var>result-form</var> of the <code>dotimes</code>)
+and therefore refers to the <i>dynamic binding</i> of <code>x</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Declaration-Scope.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:19 GMT -->
+</html>
+

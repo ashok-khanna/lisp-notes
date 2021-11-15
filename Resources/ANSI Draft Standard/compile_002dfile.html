@@ -1,0 +1,196 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/compile_002dfile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:05 GMT -->
+<head>
+<title>compile-file - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="System-Construction.html#System-Construction" title="System Construction">
+<link rel="prev" href="System-Construction-Concepts.html#System-Construction-Concepts" title="System Construction Concepts">
+<link rel="next" href="compile_002dfile_002dpathname.html#compile_002dfile_002dpathname" title="compile-file-pathname">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="compile-file"></a>
+<a name="compile_002dfile"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="compile_002dfile_002dpathname.html#compile_002dfile_002dpathname">compile-file-pathname</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="System-Construction-Concepts.html#System-Construction-Concepts">System Construction Concepts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="System-Construction.html#System-Construction">System Construction</a>
+<hr>
+</div>
+
+<h3 class="heading">compile-file (Function)</h3>
+
+<p><a name="index-compile_002dfile-3062"></a><a name="index-compile_002dfile-3063"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>compile-file</b><var> input-file </var><tt>&amp;key</tt><var> output-file&nbsp;verbose<!-- /@w --> print&nbsp;external-format<!-- /@w --> </var><span class="roman">→</span><var> output-truename, warnings-p, failure-p<a name="index-compile_002dfile-3064"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>input-file</var>&mdash;a <i>pathname designator</i>. 
+(Default fillers for unspecified components are taken from
+<code>*default-pathname-defaults*</code>.)
+
+<p><var>output-file</var>&mdash;a <i>pathname designator</i>. 
+The default is <i>implementation-defined</i>.
+
+<p><var>verbose</var>&mdash;a <i>generalized boolean</i>. 
+The default is the <i>value</i> of <code>*compile-verbose*</code>.
+
+<p><var>print</var>&mdash;a <i>generalized boolean</i>. 
+The default is the <i>value</i> of <code>*compile-print*</code>.
+
+<p><var>external-format</var>&mdash;an <i>external file format designator</i>. 
+The default is <tt>:default</tt>.
+
+<p><var>output-truename</var>&mdash;a <i>pathname</i> (the <code>truename</code> of the output <i>file</i>),
+or <code>nil</code>.
+
+<p><var>warnings-p</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>failure-p</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>compile-file</code> transforms the contents of the file specified
+by <var>input-file</var> into <i>implementation-dependent</i> binary data
+which are placed in the file specified by <var>output-file</var>.
+
+<p>The <i>file</i> to which <var>input-file</var> refers should be a <i>source file</i>. 
+<var>output-file</var> can be used to specify an output <i>pathname</i>;
+the actual <i>pathname</i> of the <i>compiled file</i>
+to which <i>compiled code</i> will be output
+is computed as if by calling <code>compile-file-pathname</code>.
+
+<p>If <var>input-file</var> or <var>output-file</var> is a <i>logical pathname</i>,
+it is translated into a <i>physical pathname</i> as if by calling
+<code>translate-logical-pathname</code>.
+
+<p>If <var>verbose</var> is <i>true</i>,
+<code>compile-file</code> prints a message in the form of a comment
+(<i>i.e.</i>, with a leading <i>semicolon</i>)
+to <i>standard output</i> indicating what <i>file</i> is being <i>compiled</i>
+and other useful information. 
+If <var>verbose</var> is <i>false</i>,
+<code>compile-file</code> does not print
+this information.
+
+<p>If <var>print</var> is <i>true</i>,
+information about <i>top level forms</i> in the file being
+compiled is printed to <i>standard output</i>. 
+Exactly what is printed is <i>implementation-dependent</i>,
+but nevertheless some information is printed. 
+If <var>print</var> is <code>nil</code>, no information is printed.
+
+<p>The <var>external-format</var> specifies the <i>external file format</i>
+to be used when opening the <i>file</i>; see the <i>function</i> <a href="open.html#open">open</a>. 
+<code>compile-file</code> and <code>load</code> must cooperate in such a way that
+the resulting <i>compiled file</i> can be <i>loaded</i>
+without specifying an <i>external file format</i> anew; see the <i>function</i> <a href="load.html#load">load</a>.
+
+<p><code>compile-file</code> binds <code>*readtable*</code> and <code>*package*</code>
+to the values they held before processing the file.
+
+<p><code>*compile-file-truename*</code> is bound by <code>compile-file</code>
+to hold the <i>truename</i> of the <i>pathname</i> of the file being compiled.
+
+<p><code>*compile-file-pathname*</code> is bound by <code>compile-file</code>
+to hold a <i>pathname</i> denoted by the first argument to <code>compile-file</code>,
+merged against the defaults;
+that is, <code>(pathname (merge-pathnames </code><var>input-file</var><code>))</code>.
+
+<p>The compiled <i>functions</i> contained in the <i>compiled file</i> become available
+for use when the <i>compiled file</i> is <i>loaded</i> into Lisp. 
+Any function definition that is processed by the
+compiler, including <code>#'(lambda ...)</code> forms and local function
+definitions made by <code>flet</code>, <code>labels</code> and <code>defun</code> forms,
+result in an <i>object</i> of <i>type</i> <code>compiled-function</code>.
+
+<p>The <i>primary value</i> returned by <code>compile-file</code>, <var>output-truename</var>,
+is the <code>truename</code> of the output file, or <code>nil</code>&nbsp;<!-- /@w -->if the file could not be created.
+
+<p>The <i>secondary value</i>, <var>warnings-p</var>, is <i>false</i>
+if no <i>conditions</i> of <i>type</i> <code>error</code> or <code>warning</code>
+were detected by the compiler, and <i>true</i> otherwise.
+
+<p>The <i>tertiary value</i>, <var>failure-p</var>, is <i>false</i>
+if no <i>conditions</i> of <i>type</i> <code>error</code> or <code>warning</code>
+(other than <code>style-warning</code>)
+were detected by the compiler, and <i>true</i> otherwise.
+
+<p>For general information about how <i>files</i> are processed by the <i>file compiler</i>,
+see <a href="File-Compilation.html#File-Compilation">Section 3.2.3 (File Compilation)</a>.
+
+<p><i>Programs</i> to be compiled by the <i>file compiler</i> must only contain
+<i>externalizable objects</i>; for details on such <i>objects</i>,
+see <a href="Literal-Objects-in-Compiled-Files.html#Literal-Objects-in-Compiled-Files">Section 3.2.4 (Literal Objects in Compiled Files)</a>. 
+For information on how to extend the set of <i>externalizable objects</i>,
+see the <i>function</i> <a href="make_002dload_002dform.html#make_002dload_002dform">make-load-form</a> and <a href="CallingMakeLoadForm.html#CallingMakeLoadForm">Section 3.2.4.4 (Additional Constraints on Externalizable Objects)</a>.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*error-output*</code>,
+<code>*standard-output*</code>, <code>*compile-verbose*</code>, <code>*compile-print*</code>
+
+<p>The computer's file system.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>For information about errors detected during the compilation process,
+see <a href="Exceptional-Situations-in-the-Compiler.html#Exceptional-Situations-in-the-Compiler">Section 3.2.5 (Exceptional Situations in the Compiler)</a>.
+
+<p>An error of <i>type</i> <code>file-error</code> might be signaled if
+<code>(wild-pathname-p </code><var>input-file</var><code>)</code> returns true.
+
+<p>If either the attempt to open the <i>source file</i> for input
+or the attempt to open the <i>compiled file</i> for output
+fails,
+an error of <i>type</i> <code>file-error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="compile.html#compile">compile</a>,
+<a href="declare.html#declare">declare</a>,
+<a href="eval_002dwhen.html#eval_002dwhen">eval-when</a>,
+<a href="pathname-_0028System-Class_0029.html#pathname-_0028System-Class_0029">pathname (System Class)</a>,
+<a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="File-System-Concepts.html#File-System-Concepts">Section 20.1 (File System Concepts)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/compile_002dfile.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:05 GMT -->
+</html>
+

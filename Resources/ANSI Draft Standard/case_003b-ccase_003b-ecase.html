@@ -1,0 +1,232 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/case_003b-ccase_003b-ecase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:43 GMT -->
+<head>
+<title>case; ccase; ecase - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="when_003b-unless.html#when_003b-unless" title="when; unless">
+<link rel="next" href="typecase_003b-ctypecase_003b-etypecase.html#typecase_003b-ctypecase_003b-etypecase" title="typecase; ctypecase; etypecase">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="case%3b-ccase%3b-ecase"></a>
+<a name="case_003b-ccase_003b-ecase"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="typecase_003b-ctypecase_003b-etypecase.html#typecase_003b-ctypecase_003b-etypecase">typecase; ctypecase; etypecase</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="when_003b-unless.html#when_003b-unless">when; unless</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">case, ccase, ecase (Macro)</h3>
+
+<p><a name="index-case-583"></a><a name="index-case-584"></a><a name="index-ccase-585"></a><a name="index-ccase-586"></a><a name="index-ecase-587"></a><a name="index-ecase-588"></a><a name="case"></a><a name="ccase"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>case</b><var> keyform </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><tt>[</tt><tt>↓</tt><var>otherwise-clause</var><tt>]</tt> <span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-case-589"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>ccase</b><var> keyplace </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-ccase-590"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>ecase</b><var> keyform </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-ecase-591"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>normal-clause</var>::=<dd><tt>(</tt>keys <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>otherwise-clause</var>::=<dd><tt>(</tt><tt>{</tt>otherwise | t<tt>}</tt> <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>clause</var>::=<dd>normal-clause | otherwise-clause
+</dl>
+
+<p><a name="index-otherwise-592"></a><a name="index-t-593"></a>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>keyform</var>&mdash;a <i>form</i>; evaluated to produce a <var>test-key</var>.
+
+<p><var>keyplace</var>&mdash;a <i>form</i>; evaluated initially to produce a <var>test-key</var>. 
+Possibly also used later as a <i>place</i> if no <var>keys</var> match.
+
+<p><var>test-key</var>&mdash;an object produced by evaluating <var>keyform</var> or <var>keyplace</var>.
+
+<p><var>keys</var>&mdash;a <i>designator</i> for a <i>list</i> of <i>objects</i>. 
+In the case of <code>case</code>, the <i>symbols</i> <code>t</code>&nbsp;<!-- /@w -->and <tt>otherwise</tt> may
+not be used as the <var>keys</var> <i>designator</i>.  To refer to these <i>symbols</i>
+by themselves as <var>keys</var>, the designators <code>(t)</code> and <code>(otherwise)</code>, respectively,
+must be used instead.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <var>forms</var>
+in the matching <var>clause</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>These <i>macros</i> allow the conditional execution of a body of <var>forms</var>
+in a <var>clause</var> that is selected by matching the <var>test-key</var> on the
+basis of its identity.
+
+<p>The <var>keyform</var> or <var>keyplace</var> is <i>evaluated</i> to produce the
+<var>test-key</var>.
+
+<p>Each of the <var>normal-clauses</var> is then considered in turn. 
+If the <var>test-key</var> is the <i>same</i> as any <i>key</i> for
+that <var>clause</var>, the <var>forms</var> in that <var>clause</var> are
+<var>evaluated</var> as an <i>implicit progn</i>, and the <i>values</i>
+it returns are returned as the value of the <code>case</code>,
+<code>ccase</code>, or <code>ecase</code> <i>form</i>.
+
+<p>These <i>macros</i> differ only in their <i>behavior</i> when
+no <var>normal-clause</var> matches; specifically:
+
+     <dl>
+<dt><code>case</code><dd>
+
+     <p>If no <var>normal-clause</var> matches, and there is an <var>otherwise-clause</var>,
+then that <var>otherwise-clause</var> automatically matches; the <var>forms</var> in
+that <var>clause</var> are <var>evaluated</var> as an <i>implicit progn</i>,
+and the <i>values</i> it returns are returned as the value of the <code>case</code>.
+
+     <p>If there is no <var>otherwise-clause</var>, <code>case</code> returns <code>nil</code>.
+
+     <br><dt><code>ccase</code><dd>
+
+     <p>If no <var>normal-clause</var> matches,
+a <i>correctable</i> <i>error</i> of <i>type</i> <code>type-error</code> is signaled. 
+The offending datum is the <var>test-key</var> and
+the expected type is <i>type equivalent</i> to <code>(member </code><var>key1</var> <var>key2</var><code> ...)</code>. 
+the <code>store-value</code> restart can be used to correct the error.
+
+     <p>If the <code>store-value</code> restart is invoked, its <i>argument</i> becomes the
+new <var>test-key</var>, and is stored in <var>keyplace</var> as if by
+<code>(setf </code><var>keyplace</var> <var>test-key</var><code>)</code>. 
+Then <code>ccase</code> starts over, considering each <var>clause</var> anew.
+
+     <p>The subforms of <var>keyplace</var> might be evaluated again if
+none of the cases holds.
+
+     <br><dt><code>ecase</code><dd>
+
+     <p>If no <var>normal-clause</var> matches,
+a <i>non-correctable</i> <i>error</i> of <i>type</i> <code>type-error</code> is signaled. 
+The offending datum is the <var>test-key</var> and
+the expected type is <i>type equivalent</i> to <code>(member </code><var>key1</var> <var>key2</var><code> ...)</code>.
+
+     <p>Note that in contrast with <code>ccase</code>,
+the caller of <code>ecase</code> may rely on the fact that <code>ecase</code>
+does not return if a <var>normal-clause</var> does not match. 
+</dl>
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (dolist (k '(1 2 3 :four #\v () t 'other))
+    (format t "~S "
+       (case k ((1 2) 'clause1)
+               (3 'clause2)
+               (nil 'no-keys-so-never-seen)
+               ((nil) 'nilslot)
+               ((:four #\v) 'clause4)
+               ((t) 'tslot)
+               (otherwise 'others))))
+▷ CLAUSE1 CLAUSE1 CLAUSE2 CLAUSE4 CLAUSE4 NILSLOT TSLOT OTHERS
+<span class="roman">→</span> NIL
+ (defun add-em (x) (apply #'+ (mapcar #'decode x)))
+<span class="roman">→</span> ADD-EM
+ (defun decode (x)
+   (ccase x
+     ((i uno) 1)
+     ((ii dos) 2)
+     ((iii tres) 3)
+     ((iv cuatro) 4)))
+<span class="roman">→</span> DECODE
+ (add-em '(uno iii)) <span class="roman">→</span> 4
+ (add-em '(uno iiii))
+▷ Error: The value of X, IIII, is not I, UNO, II, DOS, III,
+▷        TRES, IV, or CUATRO.
+▷  1: Supply a value to use instead.
+▷  2: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>:CONTINUE 1</kbd>
+▷ Value to evaluate and use for X: <kbd>'IV</kbd>
+<span class="roman">→</span> 5
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The debugger might be entered. 
+If the <code>store-value</code> restart is invoked,
+the <i>value</i> of <var>keyplace</var> might be changed.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>ccase</code> and <code>ecase</code>, since they might signal an error,
+are potentially affected by existing <var>handlers</var> and <code>*debug-io*</code>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p><code>ccase</code> and <code>ecase</code> signal an error of <i>type</i> <code>type-error</code>
+if no <var>normal-clause</var> matches.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="cond.html#cond">cond</a>,
+<a href="typecase.html#typecase">typecase</a>,
+<a href="setf.html#setf">setf</a>,
+<a href="Generalized-Reference.html#Generalized-Reference">Section 5.1 (Generalized Reference)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp">(case <var>test-key</var>
+  <tt>{</tt>((<tt>{</tt>key<tt>}</tt>*) <tt>{</tt>form<tt>}</tt>*)<tt>}</tt>*)
+≡
+(let ((#1=#:g0001 <var>test-key</var>))
+  (cond <tt>{</tt>((member #1# '(<tt>{</tt>key<tt>}</tt>*)) <tt>{</tt>form<tt>}</tt>*)<tt>}</tt>*))
+</pre>
+<p>The specific error message used by <code>ecase</code> and <code>ccase</code> can vary
+between implementations.  In situations where control of the specific wording
+of the error message is important, it is better to use <code>case</code> with an
+<var>otherwise-clause</var> that explicitly signals an error with an appropriate
+message.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/case_003b-ccase_003b-ecase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:43 GMT -->
+</html>
+

@@ -1,0 +1,149 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/reduce.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+<head>
+<title>reduce - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Sequences.html#Sequences" title="Sequences">
+<link rel="prev" href="map_002dinto.html#map_002dinto" title="map-into">
+<link rel="next" href="count_003b-count_002dif_003b-count_002dif_002dnot.html#count_003b-count_002dif_003b-count_002dif_002dnot" title="count; count-if; count-if-not">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="reduce"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="count_003b-count_002dif_003b-count_002dif_002dnot.html#count_003b-count_002dif_003b-count_002dif_002dnot">count; count-if; count-if-not</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="map_002dinto.html#map_002dinto">map-into</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Sequences.html#Sequences">Sequences</a>
+<hr>
+</div>
+
+<h3 class="heading">reduce (Function)</h3>
+
+<p><a name="index-reduce-2316"></a><a name="index-reduce-2317"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>reduce</b><var> function sequence </var><tt>&amp;key</tt><var> key from-end start end initial-value </var><span class="roman">→</span><var> result<a name="index-reduce-2318"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>function</var>&mdash;a <i>designator</i> for a <i>function</i>
+that might be called with either zero or two <i>arguments</i>.
+
+<p><var>sequence</var>&mdash;a <i>proper sequence</i>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>from-end</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>start</var>, <var>end</var>&mdash;<i>bounding index designators</i> of <var>sequence</var>. 
+The defaults for <var>start</var> and <var>end</var> are <code>0</code> and <code>nil</code>, respectively.
+
+<p><var>initial-value</var>&mdash;an <i>object</i>.
+
+<p><var>result</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>reduce</code> uses a binary operation, <var>function</var>,
+to combine the <i>elements</i> of <var>sequence</var>
+<i>bounded</i> by <var>start</var> and <var>end</var>.
+
+<p>The <var>function</var> must accept as <i>arguments</i> two <i>elements</i>
+of <var>sequence</var> or the results from combining those <i>elements</i>. 
+The <var>function</var> must also be able to accept no arguments.
+
+<p>If <var>key</var> is supplied, it is used is used to extract the values to reduce. 
+The <var>key</var> function is applied exactly once to each element of <var>sequence</var>
+in the order implied by the reduction order but not to the value of
+<var>initial-value</var>, if supplied. 
+The <var>key</var> function typically returns part of the <i>element</i> of <var>sequence</var>. 
+If <var>key</var> is not supplied or is <code>nil</code>, the <var>sequence</var> <i>element</i> itself is used.
+
+<p>The reduction is left-associative,
+unless <var>from-end</var> is <i>true</i> in which case it is right-associative.
+
+<p>If <var>initial-value</var> is supplied,
+it is logically placed before the subsequence
+(or after it if <var>from-end</var> is <i>true</i>)
+and included in the reduction operation.
+
+<p>In the normal case, the result of <code>reduce</code> is the combined
+result of <var>function</var>'s being applied to successive pairs of <i>elements</i>
+of <var>sequence</var>. 
+If the subsequence contains exactly one <i>element</i>
+and no <var>initial-value</var> is given,
+then that <i>element</i> is returned and <var>function</var> is not called. 
+If the subsequence is empty and an <var>initial-value</var> is given,
+then the <var>initial-value</var> is returned and <var>function</var> is not called. 
+If the subsequence is empty and no <var>initial-value</var> is given,
+then the <var>function</var> is called with zero arguments,
+and <code>reduce</code> returns whatever <var>function</var> does. 
+This is the only case where the
+<var>function</var> is called with other than two arguments.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (reduce #'* '(1 2 3 4 5)) <span class="roman">→</span> 120
+ (reduce #'append '((1) (2)) :initial-value '(i n i t)) <span class="roman">→</span> (I N I T 1 2)
+ (reduce #'append '((1) (2)) :from-end t
+                             :initial-value '(i n i t)) <span class="roman">→</span> (1 2 I N I T)
+ (reduce #'- '(1 2 3 4)) ≡ (- (- (- 1 2) 3) 4) <span class="roman">→</span> -8
+ (reduce #'- '(1 2 3 4) :from-end t)    ;Alternating sum.
+≡ (- 1 (- 2 (- 3 4))) <span class="roman">→</span> -2
+ (reduce #'+ '()) <span class="roman">→</span> 0
+ (reduce #'+ '(3)) <span class="roman">→</span> 3
+ (reduce #'+ '(foo)) <span class="roman">→</span> FOO
+ (reduce #'list '(1 2 3 4)) <span class="roman">→</span> (((1 2) 3) 4)
+ (reduce #'list '(1 2 3 4) :from-end t) <span class="roman">→</span> (1 (2 (3 4)))
+ (reduce #'list '(1 2 3 4) :initial-value 'foo) <span class="roman">→</span> ((((foo 1) 2) 3) 4)
+ (reduce #'list '(1 2 3 4)
+        :from-end t :initial-value 'foo) <span class="roman">→</span> (1 (2 (3 (4 foo))))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should be prepared to signal an error of <i>type</i> <code>type-error</code> if
+<var>sequence</var> is not a <i>proper sequence</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/reduce.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+</html>
+

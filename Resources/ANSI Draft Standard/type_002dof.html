@@ -1,0 +1,167 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/type_002dof.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:19 GMT -->
+<head>
+<title>type-of - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Types-and-Classes.html#Types-and-Classes" title="Types and Classes">
+<link rel="prev" href="subtypep.html#subtypep" title="subtypep">
+<link rel="next" href="typep.html#typep" title="typep">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="type-of"></a>
+<a name="type_002dof"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="typep.html#typep">typep</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="subtypep.html#subtypep">subtypep</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Types-and-Classes.html#Types-and-Classes">Types and Classes</a>
+<hr>
+</div>
+
+<h3 class="heading">type-of (Function)</h3>
+
+<p><a name="index-type_002dof-405"></a><a name="index-type_002dof-406"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>type-of</b><var> object </var><span class="roman">→</span><var> typespec<a name="index-type_002dof-407"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>typespec</var>&mdash;a <i>type specifier</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns a <i>type specifier</i>, <var>typespec</var>, for a <i>type</i>
+that has the <var>object</var> as an <i>element</i>. 
+The <var>typespec</var> satisfies the following:
+
+     <ol type=1 start=1>
+
+     <li>For any <var>object</var> that is an <i>element</i> of some <i>built-in type</i>:
+
+          <ol type=a start=1>
+<li>the <i>type</i> returned is a <i>recognizable subtype</i> of that <i>built-in type</i>.
+
+          <li>the <i>type</i> returned does not involve
+<code>and</code>,
+<code>eql</code>,
+<code>member</code>,
+<code>not</code>,
+<code>or</code>,
+<code>satisfies</code>,
+or <code>values</code>.
+          </ol>
+
+     <li>For all <var>objects</var>, <code>(typep </code><var>object</var><code> (type-of </code><var>object</var><code>))</code>
+returns <i>true</i>. 
+Implicit in this is that <i>type specifiers</i> which are
+not valid for use with <code>typep</code>, such as the <i>list</i> form of the
+<code>function</code> <i>type specifier</i>, are never returned by <code>type-of</code>.
+
+     <li>The <i>type</i> returned by <code>type-of</code> is always a <i>recognizable subtype</i>
+of the <i>class</i> returned by <code>class-of</code>.  That is,
+
+     <pre class="lisp">      (subtypep (type-of <var>object</var>) (class-of <var>object</var>)) <span class="roman">→</span> <i>true</i>, <i>true</i>
+</pre>
+     <li>For <var>objects</var> of metaclass <code>structure-class</code> or <code>standard-class</code>,
+and for <i>conditions</i>,
+<code>type-of</code> returns the <i>proper name</i> of the <i>class</i> returned
+by <code>class-of</code> if it has a <i>proper name</i>,
+and otherwise returns the <i>class</i> itself. 
+In particular, for <var>objects</var> created by the constructor function
+of a structure defined with <code>defstruct</code> without a <tt>:type</tt> option,
+<code>type-of</code> returns the structure name; and for <var>objects</var> created
+by <code>make-condition</code>, the <var>typespec</var> is the <i>name</i> of the
+<i>condition</i> <i>type</i>.
+
+     <li>For each of the <i>types</i>
+<code>short-float</code>,
+<code>single-float</code>,
+<code>double-float</code>,
+or <code>long-float</code>
+of which the <var>object</var> is an <i>element</i>,
+the <var>typespec</var> is a <i>recognizable subtype</i> of that <i>type</i>.
+     </ol>
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"></pre>
+<pre class="lisp"> (type-of 'a) <span class="roman">→</span> SYMBOL
+ (type-of '(1 . 2))
+<span class="roman">→</span> CONS
+or<span class="roman">→</span> (CONS FIXNUM FIXNUM)
+ (type-of #c(0 1))
+<span class="roman">→</span> COMPLEX
+or<span class="roman">→</span> (COMPLEX INTEGER)
+ (defstruct temp-struct x y z) <span class="roman">→</span> TEMP-STRUCT
+ (type-of (make-temp-struct)) <span class="roman">→</span> TEMP-STRUCT
+ (type-of "abc")
+<span class="roman">→</span> STRING
+or<span class="roman">→</span> (STRING 3)
+ (subtypep (type-of "abc") 'string) <span class="roman">→</span> <i>true</i>, <i>true</i>
+ (type-of (expt 2 40))
+<span class="roman">→</span> BIGNUM
+or<span class="roman">→</span> INTEGER
+or<span class="roman">→</span> (INTEGER 1099511627776 1099511627776)
+or<span class="roman">→</span> SYSTEM::TWO-WORD-BIGNUM
+or<span class="roman">→</span> FIXNUM
+ (subtypep (type-of 112312) 'integer) <span class="roman">→</span> <i>true</i>, <i>true</i>
+ (defvar *foo* (make-array 5 :element-type t)) <span class="roman">→</span> *FOO*
+ (class-name (class-of *foo*)) <span class="roman">→</span> VECTOR
+ (type-of *foo*)
+<span class="roman">→</span> VECTOR
+or<span class="roman">→</span> (VECTOR T 5)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="array_002delement_002dtype.html#array_002delement_002dtype">array-element-type</a>,
+<a href="class_002dof.html#class_002dof">class-of</a>,
+<a href="defstruct.html#defstruct">defstruct</a>,
+<a href="typecase.html#typecase">typecase</a>,
+<a href="typep.html#typep">typep</a>,
+<a href="Types.html#Types">Section 4.2 (Types)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Implementors are encouraged to arrange for <code>type-of</code> to return
+a portable value.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/type_002dof.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:20 GMT -->
+</html>
+

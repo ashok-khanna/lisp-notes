@@ -1,0 +1,99 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Inheritance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Inheritance - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Classes.html#Classes" title="Classes">
+<link rel="prev" href="Creating-Instances-of-Classes.html#Creating-Instances-of-Classes" title="Creating Instances of Classes">
+<link rel="next" href="Determining-the-Class-Precedence-List.html#Determining-the-Class-Precedence-List" title="Determining the Class Precedence List">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Inheritance"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Determining-the-Class-Precedence-List.html#Determining-the-Class-Precedence-List">Determining the Class Precedence List</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Creating-Instances-of-Classes.html#Creating-Instances-of-Classes">Creating Instances of Classes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Classes.html#Classes">Classes</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.3.4 Inheritance</h4>
+
+<p>A <i>class</i> can inherit <i>methods</i>, <i>slots</i>,
+and some <code>defclass</code> options from its <i>superclasses</i>. 
+Other sections describe the inheritance of <i>methods</i>,
+the inheritance of <i>slots</i> and <i>slot</i> options,
+and the inheritance of <i>class</i> options.
+
+<h5 class="subsubsection">4.3.4.1 Examples of Inheritance</h5>
+
+<pre class="lisp"> (defclass C1 ()
+     ((S1 :initform 5.4 :type number)
+      (S2 :allocation :class)))
+
+ (defclass C2 (C1)
+     ((S1 :initform 5 :type integer)
+      (S2 :allocation :instance)
+      (S3 :accessor C2-S3)))
+</pre>
+<p><i>Instances</i> of the class <code>C1</code> have a <i>local slot</i> named <code>S1</code>,
+whose default initial value is 5.4 and
+whose <i>value</i> should always be a <i>number</i>. 
+The class <code>C1</code> also has a <i>shared slot</i> named <code>S2</code>.
+
+<p>There is a <i>local slot</i> named <code>S1</code> in <i>instances</i> of <code>C2</code>. 
+The default initial value of <code>S1</code> is 5. 
+The value of <code>S1</code> should always be of type <code>(and integer number)</code>. 
+There are also <i>local slots</i> named <code>S2</code> and <code>S3</code> in <i>instances</i> of <code>C2</code>. 
+The class <code>C2</code> has a <i>method</i> for <code>C2-S3</code> for reading the value of slot <code>S3</code>;
+there is also a <i>method</i> for <code>(setf C2-S3)</code> that writes the value of <code>S3</code>.
+
+<h5 class="subsubsection">4.3.4.2 Inheritance of Class Options</h5>
+
+<p>The <tt>:default-initargs</tt> class option is inherited.  The set of
+defaulted initialization arguments for a <i>class</i> is the union of the
+sets of initialization arguments supplied in
+the <tt>:default-initargs</tt> class options of the <i>class</i> and its <i>superclasses</i>. 
+When more than one default initial value <i>form</i> is supplied for a given
+initialization argument, the default initial value <i>form</i> that is used
+is the one supplied by the <i>class</i> that is most specific according to
+the <i>class precedence list</i>.
+
+<p>If a given <tt>:default-initargs</tt> class option specifies an
+initialization argument of the same <i>name</i> more than once, an
+error of <i>type</i> <code>program-error</code> is signaled.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Inheritance.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

@@ -1,0 +1,116 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Defaulting-of-Initialization-Arguments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Defaulting of Initialization Arguments - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization" title="Object Creation and Initialization">
+<link rel="prev" href="Declaring-the-Validity-of-Initialization-Arguments.html#Declaring-the-Validity-of-Initialization-Arguments" title="Declaring the Validity of Initialization Arguments">
+<link rel="next" href="Rules-for-Initialization-Arguments.html#Rules-for-Initialization-Arguments" title="Rules for Initialization Arguments">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Defaulting-of-Initialization-Arguments"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Rules-for-Initialization-Arguments.html#Rules-for-Initialization-Arguments">Rules for Initialization Arguments</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Declaring-the-Validity-of-Initialization-Arguments.html#Declaring-the-Validity-of-Initialization-Arguments">Declaring the Validity of Initialization Arguments</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.1.3 Defaulting of Initialization Arguments</h4>
+
+<p>A default value <i>form</i> can be supplied for an initialization
+argument by using the <tt>:default-initargs</tt> <i>class</i> option.  If an
+initialization argument is declared valid by some particular <i>class</i>,
+its default  value form might be specified by a different <i>class</i>. 
+In this case <tt>:default-initargs</tt> is used to supply a default value
+for an inherited initialization argument.
+
+<p>The <tt>:default-initargs</tt> option is used only to provide default
+values for initialization arguments; it does not declare a <i>symbol</i>
+as a valid initialization argument name.  Furthermore,
+the <tt>:default-initargs</tt> option is used only to provide default values for
+initialization arguments when making an <i>instance</i>.
+
+<p>The argument to the <tt>:default-initargs</tt> class
+option is a list of
+alternating initialization argument names and <i>forms</i>. 
+Each <i>form</i> is the
+default  value form for the corresponding initialization
+argument.  The default  value <i>form</i> of an initialization
+argument is used and evaluated only if that initialization argument
+does not appear in the arguments to <code>make-instance</code> and is not
+defaulted by a more specific <i>class</i>.  The default  value <i>form</i> is
+evaluated in the lexical environment of the <code>defclass</code> form that
+supplied it; the resulting value is used as the initialization
+argument's value.
+
+<p>The initialization arguments supplied to <code>make-instance</code> are combined
+with defaulted initialization arguments to produce a
+<i>defaulted initialization argument list</i>. A
+<i>defaulted initialization argument list</i>
+is a list of alternating initialization argument names and
+values in which unsupplied initialization arguments are defaulted and in
+which the explicitly supplied initialization arguments appear earlier in
+the list than the defaulted initialization arguments.  Defaulted
+initialization arguments are ordered according to the order in the
+<i>class precedence list</i> of the <i>classes</i> that supplied the default values.
+
+<p>There is a distinction between the purposes of the
+<tt>:default-initargs</tt> and the <tt>:initform</tt> options with respect to the
+initialization of <i>slots</i>.  The <tt>:default-initargs</tt>
+class option
+provides a mechanism for the user to give a default  value <i>form</i>
+for an initialization argument without knowing whether the
+initialization argument initializes a <i>slot</i>
+or is passed to a <i>method</i>. 
+If that initialization argument is not explicitly supplied in a call
+to <code>make-instance</code>, the default  value <i>form</i> is used, just
+as if it had been supplied in the call.  In contrast, the
+<tt>:initform</tt> slot option provides a mechanism for the user to give a
+default initial value form for a <i>slot</i>.  An <tt>:initform</tt> form is
+used to initialize a <i>slot</i> only if no initialization argument
+associated with that <i>slot</i> is given as an argument to
+<code>make-instance</code> or is defaulted by <tt>:default-initargs</tt>.
+
+<p><a name="index-order-of-evaluation-701"></a><a name="index-evaluation-order-702"></a>The order of evaluation of default value <i>forms</i> for initialization
+arguments and the order of evaluation of <tt>:initform</tt> forms are
+undefined.  If the order of evaluation is important,
+<code>initialize-instance</code> or <code>shared-initialize</code> <i>methods</i>
+should be used
+instead.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Defaulting-of-Initialization-Arguments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

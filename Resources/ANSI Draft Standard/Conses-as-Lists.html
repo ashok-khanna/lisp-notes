@@ -1,0 +1,134 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conses-as-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Conses as Lists - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Cons-Concepts.html#Cons-Concepts" title="Cons Concepts">
+<link rel="prev" href="Conses-as-Trees.html#Conses-as-Trees" title="Conses as Trees">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conses-as-Lists"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conses-as-Trees.html#Conses-as-Trees">Conses as Trees</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Cons-Concepts.html#Cons-Concepts">Cons Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">14.1.2 Conses as Lists</h4>
+
+<p>A <a name="index-list-1747"></a><dfn>list</dfn> is a chain of <i>conses</i> in which the <i>car</i> of each
+<i>cons</i> is an <i>element</i> of the <i>list</i>,
+and the <i>cdr</i> of each <i>cons</i> is either the next
+link in the chain or a terminating <i>atom</i>.
+
+<p>A <a name="index-proper-list-1748"></a><dfn>proper list</dfn> is a <i>list</i> terminated by the <i>empty list</i>. 
+The <i>empty list</i> is a <i>proper list</i>, but is not a <i>cons</i>.
+
+<p>An <a name="index-improper-list-1749"></a><dfn>improper list</dfn> is a <i>list</i> that is not a <i>proper list</i>;
+that is, it is a <i>circular list</i> or a <i>dotted list</i>.
+
+<p>A <a name="index-dotted-list-1750"></a><dfn>dotted list</dfn> is a <i>list</i> that has a terminating <i>atom</i>
+that is not the <i>empty list</i>.  A <i>non-nil</i> <i>atom</i> by itself
+is not considered to be a <i>list</i> of any kind&mdash;not even a <i>dotted list</i>.
+
+<p>A <a name="index-circular-list-1751"></a><dfn>circular list</dfn> is a chain of <i>conses</i> that has no termination
+because some <i>cons</i> in the chain is the <i>cdr</i> of a later <i>cons</i>.
+
+<div class="float">
+<a name="fig14_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">append </td><td valign="top">last </td><td valign="top">nbutlast </td><td valign="top">rest
+<br></td></tr><tr align="left"><td valign="top">butlast </td><td valign="top">ldiff </td><td valign="top">nconc </td><td valign="top">revappend
+<br></td></tr><tr align="left"><td valign="top">copy-alist </td><td valign="top">list </td><td valign="top">ninth </td><td valign="top">second
+<br></td></tr><tr align="left"><td valign="top">copy-list </td><td valign="top">list* </td><td valign="top">nreconc </td><td valign="top">seventh
+<br></td></tr><tr align="left"><td valign="top">eighth </td><td valign="top">list-length </td><td valign="top">nth </td><td valign="top">sixth
+<br></td></tr><tr align="left"><td valign="top">endp </td><td valign="top">make-list </td><td valign="top">nthcdr </td><td valign="top">tailp
+<br></td></tr><tr align="left"><td valign="top">fifth </td><td valign="top">member </td><td valign="top">pop </td><td valign="top">tenth
+<br></td></tr><tr align="left"><td valign="top">first </td><td valign="top">member-if </td><td valign="top">push </td><td valign="top">third
+<br></td></tr><tr align="left"><td valign="top">fourth </td><td valign="top">member-if-not </td><td valign="top">pushnew </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 14.3: Some defined names relating to lists.</strong></p></div>
+
+<h5 class="subsubsection">14.1.2.1 Lists as Association Lists</h5>
+
+<p>An <a name="index-association-list-1752"></a><dfn>association list</dfn> is a <i>list</i> of <i>conses</i>
+representing an association of <i>keys</i> with <i>values</i>,
+where the <i>car</i> of each <i>cons</i> is the <i>key</i>
+and the <i>cdr</i> is the <i>value</i> associated with that <i>key</i>.
+
+<div class="float">
+<a name="fig14_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">acons </td><td valign="top">assoc-if </td><td valign="top">pairlis </td><td valign="top">rassoc-if
+<br></td></tr><tr align="left"><td valign="top">assoc </td><td valign="top">assoc-if-not </td><td valign="top">rassoc </td><td valign="top">rassoc-if-not
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 14.4: Some defined names related to assocation lists.</strong></p></div>
+
+<h5 class="subsubsection">14.1.2.2 Lists as Sets</h5>
+
+<p><i>Lists</i> are sometimes viewed as sets by considering their elements
+unordered and by assuming there is no duplication of elements.
+
+<div class="float">
+<a name="fig14_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">adjoin </td><td valign="top">nset-difference </td><td valign="top">set-difference </td><td valign="top">union
+<br></td></tr><tr align="left"><td valign="top">intersection </td><td valign="top">nset-exclusive-or </td><td valign="top">set-exclusive-or </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">nintersection </td><td valign="top">nunion </td><td valign="top">subsetp </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 14.5: Some defined names related to sets.</strong></p></div>
+
+<h5 class="subsubsection">14.1.2.3 General Restrictions on Parameters that must be Lists</h5>
+
+<p>Except as explicitly specified otherwise,
+any <i>standardized</i> <i>function</i> that takes a <i>parameter</i>
+that is required to be a <i>list</i> should be prepared to signal
+an error of <i>type</i> <code>type-error</code> if the <i>value</i> received is a <i>dotted list</i>.
+
+<p>Except as explicitly specified otherwise,
+for any <i>standardized</i> <i>function</i> that takes a <i>parameter</i>
+that is required to be a <i>list</i>,
+the consequences are undefined
+if that <i>list</i> is <i>circular</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conses-as-Lists.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

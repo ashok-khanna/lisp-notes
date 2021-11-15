@@ -1,0 +1,142 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/revappend_003b-nreconc.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:50 GMT -->
+<head>
+<title>revappend; nreconc - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="append.html#append" title="append">
+<link rel="next" href="butlast_003b-nbutlast.html#butlast_003b-nbutlast" title="butlast; nbutlast">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="revappend%3b-nreconc"></a>
+<a name="revappend_003b-nreconc"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="butlast_003b-nbutlast.html#butlast_003b-nbutlast">butlast; nbutlast</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="append.html#append">append</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">revappend, nreconc (Function)</h3>
+
+<p><a name="index-revappend-1930"></a><a name="index-revappend-1931"></a><a name="index-nreconc-1932"></a><a name="index-nreconc-1933"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>revappend</b><var> list tail </var><span class="roman">→</span><var> result-list<a name="index-revappend-1934"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>nreconc</b><var> list tail </var><span class="roman">→</span><var> result-list<a name="index-nreconc-1935"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>list</var>&mdash;a <i>proper list</i>.
+
+<p><var>tail</var>&mdash;an <i>object</i>.
+
+<p><var>result-list</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>revappend</code> constructs a <i>copy</i><sub>2</sub> of <var>list</var>,
+but with the <i>elements</i> in reverse order.  It then appends (as if
+by <code>nconc</code>) the <var>tail</var> to that reversed list and returns the result.
+
+<p><code>nreconc</code> reverses the order of <i>elements</i> in <var>list</var>
+(as if by <code>nreverse</code>).  It then appends (as if by <code>nconc</code>)
+the <var>tail</var> to that reversed list and returns the result.
+
+<p>The resulting <i>list</i> shares <i>list structure</i> with <var>tail</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (let ((list-1 (list 1 2 3))
+       (list-2 (list 'a 'b 'c)))
+   (print (revappend list-1 list-2))
+   (print (equal list-1 '(1 2 3)))
+   (print (equal list-2 '(a b c))))
+▷ (3 2 1 A B C)
+▷ T
+▷ T
+<span class="roman">→</span> T
+
+ (revappend '(1 2 3) '()) <span class="roman">→</span> (3 2 1)
+ (revappend '(1 2 3) '(a . b)) <span class="roman">→</span> (3 2 1 A . B)
+ (revappend '() '(a b c)) <span class="roman">→</span> (A B C)
+ (revappend '(1 2 3) 'a) <span class="roman">→</span> (3 2 1 . A)
+ (revappend '() 'a) <span class="roman">→</span> A   ;degenerate case
+
+ (let ((list-1 '(1 2 3))
+       (list-2 '(a b c)))
+   (print (nreconc list-1 list-2))
+   (print (equal list-1 '(1 2 3)))
+   (print (equal list-2 '(a b c))))
+▷ (3 2 1 A B C)
+▷ NIL
+▷ T
+<span class="roman">→</span> T
+
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p><code>revappend</code> does not modify either of its <i>arguments</i>. 
+<code>nreconc</code> is permitted to modify <var>list</var> but not <var>tail</var>.
+
+<p>Although it might be implemented differently,
+<code>nreconc</code> is constrained to have side-effect behavior equivalent to:
+
+<pre class="lisp"> (nconc (nreverse <var>list</var>) <var>tail</var>)
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="reverse.html#reverse">reverse</a>,
+<a href="nreverse.html#nreverse">nreverse</a>,
+<a href="nconc.html#nconc">nconc</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The following functional equivalences are true,
+although good <i>implementations</i> will typically use a faster algorithm for
+achieving the same effect:
+
+<pre class="lisp"> (revappend <var>list</var> <var>tail</var>) ≡ (nconc (reverse <var>list</var>) <var>tail</var>)
+ (nreconc <var>list</var> <var>tail</var>) ≡ (nconc (nreverse <var>list</var>) <var>tail</var>)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/revappend_003b-nreconc.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:52 GMT -->
+</html>
+

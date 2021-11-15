@@ -1,0 +1,110 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/copy_002dlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:49 GMT -->
+<head>
+<title>copy-list - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="tree_002dequal.html#tree_002dequal" title="tree-equal">
+<link rel="next" href="list_003b-list_002a.html#list_003b-list_002a" title="list; list*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="copy-list"></a>
+<a name="copy_002dlist"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="list_003b-list_002a.html#list_003b-list_002a">list; list*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="tree_002dequal.html#tree_002dequal">tree-equal</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">copy-list (Function)</h3>
+
+<p><a name="index-copy_002dlist-1871"></a><a name="index-copy_002dlist-1872"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>copy-list</b><var> list </var><span class="roman">→</span><var> copy<a name="index-copy_002dlist-1873"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>list</var>&mdash;a <i>proper list</i> or a <i>dotted list</i>.
+
+<p><var>copy</var>&mdash;a <i>list</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns a <i>copy</i> of <var>list</var>. 
+If <var>list</var> is a <i>dotted list</i>,
+the resulting <i>list</i> will also be a <i>dotted list</i>.
+
+<p>Only the <i>list structure</i> of <var>list</var> is copied;
+the <i>elements</i> of the resulting list are
+the <i>same</i> as the corresponding <i>elements</i> of the given <var>list</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq lst (list 1 (list 2 3))) <span class="roman">→</span> (1 (2 3))
+ (setq slst lst) <span class="roman">→</span> (1 (2 3))
+ (setq clst (copy-list lst)) <span class="roman">→</span> (1 (2 3))
+ (eq slst lst) <span class="roman">→</span> <i>true</i>
+ (eq clst lst) <span class="roman">→</span> <i>false</i>
+ (equal clst lst) <span class="roman">→</span> <i>true</i>
+ (rplaca lst "one") <span class="roman">→</span> ("one" (2 3))
+ slst <span class="roman">→</span> ("one" (2 3))
+ clst <span class="roman">→</span> (1 (2 3))
+ (setf (caadr lst) "two") <span class="roman">→</span> "two"
+ lst <span class="roman">→</span> ("one" ("two" 3))
+ slst <span class="roman">→</span> ("one" ("two" 3))
+ clst <span class="roman">→</span> (1 ("two" 3))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>The consequences are undefined if <var>list</var> is a <i>circular list</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="copy_002dalist.html#copy_002dalist">copy-alist</a>,
+<a href="copy_002dseq.html#copy_002dseq">copy-seq</a>,
+<a href="copy_002dtree.html#copy_002dtree">copy-tree</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The copy created is <code>equal</code> to <var>list</var>, but not <code>eq</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/copy_002dlist.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:49 GMT -->
+</html>
+

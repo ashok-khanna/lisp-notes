@@ -1,0 +1,91 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Treatment-of-Other-Macros-Based-on-SETF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Treatment of Other Macros Based on SETF - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generalized-Reference.html#Generalized-Reference" title="Generalized Reference">
+<link rel="prev" href="Kinds-of-Places.html#Kinds-of-Places" title="Kinds of Places">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Treatment-of-Other-Macros-Based-on-SETF"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Kinds-of-Places.html#Kinds-of-Places">Kinds of Places</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generalized-Reference.html#Generalized-Reference">Generalized Reference</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.1.3 Treatment of Other Macros Based on SETF</h4>
+
+<p>For each of the &ldquo;read-modify-write&rdquo; <i>operators</i> in the next figure,
+and for any additional <i>macros</i>
+defined by the <i>programmer</i> using <code>define-modify-macro</code>,
+an exception is made to the normal rule of left-to-right evaluation of arguments. 
+Evaluation of <i>argument</i> <i>forms</i> occurs in left-to-right order,
+with the exception that for the <var>place</var> <i>argument</i>, the actual
+<i>read</i> of the &ldquo;old value&rdquo; from that <var>place</var> happens
+after all of the <i>argument</i> <i>form</i> <i>evaluations</i>,
+and just before a &ldquo;new value&rdquo; is computed and <i>written</i> back into the <var>place</var>.
+
+<p>Specifically, each of these <i>operators</i> can be viewed as involving a
+<i>form</i> with the following general syntax:
+
+<pre class="lisp"> (<i>operator</i> <tt>{</tt>preceding-form<tt>}</tt>* <var>place</var> <tt>{</tt>following-form<tt>}</tt>*)
+</pre>
+<p>The evaluation of each such <i>form</i> proceeds like this:
+
+     <ol type=1 start=1>
+<li><i>Evaluate</i> each of the <var>preceding-forms</var>, in left-to-right order. 
+<li><i>Evaluate</i> the <i>subforms</i> of the <var>place</var>,
+in the order specified by the second value of the <i>setf expansion</i>
+for that <var>place</var>. 
+<li><i>Evaluate</i> each of the <var>following-forms</var>, in left-to-right order. 
+<li><i>Read</i> the old value from <var>place</var>. 
+<li>Compute the new value. 
+<li>Store the new value into <var>place</var>.
+     </ol>
+
+<div class="float">
+<a name="fig5_002e9"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">decf </td><td valign="top">pop </td><td valign="top">pushnew
+<br></td></tr><tr align="left"><td valign="top">incf </td><td valign="top">push </td><td valign="top">remf
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.9: Read-Modify-Write Macros</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Treatment-of-Other-Macros-Based-on-SETF.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

@@ -1,0 +1,202 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/parse_002dnamestring.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:26 GMT -->
+<head>
+<title>parse-namestring - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Filenames.html#Filenames" title="Filenames">
+<link rel="prev" href="namestring_003b-file_002dnamestring_003b-directory_002dnamestring_003b-host_002dnamestring_003b-eno_002b.html#namestring_003b-file_002dnamestring_003b-directory_002dnamestring_003b-host_002dnamestring_003b-eno_002b" title="namestring; file-namestring; directory-namestring; host-namestring; eno+">
+<link rel="next" href="wild_002dpathname_002dp.html#wild_002dpathname_002dp" title="wild-pathname-p">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="parse-namestring"></a>
+<a name="parse_002dnamestring"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="wild_002dpathname_002dp.html#wild_002dpathname_002dp">wild-pathname-p</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="namestring_003b-file_002dnamestring_003b-directory_002dnamestring_003b-host_002dnamestring_003b-eno_002b.html#namestring_003b-file_002dnamestring_003b-directory_002dnamestring_003b-host_002dnamestring_003b-eno_002b">namestring; file-namestring; directory-namestring; host-namestring; eno+</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Filenames.html#Filenames">Filenames</a>
+<hr>
+</div>
+
+<h3 class="heading">parse-namestring (Function)</h3>
+
+<p><a name="index-parse_002dnamestring-2529"></a><a name="index-parse_002dnamestring-2530"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>parse-namestring</b><var> thing </var><tt>&amp;optional</tt><var> host default-pathname </var><tt>&amp;key</tt><var> start end junk-allowed </var><span class="roman">→</span><var> pathname, position<a name="index-parse_002dnamestring-2531"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>thing</var>&mdash;a <i>string</i>,
+a <i>pathname</i>,
+or a <i>stream associated with a file</i>.
+
+<p><var>host</var>&mdash;a <i>valid pathname host</i>, a <i>logical host</i>, or <code>nil</code>.
+
+<p><var>default-pathname</var>&mdash;a <i>pathname designator</i>. 
+The default is the <i>value</i> of <code>*default-pathname-defaults*</code>.
+
+<p><var>start</var>, <var>end</var>&mdash;<i>bounding index designators</i> of <var>thing</var>. 
+The defaults for <var>start</var> and <var>end</var> are <code>0</code> and <code>nil</code>, respectively.
+
+<p><var>junk-allowed</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>pathname</var>&mdash;a <i>pathname</i>, or <code>nil</code>.
+
+<p><var>position</var>&mdash;a <i>bounding index designator</i> for <var>thing</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Converts <var>thing</var> into a <i>pathname</i>.
+
+<p>The <var>host</var> supplies a host name with respect to which the parsing occurs.
+
+<p>If <var>thing</var> is a <i>stream associated with a file</i>,
+processing proceeds as if the <i>pathname</i> used to open that <i>file</i>
+had been supplied instead.
+
+<p>If <var>thing</var> is a <i>pathname</i>,
+the <var>host</var> and the host component of <var>thing</var> are compared. 
+If they match,
+two values are immediately returned: <var>thing</var> and <var>start</var>;
+otherwise (if they do not match), an error is signaled.
+
+<p>Otherwise (if <var>thing</var> is a <i>string</i>),
+<code>parse-namestring</code> parses the name of a <i>file</i> within
+the substring of <var>thing</var> bounded by <var>start</var> and <var>end</var>.
+
+<p>If <var>thing</var> is a <i>string</i> then
+the substring of <var>thing</var> <i>bounded</i> by <var>start</var> and <var>end</var>
+is parsed into a <i>pathname</i>
+as follows:
+
+     <ul>
+<li>If <var>host</var> is a <i>logical host</i> then <var>thing</var> is parsed
+as a <i>logical pathname</i> <i>namestring</i>
+on the <var>host</var>.
+
+     <li>If <var>host</var> is <code>nil</code>&nbsp;<!-- /@w -->and <var>thing</var> is a syntactically valid
+<i>logical pathname</i> <i>namestring</i> containing an explicit host,
+then it is parsed as a <i>logical pathname</i> <i>namestring</i>.
+
+     <li>If  <var>host</var> is <code>nil</code>,
+<var>default-pathname</var> is a <i>logical pathname</i>,
+and <var>thing</var> is a syntactically valid <i>logical pathname</i> <i>namestring</i>
+without an explicit host,
+then it is parsed as a <i>logical pathname</i> <i>namestring</i>
+on the host that is the host component of <var>default-pathname</var>.
+
+     <li>Otherwise, the parsing of <var>thing</var> is <i>implementation-defined</i>. 
+</ul>
+
+<p>In the first
+of these
+cases,
+the host portion of the <i>logical pathname</i> namestring
+and its following <i>colon</i> are optional.
+
+<p>If the host portion of the namestring and <var>host</var>
+are both present and do not match,
+an error is signaled.
+
+<p>If <var>junk-allowed</var> is <i>true</i>,
+then the <i>primary value</i> is the <i>pathname</i> parsed
+or, if no syntactically correct <i>pathname</i> was seen, <code>nil</code>. 
+If <var>junk-allowed</var> is <i>false</i>,
+then the entire substring is scanned,
+and the <i>primary value</i> is the <i>pathname</i> parsed.
+
+<p>In either case, the <i>secondary value</i>
+is the index into <var>thing</var> of the delimiter that terminated the parse,
+or the index beyond the substring if the parse terminated at the end of the substring
+(as will always be the case if <var>junk-allowed</var> is <i>false</i>).
+
+<p>Parsing a <i>null</i> <i>string</i> always succeeds,
+producing a <i>pathname</i> with all components (except the host) equal to <code>nil</code>.
+
+<p>If <var>thing</var> contains an explicit host name and no explicit device name,
+then it is <i>implementation-defined</i> whether <code>parse-namestring</code>
+will supply the standard default device for that host as the device component
+of the resulting <i>pathname</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq q (parse-namestring "test"))
+<span class="roman">→</span> #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME "test"
+       :TYPE NIL :VERSION NIL)
+ (pathnamep q) <span class="roman">→</span> <i>true</i>
+ (parse-namestring "test")
+<span class="roman">→</span> #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME "test"
+       :TYPE NIL :VERSION NIL), 4
+ (setq s (open <i>xxx</i>)) <span class="roman">→</span> #&lt;Input File Stream...&gt;
+ (parse-namestring s)
+<span class="roman">→</span> #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME <i>xxx</i>
+       :TYPE NIL :VERSION NIL), 0
+ (parse-namestring "test" nil nil :start 2 :end 4 )
+ <span class="roman">→</span> #S(PATHNAME ...), 15
+ (parse-namestring "foo.lisp")
+<span class="roman">→</span> #P"foo.lisp"
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>junk-allowed</var> is <i>false</i>,
+an error of <i>type</i> <code>parse-error</code> is signaled if <var>thing</var>
+does not consist entirely of the representation of a <i>pathname</i>,
+possibly surrounded on either side by <i>whitespace</i><sub>1</sub> characters if that is
+appropriate to the cultural conventions of the implementation.
+
+<p>If <var>host</var> is supplied and not <code>nil</code>,
+and <var>thing</var> contains a manifest host name,
+an error of <i>type</i> <code>error</code> is signaled if the hosts do not match.
+
+<p>If <var>thing</var> is a <i>logical pathname</i> namestring
+and if the host portion of the namestring and <var>host</var>
+are both present and do not match,
+an error of <i>type</i> <code>error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="pathname-_0028System-Class_0029.html#pathname-_0028System-Class_0029">pathname (System Class)</a>,
+<a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="File-System-Concepts.html#File-System-Concepts">Section 20.1 (File System Concepts)</a>,
+<a href="UnspecificComponent.html#UnspecificComponent">Section 19.2.2.2.3 (.UNSPECIFIC as a Component Value)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/parse_002dnamestring.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:26 GMT -->
+</html>
+

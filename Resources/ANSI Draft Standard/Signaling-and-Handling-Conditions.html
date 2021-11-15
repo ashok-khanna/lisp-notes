@@ -1,0 +1,307 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Signaling-and-Handling-Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Signaling and Handling Conditions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Condition-System-Concepts.html#Condition-System-Concepts" title="Condition System Concepts">
+<link rel="prev" href="Printing-Conditions.html#Printing-Conditions" title="Printing Conditions">
+<link rel="next" href="Assertions.html#Assertions" title="Assertions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Signaling-and-Handling-Conditions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Assertions.html#Assertions">Assertions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Printing-Conditions.html#Printing-Conditions">Printing Conditions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Condition-System-Concepts.html#Condition-System-Concepts">Condition System Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">9.1.4 Signaling and Handling Conditions</h4>
+
+<p>The operation of the condition system depends on the ordering of
+active <i>applicable handlers</i> from most recent to least recent.
+
+<p>Each <i>handler</i> is associated with a <i>type specifier</i>
+that must designate a subtype of <i>type</i> <code>condition</code>.  A <i>handler</i>
+is said to be <i>applicable</i> to a <i>condition</i> if that
+<i>condition</i> is of the <i>type</i> designated by the associated
+<i>type specifier</i>.
+
+<p><i>Active</i> <i>handlers</i> are <i>established</i> by using
+<code>handler-bind</code> (or an abstraction based on <code>handler-bind</code>,
+such as <code>handler-case</code> or <code>ignore-errors</code>).
+
+<p><i>Active</i> <i>handlers</i> can be <i>established</i> within the
+dynamic scope of other <i>active</i> <i>handlers</i>. 
+At any point during program execution, there is a set of <i>active</i> <i>handlers</i>. 
+When a <i>condition</i> is signaled, the <i>most recent</i> active <i>applicable handler</i>
+for that <i>condition</i> is selected from this set. 
+Given a <i>condition</i>, the order of recentness of
+active <i>applicable handlers</i> is defined by the following two rules:
+
+     <ol type=1 start=1>
+
+     <li>Each handler in a set of active handlers H<sub>1</sub> is
+more recent than every handler in a set H<sub>2</sub> if the
+handlers in H<sub>2</sub> were active when the handlers in H<sub>1</sub> were
+established.
+
+     <li>Let h<sub>1</sub> and h<sub>2</sub> be two applicable active
+handlers established by the same <i>form</i>. Then h<sub>1</sub> is
+more recent than h<sub>2</sub> if h<sub>1</sub> was defined to the left of
+h<sub>2</sub> in the <i>form</i> that established them.
+     </ol>
+
+<p>Once a handler in a handler binding <i>form</i> (such as
+<code>handler-bind</code> or <code>handler-case</code>) has been selected, all
+handlers in that <i>form</i> become inactive for
+the remainder of the signaling process. 
+While the selected <i>handler</i> runs, no other <i>handler</i> established
+by that <i>form</i> is active. That is, if the <i>handler</i> declines,
+no other handler established by that <i>form</i> will be considered for possible invocation.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> relating to
+the <i>handling</i> of <i>conditions</i>.
+
+<div class="float">
+<a name="fig9_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">handler-bind </td><td valign="top">handler-case </td><td valign="top">ignore-errors
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 9.4: Operators relating to handling conditions.</strong></p></div>
+
+<h5 class="subsubsection">9.1.4.1 Signaling</h5>
+
+<p><a name="Signaling"></a>When a <i>condition</i> is signaled, the most recent
+applicable <i>active</i> <i>handler</i> is invoked. 
+Sometimes a handler will decline by simply returning
+without a transfer of control. 
+In such cases, the next most recent applicable active handler is
+invoked.
+
+<p>If there are no applicable handlers for a <i>condition</i> that
+has been signaled, or if all applicable handlers decline, the
+<i>condition</i> is unhandled.
+
+<p>The functions <code>cerror</code> and <code>error</code> invoke the
+interactive <i>condition</i> handler (the debugger) rather than
+return if the <i>condition</i> being signaled, regardless of
+its <i>type</i>, is unhandled.  In contrast, <code>signal</code>
+returns <code>nil</code>&nbsp;<!-- /@w -->if the <i>condition</i> being signaled,
+regardless of its <i>type</i>, is unhandled.
+
+<p>The <i>variable</i> <code>*break-on-signals*</code> can be used to cause the
+debugger to be entered before the signaling process begins.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>defined names</i> relating to
+the <i>signaling</i> of <i>conditions</i>.
+
+<div class="float">
+<a name="fig9_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*break-on-signals* </td><td valign="top">error </td><td valign="top">warn
+<br></td></tr><tr align="left"><td valign="top">cerror </td><td valign="top">signal </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 9.5: Defined names relating to signaling conditions.</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">9.1.4.1.1 Resignaling a Condition</h5>
+
+<p>During the <i>dynamic extent</i> of the <i>signaling</i> process for
+a particular <i>condition</i> <i>object</i>,
+<code>signaling</code> the same <i>condition</i> <i>object</i> again
+is permitted if and only if the <i>situation</i> represented in both
+cases are the same.
+
+<p>For example, a <i>handler</i> might legitimately <i>signal</i>
+the <i>condition</i> <i>object</i> that is its <i>argument</i>
+in order to allow outer <i>handlers</i> first opportunity to <i>handle</i>
+the condition.  (Such a <i>handlers</i> is sometimes called a &ldquo;default handler.&rdquo;)
+This action is permitted because the <i>situation</i> which the second
+<i>signaling</i> process is addressing is really the same <i>situation</i>.
+
+<p>On the other hand, in an <i>implementation</i> that implemented asynchronous
+keyboard events by interrupting the user process with a call to <code>signal</code>,
+it would not be permissible for two distinct asynchronous keyboard events
+to <i>signal</i> <i>identical</i> <i>condition</i> <i>objects</i>
+at the same time for different
+situations.
+
+<h5 class="subsubsection">9.1.4.2 Restarts</h5>
+
+<p><a name="Restarts"></a>The interactive condition handler returns only through
+non-local transfer of control to specially defined <i>restarts</i>
+that can be set up either by the system or by user code.  Transferring
+control to a restart is called &ldquo;invoking&rdquo; the restart.  Like
+handlers, active <i>restarts</i> are <i>established</i>
+dynamically, and
+only active <i>restarts</i>
+can be invoked.  An active
+<i>restart</i> can be invoked by the user from
+the debugger or by a program by using <code>invoke-restart</code>.
+
+<p>A <i>restart</i> contains a
+<i>function</i> to be <i>called</i> when the <i>restart</i> is
+invoked, an optional name that can be used to find or invoke the
+<i>restart</i>, and
+an optional set of interaction information for the debugger to use to
+enable the user to manually invoke a <i>restart</i>.
+
+<p>The name of a <i>restart</i> is
+used by <code>invoke-restart</code>. <i>Restarts</i> that can be invoked
+only within the debugger do not need names.
+
+<p><i>Restarts</i> can be established by using <code>restart-bind</code>,
+<code>restart-case</code>, and <code>with-simple-restart</code>. 
+A <i>restart</i> function can itself invoke any other <i>restart</i>
+that was active at the time of establishment of the <i>restart</i>
+of which the <i>function</i> is part.
+
+<p>The <i>restarts</i> <i>established</i> by
+a <code>restart-bind</code> <i>form</i>,
+a <code>restart-case</code> <i>form</i>,
+or a <code>with-simple-restart</code> <i>form</i>
+have <i>dynamic extent</i>
+which extends for the duration of that <i>form</i>'s execution.
+
+<p><i>Restarts</i> of the same name can be ordered from least recent to
+most recent according to the following two rules:
+
+     <ol type=1 start=1>
+
+     <li>Each <i>restart</i> in a set of active restarts
+R<sub>1</sub> is more recent than every <i>restart</i> in a
+set R<sub>2</sub> if the <i>restarts</i>
+in R<sub>2</sub> were active when the  <i>restarts</i> in R<sub>1</sub> were
+established.
+
+     <li>Let r<sub>1</sub> and r<sub>2</sub> be two active <i>restarts</i> with
+the same name established by the same <i>form</i>. Then r<sub>1</sub> is
+more recent than r<sub>2</sub> if r<sub>1</sub> was defined to the
+left of r<sub>2</sub> in the <i>form</i> that established them.
+     </ol>
+
+<p>If a <i>restart</i> is invoked but does not transfer control,
+the values resulting from the <i>restart</i> function are
+returned by the function that invoked the restart, either
+<code>invoke-restart</code> or <code>invoke-restart-interactively</code>.
+
+<h5 class="unnumberedsubsubsec">9.1.4.2.1 Interactive Use of Restarts</h5>
+
+<p>For interactive handling, two pieces of information are needed
+from a <i>restart</i>: a report function and an interactive function.
+
+<p>The report function
+is used by a program such as the debugger to
+present a description of the action the <i>restart</i> will take. 
+The report function is specified and established by the
+<tt>:report-function</tt> keyword to
+<code>restart-bind</code> or the
+<tt>:report</tt> keyword to <code>restart-case</code>.
+
+<p>The interactive function, which can be specified using the
+<tt>:interactive-function</tt> keyword to
+<code>restart-bind</code> or <tt>:interactive</tt> keyword
+to <code>restart-case</code>, is used when the <i>restart</i>
+is invoked
+interactively, such as from the debugger, to produce a suitable
+list of arguments.
+
+<p><code>invoke-restart</code> invokes the most recently <i>established</i>
+<i>restart</i> whose
+name is the same as the first argument to <code>invoke-restart</code>. 
+If a <i>restart</i> is invoked interactively by the debugger and  does
+not transfer control but rather returns values, the precise
+action of the debugger on those values is <i>implementation-defined</i>.
+
+<h5 class="unnumberedsubsubsec">9.1.4.2.2 Interfaces to Restarts</h5>
+
+<p><a name="InterfacesToRestarts"></a>Some <i>restarts</i> have functional interfaces,
+such as <code>abort</code>, <code>continue</code>,
+<code>muffle-warning</code>, <code>store-value</code>, and
+<code>use-value</code>. 
+They are ordinary functions that use
+<code>find-restart</code> and <code>invoke-restart</code> internally,
+that have the same name as the <i>restarts</i> they manipulate,
+and that are provided simply for notational convenience.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>defined names</i> relating to
+<i>restarts</i>.
+
+<div class="float">
+<a name="fig9_002e6"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">abort </td><td valign="top">invoke-restart-interactively </td><td valign="top">store-value
+<br></td></tr><tr align="left"><td valign="top">compute-restarts </td><td valign="top">muffle-warning </td><td valign="top">use-value
+<br></td></tr><tr align="left"><td valign="top">continue </td><td valign="top">restart-bind </td><td valign="top">with-simple-restart
+<br></td></tr><tr align="left"><td valign="top">find-restart </td><td valign="top">restart-case </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">invoke-restart </td><td valign="top">restart-name </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 9.6: Defined names relating to restarts.</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">9.1.4.2.3 Restart Tests</h5>
+
+<p>Each <i>restart</i> has an associated test, which is a function of one
+argument (a <i>condition</i> or <code>nil</code>) which returns <i>true</i> if the <i>restart</i>
+should be visible in the current <i>situation</i>.  This test is created by
+the <tt>:test-function</tt> option to <code>restart-bind</code> or
+the <tt>:test</tt> option to <code>restart-case</code>.
+
+<h5 class="unnumberedsubsubsec">9.1.4.2.4 Associating a Restart with a Condition</h5>
+
+<p><a name="AssocRestartWithCond"></a>A <i>restart</i> can be &ldquo;associated with&rdquo; a <i>condition</i> explicitly
+by <code>with-condition-restarts</code>, or implicitly by <code>restart-case</code>. 
+Such an assocation has <i>dynamic extent</i>.
+
+<p>A single <i>restart</i> may be associated with several <i>conditions</i>
+at the same time. 
+A single <i>condition</i> may have several associated <i>restarts</i>
+at the same time.
+
+<p>Active restarts associated with a particular <i>condition</i> can be detected
+by <i>calling</i> a <i>function</i> such as <code>find-restart</code>, supplying
+that <i>condition</i> as the <var>condition</var> <i>argument</i>. 
+Active restarts can also be detected without regard to any associated
+<i>condition</i> by calling such a function without a <var>condition</var> <i>argument</i>,
+or by supplying a value of <code>nil</code>&nbsp;<!-- /@w -->for such an <i>argument</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Signaling-and-Handling-Conditions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

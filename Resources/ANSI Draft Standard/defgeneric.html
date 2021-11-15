@@ -1,0 +1,296 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defgeneric.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:51 GMT -->
+<head>
+<title>defgeneric - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Objects.html#Objects" title="Objects">
+<link rel="prev" href="defclass.html#defclass" title="defclass">
+<link rel="next" href="defmethod.html#defmethod" title="defmethod">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defgeneric"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="defmethod.html#defmethod">defmethod</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="defclass.html#defclass">defclass</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Objects.html#Objects">Objects</a>
+<hr>
+</div>
+
+<h3 class="heading">defgeneric (Macro)</h3>
+
+<p><a name="index-defgeneric-795"></a><a name="index-defgeneric-796"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defgeneric</b><var> function-name gf-lambda-list 〚</var><tt>↓</tt><var>option | </var><tt>{</tt><tt>↓</tt><var>method-description</var><tt>}</tt><var>*〛 </var><span class="roman">→</span><var> new-generic<a name="index-defgeneric-797"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>option</var>::=<dd><tt>(</tt><tt>:argument-precedence-order</tt> <tt>{</tt><var>parameter-name</var><tt>}</tt>+<tt>)</tt> |<br> <tt>(</tt><tt>declare</tt> <tt>{</tt><var>gf-declaration</var><tt>}</tt>+<tt>)</tt> |<br> <tt>(</tt><tt>:documentation</tt> <var>gf-documentation</var><tt>)</tt> |<br> <tt>(</tt><tt>:method-combination</tt> <var>method-combination</var> <tt>{</tt>method-combination-argument<tt>}</tt>*<tt>)</tt> |<br> <tt>(</tt><tt>:generic-function-class</tt> <var>generic-function-class</var><tt>)</tt> |<br> <tt>(</tt><tt>:method-class</tt> <var>method-class</var><tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>method-description</var>::=<dd><tt>(</tt><tt>:method</tt> <tt>{</tt>method-qualifier<tt>}</tt>*&nbsp;<var>specialized-lambda-list</var><!-- /@w --> 〚<tt>{</tt>declaration<tt>}</tt>*&nbsp;<span class="roman">|</span>&nbsp;documentation〛&nbsp;<tt>{</tt>form<tt>}</tt>*<tt>)</tt><!-- /@w -->
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>function-name</var>&mdash;a <i>function name</i>.
+
+<p><var>generic-function-class</var>&mdash;a <i>non-nil</i> <i>symbol</i> naming a <i>class</i>.
+
+<p><var>gf-declaration</var>&mdash;an <code>optimize</code> <i>declaration specifier</i>;
+other <i>declaration specifiers</i> are not permitted.
+
+<p><var>gf-documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<p><var>gf-lambda-list</var>&mdash;a <i>generic function lambda list</i>.
+
+<p><var>method-class</var>&mdash;a <i>non-nil</i> <i>symbol</i> naming a <i>class</i>.
+
+<p><var>method-combination-argument</var>&mdash;an <i>object.</i>
+
+<p><var>method-combination-name</var>&mdash;a <i>symbol</i>
+naming a <i>method combination</i> <i>type</i>.
+
+<p><var>method-qualifiers</var>,
+<var>specialized-lambda-list</var>,
+<var>declarations</var>,
+<var>documentation</var>,
+<var>forms</var>&mdash;as per <code>defmethod</code>.
+
+<p><var>new-generic</var>&mdash;the <i>generic function</i> <i>object</i>.
+
+<p><var>parameter-name</var>&mdash;a <i>symbol</i> that names a <i>required parameter</i>
+in the <var>lambda-list</var>. 
+(If the <tt>:argument-precedence-order</tt> option is specified,
+each <i>required parameter</i> in the <var>lambda-list</var>
+must be used exactly once as a <var>parameter-name</var>.)
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The macro <code>defgeneric</code> is used to define a <i>generic function</i>
+or to specify options and declarations that pertain
+to a <i>generic function</i> as a whole.
+
+<p>If <var>function-name</var> is a
+<i>list</i> it must be of the form <code>(setf </code><i>symbol</i><code>)</code>. 
+If <code>(fboundp </code><var>function-name</var><code>)</code> is <i>false</i>, a new
+<i>generic function</i> is created. 
+If <code>(fdefinition </code><var>function-name</var><code>)</code> is a <i>generic function</i>, that
+<i>generic function</i>
+is modified.  If <var>function-name</var> names
+an <i>ordinary function</i>,
+a <i>macro</i>, or a <i>special operator</i>,
+an error is signaled.
+
+<p>The effect of the <code>defgeneric</code> macro is as if the following three
+steps were performed: first,
+<i>methods</i> defined by previous <code>defgeneric</code> <i>forms</i> are removed;
+
+<p>second, <code>ensure-generic-function</code>
+is called; and finally, <i>methods</i> specified by the current
+<code>defgeneric</code> <i>form</i> are added to the <i>generic function</i>.
+
+<p>Each <var>method-description</var> defines a <i>method</i> on the <i>generic function</i>. 
+The <i>lambda list</i> of each <i>method</i> must be congruent with the
+<i>lambda list</i>
+specified by the <var>gf-lambda-list</var> option. 
+If no <i>method</i> descriptions are specified and a <i>generic function</i> of the same
+name does not already exist, a <i>generic function</i> with no
+<i>methods</i> is created.
+
+<p>The <var>gf-lambda-list</var> argument of <code>defgeneric</code> specifies the shape of
+<i>lambda lists</i> for the <i>methods</i> on this <i>generic function</i>. 
+All <i>methods</i> on the resulting
+<i>generic function</i> must have
+<i>lambda lists</i> that are congruent with this shape.  If a <code>defgeneric</code>
+form is evaluated and some
+<i>methods</i> for that <i>generic function</i>
+have <i>lambda lists</i> that are not congruent with that given in
+the <code>defgeneric</code> form, an error is signaled.  For further details
+on method congruence, see <a href="Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html#Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function">Section 7.6.4 (Congruent Lambda-lists for all Methods of a Generic Function)</a>.
+
+<p>The <i>generic function</i> passes to the
+<i>method</i> all the argument values passed to
+it, and only those; default values are not supported. 
+Note that optional and keyword arguments in method definitions, however,
+can have default initial value forms and can use supplied-p parameters.
+
+<p>The following options are provided. 
+Except as otherwise noted,
+a given option may occur only once.
+
+     <ul>
+<li>The <tt>:argument-precedence-order</tt> option is used to specify the
+order in which the required arguments in a call to the <i>generic function</i>
+are tested for specificity when selecting a particular
+<i>method</i>. Each required argument, as specified in the <var>gf-lambda-list</var>
+argument, must be included exactly once as a <var>parameter-name</var>
+so that the full and unambiguous precedence order is
+supplied.  If this condition is not met, an error is signaled.
+
+     <li>The <tt>declare</tt> option is used to specify declarations that pertain
+to the <i>generic function</i>.
+
+     <p>An <code>optimize</code> <i>declaration specifier</i> is allowed. 
+It specifies whether method selection should be optimized for
+speed or space, but it has no effect on <i>methods</i>. 
+To control how a <i>method</i> is optimized, an <code>optimize</code>
+declaration must be placed directly in the <code>defmethod</code> <i>form</i>
+or method description.  The optimization qualities <tt>speed</tt> and
+<tt>space</tt> are the only qualities this standard requires, but an
+implementation can extend the object system&nbsp;<!-- /@w -->to recognize other qualities. 
+A simple implementation that has only one method selection technique
+and ignores <code>optimize</code> <i>declaration specifiers</i> is valid.
+
+     <p>The <code>special</code>, <code>ftype</code>, <code>function</code>, <code>inline</code>,
+<code>notinline</code>, and <code>declaration</code> declarations are not permitted. 
+Individual implementations can extend the <tt>declare</tt> option to
+support additional declarations.
+
+     <p>If an implementation notices a <i>declaration specifier</i> that it does
+not support and that has not been proclaimed as a non-standard
+<i>declaration identifier</i> name in a <code>declaration</code> <i>proclamation</i>,
+it should issue a warning.
+
+     <p>The <tt>declare</tt> option may be specified more than once. 
+The effect is the same as if the lists of <i>declaration specifiers</i>
+had been appended together into a single list and specified as a
+single <tt>declare</tt> option.
+
+     <li>The <tt>:documentation</tt> argument is a <i>documentation string</i>
+to be attached to the <i>generic function</i> <i>object</i>,
+and to be attached with kind <tt>function</tt> to the <var>function-name</var>.
+
+     <li>The <tt>:generic-function-class</tt> option may be used to specify that
+the <i>generic function</i> is to have a different <i>class</i> than
+the default provided by the system (the <i>class</i> <code>standard-generic-function</code>). 
+The <var>class-name</var> argument is the name of a <i>class</i> that can be the
+<i>class</i> of a <i>generic function</i>.  If <var>function-name</var> specifies
+an existing <i>generic function</i> that has a different value for the
+<tt>:generic-function-class</tt> argument and the new generic function
+<i>class</i> is compatible with the old, <code>change-class</code> is called
+to change the <i>class</i> of the <i>generic function</i>;
+otherwise an error is signaled.
+
+     <li>The <tt>:method-class</tt> option is used to specify that all <i>methods</i> on
+this <i>generic function</i> are to have a different <i>class</i> from the
+default provided by the system (the <i>class</i> <code>standard-method</code>). 
+The <var>class-name</var> argument is the name of a <i>class</i> that is capable
+of being the <i>class</i> of a <i>method</i>.
+
+     <li>The <tt>:method-combination</tt> option is followed by a symbol that
+names a type of method combination.  The arguments (if any) that
+follow that symbol depend on the type of method combination.  Note
+that the standard method combination type does not support any
+arguments.  However, all types of method combination defined by the
+short form of <code>define-method-combination</code> accept an optional
+argument named <var>order</var>, defaulting to <tt>:most-specific-first</tt>,
+where a value of <tt>:most-specific-last</tt> reverses
+the order of the primary <i>methods</i> without affecting the order of the
+auxiliary <i>methods</i>. 
+</ul>
+
+<p>The <var>method-description</var> arguments define <i>methods</i> that will
+be associated with the <i>generic function</i>.  The <var>method-qualifier</var>
+and <var>specialized-lambda-list</var> arguments in a method description
+are the same as for <code>defmethod</code>.
+
+<p>The <var>form</var> arguments specify the method body.  The body of the
+<i>method</i> is enclosed in an <i>implicit block</i>. 
+If <var>function-name</var> is a <i>symbol</i>, this block bears the same name as
+the <i>generic function</i>.  If <var>function-name</var> is a
+<i>list</i> of the
+form <code>(setf </code><var>symbol</var><code>)</code>, the name of the block is <var>symbol</var>.
+
+<p>Implementations can extend <code>defgeneric</code> to include other options. 
+It is required that an implementation signal an error if
+it observes an option that is not implemented locally.
+
+<p><code>defgeneric</code> is not required to perform any compile-time side effects. 
+In particular, the <i>methods</i> are not installed for invocation during
+compilation.  An <i>implementation</i> may choose to store information about
+the <i>generic function</i> for the purposes of compile-time error-checking
+(such as checking the number of arguments on calls, or noting that a definition
+for the function name has been seen).
+
+<h5 class="subsubheading">Examples:</h5>
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>function-name</var> names an <i>ordinary function</i>, a <i>macro</i>,
+or a <i>special operator</i>, an error of <i>type</i> <code>program-error</code> is signaled.
+
+<p>Each required argument, as specified in the <var>gf-lambda-list</var>
+argument, must be included exactly once as a <var>parameter-name</var>,
+or an error of <i>type</i> <code>program-error</code> is signaled.
+
+<p>The <i>lambda list</i> of each <i>method</i> specified by a
+<var>method-description</var> must be congruent with the <i>lambda list</i> specified
+by the <var>gf-lambda-list</var> option, or
+an error of <i>type</i> <code>error</code> is signaled.
+
+<p>If a <code>defgeneric</code> form is evaluated and some <i>methods</i> for
+that <i>generic function</i> have <i>lambda lists</i> that are not congruent with
+that given in the <code>defgeneric</code> form,
+an error of <i>type</i> <code>error</code> is signaled.
+
+<p>A given <var>option</var> may occur only once,
+or an error of <i>type</i> <code>program-error</code> is signaled.
+
+<p>If <var>function-name</var> specifies an existing <i>generic function</i>
+that has a different value for the <tt>:generic-function-class</tt>
+argument and the new generic function <i>class</i> is compatible with the
+old, <code>change-class</code> is called to change the <i>class</i> of
+the <i>generic function</i>; otherwise an error of <i>type</i> <code>error</code> is signaled.
+
+<p>Implementations can extend <code>defgeneric</code> to include other options. 
+It is required that an implementation
+signal an error of <i>type</i> <code>program-error</code> if
+it observes an option that is not implemented locally.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="defmethod.html#defmethod">defmethod</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="ensure_002dgeneric_002dfunction.html#ensure_002dgeneric_002dfunction">ensure-generic-function</a>,
+<a href="generic_002dfunction.html#generic_002dfunction">generic-function</a>,
+<a href="Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function.html#Congruent-Lambda_002dlists-for-all-Methods-of-a-Generic-Function">Section 7.6.4 (Congruent Lambda-lists for all Methods of a Generic Function)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defgeneric.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:51 GMT -->
+</html>
+

@@ -1,0 +1,130 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/values-_0028Accessor_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+<head>
+<title>values (Accessor) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="multiple_002dvalue_002dsetq.html#multiple_002dvalue_002dsetq" title="multiple-value-setq">
+<link rel="next" href="values_002dlist.html#values_002dlist" title="values-list">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="values-(Accessor)"></a>
+<a name="values-_0028Accessor_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="values_002dlist.html#values_002dlist">values-list</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="multiple_002dvalue_002dsetq.html#multiple_002dvalue_002dsetq">multiple-value-setq</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">values (Accessor)</h3>
+
+<p><a name="index-values-622"></a><a name="index-values-623"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>values</b> <tt>&amp;rest</tt><var> object </var><span class="roman">→</span> <tt>{</tt><var>object</var><tt>}</tt><var>*<a name="index-values-624"></a></var><br>
+     </div>
+
+<p><tt>(setf (values &amp;rest place) new-values)</tt>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>place</var>&mdash;a <i>place</i>.
+
+<p><var>new-value</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>values</code>
+returns the <var>objects</var> as <i>multiple values</i><sub>2</sub>.
+
+<p><code>setf</code> of <code>values</code> is used to store the
+<i>multiple values</i><sub>2</sub> <var>new-values</var> into the <var>places</var>. 
+See <a href="SETFofVALUES.html#SETFofVALUES">Section 5.1.2.3 (VALUES Forms as Places)</a>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (values) <span class="roman">→</span> &lt;no <i>values</i>&gt;
+ (values 1) <span class="roman">→</span> 1
+ (values 1 2) <span class="roman">→</span> 1, 2
+ (values 1 2 3) <span class="roman">→</span> 1, 2, 3
+ (values (values 1 2 3) 4 5) <span class="roman">→</span> 1, 4, 5
+ (defun polar (x y)
+   (values (sqrt (+ (* x x) (* y y))) (atan y x))) <span class="roman">→</span> POLAR
+ (multiple-value-bind (r theta) (polar 3.0 4.0)
+   (vector r theta))
+<span class="roman">→</span> #(5.0 0.927295)
+</pre>
+<p>Sometimes it is desirable to indicate explicitly that a function returns
+exactly one value.  For example, the function
+
+<pre class="lisp"> (defun foo (x y)
+   (floor (+ x y) y)) <span class="roman">→</span> FOO
+</pre>
+<p>returns two values because <code>floor</code> returns
+two values.  It may be that the second value makes no sense,
+or that for efficiency reasons it is desired not to compute the
+second value.  <code>values</code> is the standard idiom
+for indicating that only one value is to be returned:
+
+<pre class="lisp"> (defun foo (x y)
+   (values (floor (+ x y) y))) <span class="roman">→</span> FOO
+</pre>
+<p>This works because <code>values</code>
+returns exactly one value for each of
+<var>args</var>; as for any function call,
+if any of <var>args</var> produces more than one value, all but the
+first are discarded.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="values_002dlist.html#values_002dlist">values-list</a>,
+<a href="multiple_002dvalue_002dbind.html#multiple_002dvalue_002dbind">multiple-value-bind</a>,
+<a href="multiple_002dvalues_002dlimit.html#multiple_002dvalues_002dlimit">multiple-values-limit</a>,
+<a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Since <code>values</code> is a <i>function</i>, not a <i>macro</i> or <i>special form</i>,
+it receives as <i>arguments</i> only the <i>primary values</i> of
+its <i>argument</i> <i>forms</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/values-_0028Accessor_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+</html>
+

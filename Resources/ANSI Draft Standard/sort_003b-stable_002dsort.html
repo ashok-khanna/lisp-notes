@@ -1,0 +1,199 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/sort_003b-stable_002dsort.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+<head>
+<title>sort; stable-sort - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Sequences.html#Sequences" title="Sequences">
+<link rel="prev" href="reverse_003b-nreverse.html#reverse_003b-nreverse" title="reverse; nreverse">
+<link rel="next" href="find_003b-find_002dif_003b-find_002dif_002dnot.html#find_003b-find_002dif_003b-find_002dif_002dnot" title="find; find-if; find-if-not">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="sort%3b-stable-sort"></a>
+<a name="sort_003b-stable_002dsort"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="find_003b-find_002dif_003b-find_002dif_002dnot.html#find_003b-find_002dif_003b-find_002dif_002dnot">find; find-if; find-if-not</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="reverse_003b-nreverse.html#reverse_003b-nreverse">reverse; nreverse</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Sequences.html#Sequences">Sequences</a>
+<hr>
+</div>
+
+<h3 class="heading">sort, stable-sort (Function)</h3>
+
+<p><a name="index-sort-2337"></a><a name="index-sort-2338"></a><a name="index-stable_002dsort-2339"></a><a name="index-stable_002dsort-2340"></a><a name="sort"></a><a name="stable_002dsort"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>sort</b><var> sequence predicate </var><tt>&amp;key</tt><var> key </var><span class="roman">→</span><var> sorted-sequence<a name="index-sort-2341"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>stable-sort</b><var> sequence predicate </var><tt>&amp;key</tt><var> key </var><span class="roman">→</span><var> sorted-sequence<a name="index-stable_002dsort-2342"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>sequence</var>&mdash;a <i>proper sequence</i>.
+
+<p><var>predicate</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two arguments that returns a <i>generalized boolean</i>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>sorted-sequence</var>&mdash;a <i>sequence</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>sort</code> and <code>stable-sort</code> destructively sort <var>sequences</var>
+according to the order determined by the <var>predicate</var> function.
+
+<p>If <var>sequence</var> is a <i>vector</i>,
+the result is a <i>vector</i>
+that has the same <i>actual array element type</i> as <var>sequence</var>. 
+If <var>sequence</var> is a <i>list</i>,
+the result is a <i>list</i>.
+
+<p><code>sort</code> determines the relationship between two elements
+by giving keys extracted from the elements to the <var>predicate</var>. 
+The first argument to the <var>predicate</var> function is the part of one element
+of <var>sequence</var> extracted by the <var>key</var> function
+(if supplied); the second
+argument is the part of another element
+of <var>sequence</var> extracted by the <var>key</var> function
+(if supplied). 
+<var>Predicate</var> should return <i>true</i> if and only if the first argument is
+strictly less than the second (in some appropriate sense). 
+If the first argument is greater than or equal to the second
+(in the appropriate sense), then the <var>predicate</var> should return <i>false</i>.
+
+<p>The argument to the <var>key</var> function is the <var>sequence</var> element. 
+The return value of the <var>key</var> function
+becomes an argument to <var>predicate</var>. 
+If <var>key</var> is not supplied or <code>nil</code>, the <var>sequence</var> element itself is used. 
+There is no guarantee on the number of times the <var>key</var> will be called.
+
+<p>If the <var>key</var> and <var>predicate</var> always return,
+then the sorting operation will always terminate,
+producing a <i>sequence</i> containing the same <i>elements</i> as <var>sequence</var>
+(that is, the result is a permutation of <var>sequence</var>). 
+This is guaranteed even if the <var>predicate</var>
+does not really consistently represent a total order
+(in which case the <i>elements</i> will be scrambled in some unpredictable way,
+but no <i>element</i> will be lost). 
+If the <var>key</var> consistently returns meaningful keys,
+and the <var>predicate</var> does reflect some total ordering criterion on those keys,
+then the <i>elements</i> of the <var>sorted-sequence</var>
+will be properly sorted according to that ordering.
+
+<p>The sorting operation performed by <code>sort</code> is not guaranteed stable. 
+Elements considered equal by the <var>predicate</var> might or might not
+stay in their original order.  The <var>predicate</var> is assumed to
+consider two elements <code>x</code> and <code>y</code> to be equal if
+<code>(funcall </code><i>predicate</i> <i>x</i> <i>y</i><code>)</code> and
+<code>(funcall </code><i>predicate</i> <i>y</i> <i>x</i><code>)</code> are both <i>false</i>. 
+<code>stable-sort</code> guarantees stability.
+
+<p>The sorting operation can be destructive in all cases.  In the case of a
+<i>vector</i>
+argument, this is accomplished by permuting the elements in place. 
+In the case of a <i>list</i>, the <i>list</i> is
+destructively reordered in the same manner as for
+<code>nreverse</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq tester (copy-seq "lkjashd")) <span class="roman">→</span> "lkjashd"
+ (sort tester #'char-lessp) <span class="roman">→</span> "adhjkls"
+ (setq tester (list '(1 2 3) '(4 5 6) '(7 8 9))) <span class="roman">→</span> ((1 2 3) (4 5 6) (7 8 9))
+ (sort tester #'&gt; :key #'car)  <span class="roman">→</span> ((7 8 9) (4 5 6) (1 2 3))
+ (setq tester (list 1 2 3 4 5 6 7 8 9 0)) <span class="roman">→</span> (1 2 3 4 5 6 7 8 9 0)
+ (stable-sort tester #'(lambda (x y) (and (oddp x) (evenp y))))
+<span class="roman">→</span> (1 3 5 7 9 2 4 6 8 0)
+ (sort (setq committee-data
+             (vector (list (list "JonL" "White") "Iteration")
+                     (list (list "Dick" "Waters") "Iteration")
+                     (list (list "Dick" "Gabriel") "Objects")
+                     (list (list "Kent" "Pitman") "Conditions")
+                     (list (list "Gregor" "Kiczales") "Objects")
+                     (list (list "David" "Moon") "Objects")
+                     (list (list "Kathy" "Chapman") "Editorial")
+                     (list (list "Larry" "Masinter") "Cleanup")
+                     (list (list "Sandra" "Loosemore") "Compiler")))
+       #'string-lessp :key #'cadar)
+<span class="roman">→</span> #((("Kathy" "Chapman") "Editorial")
+     (("Dick" "Gabriel") "Objects")
+     (("Gregor" "Kiczales") "Objects")
+     (("Sandra" "Loosemore") "Compiler")
+     (("Larry" "Masinter") "Cleanup")
+     (("David" "Moon") "Objects")
+     (("Kent" "Pitman") "Conditions")
+     (("Dick" "Waters") "Iteration")
+     (("JonL" "White") "Iteration"))
+ ;; Note that individual alphabetical order within `committees'
+ ;; is preserved.
+ (setq committee-data
+       (stable-sort committee-data #'string-lessp :key #'cadr))
+<span class="roman">→</span> #((("Larry" "Masinter") "Cleanup")
+     (("Sandra" "Loosemore") "Compiler")
+     (("Kent" "Pitman") "Conditions")
+     (("Kathy" "Chapman") "Editorial")
+     (("Dick" "Waters") "Iteration")
+     (("JonL" "White") "Iteration")
+     (("Dick" "Gabriel") "Objects")
+     (("Gregor" "Kiczales") "Objects")
+     (("David" "Moon") "Objects"))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should be prepared to signal an error of <i>type</i> <code>type-error</code> if
+<var>sequence</var> is not a <i>proper sequence</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="merge.html#merge">merge</a>,
+<a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>,
+<a href="Destructive-Operations.html#Destructive-Operations">Section 3.7 (Destructive Operations)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>If <var>sequence</var> is a <i>vector</i>,
+the result might or might not be simple,
+and might or might not be <i>identical</i> to <var>sequence</var>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/sort_003b-stable_002dsort.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:19 GMT -->
+</html>
+

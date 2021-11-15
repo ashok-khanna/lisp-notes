@@ -1,0 +1,111 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/describe.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:12 GMT -->
+<head>
+<title>describe - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Environment.html#Environment" title="Environment">
+<link rel="prev" href="apropos_003b-apropos_002dlist.html#apropos_003b-apropos_002dlist" title="apropos; apropos-list">
+<link rel="next" href="describe_002dobject.html#describe_002dobject" title="describe-object">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="describe"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="describe_002dobject.html#describe_002dobject">describe-object</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="apropos_003b-apropos_002dlist.html#apropos_003b-apropos_002dlist">apropos; apropos-list</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Environment.html#Environment">Environment</a>
+<hr>
+</div>
+
+<h3 class="heading">describe (Function)</h3>
+
+<p><a name="index-describe-3124"></a><a name="index-describe-3125"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>describe</b><var> object </var><tt>&amp;optional</tt><var> stream </var><span class="roman">→</span><var> &lt;no </var><i>values</i><var>&gt;<a name="index-describe-3126"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>.
+
+<p><var>stream</var>&mdash;an <i>output</i> <i>stream designator</i>. 
+The default is <i>standard output</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>describe</code> displays information about <var>object</var>
+to <var>stream</var>.
+
+<p>For example, <code>describe</code> of a <i>symbol</i> might show the
+<i>symbol</i>'s value, its definition, and each of its properties. 
+<code>describe</code> of a <i>float</i> might show the number's
+internal representation in a way that is useful for tracking
+down round-off errors.  In all cases, however, the nature and format of the
+output of <code>describe</code> is <i>implementation-dependent</i>.
+
+<p><code>describe</code> can describe something that it finds inside the <var>object</var>;
+in such cases, a notational device such as increased indentation or positioning in a
+table is typically used in order to visually distinguish such recursive descriptions
+from descriptions of the argument <var>object</var>.
+
+<p>The actual act of describing the object is implemented by <code>describe-object</code>. 
+<code>describe</code> exists as an interface primarily to manage argument defaulting (including
+conversion of arguments <code>t</code>&nbsp;<!-- /@w -->and <code>nil</code>&nbsp;<!-- /@w -->into <i>stream</i> <i>objects</i>) and to inhibit
+any return values from <code>describe-object</code>.
+
+<p><code>describe</code> is not intended to be an interactive function.  In a
+<i>conforming implementation</i>, <code>describe</code> must not, by default,
+prompt for user input.  User-defined methods for <code>describe-object</code>
+are likewise restricted.
+
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>Output to <i>standard output</i> or <i>terminal I/O</i>.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-output*</code> and <code>*terminal-io*</code>,
+methods on <code>describe-object</code> and <code>print-object</code>
+for <i>objects</i> having user-defined <i>classes</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="inspect.html#inspect">inspect</a>, <a href="describe_002dobject.html#describe_002dobject">describe-object</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/describe.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:12 GMT -->
+</html>
+

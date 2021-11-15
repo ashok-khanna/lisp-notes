@@ -1,0 +1,519 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Overview-of-the-Loop-Facility.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Overview of the Loop Facility - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="next" href="Variable-Initialization-and-Stepping-Clauses.html#Variable-Initialization-and-Stepping-Clauses" title="Variable Initialization and Stepping Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Overview-of-the-Loop-Facility"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Variable-Initialization-and-Stepping-Clauses.html#Variable-Initialization-and-Stepping-Clauses">Variable Initialization and Stepping Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.1 Overview of the Loop Facility</h4>
+
+<p>The <code>loop</code> <i>macro</i> performs iteration.
+
+<h5 class="subsubsection">6.1.1.1 Simple vs Extended Loop</h5>
+
+<p><code>loop</code> <i>forms</i> are partitioned into two categories:
+simple <code>loop</code> <i>forms</i>
+and extended <code>loop</code> <i>forms</i>.
+
+<h5 class="unnumberedsubsubsec">6.1.1.1.1 Simple Loop</h5>
+
+<p><a name="SimpleLoop"></a>A simple <code>loop</code> <i>form</i> is one that has a body containing
+only <i>compound forms</i>. 
+Each <i>form</i> is <i>evaluated</i> in turn from left to right. 
+When the last <var>form</var> has been <i>evaluated</i>,
+then the first <var>form</var> is evaluated again, and so on, in a never-ending cycle. 
+A simple <code>loop</code> <i>form</i> establishes an <i>implicit block</i> named <code>nil</code>. 
+The execution of a simple <code>loop</code> can be terminated by explicitly
+transfering control to the <i>implicit block</i> (using <code>return</code> or
+<code>return-from</code>) or to some <i>exit point</i> outside of the <i>block</i>
+(<i>e.g.</i>, using <code>throw</code>, <code>go</code>, or <code>return-from</code>).
+
+<h5 class="unnumberedsubsubsec">6.1.1.1.2 Extended Loop</h5>
+
+<p>An extended <code>loop</code> <i>form</i> is one that has a body containing
+<i>atomic</i> <i>expressions</i>.  When the <code>loop</code> <i>macro</i> processes such a
+<i>form</i>, it invokes a facility that is commonly called &ldquo;the Loop Facility.&rdquo;
+
+<p>The Loop Facility provides standardized access to mechanisms commonly used
+in iterations through Loop schemas, which are introduced by <i>loop keywords</i>.
+
+<p>The body of an extended <code>loop</code> <i>form</i> is divided into <code>loop</code> clauses,
+each which is in turn made up of <i>loop keywords</i> and <i>forms</i>.
+
+<h5 class="subsubsection">6.1.1.2 Loop Keywords</h5>
+
+<p><i>Loop keywords</i> are not true <i>keywords</i><sub>1</sub>;
+they are special <i>symbols</i>, recognized by <i>name</i> rather than <i>object</i> identity,
+that are meaningful only to the <code>loop</code> facility. 
+A <i>loop keyword</i> is a <i>symbol</i> but is recognized by its <i>name</i>
+(not its identity), regardless of the <i>packages</i> in which it is <i>accessible</i>.
+
+<p>In general, <i>loop keywords</i> are not <i>external symbols</i> of the <code>COMMON-LISP</code> <i>package</i>,
+except in the coincidental situation that a <i>symbol</i> with the same name as a
+<i>loop keyword</i> was needed for some other purpose in <span class="roman">Common Lisp</span>.  For example,
+there is a <i>symbol</i> in the <code>COMMON-LISP</code> <i>package</i> whose <i>name</i> is <code>"UNLESS"</code> but
+not one whose <i>name</i> is <code>"UNTIL"</code>.
+
+<p>If no <i>loop keywords</i> are supplied in a <code>loop</code> <i>form</i>,
+the Loop Facility executes the loop body repeatedly; see <a href="SimpleLoop.html#SimpleLoop">Section 6.1.1.1.1 (Simple Loop)</a>.
+
+<h5 class="subsubsection">6.1.1.3 Parsing Loop Clauses</h5>
+
+<p>The syntactic parts of an extended <code>loop</code> <i>form</i> are called clauses;
+the rules for parsing are determined by
+that clause's keyword. 
+The following example shows a <code>loop</code> <i>form</i> with six clauses:
+
+<pre class="lisp"> (loop for i from 1 to (compute-top-value)       ; first clause
+       while (not (unacceptable i))              ; second clause
+       collect (square i)                        ; third clause
+       do (format t "Working on ~D now" i)       ; fourth clause
+       when (evenp i)                            ; fifth clause
+         do (format t "~D is a non-odd number" i)
+       finally (format t "About to exit!"))      ; sixth clause
+</pre>
+<p>Each <i>loop keyword</i> introduces
+either a compound loop clause or a simple loop clause
+that can consist of a <i>loop keyword</i> followed by a single <i>form</i>. 
+The number of <i>forms</i> in a clause is determined by the <i>loop keyword</i>
+that begins the clause and by the auxiliary keywords in the clause. 
+The keywords <code>do</code>,
+<code>doing</code>,
+<code>initially</code>, and <code>finally</code>
+are the only loop keywords that can take any number of <i>forms</i> and
+group them as an <i>implicit progn</i>.
+
+<p>Loop clauses can contain auxiliary keywords, which are sometimes
+called prepositions.  For example, the first clause in the code
+above includes the prepositions <code>from</code> and <code>to</code>,
+which mark the value from which stepping begins and the value at which stepping
+ends.
+
+<p>For detailed information about <code>loop</code> syntax,
+see the <i>macro</i> <a href="loop.html#loop">loop</a>.
+
+<h5 class="subsubsection">6.1.1.4 Expanding Loop Forms</h5>
+
+<p>A <code>loop</code> <i>macro form</i> expands into a <i>form</i> containing
+one or more binding forms (that <i>establish</i> <i>bindings</i> of loop variables)
+and a <code>block</code> and a <code>tagbody</code> (that express a looping control
+structure). The variables established in <code>loop</code> are bound as
+if by <code>let</code> or <tt>lambda</tt>.
+
+<p>Implementations can interleave the setting of initial values with the <i>bindings</i>. 
+However, the assignment of the initial values is always calculated in the order
+specified by the user.  A variable is thus sometimes bound to a meaningless value
+of the correct <i>type</i>, and then later in the prologue it is set to the true
+initial value by using <code>setq</code>. 
+One implication of this interleaving is that it is <i>implementation-dependent</i>
+whether the <i>lexical environment</i> in which the initial value <i>forms</i>
+(variously called the <var>form1</var>, <var>form2</var>, <var>form3</var>, <var>step-fun</var>,
+<var>vector</var>, <var>hash-table</var>, and <var>package</var>) in any <var>for-as-subclause</var>,
+except <var>for-as-equals-then</var>,
+are <i>evaluated</i> includes only the loop variables preceding that <i>form</i>
+or includes more or all of the loop variables;
+the <var>form1</var> and <var>form2</var> in a <var>for-as-equals-then</var> form
+includes the <i>lexical environment</i> of all the loop variables.
+
+<p>After the <i>form</i> is expanded, it consists of three basic parts in the
+<code>tagbody</code>:
+the loop prologue,
+the loop body,
+and the loop epilogue.
+
+     <dl>
+<dt><b>Loop prologue</b><dd>
+
+     <p>The loop prologue contains <i>forms</i>
+that are executed before iteration begins, such as
+any automatic variable initializations prescribed
+by the <var>variable</var> clauses, along with any <code>initially</code> clauses
+in the order they appear in the source.
+
+     <br><dt><b>Loop body</b><dd>
+
+     <p>The loop body contains those <i>forms</i> that are executed during iteration,
+including application-specific calculations, termination tests,
+and variable <i>stepping</i><sub>1</sub>.
+
+     <br><dt><b>Loop epilogue</b><dd>
+
+     <p>The loop epilogue contains <i>forms</i> that are executed after iteration
+terminates, such as <code>finally</code> clauses, if any, along
+with any implicit return value from an <var>accumulation</var> clause or
+an <var>termination-test</var> clause. 
+</dl>
+
+<p>Some clauses from the source <i>form</i>
+contribute code only to the loop prologue; these clauses must
+come before other clauses that are in the main body of the <code>loop</code> form. 
+Others contribute code only to the loop epilogue. 
+All other clauses contribute to the final
+translated <i>form</i> in the same
+order given in the original source <i>form</i> of the <code>loop</code>.
+
+<p>Expansion of the <code>loop</code> macro produces an <i>implicit block</i> named <code>nil</code>&nbsp;<!-- /@w -->
+unless <code>named</code> is supplied. 
+Thus, <code>return-from</code> (and sometimes <code>return</code>)
+can be used to return values from <code>loop</code> or to exit <code>loop</code>.
+
+<h5 class="subsubsection">6.1.1.5 Summary of Loop Clauses</h5>
+
+<p>Loop clauses fall into one of the following categories:
+
+<h5 class="unnumberedsubsubsec">6.1.1.5.1 Summary of Variable Initialization and Stepping Clauses</h5>
+
+<p>The <code>for</code> and <code>as</code> constructs provide iteration control clauses
+that establish a variable to be initialized. 
+<code>for</code> and <code>as</code> clauses can be combined with the loop
+keyword <code>and</code> to get <i>parallel</i> initialization and <i>stepping</i><sub>1</sub>. 
+Otherwise, the initialization and <i>stepping</i><sub>1</sub> are <i>sequential</i>.
+
+<p>The <code>with</code> construct is similar to a single <code>let</code> clause. 
+<code>with</code> clauses can be combined using the <i>loop keyword</i> <code>and</code>
+to get <i>parallel</i> initialization.
+
+<p>For more information, see <a href="Variable-Initialization-and-Stepping-Clauses.html#Variable-Initialization-and-Stepping-Clauses">Section 6.1.2 (Variable Initialization and Stepping Clauses)</a>.
+
+<h5 class="unnumberedsubsubsec">6.1.1.5.2 Summary of Value Accumulation Clauses</h5>
+
+<p>The <code>collect</code> (or <code>collecting</code>) construct
+takes one <i>form</i> in its clause
+and adds the value of that <i>form</i> to the end of a <i>list</i>
+of values.  By default, the <i>list</i> of values is returned
+when the <code>loop</code> finishes.
+
+<p>The <code>append</code> (or <code>appending</code>) construct
+takes one <i>form</i> in its clause
+and appends the value of that <i>form</i> to the end of a <i>list</i>
+of values.  By default, the <i>list</i> of values is returned when the
+<code>loop</code> finishes.
+
+<p>The <code>nconc</code> (or <code>nconcing</code>) construct
+is similar to the <code>append</code> construct,
+but its <i>list</i> values are concatenated as if by the function
+<code>nconc</code>.  By default, the <i>list</i> of values is returned when
+the <code>loop</code> finishes.
+
+<p>The <code>sum</code> (or <code>summing</code>) construct
+takes one <i>form</i> in its clause
+that must evaluate to a <i>number</i> and accumulates the sum of all these
+<i>numbers</i>.  By default, the cumulative sum is returned when the
+<code>loop</code> finishes.
+
+<p>The <code>count</code> (or <code>counting</code>) construct
+takes one <i>form</i> in its clause
+and counts the number of times that the <i>form</i> evaluates to <i>true</i>. 
+By default, the count is returned when the <code>loop</code> finishes.
+
+<p>The <code>minimize</code> (or <code>minimizing</code>) construct
+takes one <i>form</i> in its clause
+and determines the minimum value obtained by evaluating that <i>form</i>. 
+By default, the minimum value is returned when the <code>loop</code> finishes.
+
+<p>The <code>maximize</code> (or <code>maximizing</code>) construct
+takes one <i>form</i> in its clause
+and determines the maximum value obtained by evaluating that <i>form</i>. 
+By default, the maximum value is returned when the <code>loop</code> finishes.
+
+<p>For more information, see <a href="Value-Accumulation-Clauses.html#Value-Accumulation-Clauses">Section 6.1.3 (Value Accumulation Clauses)</a>.
+
+<h5 class="unnumberedsubsubsec">6.1.1.5.3 Summary of Termination Test Clauses</h5>
+
+<p>The <code>for</code> and <code>as</code> constructs provide a termination test
+that is determined by the iteration control clause.
+
+<p>The <code>repeat</code> construct causes termination after a specified
+number of iterations. 
+(It uses an internal variable to keep track of the number of iterations.)
+
+<p>The <code>while</code> construct takes one <i>form</i>, a <var>test</var>,
+and terminates the iteration if the <var>test</var> evaluates to <i>false</i>. 
+A <code>while</code> clause is equivalent to the expression
+<code>(if (not </code><var>test</var><code>) (loop-finish))</code>.
+
+<p>The <code>until</code> construct is the inverse of <code>while</code>;
+it terminates the iteration if the <var>test</var> evaluates to
+any <i>non-nil</i> value. 
+An <code>until</code> clause is equivalent to the expression
+<code>(if&nbsp;</code><var>test</var><code>&nbsp;(loop-finish))</code><!-- /@w -->.
+
+<p>The <code>always</code> construct takes one <i>form</i> and
+terminates the <code>loop</code> if the <i>form</i> ever evaluates to <i>false</i>;
+in this case, the <code>loop</code> <i>form</i> returns <code>nil</code>. 
+Otherwise, it provides a default return value of <code>t</code>.
+
+<p>The <code>never</code> construct takes one <i>form</i> and
+terminates the <code>loop</code> if the <i>form</i> ever evaluates to <i>true</i>;
+in this case, the <code>loop</code> <i>form</i> returns <code>nil</code>. 
+Otherwise, it provides a default return value of <code>t</code>.
+
+<p>The <code>thereis</code> construct takes one <i>form</i> and
+terminates the <code>loop</code> if the <i>form</i> ever evaluates to
+a <i>non-nil</i> <i>object</i>;
+in this case, the <code>loop</code> <i>form</i> returns that <i>object</i>. 
+Otherwise, it provides a default return value of <code>nil</code>.
+
+<p>If multiple termination test clauses are specified,
+the <code>loop</code> <i>form</i> terminates if any are satisfied.
+
+<p>For more information, see <a href="Termination-Test-Clauses.html#Termination-Test-Clauses">Section 6.1.4 (Termination Test Clauses)</a>.
+
+<h5 class="unnumberedsubsubsec">6.1.1.5.4 Summary of Unconditional Execution Clauses</h5>
+
+<p>The <code>do</code> (or <code>doing</code>) construct evaluates all <i>forms</i> in its clause.
+
+<p>The <code>return</code> construct takes one
+<i>form</i>. Any <i>values</i> returned by the <i>form</i> are
+immediately returned by the <code>loop</code> form. 
+It is equivalent to the clause
+<code>do (return-from </code><i>block-name</i> <i>value</i><code>)</code>,
+where <i>block-name</i> is the name specified in a <code>named</code>
+clause, or <code>nil</code>&nbsp;<!-- /@w -->if there is no <code>named</code> clause.
+
+<p>For more information, see <a href="Unconditional-Execution-Clauses.html#Unconditional-Execution-Clauses">Section 6.1.5 (Unconditional Execution Clauses)</a>.
+
+<h5 class="unnumberedsubsubsec">6.1.1.5.5 Summary of Conditional Execution Clauses</h5>
+
+<p>The <code>if</code> and <code>when</code> constructs take one <i>form</i> as a test
+and a clause that is executed when the test <i>yields</i> <i>true</i>. 
+The clause can be a value accumulation, unconditional, or
+another conditional clause; it can also be any combination
+of such clauses connected by the <code>loop</code> <code>and</code> keyword.
+
+<p>The <code>loop</code> <code>unless</code> construct is similar to the <code>loop</code> <code>when</code> construct
+except that it complements the test result.
+
+<p>The <code>loop</code> <code>else</code> construct provides an optional component of <code>if</code>,
+<code>when</code>, and <code>unless</code> clauses that is executed
+when an <code>if</code> or <code>when</code> test <i>yields</i> <i>false</i>
+or when an <code>unless</code> test <i>yields</i> <i>true</i>. 
+The component is one of the clauses described under <code>if</code>.
+
+<p>The <code>loop</code> <code>end</code> construct provides an optional component to mark the
+end of a conditional clause.
+
+<p>For more information, see <a href="Conditional-Execution-Clauses.html#Conditional-Execution-Clauses">Section 6.1.6 (Conditional Execution Clauses)</a>.
+
+<h5 class="unnumberedsubsubsec">6.1.1.5.6 Summary of Miscellaneous Clauses</h5>
+
+<p>The <code>loop</code> <code>named</code> construct gives a name for the <i>block</i> of the loop.
+
+<p>The <code>loop</code> <code>initially</code> construct causes its <i>forms</i> to be
+evaluated in the loop prologue, which precedes all <code>loop</code> code
+except for initial settings supplied by the constructs <code>with</code>,
+<code>for</code>, or <code>as</code>.
+
+<p>The <code>loop</code> <code>finally</code> construct causes its <i>forms</i> to
+be evaluated in the loop epilogue after normal iteration terminates.
+
+<p>For more information, see <a href="Miscellaneous-Clauses.html#Miscellaneous-Clauses">Section 6.1.7 (Miscellaneous Clauses)</a>.
+
+<h5 class="subsubsection">6.1.1.6 Order of Execution</h5>
+
+<p>With the exceptions listed below, clauses are executed in the loop body
+in the order in which they appear in the source.  Execution is repeated
+until a clause
+terminates the <code>loop</code> or until a <code>return</code>, <code>go</code>,
+or <code>throw</code> form is encountered
+which transfers control to a point outside of the loop. 
+The following actions are
+exceptions to the linear order of execution:
+
+     <ul>
+<li>All variables are initialized first,
+regardless of where the establishing clauses appear in the
+source.  The order of initialization follows the order of these clauses.
+
+     <li>The code for any <code>initially</code> clauses is collected
+into one <code>progn</code> in the order in which the clauses appear in
+the source.  The collected code is executed once in the loop prologue
+after any implicit variable initializations.
+
+     <li>The code for any <code>finally</code> clauses is collected
+into one <code>progn</code> in the order in which the clauses appear in
+the source.  The collected code is executed once in the loop epilogue
+before any implicit values from the accumulation clauses are returned. 
+Explicit returns anywhere in the source, however, will exit the
+<code>loop</code> without executing the epilogue code.
+
+     <li>A <code>with</code> clause introduces a variable <i>binding</i>
+and an optional initial value.  The initial values are calculated
+in the order in which the <code>with</code> clauses occur.
+
+     <li>Iteration control clauses implicitly perform the following actions:
+
+          <ul>
+<li>initialize variables;
+
+          <li><i>step</i> variables, generally
+between each execution of the loop body;
+
+          <li>perform termination tests,
+generally just before the execution of the
+loop body. 
+</ul>
+     </ul>
+
+<h5 class="subsubsection">6.1.1.7 Destructuring</h5>
+
+<p><a name="DestructuringLOOPVars"></a>The <var>d-type-spec</var> argument is used for destructuring. 
+If the
+<var>d-type-spec</var> argument consists solely of the <i>type</i> <code>fixnum</code>,
+<code>float</code>, <code>t</code>, or <code>nil</code>, the <code>of-type</code> keyword is optional. 
+The <code>of-type</code> construct is optional in these cases to provide backwards
+compatibility; thus, the following two expressions are the same:
+
+<pre class="lisp">;;; This expression uses the old syntax for type specifiers.
+ (loop for i fixnum upfrom 3 ...)
+
+;;; This expression uses the new syntax for type specifiers.
+ (loop for i of-type fixnum upfrom 3 ...)
+
+;; Declare X and Y to be of type VECTOR and FIXNUM respectively.
+ (loop for (x y) of-type (vector fixnum)
+       in l do ...)
+</pre>
+<p>A <i>type specifier</i> for a destructuring pattern is a <i>tree</i> of
+<i>type specifiers</i> with the same shape as the <i>tree</i> of
+<i>variable</i> <i>names</i>, with the following exceptions:
+
+     <ul>
+<li>When aligning the <i>trees</i>, an <i>atom</i> in the
+<i>tree</i> of <i>type specifiers</i> that matches a <i>cons</i>
+in the variable tree declares the same <i>type</i> for each variable
+in the subtree rooted at the <i>cons</i>.
+
+     <li>A <i>cons</i> in the <i>tree</i> of <i>type specifiers</i> that
+matches an <i>atom</i> in the <i>tree</i> of <i>variable</i> <i>names</i>
+is a <i>compound type specifer</i>. 
+</ul>
+
+<p>Destructuring allows <i>binding</i> of a set of variables to a corresponding
+set of values anywhere that a value can normally be bound to a single
+variable.  During <code>loop</code> expansion,
+each variable in the variable list
+is matched with the values in the values list.  If there are more variables
+in the variable list than there are values in the values list, the
+remaining variables are given a value of <code>nil</code>.  If there are more
+values than variables listed, the extra values are discarded.
+
+<p>To assign values from a list to the variables <code>a</code>,
+<code>b</code>, and <code>c</code>, the <code>for</code> clause could be used to
+bind the variable <code>numlist</code> to the
+<i>car</i> of the supplied <var>form</var>,
+and then another <code>for</code> clause could be used to bind the variables
+<code>a</code>, <code>b</code>, and <code>c</code> <i>sequentially</i>.
+
+<pre class="lisp">;; Collect values by using FOR constructs.
+ (loop for numlist in '((1 2 4.0) (5 6 8.3) (8 9 10.4))
+       for a of-type integer = (first numlist)
+       and b of-type integer = (second numlist)
+       and c of-type float = (third numlist)
+       collect (list c b a))
+<span class="roman">→</span> ((4.0 2 1) (8.3 6 5) (10.4 9 8))
+</pre>
+<p>Destructuring makes this process easier by allowing the variables to
+be bound in each loop iteration. 
+<i>Types</i> can be declared by using a
+list of <var>type-spec</var> arguments.  If
+all the <i>types</i>
+are the same, a shorthand destructuring syntax can be used, as the second
+example illustrates.
+
+<pre class="lisp">;; Destructuring simplifies the process.
+ (loop for (a b c) of-type (integer integer float) in
+       '((1 2 4.0) (5 6 8.3) (8 9 10.4))
+       collect (list c b a))
+<span class="roman">→</span> ((4.0 2 1) (8.3 6 5) (10.4 9 8))
+
+
+;; If all the types are the same, this way is even simpler.
+ (loop for (a b c) of-type float in
+       '((1.0 2.0 4.0) (5.0 6.0 8.3) (8.0 9.0 10.4))
+       collect (list c b a))
+<span class="roman">→</span> ((4.0 2.0 1.0) (8.3 6.0 5.0) (10.4 9.0 8.0))
+</pre>
+<p>If destructuring is used to declare or initialize a number of groups
+of variables into <i>types</i>, the <i>loop keyword</i> <code>and</code> can be used
+to simplify the process further.
+<pre class="lisp">;; Initialize and declare variables in parallel by using the AND construct.
+ (loop with (a b) of-type float = '(1.0 2.0)
+       and (c d) of-type integer = '(3 4)
+       and (e f)
+       return (list a b c d e f))
+<span class="roman">→</span> (1.0 2.0 3 4 NIL NIL)
+</pre>
+<p>If <code>nil</code>&nbsp;<!-- /@w -->is used in a destructuring list, no variable is provided for
+its place.
+
+<pre class="lisp"> (loop for (a nil b) = '(1 2 3)
+       do (return (list a b)))
+<span class="roman">→</span> (1 3)
+</pre>
+<p>Note that
+<i>dotted lists</i>
+can specify destructuring.
+
+<pre class="lisp"> (loop for (x . y) = '(1 . 2)
+       do (return y))
+<span class="roman">→</span> 2
+ (loop for ((a . b) (c . d)) of-type ((float . float) (integer . integer)) in
+       '(((1.2 . 2.4) (3 . 4)) ((3.4 . 4.6) (5 . 6)))
+       collect (list a b c d))
+<span class="roman">→</span> ((1.2 2.4 3 4) (3.4 4.6 5 6))
+</pre>
+<p>An error of <i>type</i> <code>program-error</code> is signaled (at macro expansion time)
+if the same variable is bound twice in any variable-binding
+clause of a single <code>loop</code> expression.  Such variables include
+local variables, iteration control variables, and variables found by
+destructuring.
+
+<h5 class="subsubsection">6.1.1.8 Restrictions on Side-Effects</h5>
+
+<p>See <a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Overview-of-the-Loop-Facility.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

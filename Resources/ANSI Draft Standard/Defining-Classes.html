@@ -1,0 +1,105 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Defining-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:27 GMT -->
+<head>
+<title>Defining Classes - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Classes.html#Classes" title="Classes">
+<link rel="prev" href="Introduction-to-Classes.html#Introduction-to-Classes" title="Introduction to Classes">
+<link rel="next" href="Creating-Instances-of-Classes.html#Creating-Instances-of-Classes" title="Creating Instances of Classes">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Defining-Classes"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Creating-Instances-of-Classes.html#Creating-Instances-of-Classes">Creating Instances of Classes</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-Classes.html#Introduction-to-Classes">Introduction to Classes</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Classes.html#Classes">Classes</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.3.2 Defining Classes</h4>
+
+<p>The macro <code>defclass</code> is used to define a new named <i>class</i>.
+
+<p>The definition of a <i>class</i> includes:
+
+     <ul>
+<li>The <i>name</i> of the new <i>class</i>. 
+For newly-defined <i>classes</i> this <i>name</i> is a <i>proper name</i>.
+
+     <li>The list of the direct <i>superclasses</i> of the new <i>class</i>.
+
+     <li>A set of
+<a name="index-slot-specifier-346"></a><dfn>slot specifiers</dfn>. 
+Each <i>slot specifier</i> includes the <i>name</i> of the <i>slot</i>
+and zero or more <i>slot</i> options.  A <i>slot</i> option pertains
+only to a single <i>slot</i>.  If a <i>class</i> definition contains
+two <i>slot specifiers</i> with the same <i>name</i>, an error is signaled.
+
+     <li>A set of <i>class</i> options. 
+Each <i>class</i> option pertains to the <i>class</i> as a whole. 
+</ul>
+
+<p>The <i>slot</i> options and <i>class</i> options of
+the <code>defclass</code> form provide mechanisms for the following:
+
+     <ul>
+<li>Supplying a default initial value <i>form</i>
+for a given <i>slot</i>.
+
+     <li>Requesting that <i>methods</i> for <i>generic functions</i>
+be automatically generated for reading or writing <i>slots</i>.
+
+     <li>Controlling whether a given <i>slot</i> is shared by
+all <i>instances</i>
+of the <i>class</i> or whether each
+<i>instance</i> of the <i>class</i> has its own <i>slot</i>.
+
+     <li>Supplying a set of initialization arguments and initialization
+argument defaults to be used in <i>instance</i> creation.
+
+     <li>Indicating that the <i>metaclass</i> is to be other
+than the default.  The <tt>:metaclass</tt> option is reserved for future use;
+an implementation can be extended to make use of the <tt>:metaclass</tt>
+option.
+
+     <li>Indicating the expected <i>type</i> for the value stored
+in the <i>slot</i>.
+
+     <li>Indicating the <i>documentation string</i> for the <i>slot</i>. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Defining-Classes.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:27 GMT -->
+</html>
+

@@ -1,0 +1,127 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Rules-for-Initialization-Arguments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Rules for Initialization Arguments - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization" title="Object Creation and Initialization">
+<link rel="prev" href="Defaulting-of-Initialization-Arguments.html#Defaulting-of-Initialization-Arguments" title="Defaulting of Initialization Arguments">
+<link rel="next" href="Shared_002dInitialize.html#Shared_002dInitialize" title="Shared-Initialize">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Rules-for-Initialization-Arguments"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Shared_002dInitialize.html#Shared_002dInitialize">Shared-Initialize</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Defaulting-of-Initialization-Arguments.html#Defaulting-of-Initialization-Arguments">Defaulting of Initialization Arguments</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Object-Creation-and-Initialization.html#Object-Creation-and-Initialization">Object Creation and Initialization</a>
+<hr>
+</div>
+
+<h4 class="subsection">7.1.4 Rules for Initialization Arguments</h4>
+
+<p>The <tt>:initarg</tt> slot option may be specified more than
+once for a given <i>slot</i>.
+
+<p>The following rules specify when initialization arguments may be
+multiply defined:
+
+     <ul>
+<li>A given initialization argument can be used to
+initialize more than one <i>slot</i> if the same initialization argument name
+appears in more than one <tt>:initarg</tt> slot option.
+
+     <li>A given initialization argument name can appear
+in the <i>lambda list</i> of more than one initialization <i>method</i>.
+
+     <li>A given initialization argument name can
+appear both in an <tt>:initarg</tt> slot option and
+in the <i>lambda list</i>
+of an initialization <i>method</i>. 
+</ul>
+
+<p>If two or more initialization arguments that initialize the same
+<i>slot</i> are given in the arguments to <code>make-instance</code>, the
+leftmost of these initialization arguments in the <i>initialization
+argument list</i> supplies the value, even if the initialization arguments
+have different names.
+
+<p>If two or more different initialization arguments that initialize the
+same <i>slot</i> have default values and none is given explicitly in the
+arguments to <code>make-instance</code>, the initialization argument that
+appears in a <tt>:default-initargs</tt> class option in the most specific
+of the <i>classes</i> supplies the value. If a single
+<tt>:default-initargs</tt> class option specifies two or more initialization
+arguments that initialize the same <i>slot</i> and none is given
+explicitly in the arguments to <code>make-instance</code>, the leftmost in
+the <tt>:default-initargs</tt> class option supplies the value, and the
+values of the remaining default value <i>forms</i> are ignored.
+
+<p>Initialization arguments given explicitly in the arguments to
+<code>make-instance</code> appear to the left of defaulted initialization
+arguments. Suppose that the classes C<sub>1</sub> and C<sub>2</sub> supply the
+values of defaulted initialization arguments for different <i>slots</i>,
+and suppose that C<sub>1</sub> is more specific than C<sub>2</sub>; then the
+defaulted initialization argument whose value is supplied by C<sub>1</sub>
+
+<p>is to the left of the defaulted initialization argument whose value is
+supplied by C<sub>2</sub> in the <i>defaulted initialization argument
+list</i>.  If a single <tt>:default-initargs</tt> class option supplies the
+values of initialization arguments for two different <i>slots</i>, the
+initialization argument whose value is specified farther to the left in
+the <tt>:default-initargs</tt> class option appears farther to the left in
+the <i>defaulted initialization argument list</i>.
+
+<p>If a <i>slot</i> has both an <tt>:initform</tt> form and an
+<tt>:initarg</tt> slot option, and the initialization argument is defaulted
+using <tt>:default-initargs</tt> or is supplied to <code>make-instance</code>,
+the captured <tt>:initform</tt> form is neither used nor evaluated.
+
+<p>The following is an example of the above rules:
+
+<pre class="lisp"> (defclass q () ((x :initarg a)))
+ (defclass r (q) ((x :initarg b))
+   (:default-initargs a 1 b 2))
+</pre>
+<div class="float">
+<p><table summary=""><tr align="left"><th valign="top" width="45%">Form </th><th valign="top" width="30%">Defaulted Initialization Argument List </th><th valign="top" width="15%">Contents of Slot X
+<br></th></tr><tr align="left"><td valign="top" width="45%">(make-instance 'r) </td><td valign="top" width="30%">(a 1 b 2) </td><td valign="top" width="15%">1
+<br></td></tr><tr align="left"><td valign="top" width="45%">(make-instance 'r 'a 3) </td><td valign="top" width="30%">(a 3 b 2) </td><td valign="top" width="15%">3
+<br></td></tr><tr align="left"><td valign="top" width="45%">(make-instance 'r 'b 4) </td><td valign="top" width="30%">(b 4 a 1) </td><td valign="top" width="15%">4
+<br></td></tr><tr align="left"><td valign="top" width="45%">(make-instance 'r 'a 1 'a 2) </td><td valign="top" width="30%">(a 1 a 2 b 2) </td><td valign="top" width="15%">1
+<br></td></tr></table>
+<p><strong class="float-caption"></strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Rules-for-Initialization-Arguments.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

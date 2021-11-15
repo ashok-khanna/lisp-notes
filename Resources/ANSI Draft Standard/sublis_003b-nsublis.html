@@ -1,0 +1,169 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/sublis_003b-nsublis.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:46 GMT -->
+<head>
+<title>sublis; nsublis - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conses.html#Conses" title="Conses">
+<link rel="prev" href="copy_002dtree.html#copy_002dtree" title="copy-tree">
+<link rel="next" href="subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot.html#subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot" title="subst; subst-if; subst-if-not; nsubst; nsubst-if; nsubst-if-not">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="sublis%3b-nsublis"></a>
+<a name="sublis_003b-nsublis"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot.html#subst_003b-subst_002dif_003b-subst_002dif_002dnot_003b-nsubst_003b-nsubst_002dif_003b-nsubst_002dif_002dnot">subst; subst-if; subst-if-not; nsubst; nsubst-if; nsubst-if-not</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="copy_002dtree.html#copy_002dtree">copy-tree</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conses.html#Conses">Conses</a>
+<hr>
+</div>
+
+<h3 class="heading">sublis, nsublis (Function)</h3>
+
+<p><a name="index-sublis-1844"></a><a name="index-sublis-1845"></a><a name="index-nsublis-1846"></a><a name="index-nsublis-1847"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>sublis</b><var> alist tree </var><tt>&amp;key</tt><var> key test test-not </var><span class="roman">→</span><var> new-tree<a name="index-sublis-1848"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>nsublis</b><var> alist tree </var><tt>&amp;key</tt><var> key test test-not </var><span class="roman">→</span><var> new-tree<a name="index-nsublis-1849"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>alist</var>&mdash;an <i>association list</i>.
+
+<p><var>tree</var>&mdash;a <i>tree</i>.
+
+<p><var>test</var>&mdash;a <i>designator</i> for a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>test-not</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two <i>arguments</i>
+that returns a <i>generalized boolean</i>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>new-tree</var>&mdash;a <i>tree</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>sublis</code> makes substitutions for <i>objects</i> in <var>tree</var>
+(a structure of <i>conses</i>). 
+<code>nsublis</code> is like <code>sublis</code>
+but destructively modifies the relevant
+parts of the <var>tree</var>.
+
+<p><code>sublis</code> looks at all subtrees and leaves of <var>tree</var>;
+if a subtree or leaf appears as a key in <var>alist</var>
+(that is, the key and the subtree or leaf <i>satisfy the test</i>),
+it is replaced by the <i>object</i> with which that key is associated. 
+This operation is non-destructive.  In effect, <code>sublis</code> can
+perform several <code>subst</code> operations simultaneously.
+
+<p>If <code>sublis</code> succeeds, a new copy of <var>tree</var> is returned in
+which each occurrence of such a subtree or leaf is replaced by the
+<i>object</i> with which it is associated.   If no changes are made, the
+original tree is returned.  The original <var>tree</var> is left unchanged,
+but the result tree may share cells with it.
+
+<p><code>nsublis</code> is permitted to modify <var>tree</var>
+but otherwise returns the same values as <code>sublis</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (sublis '((x . 100) (z . zprime))
+         '(plus x (minus g z x p) 4 . x))
+<span class="roman">→</span> (PLUS 100 (MINUS G ZPRIME 100 P) 4 . 100)
+ (sublis '(((+ x y) . (- x y)) ((- x y) . (+ x y)))
+         '(* (/ (+ x y) (+ x p)) (- x y))
+         :test #'equal)
+<span class="roman">→</span> (* (/ (- X Y) (+ X P)) (+ X Y))
+ (setq tree1 '(1 (1 2) ((1 2 3)) (((1 2 3 4)))))
+<span class="roman">→</span> (1 (1 2) ((1 2 3)) (((1 2 3 4))))
+ (sublis '((3 . "three")) tree1)
+<span class="roman">→</span> (1 (1 2) ((1 2 "three")) (((1 2 "three" 4))))
+ (sublis '((t . "string"))
+          (sublis '((1 . "") (4 . 44)) tree1)
+          :key #'stringp)
+<span class="roman">→</span> ("string" ("string" 2) (("string" 2 3)) ((("string" 2 3 44))))
+ tree1 <span class="roman">→</span> (1 (1 2) ((1 2 3)) (((1 2 3 4))))
+ (setq tree2 '("one" ("one" "two") (("one" "Two" "three"))))
+<span class="roman">→</span> ("one" ("one" "two") (("one" "Two" "three")))
+ (sublis '(("two" . 2)) tree2)
+<span class="roman">→</span> ("one" ("one" "two") (("one" "Two" "three")))
+ tree2 <span class="roman">→</span> ("one" ("one" "two") (("one" "Two" "three")))
+ (sublis '(("two" . 2)) tree2 :test 'equal)
+<span class="roman">→</span> ("one" ("one" 2) (("one" "Two" "three")))
+
+ (nsublis '((t . 'temp))
+           tree1
+           :key #'(lambda (x) (or (atom x) (&lt; (list-length x) 3))))
+<span class="roman">→</span> ((QUOTE TEMP) (QUOTE TEMP) QUOTE TEMP)
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p><code>nsublis</code> modifies <var>tree</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="subst.html#subst">subst</a>,
+<a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The <tt>:test-not</tt> parameter is deprecated.
+
+<p>Because the side-effecting variants (<i>e.g.</i>, <code>nsublis</code>) potentially
+change the path that is being traversed, their effects in the presence
+of shared or circular structure structure may vary in surprising ways
+when compared to their non-side-effecting alternatives.  To see this,
+consider the following side-effect behavior, which might be exhibited by
+some implementations:
+
+<pre class="lisp"> (defun test-it (fn)
+   (let* ((shared-piece (list 'a 'b))
+          (data (list shared-piece shared-piece)))
+     (funcall fn '((a . b) (b . a)) data)))
+ (test-it #'sublis) <span class="roman">→</span> ((B A) (B A))
+ (test-it #'nsublis) <span class="roman">→</span> ((A B) (A B))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/sublis_003b-nsublis.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:47 GMT -->
+</html>
+

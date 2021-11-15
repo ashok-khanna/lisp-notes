@@ -1,0 +1,118 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/fboundp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:28 GMT -->
+<head>
+<title>fboundp - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="fdefinition.html#fdefinition" title="fdefinition">
+<link rel="next" href="fmakunbound.html#fmakunbound" title="fmakunbound">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="fboundp"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="fmakunbound.html#fmakunbound">fmakunbound</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="fdefinition.html#fdefinition">fdefinition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">fboundp (Function)</h3>
+
+<p><a name="index-fboundp-436"></a><a name="index-fboundp-437"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>fboundp</b><var> name </var><span class="roman">→</span><var> generalized-boolean<a name="index-fboundp-438"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Pronunciation:</h5>
+
+<p>[ˌefˈba.undpē]
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>function name</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns <i>true</i> if <var>name</var> is <i>fbound</i>; otherwise, returns <i>false</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (fboundp 'car) <span class="roman">→</span> <i>true</i>
+ (fboundp 'nth-value) <span class="roman">→</span> <i>false</i>
+ (fboundp 'with-open-file) <span class="roman">→</span> <i>true</i>
+ (fboundp 'unwind-protect) <span class="roman">→</span> <i>true</i>
+ (defun my-function (x) x) <span class="roman">→</span> MY-FUNCTION
+ (fboundp 'my-function) <span class="roman">→</span> <i>true</i>
+ (let ((saved-definition (symbol-function 'my-function)))
+   (unwind-protect (progn (fmakunbound 'my-function)
+                          (fboundp 'my-function))
+     (setf (symbol-function 'my-function) saved-definition)))
+<span class="roman">→</span> <i>false</i>
+ (fboundp 'my-function) <span class="roman">→</span> <i>true</i>
+ (defmacro my-macro (x) `',x) <span class="roman">→</span> MY-MACRO
+ (fboundp 'my-macro) <span class="roman">→</span> <i>true</i>
+ (fmakunbound 'my-function) <span class="roman">→</span> MY-FUNCTION
+ (fboundp 'my-function) <span class="roman">→</span> <i>false</i>
+ (flet ((my-function (x) x))
+   (fboundp 'my-function)) <span class="roman">→</span> <i>false</i>
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>name</var> is not a <i>function name</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="symbol_002dfunction.html#symbol_002dfunction">symbol-function</a>, <a href="fmakunbound.html#fmakunbound">fmakunbound</a>, <a href="fdefinition.html#fdefinition">fdefinition</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>It is permissible to call <code>symbol-function</code> on any <i>symbol</i>
+that is <i>fbound</i>.
+
+<p><code>fboundp</code> is sometimes used to &ldquo;guard&rdquo;
+an access to the <i>function cell</i>, as in:
+<pre class="lisp">(if (fboundp x) (symbol-function x))
+</pre>
+<p>Defining a <i>setf expander</i> <var>F</var> does not cause the <i>setf function</i>
+<code>(setf </code><var>F</var><code>)</code> to become defined.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/fboundp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:28 GMT -->
+</html>
+

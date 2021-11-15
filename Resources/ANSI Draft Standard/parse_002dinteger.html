@@ -1,0 +1,125 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/parse_002dinteger.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:30 GMT -->
+<head>
+<title>parse-integer - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="integerp.html#integerp" title="integerp">
+<link rel="next" href="boole.html#boole" title="boole">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="parse-integer"></a>
+<a name="parse_002dinteger"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="boole.html#boole">boole</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="integerp.html#integerp">integerp</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">parse-integer (Function)</h3>
+
+<p><a name="index-parse_002dinteger-1420"></a><a name="index-parse_002dinteger-1421"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>parse-integer</b><var> string </var><tt>&amp;key</tt><var> start end radix junk-allowed </var><span class="roman">→</span><var> integer, pos<a name="index-parse_002dinteger-1422"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>string</var>&mdash;a <i>string</i>.
+
+<p><var>start</var>, <var>end</var>&mdash;<i>bounding index designators</i> of <var>string</var>. 
+The defaults for <var>start</var> and <var>end</var> are <code>0</code> and <code>nil</code>, respectively.
+
+<p><var>radix</var>&mdash;a <i>radix</i>. 
+The default is <code>10</code>.
+
+<p><var>junk-allowed</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>integer</var>&mdash;an <i>integer</i> or <i>false</i>.
+
+<p><var>pos</var>&mdash;a <i>bounding index</i> of <var>string</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>parse-integer</code> parses an <i>integer</i> in the specified <var>radix</var>
+from the substring of <var>string</var> delimited by <var>start</var> and <var>end</var>.
+
+<p><code>parse-integer</code> expects an optional sign (<code>+</code> or <code>-</code>) followed by
+a a non-empty sequence of digits to be interpreted in the specified <var>radix</var>. 
+Optional leading and trailing <i>whitespace</i><sub>1</sub> is ignored.
+
+<p><code>parse-integer</code> does not recognize the syntactic radix-specifier
+prefixes <code>#O</code>, <code>#B</code>, <code>#X</code>, and <code>#</code><i>n</i><code>R</code>,
+nor does it recognize a trailing decimal point.
+
+<p>If <var>junk-allowed</var> is <i>false</i>, an error of <i>type</i> <code>parse-error</code> is
+signaled if substring does not consist entirely of the representation of a
+signed <i>integer</i>, possibly surrounded on either side by <i>whitespace</i><sub>1</sub>
+
+<p><i>characters</i>.
+
+<p>The first <i>value</i> returned is either
+the <i>integer</i> that was parsed,
+or else <code>nil</code>&nbsp;<!-- /@w -->if no syntactically correct <i>integer</i>
+was seen but <var>junk-allowed</var> was <i>true</i>.
+
+<p>The second <i>value</i> is either
+the index into the <i>string</i> of the delimiter that terminated the parse,
+or the upper <i>bounding index</i> of the substring if the parse terminated at
+the end of the substring (as is always the case if <var>junk-allowed</var>
+is <i>false</i>).
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (parse-integer "123") <span class="roman">→</span> 123, 3
+ (parse-integer "123" :start 1 :radix 5) <span class="roman">→</span> 13, 3
+ (parse-integer "no-integer" :junk-allowed t) <span class="roman">→</span> NIL, 0
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <var>junk-allowed</var> is <i>false</i>,
+an error is signaled if substring does not consist entirely of
+the representation of an <i>integer</i>,
+possibly surrounded on either side by
+<i>whitespace</i><sub>1</sub> characters.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/parse_002dinteger.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:30 GMT -->
+</html>
+

@@ -1,0 +1,374 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dcondition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>define-condition - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="ignore_002derrors.html#ignore_002derrors" title="ignore-errors">
+<link rel="next" href="make_002dcondition.html#make_002dcondition" title="make-condition">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="define-condition"></a>
+<a name="define_002dcondition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="make_002dcondition.html#make_002dcondition">make-condition</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="ignore_002derrors.html#ignore_002derrors">ignore-errors</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">define-condition (Macro)</h3>
+
+<p><a name="index-define_002dcondition-931"></a><a name="index-define_002dcondition-932"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>define-condition</b><var> name </var><tt>(</tt><tt>{</tt><var>parent-type</var><tt>}</tt><var>*</var><tt>)</tt> <tt>(</tt><tt>{</tt><tt>↓</tt><var>slot-spec</var><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>option</var><tt>}</tt><var>* </var><span class="roman">→</span><var> name<a name="index-define_002dcondition-933"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>slot-spec</var>::=<dd>slot-name | <tt>(</tt>slot-name <tt>↓</tt>slot-option<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>slot-option</var>::=<dd>〚 <tt>{</tt><tt>:reader</tt> <i>symbol</i><tt>}</tt>* | <br> <tt>{</tt><tt>:writer</tt> <tt>↓</tt>function-name<tt>}</tt>* | <br> <tt>{</tt><tt>:accessor</tt> <i>symbol</i><tt>}</tt>* | <br> <tt>{</tt><tt>:allocation</tt> <tt>↓</tt>allocation-type<tt>}</tt> | <br> <tt>{</tt><tt>:initarg</tt> <i>symbol</i><tt>}</tt>* | <br> <tt>{</tt><tt>:initform</tt> <i>form</i><tt>}</tt> | <br> <tt>{</tt><tt>:type</tt> <var>type-specifier</var><tt>}</tt> 〛
+</dl>
+
+     <dl>
+<dt><var>option</var>::=<dd>〚 <tt>(</tt><tt>:default-initargs</tt> <code>.</code> <var>initarg-list</var><tt>)</tt> | <br> <tt>(</tt><tt>:documentation</tt> <i>string</i><tt>)</tt> | <br> <tt>(</tt><tt>:report</tt> <i>report-name</i><tt>)</tt> 〛
+</dl>
+
+     <dl>
+<dt><var>function-name</var>::=<dd><tt>{</tt><i>symbol</i> | <code>(setf </code><i>symbol</i><code>)</code><tt>}</tt>
+</dl>
+
+     <dl>
+<dt><var>allocation-type</var>::=<dd><tt>:instance</tt> | <tt>:class</tt>
+</dl>
+
+     <dl>
+<dt><var>report-name</var>::=<dd><i>string</i> | <i>symbol</i> | <i>lambda expression</i>
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>.
+
+<p><var>parent-type</var>&mdash;a <i>symbol</i> naming a <i>condition</i> <i>type</i>. 
+If no <var>parent-types</var> are supplied,
+the <var>parent-types</var> default to <code>(condition)</code>.
+
+<p><var>default-initargs</var>&mdash;a <i>list</i> of <i>keyword/value pairs</i>.
+
+<p><var>Slot-spec</var>&mdash;the <i>name</i> of a <i>slot</i> or a <i>list</i>
+consisting of the <var>slot-name</var> followed by zero or more <var>slot-options</var>.
+
+<p><var>Slot-name</var>&mdash;a slot name (a <i>symbol</i>),
+the <i>list</i> of a slot name, or the
+<i>list</i> of slot name/slot form pairs.
+
+<p><var>Option</var>&mdash;Any of the following:
+
+     <dl>
+<dt><tt>:reader</tt><dd>
+
+     <p><tt>:reader</tt> can be supplied more than once for a given <i>slot</i>
+and cannot be <code>nil</code>.
+
+     <br><dt><tt>:writer</tt><dd>
+
+     <p><tt>:writer</tt> can be supplied more than once for a given <i>slot</i>
+and must name a <i>generic function</i>.
+
+     <br><dt><tt>:accessor</tt><dd>
+
+     <p><tt>:accessor</tt> can be supplied more than once for a given <i>slot</i>
+and cannot be <code>nil</code>.
+
+     <br><dt><tt>:allocation</tt><dd>
+
+     <p><tt>:allocation</tt> can be supplied once at most for a given <i>slot</i>. 
+The default if <tt>:allocation</tt> is not supplied is <tt>:instance</tt>.
+
+     <br><dt><tt>:initarg</tt><dd>
+
+     <p><tt>:initarg</tt> can be supplied more than once for a given <i>slot</i>.
+
+     <br><dt><tt>:initform</tt><dd>
+
+     <p><tt>:initform</tt> can be supplied once at most for a given <i>slot</i>.
+
+     <br><dt><tt>:type</tt><dd>
+
+     <p><tt>:type</tt> can be supplied once at most for a given <i>slot</i>.
+
+     <br><dt><tt>:documentation</tt><dd>
+
+     <p><tt>:documentation</tt> can be supplied once at most for a given <i>slot</i>.
+
+     <br><dt><tt>:report</tt><dd>
+
+     <p><tt>:report</tt> can be supplied once at most. 
+</dl>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>define-condition</code> defines a new condition type called <var>name</var>,
+which is a <i>subtype</i> of
+the <i>type</i> or <i>types</i> named by
+<var>parent-type</var>. 
+Each <var>parent-type</var> argument specifies a direct <i>supertype</i>
+of the new <i>condition</i>. The new <i>condition</i>
+inherits <i>slots</i> and <i>methods</i> from each of its direct
+<i>supertypes</i>, and so on.
+
+<p>If a slot name/slot form pair is supplied,
+the slot form is a <i>form</i> that
+can be evaluated by <code>make-condition</code> to
+produce a default value when an explicit value is not provided.  If no
+slot form
+is supplied, the contents of the <var>slot</var>
+is initialized in an
+<i>implementation-dependent</i> way.
+
+<p>If the <i>type</i> being defined and some other
+<i>type</i> from which it inherits
+have a slot by the same name, only one slot is allocated in the
+<i>condition</i>,
+but the supplied slot form overrides any slot form
+that might otherwise have been inherited from a <var>parent-type</var>.  If no
+slot form is supplied, the inherited slot form (if any) is still visible.
+
+<p>Accessors are created according to the same rules as used by
+<code>defclass</code>.
+
+<p>A description of <var>slot-options</var> follows:
+
+     <dl>
+<dt><tt>:reader</tt><dd>
+
+     <p>The <tt>:reader</tt> slot option specifies that an <i>unqualified method</i> is
+to be defined on the <i>generic function</i> named by the argument
+to <tt>:reader</tt> to read the value of the given <i>slot</i>.
+
+     <br><dt>&bull;<dd> The <tt>:initform</tt> slot option is used to provide a default
+initial value form to be used in the initialization of the <i>slot</i>.  This
+<i>form</i> is evaluated every time it is used to initialize the
+<i>slot</i>.  The
+<i>lexical environment</i>
+in which this <i>form</i> is evaluated is the lexical
+<i>environment</i> in which the <code>define-condition</code>
+form was evaluated. 
+Note that the <i>lexical environment</i> refers both to variables and to
+<i>functions</i>. 
+For <i>local slots</i>, the <i>dynamic environment</i> is the dynamic
+<i>environment</i>
+in which <code>make-condition</code> was called; for
+<i>shared slots</i>, the <i>dynamic environment</i>
+is the <i>dynamic environment</i> in which the
+<code>define-condition</code> form was evaluated.
+
+     <p>No implementation is permitted to extend the syntax of <code>define-condition</code>
+to allow <code>(</code><var>slot-name</var> <var>form</var><code>)</code> as an abbreviation for
+<code>(</code><var>slot-name</var><code> :initform </code><var>form</var><code>)</code>.
+
+     <br><dt><tt>:initarg</tt><dd>
+
+     <p>The <tt>:initarg</tt> slot option declares an initialization
+argument named by its <i>symbol</i> argument
+and specifies that this
+initialization argument initializes the given <i>slot</i>.  If the
+initialization argument has a value in the call to
+<code>initialize-instance</code>, the value is stored into the given <i>slot</i>,
+and the slot's <tt>:initform</tt> slot option, if any, is not
+evaluated.  If none of the initialization arguments specified for a
+given <i>slot</i> has a value, the <i>slot</i> is initialized according to the
+<tt>:initform</tt> slot option, if specified.
+
+     <br><dt><tt>:type</tt><dd>
+
+     <p>The <tt>:type</tt> slot option specifies that the contents of the
+<i>slot</i> is always of the specified <i>type</i>.  It effectively
+declares the result type of the reader generic function when applied
+to an <i>object</i> of this <i>condition</i> type. 
+The consequences of attempting to store in a
+<i>slot</i> a value that
+does not satisfy the type of the <i>slot</i> is undefined.
+
+     <br><dt><tt>:default-initargs</tt><dd>
+
+     <p>This option is treated the same as it would be <code>defclass</code>.
+
+     <br><dt><tt>:documentation</tt><dd>
+
+     <p>The <tt>:documentation</tt> slot option provides a <i>documentation string</i>
+for the <i>slot</i>.
+
+     <br><dt><tt>:report</tt><dd>
+
+     <p><i>Condition</i> reporting is mediated through the <code>print-object</code>
+method for the <i>condition</i> type in question, with <code>*print-escape*</code>
+always being <code>nil</code>. Specifying <code>(:report </code><var>report-name</var><code>)</code>
+in the definition of a condition type <code>C</code> is equivalent to:
+
+     <pre class="lisp">      (defmethod print-object ((x c) stream)
+        (if *print-escape* (call-next-method) (<var>report-name</var> x stream)))
+</pre>
+     <p>If the value supplied by the argument to <tt>:report</tt> (<var>report-name</var>)
+is a <i>symbol</i> or a <i>lambda expression</i>,
+it must be acceptable to
+<code>function</code>. <code>(function </code><var>report-name</var><code>)</code>
+is evaluated
+in the current <i>lexical environment</i>. 
+It should return a <i>function</i>
+of two
+arguments, a <i>condition</i> and a <i>stream</i>,
+that prints on the <i>stream</i> a
+description of the <i>condition</i>. 
+This <i>function</i> is called whenever the
+<i>condition</i> is printed while <code>*print-escape*</code> is <code>nil</code>.
+
+     <p>If <var>report-name</var> is a <i>string</i>, it is a shorthand for
+
+     <pre class="lisp">      (lambda (condition stream)
+        (declare (ignore condition))
+        (write-string <var>report-name</var> stream))
+</pre>
+     <p>This option is processed after the new <i>condition</i> type has been defined,
+so use of the <var>slot</var> accessors within the <tt>:report</tt> function is permitted. 
+If this option is not supplied, information about how to report this
+type of <i>condition</i> is inherited from the <var>parent-type</var>. 
+</dl>
+
+<p>The consequences are unspecifed if an attempt is made to <i>read</i> a
+<var>slot</var> that has not been explicitly initialized and that has not
+been given a default value.
+
+<p>The consequences are unspecified if an attempt is made to assign the
+<var>slots</var> by using <code>setf</code>.
+
+<p>If a <code>define-condition</code> <i>form</i> appears as a <i>top level form</i>,
+the <i>compiler</i> must make <var>name</var> recognizable as a valid <i>type</i> name,
+and it must be possible to reference the <i>condition</i> <i>type</i> as the
+<var>parent-type</var> of another <i>condition</i> <i>type</i> in a subsequent
+<code>define-condition</code> <i>form</i> in the <i>file</i> being compiled.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<p>The following form defines a condition of <i>type</i>
+<code>peg/hole-mismatch</code> which inherits from a condition type
+called <code>blocks-world-error</code>:
+
+<pre class="lisp">(define-condition peg/hole-mismatch
+                  (blocks-world-error)
+                  ((peg-shape  :initarg :peg-shape
+                               :reader peg/hole-mismatch-peg-shape)
+                   (hole-shape :initarg :hole-shape
+                               :reader peg/hole-mismatch-hole-shape))
+  (:report (lambda (condition stream)
+             (format stream "A ~A peg cannot go in a ~A hole."
+                     (peg/hole-mismatch-peg-shape  condition)
+                     (peg/hole-mismatch-hole-shape condition)))))
+</pre>
+<p>The new type has slots <code>peg-shape</code> and <code>hole-shape</code>,
+so <code>make-condition</code> accepts <code>:peg-shape</code> and <code>:hole-shape</code> keywords. 
+The <i>readers</i> <code>peg/hole-mismatch-peg-shape</code> and <code>peg/hole-mismatch-hole-shape</code>
+apply to objects of this type, as illustrated in the <tt>:report</tt> information.
+
+<p>The following form defines a <i>condition</i> <i>type</i> named <code>machine-error</code>
+which inherits from <code>error</code>:
+
+<pre class="lisp">(define-condition machine-error
+                  (error)
+                  ((machine-name :initarg :machine-name
+                                 :reader machine-error-machine-name))
+  (:report (lambda (condition stream)
+             (format stream "There is a problem with ~A."
+                     (machine-error-machine-name condition)))))
+</pre>
+<p>Building on this definition, a new error condition can be defined which
+is a subtype of <code>machine-error</code> for use when machines are not available:
+
+<pre class="lisp">(define-condition machine-not-available-error (machine-error) ()
+  (:report (lambda (condition stream)
+             (format stream "The machine ~A is not available."
+                     (machine-error-machine-name condition)))))
+</pre>
+<p>This defines a still more specific condition, built upon
+<code>machine-not-available-error</code>, which provides a slot initialization form
+for <code>machine-name</code> but which does not provide any new slots or report
+information.  It just gives the <code>machine-name</code> slot a default initialization:
+
+<pre class="lisp">(define-condition my-favorite-machine-not-available-error
+                  (machine-not-available-error)
+  ((machine-name :initform "mc.lcs.mit.edu")))
+</pre>
+<p>Note that since no <tt>:report</tt> clause was given, the information
+inherited from <code>machine-not-available-error</code> is used to
+report this type of condition.
+
+<pre class="lisp"> (define-condition ate-too-much (error)
+     ((person :initarg :person :reader ate-too-much-person)
+      (weight :initarg :weight :reader ate-too-much-weight)
+      (kind-of-food :initarg :kind-of-food
+                    :reader :ate-too-much-kind-of-food)))
+<span class="roman">→</span> ATE-TOO-MUCH
+ (define-condition ate-too-much-ice-cream (ate-too-much)
+   ((kind-of-food :initform 'ice-cream)
+    (flavor       :initarg :flavor
+                  :reader ate-too-much-ice-cream-flavor
+                  :initform 'vanilla ))
+   (:report (lambda (condition stream)
+              (format stream "~A ate too much ~A ice-cream"
+                      (ate-too-much-person condition)
+                      (ate-too-much-ice-cream-flavor condition)))))
+<span class="roman">→</span> ATE-TOO-MUCH-ICE-CREAM
+ (make-condition 'ate-too-much-ice-cream
+                 :person 'fred
+                 :weight 300
+                 :flavor 'chocolate)
+<span class="roman">→</span> #&lt;ATE-TOO-MUCH-ICE-CREAM 32236101&gt;
+ (format t "~A" *)
+▷ FRED ate too much CHOCOLATE ice-cream
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="make_002dcondition.html#make_002dcondition">make-condition</a>, <a href="defclass.html#defclass">defclass</a>, <a href="Condition-System-Concepts.html#Condition-System-Concepts">Section 9.1 (Condition System Concepts)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/define_002dcondition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

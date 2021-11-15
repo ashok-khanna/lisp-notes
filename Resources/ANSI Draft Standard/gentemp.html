@@ -1,0 +1,144 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/gentemp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>gentemp - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Symbols.html#Symbols" title="Symbols">
+<link rel="prev" href="_002agensym_002dcounter_002a.html#g_t_002agensym_002dcounter_002a" title="*gensym-counter*">
+<link rel="next" href="symbol_002dfunction.html#symbol_002dfunction" title="symbol-function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="gentemp"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="symbol_002dfunction.html#symbol_002dfunction">symbol-function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002agensym_002dcounter_002a.html#g_t_002agensym_002dcounter_002a">*gensym-counter*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Symbols.html#Symbols">Symbols</a>
+<hr>
+</div>
+
+<h3 class="heading">gentemp (Function)</h3>
+
+<p><a name="index-gentemp-1017"></a><a name="index-gentemp-1018"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>gentemp</b> <tt>&amp;optional</tt><var> prefix package </var><span class="roman">→</span><var> new-symbol<a name="index-gentemp-1019"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>prefix</var>&mdash;a <i>string</i>. 
+The default is <code>"T"</code>.
+
+<p><var>package</var>&mdash;a <i>package designator</i>. 
+The default is the <i>current package</i>.
+
+<p><var>new-symbol</var>&mdash;a <i>fresh</i>, <i>interned</i> <i>symbol</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>gentemp</code> creates and returns a <i>fresh</i> <i>symbol</i>,
+<i>interned</i> in the indicated <var>package</var>. 
+The <i>symbol</i> is guaranteed to be one that was not previously
+<i>accessible</i> in <var>package</var>. 
+It is neither <i>bound</i> nor <i>fbound</i>, and has a <i>null</i>
+<i>property list</i>.
+
+<p>The <i>name</i> of the <var>new-symbol</var> is the concatenation
+of the <var>prefix</var> and a suffix, which is taken from an internal
+counter used only by <code>gentemp</code>.  (If a <i>symbol</i> by that name
+is already <i>accessible</i> in <var>package</var>, the counter is incremented as
+many times as is necessary to produce a <i>name</i> that is not already the
+<i>name</i> of a <i>symbol</i> <i>accessible</i> in <var>package</var>.)
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (gentemp) <span class="roman">→</span> T1298
+ (gentemp "FOO") <span class="roman">→</span> FOO1299
+ (find-symbol "FOO1300") <span class="roman">→</span> NIL, NIL
+ (gentemp "FOO") <span class="roman">→</span> FOO1300
+ (find-symbol "FOO1300") <span class="roman">→</span> FOO1300, :INTERNAL
+ (intern "FOO1301") <span class="roman">→</span> FOO1301, :INTERNAL
+ (gentemp "FOO") <span class="roman">→</span> FOO1302
+ (gentemp) <span class="roman">→</span> T1303
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>Its internal counter is incremented one or more times.
+
+<p><i>Interns</i> the <var>new-symbol</var> in <var>package</var>.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>The current state of its internal counter, and
+the current state of the <var>package</var>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>prefix</var> is not a <i>string</i>. 
+Should signal an error of <i>type</i> <code>type-error</code> if <var>package</var> is not a <i>package designator</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="gensym.html#gensym">gensym</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The function <code>gentemp</code> is deprecated.
+
+<p>If <var>package</var> is the <code>KEYWORD</code> <i>package</i>,
+the result is an <i>external symbol</i> of <var>package</var>. 
+Otherwise, the result is an <i>internal symbol</i> of <var>package</var>.
+
+<p>The <code>gentemp</code> internal counter is independent of
+<code>*gensym-counter*</code>, the counter used by <code>gensym</code>. 
+There is no provision for accessing the <code>gentemp</code> internal counter.
+
+<p>Just because <code>gentemp</code> creates a <i>symbol</i> which did not
+previously exist does not mean that such a <i>symbol</i> might not be
+seen in the future (<i>e.g.</i>, in a data file&mdash;perhaps even created by the
+same program in another session).  As such, this symbol is not truly
+unique in the same sense as a <i>gensym</i> would be.  In particular,
+programs which do automatic code generation should be careful not to
+attach global attributes to such generated <i>symbols</i> (<i>e.g.</i>,
+<code>special</code> <i>declarations</i>) and then write them into a file
+because such global attributes might, in a different session, end up
+applying to other <i>symbols</i> that were automatically generated on
+another day for some other purpose.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/gentemp.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

@@ -1,0 +1,115 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/print_002dunreadable_002dobject.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+<head>
+<title>print-unreadable-object - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="print_002dobject.html#print_002dobject" title="print-object">
+<link rel="next" href="set_002dpprint_002ddispatch.html#set_002dpprint_002ddispatch" title="set-pprint-dispatch">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="print-unreadable-object"></a>
+<a name="print_002dunreadable_002dobject"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="set_002dpprint_002ddispatch.html#set_002dpprint_002ddispatch">set-pprint-dispatch</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="print_002dobject.html#print_002dobject">print-object</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">print-unreadable-object (Macro)</h3>
+
+<p><a name="index-print_002dunreadable_002dobject-2926"></a><a name="index-print_002dunreadable_002dobject-2927"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>print-unreadable-object</b> <tt>(</tt><var>object stream </var><tt>&amp;key</tt><var> type identity</var><tt>)</tt> <tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <code>nil</code><var><a name="index-print_002dunreadable_002dobject-2928"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>; evaluated.
+
+<p><var>stream</var>&mdash;
+a <i>stream designator</i>; evaluated.
+
+<p><var>type</var>&mdash;a <i>generalized boolean</i>; evaluated.
+
+<p><var>identity</var>&mdash;a <i>generalized boolean</i>; evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Outputs a printed representation of <var>object</var> on <var>stream</var>,
+beginning with &ldquo;<code>#&lt;</code>&rdquo; and ending with &ldquo;<code>&gt;</code>&rdquo;. 
+Everything output to <var>stream</var> by the body <var>forms</var>
+is enclosed in the the angle brackets. 
+If <var>type</var> is <i>true</i>, the output from <var>forms</var>
+is preceded by a brief description of the <var>object</var>'s
+<i>type</i> and a space character. 
+If <var>identity</var> is <i>true</i>,
+the output from <var>forms</var> is followed by a space character
+and a representation of the <var>object</var>'s identity,
+typically a storage address.
+
+<p>If either <var>type</var> or <var>identity</var> is not supplied,
+its value is <i>false</i>.  It is valid to omit the body <var>forms</var>. 
+If <var>type</var> and <var>identity</var> are both true and there are no
+body <var>forms</var>, only one space character separates the type
+and the identity.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<p>;; Note that in this example, the precise form of the output
+;; is <i>implementation-dependent</i>.
+
+<pre class="lisp"> (defmethod print-object ((obj airplane) stream)
+   (print-unreadable-object (obj stream :type t :identity t)
+     (princ (tail-number obj) stream)))
+
+ (prin1-to-string my-airplane)
+<span class="roman">→</span> "#&lt;Airplane NW0773 36000123135&gt;"
+or<span class="roman">→</span> "#&lt;FAA:AIRPLANE NW0773 17&gt;"
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If <code>*print-readably*</code> is <i>true</i>, <code>print-unreadable-object</code>
+signals an error of <i>type</i> <code>print-not-readable</code> without printing anything.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/print_002dunreadable_002dobject.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+</html>
+

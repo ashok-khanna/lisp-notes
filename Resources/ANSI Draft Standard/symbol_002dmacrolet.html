@@ -1,0 +1,151 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/symbol_002dmacrolet.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:08 GMT -->
+<head>
+<title>symbol-macrolet - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="define_002dsymbol_002dmacro.html#define_002dsymbol_002dmacro" title="define-symbol-macro">
+<link rel="next" href="_002amacroexpand_002dhook_002a.html#g_t_002amacroexpand_002dhook_002a" title="*macroexpand-hook*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="symbol-macrolet"></a>
+<a name="symbol_002dmacrolet"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002amacroexpand_002dhook_002a.html#g_t_002amacroexpand_002dhook_002a">*macroexpand-hook*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="define_002dsymbol_002dmacro.html#define_002dsymbol_002dmacro">define-symbol-macro</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">symbol-macrolet (Special Operator)</h3>
+
+<p><a name="index-symbol_002dmacrolet-282"></a><a name="index-symbol_002dmacrolet-283"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>symbol-macrolet</b> <tt>(</tt><tt>{</tt><tt>(</tt><var>symbol expansion</var><tt>)</tt><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-symbol_002dmacrolet-284"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbol</var>&mdash;a <i>symbol</i>.
+
+<p><var>expansion</var>&mdash;a <i>form</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <var>forms</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>symbol-macrolet</code> provides a mechanism for
+affecting the <i>macro expansion</i> environment for <i>symbols</i>.
+
+<p><code>symbol-macrolet</code> lexically establishes expansion functions
+for each of the <i>symbol macros</i> named by <var>symbols</var>. 
+The only guaranteed property of an expansion <i>function</i> for a <i>symbol macro</i>
+is that when it is applied to the <i>form</i> and the <i>environment</i> it returns
+the correct expansion.  (In particular, it is <i>implementation-dependent</i>
+whether the expansion is conceptually stored in the expansion function,
+the <i>environment</i>, or both.)
+
+<p>Each reference to <var>symbol</var> as a variable within the lexical <i>scope</i>
+of <code>symbol-macrolet</code> is expanded by the normal macro expansion process;
+see <a href="SymbolsAsForms.html#SymbolsAsForms">Section 3.1.2.1.1 (Symbols as Forms)</a>. 
+The expansion of a symbol macro is subject to further macro expansion
+in the same lexical environment as the symbol macro invocation, exactly
+analogous to normal <i>macros</i>.
+
+<p>Exactly the same <var>declarations</var> are allowed as for <code>let</code>
+with one exception: <code>symbol-macrolet</code> signals an error
+if a <code>special</code> declaration names one of the <i>symbols</i>
+being defined by <code>symbol-macrolet</code>.
+
+<p>When the <var>forms</var> of the <code>symbol-macrolet</code> form are expanded,
+any use of <code>setq</code> to set the value of one of the specified variables
+is treated as if it were a <code>setf</code>. 
+<code>psetq</code> of a <i>symbol</i> defined as a symbol macro
+is treated as if it were a <code>psetf</code>, and
+<code>multiple-value-setq</code>
+is treated as if it were a <code>setf</code> of <code>values</code>.
+
+<p>The use of <code>symbol-macrolet</code> can be shadowed by <code>let</code>. 
+In other words, <code>symbol-macrolet</code> only substitutes for occurrences
+of <var>symbol</var> that would be in the <i>scope</i> of a lexical binding of
+<var>symbol</var> surrounding the <var>forms</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;;; The following is equivalent to
+;;;   (list 'foo (let ((x 'bar)) x)),
+;;; not
+;;;   (list 'foo (let (('foo 'bar)) 'foo))
+ (symbol-macrolet ((x 'foo))
+   (list x (let ((x 'bar)) x)))
+<span class="roman">→</span> (foo bar)
+not<span class="roman">→</span> (foo foo)
+
+ (symbol-macrolet ((x '(foo x)))
+   (list x))
+<span class="roman">→</span> ((FOO X))
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If an attempt is made to bind a <i>symbol</i> that is defined as a <i>global variable</i>,
+an error of <i>type</i> <code>program-error</code> is signaled.
+
+<p>If <var>declaration</var> contains a <code>special</code> declaration
+that names one of the <i>symbols</i> being bound by <code>symbol-macrolet</code>,
+an error of <i>type</i> <code>program-error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="with_002dslots.html#with_002dslots">with-slots</a>, <a href="macroexpand.html#macroexpand">macroexpand</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The special form <code>symbol-macrolet</code> is the basic mechanism that is used to
+implement <code>with-slots</code>.
+
+<p>If a <code>symbol-macrolet</code> <i>form</i> is a <i>top level form</i>,
+the <var>forms</var> are also processed as <i>top level forms</i>. 
+See <a href="File-Compilation.html#File-Compilation">Section 3.2.3 (File Compilation)</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/symbol_002dmacrolet.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:08 GMT -->
+</html>
+

@@ -1,0 +1,171 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/restart_002dbind.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>restart-bind - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="invoke_002drestart_002dinteractively.html#invoke_002drestart_002dinteractively" title="invoke-restart-interactively">
+<link rel="next" href="restart_002dcase.html#restart_002dcase" title="restart-case">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="restart-bind"></a>
+<a name="restart_002dbind"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="restart_002dcase.html#restart_002dcase">restart-case</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="invoke_002drestart_002dinteractively.html#invoke_002drestart_002dinteractively">invoke-restart-interactively</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">restart-bind (Macro)</h3>
+
+<p><a name="index-restart_002dbind-951"></a><a name="index-restart_002dbind-952"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>restart-bind</b> <tt>(</tt><tt>{</tt><tt>(</tt><var>name function </var><tt>{</tt><tt>↓</tt><var>key-val-pair</var><tt>}</tt><var>*</var><tt>)</tt><tt>}</tt><tt>)</tt> <tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-restart_002dbind-953"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>key-val-pair</var>::=<dd><tt>:interactive-function</tt> interactive-function | <br> <tt>:report-function</tt> report-function | <br> <tt>:test-function</tt> test-function
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>; not evaluated.
+
+<p><var>function</var>&mdash;a <i>form</i>; evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>interactive-function</var>&mdash;a <i>form</i>; evaluated.
+
+<p><var>report-function</var>&mdash;a <i>form</i>; evaluated.
+
+<p><var>test-function</var>&mdash;a <i>form</i>; evaluated.
+
+<p><var>results</var>&mdash;the <i>values</i> returned by the <i>forms</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>restart-bind</code> executes the body of <var>forms</var>
+in a <i>dynamic environment</i> where <i>restarts</i> with the given <var>names</var> are in effect.
+
+<p>If a <var>name</var> is <code>nil</code>, it indicates an anonymous restart;
+if a <var>name</var> is a <i>non-nil</i> <i>symbol</i>, it indicates a named restart.
+
+<p>The <var>function</var>, <var>interactive-function</var>, and <var>report-function</var>
+are unconditionally evaluated in the current lexical and dynamic environment
+prior to evaluation of the body. Each of these <i>forms</i> must evaluate to
+a <i>function</i>.
+
+<p>If <code>invoke-restart</code> is done on that restart,
+the <i>function</i> which resulted from evaluating <var>function</var>
+is called, in the <i>dynamic environment</i> of the <code>invoke-restart</code>,
+with the <i>arguments</i> given to <code>invoke-restart</code>. 
+The <i>function</i> may either perform a non-local transfer of control or may return normally.
+
+<p>If the restart is invoked interactively from the debugger
+(using <code>invoke-restart-interactively</code>),
+the arguments are defaulted by calling the <i>function</i>
+which resulted from evaluating <var>interactive-function</var>. 
+That <i>function</i> may optionally prompt interactively on <i>query I/O</i>,
+and should return a <i>list</i> of arguments to be used by
+<code>invoke-restart-interactively</code> when invoking the restart.
+
+<p>If a restart is invoked interactively but no <var>interactive-function</var> is used,
+then an argument list of <code>nil</code>&nbsp;<!-- /@w -->is used. In that case, the <i>function</i>
+must be compatible with an empty argument list.
+
+<p>If the restart is presented interactively (<i>e.g.</i>, by the debugger),
+the presentation is done by calling the <i>function</i> which resulted
+from evaluating <var>report-function</var>. 
+This <i>function</i> must be a <i>function</i> of one argument, a <i>stream</i>. 
+It is expected to print a description of the action that the restart takes
+to that <i>stream</i>. 
+This <i>function</i> is called any time the restart is printed
+while <code>*print-escape*</code> is <code>nil</code>.
+
+<p>In the case of interactive invocation,
+the result is dependent on the value of <tt>:interactive-function</tt>
+as follows.
+
+     <dl>
+<dt><tt>:interactive-function</tt><dd>
+
+     <p><var>Value</var> is evaluated in the current lexical environment and
+should return a <i>function</i> of no arguments which constructs a
+<i>list</i> of arguments to be used by <code>invoke-restart-interactively</code>
+when invoking this restart.  The <i>function</i> may prompt interactively
+using <i>query I/O</i> if necessary.
+
+     <br><dt><tt>:report-function</tt><dd>
+
+     <p><var>Value</var> is evaluated in the current lexical environment and
+should return a <i>function</i> of one argument, a <i>stream</i>, which
+prints on the <i>stream</i> a summary of the action that this restart
+takes.  This <i>function</i> is called whenever the restart is
+reported (printed while <code>*print-escape*</code> is <code>nil</code>). 
+If no <tt>:report-function</tt> option is provided, the manner in which the
+<i>restart</i> is reported is <i>implementation-dependent</i>.
+
+     <br><dt><tt>:test-function</tt><dd>
+
+     <p><var>Value</var> is evaluated in the current lexical environment and
+should return a <i>function</i> of one argument, a <i>condition</i>, which
+returns <i>true</i> if the restart is to be considered visible. 
+</dl>
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*query-io*</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="restart_002dcase.html#restart_002dcase">restart-case</a>, <a href="with_002dsimple_002drestart.html#with_002dsimple_002drestart">with-simple-restart</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>restart-bind</code> is primarily intended to be used to implement
+<code>restart-case</code> and  might be useful in implementing other
+macros. Programmers who are uncertain about whether to use <code>restart-case</code>
+or <code>restart-bind</code> should prefer <code>restart-case</code> for the cases where
+it is powerful enough, using <code>restart-bind</code> only in cases where its full
+generality is really needed.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/restart_002dbind.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

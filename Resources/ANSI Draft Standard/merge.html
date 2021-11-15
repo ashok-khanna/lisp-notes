@@ -1,0 +1,171 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/merge.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:20 GMT -->
+<head>
+<title>merge - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Sequences.html#Sequences" title="Sequences">
+<link rel="prev" href="concatenate.html#concatenate" title="concatenate">
+<link rel="next" href="remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot.html#remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot" title="remove; remove-if; remove-if-not; delete; delete-if; delete-if-not">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="merge"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot.html#remove_003b-remove_002dif_003b-remove_002dif_002dnot_003b-delete_003b-delete_002dif_003b-delete_002dif_002dnot">remove; remove-if; remove-if-not; delete; delete-if; delete-if-not</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="concatenate.html#concatenate">concatenate</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Sequences.html#Sequences">Sequences</a>
+<hr>
+</div>
+
+<h3 class="heading">merge (Function)</h3>
+
+<p><a name="index-merge-2391"></a><a name="index-merge-2392"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>merge</b><var> result-type sequence-1 sequence-2 predicate </var><tt>&amp;key</tt><var> key </var><span class="roman">→</span><var> result-sequence<a name="index-merge-2393"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>result-type</var>&mdash;a <code>sequence</code> <i>type specifier</i>.
+
+<p><var>sequence-1</var>&mdash;a <i>sequence</i>.
+
+<p><var>sequence-2</var>&mdash;a <i>sequence</i>.
+
+<p><var>predicate</var>&mdash;a <i>designator</i> for
+a <i>function</i> of two arguments that returns a <i>generalized boolean</i>.
+
+<p><var>key</var>&mdash;a <i>designator</i> for a <i>function</i> of one argument,
+or <code>nil</code>.
+
+<p><var>result-sequence</var>&mdash;a <i>proper sequence</i> of <i>type</i> <var>result-type</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Destructively merges <var>sequence-1</var> with <var>sequence-2</var> according
+to an order determined by the <var>predicate</var>.  <code>merge</code> determines
+the relationship between two elements by giving keys extracted from the
+sequence elements to the <var>predicate</var>.
+
+<p>The first argument to the <var>predicate</var> function is an element of
+<var>sequence-1</var> as returned by the <var>key</var> (if supplied);
+the second argument is an element of <var>sequence-2</var> as returned by
+the <var>key</var> (if supplied). 
+<var>Predicate</var> should return <i>true</i> if and only if its first
+argument is strictly less than the second (in some appropriate sense). 
+If the first argument is greater than or equal to the second
+(in the appropriate sense), then <var>predicate</var> should return <i>false</i>. 
+<code>merge</code>
+considers two elements <code>x</code> and <code>y</code> to be equal if
+<code>(funcall predicate x y)</code> and
+<code>(funcall predicate y x)</code> both <i>yield</i> <i>false</i>.
+
+<p>The argument to the <var>key</var> is the <var>sequence</var> element. 
+Typically, the return value of the <var>key</var>
+becomes the argument to <var>predicate</var>. 
+If <var>key</var> is not supplied or <code>nil</code>, the sequence element itself is used. 
+The <var>key</var> may be executed more than once for each <i>sequence</i> <i>element</i>,
+and its side effects may occur in any order.
+
+<p>If <var>key</var> and <var>predicate</var> return, then the merging operation
+will terminate.  The result of merging two <i>sequences</i> <code>x</code> and <code>y</code>
+is a new <i>sequence</i> of type <var>result-type</var> <code>z</code>,
+such that the length of <code>z</code> is the sum of the lengths of <code>x</code>
+and <code>y</code>, and <code>z</code> contains all the elements of <code>x</code> and <code>y</code>. 
+If <code>x1</code> and <code>x2</code> are two elements of <code>x</code>, and <code>x1</code> precedes
+<code>x2</code> in <code>x</code>, then <code>x1</code> precedes <code>x2</code> in <code>z</code>, and similarly for
+elements of <code>y</code>.  In short, <code>z</code> is an interleaving of <code>x</code> and <code>y</code>.
+
+<p>If <code>x</code> and <code>y</code> were correctly sorted according to the
+<var>predicate</var>, then <code>z</code> will also be correctly sorted. 
+If <code>x</code> or <code>y</code> is not so sorted, then <code>z</code> will not be sorted,
+but will nevertheless be an interleaving of <code>x</code> and <code>y</code>.
+
+<p>The merging operation is guaranteed stable;
+if two or more elements are considered equal by the <var>predicate</var>,
+then the elements from <var>sequence-1</var> will
+precede those from <var>sequence-2</var> in the result.
+
+<p><var>sequence-1</var> and/or <var>sequence-2</var> may be destroyed.
+
+<p>If the <var>result-type</var> is a <i>subtype</i> of <code>list</code>,
+the result will be a <i>list</i>.
+
+<p>If the <var>result-type</var> is a <i>subtype</i> of <code>vector</code>,
+then if the implementation can determine the element type specified
+for the <var>result-type</var>, the element type of the resulting array
+is the result of <i>upgrading</i> that element type; or, if the
+implementation can determine that the element type is unspecified (or <code>*</code>),
+the element type of the resulting array is <code>t</code>;
+otherwise, an error is signaled.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq test1 (list 1 3 4 6 7))
+ (setq test2 (list 2 5 8))
+ (merge 'list test1 test2 #'&lt;) <span class="roman">→</span> (1 2 3 4 5 6 7 8)
+ (setq test1 (copy-seq "BOY"))
+ (setq test2 (copy-seq :nosy"))
+ (merge 'string test1 test2 #'char-lessp) <span class="roman">→</span> "BnOosYy"
+ (setq test1 (vector ((red . 1) (blue . 4))))
+ (setq test2 (vector ((yellow . 2) (green . 7))))
+ (merge 'vector test1 test2 #'&lt; :key #'cdr)
+<span class="roman">→</span> #((RED . 1) (YELLOW . 2) (BLUE . 4) (GREEN . 7))
+</pre>
+<pre class="lisp"> (merge '(vector * 4) '(1 5) '(2 4 6) #'&lt;) should signal an error
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error must be signaled if the <var>result-type</var> is neither
+a <i>recognizable subtype</i> of <code>list</code>,
+nor a <i>recognizable subtype</i> of <code>vector</code>.
+
+<p>An error of <i>type</i> <code>type-error</code> should be signaled
+if <var>result-type</var> specifies the number of elements
+and the sum of the lengths of <var>sequence-1</var> and <var>sequence-2</var>
+is different from that number.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="sort.html#sort">sort</a>,
+<a href="stable_002dsort.html#stable_002dsort">stable-sort</a>,
+<a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>,
+<a href="Traversal-Rules-and-Side-Effects.html#Traversal-Rules-and-Side-Effects">Section 3.6 (Traversal Rules and Side Effects)</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/merge.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:22 GMT -->
+</html>
+

@@ -1,0 +1,138 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/remprop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>remprop - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Symbols.html#Symbols" title="Symbols">
+<link rel="prev" href="get.html#get" title="get">
+<link rel="next" href="boundp.html#boundp" title="boundp">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="remprop"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="boundp.html#boundp">boundp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="get.html#get">get</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Symbols.html#Symbols">Symbols</a>
+<hr>
+</div>
+
+<h3 class="heading">remprop (Function)</h3>
+
+<p><a name="index-remprop-1038"></a><a name="index-remprop-1039"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>remprop</b><var> symbol indicator </var><span class="roman">→</span><var> generalized-boolean<a name="index-remprop-1040"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbol</var>&mdash;a <i>symbol</i>.
+
+<p><var>indicator</var>&mdash;an <i>object</i>.
+
+<p><var>generalized-boolean</var>&mdash;a <i>generalized boolean</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>remprop</code> removes from the <i>property list</i><sub>2</sub> of <var>symbol</var>
+a <i>property</i><sub>1</sub> with a <i>property indicator</i>
+<i>identical</i> to <var>indicator</var>. 
+If there are multiple <i>properties</i><sub>1</sub> with the <i>identical</i> key,
+<code>remprop</code> only removes the first such <i>property</i>. 
+<code>remprop</code> returns <i>false</i> if no such <i>property</i> was found,
+or <i>true</i> if a property was found.
+
+<p>The <i>property indicator</i>
+and the corresponding <i>property value</i>
+are removed in an undefined order
+by destructively splicing the property list. 
+The permissible side-effects correspond to those permitted for <code>remf</code>,
+such that:
+
+<pre class="lisp"> (remprop <i>x</i> <i>y</i>) ≡ (remf (symbol-plist <i>x</i>) <i>y</i>)
+</pre>
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq test (make-symbol "PSEUDO-PI")) <span class="roman">→</span> #:PSEUDO-PI
+ (symbol-plist test) <span class="roman">→</span> ()
+ (setf (get test 'constant) t) <span class="roman">→</span> T
+ (setf (get test 'approximation) 3.14) <span class="roman">→</span> 3.14
+ (setf (get test 'error-range) 'noticeable) <span class="roman">→</span> NOTICEABLE
+ (symbol-plist test)
+<span class="roman">→</span> (ERROR-RANGE NOTICEABLE APPROXIMATION 3.14 CONSTANT T)
+ (setf (get test 'approximation) nil) <span class="roman">→</span> NIL
+ (symbol-plist test)
+<span class="roman">→</span> (ERROR-RANGE NOTICEABLE APPROXIMATION NIL CONSTANT T)
+ (get test 'approximation) <span class="roman">→</span> NIL
+ (remprop test 'approximation) <span class="roman">→</span> <i>true</i>
+ (get test 'approximation) <span class="roman">→</span> NIL
+ (symbol-plist test)
+<span class="roman">→</span> (ERROR-RANGE NOTICEABLE CONSTANT T)
+ (remprop test 'approximation) <span class="roman">→</span> NIL
+ (symbol-plist test)
+<span class="roman">→</span> (ERROR-RANGE NOTICEABLE CONSTANT T)
+ (remprop test 'error-range) <span class="roman">→</span> <i>true</i>
+ (setf (get test 'approximation) 3) <span class="roman">→</span> 3
+ (symbol-plist test)
+<span class="roman">→</span> (APPROXIMATION 3 CONSTANT T)
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The <i>property list</i> of <var>symbol</var> is modified.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>symbol</var> is not a <i>symbol</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="remf.html#remf">remf</a>, <a href="symbol_002dplist.html#symbol_002dplist">symbol-plist</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><i>Numbers</i> and <i>characters</i> are not recommended for use as
+<var>indicators</var> in portable code since <code>remprop</code> tests with
+<code>eq</code> rather than <code>eql</code>, and consequently the effect of
+using such <var>indicators</var> is <i>implementation-dependent</i>. 
+Of course, if you've gotten as far as needing to remove such a
+<i>property</i>, you don't have much choice&mdash;the time to have been
+thinking about this was when you used <code>setf</code> of <code>get</code> to
+establish the <i>property</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/remprop.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

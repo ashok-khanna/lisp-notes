@@ -1,0 +1,184 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Layout-Control.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>FORMAT Layout Control - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Pretty-Printer-Operations.html#FORMAT-Pretty-Printer-Operations" title="FORMAT Pretty Printer Operations">
+<link rel="next" href="FORMAT-Control_002dFlow-Operations.html#FORMAT-Control_002dFlow-Operations" title="FORMAT Control-Flow Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Layout-Control"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Control_002dFlow-Operations.html#FORMAT-Control_002dFlow-Operations">FORMAT Control-Flow Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Pretty-Printer-Operations.html#FORMAT-Pretty-Printer-Operations">FORMAT Pretty Printer Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.6 FORMAT Layout Control</h4>
+
+<h5 class="subsubsection">22.3.6.1 Tilde T: Tabulate</h5>
+
+<p><a name="index-T-_0028format-directive_0029-2849"></a><a name="index-Tilde-T-_0028format-directive_0029-2850"></a>
+This spaces over to a given column. 
+<code>~</code><i>colnum</i><code>,</code><i>colinc</i><code>T</code> will output
+sufficient spaces to move the cursor to column <i>colnum</i>.  If the cursor
+is already at or beyond column <i>colnum</i>, it will output spaces to move it to
+column <i>colnum</i>+<i>k</i>*<i>colinc</i> for the smallest positive integer
+<i>k</i> possible, unless <i>colinc</i> is zero, in which case no spaces
+are output if the cursor is already at or beyond column <i>colnum</i>. 
+<i>colnum</i> and <i>colinc</i> default to <code>1</code>.
+
+<p>If for some reason the current absolute column position cannot be determined
+by direct inquiry,
+<code>format</code>
+may be able to deduce the current column position by noting
+that certain directives (such as <code>~%</code>, or <code>~&amp;</code>,
+or <code>~A</code>
+with the argument being a string containing a newline) cause
+the column position to be reset to zero, and counting the number of characters
+emitted since that point.  If that fails, <code>format</code>
+may attempt a
+similar deduction on the riskier assumption that the destination was
+at column zero when <code>format</code>
+was invoked.  If even this heuristic fails
+or is implementationally inconvenient, at worst
+the <code>~T</code> operation will simply output two spaces.
+
+<p><code>~@T</code> performs relative tabulation. 
+<code>~</code><i>colrel</i><code>,</code><i>colinc</i><code>@T</code> outputs <i>colrel</i> spaces
+and then outputs the smallest non-negative
+number of additional spaces necessary to move the cursor
+to a column that is a multiple
+of <i>colinc</i>.  For example, the directive
+<code>~3,8@T</code> outputs
+three spaces and then moves the cursor to a &ldquo;standard multiple-of-eight
+tab stop&rdquo; if not at one already. 
+If the current output column cannot be determined, however,
+then <i>colinc</i> is ignored, and exactly <i>colrel</i> spaces are output.
+
+<p>If the <i>colon</i> modifier is used with the <code>~T</code> directive,
+the tabbing computation is done relative to the horizontal position where the
+section immediately containing the directive begins, rather than with
+respect to a horizontal position of zero.  The numerical parameters are
+both interpreted as being in units of <i>ems</i> and both default to <code>1</code>. 
+<code>~</code><var>n</var><code>,</code><var>m</var><code>:T</code> is the same as
+<code>(pprint-tab :section </code><var>n</var> <var>m</var><code>)</code>. 
+<code>~</code><var>n</var><code>,</code><var>m</var><code>:@T</code> is the same as
+<code>(pprint-tab :section-relative </code><var>n</var> <var>m</var><code>)</code>.
+
+<h5 class="subsubsection">22.3.6.2 Tilde Less-Than-Sign: Justification</h5>
+
+<p><a name="TildeLessThanJustification"></a><a name="index-Less_002dThan_002dSign-_0028format-directive_0029-2851"></a><a name="index-Tilde-Less_002dThan_002dSign-_0028format-directive_0029-2852"></a>
+<code>~</code><i>mincol</i><code>,</code><i>colinc</i><code>,</code><i>minpad</i><code>,</code><i>padchar</i><code>&lt;</code><i>str</i><code>~&gt;</code>
+
+<p>This justifies the text produced by processing <i>str</i>
+within a field at least <i>mincol</i> columns wide.  <i>str</i>
+may be divided up into segments with <code>~;</code>, in which case the
+spacing is evenly divided between the text segments.
+
+<p>With no modifiers, the leftmost text segment is left justified in the
+field, and the rightmost text segment is right justified.  If there is
+only one text element, as a special case, it is right justified. 
+The <code>:</code> modifier causes
+spacing to be introduced before the first text segment;  the
+<code>@</code> modifier causes spacing to be added after the last. 
+The <i>minpad</i> parameter (default <code>0</code>) is the minimum number of
+padding characters to be output between each segment. 
+The padding character is supplied by <i>padchar</i>,
+which defaults to the space character. 
+If the total width needed to satisfy these constraints is greater
+than <i>mincol</i>, then the width used is <i>mincol</i>+<i>k</i>*<i>colinc</i>
+for the smallest possible non-negative integer value <i>k</i>. 
+<i>colinc</i> defaults to <code>1</code>, and <i>mincol</i> defaults to <code>0</code>.
+
+<p>Note that <i>str</i> may include <code>format</code> directives. 
+All the clauses in <i>str</i> are processed in order;
+it is the resulting pieces of text that are justified.
+
+<p>The <code>~^ </code> directive may be used to terminate processing of the
+clauses prematurely, in which case only the completely processed clauses
+are justified.
+
+<p>If the first clause of a <code>~&lt;</code>
+is terminated with <code>~:;</code> instead of
+<code>~;</code>, then it is used in a special way.  All of the clauses are
+processed (subject to <code>~^ </code>, of course), but the
+first one is not used
+in performing the spacing and padding.  When the padded result has been
+determined, then if it will fit on the current line of output, it is
+output, and the text for the first clause is discarded.  If, however, the
+padded text will not fit on the current line, then the text segment for
+the first clause is output before the padded text.  The first clause
+ought to contain a newline (such as a <code>~%</code> directive).  The first
+clause is always processed, and so any arguments it refers to will be
+used; the decision is whether to use the resulting segment of text, not
+whether to process the first clause.  If the <code>~:;</code> has a prefix
+parameter <i>n</i>, then the padded text must fit on the current line with
+<i>n</i> character positions to spare to avoid outputting the first clause's
+text.  For example, the control string
+
+<pre class="lisp"> "~%;; ~{&nbsp;<!-- /@w -->~&lt;~%;; ~1:; ~S~&gt;~^&nbsp;<!-- /@w -->,~}&nbsp;<!-- /@w -->.~%"
+</pre>
+<p>can be used to print a list of items separated by commas without
+breaking items over line boundaries, beginning each line with
+<code>;; </code>.  The prefix parameter
+<code>1</code> in <code>~1:;</code> accounts for the width of the
+comma that will follow the justified item if it is not the last
+element in the list, or the period
+if it is.  If <code>~:;</code> has a second
+prefix parameter, then it is used as the width of the line,
+thus overriding the natural line width of the output stream.  To make
+the preceding example use a line width of 50, one would write
+
+<pre class="lisp"> "~%;; ~{&nbsp;<!-- /@w -->~&lt;~%;; ~1,50:; ~S~&gt;~^&nbsp;<!-- /@w -->,~} &nbsp;<!-- /@w -->.~%"
+</pre>
+<p>If the second argument is not supplied, then <code>format</code> uses the
+line width of the <var>destination</var> output stream. 
+If this cannot be determined (for example, when producing a
+<i>string</i> result), then <code>format</code> uses <code>72</code> as the line length.
+
+<p>See also <a href="TildeLessThanLogicalBlock.html#TildeLessThanLogicalBlock">Section 22.3.5.2 (Tilde Less-Than-Sign. Logical Block)</a>.
+
+<h5 class="subsubsection">22.3.6.3 Tilde Greater-Than-Sign: End of Justification</h5>
+
+<p><a name="index-Greater_002dThan_002dSign-_0028format-directive_0029-2853"></a><a name="index-Tilde-Greater_002dThan_002dSign-_0028format-directive_0029-2854"></a>
+<code>~&gt;</code> terminates a <code>~&lt;</code>. 
+The consequences of using it elsewhere are undefined.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Layout-Control.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

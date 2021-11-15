@@ -1,0 +1,171 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Specialized-Arrays.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Specialized Arrays - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Array-Concepts.html#Array-Concepts" title="Array Concepts">
+<link rel="prev" href="Array-Elements.html#Array-Elements" title="Array Elements">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Specialized-Arrays"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Array-Elements.html#Array-Elements">Array Elements</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Array-Concepts.html#Array-Concepts">Array Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">15.1.2 Specialized Arrays</h4>
+
+<p>An <i>array</i> can be a <i>general</i> <i>array</i>,
+meaning each <i>element</i> may be any <i>object</i>,
+or it may be a <i>specialized</i> <i>array</i>,
+meaning that each <i>element</i> must be of a restricted <i>type</i>.
+
+<p>The phrasing &ldquo;an <i>array</i> <i>specialized</i> to <i>type</i> «type»&rdquo;
+is sometimes used to emphasize the <i>element type</i> of an <i>array</i>. 
+This phrasing is tolerated even when the «type» is <code>t</code>,
+even though an <i>array</i> <i>specialized</i> to <i>type</i> <i>t</i>
+is a <i>general</i> <i>array</i>, not a <i>specialized</i> <i>array</i>.
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable to <i>array</i>
+creation, <i>access</i>, and information operations.
+
+<div class="float">
+<a name="fig15_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">adjust-array </td><td valign="top">array-has-fill-pointer-p </td><td valign="top">make-array
+<br></td></tr><tr align="left"><td valign="top">adjustable-array-p </td><td valign="top">array-in-bounds-p </td><td valign="top">svref
+<br></td></tr><tr align="left"><td valign="top">aref </td><td valign="top">array-rank </td><td valign="top">upgraded-array-element-type
+<br></td></tr><tr align="left"><td valign="top">array-dimension </td><td valign="top">array-rank-limit </td><td valign="top">upgraded-complex-part-type
+<br></td></tr><tr align="left"><td valign="top">array-dimension-limit </td><td valign="top">array-row-major-index </td><td valign="top">vector
+<br></td></tr><tr align="left"><td valign="top">array-dimensions </td><td valign="top">array-total-size </td><td valign="top">vector-pop
+<br></td></tr><tr align="left"><td valign="top">array-displacement </td><td valign="top">array-total-size-limit </td><td valign="top">vector-push
+<br></td></tr><tr align="left"><td valign="top">array-element-type </td><td valign="top">fill-pointer </td><td valign="top">vector-push-extend
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 15.1: General Purpose Array-Related Defined Names</strong></p></div>
+
+<h5 class="subsubsection">15.1.2.1 Array Upgrading</h5>
+
+<p><a name="ArrayUpgrading"></a>The <a name="index-upgraded-array-element-type-2058"></a><dfn>upgraded array element type</dfn> of a <i>type</i> T<sub>1</sub>
+
+<p>is a <i>type</i> T<sub>2</sub> that is a <i>supertype</i> of T<sub>1</sub>
+
+<p>and that is used instead of T<sub>1</sub> whenever T<sub>1</sub>
+
+<p>is used as an <i>array element type</i>
+for object creation or type discrimination.
+
+<p>During creation of an <i>array</i>,
+the <i>element type</i> that was requested
+is called the <a name="index-expressed-array-element-type-2059"></a><dfn>expressed array element type</dfn>. 
+The <i>upgraded array element type</i> of the <i>expressed array element type</i>
+becomes the <a name="index-actual-array-element-type-2060"></a><dfn>actual array element type</dfn> of the <i>array</i> that is created.
+
+<p><i>Type</i> <i>upgrading</i> implies a movement upwards in the type hierarchy lattice. 
+A <i>type</i> is always a <i>subtype</i> of its <i>upgraded array element type</i>. 
+Also, if a <i>type</i> T<sub>x</sub> is a <i>subtype</i> of another <i>type</i> T<sub>y</sub>,
+then
+the <i>upgraded array element type</i> of T<sub>x</sub>
+
+<p>must be a <i>subtype</i> of
+the <i>upgraded array element type</i> of T<sub>y</sub>. 
+Two <i>disjoint</i> <i>types</i> can be <i>upgraded</i> to the same <i>type</i>.
+
+<p>The <i>upgraded array element type</i> T<sub>2</sub> of a <i>type</i> T<sub>1</sub>
+
+<p>is a function only of T<sub>1</sub> itself;
+that is, it is independent of any other property of the <i>array</i>
+for which T<sub>2</sub> will be used,
+such as <i>rank</i>, <i>adjustability</i>, <i>fill pointers</i>, or displacement. 
+The <i>function</i> <code>upgraded-array-element-type</code>
+can be used by <i>conforming programs</i> to predict how the <i>implementation</i>
+will <i>upgrade</i> a given <i>type</i>.
+
+<h5 class="subsubsection">15.1.2.2 Required Kinds of Specialized Arrays</h5>
+
+<p><a name="RequiredSpecializedArrays"></a><i>Vectors</i> whose <i>elements</i> are restricted to <i>type</i>
+<code>character</code> or a <i>subtype</i> of <code>character</code>
+are called
+<a name="index-string-2061"></a><dfn>strings</dfn>. 
+<i>Strings</i> are of <i>type</i> <code>string</code>. 
+The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> related to <i>strings</i>.
+
+<p><i>Strings</i> are <i>specialized</i> <i>arrays</i>
+and might logically have been included in this chapter. 
+However, for purposes of readability
+most information about <i>strings</i> does not appear in this chapter;
+see instead <a href="Strings.html#Strings">Chapter 16 (Strings)</a>.
+
+<div class="float">
+<a name="fig15_002e2"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">char </td><td valign="top">string-equal </td><td valign="top">string-upcase
+<br></td></tr><tr align="left"><td valign="top">make-string </td><td valign="top">string-greaterp </td><td valign="top">string<code>/=</code>
+<br></td></tr><tr align="left"><td valign="top">nstring-capitalize </td><td valign="top">string-left-trim </td><td valign="top">string<code>&lt;</code>
+<br></td></tr><tr align="left"><td valign="top">nstring-downcase </td><td valign="top">string-lessp </td><td valign="top">string<code>&lt;=</code>
+<br></td></tr><tr align="left"><td valign="top">nstring-upcase </td><td valign="top">string-not-equal </td><td valign="top">string<code>=</code>
+<br></td></tr><tr align="left"><td valign="top">schar </td><td valign="top">string-not-greaterp </td><td valign="top">string<code>&gt;</code>
+<br></td></tr><tr align="left"><td valign="top">string </td><td valign="top">string-not-lessp </td><td valign="top">string<code>&gt;=</code>
+<br></td></tr><tr align="left"><td valign="top">string-capitalize </td><td valign="top">string-right-trim </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">string-downcase </td><td valign="top">string-trim </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 15.2: Operators that Manipulate Strings</strong></p></div>
+
+<p><i>Vectors</i> whose <i>elements</i> are restricted to <i>type</i>
+<code>bit</code> are called
+<a name="index-bit-vector-2062"></a><dfn>bit vectors</dfn>. 
+<i>Bit vectors</i> are of <i>type</i> <code>bit-vector</code>. 
+The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> for operations on <i>bit arrays</i>.
+
+<div class="float">
+<a name="fig15_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">bit </td><td valign="top">bit-ior </td><td valign="top">bit-orc2
+<br></td></tr><tr align="left"><td valign="top">bit-and </td><td valign="top">bit-nand </td><td valign="top">bit-xor
+<br></td></tr><tr align="left"><td valign="top">bit-andc1 </td><td valign="top">bit-nor </td><td valign="top">sbit
+<br></td></tr><tr align="left"><td valign="top">bit-andc2 </td><td valign="top">bit-not </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">bit-eqv </td><td valign="top">bit-orc1 </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 15.3: Operators that Manipulate Bit Arrays</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Specialized-Arrays.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

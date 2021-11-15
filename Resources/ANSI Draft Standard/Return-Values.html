@@ -1,0 +1,91 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Return-Values.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Return Values - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation.html#Evaluation" title="Evaluation">
+<link rel="prev" href="Extent.html#Extent" title="Extent">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Return-Values"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Extent.html#Extent">Extent</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation.html#Evaluation">Evaluation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.1.7 Return Values</h4>
+
+<p>Ordinarily the result of calling a <i>function</i> is a single <i>object</i>. 
+Sometimes, however, it is convenient for a function to compute several
+<i>objects</i> and return them.
+
+<p>In order to receive other than exactly one value from a <i>form</i>,
+one of several <i>special forms</i> or <i>macros</i> must be used to request those
+values.  If a <i>form</i> produces <i>multiple values</i> which were not
+requested in this way, then the first value is given to the caller and
+all others are discarded; if the <i>form</i> produces zero values,
+then the caller receives <code>nil</code>&nbsp;<!-- /@w -->as a value.
+
+<p>The next figure&nbsp;<!-- /@w -->lists
+some <i>operators</i> for receiving <i>multiple values</i><sub>2</sub>. 
+These <i>operators</i> can be used to specify
+one or more <i>forms</i> to <i>evaluate</i>
+and where to put the <i>values</i> returned by those <i>forms</i>.
+
+<div class="float">
+<a name="fig3_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">multiple-value-bind </td><td valign="top">multiple-value-prog1 </td><td valign="top">return-from
+<br></td></tr><tr align="left"><td valign="top">multiple-value-call </td><td valign="top">multiple-value-setq </td><td valign="top">throw
+<br></td></tr><tr align="left"><td valign="top">multiple-value-list </td><td valign="top">return </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.5: Some operators applicable to receiving multiple values</strong></p></div>
+
+<p>The <i>function</i> <code>values</code> can produce <i>multiple values</i><sub>2</sub>. 
+<code>(values)</code> returns zero values;
+<code>(values </code><var>form</var><code>)</code> returns the <i>primary value</i> returned by <var>form</var>;
+<code>(values </code><var>form1</var> <var>form2</var><code>)</code> returns two values,
+the <i>primary value</i> of <var>form1</var>
+and the <i>primary value</i> of <var>form2</var>;
+and so on.
+
+<p>See <code>multiple-values-limit</code> and <code>values-list</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Return-Values.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

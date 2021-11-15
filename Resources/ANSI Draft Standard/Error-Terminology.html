@@ -1,0 +1,218 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Error-Terminology.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Error Terminology - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Definitions.html#Definitions" title="Definitions">
+<link rel="prev" href="Notational-Conventions.html#Notational-Conventions" title="Notational Conventions">
+<link rel="next" href="Sections-Not-Formally-Part-Of-This-Standard.html#Sections-Not-Formally-Part-Of-This-Standard" title="Sections Not Formally Part Of This Standard">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Error-Terminology"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Sections-Not-Formally-Part-Of-This-Standard.html#Sections-Not-Formally-Part-Of-This-Standard">Sections Not Formally Part Of This Standard</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Notational-Conventions.html#Notational-Conventions">Notational Conventions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Definitions.html#Definitions">Definitions</a>
+<hr>
+</div>
+
+<h4 class="subsection">1.4.2 Error Terminology</h4>
+
+<p>Situations in which errors might, should, or must be signaled are described
+in the standard.  The wording used to describe such situations is intended
+to have precise meaning. The following list is a glossary of those meanings.
+
+     <dl>
+<dt><b>Safe code</b><dd><a name="index-safe-10"></a>
+This is <i>code</i> processed with the <code>safety</code> optimization
+at its highest setting (<code>3</code>).  <code>safety</code> is a lexical property
+of code.  The phrase &ldquo;the function <code>F</code> should signal an error&rdquo;
+means that if <code>F</code> is invoked from code processed with the highest
+<code>safety</code> optimization, an error is signaled. 
+It is <i>implementation-dependent</i> whether <code>F</code> or the calling
+code signals the error.
+
+     <br><dt><b>Unsafe code</b><dd><a name="index-unsafe-11"></a>
+This is code processed with lower safety levels.
+
+     <p>Unsafe code might do error checking.  Implementations are permitted to
+treat all code as safe code all the time.
+
+     <br><dt><b>An error is signaled</b><dd>
+<a name="index-signal-12"></a><a name="index-is-signaled-13"></a><a name="index-must-signal-14"></a>
+This means that an error is signaled in both safe and unsafe code. 
+<i>Conforming code</i> may rely on the fact that the error is signaled
+in both safe and unsafe code.  Every implementation is required to
+detect the error in both safe and unsafe code. For example, &ldquo;an error
+is signaled if <code>unexport</code> is given a <i>symbol</i>
+not <i>accessible</i> in the <i>current package</i>.&rdquo;
+
+     <p>If an explicit error type is not specified, the default is <code>error</code>.
+
+     <br><dt><b>An error should be signaled</b><dd>
+<a name="index-signal-15"></a><a name="index-should-signal-16"></a>
+This means that an error is signaled in safe code, and an error
+might be signaled in unsafe code.  <i>Conforming code</i> may rely on the
+fact that the error is signaled in safe code.  Every
+implementation is required to detect the error at least in safe code. 
+When the error is not signaled, the &ldquo;consequences are undefined&rdquo;
+(see below).  For example, &ldquo;<code>+</code> should signal an error of <i>type</i> <code>type-error</code>
+if any argument is not of <i>type</i> <code>number</code>.&rdquo;
+
+     <br><dt><b>Should be prepared to signal an error</b><dd>
+<a name="index-signal-17"></a><a name="index-prepared-to-signal-18"></a>
+This is similar to &ldquo;should be signaled&rdquo; except that it does not
+imply that `extra effort' has to be taken on the part of an <i>operator</i>
+to discover an erroneous situation if the normal action of that <i>operator</i>
+can be performed successfully with only `lazy' checking. 
+An <i>implementation</i> is always permitted to signal an error,
+but even in <i>safe</i> <i>code</i>, it is only required to signal the error
+when failing to signal it might lead to incorrect results. 
+In <i>unsafe</i> <i>code</i>, the consequences are undefined.
+
+     <p>For example, defining that
+&ldquo;<code>find</code> should be prepared to signal an error of <i>type</i> <code>type-error</code>
+if its second <i>argument</i> is not a <i>proper list</i>&rdquo;
+does not imply that an error is always signaled.  The <i>form</i>
+
+     <pre class="lisp">      (find 'a '(a b . c))
+</pre>
+     <p>must either signal an error of <i>type</i> <code>type-error</code> in <i>safe</i> <i>code</i>,
+else return <code>A</code>. 
+In <i>unsafe</i> <i>code</i>, the consequences are undefined. 
+By contrast,
+
+     <pre class="lisp">      (find 'd '(a b . c))
+</pre>
+     <p>must signal an error of <i>type</i> <code>type-error</code> in <i>safe</i> <i>code</i>. 
+In <i>unsafe</i> <i>code</i>, the consequences are undefined. 
+Also,
+
+     <pre class="lisp">      (find 'd '#1=(a b . #1#))
+</pre>
+     <p>in <i>safe code</i>
+might return <code>nil</code>&nbsp;<!-- /@w -->(as an <i>implementation-defined</i> extension),
+might never return,
+or might signal an error of <i>type</i> <code>type-error</code>. 
+In <i>unsafe</i> <i>code</i>, the consequences are undefined.
+
+     <p>Typically, the &ldquo;should be prepared to signal&rdquo; terminology is used in
+type checking situations where there are efficiency considerations that
+make it impractical to detect errors that are not relevant to the
+correct operation of the <i>operator</i>.
+
+     <br><dt><b>The consequences are unspecified</b><dd>
+<a name="index-consequences-19"></a><a name="index-unspecified-consequences-20"></a>
+This means that the consequences are unpredictable but harmless. 
+Implementations are permitted to specify the consequences of this
+situation. No <i>conforming code</i> may depend on the results or effects of
+this situation, and all <i>conforming code</i> is required to treat the
+results and effects of this situation as unpredictable but harmless. 
+For example, &ldquo;if the second argument to <code>shared-initialize</code>
+specifies a name that does not correspond to any <i>slots</i>
+<i>accessible</i> in the <i>object</i>, the results are unspecified.&rdquo;
+
+     <br><dt><b>The consequences are undefined</b><dd>
+<a name="index-consequences-21"></a><a name="index-undefined-consequences-22"></a>
+This means that the consequences are unpredictable. The consequences
+may range from harmless to fatal.  No <i>conforming code</i> may depend on
+the results or effects. <i>Conforming code</i> must treat the consequences as
+unpredictable.  In places where the words &ldquo;must,&rdquo; &ldquo;must not,&rdquo; or
+&ldquo;may not&rdquo; are used, then &ldquo;the consequences are undefined&rdquo; if the
+stated requirement is not met and no specific consequence is
+explicitly stated.  An implementation is permitted to signal an error
+in this case.
+
+     <p>For example: &ldquo;Once a name has been declared by <code>defconstant</code>
+to be constant, any further assignment or binding of that
+variable has undefined consequences.&rdquo;
+
+     <br><dt><b>An error might be signaled</b><dd>
+<a name="index-signal-23"></a><a name="index-might-signal-24"></a>
+This means that the situation has undefined consequences;
+however, if an error is signaled, it is of the specified <i>type</i>. 
+For example, &ldquo;<code>open</code> might signal an error of <i>type</i> <code>file-error</code>.&rdquo;
+
+     <br><dt><b>The return values are unspecified</b><dd>
+<a name="index-unspecified-values-25"></a>
+This means that only the number and nature of the return values of a
+<i>form</i> are not specified.  However, the issue of whether or not
+any side-effects or transfer of control occurs is still well-specified.
+
+     <p>A program can be well-specified even if it uses a function whose
+returns values are unspecified.  For example, even if the return
+values of some function <code>F</code> are unspecified, an expression such as
+<code>(length (list (F)))</code> is still well-specified because it does not
+rely on any particular aspect of the value or values returned by <code>F</code>.
+
+     <br><dt><b>Implementations may be extended to cover this situation</b><dd>
+<a name="index-extensions-26"></a>
+This means that the <i>situation</i> has undefined consequences;
+however, a <i>conforming implementation</i> is free to treat
+the situation in a more specific way. 
+For example, an <i>implementation</i> might define
+that      an error is signaled,
+or that      an error should be signaled,
+or even that a certain well-defined non-error behavior occurs.
+
+     <p>No <i>conforming code</i> may depend on the consequences of such a <i>situation</i>;
+all <i>conforming code</i> must treat the consequences of the situation
+as undefined. <i>Implementations</i> are required to document how the
+situation is treated.
+
+     <p>For example, &ldquo;implementations may be extended to define other type
+specifiers to have a corresponding <i>class</i>.&rdquo;
+
+     <br><dt><b>Implementations are free to extend the syntax</b><dd>
+<a name="index-extensions-27"></a>
+This means that in this situation implementations are permitted to
+define unambiguous extensions to the syntax of the <i>form</i> being
+described.  No <i>conforming code</i> may depend on this extension. 
+Implementations are required to document each such extension. All
+<i>conforming code</i> is required to treat the syntax as meaningless. The
+standard might disallow certain extensions while allowing others. For
+example, &ldquo;no implementation is free to extend the syntax of
+<code>defclass</code>.&rdquo;
+
+     <br><dt><b>A warning might be issued</b><dd>
+<a name="index-warning-28"></a>
+This means that <i>implementations</i> are encouraged to issue a warning
+if the context is appropriate (<i>e.g.</i>, when compiling).  However, a
+<i>conforming implementation</i> is not required to issue a warning. 
+</dl>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Error-Terminology.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

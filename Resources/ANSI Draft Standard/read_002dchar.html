@@ -1,0 +1,131 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/read_002dchar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:35 GMT -->
+<head>
+<title>read-char - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Streams.html#Streams" title="Streams">
+<link rel="prev" href="peek_002dchar.html#peek_002dchar" title="peek-char">
+<link rel="next" href="read_002dchar_002dno_002dhang.html#read_002dchar_002dno_002dhang" title="read-char-no-hang">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="read-char"></a>
+<a name="read_002dchar"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="read_002dchar_002dno_002dhang.html#read_002dchar_002dno_002dhang">read-char-no-hang</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="peek_002dchar.html#peek_002dchar">peek-char</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Streams.html#Streams">Streams</a>
+<hr>
+</div>
+
+<h3 class="heading">read-char (Function)</h3>
+
+<p><a name="index-read_002dchar-2641"></a><a name="index-read_002dchar-2642"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>read-char</b> <tt>&amp;optional</tt><var> input-stream eof-error-p eof-value recursive-p </var><span class="roman">→</span><var> char<a name="index-read_002dchar-2643"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>input-stream</var>&mdash;an <i>input</i> <i>stream designator</i>. 
+The default is <i>standard input</i>.
+
+<p><var>eof-error-p</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>true</i>.
+
+<p><var>eof-value</var>&mdash;an <i>object</i>. 
+The default is <code>nil</code>.
+
+<p><var>recursive-p</var>&mdash;a <i>generalized boolean</i>. 
+The default is <i>false</i>.
+
+<p><var>char</var>&mdash;a <i>character</i> or the <var>eof-value</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>read-char</code> returns the next <i>character</i> from <var>input-stream</var>.
+
+<p>When <var>input-stream</var> is an <var>echo stream</var>,
+the character is echoed on <var>input-stream</var> the first time the character is
+seen. 
+Characters that are not echoed by <code>read-char</code>
+are those that were
+put there by <code>unread-char</code>
+and hence are assumed to have been echoed
+already by a previous call to <code>read-char</code>.
+
+<p>If <var>recursive-p</var> is <i>true</i>, this call is expected to be
+embedded in a higher-level call to <code>read</code> or a similar
+<i>function</i> used by the <i>Lisp reader</i>.
+
+<p>If an <i>end of file</i><sub>2</sub> occurs and <var>eof-error-p</var> is <i>false</i>,
+<var>eof-value</var> is returned.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (with-input-from-string (is "0123")
+    (do ((c (read-char is) (read-char is nil 'the-end)))
+        ((not (characterp c)))
+     (format t "~S " c)))
+▷ #\0 #\1 #\2 #\3
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-input*</code>,
+<code>*terminal-io*</code>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If an <i>end of file</i><sub>2</sub> occurs before a character can be read, and
+<var>eof-error-p</var> is <i>true</i>,
+an error of <i>type</i> <code>end-of-file</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="read_002dbyte.html#read_002dbyte">read-byte</a>,
+<a href="read_002dsequence.html#read_002dsequence">read-sequence</a>,
+<a href="write_002dchar.html#write_002dchar">write-char</a>,
+<a href="read.html#read">read</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The corresponding output function is <code>write-char</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/read_002dchar.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:35 GMT -->
+</html>
+

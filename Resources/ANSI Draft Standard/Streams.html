@@ -1,0 +1,121 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Streams.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:27:01 GMT -->
+<head>
+<title>Streams - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="prev" href="Files.html#Files" title="Files">
+<link rel="next" href="Printer.html#Printer" title="Printer">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Streams"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Printer.html#Printer">Printer</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Files.html#Files">Files</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="index-2.html#Top">Top</a>
+<hr>
+</div>
+
+<h2 class="chapter">21 Streams</h2>
+
+<ul class="menu">
+<li><a accesskey="1" href="Stream-Concepts.html#Stream-Concepts">Stream Concepts</a>
+
+</li></ul>
+<p>Dictionary
+
+</p>
+<ul class="menu">
+<li><a accesskey="2" href="stream.html#stream">stream</a>
+<li><a accesskey="3" href="broadcast_002dstream.html#broadcast_002dstream">broadcast-stream</a>
+<li><a accesskey="4" href="concatenated_002dstream.html#concatenated_002dstream">concatenated-stream</a>
+<li><a accesskey="5" href="echo_002dstream.html#echo_002dstream">echo-stream</a>
+<li><a accesskey="6" href="file_002dstream.html#file_002dstream">file-stream</a>
+<li><a accesskey="7" href="string_002dstream.html#string_002dstream">string-stream</a>
+<li><a accesskey="8" href="synonym_002dstream.html#synonym_002dstream">synonym-stream</a>
+<li><a accesskey="9" href="two_002dway_002dstream.html#two_002dway_002dstream">two-way-stream</a>
+<li><a href="input_002dstream_002dp_003b-output_002dstream_002dp.html#input_002dstream_002dp_003b-output_002dstream_002dp">input-stream-p; output-stream-p</a>
+<li><a href="interactive_002dstream_002dp.html#interactive_002dstream_002dp">interactive-stream-p</a>
+<li><a href="open_002dstream_002dp.html#open_002dstream_002dp">open-stream-p</a>
+<li><a href="stream_002delement_002dtype.html#stream_002delement_002dtype">stream-element-type</a>
+<li><a href="streamp.html#streamp">streamp</a>
+<li><a href="read_002dbyte.html#read_002dbyte">read-byte</a>
+<li><a href="write_002dbyte.html#write_002dbyte">write-byte</a>
+<li><a href="peek_002dchar.html#peek_002dchar">peek-char</a>
+<li><a href="read_002dchar.html#read_002dchar">read-char</a>
+<li><a href="read_002dchar_002dno_002dhang.html#read_002dchar_002dno_002dhang">read-char-no-hang</a>
+<li><a href="terpri_003b-fresh_002dline.html#terpri_003b-fresh_002dline">terpri; fresh-line</a>
+<li><a href="unread_002dchar.html#unread_002dchar">unread-char</a>
+<li><a href="write_002dchar.html#write_002dchar">write-char</a>
+<li><a href="read_002dline.html#read_002dline">read-line</a>
+<li><a href="write_002dstring_003b-write_002dline.html#write_002dstring_003b-write_002dline">write-string; write-line</a>
+<li><a href="read_002dsequence.html#read_002dsequence">read-sequence</a>
+<li><a href="write_002dsequence.html#write_002dsequence">write-sequence</a>
+<li><a href="file_002dlength.html#file_002dlength">file-length</a>
+<li><a href="file_002dposition.html#file_002dposition">file-position</a>
+<li><a href="file_002dstring_002dlength.html#file_002dstring_002dlength">file-string-length</a>
+<li><a href="open.html#open">open</a>
+<li><a href="stream_002dexternal_002dformat.html#stream_002dexternal_002dformat">stream-external-format</a>
+<li><a href="with_002dopen_002dfile.html#with_002dopen_002dfile">with-open-file</a>
+<li><a href="close.html#close">close</a>
+<li><a href="with_002dopen_002dstream.html#with_002dopen_002dstream">with-open-stream</a>
+<li><a href="listen.html#listen">listen</a>
+<li><a href="clear_002dinput.html#clear_002dinput">clear-input</a>
+<li><a href="finish_002doutput_003b-force_002doutput_003b-clear_002doutput.html#finish_002doutput_003b-force_002doutput_003b-clear_002doutput">finish-output; force-output; clear-output</a>
+<li><a href="y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp.html#y_002dor_002dn_002dp_003b-yes_002dor_002dno_002dp">y-or-n-p; yes-or-no-p</a>
+<li><a href="make_002dsynonym_002dstream.html#make_002dsynonym_002dstream">make-synonym-stream</a>
+<li><a href="synonym_002dstream_002dsymbol.html#synonym_002dstream_002dsymbol">synonym-stream-symbol</a>
+<li><a href="broadcast_002dstream_002dstreams.html#broadcast_002dstream_002dstreams">broadcast-stream-streams</a>
+<li><a href="make_002dbroadcast_002dstream.html#make_002dbroadcast_002dstream">make-broadcast-stream</a>
+<li><a href="make_002dtwo_002dway_002dstream.html#make_002dtwo_002dway_002dstream">make-two-way-stream</a>
+<li><a href="two_002dway_002dstream_002dinput_002dstream_003b-two_002dway_002dstream_002doutput_002dstream.html#two_002dway_002dstream_002dinput_002dstream_003b-two_002dway_002dstream_002doutput_002dstream">two-way-stream-input-stream; two-way-stream-output-stream</a>
+<li><a href="echo_002dstream_002dinput_002dstream_003b-echo_002dstream_002doutput_002dstream.html#echo_002dstream_002dinput_002dstream_003b-echo_002dstream_002doutput_002dstream">echo-stream-input-stream; echo-stream-output-stream</a>
+<li><a href="make_002decho_002dstream.html#make_002decho_002dstream">make-echo-stream</a>
+<li><a href="concatenated_002dstream_002dstreams.html#concatenated_002dstream_002dstreams">concatenated-stream-streams</a>
+<li><a href="make_002dconcatenated_002dstream.html#make_002dconcatenated_002dstream">make-concatenated-stream</a>
+<li><a href="get_002doutput_002dstream_002dstring.html#get_002doutput_002dstream_002dstring">get-output-stream-string</a>
+<li><a href="make_002dstring_002dinput_002dstream.html#make_002dstring_002dinput_002dstream">make-string-input-stream</a>
+<li><a href="make_002dstring_002doutput_002dstream.html#make_002dstring_002doutput_002dstream">make-string-output-stream</a>
+<li><a href="with_002dinput_002dfrom_002dstring.html#with_002dinput_002dfrom_002dstring">with-input-from-string</a>
+<li><a href="with_002doutput_002dto_002dstring.html#with_002doutput_002dto_002dstring">with-output-to-string</a>
+<li><a href="_002adebug_002dio_002a_003b-_002aerror_002doutput_002a_003b-_002aquery_002dio_002a_003b-_002astandard_002dinput_002a_003b-_002astandard_002dout_002b.html#g_t_002adebug_002dio_002a_003b-_002aerror_002doutput_002a_003b-_002aquery_002dio_002a_003b-_002astandard_002dinput_002a_003b-_002astandard_002dout_002b">*debug-io*; *error-output*; *query-io*; *standard-input*; *standard-out+</a>
+<li><a href="_002aterminal_002dio_002a.html#g_t_002aterminal_002dio_002a">*terminal-io*</a>
+<li><a href="stream_002derror.html#stream_002derror">stream-error</a>
+<li><a href="stream_002derror_002dstream.html#stream_002derror_002dstream">stream-error-stream</a>
+<li><a href="end_002dof_002dfile.html#end_002dof_002dfile">end-of-file</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Streams.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:27:59 GMT -->
+</html>
+

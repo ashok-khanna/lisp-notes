@@ -1,0 +1,110 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Language-Extensions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:35:57 GMT -->
+<head>
+<title>Language Extensions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Introduction.html#Introduction" title="Introduction">
+<link rel="prev" href="Conformance.html#Conformance" title="Conformance">
+<link rel="next" href="Language-Subsets.html#Language-Subsets" title="Language Subsets">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Language-Extensions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Language-Subsets.html#Language-Subsets">Language Subsets</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Conformance.html#Conformance">Conformance</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Introduction.html#Introduction">Introduction</a>
+<hr>
+</div>
+
+<h3 class="section">1.6 Language Extensions</h3>
+
+<p>A language extension is any documented <i>implementation-defined</i> behavior
+of a <i>defined name</i> in this standard that varies from the
+behavior described in this standard, or a documented consequence of a
+situation that the standard specifies as undefined, unspecified, or
+extendable by the implementation.  For example, if this standard says
+that &ldquo;the results are unspecified,&rdquo; an extension would be to specify
+the results.
+
+<p>If the correct behavior of a program depends on the results provided
+by an extension, only implementations with the same extension will
+execute the program correctly.  Note that such a program might be
+non-conforming.  Also, if this standard says that &ldquo;an implementation
+may be extended,&rdquo; a conforming, but possibly non-portable, program
+can be written using an extension.
+
+<p>An implementation can have extensions, provided they do not alter the
+behavior of conforming code and provided they are not explicitly
+prohibited by this standard.
+
+<p>The term &ldquo;extension&rdquo; refers only to extensions available upon
+startup.  An implementation is free to allow or prohibit redefinition
+of an extension.
+
+<p>The following list contains specific guidance to implementations
+concerning certain types of extensions.
+
+     <dl>
+<dt><b>Extra return values</b><dd>
+
+     <p>An implementation must return exactly
+the number of return values specified by this standard unless the
+standard specifically indicates otherwise.
+
+     <br><dt><b>Unsolicited messages</b><dd>
+
+     <p>No output can be produced by a function other than that specified in
+the standard or due to the signaling of <i>conditions</i>
+detected by the function.
+
+     <p>Unsolicited output, such as garbage collection notifications and
+autoload heralds, should not go directly to the <i>stream</i>
+that is the value of a <i>stream</i> variable defined in this
+standard, but can go indirectly to <i>terminal I/O</i> by using a
+<i>synonym stream</i> to <code>*terminal-io*</code>.
+
+     <p>Progress reports from such functions as <code>load</code> and
+<code>compile</code> are considered solicited, and are not covered by
+this prohibition.
+
+     <br><dt><b>Implementation of macros and special forms</b><dd>
+
+     <p><i>Macros</i> and <i>special operators</i> defined in this standard
+must not be <i>functions</i>. 
+</dl>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Language-Extensions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:35:57 GMT -->
+</html>
+

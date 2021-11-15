@@ -1,0 +1,142 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Condition-System-Concepts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:54 GMT -->
+<head>
+<title>Condition System Concepts - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="next" href="condition.html#condition" title="condition">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Condition-System-Concepts"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="condition.html#condition">condition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="section">9.1 Condition System Concepts</h3>
+
+<p>Common Lisp constructs are described not only in terms of their
+behavior in situations during which they are intended to be used (see
+the &ldquo;Description&rdquo; part of each <i>operator</i> specification),
+but in all other situations (see the &ldquo;Exceptional Situations&rdquo;
+part of each <i>operator</i> specification).
+
+<p>A situation is the evaluation of an expression in a specific context. 
+A <i>condition</i> is an <i>object</i> that
+represents a specific situation that has been detected. 
+<i>Conditions</i> are <i>generalized instances</i> of the <i>class</i> <code>condition</code>. 
+A hierarchy of <i>condition</i> classes is defined in <span class="roman">Common Lisp</span>. 
+A <i>condition</i> has <i>slots</i> that contain data
+relevant to the situation that the <i>condition</i> represents.
+
+<p>An error is a situation in which normal program execution cannot
+continue correctly without some form of intervention (either
+interactively by the user or under program control).  Not all errors
+are detected.  When an error goes undetected, the effects can be
+<i>implementation-dependent</i>, <i>implementation-defined</i>, unspecified, or
+undefined. See <a href="Definitions.html#Definitions">Section 1.4 (Definitions)</a>.  All detected errors can
+be represented by <i>conditions</i>, but not all
+<i>conditions</i> represent errors.
+
+<p>Signaling is the process by which a <i>condition</i> can alter
+the flow of control in a program by raising the
+<i>condition</i> which can then be <i>handled</i>.  The functions
+<code>error</code>, <code>cerror</code>, <code>signal</code>, and
+<code>warn</code> are used to signal <i>conditions</i>.
+
+<p>The process of signaling involves the selection and invocation of a
+<i>handler</i> from a set of <i>active</i> <i>handlers</i>. 
+A <i>handler</i> is a <i>function</i> of one argument (the
+<i>condition</i>) that is invoked to handle a <i>condition</i>. 
+Each <i>handler</i> is associated with a <i>condition</i> <i>type</i>,
+and a <i>handler</i> will be invoked only on a <i>condition</i> of the
+<i>handler</i>'s associated <i>type</i>.
+
+<p><i>Active</i> <i>handlers</i> are <i>established</i> dynamically
+(see <code>handler-bind</code> or <code>handler-case</code>). 
+<i>Handlers</i> are invoked in a <i>dynamic environment</i>
+equivalent to that of the signaler,
+except that the set of <i>active</i> <i>handlers</i>
+is bound in such a way as to include only those that were <i>active</i>
+at the time the <i>handler</i> being invoked was <i>established</i>. 
+Signaling a <i>condition</i> has no side-effect on the <i>condition</i>,
+and there is no dynamic state contained in a <i>condition</i>.
+
+<p>If a <i>handler</i> is invoked, it can address the <i>situation</i>
+in one of three ways:
+
+     <dl>
+<dt><b>Decline</b><dd>
+
+     <p>It can decline to <i>handle</i> the <i>condition</i>.  It does this by
+simply returning rather than transferring control. 
+When this happens, any values returned by the handler are
+ignored and the next most recently established handler is invoked. 
+If there is no such handler and the signaling function is <code>error</code>
+or <code>cerror</code>, the debugger is entered in the
+<i>dynamic environment</i> of the signaler. If there is no such
+handler and the signaling function is either <code>signal</code> or
+<code>warn</code>, the signaling function simply returns&nbsp;<code>nil</code>.
+
+     <br><dt><b>Handle</b><dd>
+
+     <p>It can <i>handle</i> the <i>condition</i> by performing a non-local
+transfer of control.  This can be done either primitively by using
+<code>go</code>, <code>return</code>, <code>throw</code> or more
+abstractly by using a function such as <code>abort</code> or
+<code>invoke-restart</code>.
+
+     <br><dt><b>Defer</b><dd>
+
+     <p>It can put off a decision about whether to <i>handle</i> or <i>decline</i>,
+by any of a number of actions, but most commonly by
+signaling another condition,
+resignaling the same condition,
+or forcing entry into the debugger. 
+</dl>
+
+<ul class="menu">
+<li><a accesskey="1" href="Condition-Types.html#Condition-Types">Condition Types</a>
+<li><a accesskey="2" href="Creating-Conditions.html#Creating-Conditions">Creating Conditions</a>
+<li><a accesskey="3" href="Printing-Conditions.html#Printing-Conditions">Printing Conditions</a>
+<li><a accesskey="4" href="Signaling-and-Handling-Conditions.html#Signaling-and-Handling-Conditions">Signaling and Handling Conditions</a>
+<li><a accesskey="5" href="Assertions.html#Assertions">Assertions</a>
+<li><a accesskey="6" href="Notes-about-the-Condition-System_0027s-Background.html#Notes-about-the-Condition-System_0027s-Background">Notes about the Condition System's Background</a>
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Condition-System-Concepts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:54 GMT -->
+</html>
+

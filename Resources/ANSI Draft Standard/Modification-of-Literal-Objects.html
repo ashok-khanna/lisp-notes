@@ -1,0 +1,138 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Modification-of-Literal-Objects.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Modification of Literal Objects - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Destructive-Operations.html#Destructive-Operations" title="Destructive Operations">
+<link rel="next" href="Transfer-of-Control-during-a-Destructive-Operation.html#Transfer-of-Control-during-a-Destructive-Operation" title="Transfer of Control during a Destructive Operation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Modification-of-Literal-Objects"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Transfer-of-Control-during-a-Destructive-Operation.html#Transfer-of-Control-during-a-Destructive-Operation">Transfer of Control during a Destructive Operation</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Destructive-Operations.html#Destructive-Operations">Destructive Operations</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.7.1 Modification of Literal Objects</h4>
+
+<p>The consequences are undefined if <i>literal</i> <i>objects</i>
+are destructively modified.  For this purpose, the following operations
+are considered <i>destructive</i>:
+
+     <dl>
+<dt><code>random-state</code><dd>
+
+     <p>Using it as an <i>argument</i> to the <i>function</i> <code>random</code>.
+
+     <br><dt><code>cons</code><dd>
+
+     <p>Changing the <i>car</i><sub>1</sub> or <i>cdr</i><sub>1</sub> of the <i>cons</i>,
+or performing a <i>destructive</i> operation on an <i>object</i> which is either
+the <i>car</i><sub>2</sub> or the <i>cdr</i><sub>2</sub> of the <i>cons</i>.
+
+     <br><dt><code>array</code><dd>
+
+     <p>Storing a new value into some element of the <i>array</i>,
+or performing a <i>destructive</i> operation
+on an <i>object</i> that is already such an <i>element</i>.
+
+     <p>Changing the <i>fill pointer</i>, <i>dimensions</i>, or displacement of
+the <i>array</i> (regardless of whether the <i>array</i> is <i>actually adjustable</i>).
+
+     <p>Performing a <i>destructive</i> operation on another <i>array</i>
+that is displaced to the <i>array</i> or that otherwise shares its contents
+with the <i>array</i>.
+
+     <br><dt><code>hash-table</code><dd>
+
+     <p>Performing a <i>destructive</i> operation on any <i>key</i>.
+
+     <p>Storing a new <i>value</i><sub>4</sub> for any <i>key</i>,
+or performing a <i>destructive</i> operation
+on any <i>object</i> that is such a <i>value</i>.
+
+     <p>Adding or removing entries from the <i>hash table</i>.
+
+     <br><dt><code>structure-object</code><dd>
+
+     <p>Storing a new value into any slot,
+or performing a <i>destructive</i> operation on an <i>object</i>
+that is the value of some slot.
+
+     <br><dt><code>standard-object</code><dd>
+
+     <p>Storing a new value into any slot,
+or performing a <i>destructive</i> operation on an <i>object</i>
+that is the value of some slot.
+
+     <p>Changing the class of the <i>object</i> (<i>e.g.</i>, using the <i>function</i> <code>change-class</code>).
+
+     <br><dt><code>readtable</code><dd>
+
+     <p>Altering the <i>readtable case</i>.
+
+     <p>Altering the syntax type of any character in this readtable.
+
+     <p>Altering the <i>reader macro function</i> associated with any <i>character</i>
+in the <i>readtable</i>, or altering the <i>reader macro functions</i>
+associated with <i>characters</i> defined as <i>dispatching macro characters</i>
+in the <i>readtable</i>.
+
+     <br><dt><code>stream</code><dd>
+
+     <p>Performing I/O operations on the <i>stream</i>,
+or <i>closing</i> the <i>stream</i>.
+
+     <br><dt>All other standardized types<dd>
+
+     <p>[This category includes, for example, <code>character</code>,
+<code>condition</code>,
+<code>function</code>,
+<code>method-combination</code>,
+<code>method</code>,
+<code>number</code>,
+<code>package</code>,
+<code>pathname</code>,
+<code>restart</code>,
+and <code>symbol</code>.]
+
+     <p>There are no <i>standardized</i> <i>destructive</i> operations
+defined on <i>objects</i> of these <i>types</i>. 
+</dl>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Modification-of-Literal-Objects.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

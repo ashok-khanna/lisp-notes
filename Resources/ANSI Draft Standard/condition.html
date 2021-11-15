@@ -1,0 +1,102 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/condition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:54 GMT -->
+<head>
+<title>condition - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="Condition-System-Concepts.html#Condition-System-Concepts" title="Condition System Concepts">
+<link rel="next" href="warning.html#warning" title="warning">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="condition"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="warning.html#warning">warning</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Condition-System-Concepts.html#Condition-System-Concepts">Condition System Concepts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">condition (Condition Type)</h3>
+
+<p><a name="index-condition-855"></a><a name="index-condition-856"></a>
+
+<h5 class="subsubheading">Class Precedence List:</h5>
+
+<p><code>condition</code>,
+<code>t</code>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>All types of <i>conditions</i>, whether error or
+non-error, must inherit from this <i>type</i>.
+
+<p>No additional <i>subtype</i> relationships among the specified subtypes of <i>type</i> <code>condition</code>
+are allowed, except when explicitly mentioned in the text; however
+implementations are permitted to introduce additional <i>types</i>
+and one of these <i>types</i> can be a <i>subtype</i> of any
+number of the subtypes of <i>type</i> <code>condition</code>.
+
+<p>Whether a user-defined <i>condition</i> <i>type</i> has <i>slots</i>
+that are accessible by <i>with-slots</i> is <i>implementation-dependent</i>. 
+Furthermore, even in an <i>implementation</i>
+in which user-defined <i>condition</i> <i>types</i> would have <i>slots</i>,
+it is <i>implementation-dependent</i> whether any <i>condition</i>
+<i>types</i> defined in this document have such <i>slots</i> or,
+if they do, what their <i>names</i> might be;
+only the reader functions documented by this specification may be relied
+upon by portable code.
+
+<p><i>Conforming code</i> must observe the following restrictions related to
+<i>conditions</i>:
+
+     <ul>
+<li><code>define-condition</code>, not <code>defclass</code>, must be used
+to define new <i>condition</i> <i>types</i>.
+
+     <li><code>make-condition</code>, not <code>make-instance</code>, must be used to
+create <i>condition</i> <i>objects</i> explicitly.
+
+     <li>The <tt>:report</tt> option of <code>define-condition</code>, not <code>defmethod</code>
+for <code>print-object</code>, must be used to define a condition reporter.
+
+     <li><code>slot-value</code>, <code>slot-boundp</code>, <code>slot-makunbound</code>,
+and <code>with-slots</code> must not be used on <i>condition</i> <i>objects</i>. 
+Instead, the appropriate accessor functions (defined by <code>define-condition</code>)
+should be used. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/condition.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:54 GMT -->
+</html>
+

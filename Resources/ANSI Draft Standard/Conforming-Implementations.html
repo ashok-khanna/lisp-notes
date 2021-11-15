@@ -1,0 +1,137 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conforming-Implementations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Conforming Implementations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conformance.html#Conformance" title="Conformance">
+<link rel="next" href="Conforming-Programs.html#Conforming-Programs" title="Conforming Programs">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Conforming-Implementations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Conforming-Programs.html#Conforming-Programs">Conforming Programs</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conformance.html#Conformance">Conformance</a>
+<hr>
+</div>
+
+<h4 class="subsection">1.5.1 Conforming Implementations</h4>
+
+<p>A <a name="index-conforming-implementation-40"></a><dfn>conforming implementation</dfn> shall adhere to the requirements outlined
+in this section.
+
+<h5 class="subsubsection">1.5.1.1 Required Language Features</h5>
+
+<p><a name="ReqLangFeatures"></a>A <i>conforming implementation</i> shall accept all features
+(including deprecated features)
+of the language specified in this standard,
+with the meanings defined in this standard.
+
+<p>A <i>conforming implementation</i> shall not require the inclusion of substitute
+or additional language elements in code in order to accomplish a feature of
+the language that is specified in this standard.
+
+<h5 class="subsubsection">1.5.1.2 Documentation of Implementation-Dependent Features</h5>
+
+<p>A <i>conforming implementation</i> shall be accompanied by a document
+that provides a definition of all <i>implementation-defined</i>
+aspects of the language defined by this specification.
+
+<p>In addition, a <i>conforming implementation</i> is encouraged (but not required)
+to document items in this standard that are identified as
+<i>implementation-dependent</i>, although in some cases
+such documentation might simply identify the item as &ldquo;undefined.&rdquo;
+
+<h5 class="subsubsection">1.5.1.3 Documentation of Extensions</h5>
+
+<p>A <i>conforming implementation</i> shall be accompanied by a
+document that separately describes any features accepted by the
+<i>implementation</i> that are not specified in this standard, but that do not
+cause any ambiguity or contradiction when added to the language
+standard.  Such extensions shall be described as being &ldquo;extensions to
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->as specified by ANSI «standard number».&rdquo;
+
+<h5 class="subsubsection">1.5.1.4 Treatment of Exceptional Situations</h5>
+
+<p>A <i>conforming implementation</i> shall treat exceptional situations
+in a manner consistent with this specification.
+
+<h5 class="unnumberedsubsubsec">1.5.1.4.1 Resolution of Apparent Conflicts in Exceptional Situations</h5>
+
+<p>If more than one passage in this specification appears to apply to the
+same situation but in conflicting ways, the passage that appears
+to describe the situation in the most specific way (not necessarily the
+passage that provides the most constrained kind of error detection)
+takes precedence.
+
+<h5 class="unnumberedsubsubsec">1.5.1.4.1.1 Examples of Resolution of Apparent Conflicts</h5>
+
+<p>in Exceptional Situations
+
+<p>Suppose that function <code>foo</code> is a member of a set S of <i>functions</i> that
+operate on numbers.  Suppose that one passage states that an error must be
+signaled if any <i>function</i> in S is ever given an argument of <code>17</code>. 
+Suppose that an apparently conflicting passage states that the consequences
+are undefined if <code>foo</code> receives an argument of <code>17</code>.  Then the second passage
+(the one specifically about <code>foo</code>) would dominate because the description of
+the situational context is the most specific, and it would not be required that
+<code>foo</code> signal an error on an argument of <code>17</code> even though other functions in
+the set S would be required to do so.
+
+<h5 class="subsubsection">1.5.1.5 Conformance Statement</h5>
+
+<p>A <i>conforming implementation</i> shall produce a conformance statement
+as a consequence of using the implementation, or that statement
+shall be included in the accompanying documentation.  If the implementation
+conforms in all respects with this standard, the conformance statement
+shall be
+
+     <dl>
+<dt><dd> &ldquo;«Implementation» conforms with the requirements
+of ANSI «standard number»&rdquo;
+</dl>
+
+<p>If the <i>implementation</i> conforms with some but not all of the requirements of this
+standard, then the conformance statement shall be
+
+     <dl>
+<dt><dd> &ldquo;«Implementation» conforms with the requirements of
+ANSI «standard number» with the following exceptions:
+«reference to or complete list of the requirements of
+the standard with which the implementation does not conform».&rdquo;
+</dl>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Conforming-Implementations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

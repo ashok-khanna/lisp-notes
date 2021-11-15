@@ -1,0 +1,100 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Transfer-of-Control-to-an-Exit-Point.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:25 GMT -->
+<head>
+<title>Transfer of Control to an Exit Point - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="Generalized-Reference.html#Generalized-Reference" title="Generalized Reference">
+<link rel="next" href="apply.html#apply" title="apply">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Transfer-of-Control-to-an-Exit-Point"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="apply.html#apply">apply</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Generalized-Reference.html#Generalized-Reference">Generalized Reference</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="section">5.2 Transfer of Control to an Exit Point</h3>
+
+<p>When a transfer of control is initiated by <code>go</code>,
+<code>return-from</code>, or <code>throw</code>
+the following events occur in order to accomplish the transfer of control. 
+Note that for <code>go</code>,
+the <i>exit point</i> is the <i>form</i> within the <code>tagbody</code>
+that is being executed at the time the <code>go</code> is performed;
+for <code>return-from</code>,
+the <i>exit point</i> is the corresponding
+<code>block</code> <i>form</i>;
+and for <code>throw</code>,
+the <i>exit point</i> is the corresponding
+<code>catch</code> <i>form</i>.
+
+     <ol type=1 start=1>
+<li>Intervening <i>exit points</i> are &ldquo;abandoned&rdquo;
+(<i>i.e.</i>, their <i>extent</i> ends
+and it is no longer valid to attempt to transfer control through them).
+
+     <li>The cleanup clauses of any intervening <code>unwind-protect</code> clauses
+are evaluated.
+
+     <li>Intervening dynamic <i>bindings</i> of <code>special</code> variables,
+<i>catch tags</i>, <i>condition handlers</i>, and <i>restarts</i>
+are undone.
+
+     <li>The <i>extent</i> of the <i>exit point</i> being invoked ends,
+and control is passed to the target.
+     </ol>
+
+<p>The extent of an exit being &ldquo;abandoned&rdquo; because it is being passed over
+ends as soon as the transfer of control is initiated. That is,
+event 1 occurs at the beginning of the initiation of the transfer of
+control. 
+The consequences are undefined if an attempt is made to transfer control
+to an <i>exit point</i> whose <i>dynamic extent</i> has ended.
+
+<p>Events 2 and 3 are actually performed interleaved, in the order
+corresponding to the reverse order in which they were established. 
+The effect of this is that the cleanup clauses of an <code>unwind-protect</code>
+see the same dynamic <i>bindings</i>
+of variables and <i>catch tags</i> as were
+visible when the <code>unwind-protect</code> was entered.
+
+<p>Event 4 occurs at the end of the transfer of control.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Transfer-of-Control-to-an-Exit-Point.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:25 GMT -->
+</html>
+

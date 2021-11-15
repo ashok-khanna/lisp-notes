@@ -1,0 +1,89 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Unconditional-Execution-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Unconditional Execution Clauses - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="prev" href="Termination-Test-Clauses.html#Termination-Test-Clauses" title="Termination Test Clauses">
+<link rel="next" href="Conditional-Execution-Clauses.html#Conditional-Execution-Clauses" title="Conditional Execution Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Unconditional-Execution-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Conditional-Execution-Clauses.html#Conditional-Execution-Clauses">Conditional Execution Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Termination-Test-Clauses.html#Termination-Test-Clauses">Termination Test Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.5 Unconditional Execution Clauses</h4>
+
+<p>The <code>do</code> and <code>doing</code> constructs
+evaluate the
+supplied <var>forms</var>
+wherever they occur in the expanded form of <code>loop</code>. 
+The <var>form</var> argument can be any <i>compound form</i>. 
+Each <var>form</var> is evaluated in every iteration. 
+Because every loop clause must begin with a <i>loop keyword</i>,
+the keyword <code>do</code> is used when no control action other than execution is
+required.
+
+<p>The <code>return</code> construct takes one <i>form</i>. 
+Any <i>values</i> returned by the <i>form</i>
+are immediately returned by the <code>loop</code> form. 
+It is equivalent to the clause
+<code>do (return-from </code><i>block-name</i> <i>value</i><code>)</code>,
+where <i>block-name</i> is the name specified in a <code>named</code>
+clause, or <code>nil</code>&nbsp;<!-- /@w -->if there is no <code>named</code> clause.
+
+<h5 class="subsubsection">6.1.5.1 Examples of unconditional execution</h5>
+
+<pre class="lisp">;; Print numbers and their squares.
+;; The DO construct applies to multiple forms.
+ (loop for i from 1 to 3
+       do (print i)
+          (print (* i i)))
+▷ 1
+▷ 1
+▷ 2
+▷ 4
+▷ 3
+▷ 9
+<span class="roman">→</span> NIL
+
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Unconditional-Execution-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

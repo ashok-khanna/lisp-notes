@@ -1,0 +1,112 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/quote.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:03 GMT -->
+<head>
+<title>quote - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation" title="Evaluation and Compilation">
+<link rel="prev" href="load_002dtime_002dvalue.html#load_002dtime_002dvalue" title="load-time-value">
+<link rel="next" href="compiler_002dmacro_002dfunction.html#compiler_002dmacro_002dfunction" title="compiler-macro-function">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="quote"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="compiler_002dmacro_002dfunction.html#compiler_002dmacro_002dfunction">compiler-macro-function</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="load_002dtime_002dvalue.html#load_002dtime_002dvalue">load-time-value</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation-and-Compilation.html#Evaluation-and-Compilation">Evaluation and Compilation</a>
+<hr>
+</div>
+
+<h3 class="heading">quote (Special Operator)</h3>
+
+<p><a name="index-quote-258"></a><a name="index-quote-259"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Special Form: <b>quote</b><var> object </var><span class="roman">→</span><var> object<a name="index-quote-260"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>object</var>&mdash;an <i>object</i>; not evaluated.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The <code>quote</code> <i>special operator</i> just returns <var>object</var>.
+
+<p>The consequences are undefined if <i>literal objects</i> (including
+<i>quoted objects</i>) are destructively modified.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq a 1) <span class="roman">→</span> 1
+ (quote (setq a 3)) <span class="roman">→</span> (SETQ A 3)
+ a <span class="roman">→</span> 1
+ 'a <span class="roman">→</span> A
+ ''a <span class="roman">→</span> (QUOTE A)
+ '''a <span class="roman">→</span> (QUOTE (QUOTE A))
+ (setq a 43) <span class="roman">→</span> 43
+ (list a (cons a 3)) <span class="roman">→</span> (43 (43 . 3))
+ (list (quote a) (quote (cons a 3))) <span class="roman">→</span> (A (CONS A 3))
+ 1 <span class="roman">→</span> 1
+ '1 <span class="roman">→</span> 1
+ "foo" <span class="roman">→</span> "foo"
+ '"foo" <span class="roman">→</span> "foo"
+ (car '(a b)) <span class="roman">→</span> A
+ '(car '(a b)) <span class="roman">→</span> (CAR (QUOTE (A B)))
+ #(car '(a b)) <span class="roman">→</span> #(CAR (QUOTE (A B)))
+ '#(car '(a b)) <span class="roman">→</span> #(CAR (QUOTE (A B)))
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>,
+<a href="Single_002dQuote.html#Single_002dQuote">Section 2.4.3 (Single-Quote)</a>,
+<a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The textual notation <code>'</code><var>object</var> is equivalent to <code>(quote </code><var>object</var><code>)</code>;
+see <a href="Compiler-Terminology.html#Compiler-Terminology">Section 3.2.1 (Compiler Terminology)</a>.
+
+<p>Some <i>objects</i>, called <i>self-evaluating objects</i>,
+do not require quotation by <code>quote</code>. 
+However, <i>symbols</i> and <i>lists</i> are used to represent parts of programs,
+and so would not be useable as constant data in a program without <code>quote</code>. 
+Since <code>quote</code> suppresses the <i>evaluation</i> of these <i>objects</i>,
+they become data rather than program.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/quote.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:03 GMT -->
+</html>
+

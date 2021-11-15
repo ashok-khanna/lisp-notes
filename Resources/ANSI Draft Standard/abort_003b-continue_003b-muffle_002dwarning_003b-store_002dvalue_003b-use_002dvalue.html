@@ -1,0 +1,267 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/abort_003b-continue_003b-muffle_002dwarning_003b-store_002dvalue_003b-use_002dvalue.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:04 GMT -->
+<head>
+<title>abort; continue; muffle-warning; store-value; use-value - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="use_002dvalue-_0028Restart_0029.html#use_002dvalue-_0028Restart_0029" title="use-value (Restart)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="abort%3b-continue%3b-muffle-warning%3b-store-value%3b-use-value"></a>
+<a name="abort_003b-continue_003b-muffle_002dwarning_003b-store_002dvalue_003b-use_002dvalue"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="use_002dvalue-_0028Restart_0029.html#use_002dvalue-_0028Restart_0029">use-value (Restart)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">abort, continue, muffle-warning, store-value, use-value (Function)</h3>
+
+<p><a name="index-abort-976"></a><a name="index-abort-977"></a><a name="index-continue-978"></a><a name="index-continue-979"></a><a name="index-muffle_002dwarning-980"></a><a name="index-muffle_002dwarning-981"></a><a name="index-store_002dvalue-982"></a><a name="index-store_002dvalue-983"></a><a name="index-use_002dvalue-984"></a><a name="index-use_002dvalue-985"></a><a name="abort"></a><a name="continue"></a><a name="muffle_002dwarning"></a><a name="store_002dvalue"></a><a name="use_002dvalue"></a><a name="index-abort-986"></a><a name="index-continue-987"></a><a name="index-muffle_002dwarning-988"></a><a name="index-store_002dvalue-989"></a><a name="index-use_002dvalue-990"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>abort</b> <tt>&amp;optional</tt><var> condition </var><span class="roman">→</span><span class="roman">|</span><var><a name="index-abort-991"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>continue</b> <tt>&amp;optional</tt><var> condition </var><span class="roman">→</span> <code>nil</code><var><a name="index-continue-992"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>muffle-warning</b> <tt>&amp;optional</tt><var> condition </var><span class="roman">→</span><span class="roman">|</span><var><a name="index-muffle_002dwarning-993"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>store-value</b><var> value </var><tt>&amp;optional</tt><var> condition </var><span class="roman">→</span> <code>nil</code><var><a name="index-store_002dvalue-994"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>use-value</b><var> value </var><tt>&amp;optional</tt><var> condition </var><span class="roman">→</span> <code>nil</code><var><a name="index-use_002dvalue-995"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>value</var>&mdash;an <i>object</i>.
+
+<p><var>condition</var>&mdash;a <i>condition</i> <i>object</i>, or <code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Transfers control to the most recently established <i>applicable restart</i>
+having the same name as the function.  That is,
+the <i>function</i> <code>abort</code>    searches for an <i>applicable</i> <tt>abort</tt>    <i>restart</i>,
+the <i>function</i> <code>continue</code> searches for an <i>applicable</i> <tt>continue</tt> <i>restart</i>,
+and so on.
+
+<p>If no such <i>restart</i> exists,
+the functions
+<code>continue</code>,
+<code>store-value</code>,
+and <code>use-value</code>
+return <code>nil</code>, and
+the functions
+<code>abort</code>
+and <code>muffle-warning</code>
+signal an error of <i>type</i> <code>control-error</code>.
+
+<p>When <var>condition</var> is <i>non-nil</i>,
+only those <i>restarts</i> are considered that are
+either explicitly associated with that <var>condition</var>,
+or not associated with any <i>condition</i>;
+that is, the excluded <i>restarts</i> are
+those that are associated with a non-empty set of <i>conditions</i>
+of which the given <var>condition</var> is not an <i>element</i>. 
+If <var>condition</var> is <code>nil</code>, all <i>restarts</i> are considered.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;;; Example of the ABORT retart
+
+ (defmacro abort-on-error (&amp;body forms)
+   `(handler-bind ((error #'abort))
+      ,@forms)) <span class="roman">→</span> ABORT-ON-ERROR
+ (abort-on-error (+ 3 5)) <span class="roman">→</span> 8
+ (abort-on-error (error "You lose."))
+▷ Returned to Lisp Top Level.
+
+;;; Example of the CONTINUE restart
+
+ (defun real-sqrt (n)
+   (when (minusp n)
+     (setq n (- n))
+     (cerror "Return sqrt(~D) instead." "Tried to take sqrt(-~D)." n))
+   (sqrt n))
+
+ (real-sqrt 4) <span class="roman">→</span> 2
+ (real-sqrt -9)
+▷ Error: Tried to take sqrt(-9).
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Return sqrt(9) instead.
+▷  2: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>(continue)</kbd>
+▷ Return sqrt(9) instead.
+<span class="roman">→</span> 3
+
+ (handler-bind ((error #'(lambda (c) (continue))))
+   (real-sqrt -9)) <span class="roman">→</span> 3
+
+;;; Example of the MUFFLE-WARNING restart
+
+ (defun count-down (x)
+   (do ((counter x (1- counter)))
+       ((= counter 0) 'done)
+     (when (= counter 1)
+       (warn "Almost done"))
+     (format t "~&amp;~D~%" counter)))
+<span class="roman">→</span> COUNT-DOWN
+ (count-down 3)
+▷ 3
+▷ 2
+▷ Warning: Almost done
+▷ 1
+<span class="roman">→</span> DONE
+ (defun ignore-warnings-while-counting (x)
+   (handler-bind ((warning #'ignore-warning))
+     (count-down x)))
+<span class="roman">→</span> IGNORE-WARNINGS-WHILE-COUNTING
+ (defun ignore-warning (condition)
+   (declare (ignore condition))
+   (muffle-warning))
+<span class="roman">→</span> IGNORE-WARNING
+ (ignore-warnings-while-counting 3)
+▷ 3
+▷ 2
+▷ 1
+<span class="roman">→</span> DONE
+
+;;; Example of the STORE-VALUE and USE-VALUE restarts
+
+ (defun careful-symbol-value (symbol)
+   (check-type symbol symbol)
+   (restart-case (if (boundp symbol)
+                     (return-from careful-symbol-value
+                                  (symbol-value symbol))
+                     (error 'unbound-variable
+                            :name symbol))
+     (use-value (value)
+       :report "Specify a value to use this time."
+       value)
+     (store-value (value)
+       :report "Specify a value to store and use in the future."
+       (setf (symbol-value symbol) value))))
+ (setq a 1234) <span class="roman">→</span> 1234
+ (careful-symbol-value 'a) <span class="roman">→</span> 1234
+ (makunbound 'a) <span class="roman">→</span> A
+ (careful-symbol-value 'a)
+▷ Error: A is not bound.
+▷ To continue, type :CONTINUE followed by an option number.
+▷  1: Specify a value to use this time.
+▷  2: Specify a value to store and use in the future.
+▷  3: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>(use-value 12)</kbd>
+<span class="roman">→</span> 12
+ (careful-symbol-value 'a)
+▷ Error: A is not bound.
+▷ To continue, type :CONTINUE followed by an option number.
+▷   1: Specify a value to use this time.
+▷   2: Specify a value to store and use in the future.
+▷   3: Return to Lisp Toplevel.
+▷ Debug&gt; <kbd>(store-value 24)</kbd>
+<span class="roman">→</span> 24
+ (careful-symbol-value 'a)
+<span class="roman">→</span> 24
+
+;;; Example of the USE-VALUE restart
+
+ (defun add-symbols-with-default (default &amp;rest symbols)
+   (handler-bind ((sys:unbound-symbol
+                    #'(lambda (c)
+                        (declare (ignore c))
+                        (use-value default))))
+     (apply #'+ (mapcar #'careful-symbol-value symbols))))
+<span class="roman">→</span> ADD-SYMBOLS-WITH-DEFAULT
+ (setq x 1 y 2) <span class="roman">→</span> 2
+ (add-symbols-with-default 3 'x 'y 'z) <span class="roman">→</span> 6
+
+
+</pre>
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>A transfer of control may occur if an appropriate <i>restart</i> is available,
+or (in the case of the <i>function</i> <code>abort</code> or the <i>function</i> <code>muffle-warning</code>)
+execution may be stopped.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>Each of these functions can be affected by
+the presence of a <i>restart</i> having the same name.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>If an appropriate <tt>abort</tt> <i>restart</i>
+is not available for the <i>function</i> <code>abort</code>,
+or an appropriate <tt>muffle-warning</tt> <i>restart</i>
+is not available for the <i>function</i> <code>muffle-warning</code>,
+an error of <i>type</i> <code>control-error</code> is signaled.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="invoke_002drestart.html#invoke_002drestart">invoke-restart</a>,
+<a href="Restarts.html#Restarts">Section 9.1.4.2 (Restarts)</a>,
+<a href="InterfacesToRestarts.html#InterfacesToRestarts">Section 9.1.4.2.2 (Interfaces to Restarts)</a>,
+<a href="assert.html#assert">assert</a>,
+<a href="ccase.html#ccase">ccase</a>,
+<a href="cerror.html#cerror">cerror</a>,
+<a href="check_002dtype.html#check_002dtype">check-type</a>,
+<a href="ctypecase.html#ctypecase">ctypecase</a>,
+<a href="use_002dvalue.html#use_002dvalue">use-value</a>,
+<a href="warn.html#warn">warn</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (abort condition) ≡ (invoke-restart 'abort)
+ (muffle-warning)  ≡ (invoke-restart 'muffle-warning)
+ (continue)        ≡ (let ((r (find-restart 'continue))) (if r (invoke-restart r)))
+ (use-value <var>x</var>) ≡ (let ((r (find-restart 'use-value))) (if r (invoke-restart r <var>x</var>)))
+ (store-value x) ≡ (let ((r (find-restart 'store-value))) (if r (invoke-restart r <var>x</var>)))
+</pre>
+<p>No functions defined in this specification are required to provide
+a <tt>use-value</tt> <i>restart</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/abort_003b-continue_003b-muffle_002dwarning_003b-store_002dvalue_003b-use_002dvalue.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:04 GMT -->
+</html>
+

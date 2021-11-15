@@ -1,0 +1,118 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/and-_0028Macro_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:38 GMT -->
+<head>
+<title>and (Macro) - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="every_003b-some_003b-notevery_003b-notany.html#every_003b-some_003b-notevery_003b-notany" title="every; some; notevery; notany">
+<link rel="next" href="cond.html#cond" title="cond">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="and-(Macro)"></a>
+<a name="and-_0028Macro_0029"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="cond.html#cond">cond</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="every_003b-some_003b-notevery_003b-notany.html#every_003b-some_003b-notevery_003b-notany">every; some; notevery; notany</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">and (Macro)</h3>
+
+<p><a name="index-and-565"></a><a name="index-and-566"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>and</b> <tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-and-567"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<p><var>results</var>&mdash;the <i>values</i> resulting from the evaluation of
+the last <var>form</var>, or the symbols <code>nil</code>&nbsp;<!-- /@w -->or <code>t</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The macro <code>and</code> evaluates each <var>form</var> one at a time from left to right. 
+As soon as any <var>form</var> evaluates to <code>nil</code>, <code>and</code> returns
+<code>nil</code>&nbsp;<!-- /@w -->without evaluating the remaining <var>forms</var>.  If all <var>forms</var>
+but the last evaluate to <i>true</i> values, <code>and</code> returns the results
+produced by evaluating the last <var>form</var>.
+
+<p>If no <var>forms</var> are supplied, <code>(and)</code> returns <code>t</code>.
+
+<p><code>and</code> passes back multiple values from the last <i>subform</i>
+but not from subforms other than the last.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (if (and (&gt;= n 0)
+          (&lt; n (length a-simple-vector))
+          (eq (elt a-simple-vector n) 'foo))
+     (princ "Foo!"))
+</pre>
+<p>The above expression prints <code>Foo!</code> if element <code>n</code> of <code>a-simple-vector</code>
+is the symbol <code>foo</code>, provided also that <code>n</code> is indeed a valid index
+for <code>a-simple-vector</code>.  Because <code>and</code> guarantees
+left-to-right testing
+of its parts, <code>elt</code> is not called if <code>n</code> is out of range.
+
+<pre class="lisp"> (setq temp1 1 temp2 1 temp3 1) <span class="roman">→</span> 1
+ (and (incf temp1) (incf temp2) (incf temp3)) <span class="roman">→</span> 2
+ (and (eql 2 temp1) (eql 2 temp2) (eql 2 temp3)) <span class="roman">→</span> <i>true</i>
+ (decf temp3) <span class="roman">→</span> 1
+ (and (decf temp1) (decf temp2) (eq temp3 'nil) (decf temp3)) <span class="roman">→</span> NIL
+ (and (eql temp1 temp2) (eql temp2 temp3)) <span class="roman">→</span> <i>true</i>
+ (and) <span class="roman">→</span> T
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="cond.html#cond">cond</a>,
+<a href="every.html#every">every</a>,
+<a href="if.html#if">if</a>,
+<a href="or-_0028Macro_0029.html#or-_0028Macro_0029">or (Macro)</a>,
+<a href="when.html#when">when</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (and <var>form</var>) ≡ (let () <var>form</var>)
+ (and <var>form1</var> <var>form2</var> ...) ≡ (when <var>form1</var> (and <var>form2</var> ...))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/and-_0028Macro_0029.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:40 GMT -->
+</html>
+

@@ -1,0 +1,106 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/array_002drow_002dmajor_002dindex.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:13 GMT -->
+<head>
+<title>array-row-major-index - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Arrays.html#Arrays" title="Arrays">
+<link rel="prev" href="array_002drank.html#array_002drank" title="array-rank">
+<link rel="next" href="array_002dtotal_002dsize.html#array_002dtotal_002dsize" title="array-total-size">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="array-row-major-index"></a>
+<a name="array_002drow_002dmajor_002dindex"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="array_002dtotal_002dsize.html#array_002dtotal_002dsize">array-total-size</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="array_002drank.html#array_002drank">array-rank</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Arrays.html#Arrays">Arrays</a>
+<hr>
+</div>
+
+<h3 class="heading">array-row-major-index (Function)</h3>
+
+<p><a name="index-array_002drow_002dmajor_002dindex-2108"></a><a name="index-array_002drow_002dmajor_002dindex-2109"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>array-row-major-index</b><var> array </var><tt>&amp;rest</tt><var> subscripts </var><span class="roman">→</span><var> index<a name="index-array_002drow_002dmajor_002dindex-2110"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>array</var>&mdash;an <i>array</i>.
+
+<p><var>subscripts</var>&mdash;a <i>list</i> of <i>valid array indices</i> for the <var>array</var>.
+
+<p><var>index</var>&mdash;a <i>valid array row-major index</i> for the <var>array</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Computes the position according to the row-major ordering of <var>array</var>
+for the element that is specified by <var>subscripts</var>, and returns the
+offset of the element in the computed position from the beginning of <var>array</var>.
+
+<p>For a one-dimensional <var>array</var>,
+the result of <code>array-row-major-index</code>
+equals <var>subscript</var>.
+
+<p><code>array-row-major-index</code> ignores <i>fill pointers</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq a (make-array '(4 7) :element-type '(unsigned-byte 8)))
+ (array-row-major-index a 1 2) <span class="roman">→</span> 9
+ (array-row-major-index
+    (make-array '(2 3 4)
+                :element-type '(unsigned-byte 8)
+                :displaced-to a
+                :displaced-index-offset 4)
+    0 2 1) <span class="roman">→</span> 9
+</pre>
+<h5 class="subsubheading">Notes:</h5>
+
+<p>A possible definition of <code>array-row-major-index</code>,
+with no error-checking, is
+
+<pre class="lisp"> (defun array-row-major-index (a &amp;rest subscripts)
+   (apply #'+ (maplist #'(lambda (x y)
+                            (* (car x) (apply #'* (cdr y))))
+                       subscripts
+                       (array-dimensions a))))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/array_002drow_002dmajor_002dindex.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:13 GMT -->
+</html>
+

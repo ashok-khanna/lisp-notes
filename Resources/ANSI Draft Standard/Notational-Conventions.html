@@ -1,0 +1,575 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Notational-Conventions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:14 GMT -->
+<head>
+<title>Notational Conventions - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Definitions.html#Definitions" title="Definitions">
+<link rel="next" href="Error-Terminology.html#Error-Terminology" title="Error Terminology">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Notational-Conventions"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Error-Terminology.html#Error-Terminology">Error Terminology</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Definitions.html#Definitions">Definitions</a>
+<hr>
+</div>
+
+<h4 class="subsection">1.4.1 Notational Conventions</h4>
+
+<p>The following notational conventions are used throughout this document.
+
+<h5 class="subsubsection">1.4.1.1 Font Key</h5>
+
+<p>Fonts are used in this document to convey information.
+
+     <dl>
+<dt><i>name</i><dd>
+
+     <p>Denotes a formal term whose meaning is defined in the Glossary. 
+When this font is used, the Glossary definition takes precedence
+over normal English usage.
+
+     <p>Sometimes a glossary term appears subscripted,
+as in &ldquo;<i>whitespace</i><sub>2</sub>.&rdquo;
+Such a notation selects one particular Glossary definition out of several,
+in this case the second. 
+The subscript notation for Glossary terms is generally used where the
+context might be insufficient to disambiguate among the available definitions.
+
+     <br><dt><a name="index-name-1"></a><dfn>name</dfn><dd>
+
+     <p>Denotes the introduction of a formal term locally to the current text. 
+There is still a corresponding glossary entry, and is formally equivalent
+to a use of &ldquo;<i>name</i>,&rdquo; but the hope is that making such uses
+conspicuous will save the reader a trip to the glossary in some cases.
+
+     <br><dt><tt>name</tt><dd>
+
+     <p>Denotes a symbol in the <code>COMMON-LISP</code> <i>package</i>. 
+For information about <i>case</i> conventions,
+see <a href="CaseInSymbols.html#CaseInSymbols">Section 1.4.1.4.1 (Case in Symbols)</a>.
+
+     <br><dt><code>name</code><dd>
+
+     <p>Denotes a sample <i>name</i> or piece of <i>code</i> that a programmer
+might write in <span class="roman">Common Lisp</span>.
+
+     <p>This font is also used for certain <i>standardized</i> names that are not
+names of <i>external symbols</i> of the <code>COMMON-LISP</code> <i>package</i>,
+such as <i>keywords</i><sub>1</sub>,
+<i>package</i> <i>names</i>,
+and <i>loop keywords</i>.
+
+     <br><dt><var>name</var><dd>
+
+     <p>Denotes the name of a <i>parameter</i> or <i>value</i>.
+
+     <p>In some situations the notation &ldquo;«<var>name</var>»&rdquo; (<i>i.e.</i>, the same font,
+but with surrounding &ldquo;angle brackets&rdquo;) is used instead in order to
+provide better visual separation from surrounding characters.  These
+&ldquo;angle brackets&rdquo; are metasyntactic, and never actually appear in program
+input or output. 
+</dl>
+
+<h5 class="subsubsection">1.4.1.2 Modified BNF Syntax</h5>
+
+<p><a name="ModifiedBNF"></a>This specification uses an extended Backus Normal Form (BNF) to
+describe the syntax of <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>macro forms</i> and <i>special forms</i>. 
+This section discusses the syntax of BNF expressions.
+
+<h5 class="unnumberedsubsubsec">1.4.1.2.1 Splicing in Modified BNF Syntax</h5>
+
+<p>The primary extension used is the following:
+
+<blockquote>
+〚O〛<!-- /@w -->
+</blockquote>
+
+<p>An expression of this form appears whenever a list of elements is
+to be spliced into a larger structure and the elements can appear in
+any order. The symbol O represents a description of the syntax of
+some number of syntactic elements to be spliced; that description must
+be of the form
+
+<blockquote>
+O<sub>1</sub>&nbsp;<!-- /@w --><span class="roman">|</span>&nbsp;<!-- /@w --><small class="dots">...</small>&nbsp;<!-- /@w --><span class="roman">|</span>&nbsp;<!-- /@w -->O<sub>l</sub>
+
+</blockquote>
+
+<p class="noindent">where each O<sub>i</sub> can be of the form S or of
+the form S* or of the form S¹. 
+The expression 〚O〛 means that a list of the form
+
+<blockquote>
+(O<sub>i<sub>1</sub></sub><small class="dots">...</small> O<sub>i<sub>j</sub></sub>) 1≤ j
+</blockquote>
+
+<p class="noindent">is spliced into the enclosing expression,
+such that if n ≠ m and 1≤ n,m≤ j,
+then either O<sub>i<sub>n</sub></sub>≠ O<sub>i<sub>m</sub></sub>
+
+<p>or O<sub>i<sub>n</sub></sub> = O<sub>i<sub>m</sub></sub> = Q<sub>k</sub>,
+where for some 1≤ k ≤ n, O<sub>k</sub> is of the form Q<sub>k</sub>*. 
+Furthermore, for each O<sub>i<sub>n</sub></sub> that is of the form Q<sub>k</sub>¹,
+that element is required to appear somewhere in the list to be spliced.
+
+<p>For example, the expression
+
+<p><code>(x 〚A | B* | C〛 y)</code>
+
+<p class="noindent">means that at most one <code>A</code>, any number of <code>B</code>'s, and
+at most one <code>C</code> can occur in any order. 
+It is a description of any of these:
+
+<pre class="lisp"> (x y)
+ (x B A C y)
+ (x A B B B B B C y)
+ (x C B A B B B y)
+</pre>
+<p class="noindent">but not any of these:
+
+<pre class="lisp"> (x B B A A C C y)
+ (x C B C y)
+</pre>
+<p class="noindent">In the first case, both <code>A</code> and <code>C</code> appear too often,
+and in the second case <code>C</code> appears too often.
+
+<p>The notation 〚O<sub>1</sub> | O<sub>2</sub> | <small class="dots">...</small>〛+
+adds the additional restriction that at least one item from among the possible
+choices must be used.  For example:
+
+<p><code>(x 〚A | B* | C〛+ y)</code>
+
+<p class="noindent">means that at most one <code>A</code>, any number of <code>B</code>'s, and
+at most one <code>C</code> can occur in any order, but that in any case at least
+one of these options must be selected. 
+It is a description of any of these:
+
+<pre class="lisp"> (x B y)
+ (x B A C y)
+ (x A B B B B B C y)
+ (x C B A B B B y)
+</pre>
+<p class="noindent">but not any of these:
+
+<pre class="lisp"> (x y)
+ (x B B A A C C y)
+ (x C B C y)
+</pre>
+<p class="noindent">In the first case, no item was used;
+in the second case, both <code>A</code> and <code>C</code> appear too often;
+and in the third case <code>C</code> appears too often.
+
+<p>Also, the expression:
+
+<p><code>(x 〚A¹ | B¹ | C〛 y)</code>
+
+<p class="noindent">can generate exactly these and no others:
+
+<pre class="lisp"> (x A B C y)
+ (x A C B y)
+ (x A B y)
+ (x B A C y)
+ (x B C A y)
+ (x B A y)
+ (x C A B y)
+ (x C B A y)
+</pre>
+<h5 class="unnumberedsubsubsec">1.4.1.2.2 Indirection in Modified BNF Syntax</h5>
+
+<p>An indirection extension is introduced in order to make this
+new syntax more readable:
+
+<blockquote>
+<tt>↓</tt>O<!-- /@w -->
+</blockquote>
+
+<p class="noindent">If <var>O</var> is a non-terminal symbol, the right-hand side
+of its definition is substituted for the entire expression
+<tt>↓</tt>O.  For example, the following BNF is equivalent to
+the BNF in the previous example:
+
+<p><code>(x 〚</code><tt>↓</tt><code>O〛 y)</code>
+
+     <dl>
+<dt><var>O</var>::=<dd><code>A</code> | <code>B</code>* | <code>C</code>
+</dl>
+
+<h5 class="unnumberedsubsubsec">1.4.1.2.3 Additional Uses for Indirect Definitions in Modified BNF Syntax</h5>
+
+<p>In some cases, an auxiliary definition in the BNF might appear to be unused
+within the BNF, but might still be useful elsewhere.  For example, consider the
+following definitions:
+
+<div class="defun">
+&mdash; Macro: <b>case</b><var> keyform </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><tt>[</tt><tt>↓</tt><var>otherwise-clause</var><tt>]</tt> <span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-case-2"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>ccase</b><var> keyplace </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-ccase-3"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>ecase</b><var> keyform </var><tt>{</tt><tt>↓</tt><var>normal-clause</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-ecase-4"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>normal-clause</var>::=<dd><tt>(</tt>keys <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>otherwise-clause</var>::=<dd><tt>(</tt><tt>{</tt>otherwise | t<tt>}</tt> <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>clause</var>::=<dd>normal-clause | otherwise-clause
+</dl>
+
+<p>Here the term &ldquo;<var>clause</var>&rdquo; might appear to be &ldquo;dead&rdquo; in that it
+is not used in the BNF.  However, the purpose of the BNF is not just to guide parsing,
+but also to define useful terms for reference in the descriptive text which follows. 
+As such, the term &ldquo;<var>clause</var>&rdquo; might appear in text that follows,
+as shorthand for &ldquo;<var>normal-clause</var> or <var>otherwise-clause</var>.&rdquo;
+
+<h5 class="subsubsection">1.4.1.3 Special Symbols</h5>
+
+<p>The special symbols described here are used as a notational convenience
+within this document, and are part of neither the <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->language nor
+its environment.
+
+     <dl>
+<dt><span class="roman">→</span><dd>
+
+     <p>This indicates evaluation. 
+For example:
+
+     <pre class="lisp">      (+ 4 5) <span class="roman">→</span> 9
+</pre>
+     <p>This means that the result of
+evaluating the <i>form</i> <code>(+ 4 5)</code> is <code>9</code>.
+
+     <p>If a <i>form</i> returns <i>multiple values</i>, those values might
+be shown separated by spaces, line breaks, or commas. 
+For example:
+
+     <pre class="lisp">      (truncate 7 5)
+     <span class="roman">→</span> 1 2
+      (truncate 7 5)
+     <span class="roman">→</span> 1
+        2
+      (truncate 7 5)
+     <span class="roman">→</span> 1, 2
+</pre>
+     <p>Each of the above three examples is equivalent, and specifies
+that <code>(truncate 7 5)</code> returns two values, which are <code>1</code> and <code>2</code>.
+
+     <p>Some <i>conforming implementations</i> actually type an arrow (or some
+other indicator) before showing return values, while others do not.
+
+     <br><dt>or<span class="roman">→</span><dd>
+
+     <p>The notation &ldquo;or<span class="roman">→</span>&rdquo; is used to denote one of several possible
+alternate results.  The example
+
+     <pre class="lisp">      (char-name #\a)
+     <span class="roman">→</span> NIL
+     or<span class="roman">→</span> "LOWERCASE-a"
+     or<span class="roman">→</span> "Small-A"
+     or<span class="roman">→</span> "LA01"
+</pre>
+     <p>indicates that <code>nil</code>, <code>"LOWERCASE-a"</code>, <code>"Small-A"</code>, <code>"LA01"</code> are
+among the possible results of <code>(char-name #\a)</code>&mdash;each with equal preference. 
+Unless explicitly specified otherwise, it should not be assumed that the set of possible
+results shown is exhaustive. 
+Formally, the above example is equivalent to
+
+     <pre class="lisp">      (char-name #\a) <span class="roman">→</span> <i>implementation-dependent</i>
+</pre>
+     <p>but it is intended to provide additional information to illustrate some
+of the ways in which it is permitted for implementations to diverge.
+
+     <br><dt>not<span class="roman">→</span><dd>
+
+     <p>The notation &ldquo;not<span class="roman">→</span>&rdquo; is used to denote a result which is not possible. 
+This might be used, for example, in order to emphasize a situation where
+some anticipated misconception might lead the reader to falsely believe
+that the result might be possible.  For example,
+
+     <pre class="lisp">      (function-lambda-expression
+         (funcall #'(lambda (x) #'(lambda () x)) nil))
+     <span class="roman">→</span> NIL, <i>true</i>, NIL
+     or<span class="roman">→</span> (LAMBDA () X), <i>true</i>, NIL
+     not<span class="roman">→</span> NIL, <i>false</i>, NIL
+     not<span class="roman">→</span> (LAMBDA () X), <i>false</i>, NIL
+</pre>
+     <br><dt>≡<dd>
+
+     <p>This indicates code equivalence. For example:
+
+     <pre class="lisp">      (gcd x (gcd y z)) ≡ (gcd (gcd x y) z)
+</pre>
+     <p>This means that the results and observable side-effects of evaluating
+the <i>form</i>
+<code>(gcd&nbsp;x&nbsp;(gcd&nbsp;y&nbsp;z))</code>&nbsp;<!-- /@w --> are always the same as the results
+and observable side-effects of
+<code>(gcd&nbsp;(gcd&nbsp;x&nbsp;y)&nbsp;z)</code>&nbsp;<!-- /@w --> for any
+<code>x</code>, <code>y</code>, and <code>z</code>.
+
+     <br><dt>▷<dd>
+
+     <p><span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->specifies input and output with respect to a non-interactive stream model. 
+The specific details of how interactive input and output are mapped onto that
+non-interactive model are <i>implementation-defined</i>.
+
+     <p>For example, <i>conforming implementations</i> are permitted to differ in issues
+of how interactive input is terminated.  For example, the <i>function</i> <code>read</code>
+terminates when the final delimiter is typed on a non-interactive stream. 
+In some <i>implementations</i>, an interactive call to <code>read</code> returns
+as soon as the final delimiter is typed, even if that delimiter is not a <i>newline</i>. 
+In other <i>implementations</i>, a final <i>newline</i> is always required. 
+In still other <i>implementations</i>, there might be a command which &ldquo;activates&rdquo;
+a buffer full of input without the command itself being visible on the program's
+input stream.
+
+     <p>In the examples in this document, the notation &ldquo;▷&rdquo; precedes
+lines where interactive input and output occurs.  Within such a scenario,
+&ldquo;<kbd>this notation</kbd>&rdquo; notates user input.
+
+     <p>For example, the notation
+
+     <pre class="lisp">      (+ 1 (print (+ (sqrt (read)) (sqrt (read)))))
+     ▷ <kbd>9 16 </kbd>
+     ▷ 7
+     <span class="roman">→</span> 8
+</pre>
+     <p>shows an interaction in which
+&ldquo;<code>(+ 1 (print (+ (sqrt (read)) (sqrt (read)))))</code>&rdquo;
+is a <i>form</i> to be <i>evaluated</i>,
+&ldquo;<code>9 16 </code>&rdquo; is interactive input,
+&ldquo;<code>7</code>&rdquo; is interactive output, and
+&ldquo;<code>8</code>&rdquo; is the <i>value</i> <i>yielded</i> from the <i>evaluation</i>.
+
+     <p>The use of this notation is intended to disguise small differences
+in interactive input and output behavior between <i>implementations</i>.
+
+     <p>Sometimes, the non-interactive stream model calls for a <i>newline</i>. 
+How that <i>newline</i> character is interactively entered is an
+<i>implementation-defined</i> detail of the user interface, but in that
+case, either the notation &ldquo;&lt;Newline&gt;&rdquo; or &ldquo;↩&rdquo; might be used.
+
+     <pre class="lisp">      (progn (format t "~&amp;Who? ") (read-line))
+     ▷ Who? <kbd>Fred, Mary, and Sally↩</kbd>
+     <span class="roman">→</span> "Fred, Mary, and Sally", <i>false</i>
+</pre>
+     </dl>
+
+<h5 class="subsubsection">1.4.1.4 Objects with Multiple Notations</h5>
+
+<p>Some <i>objects</i> in <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->can be notated in more than one way. 
+In such situations, the choice of which notation to use is technically arbitrary,
+but conventions may exist which convey a &ldquo;point of view&rdquo; or &ldquo;sense of intent.&rdquo;
+
+<h5 class="unnumberedsubsubsec">1.4.1.4.1 Case in Symbols</h5>
+
+<p><a name="index-case-in-symbol-names-5"></a><a name="CaseInSymbols"></a>While <i>case</i> is significant in the process of <i>interning</i> a <i>symbol</i>,
+the <i>Lisp reader</i>, by default, attempts to canonicalize the case of a
+<i>symbol</i> prior to interning; see <a href="Effect-of-Readtable-Case-on-the-Lisp-Reader.html#Effect-of-Readtable-Case-on-the-Lisp-Reader">Section 23.1.2 (Effect of Readtable Case on the Lisp Reader)</a>. 
+As such, case in <i>symbols</i> is not, by default, significant. 
+Throughout this document, except as explicitly noted otherwise,
+the case in which a <i>symbol</i> appears is not significant;
+that is, <code>HELLO</code>, <code>Hello</code>, <code>hElLo</code>, and <code>hello</code> are
+all equivalent ways to denote a symbol whose name is <code>"HELLO"</code>.
+
+<p>The characters <i>backslash</i> and <i>vertical-bar</i> are used to explicitly
+quote the <i>case</i> and other parsing-related
+aspects
+of characters.  As such,
+the notations <code>|hello|</code> and <code>\h\e\l\l\o</code> are equivalent ways
+to refer to a symbol whose name is <code>"hello"</code>, and which is <i>distinct</i> from
+any symbol whose name is <code>"HELLO"</code>.
+
+<p>The <i>symbols</i> that correspond to <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>defined names</i>
+have <i>uppercase</i> names even though their names generally appear
+in <i>lowercase</i> in this document.
+
+<h5 class="unnumberedsubsubsec">1.4.1.4.2 Numbers</h5>
+
+<p>Although <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->provides a variety of ways for programs to manipulate the
+input and output radix for rational numbers, all numbers in this document
+are in decimal notation unless explicitly noted otherwise.
+
+<h5 class="unnumberedsubsubsec">1.4.1.4.3 Use of the Dot Character</h5>
+
+<p>The dot appearing by itself in an <i>expression</i> such as
+
+<p><code>(</code><var>item1</var> <var>item2</var><code> . </code><var>tail</var><code>)</code>
+
+<p>means that <var>tail</var> represents a <i>list</i> of <i>objects</i>
+at the end of a list.  For example,
+
+<p><code>(A B C . (D E F))</code>
+
+<p>is notationally equivalent to:
+
+<p><code>(A B C D E F)</code>
+
+<p>Although <i>dot</i> is a valid constituent character in a symbol, no
+<i>standardized</i> <i>symbols</i> contain the character <i>dot</i>,
+so a period that follows a reference to a <i>symbol</i> at the end of
+a sentence in this document should always be interpreted as a period
+and never as part of the <i>symbol</i>'s <i>name</i>. 
+For example, within this document, a sentence such as
+&ldquo;This sample sentence refers to the symbol <code>car</code>.&rdquo;
+refers to a symbol whose name is <code>"CAR"</code> (with three letters),
+and never to a four-letter symbol <code>"CAR."</code>
+
+<h5 class="unnumberedsubsubsec">1.4.1.4.4 NIL</h5>
+
+<p><a name="index-nil-6"></a><a name="index-g_t_0028_0029-7"></a><a name="index-nil-8"></a>
+<code>nil</code>&nbsp;<!-- /@w -->has a variety of meanings. 
+It is a <i>symbol</i> in the <code>COMMON-LISP</code> <i>package</i> with the <i>name</i> <code>"NIL"</code>,
+it is <i>boolean</i> (and <i>generalized boolean</i>) <i>false</i>,
+it is the <i>empty list</i>,
+and it is the <i>name</i> of the <i>empty type</i> (a <i>subtype</i> of all <i>types</i>).
+
+<p>Within <span class="roman">Common Lisp</span>, <code>nil</code>&nbsp;<!-- /@w -->can be notated interchangeably as either <code>NIL</code> or <code>()</code>. 
+By convention, the choice of notation offers a hint as to which of its many
+roles it is playing.
+
+<div class="float">
+<a name="fig1_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><b>For Evaluation?</b> </td><td valign="top"><b>Notation</b> </td><td valign="top"><b>Typically Implied Role</b>
+<br></td></tr><tr align="left"><td valign="top">Yes </td><td valign="top"><code>nil</code> </td><td valign="top">use as a <i>boolean</i>. 
+<br></td></tr><tr align="left"><td valign="top">Yes </td><td valign="top"><code>'nil</code> </td><td valign="top">use as a <i>symbol</i>. 
+<br></td></tr><tr align="left"><td valign="top">Yes </td><td valign="top"><code>'()</code> </td><td valign="top">use as an <i>empty list</i>
+<br></td></tr><tr align="left"><td valign="top">No </td><td valign="top"><code>nil</code> </td><td valign="top">use as a <i>symbol</i> or <i>boolean</i>. 
+<br></td></tr><tr align="left"><td valign="top">No </td><td valign="top"><code>()</code> </td><td valign="top">use as an <i>empty list</i>.
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 1.1: Notations for NIL</strong></p></div>
+
+<p>Within this document only, <code>nil</code>&nbsp;<!-- /@w -->is also sometimes notated as <i>false</i> to
+emphasize its role as a <i>boolean</i>.
+
+<p>For example:
+
+<pre class="lisp"> (print ())                          ;avoided
+ (defun three nil 3)                 ;avoided
+ '(nil nil)                          ;list of two symbols
+ '(() ())                            ;list of empty lists
+ (defun three () 3)                  ;Emphasize empty parameter list.
+ (append '() '()) <span class="roman">→</span> ()              ;Emphasize use of empty lists
+ (not nil) <span class="roman">→</span> <i>true</i>                   ;Emphasize use as Boolean false
+ (get 'nil 'color)                   ;Emphasize use as a symbol
+</pre>
+<p>A <i>function</i> is sometimes said to &ldquo;be <i>false</i>&rdquo; or &ldquo;be <i>true</i>&rdquo;
+in some circumstance. 
+Since no <i>function</i> object can be the same as <code>nil</code>&nbsp;<!-- /@w -->
+and all <i>function</i> <i>objects</i> represent <i>true</i> when viewed as <i>booleans</i>,
+it would be meaningless to say that the <i>function</i> was literally <i>false</i>
+and uninteresting to say that it was literally <i>true</i>. 
+Instead, these phrases are just traditional alternative ways of saying that the
+<i>function</i> &ldquo;returns <i>false</i>&rdquo; or &ldquo;returns <i>true</i>,&rdquo; respectively.
+
+<h5 class="subsubsection">1.4.1.5 Designators</h5>
+
+<p><a name="Designators"></a>A <a name="index-designator-9"></a><dfn>designator</dfn> is an <i>object</i> that denotes another <i>object</i>.
+
+<p>Where a <i>parameter</i> of an <i>operator</i> is described as a <i>designator</i>,
+the description of the <i>operator</i> is written in a way that assumes that
+the value of the <i>parameter</i> is the denoted <i>object</i>;
+that is, that the <i>parameter</i> is already of the denoted <i>type</i>. 
+(The specific nature of the <i>object</i> denoted by
+a &ldquo;«type» <i>designator</i>&rdquo;
+or a &ldquo;<i>designator</i> for a «type»&rdquo;
+can be found in the Glossary entry for &ldquo;«type» <i>designator</i>.&rdquo;)
+
+<p>For example, &ldquo;<code>nil</code>&rdquo; and &ldquo;the <i>value</i> of <code>*standard-output*</code>&rdquo; are operationally
+indistinguishable as <i>stream designators</i>.  Similarly,
+the <i>symbol</i> <code>foo</code> and the <i>string</i> <code>"FOO"</code>
+are operationally indistinguishable as <i>string designators</i>.
+
+<p>Except as otherwise noted, in a situation where the denoted <i>object</i>
+might be used multiple times, it is <i>implementation-dependent</i>
+whether the <i>object</i> is coerced only once or whether the coercion occurs
+each time the <i>object</i> must be used.
+
+<p>For example, <code>mapcar</code> receives a <i>function designator</i> as an argument,
+and its description is written as if this were simply a function.  In fact, it
+is <i>implementation-dependent</i> whether the <i>function designator</i> is
+coerced right away or whether it is carried around internally in the form that
+it was given as an <i>argument</i> and re-coerced each time it is needed.  In most
+cases, <i>conforming programs</i> cannot detect the distinction, but there are some
+pathological situations (particularly those involving self-redefining or
+mutually-redefining functions) which do conform and which can detect this difference. 
+The following program is a <i>conforming program</i>, but might or might not have
+portably correct results, depending on whether its correctness depends on one or
+the other of the results:
+
+<pre class="lisp"> (defun add-some (x)
+   (defun add-some (x) (+ x 2))
+   (+ x 1)) <span class="roman">→</span> ADD-SOME
+ (mapcar 'add-some '(1 2 3 4))
+<span class="roman">→</span> (2 3 4 5)
+or<span class="roman">→</span> (2 4 5 6)
+</pre>
+<p>In a few rare situations, there may be a need in a dictionary entry
+to refer to the <i>object</i> that was the original <i>designator</i>
+for a <i>parameter</i>. 
+Since naming the <i>parameter</i> would refer to the denoted <i>object</i>,
+the phrase &ldquo;the «parameter-name» <i>designator</i>&rdquo;
+can be used to refer to the <i>designator</i> which was the <i>argument</i>
+from which the <i>value</i> of «parameter-name» was computed.
+
+<h5 class="subsubsection">1.4.1.6 Nonsense Words</h5>
+
+<p>When a word having no pre-attached semantics is required (<i>e.g.</i>, in an
+example), it is common in the Lisp community to use one of the words
+&ldquo;foo,&rdquo; &ldquo;bar,&rdquo; &ldquo;baz,&rdquo; and &ldquo;quux.&rdquo;  For example, in
+
+<pre class="lisp"> (defun foo (x) (+ x 1))
+</pre>
+<p>the use of the name <code>foo</code> is just a shorthand way of saying
+&ldquo;please substitute your favorite name here.&rdquo;
+
+<p>These nonsense words have gained such prevalance of usage, that it is
+commonplace for newcomers to the community to begin to wonder if there
+is an attached semantics which they are overlooking&mdash;there is not.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Notational-Conventions.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:15 GMT -->
+</html>
+

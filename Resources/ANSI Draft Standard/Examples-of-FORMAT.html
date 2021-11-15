@@ -1,0 +1,142 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-FORMAT.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+<head>
+<title>Examples of FORMAT - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="Additional-Information-about-FORMAT-Operations.html#Additional-Information-about-FORMAT-Operations" title="Additional Information about FORMAT Operations">
+<link rel="next" href="Notes-about-FORMAT.html#Notes-about-FORMAT" title="Notes about FORMAT">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Examples-of-FORMAT"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Notes-about-FORMAT.html#Notes-about-FORMAT">Notes about FORMAT</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Additional-Information-about-FORMAT-Operations.html#Additional-Information-about-FORMAT-Operations">Additional Information about FORMAT Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.11 Examples of FORMAT</h4>
+
+<pre class="lisp"> (format nil "foo") <span class="roman">→</span> "foo"
+ (setq x 5) <span class="roman">→</span> 5
+ (format nil "The answer is ~D." x) <span class="roman">→</span> "The answer is 5."
+ (format nil "The answer is ~3D." x) <span class="roman">→</span> "The answer is   5."
+ (format nil "The answer is ~3,'0D." x) <span class="roman">→</span> "The answer is 005."
+ (format nil "The answer is ~:D." (expt 47 x))
+<span class="roman">→</span> "The answer is 229,345,007."
+ (setq y "elephant") <span class="roman">→</span> "elephant"
+ (format nil "Look at the ~A!" y) <span class="roman">→</span> "Look at the elephant!"
+ (setq n 3) <span class="roman">→</span> 3
+ (format nil "~D item~:P found." n) <span class="roman">→</span> "3 items found."
+ (format nil "~R dog~:[s are~; is~] here." n (= n 1))
+<span class="roman">→</span> "three dogs are here."
+ (format nil "~R dog~:*~[s are~; is~:;s are~] here." n)
+<span class="roman">→</span> "three dogs are here."
+ (format nil "Here ~[are~;is~:;are~] ~:*~R pupp~:@P." n)
+<span class="roman">→</span> "Here are three puppies."
+</pre>
+<pre class="lisp"> (defun foo (x)
+   (format nil "~6,2F|~6,2,1,'*F|~6,2,,'?F|~6F|~,2F|~F"
+           x x x x x x)) <span class="roman">→</span> FOO
+ (foo 3.14159)  <span class="roman">→</span> "  3.14| 31.42|  3.14|3.1416|3.14|3.14159"
+ (foo -3.14159) <span class="roman">→</span> " -3.14|-31.42| -3.14|-3.142|-3.14|-3.14159"
+ (foo 100.0)    <span class="roman">→</span> "100.00|******|100.00| 100.0|100.00|100.0"
+ (foo 1234.0)   <span class="roman">→</span> "1234.00|******|??????|1234.0|1234.00|1234.0"
+ (foo 0.006)    <span class="roman">→</span> "  0.01|  0.06|  0.01| 0.006|0.01|0.006"
+</pre>
+<pre class="lisp"> (defun foo (x)
+    (format nil
+           "~9,2,1,,'*E|~10,3,2,2,'?,,'$E|~
+            ~9,3,2,-2,'%@E|~9,2E"
+           x x x x))
+ (foo 3.14159)  <span class="roman">→</span> "  3.14E+0| 31.42$-01|+.003E+03|  3.14E+0"
+ (foo -3.14159) <span class="roman">→</span> " -3.14E+0|-31.42$-01|-.003E+03| -3.14E+0"
+ (foo 1100.0)   <span class="roman">→</span> "  1.10E+3| 11.00$+02|+.001E+06|  1.10E+3"
+ (foo 1100.0L0) <span class="roman">→</span> "  1.10L+3| 11.00$+02|+.001L+06|  1.10L+3"
+ (foo 1.1E13)   <span class="roman">→</span> "*********| 11.00$+12|+.001E+16| 1.10E+13"
+ (foo 1.1L120)  <span class="roman">→</span> "*********|??????????|%%%%%%%%%|1.10L+120"
+ (foo 1.1L1200) <span class="roman">→</span> "*********|??????????|%%%%%%%%%|1.10L+1200"
+</pre>
+<p>As an example of the effects of varying the scale factor, the code
+
+<pre class="lisp"> (dotimes (k 13)
+   (format t "~%Scale factor ~2D: |~13,6,2,VE|"
+           (- k 5) (- k 5) 3.14159))
+</pre>
+<p>produces the following output:
+
+<pre class="lisp">Scale factor -5: | 0.000003E+06|
+Scale factor -4: | 0.000031E+05|
+Scale factor -3: | 0.000314E+04|
+Scale factor -2: | 0.003142E+03|
+Scale factor -1: | 0.031416E+02|
+Scale factor  0: | 0.314159E+01|
+Scale factor  1: | 3.141590E+00|
+Scale factor  2: | 31.41590E-01|
+Scale factor  3: | 314.1590E-02|
+Scale factor  4: | 3141.590E-03|
+Scale factor  5: | 31415.90E-04|
+Scale factor  6: | 314159.0E-05|
+Scale factor  7: | 3141590.E-06|
+</pre>
+<pre class="lisp"> (defun foo (x)
+   (format nil "~9,2,1,,'*G|~9,3,2,3,'?,,'$G|~9,3,2,0,'%G|~9,2G"
+          x x x x))
+ (foo 0.0314159) <span class="roman">→</span> "  3.14E-2|314.2$-04|0.314E-01|  3.14E-2"
+ (foo 0.314159)  <span class="roman">→</span> "  0.31   |0.314    |0.314    | 0.31    "
+ (foo 3.14159)   <span class="roman">→</span> "   3.1   | 3.14    | 3.14    |  3.1    "
+ (foo 31.4159)   <span class="roman">→</span> "   31.   | 31.4    | 31.4    |  31.    "
+ (foo 314.159)   <span class="roman">→</span> "  3.14E+2| 314.    | 314.    |  3.14E+2"
+ (foo 3141.59)   <span class="roman">→</span> "  3.14E+3|314.2$+01|0.314E+04|  3.14E+3"
+ (foo 3141.59L0) <span class="roman">→</span> "  3.14L+3|314.2$+01|0.314L+04|  3.14L+3"
+ (foo 3.14E12)   <span class="roman">→</span> "*********|314.0$+10|0.314E+13| 3.14E+12"
+ (foo 3.14L120)  <span class="roman">→</span> "*********|?????????|%%%%%%%%%|3.14L+120"
+ (foo 3.14L1200) <span class="roman">→</span> "*********|?????????|%%%%%%%%%|3.14L+1200"
+</pre>
+<pre class="lisp"> (format nil "~10&lt;foo~;bar~&gt;")   <span class="roman">→</span> "foo    bar"
+ (format nil "~10:&lt;foo~;bar~&gt;")  <span class="roman">→</span> "  foo  bar"
+ (format nil "~10&lt;foobar~&gt;")     <span class="roman">→</span> "    foobar"
+ (format nil "~10:&lt;foobar~&gt;")    <span class="roman">→</span> "    foobar"
+ (format nil "~10:@&lt;foo~;bar~&gt;") <span class="roman">→</span> "  foo bar "
+ (format nil "~10@&lt;foobar~&gt;")    <span class="roman">→</span> "foobar    "
+ (format nil "~10:@&lt;foobar~&gt;")   <span class="roman">→</span> "  foobar  "
+</pre>
+<pre class="lisp">  (FORMAT NIL "Written to ~A." #P"foo.bin")
+  <span class="roman">→</span> "Written to foo.bin."
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Examples-of-FORMAT.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:41 GMT -->
+</html>
+

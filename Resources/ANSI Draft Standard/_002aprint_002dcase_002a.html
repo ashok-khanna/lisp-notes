@@ -1,0 +1,120 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aprint_002dcase_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:56 GMT -->
+<head>
+<title>*print-case* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a.html#g_t_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a" title="*print-base*; *print-radix*">
+<link rel="next" href="_002aprint_002dcircle_002a.html#g_t_002aprint_002dcircle_002a" title="*print-circle*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="*print-case*"></a>
+<a name="g_t_002aprint_002dcase_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002aprint_002dcircle_002a.html#g_t_002aprint_002dcircle_002a">*print-circle*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a.html#g_t_002aprint_002dbase_002a_003b-_002aprint_002dradix_002a">*print-base*; *print-radix*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">*print-case* (Variable)</h3>
+
+<p><a name="index-g_t_002aprint_002dcase_002a-2963"></a><a name="index-g_t_002aprint_002dcase_002a-2964"></a>
+
+<h5 class="subsubheading">Value Type:</h5>
+
+<p>One of the <i>symbols</i> <tt>:upcase</tt>, <tt>:downcase</tt>, or <tt>:capitalize</tt>.
+
+<h5 class="subsubheading">Initial Value:</h5>
+
+<p>The <i>symbol</i> <tt>:upcase</tt>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The <i>value</i> of <code>*print-case*</code> controls the case (upper, lower, or mixed) in
+which to print any uppercase characters in the names of <i>symbols</i>
+when vertical-bar syntax is not used.
+
+<p><code>*print-case*</code> has an effect at all times when the <i>value</i> of <code>*print-escape*</code>
+is <i>false</i>. <code>*print-case*</code> also has an effect when
+the <i>value</i> of <code>*print-escape*</code> is <i>true</i> unless inside an escape context
+(<i>i.e.</i>, unless between <i>vertical-bars</i> or after a <i>slash</i>).
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun test-print-case ()
+   (dolist (*print-case* '(:upcase :downcase :capitalize))
+     (format t "~&amp;~S ~S~%" 'this-and-that '|And-something-elSE|)))
+<span class="roman">→</span> TEST-PC
+;; Although the choice of which characters to escape is specified by
+;; *PRINT-CASE*, the choice of how to escape those characters
+;; (i.e., whether single escapes or multiple escapes are used)
+;; is implementation-dependent.  The examples here show two of the
+;; many valid ways in which escaping might appear.
+ (test-print-case) ;Implementation A
+▷ THIS-AND-THAT |And-something-elSE|
+▷ this-and-that a\n\d-\s\o\m\e\t\h\i\n\g-\e\lse
+▷ This-And-That A\n\d-\s\o\m\e\t\h\i\n\g-\e\lse
+<span class="roman">→</span> NIL
+ (test-print-case) ;Implementation B
+▷ THIS-AND-THAT |And-something-elSE|
+▷ this-and-that a|nd-something-el|se
+▷ This-And-That A|nd-something-el|se
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="write.html#write">write</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>read</code> normally converts lowercase characters appearing
+in <i>symbols</i> to corresponding uppercase characters,
+so that internally print names normally contain only uppercase characters.
+
+<p>If <code>*print-escape*</code> is <i>true</i>,
+lowercase characters in the <i>name</i> of a <i>symbol</i>
+are always printed in lowercase, and
+are preceded by a single escape character
+or enclosed by multiple escape characters;
+uppercase characters in the <i>name</i> of a <i>symbol</i>
+are printed in upper case, in lower case, or in mixed case
+so as to capitalize words, according to the value of
+<code>*print-case*</code>.  The convention for what constitutes
+a &ldquo;word&rdquo; is the same as for <code>string-capitalize</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aprint_002dcase_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:56 GMT -->
+</html>
+

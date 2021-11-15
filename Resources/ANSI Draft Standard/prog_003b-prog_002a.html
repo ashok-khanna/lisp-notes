@@ -1,0 +1,184 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/prog_003b-prog_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+<head>
+<title>prog; prog* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="nth_002dvalue.html#nth_002dvalue" title="nth-value">
+<link rel="next" href="prog1_003b-prog2.html#prog1_003b-prog2" title="prog1; prog2">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="prog%3b-prog*"></a>
+<a name="prog_003b-prog_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="prog1_003b-prog2.html#prog1_003b-prog2">prog1; prog2</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="nth_002dvalue.html#nth_002dvalue">nth-value</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">prog, prog* (Macro)</h3>
+
+<p><a name="index-prog-633"></a><a name="index-prog-634"></a><a name="index-prog_002a-635"></a><a name="index-prog_002a-636"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>prog</b> <tt>(</tt><tt>{</tt><var>var </var><span class="roman">|</span>  <tt>(</tt><var>var </var><tt>[</tt><var>init-form</var><tt>]</tt><tt>)</tt><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>tag </var><span class="roman">|</span><var> statement</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-prog-637"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Macro: <b>prog*</b> <tt>(</tt><tt>{</tt><var>var </var><span class="roman">|</span>  <tt>(</tt><var>var </var><tt>[</tt><var>init-form</var><tt>]</tt><tt>)</tt><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><tt>{</tt><var>tag </var><span class="roman">|</span><var> statement</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-prog_002a-638"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>var</var>&mdash;variable name.
+
+<p><var>init-form</var>&mdash;a <i>form</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>tag</var>&mdash;a <i>go tag</i>; not evaluated.
+
+<p><var>statement</var>&mdash;a <i>compound form</i>; evaluated as described below.
+
+<p><var>results</var>&mdash;<code>nil</code>&nbsp;<!-- /@w -->if a <i>normal return</i> occurs,
+or else, if an <i>explicit return</i> occurs, the <i>values</i> that were transferred.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Three distinct operations are performed by <code>prog</code> and
+<code>prog*</code>:
+they bind local variables,
+they permit use of the <code>return</code>
+statement, and they permit use of the <code>go</code>
+statement. 
+A typical <code>prog</code> looks like this:
+
+<pre class="lisp"> (prog (var1 var2 (var3 init-form-3) var4 (var5 init-form-5))
+       <tt>{</tt>declaration<tt>}</tt>*
+       statement1
+  tag1
+       statement2
+       statement3
+       statement4
+  tag2
+       statement5
+       ...
+       )
+</pre>
+<p>For <code>prog</code>,
+<var>init-forms</var> are evaluated first, in the order in which they are
+supplied. The <var>vars</var> are then bound to the corresponding values in
+parallel.  If no <var>init-form</var>
+is supplied for a given <var>var</var>,
+that <var>var</var> is  bound to <code>nil</code>.
+
+<p>The body of <code>prog</code> is executed as if it were a <code>tagbody</code> <i>form</i>;
+the <code>go</code> statement can be used to transfer control
+to a <var>tag</var>. 
+<var>Tags</var> label <var>statements</var>.
+
+<p><code>prog</code> implicitly establishes a <code>block</code> named <code>nil</code>&nbsp;<!-- /@w -->around
+the entire <code>prog</code> <i>form</i>, so that <code>return</code> can be used
+at any time to exit from the <code>prog</code> <i>form</i>.
+
+<p>The difference between <code>prog*</code> and <code>prog</code> is that
+in <code>prog*</code> the <i>binding</i> and initialization of the <var>vars</var>
+is done <i>sequentially</i>, so that the <var>init-form</var> for each
+one can use the values of previous ones.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">(prog* ((y z) (x (car y)))
+       (return x))
+</pre>
+<p>returns the <i>car</i> of the value of <code>z</code>.
+
+<pre class="lisp"> (setq a 1) <span class="roman">→</span> 1
+ (prog ((a 2) (b a)) (return (if (= a b) '= '/=))) <span class="roman">→</span> /=
+ (prog* ((a 2) (b a)) (return (if (= a b) '= '/=))) <span class="roman">→</span> =
+ (prog () 'no-return-value) <span class="roman">→</span> NIL
+</pre>
+<pre class="lisp"> (defun king-of-confusion (w)
+   "Take a cons of two lists and make a list of conses.
+    Think of this function as being like a zipper."
+   (prog (x y z)          ;Initialize x, y, z to NIL
+        (setq y (car w) z (cdr w))
+    loop
+        (cond ((null y) (return x))
+              ((null z) (go err)))
+    rejoin
+        (setq x (cons (cons (car y) (car z)) x))
+        (setq y (cdr y) z (cdr z))
+        (go loop)
+    err
+        (cerror "Will self-pair extraneous items"
+                "Mismatch - gleep!  ~S" y)
+        (setq z y)
+        (go rejoin))) <span class="roman">→</span> KING-OF-CONFUSION
+</pre>
+<p>This can be accomplished more perspicuously as follows:
+
+<pre class="lisp"> (defun prince-of-clarity (w)
+   "Take a cons of two lists and make a list of conses.
+    Think of this function as being like a zipper."
+   (do ((y (car w) (cdr y))
+        (z (cdr w) (cdr z))
+        (x '() (cons (cons (car y) (car z)) x)))
+       ((null y) x)
+     (when (null z)
+       (cerror "Will self-pair extraneous items"
+              "Mismatch - gleep!  ~S" y)
+       (setq z y)))) <span class="roman">→</span> PRINCE-OF-CLARITY
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="block.html#block">block</a>, <a href="let.html#let">let</a>, <a href="tagbody.html#tagbody">tagbody</a>, <a href="go.html#go">go</a>,
+<a href="return.html#return">return</a>, <a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>prog</code> can be explained in terms of
+<code>block</code>, <code>let</code>, and <code>tagbody</code> as
+follows:
+
+<pre class="lisp"> (prog <var>variable-list</var> <var>declaration</var> . <var>body</var>)
+    ≡ (block nil (let <var>variable-list</var> <var>declaration</var> (tagbody . <var>body</var>)))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/prog_003b-prog_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:45 GMT -->
+</html>
+

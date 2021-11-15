@@ -1,0 +1,131 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/truename.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:30 GMT -->
+<head>
+<title>truename - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Files.html#Files" title="Files">
+<link rel="prev" href="ensure_002ddirectories_002dexist.html#ensure_002ddirectories_002dexist" title="ensure-directories-exist">
+<link rel="next" href="file_002dauthor.html#file_002dauthor" title="file-author">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="truename"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="file_002dauthor.html#file_002dauthor">file-author</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="ensure_002ddirectories_002dexist.html#ensure_002ddirectories_002dexist">ensure-directories-exist</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Files.html#Files">Files</a>
+<hr>
+</div>
+
+<h3 class="heading">truename (Function)</h3>
+
+<p><a name="index-truename-2562"></a><a name="index-truename-2563"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>truename</b><var> filespec </var><span class="roman">→</span><var> truename<a name="index-truename-2564"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>filespec</var>&mdash;a <i>pathname designator</i>.
+
+<p><var>truename</var>&mdash;a <i>physical pathname</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>truename</code> tries to find the <i>file</i> indicated by
+<var>filespec</var> and returns its <i>truename</i>. 
+If the <var>filespec</var> <i>designator</i> is an open <i>stream</i>,
+its associated <i>file</i> is used. 
+If <var>filespec</var> is a <i>stream</i>,
+<code>truename</code> can be used whether the <i>stream</i>
+is open or closed. It is permissible for <code>truename</code>
+to return more specific information after the <i>stream</i>
+is closed than when the <i>stream</i> was open. 
+If <var>filespec</var> is a <i>pathname</i>
+it represents the name used to open the file. This may be, but is
+not required to be, the actual name of the file.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp">;; An example involving version numbers.  Note that the precise nature of
+;; the truename is implementation-dependent while the file is still open.
+ (with-open-file (stream "&gt;vistor&gt;test.text.newest")
+   (values (pathname stream)
+           (truename stream)))
+<span class="roman">→</span> #P"S:&gt;vistor&gt;test.text.newest", #P"S:&gt;vistor&gt;test.text.1"
+or<span class="roman">→</span> #P"S:&gt;vistor&gt;test.text.newest", #P"S:&gt;vistor&gt;test.text.newest"
+or<span class="roman">→</span> #P"S:&gt;vistor&gt;test.text.newest", #P"S:&gt;vistor&gt;_temp_._temp_.1"
+
+;; In this case, the file is closed when the truename is tried, so the
+;; truename information is reliable.
+ (with-open-file (stream "&gt;vistor&gt;test.text.newest")
+   (close stream)
+   (values (pathname stream)
+           (truename stream)))
+<span class="roman">→</span> #P"S:&gt;vistor&gt;test.text.newest", #P"S:&gt;vistor&gt;test.text.1"
+
+;; An example involving TOP-20's implementation-dependent concept
+;; of logical devices -- in this case, "DOC:" is shorthand for
+;; "PS:&lt;DOCUMENTATION&gt;" ...
+ (with-open-file (stream "CMUC::DOC:DUMPER.HLP")
+   (values (pathname stream)
+           (truename stream)))
+<span class="roman">→</span> #P"CMUC::DOC:DUMPER.HLP", #P"CMUC::PS:&lt;DOCUMENTATION&gt;DUMPER.HLP.13"
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error of <i>type</i> <code>file-error</code> is signaled if an appropriate <i>file</i>
+cannot be located within the <i>file system</i> for the given <var>filespec</var>,
+or if the <i>file system</i> cannot perform the requested operation.
+
+<p>An error of <i>type</i> <code>file-error</code> is signaled if <var>pathname</var> is <i>wild</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="pathname-_0028System-Class_0029.html#pathname-_0028System-Class_0029">pathname (System Class)</a>,
+<a href="logical_002dpathname-_0028System-Class_0029.html#logical_002dpathname-_0028System-Class_0029">logical-pathname (System Class)</a>,
+<a href="File-System-Concepts.html#File-System-Concepts">Section 20.1 (File System Concepts)</a>,
+<a href="Pathnames-as-Filenames.html#Pathnames-as-Filenames">Section 19.1.2 (Pathnames as Filenames)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>truename</code> may be used to account for any <i>filename</i> translations
+performed by the <i>file system</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/truename.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:30 GMT -->
+</html>
+

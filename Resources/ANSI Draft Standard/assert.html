@@ -1,0 +1,164 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/assert.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>assert - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="storage_002dcondition.html#storage_002dcondition" title="storage-condition">
+<link rel="next" href="error-_0028Function_0029.html#error-_0028Function_0029" title="error (Function)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="assert"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="storage_002dcondition.html#storage_002dcondition">storage-condition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">assert (Macro)</h3>
+
+<p><a name="index-assert-874"></a><a name="index-assert-875"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>assert</b><var> test-form </var><tt>[</tt><tt>(</tt><tt>{</tt><var>place</var><tt>}</tt><var>*</var><tt>)</tt> <tt>[</tt><var>datum-form </var><tt>{</tt><var>argument-form</var><tt>}</tt><var>*</var><tt>]</tt><tt>]</tt> <span class="roman">→</span> <code>nil</code><var><a name="index-assert-876"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>test-form</var>&mdash;a <i>form</i>; always evaluated.
+
+<p><var>place</var>&mdash;a <i>place</i>; evaluated if an error is signaled.
+
+<p><var>datum-form</var>&mdash;a <i>form</i> that evaluates to a <var>datum</var>. 
+Evaluated each time an error is to be signaled,
+or not at all if no error is to be signaled.
+
+<p><var>argument-form</var>&mdash;a <i>form</i> that evaluates to an <var>argument</var>. 
+Evaluated each time an error is to be signaled,
+or not at all if no error is to be signaled.
+
+<p><var>datum</var>, <var>arguments</var>&mdash;<i>designators</i> for a <i>condition</i>
+of default type <code>error</code>.  (These <i>designators</i> are the
+result of evaluating <var>datum-form</var> and each of the <var>argument-forms</var>.)
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>assert</code> assures that <var>test-form</var> evaluates to <i>true</i>. 
+If <var>test-form</var> evaluates to <i>false</i>, <code>assert</code> signals a
+<i>correctable</i> <i>error</i> (denoted by <var>datum</var> and <var>arguments</var>). 
+Continuing from this error using the <code>continue</code> restart makes it possible
+for the user to alter the values of the <var>places</var> before
+<code>assert</code> evaluates <var>test-form</var> again. 
+If the value of <var>test-form</var> is <i>non-nil</i>,
+<code>assert</code> returns <code>nil</code>.
+
+<p>The <var>places</var> are <i>generalized references</i> to data
+upon which <var>test-form</var> depends,
+whose values can be changed by the user in attempting to correct the error. 
+<i>Subforms</i> of each <var>place</var> are only evaluated if an error is signaled,
+and might be re-evaluated if the error is re-signaled (after continuing without
+actually fixing the problem). 
+The order of evaluation of the <var>places</var> is not specified;
+see <a href="GenRefSubFormEval.html#GenRefSubFormEval">Section 5.1.1.1 (Evaluation of Subforms to Places)</a>. 
+<a name="index-order-of-evaluation-877"></a><a name="index-evaluation-order-878"></a>If a <var>place</var> <i>form</i> is supplied that produces more values than there
+are store variables, the extra values are ignored. If the supplied
+<i>form</i> produces fewer values than there are store variables,
+the missing values are set to <code>nil</code>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (setq x (make-array '(3 5) :initial-element 3))
+<span class="roman">→</span> #2A((3 3 3 3 3) (3 3 3 3 3) (3 3 3 3 3))
+ (setq y (make-array '(3 5) :initial-element 7))
+<span class="roman">→</span> #2A((7 7 7 7 7) (7 7 7 7 7) (7 7 7 7 7))
+ (defun matrix-multiply (a b)
+   (let ((*print-array* nil))
+     (assert (and (= (array-rank a) (array-rank b) 2)
+                  (= (array-dimension a 1) (array-dimension b 0)))
+             (a b)
+             "Cannot multiply ~S by ~S." a b)
+            (really-matrix-multiply a b))) <span class="roman">→</span> MATRIX-MULTIPLY
+ (matrix-multiply x y)
+▷ Correctable error in MATRIX-MULTIPLY:
+▷ Cannot multiply #&lt;ARRAY ...&gt; by #&lt;ARRAY ...&gt;.
+▷ Restart options:
+▷  1: You will be prompted for one or more new values.
+▷  2: Top level.
+▷ Debug&gt; <kbd>:continue 1</kbd>
+▷ Value for A: <kbd>x</kbd>
+▷ Value for B: <kbd>(make-array '(5 3) :initial-element 6)</kbd>
+<span class="roman">→</span> #2A((54 54 54 54 54)
+       (54 54 54 54 54)
+       (54 54 54 54 54)
+       (54 54 54 54 54)
+       (54 54 54 54 54))
+</pre>
+<pre class="lisp"> (defun double-safely (x) (assert (numberp x) (x)) (+ x x))
+ (double-safely 4)
+<span class="roman">→</span> 8
+
+ (double-safely t)
+▷ Correctable error in DOUBLE-SAFELY: The value of (NUMBERP X) must be non-NIL.
+▷ Restart options:
+▷  1: You will be prompted for one or more new values.
+▷  2: Top level.
+▷ Debug&gt; <kbd>:continue 1</kbd>
+▷ Value for X: <kbd>7</kbd>
+<span class="roman">→</span> 14
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*break-on-signals*</code>
+
+<p>The set of active <i>condition handlers</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="check_002dtype.html#check_002dtype">check-type</a>, <a href="error-_0028Function_0029.html#error-_0028Function_0029">error (Function)</a>, <a href="Generalized-Reference.html#Generalized-Reference">Section 5.1 (Generalized Reference)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The debugger need not include the <var>test-form</var> in the error message,
+and the <var>places</var> should not be included in the message, but they
+should be made available for the user's perusal.  If the user gives the
+&ldquo;continue&rdquo; command, the values of any of the references can be altered. 
+The details of this depend on the implementation's style of user interface.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/assert.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

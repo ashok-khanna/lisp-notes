@@ -1,0 +1,158 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Closures-and-Lexical-Binding.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Closures and Lexical Binding - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation.html#Evaluation" title="Evaluation">
+<link rel="prev" href="Lambda-Expressions.html#Lambda-Expressions" title="Lambda Expressions">
+<link rel="next" href="Shadowing.html#Shadowing" title="Shadowing">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Closures-and-Lexical-Binding"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Shadowing.html#Shadowing">Shadowing</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Lambda-Expressions.html#Lambda-Expressions">Lambda Expressions</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation.html#Evaluation">Evaluation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.1.4 Closures and Lexical Binding</h4>
+
+<p>A <i>lexical closure</i> is a <i>function</i> that can refer to and alter
+the values of <i>lexical bindings</i> <i>established</i> by <i>binding</i> <i>forms</i>
+that textually include the function definition.
+
+<p>Consider this code, where <code>x</code> is not declared <code>special</code>:
+
+<pre class="lisp"> (defun two-funs (x)
+   (list (function (lambda () x))
+         (function (lambda (y) (setq x y)))))
+ (setq funs (two-funs 6))
+ (funcall (car funs)) <span class="roman">→</span> 6
+ (funcall (cadr funs) 43) <span class="roman">→</span> 43
+ (funcall (car funs)) <span class="roman">→</span> 43
+</pre>
+<p>The <code>function</code> <i>special form</i> coerces a
+<i>lambda expression</i> into a <i>closure</i> in which the
+<i>lexical environment</i> in effect when the <i>special form</i> is
+evaluated is captured along with the <i>lambda expression</i>.
+
+<p>The function <code>two-funs</code> returns a <i>list</i> of two
+<i>functions</i>, each of which refers to the <i>binding</i> of the
+variable <code>x</code> created on entry to the function <code>two-funs</code> when it
+was called. 
+This variable has the value <code>6</code>
+initially, but <code>setq</code> can alter this <i>binding</i>. 
+The <i>lexical closure</i> created for the first
+<i>lambda expression</i> does not &ldquo;snapshot&rdquo; the <i>value</i> <code>6</code> for <code>x</code>
+when the <i>closure</i> is created; rather it captures the <i>binding</i> of <code>x</code>. 
+The second <i>function</i> can be used to alter the <i>value</i> in the same (captured)
+<i>binding</i> (to <code>43</code>, in the example), and
+this altered variable binding then affects the value returned by the first <i>function</i>.
+
+<p>In situations where a <i>closure</i> of a
+<i>lambda expression</i> over the same set of <i>bindings</i> may be
+produced more than once, the various resulting <i>closures</i> may
+or may not be <i>identical</i>, at the discretion of the <i>implementation</i>. 
+That is, two <i>functions</i> that are behaviorally
+indistinguishable might or might not be <i>identical</i>. 
+Two <i>functions</i> that are behaviorally distinguishable are <i>distinct</i>. 
+For example:
+
+<pre class="lisp"> (let ((x 5) (funs '()))
+   (dotimes (j 10)
+     (push #'(lambda (z)
+               (if (null z) (setq x 0) (+ x z)))
+           funs))
+   funs)
+</pre>
+<p>The result of the above <i>form</i> is a <i>list</i> of ten <i>closures</i>. 
+Each requires only the <i>binding</i> of <code>x</code>. 
+It is the same <i>binding</i> in each case,
+but the ten <i>closure</i> <i>objects</i> might or might not be <i>identical</i>. 
+On the other hand, the result of the <i>form</i>
+
+<pre class="lisp"> (let ((funs '()))
+   (dotimes (j 10)
+     (let ((x 5))
+       (push (function (lambda (z)
+                        (if (null z) (setq x 0) (+ x z))))
+             funs)))
+  funs)
+</pre>
+<p>is also a <i>list</i> of ten <i>closures</i>. 
+However, in this case no two of the <i>closure</i> <i>objects</i> can
+be <i>identical</i> because each <i>closure</i> is closed over a distinct
+<i>binding</i> of <code>x</code>, and these <i>bindings</i> can be behaviorally
+distinguished because of the use of <code>setq</code>.
+
+<p>The result of the <i>form</i>
+
+<pre class="lisp"> (let ((funs '()))
+   (dotimes (j 10)
+     (let ((x 5))
+       (push (function (lambda (z) (+ x z)))
+            funs)))
+   funs)
+</pre>
+<p>is a <i>list</i> of ten <i>closure</i> <i>objects</i> that
+might or might not be <i>identical</i>. 
+A different <i>binding</i> of <code>x</code> is involved for
+each <i>closure</i>, but the <i>bindings</i> cannot be distinguished
+because their values are the <i>same</i> and immutable (there being no occurrence
+of <code>setq</code> on <code>x</code>).  A compiler could internally
+transform the <i>form</i> to
+
+<pre class="lisp"> (let ((funs '()))
+   (dotimes (j 10)
+     (push (function (lambda (z) (+ 5 z)))
+           funs))
+  funs)
+</pre>
+<p>where the <i>closures</i> may be <i>identical</i>.
+
+<p>It is possible that a <i>closure</i> does not
+close over any variable bindings. 
+In the code fragment
+
+<pre class="lisp"> (mapcar (function (lambda (x) (+ x 2))) y)
+</pre>
+<p>the function <code>(lambda (x) (+ x 2))</code> contains no references to any outside
+object. In this case, the same <i>closure</i> might be returned
+for all evaluations of the <code>function</code> <i>form</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Closures-and-Lexical-Binding.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

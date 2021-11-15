@@ -1,0 +1,214 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/handler_002dcase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+<head>
+<title>handler-case - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="handler_002dbind.html#handler_002dbind" title="handler-bind">
+<link rel="next" href="ignore_002derrors.html#ignore_002derrors" title="ignore-errors">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="handler-case"></a>
+<a name="handler_002dcase"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="ignore_002derrors.html#ignore_002derrors">ignore-errors</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="handler_002dbind.html#handler_002dbind">handler-bind</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">handler-case (Macro)</h3>
+
+<p><a name="index-handler_002dcase-925"></a><a name="index-handler_002dcase-926"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>handler-case</b><var> expression 〚</var><tt>{</tt><tt>↓</tt><var>error-clause</var><tt>}</tt><var>* | </var><tt>↓</tt><var>no-error-clause〛 </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-handler_002dcase-927"></a></var><br>
+     </div>
+
+     <dl>
+<dt><var>clause</var>::=<dd><tt>↓</tt>error-clause | <tt>↓</tt>no-error-clause
+</dl>
+
+     <dl>
+<dt><var>error-clause</var>::=<dd><tt>(</tt>typespec <tt>(</tt><tt>[</tt>var<tt>]</tt><tt>)</tt> <tt>{</tt>declaration<tt>}</tt>* <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+     <dl>
+<dt><var>no-error-clause</var>::=<dd><tt>(</tt><tt>:no-error</tt> <var>lambda-list</var> <tt>{</tt>declaration<tt>}</tt>* <tt>{</tt>form<tt>}</tt>*<tt>)</tt>
+</dl>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>expression</var>&mdash;a <i>form</i>.
+
+<p><var>typespec</var>&mdash;a <i>type specifier</i>.
+
+<p><var>var</var>&mdash;a <i>variable</i> <i>name</i>.
+
+<p><var>lambda-list</var>&mdash;an <i>ordinary lambda list</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>form</var>&mdash;a <i>form</i>.
+
+<p><var>results</var>&mdash;In the normal situation, the values returned are those that result from
+the evaluation of <var>expression</var>;
+in the exceptional situation when control is transferred to a <var>clause</var>,
+the value of the last <var>form</var> in that <var>clause</var> is returned.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>handler-case</code> executes <var>expression</var> in a <i>dynamic environment</i> where
+various handlers are active.  Each <i>error-clause</i> specifies how to
+handle a <i>condition</i> matching the indicated <var>typespec</var>. 
+A <i>no-error-clause</i> allows the specification of a particular action
+if control returns normally.
+
+<p>If a <i>condition</i> is signaled for which there is an appropriate
+<i>error-clause</i> during the execution of <var>expression</var>
+(<i>i.e.</i>, one for which <code>(typep </code><i>condition</i><code> '</code><var>typespec</var><code>)</code>
+returns <i>true</i>) and if there is no intervening handler for a
+<i>condition</i> of that <i>type</i>, then control is transferred to
+the body of the relevant <i>error-clause</i>.  In this case, the
+dynamic state is unwound appropriately (so that the handlers established
+around the <var>expression</var> are no longer active), and <var>var</var> is bound to
+the <i>condition</i> that had been signaled. 
+If more than one case is provided, those cases are made accessible
+in parallel.  That is, in
+
+<pre class="lisp">  (handler-case <i>form</i>
+    (<i>typespec1</i> (<i>var1</i>) <i>form1</i>)
+    (<i>typespec2</i> (<i>var2</i>) <i>form2</i>))
+</pre>
+<p>if the first <i>clause</i> (containing <i>form1</i>) has been selected,
+the handler for the second is no longer visible (or vice versa).
+
+<p>The <i>clauses</i>
+are searched sequentially from top to bottom. If there is <i>type</i>
+overlap between <var>typespecs</var>,
+the earlier of the <i>clauses</i> is selected.
+
+<p>If <var>var</var>
+is not needed, it can be omitted. That is, a <i>clause</i> such as:
+
+<pre class="lisp">  (<var>typespec</var> (<var>var</var>) (declare (ignore <var>var</var>)) <var>form</var>)
+</pre>
+<p>can be written
+<code>(</code><var>typespec</var><code> () </code><var>form</var><code>)</code>.
+
+<p>If there are no <var>forms</var> in a selected <i>clause</i>, the case, and therefore
+<code>handler-case</code>, returns <code>nil</code>. 
+If execution of <var>expression</var>
+returns normally and no <i>no-error-clause</i>
+exists, the values returned by
+<var>expression</var> are returned by <code>handler-case</code>. 
+If execution of
+<var>expression</var> returns normally and a <i>no-error-clause</i>
+does exist, the values returned are used as arguments to the function
+described by constructing
+<code>(lambda </code><var>lambda-list</var> <tt>{</tt><code>form</code><tt>}</tt><code>*)</code>
+from the <i>no-error-clause</i>, and the <i>values</i> of that function call are
+returned by <code>handler-case</code>. 
+The handlers which were established around the <var>expression</var> are no longer active at the time of this call.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun assess-condition (condition)
+   (handler-case (signal condition)
+     (warning () "Lots of smoke, but no fire.")
+     ((or arithmetic-error control-error cell-error stream-error)
+        (condition)
+       (format nil "~S looks especially bad." condition))
+     (serious-condition (condition)
+       (format nil "~S looks serious." condition))
+     (condition () "Hardly worth mentioning.")))
+<span class="roman">→</span> ASSESS-CONDITION
+ (assess-condition (make-condition 'stream-error :stream *terminal-io*))
+<span class="roman">→</span> "#&lt;STREAM-ERROR 12352256&gt; looks especially bad."
+ (define-condition random-condition (condition) ()
+   (:report (lambda (condition stream)
+              (declare (ignore condition))
+              (princ "Yow" stream))))
+<span class="roman">→</span> RANDOM-CONDITION
+ (assess-condition (make-condition 'random-condition))
+<span class="roman">→</span> "Hardly worth mentioning."
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="handler_002dbind.html#handler_002dbind">handler-bind</a>,
+<a href="ignore_002derrors.html#ignore_002derrors">ignore-errors</a>,
+<a href="Condition-System-Concepts.html#Condition-System-Concepts">Section 9.1 (Condition System Concepts)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<pre class="lisp"> (handler-case form
+   (<i>type1</i> (<i>var1</i>) . <i>body1</i>)
+   (<i>type2</i> (<i>var2</i>) . <i>body2</i>) ...)
+</pre>
+<p>is approximately equivalent to:
+
+<pre class="lisp"> (block #1=#:g0001
+   (let ((#2=#:g0002 nil))
+     (tagbody
+       (handler-bind ((<i>type1</i> #'(lambda (temp)
+                                       (setq #1# temp)
+                                       (go #3=#:g0003)))
+                      (<i>type2</i> #'(lambda (temp)
+                                       (setq #2# temp)
+                                       (go #4=#:g0004))) ...)
+       (return-from #1# form))
+         #3# (return-from #1# (let ((<i>var1</i> #2#)) . <i>body1</i>))
+         #4# (return-from #1# (let ((<i>var2</i> #2#)) . <i>body2</i>)) ...)))
+</pre>
+<pre class="lisp"> (handler-case form
+   (<i>type1</i> <i>(var1)</i> . <i>body1</i>)
+   ...
+   (:no-error (<i>varN-1</i> <i>varN-2</i> ...) . <i>bodyN</i>))
+</pre>
+<p>is approximately equivalent to:
+
+<pre class="lisp">
+ (block #1=#:error-return
+  (multiple-value-call #'(lambda (<i>varN-1</i> <i>varN-2</i> ...) . <i>bodyN</i>)
+     (block #2=#:normal-return
+       (return-from #1#
+         (handler-case (return-from #2# form)
+           (<i>type1</i> (<i>var1</i>) . <i>body1</i>) ...)))))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/handler_002dcase.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:55 GMT -->
+</html>
+

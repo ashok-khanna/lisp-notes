@@ -1,0 +1,218 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/floor_003b-ffloor_003b-ceiling_003b-fceiling_003b-truncate_003b-ftruncate_003b-round_003b-fround.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:11 GMT -->
+<head>
+<title>floor; ffloor; ceiling; fceiling; truncate; ftruncate; round; fround - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="zerop.html#zerop" title="zerop">
+<link rel="next" href="sin_003b-cos_003b-tan.html#sin_003b-cos_003b-tan" title="sin; cos; tan">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="floor%3b-ffloor%3b-ceiling%3b-fceiling%3b-truncate%3b-ftruncate%3b-round%3b-fround"></a>
+<a name="floor_003b-ffloor_003b-ceiling_003b-fceiling_003b-truncate_003b-ftruncate_003b-round_003b-fround"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="sin_003b-cos_003b-tan.html#sin_003b-cos_003b-tan">sin; cos; tan</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="zerop.html#zerop">zerop</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">floor, ffloor, ceiling, fceiling, truncate, ftruncate, round, fround (Function)</h3>
+
+<p><a name="index-floor-1226"></a><a name="index-floor-1227"></a><a name="index-ffloor-1228"></a><a name="index-ffloor-1229"></a><a name="index-ceiling-1230"></a><a name="index-ceiling-1231"></a><a name="index-fceiling-1232"></a><a name="index-fceiling-1233"></a><a name="index-truncate-1234"></a><a name="index-truncate-1235"></a><a name="index-ftruncate-1236"></a><a name="index-ftruncate-1237"></a><a name="index-round-1238"></a><a name="index-round-1239"></a><a name="index-fround-1240"></a><a name="index-fround-1241"></a><a name="floor"></a><a name="ceiling"></a><a name="truncate"></a><a name="round"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>floor</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-floor-1242"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>ffloor</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-ffloor-1243"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>ceiling</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-ceiling-1244"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>fceiling</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-fceiling-1245"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>truncate</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-truncate-1246"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>ftruncate</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-ftruncate-1247"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>round</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-round-1248"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>fround</b><var> number </var><tt>&amp;optional</tt><var> divisor </var><span class="roman">→</span><var> quotient, remainder<a name="index-fround-1249"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>number</var>&mdash;a <i>real</i>.
+
+<p><var>divisor</var>&mdash;a non-zero <i>real</i>. 
+The default is the <i>integer</i> <code>1</code>.
+
+<p><var>quotient</var>&mdash;for <code>floor</code>, <code>ceiling</code>,
+<code>truncate</code>, and <code>round</code>: an <i>integer</i>;
+for <code>ffloor</code>, <code>fceiling</code>,
+<code>ftruncate</code>, and <code>fround</code>: a <i>float</i>.
+
+<p><var>remainder</var>&mdash;a <i>real</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>These functions divide <var>number</var> by <var>divisor</var>,
+returning a <var>quotient</var> and <var>remainder</var>, such that
+
+<p><var>quotient</var>· <var>divisor</var>+<var>remainder</var>=<var>number</var>
+
+<p>The <var>quotient</var> always represents a mathematical integer. 
+When more than one mathematical integer might be possible
+(<i>i.e.</i>, when the remainder is not zero),
+the kind of rounding or truncation depends on the <i>operator</i>:
+
+     <dl>
+<dt><code>floor</code>, <code>ffloor</code><dd>
+
+     <p><code>floor</code> and <code>ffloor</code> produce a <var>quotient</var>
+that has been truncated toward negative infinity;
+that is, the <var>quotient</var> represents the largest mathematical integer
+that is not larger than the mathematical quotient.
+
+     <br><dt><code>ceiling</code>, <code>fceiling</code><dd>
+
+     <p><code>ceiling</code> and <code>fceiling</code> produce a <var>quotient</var>
+that has been truncated toward positive infinity;
+that is, the <var>quotient</var> represents the smallest mathematical integer
+that is not smaller than the mathematical result.
+
+     <br><dt><code>truncate</code>, <code>ftruncate</code><dd>
+
+     <p><code>truncate</code> and <code>ftruncate</code> produce a <var>quotient</var>
+that has been truncated towards zero;
+that is, the <var>quotient</var> represents the mathematical integer
+of the same sign as the mathematical quotient, and
+that has the greatest integral magnitude not greater than that of the mathematical quotient.
+
+     <br><dt><code>round</code>, <code>fround</code><dd>
+
+     <p><code>round</code> and <code>fround</code> produce a <var>quotient</var>
+that has been rounded to the nearest mathematical integer;
+if the mathematical quotient is exactly halfway between two integers,
+(that is, it has the form <i>integer</i>+1/2),
+then the <var>quotient</var> has been rounded to the even (divisible by two) integer. 
+</dl>
+
+<p>All of these functions perform type conversion operations on <var>numbers</var>.
+
+<p>The <var>remainder</var>
+is an <i>integer</i>  if both   <code>x</code> and <code>y</code> are <i>integers</i>,
+is a  <i>rational</i> if both   <code>x</code> and <code>y</code> are <i>rationals</i>, and
+is a  <i>float</i>    if either <code>x</code> or  <code>y</code> is  a <i>float</i>.
+
+<p><code>ffloor</code>, <code>fceiling</code>, <code>ftruncate</code>, and <code>fround</code>
+handle arguments of different <i>types</i> in the following way:
+If  <var>number</var>  is     a <i>float</i>,
+and <var>divisor</var> is not a <i>float</i> of longer format,
+then the first result is a <i>float</i> of the same <i>type</i> as <var>number</var>. 
+Otherwise, the first result is of the <i>type</i> determined by <i>contagion</i> rules;
+see <a href="NumericContagionRules.html#NumericContagionRules">Section 12.1.1.2 (Contagion in Numeric Operations)</a>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (floor 3/2) <span class="roman">→</span> 1, 1/2
+ (ceiling 3 2) <span class="roman">→</span> 2, -1
+ (ffloor 3 2) <span class="roman">→</span> 1.0, 1
+ (ffloor -4.7) <span class="roman">→</span> -5.0, 0.3
+ (ffloor 3.5d0) <span class="roman">→</span> 3.0d0, 0.5d0
+ (fceiling 3/2) <span class="roman">→</span> 2.0, -1/2
+ (truncate 1) <span class="roman">→</span> 1, 0
+ (truncate .5) <span class="roman">→</span> 0, 0.5
+ (round .5) <span class="roman">→</span> 0, 0.5
+ (ftruncate -7 2) <span class="roman">→</span> -3.0, -1
+ (fround -7 2) <span class="roman">→</span> -4.0, 1
+ (dolist (n '(2.6 2.5 2.4 0.7 0.3 -0.3 -0.7 -2.4 -2.5 -2.6))
+   (format t "~&amp;~4,1@F ~2,' D ~2,' D ~2,' D ~2,' D"
+           n (floor n) (ceiling n) (truncate n) (round n)))
+▷ +2.6  2  3  2  3
+▷ +2.5  2  3  2  2
+▷ +2.4  2  3  2  2
+▷ +0.7  0  1  0  1
+▷ +0.3  0  1  0  0
+▷ -0.3 -1  0  0  0
+▷ -0.7 -1  0  0 -1
+▷ -2.4 -3 -2 -2 -2
+▷ -2.5 -3 -2 -2 -2
+▷ -2.6 -3 -2 -2 -3
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubheading">Notes:</h5>
+
+<p>When only <var>number</var> is given, the two results are exact;
+the mathematical sum of the two results is always equal to the
+mathematical value of <var>number</var>.
+
+<p><code>(</code><i>function</i> <var>number</var> <var>divisor</var><code>)</code>
+and <code>(</code><i>function</i><code> (/ </code><var>number</var> <var>divisor</var><code>))</code>
+(where <i>function</i> is any of one
+of <code>floor</code>, <code>ceiling</code>, <code>ffloor</code>,
+<code>fceiling</code>, <code>truncate</code>,
+<code>round</code>, <code>ftruncate</code>, and <code>fround</code>)
+return the same first value, but
+they return different remainders as the second value. For example:
+
+<pre class="lisp"> (floor 5 2) <span class="roman">→</span> 2, 1
+ (floor (/ 5 2)) <span class="roman">→</span> 2, 1/2
+</pre>
+<p>If an effect is desired that is similar to <code>round</code>,
+but that always rounds up or down (rather than toward the nearest even integer)
+if the mathematical quotient is exactly halfway between two integers,
+the programmer should consider a construction such as
+<code>(floor (+ x 1/2))</code>
+or <code>(ceiling (- x 1/2))</code>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/floor_003b-ffloor_003b-ceiling_003b-fceiling_003b-truncate_003b-ftruncate_003b-round_003b-fround.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:12 GMT -->
+</html>
+

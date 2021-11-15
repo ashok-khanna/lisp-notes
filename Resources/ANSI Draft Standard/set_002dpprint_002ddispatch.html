@@ -1,0 +1,121 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/set_002dpprint_002ddispatch.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+<head>
+<title>set-pprint-dispatch - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="print_002dunreadable_002dobject.html#print_002dunreadable_002dobject" title="print-unreadable-object">
+<link rel="next" href="write_003b-prin1_003b-print_003b-pprint_003b-princ.html#write_003b-prin1_003b-print_003b-pprint_003b-princ" title="write; prin1; print; pprint; princ">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="set-pprint-dispatch"></a>
+<a name="set_002dpprint_002ddispatch"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="write_003b-prin1_003b-print_003b-pprint_003b-princ.html#write_003b-prin1_003b-print_003b-pprint_003b-princ">write; prin1; print; pprint; princ</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="print_002dunreadable_002dobject.html#print_002dunreadable_002dobject">print-unreadable-object</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">set-pprint-dispatch (Function)</h3>
+
+<p><a name="index-set_002dpprint_002ddispatch-2929"></a><a name="index-set_002dpprint_002ddispatch-2930"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>set-pprint-dispatch</b><var> type-specifier function </var><tt>&amp;optional</tt><var> priority table </var><span class="roman">→</span> <code>nil</code><var><a name="index-set_002dpprint_002ddispatch-2931"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>type-specifier</var>&mdash;a <i>type specifier</i>.
+
+<p><var>function</var>&mdash;a <i>function</i>, a <i>function name</i>, or <code>nil</code>.
+
+<p><var>priority</var>&mdash;a <i>real</i>. 
+The default is <code>0</code>.
+
+<p><var>table</var>&mdash;a <i>pprint dispatch table</i>. 
+The default is the <i>value</i> of <code>*print-pprint-dispatch*</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Installs an entry into the <i>pprint dispatch table</i> which is <var>table</var>.
+
+<p><var>Type-specifier</var>
+is the <i>key</i>
+of the entry.  The first action of <code>set-pprint-dispatch</code> is to remove any
+pre-existing entry associated with <var>type-specifier</var>.  This guarantees that
+there will never be two entries associated with the same <i>type specifier</i>
+in a given <i>pprint dispatch table</i>.  Equality of <i>type specifiers</i> is
+tested by <code>equal</code>.
+
+<p>Two values are associated with each <i>type specifier</i> in a
+<i>pprint dispatch table</i>: a <var>function</var> and a <var>priority</var>. 
+The <var>function</var> must accept two arguments: the <i>stream</i> to which output
+is sent and the <i>object</i> to be printed.  The <var>function</var> should
+<i>pretty print</i> the <i>object</i> to the <var>stream</var>.  The <var>function</var>
+can assume that object satisfies the <i>type</i> given by <i>type-specifier</i>. 
+The <var>function</var> must obey <code>*print-readably*</code>. 
+Any values returned by the <var>function</var> are ignored.
+
+<p><var>Priority</var> is a priority to resolve conflicts
+when an object matches more than one entry.
+
+<p>It is permissible for <var>function</var> to be <code>nil</code>.  In this situation,
+there will be no <var>type-specifier</var> entry in <var>table</var> after
+<code>set-pprint-dispatch</code> returns.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error is signaled if <var>priority</var> is not a <i>real</i>.
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Since <i>pprint dispatch tables</i> are often used to control the pretty
+printing of Lisp code, it is common for the <var>type-specifier</var> to be
+an <i>expression</i> of the form
+
+<pre class="lisp"> (cons <var>car-type</var> <var>cdr-type</var>)
+</pre>
+<p>This signifies that the corresponding object must be a cons cell
+whose <i>car</i> matches the <i>type specifier</i> <var>car-type</var>
+and whose <i>cdr</i> matches the <i>type specifier</i> <var>cdr-type</var>. 
+The <var>cdr-type</var> can be omitted in which case it defaults to <tt>t</tt>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/set_002dpprint_002ddispatch.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:54 GMT -->
+</html>
+

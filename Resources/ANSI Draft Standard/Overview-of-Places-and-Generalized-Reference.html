@@ -1,0 +1,331 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Overview-of-Places-and-Generalized-Reference.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+<head>
+<title>Overview of Places and Generalized Reference - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Generalized-Reference.html#Generalized-Reference" title="Generalized Reference">
+<link rel="next" href="Kinds-of-Places.html#Kinds-of-Places" title="Kinds of Places">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Overview-of-Places-and-Generalized-Reference"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Kinds-of-Places.html#Kinds-of-Places">Kinds of Places</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Generalized-Reference.html#Generalized-Reference">Generalized Reference</a>
+<hr>
+</div>
+
+<h4 class="subsection">5.1.1 Overview of Places and Generalized Reference</h4>
+
+<p>A <a name="index-generalized-reference-421"></a><dfn>generalized reference</dfn> is the use of a <i>form</i>,
+sometimes called a <a name="index-place-422"></a><dfn>place</dfn>,
+as if it were a <i>variable</i> that could be read and written. 
+The <i>value</i> of a <i>place</i> is
+the <i>object</i> to which the <i>place</i> <i>form</i> evaluates. 
+The <i>value</i> of a <i>place</i> can be changed by using <code>setf</code>. 
+The concept of binding a <i>place</i> is not defined in <span class="roman">Common Lisp</span>,
+but an <i>implementation</i> is permitted to extend the language by defining this concept.
+
+<p>The next figure&nbsp;<!-- /@w -->contains examples of the use of <code>setf</code>. 
+Note that the values returned by evaluating the <i>forms</i> in column two
+are not necessarily the same as those obtained by evaluating the
+<i>forms</i> in column three. 
+In general, the exact <i>macro expansion</i> of a <code>setf</code> <i>form</i> is not guaranteed
+and can even be <i>implementation-dependent</i>;
+all that is guaranteed is
+that the expansion is an update form that works
+for that particular <i>implementation</i>,
+that the left-to-right evaluation of <i>subforms</i> is preserved,
+and
+that the ultimate result of evaluating <code>setf</code> is the value
+or values being stored.
+
+<div class="float">
+<a name="fig5_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Access function </th><th valign="top">Update Function </th><th valign="top">Update using <code>setf</code>
+<br></th></tr><tr align="left"><td valign="top"><code>x</code> </td><td valign="top"><code>(setq x datum)</code> </td><td valign="top"><code>(setf x datum)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>(car x)</code> </td><td valign="top"><code>(rplaca x datum)</code> </td><td valign="top"><code>(setf (car x) datum)</code>
+<br></td></tr><tr align="left"><td valign="top"><code>(symbol-value x)</code> </td><td valign="top"><code>(set x datum)</code> </td><td valign="top"><code>(setf (symbol-value x) datum)</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.1: Examples of setf</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> relating to
+<i>places</i> and <i>generalized reference</i>.
+
+<div class="float">
+<a name="fig5_002e2"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">assert </td><td valign="top">defsetf </td><td valign="top">push
+<br></td></tr><tr align="left"><td valign="top">ccase </td><td valign="top">get-setf-expansion </td><td valign="top">remf
+<br></td></tr><tr align="left"><td valign="top">ctypecase </td><td valign="top">getf </td><td valign="top">rotatef
+<br></td></tr><tr align="left"><td valign="top">decf </td><td valign="top">incf </td><td valign="top">setf
+<br></td></tr><tr align="left"><td valign="top">define-modify-macro </td><td valign="top">pop </td><td valign="top">shiftf
+<br></td></tr><tr align="left"><td valign="top">define-setf-expander </td><td valign="top">psetf </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.2: Operators relating to places and generalized reference.</strong></p></div>
+
+<p>Some of the <i>operators</i> above manipulate <i>places</i>
+and some manipulate <i>setf expanders</i>. 
+A <i>setf expansion</i> can be derived from any <i>place</i>. 
+New <i>setf expanders</i> can be defined by using <code>defsetf</code>
+and <code>define-setf-expander</code>.
+
+<h5 class="subsubsection">5.1.1.1 Evaluation of Subforms to Places</h5>
+
+<p><a name="GenRefSubFormEval"></a>The following rules apply to the <i>evaluation</i> of <i>subforms</i> in a
+<i>place</i>:
+
+     <ol type=1 start=1>
+<li>The evaluation ordering of <i>subforms</i> within a <i>place</i>
+is determined by the order specified by the second value returned by
+<code>get-setf-expansion</code>. 
+For all <i>places</i> defined by this specification
+(<i>e.g.</i>, <code>getf</code>, <code>ldb</code>, <small class="dots">...</small>),
+this order of evaluation is left-to-right. 
+<a name="index-order-of-evaluation-423"></a><a name="index-evaluation-order-424"></a>When a <i>place</i> is derived from a macro expansion,
+this rule is applied after the macro is expanded to find the appropriate <i>place</i>.
+
+     <p><i>Places</i> defined by using <code>defmacro</code> or
+<code>define-setf-expander</code>
+use the evaluation order defined by those definitions. 
+For example, consider the following:
+
+     <pre class="lisp">      (defmacro wrong-order (x y) `(getf ,y ,x))
+</pre>
+     <p>This following <i>form</i> evaluates <code>place2</code> first and
+then <code>place1</code> because that is the order they are evaluated in
+the macro expansion:
+
+     <pre class="lisp">      (push value (wrong-order place1 place2))
+</pre>
+     <li>For the <i>macros</i> that manipulate <i>places</i>
+(<code>push</code>,
+<code>pushnew</code>,
+<code>remf</code>,
+<code>incf</code>,
+<code>decf</code>,
+<code>shiftf</code>,
+<code>rotatef</code>,
+<code>psetf</code>,
+<code>setf</code>,
+<code>pop</code>, and those defined by <code>define-modify-macro</code>)
+the <i>subforms</i> of the macro call are evaluated exactly once
+in left-to-right order, with the <i>subforms</i> of the <i>places</i>
+evaluated in the order specified in (1).
+
+     <p><code>push</code>, <code>pushnew</code>, <code>remf</code>,
+<code>incf</code>, <code>decf</code>, <code>shiftf</code>, <code>rotatef</code>,
+<code>psetf</code>, <code>pop</code> evaluate all <i>subforms</i> before modifying
+any of the <i>place</i> locations. 
+<code>setf</code> (in the case when <code>setf</code> has more than two arguments)
+performs its operation on each pair in sequence. For example, in
+
+     <pre class="lisp">      (setf place1 value1 place2 value2 ...)
+</pre>
+     <p>the <i>subforms</i> of <code>place1</code> and <code>value1</code> are evaluated, the location
+specified by
+<code>place1</code> is modified to contain the value returned by
+<code>value1</code>, and
+then the rest of the <code>setf</code> form is processed in a like manner.
+
+     <li>For <code>check-type</code>, <code>ctypecase</code>, and <code>ccase</code>,
+<i>subforms</i> of the <i>place</i> are evaluated once as in (1),
+but might be evaluated again if the
+type check fails in the case of <code>check-type</code>
+or none of the cases hold in
+<code>ctypecase</code> and <code>ccase</code>.
+
+     <li>For <code>assert</code>, the order of evaluation of the generalized
+references is not specified. 
+<a name="index-order-of-evaluation-425"></a><a name="index-evaluation-order-426"></a>
+     </ol>
+
+<p>Rules 2, 3 and 4 cover all <i>standardized</i> <i>macros</i> that manipulate <i>places</i>.
+
+<h5 class="unnumberedsubsubsec">5.1.1.1.1 Examples of Evaluation of Subforms to Places</h5>
+
+<pre class="lisp"> (let ((ref2 (list '())))
+   (push (progn (princ "1") 'ref-1)
+         (car (progn (princ "2") ref2))))
+▷ 12
+<span class="roman">→</span> (REF1)
+
+ (let (x)
+    (push (setq x (list 'a))
+          (car (setq x (list 'b))))
+     x)
+<span class="roman">→</span> (((A) . B))
+</pre>
+<p><code>push</code> first evaluates <code>(setq x (list 'a)) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->(a)</code>,
+then evaluates <code>(setq x (list 'b)) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->(b)</code>,
+then modifies the <i>car</i> of this latest value to be <code>((a) . b)</code>.
+
+<h5 class="subsubsection">5.1.1.2 Setf Expansions</h5>
+
+<p><a name="SetfExpansions"></a>Sometimes it is possible to avoid evaluating <i>subforms</i> of a
+<i>place</i> multiple times or in the wrong order.  A
+<i>setf expansion</i>
+for a given access form can be expressed as an ordered collection of five <i>objects</i>:
+
+     <dl>
+<dt><b>List of temporary variables</b><dd>
+
+     <p>a list of symbols naming temporary variables to be bound
+sequentially, as if by <code>let*</code>, to <i>values</i>
+resulting from value forms.
+
+     <br><dt><b>List of value forms</b><dd>
+
+     <p>a list of forms (typically, <i>subforms</i> of the
+<i>place</i>) which when evaluated
+yield the values to which the corresponding temporary
+variables should be bound.
+
+     <br><dt><b>List of store variables</b><dd>
+
+     <p>a list of symbols naming temporary store variables which are
+to hold the new values that will be assigned to the
+<i>place</i>.
+
+     <br><dt><b>Storing form</b><dd>
+
+     <p>a form which can reference both the temporary and the store variables,
+and which changes the <i>value</i> of the <i>place</i>
+and guarantees to return as its values the values of the store variables,
+which are the correct values for <code>setf</code> to return.
+
+     <br><dt><b>Accessing form</b><dd>
+
+     <p>a <i>form</i> which can reference the temporary variables,
+and which returns the <i>value</i> of the <i>place</i>. 
+</dl>
+
+<p>The value returned by the accessing form is
+affected by execution of the storing form, but either of these
+forms might be evaluated any number of times.
+
+<p>It is possible
+to do more than one <code>setf</code> in parallel via
+<code>psetf</code>, <code>shiftf</code>, and <code>rotatef</code>. 
+Because of this, the
+<i>setf expander</i>
+must produce new temporary
+and store variable names every time.  For examples of how to do this,
+see <code>gensym</code>.
+
+<p>For each <i>standardized</i> accessor function <var>F</var>,
+unless it is explicitly documented otherwise,
+it is <i>implementation-dependent</i> whether the ability to
+use an <var>F</var> <i>form</i> as a <code>setf</code> <i>place</i>
+is implemented by a <i>setf expander</i> or a <i>setf function</i>. 
+Also, it follows from this that it is <i>implementation-dependent</i>
+whether the name <code>(setf </code><var>F</var><code>)</code> is <i>fbound</i>.
+
+<h5 class="unnumberedsubsubsec">5.1.1.2.1 Examples of Setf Expansions</h5>
+
+<p>Examples of the contents of the constituents of <i>setf expansions</i>
+follow.
+
+<p>For a variable <var>x</var>:
+
+<div class="float">
+<a name="fig5_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>()</code> </td><td valign="top">;list of temporary variables
+<br></td></tr><tr align="left"><td valign="top"><code>()</code> </td><td valign="top">;list of value forms
+<br></td></tr><tr align="left"><td valign="top"><code>(g0001)</code> </td><td valign="top">;list of store variables
+<br></td></tr><tr align="left"><td valign="top"><code>(setq </code><var>x</var><code> g0001)</code> </td><td valign="top">;storing form
+<br></td></tr><tr align="left"><td valign="top"><var>x</var> </td><td valign="top">;accessing form
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.3: Sample Setf Expansion of a Variable</strong></p></div>
+
+<p>For <code>(car </code><var>exp</var><code>)</code>:
+
+<div class="float">
+<a name="fig5_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>(g0002)</code> </td><td valign="top">;list of temporary variables
+<br></td></tr><tr align="left"><td valign="top"><code>(</code><var>exp</var><code>)</code> </td><td valign="top">;list of value forms
+<br></td></tr><tr align="left"><td valign="top"><code>(g0003)</code> </td><td valign="top">;list of store variables
+<br></td></tr><tr align="left"><td valign="top"><code>(progn (rplaca g0002 g0003) g0003)</code> </td><td valign="top">;storing form
+<br></td></tr><tr align="left"><td valign="top"><code>(car g0002)</code> </td><td valign="top">;accessing form
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.4: Sample Setf Expansion of a CAR Form</strong></p></div>
+
+<p>For <code>(subseq </code><var>seq</var> <var>s</var> <var>e</var><code>)</code>:
+
+<div class="float">
+<a name="fig5_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>(g0004 g0005 g0006)</code> </td><td valign="top">;list of temporary variables
+<br></td></tr><tr align="left"><td valign="top"><code>(</code><var>seq</var> <var>s</var> <var>e</var><code>)</code> </td><td valign="top">;list of value forms
+<br></td></tr><tr align="left"><td valign="top"><code>(g0007)</code> </td><td valign="top">;list of store variables
+<br></td></tr><tr align="left"><td valign="top"><code>(progn (replace g0004 g0007 :start1 g0005 :end1 g0006) g0007)</code>  </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;storing form
+<br></td></tr><tr align="left"><td valign="top"><code>(subseq g0004 g0005 g0006)</code> </td><td valign="top">; accessing form
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.5: Sample Setf Expansion of a SUBSEQ Form</strong></p></div>
+
+<p>In some cases, if a <i>subform</i> of a <i>place</i> is itself
+a <i>place</i>, it is necessary to expand the <i>subform</i>
+in order to compute some of the values in the expansion of the outer
+<i>place</i>.  For <code>(ldb </code><var>bs</var><code> (car </code><var>exp</var><code>))</code>:
+
+<div class="float">
+<a name="fig5_002e6"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top"><code>(g0001 g0002)</code> </td><td valign="top">;list of temporary variables
+<br></td></tr><tr align="left"><td valign="top"><code>(</code><var>bs</var> <var>exp</var><code>)</code> </td><td valign="top">;list of value forms
+<br></td></tr><tr align="left"><td valign="top"><code>(g0003)</code> </td><td valign="top">;list of store variables
+<br></td></tr><tr align="left"><td valign="top"><code>(progn (rplaca g0002 (dpb g0003 g0001 (car g0002))) g0003)</code>  </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top">;storing form
+<br></td></tr><tr align="left"><td valign="top"><code>(ldb g0001 (car g0002))</code> </td><td valign="top">; accessing form
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 5.6: Sample Setf Expansion of a LDB Form</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Overview-of-Places-and-Generalized-Reference.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:25 GMT -->
+</html>
+

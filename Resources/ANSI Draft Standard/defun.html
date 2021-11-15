@@ -1,0 +1,168 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/defun.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:26 GMT -->
+<head>
+<title>defun - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="apply.html#apply" title="apply">
+<link rel="next" href="fdefinition.html#fdefinition" title="fdefinition">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="defun"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="fdefinition.html#fdefinition">fdefinition</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="apply.html#apply">apply</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">defun (Macro)</h3>
+
+<p><a name="index-defun-430"></a><a name="index-defun-431"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>defun</b><var> function-name lambda-list 〚</var><tt>{</tt><var>declaration</var><tt>}</tt><var>* </var><span class="roman">|</span><var> documentation〛 </var><tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span><var> function-name<a name="index-defun-432"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>function-name</var>&mdash;a <i>function name</i>.
+
+<p><var>lambda-list</var>&mdash;an <i>ordinary lambda list</i>.
+
+<p><var>declaration</var>&mdash;a <tt>declare</tt> <i>expression</i>; not evaluated.
+
+<p><var>documentation</var>&mdash;a <i>string</i>; not evaluated.
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>block-name</var>&mdash;the <i>function block name</i> of the <var>function-name</var>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Defines a new <i>function</i> named <var>function-name</var> in the <i>global environment</i>. 
+The body of the <i>function</i> defined by <code>defun</code> consists
+of <var>forms</var>; they are executed as an <i>implicit progn</i>
+when the <i>function</i> is called. 
+<code>defun</code> can be used
+to define a new <i>function</i>,
+to install a corrected version of an incorrect definition,
+to redefine an already-defined <i>function</i>,
+or to redefine a <i>macro</i> as a <i>function</i>.
+
+<p><code>defun</code> implicitly puts a <code>block</code> named <var>block-name</var>
+around the body <var>forms</var>
+(but not the <i>forms</i> in the <var>lambda-list</var>)
+of the <i>function</i> defined.
+
+<p><var>Documentation</var> is attached as a <i>documentation string</i>
+to <var>name</var> (as kind <code>function</code>)
+and to the <i>function</i> <i>object</i>.
+
+<p>Evaluating <code>defun</code> causes <var>function-name</var> to be a global name
+for the <i>function</i> specified by the <i>lambda expression</i>
+
+<pre class="lisp"> (lambda <var>lambda-list</var>
+   〚<tt>{</tt>declaration<tt>}</tt>* <span class="roman">|</span> documentation〛
+   (block <var>block-name</var> <tt>{</tt>form<tt>}</tt>*))
+</pre>
+<p>processed in the <i>lexical environment</i> in which <code>defun</code> was executed.
+
+<p>(None of the arguments are evaluated at macro expansion time.)
+
+<p><code>defun</code> is not required to perform any compile-time side effects. 
+In particular, <code>defun</code> does not make the <i>function</i> definition available
+at compile time.  An <i>implementation</i> may choose to store information
+about the <i>function</i> for the purposes of compile-time error-checking
+(such as checking the number of arguments on calls),
+or to enable the <i>function</i> to be expanded inline.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun recur (x)
+  (when (&gt; x 0)
+    (recur (1- x)))) <span class="roman">→</span> RECUR
+ (defun ex (a b &amp;optional c (d 66) &amp;rest keys &amp;key test (start 0))
+    (list a b c d keys test start)) <span class="roman">→</span> EX
+ (ex 1 2) <span class="roman">→</span> (1 2 NIL 66 NIL NIL 0)
+ (ex 1 2 3 4 :test 'equal :start 50)
+<span class="roman">→</span> (1 2 3 4 (:TEST EQUAL :START 50) EQUAL 50)
+ (ex :test 1 :start 2) <span class="roman">→</span> (:TEST 1 :START 2 NIL NIL 0)
+
+ ;; This function assumes its callers have checked the types of the
+ ;; arguments, and authorizes the compiler to build in that assumption.
+ (defun discriminant (a b c)
+   (declare (number a b c))
+   "Compute the discriminant for a quadratic equation."
+   (- (* b b) (* 4 a c))) <span class="roman">→</span> DISCRIMINANT
+ (discriminant 1 2/3 -2) <span class="roman">→</span> 76/9
+
+ ;; This function assumes its callers have not checked the types of the
+ ;; arguments, and performs explicit type checks before making any assumptions.
+ (defun careful-discriminant (a b c)
+   "Compute the discriminant for a quadratic equation."
+   (check-type a number)
+   (check-type b number)
+   (check-type c number)
+   (locally (declare (number a b c))
+     (- (* b b) (* 4 a c)))) <span class="roman">→</span> CAREFUL-DISCRIMINANT
+ (careful-discriminant 1 2/3 -2) <span class="roman">→</span> 76/9
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="flet.html#flet">flet</a>,
+<a href="labels.html#labels">labels</a>,
+<a href="block.html#block">block</a>,
+<a href="return_002dfrom.html#return_002dfrom">return-from</a>,
+<a href="declare.html#declare">declare</a>,
+<a href="documentation.html#documentation">documentation</a>,
+<a href="Evaluation.html#Evaluation">Section 3.1 (Evaluation)</a>,
+<a href="Ordinary-Lambda-Lists.html#Ordinary-Lambda-Lists">Section 3.4.1 (Ordinary Lambda Lists)</a>,
+<a href="Syntactic-Interaction-of-Documentation-Strings-and-Declarations.html#Syntactic-Interaction-of-Documentation-Strings-and-Declarations">Section 3.4.11 (Syntactic Interaction of Documentation Strings and Declarations)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>return-from</code> can be used to return
+prematurely from a <i>function</i> defined by <code>defun</code>.
+
+<p>Additional side effects might take place when additional information
+(typically debugging information)
+about the function definition is recorded.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/defun.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:28 GMT -->
+</html>
+

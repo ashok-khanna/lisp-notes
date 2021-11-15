@@ -1,0 +1,96 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aprint_002dlines_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:56 GMT -->
+<head>
+<title>*print-lines* - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="_002aprint_002dlevel_002a_003b-_002aprint_002dlength_002a.html#g_t_002aprint_002dlevel_002a_003b-_002aprint_002dlength_002a" title="*print-level*; *print-length*">
+<link rel="next" href="_002aprint_002dmiser_002dwidth_002a.html#g_t_002aprint_002dmiser_002dwidth_002a" title="*print-miser-width*">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="*print-lines*"></a>
+<a name="g_t_002aprint_002dlines_002a"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="_002aprint_002dmiser_002dwidth_002a.html#g_t_002aprint_002dmiser_002dwidth_002a">*print-miser-width*</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="_002aprint_002dlevel_002a_003b-_002aprint_002dlength_002a.html#g_t_002aprint_002dlevel_002a_003b-_002aprint_002dlength_002a">*print-level*; *print-length*</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">*print-lines* (Variable)</h3>
+
+<p><a name="index-g_t_002aprint_002dlines_002a-2975"></a><a name="index-g_t_002aprint_002dlines_002a-2976"></a>
+
+<h5 class="subsubheading">Value Type:</h5>
+
+<p>a non-negative <i>integer</i>, or <code>nil</code>.
+
+<h5 class="subsubheading">Initial Value:</h5>
+
+<p><code>nil</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>When the <i>value</i> of <code>*print-lines*</code> is other than <code>nil</code>,
+it is a limit on the number of output lines produced when something is pretty
+printed.  If an attempt is made to go beyond that many lines,
+&ldquo;<code>..</code>&rdquo;
+<a name="index-Dot-Dot-2977"></a><a name="index-g_t_002e_002e-2978"></a>is printed at the end of the last line followed by all of the
+suffixes (closing delimiters) that are pending to be printed.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (let ((*print-right-margin* 25) (*print-lines* 3))
+   (pprint '(progn (setq a 1 b 2 c 3 d 4))))
+▷ (PROGN (SETQ A 1
+▷              B 2
+▷              C 3 ..))
+<span class="roman">→</span> &lt;no <i>values</i>&gt;
+</pre>
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The &ldquo;<code>..</code>&rdquo; notation is intentionally different than
+the &ldquo;<code>...</code>&rdquo; notation used for level abbreviation, so that the two
+different situations can be visually distinguished.
+
+<p>This notation is used to increase the likelihood that the <i>Lisp reader</i>
+will signal an error if an attempt is later made to read the abbreviated output. 
+Note however that if the truncation occurs in a <i>string</i>,
+as in <code>"This string has been trunc.."</code>, the problem situation cannot be
+detected later and no such error will be signaled.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/_002aprint_002dlines_002a.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:56 GMT -->
+</html>
+

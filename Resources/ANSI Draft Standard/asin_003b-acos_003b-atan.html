@@ -1,0 +1,254 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/asin_003b-acos_003b-atan.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:16 GMT -->
+<head>
+<title>asin; acos; atan - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Numbers.html#Numbers" title="Numbers">
+<link rel="prev" href="sin_003b-cos_003b-tan.html#sin_003b-cos_003b-tan" title="sin; cos; tan">
+<link rel="next" href="pi.html#pi" title="pi">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="asin%3b-acos%3b-atan"></a>
+<a name="asin_003b-acos_003b-atan"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="pi.html#pi">pi</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="sin_003b-cos_003b-tan.html#sin_003b-cos_003b-tan">sin; cos; tan</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Numbers.html#Numbers">Numbers</a>
+<hr>
+</div>
+
+<h3 class="heading">asin, acos, atan (Function)</h3>
+
+<p><a name="index-asin-1259"></a><a name="index-asin-1260"></a><a name="index-acos-1261"></a><a name="index-acos-1262"></a><a name="index-atan-1263"></a><a name="index-atan-1264"></a><a name="asin"></a><a name="acos"></a><a name="atan"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>asin</b><var> number </var><span class="roman">→</span><var> radians<a name="index-asin-1265"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>acos</b><var> number </var><span class="roman">→</span><var> radians<a name="index-acos-1266"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>atan</b><var> number1 </var><tt>&amp;optional</tt><var> number2 </var><span class="roman">→</span><var> radians<a name="index-atan-1267"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>number</var>&mdash;a <i>number</i>.
+
+<p><var>number1</var>&mdash;a <i>number</i> if <var>number2</var> is not supplied,
+or a <i>real</i>   if <var>number2</var> is     supplied.
+
+<p><var>number2</var>&mdash;a <i>real</i>.
+
+<p><var>radians</var>&mdash;a <i>number</i> (of radians).
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>asin</code>, <code>acos</code>, and <code>atan</code>
+compute the arc sine, arc cosine, and arc tangent respectively.
+
+<p>The arc sine, arc cosine, and arc tangent (with only <var>number1</var> supplied)
+functions can be defined mathematically for
+<var>number</var> or <var>number1</var> specified as <i>x</i> as in the next figure.
+
+<div class="float">
+<a name="fig12_002e14"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Function </th><th valign="top">Definition
+<br></th></tr><tr align="left"><td valign="top">Arc sine </td><td valign="top">-i&nbsp;<!-- /@w -->log (ix+     sqrt(1-x^2)     ) 
+<br></td></tr><tr align="left"><td valign="top">Arc cosine </td><td valign="top">(π/2) - arcsin x 
+<br></td></tr><tr align="left"><td valign="top">Arc tangent </td><td valign="top">-i&nbsp;<!-- /@w -->log ((1+ix)&nbsp;<!-- /@w -->sqrt(1/(1+x^2)) )
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.14: Mathematical definition of arc sine, arc cosine, and arc tangent</strong></p></div>
+
+<p>These formulae are mathematically correct, assuming
+completely accurate computation. They are not necessarily
+the simplest ones for real-valued computations.
+
+<p>If both <var>number1</var> and <var>number2</var> are supplied
+for <code>atan</code>, the result is the arc tangent
+of <var>number1</var>/<var>number2</var><!-- /@w -->. 
+The value of <code>atan</code> is always between
+-π (exclusive) and&nbsp;π (inclusive)
+when minus zero is not supported. 
+The range of the two-argument arc tangent when minus zero is supported
+includes -π.
+
+<p>For a
+<i>real</i>
+<var>number1</var>,
+the result is
+a <i>real</i>
+and lies between
+-π/2 and&nbsp;π/2 (both exclusive). 
+<var>number1</var> can be a <i>complex</i> if <var>number2</var>
+is not supplied. If both are supplied, <var>number2</var> can be zero provided
+<var>number1</var> is not zero.
+
+<p>The following definition for arc sine determines the range and
+branch cuts:
+
+<blockquote>
+arcsin z = -i&nbsp;<!-- /@w -->log (iz+sqrt(1-z^2)) 
+</blockquote>
+
+<p>The branch cut for the arc sine function is in two pieces:
+one along the negative real axis to the left of&nbsp;-1
+(inclusive), continuous with quadrant II, and one along the positive real
+axis to the right of&nbsp;1 (inclusive), continuous with quadrant IV.  The
+range is that strip of the complex plane containing numbers whose real
+part is between -π/2 and&nbsp;π/2.  A number with real
+part equal to -π/2 is in the range if and only if its imaginary
+part is non-negative; a number with real part equal to π/2 is in
+the range if and only if its imaginary part is non-positive.
+
+<p>The following definition for arc cosine determines the range and
+branch cuts:
+
+<blockquote>
+arccos z = π/2- arcsin z
+</blockquote>
+
+<p>or, which are equivalent,
+
+<blockquote>
+arccos z = -i&nbsp;<!-- /@w -->log (z+i&nbsp;<!-- /@w -->sqrt(1-z^2)) 
+</blockquote>
+
+<blockquote>
+arccos z = 2&nbsp;<!-- /@w -->log (sqrt((1+z)/2) + i&nbsp;<!-- /@w -->sqrt((1-z)/2))/(i)
+</blockquote>
+
+<p>The branch cut for the arc cosine function is in two pieces:
+one along the negative real axis to the left of&nbsp;-1
+(inclusive), continuous with quadrant II, and one along the positive real
+axis to the right of&nbsp;1 (inclusive), continuous with quadrant IV. 
+This is the same branch cut as for arc sine. 
+The range is that strip of the complex plane containing numbers whose real
+part is between 0 and&nbsp;π.  A number with real
+part equal to 0 is in the range if and only if its imaginary
+part is non-negative; a number with real part equal to π is in
+the range if and only if its imaginary part is non-positive.
+
+<p>The following definition for (one-argument) arc tangent determines the
+range and branch cuts:
+
+<blockquote>
+arctan z = (log (1+iz) - log (1-iz))/2i 
+</blockquote>
+
+<p>Beware of simplifying this formula; &ldquo;obvious&rdquo; simplifications are likely
+to alter the branch cuts or the values on the branch cuts incorrectly. 
+The branch cut for the arc tangent function is in two pieces:
+one along the positive imaginary axis above i
+(exclusive), continuous with quadrant II, and one along the negative imaginary
+axis below -i (exclusive), continuous with quadrant IV. 
+The points i and&nbsp;-i are excluded from the domain. 
+The range is that strip of the complex plane containing numbers whose real
+part is between -π/2 and&nbsp;π/2.  A number with real
+part equal to -π/2 is in the range if and only if its imaginary
+part is strictly positive; a number with real part equal to π/2 is in
+the range if and only if its imaginary part is strictly negative.  Thus the range of
+arc tangent is identical to that of arc sine with the points
+-π/2 and&nbsp;π/2 excluded.
+
+<p>For <code>atan</code>,
+the signs of <var>number1</var> (indicated as <i>x</i>)
+and <var>number2</var> (indicated as <i>y</i>) are used to derive quadrant
+information. The next figure&nbsp;<!-- /@w -->details various special cases. 
+The asterisk (*) indicates that the entry in the figure applies to
+implementations that support minus zero.
+
+<div class="float">
+<a name="fig12_002e15"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">&nbsp;<!-- /@w --><i>y</i> Condition </th><th valign="top"><i>x</i> Condition </th><th valign="top">Cartesian locus </th><th valign="top">Range of result
+<br></th></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y =  0  </td><td valign="top">x &gt;  0  </td><td valign="top">Positive x-axis </td><td valign="top">0
+<br></td></tr><tr align="left"><td valign="top">*y = +0  </td><td valign="top">x &gt;  0  </td><td valign="top">Positive x-axis </td><td valign="top">+0
+<br></td></tr><tr align="left"><td valign="top">*y = -0  </td><td valign="top">x &gt;  0  </td><td valign="top">Positive x-axis </td><td valign="top">-0
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y &gt;  0  </td><td valign="top">x &gt;  0  </td><td valign="top">Quadrant I </td><td valign="top">0 &lt; result &lt; π/2 
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y &gt;  0  </td><td valign="top">x =  0  </td><td valign="top">Positive y-axis </td><td valign="top">π/2
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y &gt;  0  </td><td valign="top">x &lt;  0  </td><td valign="top">Quadrant II </td><td valign="top">π/2 &lt; result &lt; π
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y =  0  </td><td valign="top">x &lt;  0  </td><td valign="top">Negative x-axis </td><td valign="top">π
+<br></td></tr><tr align="left"><td valign="top">*y = +0  </td><td valign="top">x &lt;  0  </td><td valign="top">Negative x-axis </td><td valign="top">+π
+<br></td></tr><tr align="left"><td valign="top">*y = -0  </td><td valign="top">x &lt;  0  </td><td valign="top">Negative x-axis </td><td valign="top">-π
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y &lt;  0  </td><td valign="top">x &lt;  0  </td><td valign="top">Quadrant III </td><td valign="top">-π &lt; result &lt; -π/2
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y &lt;  0  </td><td valign="top">x =  0  </td><td valign="top">Negative y-axis </td><td valign="top">-π/2
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y &lt;  0  </td><td valign="top">x &gt;  0  </td><td valign="top">Quadrant IV </td><td valign="top">-π/2 &lt; result &lt; 0 
+<br></td></tr><tr align="left"><td valign="top">&nbsp;<!-- /@w -->y =  0  </td><td valign="top">x =  0  </td><td valign="top">Origin </td><td valign="top">undefined consequences
+<br></td></tr><tr align="left"><td valign="top">*y = +0  </td><td valign="top">x = +0  </td><td valign="top">Origin </td><td valign="top">+0
+<br></td></tr><tr align="left"><td valign="top">*y = -0  </td><td valign="top">x = +0  </td><td valign="top">Origin </td><td valign="top">-0
+<br></td></tr><tr align="left"><td valign="top">*y = +0  </td><td valign="top">x = -0  </td><td valign="top">Origin </td><td valign="top">+π
+<br></td></tr><tr align="left"><td valign="top">*y = -0  </td><td valign="top">x = -0  </td><td valign="top">Origin </td><td valign="top">-π
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 12.15: Quadrant information for arc tangent</strong></p></div>
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (asin 0) <span class="roman">→</span> 0.0
+ (acos #c(0 1))  <span class="roman">→</span> #C(1.5707963267948966 -0.8813735870195432)
+ (/ (atan 1 (sqrt 3)) 6)  <span class="roman">→</span> 0.087266
+ (atan #c(0 2)) <span class="roman">→</span> #C(-1.5707964 0.54930615)
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p><code>acos</code> and <code>asin</code> should signal an error of <i>type</i> <code>type-error</code> if <var>number</var> is not a <i>number</i>. 
+<code>atan</code> should signal <code>type-error</code> if
+one argument is supplied and that argument is not a <i>number</i>,
+or if two arguments are supplied and both of those arguments are not <i>reals</i>.
+
+<p><code>acos</code>, <code>asin</code>, and <code>atan</code> might signal <code>arithmetic-error</code>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="log.html#log">log</a>,
+<a href="sqrt.html#sqrt">sqrt</a>,
+<a href="FloatSubstitutability.html#FloatSubstitutability">Section 12.1.3.3 (Rule of Float Substitutability)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>The result of either <code>asin</code> or <code>acos</code> can be a <i>complex</i>
+even if <var>number</var> is not a <i>complex</i>; this occurs when the
+absolute value of <var>number</var> is greater than one.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/asin_003b-acos_003b-atan.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:17 GMT -->
+</html>
+

@@ -1,0 +1,538 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Interpreting-Dictionary-Entries.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:27 GMT -->
+<head>
+<title>Interpreting Dictionary Entries - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Definitions.html#Definitions" title="Definitions">
+<link rel="prev" href="Sections-Not-Formally-Part-Of-This-Standard.html#Sections-Not-Formally-Part-Of-This-Standard" title="Sections Not Formally Part Of This Standard">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Interpreting-Dictionary-Entries"></a>
+<p>
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Sections-Not-Formally-Part-Of-This-Standard.html#Sections-Not-Formally-Part-Of-This-Standard">Sections Not Formally Part Of This Standard</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Definitions.html#Definitions">Definitions</a>
+<hr>
+</div>
+
+<h4 class="subsection">1.4.4 Interpreting Dictionary Entries</h4>
+
+<p>The dictionary entry for each <i>defined name</i> is partitioned into
+sections.  Except as explicitly indicated otherwise below, each section
+is introduced by a label identifying that section.  The omission of a
+section implies that the section is either not applicable, or would
+provide no interesting information.
+
+<p>This section defines the significance of each potential section in a
+dictionary entry.
+
+<h5 class="subsubsection">1.4.4.1 The &ldquo;Affected By&rdquo; Section of a Dictionary Entry</h5>
+
+<p>For an <i>operator</i>, anything that can affect the side effects of
+or <i>values</i> returned by the <i>operator</i>.
+
+<p>For a <i>variable</i>, anything that can affect the <i>value</i> of the <i>variable</i>
+including <i>functions</i> that bind or assign it.
+
+<h5 class="subsubsection">1.4.4.2 The &ldquo;Arguments&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes the syntax information of entries such as those for
+<i>declarations</i> and special <i>expressions</i> which are never <i>evaluated</i>
+as <i>forms</i>, and so do not return <i>values</i>.
+
+<h5 class="subsubsection">1.4.4.3 The &ldquo;Arguments and Values&rdquo; Section of a Dictionary Entry</h5>
+
+<p>An English language description of what <i>arguments</i> the <i>operator</i> accepts
+and what <i>values</i> it returns, including information about defaults for <i>parameters</i>
+corresponding to omittable <i>arguments</i>
+(such as <i>optional parameters</i> and <i>keyword parameters</i>). 
+For <i>special operators</i> and <i>macros</i>,
+their <i>arguments</i> are not <i>evaluated</i> unless it is explicitly stated in their
+descriptions that they are <i>evaluated</i>.
+
+<p>Except as explicitly specified otherwise,
+the consequences are undefined if these type restrictions are violated.
+
+<h5 class="subsubsection">1.4.4.4 The &ldquo;Binding Types Affected&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information alerts the reader to the kinds of <i>bindings</i> that might
+potentially be affected by a declaration.  Whether in fact any particular such
+<i>binding</i> is actually affected is dependent on additional factors as well. 
+See the &ldquo;Description&rdquo; section of the declaration in question for details.
+
+<h5 class="subsubsection">1.4.4.5 The &ldquo;Class Precedence List&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This appears in the dictionary entry for a <i>class</i>,
+and contains an ordered list of the <i>classes</i> defined
+by <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->that must be in the <i>class precedence list</i> of this <i>class</i>.
+
+<p>It is permissible for other (<i>implementation-defined</i>) <i>classes</i>
+to appear in the <i>implementation</i>'s <i>class precedence list</i> for the <i>class</i>.
+
+<p>It is permissible for
+either <code>standard-object</code>
+or <code>structure-object</code>
+to appear in the <i>implementation</i>'s <i>class precedence list</i>;
+for details, see <a href="Type-Relationships.html#Type-Relationships">Section 4.2.2 (Type Relationships)</a>.
+
+<p>Except as explicitly indicated otherwise somewhere in this specification,
+no additional <i>standardized</i> <i>classes</i> may appear in
+the <i>implementation</i>'s <i>class precedence list</i>.
+
+<p>By definition of the relationship between <i>classes</i> and <i>types</i>,
+the <i>classes</i> listed in this section are also <i>supertypes</i> of
+the <i>type</i> denoted by the <i>class</i>.
+
+<h5 class="subsubsection">1.4.4.6 Dictionary Entries for Type Specifiers</h5>
+
+<p><a name="TypeSpecEntries"></a>The <i>atomic type specifiers</i> are those <i>defined names</i>
+listed in <a href="StandardizedAtomicTypeSpecs.html#StandardizedAtomicTypeSpecs">Figure 4.2</a>. 
+Such dictionary entries are of kind
+&ldquo;Class,&rdquo; &ldquo;Condition Type,&rdquo; &ldquo;System Class,&rdquo; or &ldquo;Type.&rdquo;
+A description of how to interpret
+a <i>symbol</i> naming one of these <i>types</i> or <i>classes</i>
+as an <i>atomic type specifier</i>
+is found in the &ldquo;Description&rdquo; section of such dictionary entries.
+
+<p>The <i>compound type specifiers</i> are those <i>defined names</i>
+listed in <a href="StandardizedCompoundTypeSpecNames.html#StandardizedCompoundTypeSpecNames">Figure 4.3</a>. 
+Such dictionary entries are of kind &ldquo;Class,&rdquo; &ldquo;System Class,&rdquo;
+&ldquo;Type,&rdquo; or &ldquo;Type Specifier.&rdquo;
+A description of how to interpret as a <i>compound type specifier</i>
+a <i>list</i> whose <i>car</i> is such a <i>symbol</i>
+is found in the
+&ldquo;Compound Type Specifier Kind,&rdquo;
+&ldquo;Compound Type Specifier Syntax,&rdquo;
+&ldquo;Compound Type Specifier Arguments,&rdquo;
+and &ldquo;Compound Type Specifier Description&rdquo;
+sections of such dictionary entries.
+
+<h5 class="unnumberedsubsubsec">1.4.4.6.1 The &ldquo;Compound Type Specifier Kind&rdquo; Section of a Dictionary Entry</h5>
+
+<p>An &ldquo;abbreviating&rdquo; <i>type specifier</i> is one that describes a <i>subtype</i>
+for which it is in principle possible to enumerate the <i>elements</i>,
+but for which in practice it is impractical to do so.
+
+<p>A &ldquo;specializing&rdquo; <i>type specifier</i> is one that describes a <i>subtype</i>
+by restricting the <i>type</i> of one or more components of the <i>type</i>,
+such as <i>element type</i> or <i>complex part type</i>.
+
+<p>A &ldquo;predicating&rdquo; <i>type specifier</i> is one that describes a <i>subtype</i>
+containing only those <i>objects</i> that satisfy a given <i>predicate</i>.
+
+<p>A &ldquo;combining&rdquo; <i>type specifier</i> is one that describes a <i>subtype</i>
+in a compositional way, using combining operations (such as &ldquo;and,&rdquo; &ldquo;or,&rdquo; and
+&ldquo;not&rdquo;) on other <i>types</i>.
+
+<h5 class="unnumberedsubsubsec">1.4.4.6.2 The &ldquo;Compound Type Specifier Syntax&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information about a <i>type</i> describes the syntax of a
+<i>compound type specifier</i> for that <i>type</i>.
+
+<p>Whether or not the <i>type</i> is acceptable as an <i>atomic type specifier</i>
+is not represented here; see <a href="TypeSpecEntries.html#TypeSpecEntries">Section 1.4.4.6 (Dictionary Entries for Type Specifiers)</a>.
+
+<h5 class="unnumberedsubsubsec">1.4.4.6.3 The &ldquo;Compound Type Specifier Arguments&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes <i>type</i> information for the structures defined in
+the &ldquo;Compound Type Specifier Syntax&rdquo; section.
+
+<h5 class="unnumberedsubsubsec">1.4.4.6.4 The &ldquo;Compound Type Specifier Description&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes the meaning of the structures defined in
+the &ldquo;Compound Type Specifier Syntax&rdquo; section.
+
+<h5 class="subsubsection">1.4.4.7 The &ldquo;Constant Value&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes the unchanging <i>type</i> and <i>value</i> of
+a <i>constant variable</i>.
+
+<h5 class="subsubsection">1.4.4.8 The &ldquo;Description&rdquo; Section of a Dictionary Entry</h5>
+
+<p>A summary of the <i>operator</i> and all intended aspects of the <i>operator</i>,
+but does not necessarily include all the fields referenced below it
+(&ldquo;Side Effects,&rdquo; &ldquo;Exceptional Situations,&rdquo; <i>etc</i>.)
+
+<h5 class="subsubsection">1.4.4.9 The &ldquo;Examples&rdquo; Section of a Dictionary Entry</h5>
+
+<p>Examples of use of the <i>operator</i>. 
+These examples are not considered part of the standard;
+see <a href="Sections-Not-Formally-Part-Of-This-Standard.html#Sections-Not-Formally-Part-Of-This-Standard">Section 1.4.3 (Sections Not Formally Part Of This Standard)</a>.
+
+<h5 class="subsubsection">1.4.4.10 The &ldquo;Exceptional Situations&rdquo; Section of a Dictionary Entry</h5>
+
+<p>Three kinds of information may appear here:
+
+     <ul>
+<li>Situations that are detected by the <i>function</i> and formally signaled. 
+<li>Situations that are handled by the <i>function</i>. 
+<li>Situations that may be detected by the <i>function</i>. 
+</ul>
+
+<p>This field does not include conditions that could
+be signaled by <i>functions</i> passed to and called by this <i>operator</i>
+as arguments or through dynamic variables, nor by executing subforms of this
+operator if it is a <i>macro</i> or <i>special operator</i>.
+
+<h5 class="subsubsection">1.4.4.11 The &ldquo;Initial Value&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes the initial <i>value</i> of a <i>dynamic variable</i>. 
+Since this variable might change, see <i>type</i> restrictions in the &ldquo;Value Type&rdquo; section.
+
+<h5 class="subsubsection">1.4.4.12 The &ldquo;Argument Precedence Order&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes the <i>argument precedence order</i>. 
+If it is omitted, the <i>argument precedence order</i> is the default (left to right).
+
+<h5 class="subsubsection">1.4.4.13 The &ldquo;Method Signature&rdquo; Section of a Dictionary Entry</h5>
+
+<p>The description of a <i>generic function</i> includes descriptions of the
+<i>methods</i> that are defined on that <i>generic function</i> by the standard. 
+A method signature is used to describe the <i>parameters</i> and
+<i>parameter specializers</i> for each <i>method</i>. 
+<i>Methods</i> defined for the <i>generic function</i> must be of the form described
+by the <i>method</i> <i>signature</i>.
+
+<p>F <tt>(</tt><var>x</var> <var>class</var><tt>)</tt>
+<tt>(</tt><var>y</var> t<tt>)</tt>
+<tt>&amp;optional</tt> <var>z</var> <tt>&amp;key</tt> <var>k</var>
+
+<p class="noindent">This <i>signature</i> indicates that this method on the <i>generic function</i>
+<b>F</b> has two <i>required parameters</i>:
+<var>x</var>, which must be a <i>generalized instance</i> of the <i>class</i> <var>class</var>;
+and <var>y</var>, which can  be any <i>object</i>
+(<i>i.e.</i>, a <i>generalized instance</i> of the <i>class</i> <code>t</code>). 
+In addition, there is an <i>optional parameter</i> <var>z</var> and a
+<i>keyword parameter</i> <var>k</var>.  This <i>signature</i> also indicates that this
+method on <code>F</code> is a <i>primary method</i> and has no <i>qualifiers</i>.
+
+<p>For each <i>parameter</i>, the <i>argument</i> supplied must be in the
+intersection of the <i>type</i> specified in the description of the
+corresponding <i>generic function</i> and the <i>type</i> given in
+the <i>signature</i> of some <i>method</i> (including not only those
+<i>methods</i> defined in this specification, but also
+<i>implementation-defined</i> or user-defined <i>methods</i> in situations
+where the definition of such <i>methods</i> is permitted).
+
+<h5 class="subsubsection">1.4.4.14 The &ldquo;Name&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This section introduces the dictionary entry.  It is not explicitly labeled. 
+It appears preceded and followed by a horizontal bar.
+
+<p>In large print at left, the <i>defined name</i> appears; if more than one
+<i>defined name</i> is to be described by the entry, all such <i>names</i>
+are shown separated by commas.
+
+<p>In somewhat smaller italic print at right is an indication of what kind
+of dictionary entry this is.  Possible values are:
+
+     <dl>
+<dt><i>Accessor</i><dd>
+
+     <p>This is an <i>accessor</i> <i>function</i>.
+
+     <br><dt><i>Class</i><dd>
+
+     <p>This is a <i>class</i>.
+
+     <br><dt><i>Condition Type</i><dd>
+
+     <p>This is a subtype of <i>type</i> <code>condition</code>.
+
+     <br><dt><i>Constant Variable</i><dd>
+
+     <p>This is a <i>constant variable</i>.
+
+     <br><dt><i>Declaration</i><dd>
+
+     <p>This is a <i>declaration identifier</i>.
+
+     <br><dt><i>Function</i><dd>
+
+     <p>This is a <i>function</i>.
+
+     <br><dt><i>Local Function</i><dd>
+
+     <p>This is a <i>function</i> that is defined only lexically within the scope of some
+other <i>macro form</i>.
+
+     <br><dt><i>Local Macro</i><dd>
+
+     <p>This is a <i>macro</i> that is defined only lexically within the scope of some
+other <i>macro form</i>.
+
+     <br><dt><i>Macro</i><dd>
+
+     <p>This is a <i>macro</i>.
+
+     <br><dt><i>Restart</i><dd>
+
+     <p>This is a <i>restart</i>.
+
+     <br><dt><i>Special Operator</i><dd>
+
+     <p>This is a <i>special operator</i>.
+
+     <br><dt><i>Standard Generic Function</i><dd>
+
+     <p>This is a <i>standard generic function</i>.
+
+     <br><dt><i>Symbol</i><dd>
+
+     <p>This is a <i>symbol</i> that is specially recognized in some particular situation,
+such as the syntax of a <i>macro</i>.
+
+     <br><dt><i>System Class</i><dd>
+
+     <p>This is like <i>class</i>, but it identifies a <i>class</i> that is potentially
+a <i>built-in class</i>.  (No <i>class</i> is actually required to be a
+<i>built-in class</i>.)
+
+     <br><dt><i>Type</i><dd>
+
+     <p>This is an <i>atomic type specifier</i>,
+and depending on information for each particular entry,
+may subject to form other <i>type specifiers</i>.
+
+     <br><dt><i>Type Specifier</i><dd>
+
+     <p>This is a <i>defined name</i> that is not an <i>atomic type specifier</i>,
+but that can be used in constructing valid <i>type specifiers</i>.
+
+     <br><dt><i>Variable</i><dd>
+
+     <p>This is a <i>dynamic variable</i>. 
+</dl>
+
+<h5 class="subsubsection">1.4.4.15 The &ldquo;Notes&rdquo; Section of a Dictionary Entry</h5>
+
+<p>Information not found elsewhere in this description
+which pertains to this <i>operator</i>. 
+Among other things, this might include
+cross reference information,
+code equivalences,
+stylistic hints,
+implementation hints,
+typical uses. 
+This information is not considered part of the standard;
+any <i>conforming implementation</i> or <i>conforming program</i>
+is permitted to ignore the presence of this information.
+
+<h5 class="subsubsection">1.4.4.16 The &ldquo;Pronunciation&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This offers a suggested pronunciation for <i>defined names</i>
+so that people not in verbal communication with the original designers
+can figure out how to pronounce words that are not in normal English usage. 
+This information is advisory only, and is not considered part of the standard. 
+For brevity, it is only provided for entries with names that are specific to
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->and would not be found in <cite>Webster's Third New International Dictionary the English Language, Unabridged</cite>.
+
+<h5 class="subsubsection">1.4.4.17 The &ldquo;See Also&rdquo; Section of a Dictionary Entry</h5>
+
+<p>List of references to other parts of this standard
+that offer information relevant to this <i>operator</i>. 
+This list is not part of the standard.
+
+<h5 class="subsubsection">1.4.4.18 The &ldquo;Side Effects&rdquo; Section of a Dictionary Entry</h5>
+
+<p>Anything that is changed as a result of the
+evaluation of the <i>form</i> containing this <i>operator</i>.
+
+<h5 class="subsubsection">1.4.4.19 The &ldquo;Supertypes&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This appears in the dictionary entry for a <i>type</i>,
+and contains a list of the <i>standardized</i> <i>types</i>
+that must be <i>supertypes</i> of this <i>type</i>.
+
+<p>In <i>implementations</i> where there is a corresponding <i>class</i>,
+the order of the <i>classes</i> in the <i>class precedence list</i>
+is consistent with the order presented in this section.
+
+<h5 class="subsubsection">1.4.4.20 The &ldquo;Syntax&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This section describes how to use the <i>defined name</i> in code. 
+The &ldquo;Syntax&rdquo; description for a <i>generic function</i>
+describes the <i>lambda list</i> of the <i>generic function</i> itself,
+while the &ldquo;Method Signatures&rdquo; describe the <i>lambda lists</i>
+of the defined <i>methods</i>. 
+The &ldquo;Syntax&rdquo; description for
+an <i>ordinary function</i>,
+a <i>macro</i>,
+or a <i>special operator</i>
+describes its <i>parameters</i>.
+
+<p>For example, an <i>operator</i> description might say:
+
+<div class="defun">
+&mdash; Function: <b>F</b><var> x y </var><tt>&amp;optional</tt><var> z </var><tt>&amp;key</tt><var> k<a name="index-F-29"></a></var><br>
+     </div>
+
+<p class="noindent">This description indicates that the function <b>F</b>
+has two required parameters, <var>x</var> and <var>y</var>.  In addition,
+there is an optional parameter <var>z</var> and a keyword parameter <var>k</var>.
+
+<p>For <i>macros</i> and <i>special operators</i>, syntax is given
+in modified BNF notation; see <a href="ModifiedBNF.html#ModifiedBNF">Section 1.4.1.2 (Modified BNF Syntax)</a>. 
+For <i>functions</i> a <i>lambda list</i> is given. 
+In both cases, however, the outermost parentheses are omitted,
+and default value information is omitted.
+
+<h5 class="unnumberedsubsubsec">1.4.4.20.1 Special &ldquo;Syntax&rdquo; Notations for Overloaded Operators</h5>
+
+<p>If two descriptions exist for the same operation but with different numbers of
+arguments, then the extra arguments are to be treated as optional.  For example,
+this pair of lines:
+
+<div class="defun">
+&mdash; Function: <b>file-position</b><var> stream </var><span class="roman">→</span><var> position<a name="index-file_002dposition-30"></a></var><br>
+     </div>
+
+<div class="defun">
+&mdash; Function: <b>file-position</b><var> stream position-spec </var><span class="roman">→</span><var> success-p<a name="index-file_002dposition-31"></a></var><br>
+     </div>
+
+<p class="noindent">is operationally equivalent to this line:
+
+<div class="defun">
+&mdash; Function: <b>file-position</b><var> stream </var><tt>&amp;optional</tt><var> position-spec </var><span class="roman">→</span><var> result<a name="index-file_002dposition-32"></a></var><br>
+     </div>
+
+<p class="noindent">and differs only in that it provides on opportunity to introduce different
+names for <i>parameter</i> and <i>values</i> for each case. 
+The separated (multi-line) notation is used when an <i>operator</i> is overloaded in
+such a way that the <i>parameters</i> are used in different ways
+depending on how many <i>arguments</i> are supplied (<i>e.g.</i>, for the <i>function</i> <code>/</code>)
+or the return values are different in the two cases (<i>e.g.</i>, for the <i>function</i> <code>file-position</code>).
+
+<h5 class="unnumberedsubsubsec">1.4.4.20.2 Naming Conventions for Rest Parameters</h5>
+
+<p>Within this specification,
+if the name of a <i>rest parameter</i> is chosen to be a plural noun,
+use of that name in <var>parameter</var> font refers
+to the <i>list</i> to which the <i>rest parameter</i> is bound. 
+Use of the singular form of that name in <var>parameter</var> font refers
+to an <i>element</i> of that <i>list</i>.
+
+<p>For example, given a syntax description such as:
+
+<div class="defun">
+&mdash; Function: <b>F</b> <tt>&amp;rest</tt><var> arguments<a name="index-F-33"></a></var><br>
+     </div>
+
+<p class="noindent">it is appropriate to refer either to the <i>rest parameter</i> named
+<var>arguments</var> by name, or to one of its elements by speaking of &ldquo;an <var>argument</var>,&rdquo;
+&ldquo;some <var>argument</var>,&rdquo; &ldquo;each <var>argument</var>&rdquo; <i>etc</i>.
+
+<h5 class="unnumberedsubsubsec">1.4.4.20.3 Requiring Non-Null Rest Parameters in the &ldquo;Syntax&rdquo; Section</h5>
+
+<p>In some cases it is useful to refer to all arguments equally as a single
+aggregation using a <i>rest parameter</i> while at the same time
+requiring at least one argument.  A variety of imperative and
+declarative means are available in <i>code</i> for expressing such a
+restriction, however they generally do not manifest themselves in a
+<i>lambda list</i>.  For descriptive purposes within this specification,
+
+<div class="defun">
+&mdash; Function: <b>F</b> <tt>&amp;rest</tt><var> arguments+<a name="index-F-34"></a></var><br>
+     </div>
+
+<p class="noindent">means the same as
+
+<div class="defun">
+&mdash; Function: <b>F</b> <tt>&amp;rest</tt><var> arguments<a name="index-F-35"></a></var><br>
+     </div>
+
+<p class="noindent">but introduces the additional requirement that there be
+at least one <var>argument</var>.
+
+<h5 class="unnumberedsubsubsec">1.4.4.20.4 Return values in the &ldquo;Syntax&rdquo; Section</h5>
+
+<p>An evaluation arrow &ldquo;<span class="roman">→</span>&rdquo; precedes a list of <i>values</i> to be returned. 
+For example:
+
+<div class="defun">
+&mdash; Function: <b>F</b><var> a b c </var><span class="roman">→</span><var> x<a name="index-F-36"></a></var><br>
+     </div>
+
+<p class="noindent">indicates that <code>F</code> is an operator that has three <i>required parameters</i>
+(<i>i.e.</i>, <var>a</var>, <var>b</var>, and <var>c</var>) and that returns one <i>value</i> (<i>i.e.</i>, <var>x</var>). 
+If more than one <i>value</i> is returned by an operator, the <i>names</i> of the
+<i>values</i> are separated by commas, as in:
+
+<div class="defun">
+&mdash; Function: <b>F</b><var> a b c </var><span class="roman">→</span><var> x, y, z<a name="index-F-37"></a></var><br>
+     </div>
+
+<h5 class="unnumberedsubsubsec">1.4.4.20.4.1 No Arguments or Values in the &ldquo;Syntax&rdquo; Section</h5>
+
+<p>If no <i>arguments</i> are permitted, or no <i>values</i> are returned,
+a special notation is used to make this more visually apparent.  For example,
+
+<div class="defun">
+&mdash; Function: <b>F</b><var> &lt;no </var><i>arguments</i><var>&gt; </var><span class="roman">→</span><var> &lt;no </var><i>values</i><var>&gt;<a name="index-F-38"></a></var><br>
+     </div>
+
+<p>indicates that <code>F</code> is an operator that accepts no <i>arguments</i> and returns
+no <i>values</i>.
+
+<h5 class="unnumberedsubsubsec">1.4.4.20.4.2 Unconditional Transfer of Control in the &ldquo;Syntax&rdquo; Section</h5>
+
+<p>Some <i>operators</i> perform an unconditional transfer of control, and
+so never have any return values.  Such <i>operators</i> are notated using
+a notation such as the following:
+
+<div class="defun">
+&mdash; Function: <b>F</b><var> a b c </var><span class="roman">→</span><span class="roman">|</span><var><a name="index-F-39"></a></var><br>
+     </div>
+
+<h5 class="subsubsection">1.4.4.21 The &ldquo;Valid Context&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information is used by dictionary entries such as &ldquo;Declarations&rdquo;
+in order to restrict the context in which the declaration may appear.
+
+<p>A given &ldquo;Declaration&rdquo; might appear in
+a <i>declaration</i> (<i>i.e.</i>, a <tt>declare</tt> <i>expression</i>),
+a <i>proclamation</i> (<i>i.e.</i>, a <code>declaim</code> or <code>proclaim</code> <i>form</i>),
+or both.
+
+<h5 class="subsubsection">1.4.4.22 The &ldquo;Value Type&rdquo; Section of a Dictionary Entry</h5>
+
+<p>This information describes any <i>type</i> restrictions on a <i>dynamic variable</i>.
+
+<p>Except as explicitly specified otherwise,
+the consequences are undefined if this type restriction is violated.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Interpreting-Dictionary-Entries.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:29 GMT -->
+</html>
+

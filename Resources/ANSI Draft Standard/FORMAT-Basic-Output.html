@@ -1,0 +1,132 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Basic-Output.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>FORMAT Basic Output - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="next" href="FORMAT-Radix-Control.html#FORMAT-Radix-Control" title="FORMAT Radix Control">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Basic-Output"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Radix-Control.html#FORMAT-Radix-Control">FORMAT Radix Control</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.1 FORMAT Basic Output</h4>
+
+<h5 class="subsubsection">22.3.1.1 Tilde C: Character</h5>
+
+<p><a name="index-C-_0028format-directive_0029-2807"></a><a name="index-Tilde-C-_0028format-directive_0029-2808"></a>
+
+<p>The next <i>arg</i> should be a <i>character</i>;
+it is printed
+according to the modifier flags.
+
+<p><code>~C</code> prints the <i>character</i>
+as if by using <code>write-char</code> if it is a <i>simple character</i>. 
+<i>Characters</i> that are not <i>simple</i>
+are not necessarily printed as if by <code>write-char</code>,
+but are displayed in an <i>implementation-defined</i>, abbreviated format. 
+For example,
+
+<pre class="lisp"> (format nil "~C" #\A) <span class="roman">→</span> "A"
+ (format nil "~C" #\Space) <span class="roman">→</span> " "
+</pre>
+<p><code>~:C</code> is the same as <code>~C</code> for <i>printing</i> <i>characters</i>,
+but other <i>characters</i> are &ldquo;spelled out.&rdquo;  The intent is that this
+is a &ldquo;pretty&rdquo; format for printing characters. 
+For <i>simple</i> <i>characters</i> that are not <i>printing</i>,
+what is spelled out is the <i>name</i> of the <i>character</i> (see <code>char-name</code>). 
+For <i>characters</i> that are not <i>simple</i> and not <i>printing</i>,
+what is spelled out is <i>implementation-defined</i>. 
+For example,
+
+<pre class="lisp"> (format nil "~:C" #\A) <span class="roman">→</span> "A"
+ (format nil "~:C" #\Space) <span class="roman">→</span> "Space"
+;; This next example assumes an implementation-defined "Control" attribute.
+ (format nil "~:C" #\Control-Space)
+<span class="roman">→</span> "Control-Space"
+or<span class="roman">→</span> "c-Space"
+</pre>
+<p><code>~:@C</code> prints what <code>~:C</code> would, and then
+if the <i>character</i> requires unusual shift keys on the keyboard to type it,
+this fact is mentioned.  For example,
+
+<pre class="lisp"> (format nil "~:@C" #\Control-Partial) <span class="roman">→</span> "Control-∂ (Top-F)"
+</pre>
+<p>This is the format used for telling the user about a key he is expected to type,
+in prompts, for instance.  The precise output may depend not only
+on the implementation, but on the particular I/O devices in use.
+
+<p><code>~@C</code>
+prints the <i>character</i> in a way that the <i>Lisp reader</i> can understand,
+using <code>#\</code> syntax.
+
+<p><code>~@C</code>  binds <code>*print-escape*</code> to <code>t</code>.
+
+<h5 class="subsubsection">22.3.1.2 Tilde Percent: Newline</h5>
+
+<p><a name="index-Percent-_0028format-directive_0029-2809"></a><a name="index-Tilde-Percent-_0028format-directive_0029-2810"></a>
+This outputs a <code>#\Newline</code> character, thereby terminating the current
+output line and beginning a new one. 
+<code>~</code><i>n</i><code>%</code> outputs <i>n</i> newlines. 
+No <i>arg</i> is used.
+
+<h5 class="subsubsection">22.3.1.3 Tilde Ampersand: Fresh-Line</h5>
+
+<p><a name="index-Ampersand-_0028format-directive_0029-2811"></a><a name="index-Tilde-Ampersand-_0028format-directive_0029-2812"></a>
+Unless it can be determined that the output stream
+is already at the beginning of a line,
+this outputs a newline. 
+<code>~</code><i>n</i><code>&amp;</code> calls <code>fresh-line</code>
+and then outputs <i>n</i>&minus; 1 newlines. 
+<code>~0&amp;</code> does nothing.
+
+<h5 class="subsubsection">22.3.1.4 Tilde Vertical-Bar: Page</h5>
+
+<p><a name="index-Vertical_002dBar-_0028format-directive_0029-2813"></a><a name="index-Tilde-Vertical_002dBar-_0028format-directive_0029-2814"></a>
+This outputs a page separator character, if possible. 
+<code>~</code><i>n</i><code>|</code> does this <i>n</i> times.
+
+<h5 class="subsubsection">22.3.1.5 Tilde Tilde: Tilde</h5>
+
+<p><a name="index-Tilde-_0028format-directive_0029-2815"></a><a name="index-Tilde-Tilde-_0028format-directive_0029-2816"></a>
+This outputs a <i>tilde</i>.  <code>~</code><i>n</i><code>~</code> outputs <i>n</i> tildes.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Basic-Output.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+

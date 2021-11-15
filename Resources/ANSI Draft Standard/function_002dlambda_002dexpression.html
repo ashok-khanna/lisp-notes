@@ -1,0 +1,153 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/function_002dlambda_002dexpression.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:31 GMT -->
+<head>
+<title>function-lambda-expression - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Data-and-Control-Flow.html#Data-and-Control-Flow" title="Data and Control Flow">
+<link rel="prev" href="function-_0028Special-Operator_0029.html#function-_0028Special-Operator_0029" title="function (Special Operator)">
+<link rel="next" href="functionp.html#functionp" title="functionp">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="function-lambda-expression"></a>
+<a name="function_002dlambda_002dexpression"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="functionp.html#functionp">functionp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="function-_0028Special-Operator_0029.html#function-_0028Special-Operator_0029">function (Special Operator)</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Data-and-Control-Flow.html#Data-and-Control-Flow">Data and Control Flow</a>
+<hr>
+</div>
+
+<h3 class="heading">function-lambda-expression (Function)</h3>
+
+<p><a name="index-function_002dlambda_002dexpression-457"></a><a name="index-function_002dlambda_002dexpression-458"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>function-lambda-expression</b><var> function </var><span class="roman">→</span><var> lambda-expression, closure-p, name<a name="index-function_002dlambda_002dexpression-459"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>function</var>&mdash;a <i>function</i>.
+
+<p><var>lambda-expression</var>&mdash;a <i>lambda expression</i> or <code>nil</code>.
+
+<p><var>closure-p</var>&mdash;a <i>generalized boolean</i>.
+
+<p><var>name</var>&mdash;an <i>object</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns information about <var>function</var> as follows:
+
+<p>The <i>primary value</i>, <var>lambda-expression</var>,
+is <var>function</var>'s defining <i>lambda expression</i>,
+or <code>nil</code>&nbsp;<!-- /@w -->if the information is not available.  The <i>lambda expression</i>
+may have been pre-processed in some ways, but it should remain a suitable
+argument to <code>compile</code> or <code>function</code>. 
+Any <i>implementation</i> may legitimately return <code>nil</code>&nbsp;<!-- /@w -->
+as the <var>lambda-expression</var> of any <var>function</var>.
+
+<p>The <i>secondary value</i>, <var>closure-p</var>,
+is <code>nil</code>&nbsp;<!-- /@w -->if <var>function</var>'s definition was enclosed
+in the <i>null lexical environment</i> or something <i>non-nil</i> if
+<var>function</var>'s definition might have been enclosed in some
+<i>non-null lexical environment</i>. 
+Any <i>implementation</i> may legitimately return <i>true</i>
+as the <var>closure-p</var> of any <var>function</var>.
+
+<p>The <i>tertiary value</i>, <var>name</var>,
+is the &ldquo;name&rdquo; of <var>function</var>. 
+The name is intended for debugging only and is not necessarily one that would
+be valid for use as a name in <code>defun</code> or <code>function</code>, for example. 
+By convention, <code>nil</code>&nbsp;<!-- /@w -->is used to mean that <var>function</var> has no name. 
+Any <i>implementation</i> may legitimately return <code>nil</code>&nbsp;<!-- /@w -->
+as the <var>name</var> of any <var>function</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<p>The following examples illustrate some possible return values, but
+are not intended to be exhaustive:
+
+<pre class="lisp"> (function-lambda-expression #'(lambda (x) x))
+<span class="roman">→</span> NIL, <i>false</i>, NIL
+or<span class="roman">→</span> NIL, <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) X), <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) X), <i>false</i>, NIL
+
+ (function-lambda-expression
+    (funcall #'(lambda () #'(lambda (x) x))))
+<span class="roman">→</span> NIL, <i>false</i>, NIL
+or<span class="roman">→</span> NIL, <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) X), <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) X), <i>false</i>, NIL
+
+ (function-lambda-expression
+    (funcall #'(lambda (x) #'(lambda () x)) nil))
+<span class="roman">→</span> NIL, <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA () X), <i>true</i>, NIL
+not<span class="roman">→</span> NIL, <i>false</i>, NIL
+not<span class="roman">→</span> (LAMBDA () X), <i>false</i>, NIL
+
+ (flet ((foo (x) x))
+   (setf (symbol-function 'bar) #'foo)
+   (function-lambda-expression #'bar))
+<span class="roman">→</span> NIL, <i>false</i>, NIL
+or<span class="roman">→</span> NIL, <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) (BLOCK FOO X)), <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) (BLOCK FOO X)), <i>false</i>, FOO
+or<span class="roman">→</span> (SI::BLOCK-LAMBDA FOO (X) X), <i>false</i>, FOO
+
+ (defun foo ()
+   (flet ((bar (x) x))
+     #'bar))
+ (function-lambda-expression (foo))
+<span class="roman">→</span> NIL, <i>false</i>, NIL
+or<span class="roman">→</span> NIL, <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) (BLOCK BAR X)), <i>true</i>, NIL
+or<span class="roman">→</span> (LAMBDA (X) (BLOCK BAR X)), <i>true</i>, (:INTERNAL FOO 0 BAR)
+or<span class="roman">→</span> (LAMBDA (X) (BLOCK BAR X)), <i>false</i>, "BAR in FOO"
+</pre>
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Although <i>implementations</i> are free to return &ldquo;<code>nil</code>, <i>true</i>, <code>nil</code>&rdquo; in all cases,
+they are encouraged to return a <i>lambda expression</i> as the <i>primary value</i>
+in the case where the argument was created by a call to <code>compile</code>
+or <code>eval</code> (as opposed to being created by <i>loading</i> a <i>compiled file</i>).
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/function_002dlambda_002dexpression.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:31 GMT -->
+</html>
+

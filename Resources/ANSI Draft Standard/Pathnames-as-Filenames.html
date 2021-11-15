@@ -1,0 +1,132 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Pathnames-as-Filenames.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+<head>
+<title>Pathnames as Filenames - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Overview-of-Filenames.html#Overview-of-Filenames" title="Overview of Filenames">
+<link rel="prev" href="Namestrings-as-Filenames.html#Namestrings-as-Filenames" title="Namestrings as Filenames">
+<link rel="next" href="Parsing-Namestrings-Into-Pathnames.html#Parsing-Namestrings-Into-Pathnames" title="Parsing Namestrings Into Pathnames">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Pathnames-as-Filenames"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Parsing-Namestrings-Into-Pathnames.html#Parsing-Namestrings-Into-Pathnames">Parsing Namestrings Into Pathnames</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Namestrings-as-Filenames.html#Namestrings-as-Filenames">Namestrings as Filenames</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Overview-of-Filenames.html#Overview-of-Filenames">Overview of Filenames</a>
+<hr>
+</div>
+
+<h4 class="subsection">19.1.2 Pathnames as Filenames</h4>
+
+<p><a name="index-pathname-2460"></a><dfn>Pathnames</dfn> are structured <i>objects</i> that can represent,
+in an <i>implementation-independent</i> way,
+the <i>filenames</i> that are used natively by an underlying <i>file system</i>.
+
+<p>In addition, <i>pathnames</i> can also represent certain partially composed
+<i>filenames</i> for which an underlying <i>file system</i>
+might not have a specific <i>namestring</i> representation.
+
+<p>A <i>pathname</i> need not correspond to any file that actually exists,
+and more than one <i>pathname</i> can refer to the same file. 
+For example, the <i>pathname</i> with a version of <tt>:newest</tt>
+might refer to the same file as a <i>pathname</i>
+with the same components except a certain number as the version. 
+Indeed, a <i>pathname</i> with version <tt>:newest</tt> might refer to
+different files as time passes, because the meaning of such a <i>pathname</i>
+depends on the state of the file system.
+
+<p>Some <i>file systems</i> naturally use a structural model for their
+<i>filenames</i>, while others do not.  Within the <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>pathname</i> model,
+all <i>filenames</i> are seen as having a particular structure,
+even if that structure is not reflected in the underlying <i>file system</i>. 
+The nature of the mapping between structure imposed by <i>pathnames</i>
+and the structure, if any, that is used by the underlying <i>file system</i>
+is <i>implementation-defined</i>.
+
+<p>Every <i>pathname</i> has six components:
+a host,
+a device,
+a directory,
+a name,
+a type,
+and a version. 
+By naming <i>files</i> with <i>pathnames</i>,
+<span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->programs can work in essentially the same way even in <i>file systems</i>
+that seem superficially quite different. 
+For a detailed description of these components, see <a href="Pathname-Components.html#Pathname-Components">Section 19.2.1 (Pathname Components)</a>.
+
+<p>The mapping of the <i>pathname</i> components into the concepts peculiar to
+each <i>file system</i> is <i>implementation-defined</i>. 
+There exist conceivable <i>pathnames</i>
+for which there is no mapping to a syntactically valid <i>filename</i>
+in a particular <i>implementation</i>. 
+An <i>implementation</i> may use various strategies in an attempt to find a mapping;
+for example,
+an <i>implementation</i> may quietly truncate <i>filenames</i>
+that exceed length limitations imposed by the underlying <i>file system</i>,
+or ignore certain <i>pathname</i> components
+for which the <i>file system</i> provides no support. 
+If such a mapping cannot be found,
+an error of <i>type</i> <code>file-error</code> is signaled.
+
+<p>The time at which this mapping and associated error signaling
+occurs is <i>implementation-dependent</i>. 
+Specifically, it may occur
+at the time the <i>pathname</i> is constructed,
+when coercing a <i>pathname</i> to a <i>namestring</i>,
+or when an attempt is made to <i>open</i> or otherwise access the <i>file</i>
+designated by the <i>pathname</i>.
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable to <i>pathnames</i>.
+
+<div class="float">
+<a name="fig19_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*default-pathname-defaults* </td><td valign="top">namestring </td><td valign="top">pathname-name
+<br></td></tr><tr align="left"><td valign="top">directory-namestring </td><td valign="top">open </td><td valign="top">pathname-type
+<br></td></tr><tr align="left"><td valign="top">enough-namestring </td><td valign="top">parse-namestring </td><td valign="top">pathname-version
+<br></td></tr><tr align="left"><td valign="top">file-namestring </td><td valign="top">pathname </td><td valign="top">pathnamep
+<br></td></tr><tr align="left"><td valign="top">file-string-length </td><td valign="top">pathname-device </td><td valign="top">translate-pathname
+<br></td></tr><tr align="left"><td valign="top">host-namestring </td><td valign="top">pathname-directory </td><td valign="top">truename
+<br></td></tr><tr align="left"><td valign="top">make-pathname </td><td valign="top">pathname-host </td><td valign="top">user-homedir-pathname
+<br></td></tr><tr align="left"><td valign="top">merge-pathnames </td><td valign="top">pathname-match-p </td><td valign="top">wild-pathname-p
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 19.1: Pathname Operations</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Pathnames-as-Filenames.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+</html>
+

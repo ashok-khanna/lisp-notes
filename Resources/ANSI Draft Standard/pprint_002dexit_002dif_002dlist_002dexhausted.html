@@ -1,0 +1,95 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/pprint_002dexit_002dif_002dlist_002dexhausted.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:45 GMT -->
+<head>
+<title>pprint-exit-if-list-exhausted - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Printer.html#Printer" title="Printer">
+<link rel="prev" href="pprint_002ddispatch.html#pprint_002ddispatch" title="pprint-dispatch">
+<link rel="next" href="pprint_002dfill_003b-pprint_002dlinear_003b-pprint_002dtabular.html#pprint_002dfill_003b-pprint_002dlinear_003b-pprint_002dtabular" title="pprint-fill; pprint-linear; pprint-tabular">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="pprint-exit-if-list-exhausted"></a>
+<a name="pprint_002dexit_002dif_002dlist_002dexhausted"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="pprint_002dfill_003b-pprint_002dlinear_003b-pprint_002dtabular.html#pprint_002dfill_003b-pprint_002dlinear_003b-pprint_002dtabular">pprint-fill; pprint-linear; pprint-tabular</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="pprint_002ddispatch.html#pprint_002ddispatch">pprint-dispatch</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Printer.html#Printer">Printer</a>
+<hr>
+</div>
+
+<h3 class="heading">pprint-exit-if-list-exhausted (Local Macro)</h3>
+
+<p><a name="index-pprint_002dexit_002dif_002dlist_002dexhausted-2888"></a><a name="index-pprint_002dexit_002dif_002dlist_002dexhausted-2889"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>pprint-exit-if-list-exhausted</b><var> &lt;no </var><i>arguments</i><var>&gt; </var><span class="roman">→</span> <code>nil</code><var><a name="index-pprint_002dexit_002dif_002dlist_002dexhausted-2890"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Tests whether or not the <var>list</var> passed to
+the <i>lexically current logical block</i>
+has been exhausted; see <a href="DynamicControlofOutput.html#DynamicControlofOutput">Section 22.2.1.1 (Dynamic Control of the Arrangement of Output)</a>. 
+If this <var>list</var> has been
+reduced to <code>nil</code>, <code>pprint-exit-if-list-exhausted</code> terminates the execution
+of the <i>lexically current logical block</i> except for the printing
+of the suffix.  Otherwise <code>pprint-exit-if-list-exhausted</code> returns <code>nil</code>.
+
+<p>Whether or not <code>pprint-exit-if-list-exhausted</code> is <i>fbound</i> in the
+<i>global environment</i> is <i>implementation-dependent</i>;
+however, the restrictions on redefinition and <i>shadowing</i> of
+<code>pprint-exit-if-list-exhausted</code> are the same as for <i>symbols</i> in the <code>COMMON-LISP</code> <i>package</i>
+which are <i>fbound</i> in the <i>global environment</i>. 
+The consequences of attempting to use <code>pprint-exit-if-list-exhausted</code> outside
+of <code>pprint-logical-block</code> are undefined.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>An error is signaled (at macro expansion time or at run time) if
+<code>pprint-exit-if-list-exhausted</code> is used anywhere other than
+lexically within a call on <code>pprint-logical-block</code>. 
+Also, the consequences of executing <code>pprint-if-list-exhausted</code> outside
+of the dynamic extent of the <code>pprint-logical-block</code> which lexically
+contains it are undefined.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="pprint_002dlogical_002dblock.html#pprint_002dlogical_002dblock">pprint-logical-block</a>, <a href="pprint_002dpop.html#pprint_002dpop">pprint-pop</a>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/pprint_002dexit_002dif_002dlist_002dexhausted.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:46 GMT -->
+</html>
+

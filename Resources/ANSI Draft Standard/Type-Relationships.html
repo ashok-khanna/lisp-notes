@@ -1,0 +1,95 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Type-Relationships.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>Type Relationships - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Types.html#Types" title="Types">
+<link rel="prev" href="Data-Type-Definition.html#Data-Type-Definition" title="Data Type Definition">
+<link rel="next" href="Type-Specifiers.html#Type-Specifiers" title="Type Specifiers">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Type-Relationships"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Type-Specifiers.html#Type-Specifiers">Type Specifiers</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Data-Type-Definition.html#Data-Type-Definition">Data Type Definition</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Types.html#Types">Types</a>
+<hr>
+</div>
+
+<h4 class="subsection">4.2.2 Type Relationships</h4>
+
+     <ul>
+<li>The <i>types</i> <code>cons</code>, <code>symbol</code>, <code>array</code>, <code>number</code>,
+<code>character</code>, <code>hash-table</code>,
+<code>function</code>,
+<code>readtable</code>, <code>package</code>, <code>pathname</code>, <code>stream</code>,
+<code>random-state</code>, <code>condition</code>, <code>restart</code>,
+and any single other <i>type</i> created by <code>defstruct</code>,
+<code>define-condition</code>,
+or <code>defclass</code> are <i>pairwise</i> <i>disjoint</i>,
+except for type relations explicitly established by specifying
+<i>superclasses</i> in <code>defclass</code>
+or <code>define-condition</code>
+or the <tt>:include</tt> option of <code>destruct</code>.
+
+     <li>Any two <i>types</i> created by <code>defstruct</code> are
+<i>disjoint</i> unless
+one is a <i>supertype</i> of the other by virtue of
+the <code>defstruct</code> <tt>:include</tt> option.
+
+     <li>Any two <i>distinct</i> <i>classes</i> created by <code>defclass</code>
+or <code>define-condition</code>
+are <i>disjoint</i> unless they have a common <i>subclass</i> or
+one <i>class</i> is a <i>subclass</i> of the other.
+
+     <li>An implementation may be extended to add other <i>subtype</i>
+relationships between the specified <i>types</i>, as long as they do
+not violate the type relationships and disjointness requirements
+specified here.  An implementation may define additional <i>types</i>
+that are <i>subtypes</i> or <i>supertypes</i> of any
+specified <i>types</i>, as long as each additional <i>type</i> is
+a subtype of <i>type</i> <code>t</code> and a supertype of <i>type</i> <code>nil</code> and the disjointness requirements
+are not violated.
+
+     <p>At the discretion of the implementation, either <code>standard-object</code>
+or <code>structure-object</code> might appear in any class precedence list
+for a <i>system class</i> that does not already specify either
+<code>standard-object</code> or <code>structure-object</code>.  If it does,
+it must precede the <i>class</i> <code>t</code> and follow all other <i>standardized</i> <i>classes</i>. 
+</ul>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Type-Relationships.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

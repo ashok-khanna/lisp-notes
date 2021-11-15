@@ -1,0 +1,156 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/array.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:04 GMT -->
+<head>
+<title>array - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Arrays.html#Arrays" title="Arrays">
+<link rel="prev" href="Array-Concepts.html#Array-Concepts" title="Array Concepts">
+<link rel="next" href="simple_002darray.html#simple_002darray" title="simple-array">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="array"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="simple_002darray.html#simple_002darray">simple-array</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Array-Concepts.html#Array-Concepts">Array Concepts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Arrays.html#Arrays">Arrays</a>
+<hr>
+</div>
+
+<h3 class="heading">array (System Class)</h3>
+
+<p><a name="index-array-2063"></a><a name="index-array-2064"></a>
+
+<h5 class="subsubheading">Class Precedence List:</h5>
+
+<p><code>array</code>,
+<code>t</code>
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>An <i>array</i> contains <i>objects</i> arranged according to a
+Cartesian coordinate system. 
+An <i>array</i> provides mappings from a set of
+<i>fixnums</i>
+<tt>{</tt>i<sub>0</sub>,i<sub>1</sub>,<small class="dots">...</small>,i<sub>r-1</sub><tt>}</tt> to corresponding <i>elements</i>
+of the <i>array</i>,
+where 0 ≤ i<sub>j</sub> &lt; d<sub>j</sub>,
+r is the rank of the array, and d<sub>j</sub> is the size of <i>dimension</i> j of
+the array.
+
+<p>When an <i>array</i> is created, the program requesting its creation may
+declare that all <i>elements</i> are of a particular <i>type</i>,
+called the <i>expressed array element type</i>. 
+The implementation is permitted to <i>upgrade</i> this type in order to
+produce the <i>actual array element type</i>,
+which is the <i>element type</i> for the <i>array</i> is actually <i>specialized</i>. 
+See the <i>function</i> <a href="upgraded_002darray_002delement_002dtype.html#upgraded_002darray_002delement_002dtype">upgraded-array-element-type</a>.
+
+<h5 class="subsubheading">Compound Type Specifier Kind:</h5>
+
+<p>Specializing.
+
+<h5 class="subsubheading">Compound Type Specifier Syntax:</h5>
+
+<p>(array <tt>[</tt><tt>{</tt>element-type | <tt>*</tt><tt>}</tt> <tt>[</tt>dimension-spec<tt>]</tt><tt>]</tt>)
+
+     <dl>
+<dt><var>dimension-spec</var>::=<dd>rank | <tt>*</tt> | <tt>(</tt><tt>{</tt>dimension | <tt>*</tt><tt>}</tt>*<tt>)</tt>
+</dl>
+
+<h5 class="subsubheading">Compound Type Specifier Arguments:</h5>
+
+<p><var>dimension</var>&mdash;a <i>valid array dimension</i>.
+
+<p><var>element-type</var>&mdash;a <i>type specifier</i>.
+
+<p><var>rank</var>&mdash;a non-negative <i>fixnum</i>.
+
+<h5 class="subsubheading">Compound Type Specifier Description:</h5>
+
+<p>This denotes the set of <i>arrays</i> whose
+<i>element type</i>,  <i>rank</i>,  and <i>dimensions</i>
+match any given
+<var>element-type</var>, <var>rank</var>, and <var>dimensions</var>. 
+Specifically:
+
+<p>If <var>element-type</var> is the <i>symbol</i> <tt>*</tt>,
+<i>arrays</i> are not excluded on the basis of their <i>element type</i>. 
+Otherwise, only those <var>arrays</var> are included whose <i>actual array element type</i>
+is the result of <i>upgrading</i> <var>element-type</var>;
+see <a href="ArrayUpgrading.html#ArrayUpgrading">Section 15.1.2.1 (Array Upgrading)</a>.
+
+<p>If the <var>dimension-spec</var> is a <var>rank</var>,
+the set includes only those <var>arrays</var> having that <i>rank</i>. 
+If the <var>dimension-spec</var> is a <i>list</i> of <var>dimensions</var>,
+the set includes only those <var>arrays</var> having a <i>rank</i>
+given by the <i>length</i> of the <var>dimensions</var>,
+and having the indicated <var>dimensions</var>;
+in this case, <tt>*</tt> matches any value for the corresponding <i>dimension</i>. 
+If the <var>dimension-spec</var> is the <i>symbol</i> <tt>*</tt>,
+the set is not restricted on the basis of <i>rank</i> or <i>dimension</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="_002aprint_002darray_002a.html#g_t_002aprint_002darray_002a">*print-array*</a>,
+<a href="aref.html#aref">aref</a>,
+<a href="make_002darray.html#make_002darray">make-array</a>,
+<a href="vector-_0028System-Class_0029.html#vector-_0028System-Class_0029">vector (System Class)</a>,
+<a href="SharpsignA.html#SharpsignA">Section 2.4.8.12 (Sharpsign A)</a>,
+<a href="PrintingOtherArrays.html#PrintingOtherArrays">Section 22.1.3.8 (Printing Other Arrays)</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>Note that the type <code>(array t)</code>
+is a proper <i>subtype</i> of the type <code>(array *)</code>. 
+The reason is that the type <code>(array t)</code> is the set of <i>arrays</i>
+that can
+hold any <i>object</i> (the <i>elements</i> are of <i>type</i> <code>t</code>,  which includes
+all <i>objects</i>). 
+On the other hand, the type <code>(array *)</code>
+is the set of all <i>arrays</i> whatsoever, including for example
+<i>arrays</i> that can hold only <i>characters</i>. 
+The type <code>(array character)</code>
+is not a <i>subtype</i> of the type <code>(array t)</code>;
+the two sets
+are <i>disjoint</i> because the type <code>(array character)</code> is not the
+set of all <i>arrays</i> that can hold
+<i>characters</i>, but rather the set of
+<i>arrays</i>
+that are specialized to hold precisely <i>characters</i> and no
+other <i>objects</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/array.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:06 GMT -->
+</html>
+

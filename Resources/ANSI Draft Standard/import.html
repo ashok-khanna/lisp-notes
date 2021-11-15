@@ -1,0 +1,136 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/import.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+<head>
+<title>import - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Packages.html#Packages" title="Packages">
+<link rel="prev" href="find_002dall_002dsymbols.html#find_002dall_002dsymbols" title="find-all-symbols">
+<link rel="next" href="list_002dall_002dpackages.html#list_002dall_002dpackages" title="list-all-packages">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="import"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="list_002dall_002dpackages.html#list_002dall_002dpackages">list-all-packages</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="find_002dall_002dsymbols.html#find_002dall_002dsymbols">find-all-symbols</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Packages.html#Packages">Packages</a>
+<hr>
+</div>
+
+<h3 class="heading">import (Function)</h3>
+
+<p><a name="index-import-1080"></a><a name="index-import-1081"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>import</b><var> symbols </var><tt>&amp;optional</tt><var> package </var><span class="roman">→</span> <code>t</code><var><a name="index-import-1082"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>symbols</var>&mdash;a <i>designator</i> for a <i>list</i> of <i>symbols</i>.
+
+<p><var>package</var>&mdash;a <i>package designator</i>. 
+The default is the <i>current package</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>import</code> adds <var>symbol</var> or
+<var>symbols</var> to the internals of <var>package</var>, checking for name
+conflicts with existing <i>symbols</i> either <i>present</i> in <var>package</var>
+or <i>accessible</i> to it.  Once the <var>symbols</var> have been
+<i>imported</i>, they may be referenced in the <i>importing</i>
+<var>package</var> without the use of a <i>package prefix</i> when using the <i>Lisp reader</i>.
+
+<p>A name conflict in <code>import</code> between the
+<var>symbol</var> being imported and a symbol inherited from some other <i>package</i> can
+be resolved in favor of the
+<var>symbol</var> being <i>imported</i>
+by making it a shadowing symbol, or in favor
+of the <i>symbol</i> already <i>accessible</i> by
+not doing the <code>import</code>.  A
+name conflict in <code>import</code> with a <i>symbol</i>
+already <i>present</i> in the
+<var>package</var>
+may be resolved by uninterning that <i>symbol</i>, or by not
+doing the <code>import</code>.
+
+<p>The imported <i>symbol</i> is
+not automatically exported from the <i>current package</i>, but if it is
+already <i>present</i> and external, then the fact that it
+is external is not changed. 
+If any <i>symbol</i> to be <i>imported</i> has no home
+package (<i>i.e.</i>, <code>(symbol-package </code><var>symbol</var><code>) </code><span class="roman">→</span><code>&nbsp;<!-- /@w -->nil</code>),
+<code>import</code> sets the <i>home package</i>
+of the <var>symbol</var> to <var>package</var>.
+
+<p>If the <var>symbol</var> is already <i>present</i> in the importing <var>package</var>,
+<code>import</code> has no effect.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (import 'common-lisp::car (make-package 'temp :use nil)) <span class="roman">→</span> T
+ (find-symbol "CAR" 'temp) <span class="roman">→</span> CAR, :INTERNAL
+ (find-symbol "CDR" 'temp) <span class="roman">→</span> NIL, NIL
+</pre>
+<p>The form <code>(import 'editor:buffer)</code> takes the external symbol named
+<code>buffer</code> in the <code>EDITOR</code> <i>package</i> (this symbol was located when the form
+was read by the <i>Lisp reader</i>) and adds it to the <i>current package</i>
+as an <i>internal symbol</i>. The symbol <code>buffer</code> is then <i>present</i> in
+the <i>current package</i>.
+
+<h5 class="subsubheading">Side Effects:</h5>
+
+<p>The package system is modified.
+
+<h5 class="subsubheading">Affected By:</h5>
+
+<p>Current state of the package system.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p><code>import</code> signals a <i>correctable</i> error of <i>type</i> <code>package-error</code>
+if any of the <var>symbols</var> to be <i>imported</i> has the <i>same</i> <i>name</i>
+(under <code>string=</code>) as some distinct <i>symbol</i> (under <code>eql</code>)
+already <i>accessible</i> in the <var>package</var>, even if the conflict is
+with a <i>shadowing symbol</i> of the <var>package</var>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="shadow.html#shadow">shadow</a>, <a href="export.html#export">export</a>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/import.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:37:06 GMT -->
+</html>
+

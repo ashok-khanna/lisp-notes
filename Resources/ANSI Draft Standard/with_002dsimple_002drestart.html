@@ -1,0 +1,159 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002dsimple_002drestart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:56 GMT -->
+<head>
+<title>with-simple-restart - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Conditions.html#Conditions" title="Conditions">
+<link rel="prev" href="with_002dcondition_002drestarts.html#with_002dcondition_002drestarts" title="with-condition-restarts">
+<link rel="next" href="abort-_0028Restart_0029.html#abort-_0028Restart_0029" title="abort (Restart)">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="with-simple-restart"></a>
+<a name="with_002dsimple_002drestart"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="abort-_0028Restart_0029.html#abort-_0028Restart_0029">abort (Restart)</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="with_002dcondition_002drestarts.html#with_002dcondition_002drestarts">with-condition-restarts</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Conditions.html#Conditions">Conditions</a>
+<hr>
+</div>
+
+<h3 class="heading">with-simple-restart (Macro)</h3>
+
+<p><a name="index-with_002dsimple_002drestart-963"></a><a name="index-with_002dsimple_002drestart-964"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Macro: <b>with-simple-restart</b> <tt>(</tt><var>name format-control </var><tt>{</tt><var>format-argument</var><tt>}</tt><var>*</var><tt>)</tt> <tt>{</tt><var>form</var><tt>}</tt><var>* </var><span class="roman">→</span> <tt>{</tt><var>result</var><tt>}</tt><var>*<a name="index-with_002dsimple_002drestart-965"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>name</var>&mdash;a <i>symbol</i>.
+
+<p><var>format-control</var>&mdash;a <i>format control</i>.
+
+<p><var>format-argument</var>&mdash;an <i>object</i> (<i>i.e.</i>, a <i>format argument</i>).
+
+<p><var>forms</var>&mdash;an <i>implicit progn</i>.
+
+<p><var>results</var>&mdash;in the normal situation,
+the <i>values</i> returned by the <var>forms</var>;
+in the exceptional situation where the <i>restart</i> named <var>name</var> is invoked,
+two values&mdash;<code>nil</code>&nbsp;<!-- /@w -->and <code>t</code>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p><code>with-simple-restart</code> establishes a restart.
+
+<p>If the restart designated by <var>name</var> is not invoked while executing <var>forms</var>,
+all values returned by the last of <var>forms</var> are returned. 
+If the restart designated by <var>name</var> is invoked,
+control is transferred to <code>with-simple-restart</code>,
+which returns two values, <code>nil</code>&nbsp;<!-- /@w -->and <code>t</code>.
+
+<p>If <var>name</var> is <code>nil</code>, an anonymous restart is established.
+
+<p>The <var>format-control</var> and <var>format-arguments</var> are used
+report the <i>restart</i>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun read-eval-print-loop (level)
+   (with-simple-restart (abort "Exit command level ~D." level)
+     (loop
+       (with-simple-restart (abort "Return to command level ~D." level)
+         (let ((form (prog2 (fresh-line) (read) (fresh-line))))
+           (prin1 (eval form)))))))
+<span class="roman">→</span> READ-EVAL-PRINT-LOOP
+ (read-eval-print-loop 1)
+ (+ 'a 3)
+▷ Error: The argument, A, to the function + was of the wrong type.
+▷        The function expected a number.
+▷ To continue, type :CONTINUE followed by an option number:
+▷  1: Specify a value to use this time.
+▷  2: Return to command level 1.
+▷  3: Exit command level 1.
+▷  4: Return to Lisp Toplevel.
+</pre>
+<pre class="lisp"> (defun compute-fixnum-power-of-2 (x)
+   (with-simple-restart (nil "Give up on computing 2^~D." x)
+     (let ((result 1))
+       (dotimes (i x result)
+         (setq result (* 2 result))
+         (unless (fixnump result)
+           (error "Power of 2 is too large."))))))
+COMPUTE-FIXNUM-POWER-OF-2
+ (defun compute-power-of-2 (x)
+   (or (compute-fixnum-power-of-2 x) 'something big))
+COMPUTE-POWER-OF-2
+ (compute-power-of-2 10)
+1024
+ (compute-power-of-2 10000)
+▷ Error: Power of 2 is too large.
+▷ To continue, type :CONTINUE followed by an option number.
+▷  1: Give up on computing 2^10000.
+▷  2: Return to Lisp Toplevel
+▷ Debug&gt; <kbd>:continue 1</kbd>
+<span class="roman">→</span> SOMETHING-BIG
+</pre>
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="restart_002dcase.html#restart_002dcase">restart-case</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p><code>with-simple-restart</code> is shorthand for one of the most
+common uses of <code>restart-case</code>.
+
+<p><code>with-simple-restart</code> could be defined by:
+
+<pre class="lisp"> (defmacro with-simple-restart ((restart-name format-control
+                                              &amp;rest format-arguments)
+                                &amp;body forms)
+   `(restart-case (progn ,@forms)
+      (,restart-name ()
+          :report (lambda (stream)
+                    (format stream ,format-control ,@format-arguments))
+         (values nil t))))
+</pre>
+<p>Because the second return value is <code>t</code>&nbsp;<!-- /@w -->in the exceptional case,
+it is common (but not required) to arrange for the second return value
+in the normal case to be missing or <code>nil</code>&nbsp;<!-- /@w -->so that the two situations
+can be distinguished.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/with_002dsimple_002drestart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:36:56 GMT -->
+</html>
+

@@ -1,0 +1,103 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/array_002dtotal_002dsize.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:13 GMT -->
+<head>
+<title>array-total-size - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Arrays.html#Arrays" title="Arrays">
+<link rel="prev" href="array_002drow_002dmajor_002dindex.html#array_002drow_002dmajor_002dindex" title="array-row-major-index">
+<link rel="next" href="arrayp.html#arrayp" title="arrayp">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="array-total-size"></a>
+<a name="array_002dtotal_002dsize"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="arrayp.html#arrayp">arrayp</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="array_002drow_002dmajor_002dindex.html#array_002drow_002dmajor_002dindex">array-row-major-index</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Arrays.html#Arrays">Arrays</a>
+<hr>
+</div>
+
+<h3 class="heading">array-total-size (Function)</h3>
+
+<p><a name="index-array_002dtotal_002dsize-2111"></a><a name="index-array_002dtotal_002dsize-2112"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>array-total-size</b><var> array </var><span class="roman">→</span><var> size<a name="index-array_002dtotal_002dsize-2113"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>array</var>&mdash;an <i>array</i>.
+
+<p><var>size</var>&mdash;a non-negative <i>integer</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>Returns the <i>array total size</i> of the <var>array</var>.
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (array-total-size (make-array 4)) <span class="roman">→</span> 4
+ (array-total-size (make-array 4 :fill-pointer 2)) <span class="roman">→</span> 4
+ (array-total-size (make-array 0)) <span class="roman">→</span> 0
+ (array-total-size (make-array '(4 2))) <span class="roman">→</span> 8
+ (array-total-size (make-array '(4 0))) <span class="roman">→</span> 0
+ (array-total-size (make-array '())) <span class="roman">→</span> 1
+</pre>
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if its argument is not an <i>array</i>.
+
+<h5 class="subsubheading">See Also:</h5>
+
+<p><a href="make_002darray.html#make_002darray">make-array</a>, <a href="array_002ddimensions.html#array_002ddimensions">array-dimensions</a>
+
+<h5 class="subsubheading">Notes:</h5>
+
+<p>If the <var>array</var> is a <i>vector</i> with a <i>fill pointer</i>,
+the <i>fill pointer</i> is ignored when calculating the <i>array total size</i>.
+
+<p>Since the product of no arguments is one, the <i>array total size</i> of a
+zero-dimensional <i>array</i> is one.
+
+<pre class="lisp"> (array-total-size x)
+    ≡ (apply #'* (array-dimensions x))
+    ≡ (reduce #'* (array-dimensions x))
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/array_002dtotal_002dsize.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:38:13 GMT -->
+</html>
+

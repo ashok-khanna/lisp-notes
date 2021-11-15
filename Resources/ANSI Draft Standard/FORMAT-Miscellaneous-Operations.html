@@ -1,0 +1,120 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Miscellaneous-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+<head>
+<title>FORMAT Miscellaneous Operations - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Formatted-Output.html#Formatted-Output" title="Formatted Output">
+<link rel="prev" href="FORMAT-Control_002dFlow-Operations.html#FORMAT-Control_002dFlow-Operations" title="FORMAT Control-Flow Operations">
+<link rel="next" href="FORMAT-Miscellaneous-Pseudo_002dOperations.html#FORMAT-Miscellaneous-Pseudo_002dOperations" title="FORMAT Miscellaneous Pseudo-Operations">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="FORMAT-Miscellaneous-Operations"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="FORMAT-Miscellaneous-Pseudo_002dOperations.html#FORMAT-Miscellaneous-Pseudo_002dOperations">FORMAT Miscellaneous Pseudo-Operations</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="FORMAT-Control_002dFlow-Operations.html#FORMAT-Control_002dFlow-Operations">FORMAT Control-Flow Operations</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Formatted-Output.html#Formatted-Output">Formatted Output</a>
+<hr>
+</div>
+
+<h4 class="subsection">22.3.8 FORMAT Miscellaneous Operations</h4>
+
+<h5 class="subsubsection">22.3.8.1 Tilde Left-Paren: Case Conversion</h5>
+
+<p><a name="index-Left_002dParen-_0028format-directive_0029-2867"></a><a name="index-Tilde-Left_002dParen-_0028format-directive_0029-2868"></a>
+<code>~(</code><i>str</i><code>~)</code>
+
+<p>The contained control string <i>str</i> is processed, and what it produces
+is subject to case conversion.
+
+<p>With no flags, every <i>uppercase</i> <i>character</i>
+is converted to the corresponding <i>lowercase</i> <i>character</i>.
+
+<p><code>~:(</code> capitalizes all words, as if by <code>string-capitalize</code>.
+
+<p><code>~@(</code>
+capitalizes just the first word and forces the rest to lower
+case.
+
+<p><code>~:@(</code> converts every lowercase character
+to the corresponding uppercase character.
+
+<p>In this example <code>~@(</code> is used to cause the first word
+produced by <code>~@R</code> to be capitalized:
+
+<pre class="lisp"> (format nil "~@R ~(~@R~)" 14 14)
+<span class="roman">→</span> "XIV xiv"
+ (defun f (n) (format nil "~@(~R~) error~:P detected." n)) <span class="roman">→</span> F
+ (f 0) <span class="roman">→</span> "Zero errors detected."
+ (f 1) <span class="roman">→</span> "One error detected."
+ (f 23) <span class="roman">→</span> "Twenty-three errors detected."
+</pre>
+<p>When case conversions appear nested, the outer conversion dominates,
+as illustrated in the following example:
+
+<pre class="lisp"> (format nil "~@(how is ~:(BOB SMITH~)?~)")
+ <span class="roman">→</span> "How is bob smith?"
+ not<span class="roman">→</span> "How is Bob Smith?"
+</pre>
+<h5 class="subsubsection">22.3.8.2 Tilde Right-Paren: End of Case Conversion</h5>
+
+<p><a name="index-Right_002dParen-_0028format-directive_0029-2869"></a><a name="index-Tilde-Right_002dParen-_0028format-directive_0029-2870"></a>
+<code>~)</code> terminates a <code>~(</code>. 
+The consequences of using it elsewhere are undefined.
+
+<h5 class="subsubsection">22.3.8.3 Tilde P: Plural</h5>
+
+<p><a name="index-P-_0028format-directive_0029-2871"></a><a name="index-Tilde-P-_0028format-directive_0029-2872"></a>
+If <i>arg</i> is not <code>eql</code>
+to the integer <code>1</code>, a lowercase <code>s</code> is
+printed; if <i>arg</i> is <code>eql</code> to <code>1</code>, nothing is printed. 
+If <i>arg</i> is a floating-point <code>1.0</code>, the <code>s</code> is
+printed.
+
+<p><code>~:P</code> does the same thing,
+after doing a <code>~:*</code> to back up one argument;
+that is, it prints a lowercase <code>s</code> if the previous argument was not
+<code>1</code>.
+
+<p><code>~@P</code>
+prints <code>y</code> if the argument is <code>1</code>, or <code>ies</code> if it is
+not.  <code>~:@P</code> does the same thing, but backs up first.
+
+<pre class="lisp"> (format nil "~D tr~:@P/~D win~:P" 7 1) <span class="roman">→</span> "7 tries/1 win"
+ (format nil "~D tr~:@P/~D win~:P" 1 0) <span class="roman">→</span> "1 try/0 wins"
+ (format nil "~D tr~:@P/~D win~:P" 1 3) <span class="roman">→</span> "1 try/3 wins"
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/FORMAT-Miscellaneous-Operations.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:26 GMT -->
+</html>
+

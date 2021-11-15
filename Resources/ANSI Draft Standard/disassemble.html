@@ -1,0 +1,99 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/disassemble.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:12 GMT -->
+<head>
+<title>disassemble - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Environment.html#Environment" title="Environment">
+<link rel="prev" href="get_002dinternal_002drun_002dtime.html#get_002dinternal_002drun_002dtime" title="get-internal-run-time">
+<link rel="next" href="documentation_003b-setf-documentation.html#documentation_003b-setf-documentation" title="documentation; setf documentation">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="disassemble"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="documentation_003b-setf-documentation.html#documentation_003b-setf-documentation">documentation; setf documentation</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="get_002dinternal_002drun_002dtime.html#get_002dinternal_002drun_002dtime">get-internal-run-time</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Environment.html#Environment">Environment</a>
+<hr>
+</div>
+
+<h3 class="heading">disassemble (Function)</h3>
+
+<p><a name="index-disassemble-3150"></a><a name="index-disassemble-3151"></a>
+
+<h5 class="subsubheading">Syntax:</h5>
+
+<div class="defun">
+&mdash; Function: <b>disassemble</b><var> fn </var><span class="roman">→</span> <code>nil</code><var><a name="index-disassemble-3152"></a></var><br>
+     </div>
+
+<h5 class="subsubheading">Arguments and Values:</h5>
+
+<p><var>fn</var>&mdash;an <i>extended function designator</i>
+or a <i>lambda expression</i>.
+
+<h5 class="subsubheading">Description:</h5>
+
+<p>The <i>function</i> <code>disassemble</code> is a debugging aid that composes symbolic
+instructions or expressions in some <i>implementation-dependent</i>
+language which represent the code used to produce the <i>function</i>
+which is or is named by the argument <var>fn</var>.  The result is displayed
+to <i>standard output</i> in an <i>implementation-dependent</i> format.
+
+<p>If <var>fn</var> is a <i>lambda expression</i> or <i>interpreted function</i>,
+it is compiled first and the result is disassembled.
+
+<p>If the <var>fn</var> <i>designator</i> is a <i>function name</i>,
+the <i>function</i> that it <i>names</i> is disassembled. 
+(If that <i>function</i> is an <i>interpreted function</i>,
+it is first compiled but the result of this implicit compilation is not installed.)
+
+<h5 class="subsubheading">Examples:</h5>
+
+<pre class="lisp"> (defun f (a) (1+ a)) <span class="roman">→</span> F
+ (eq (symbol-function 'f)
+     (progn (disassemble 'f)
+            (symbol-function 'f))) <span class="roman">→</span> <i>true</i>
+</pre>
+<h5 class="subsubheading">Affected By:</h5>
+
+<p><code>*standard-output*</code>.
+
+<h5 class="subsubheading">Exceptional Situations:</h5>
+
+<p>Should signal an error of <i>type</i> <code>type-error</code> if <var>fn</var> is not an <i>extended function designator</i> or a <i>lambda expression</i>.
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/disassemble.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:39:12 GMT -->
+</html>
+

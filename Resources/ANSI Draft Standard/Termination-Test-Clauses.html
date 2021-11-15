@@ -1,0 +1,252 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Termination-Test-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+<head>
+<title>Termination Test Clauses - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="The-LOOP-Facility.html#The-LOOP-Facility" title="The LOOP Facility">
+<link rel="prev" href="Value-Accumulation-Clauses.html#Value-Accumulation-Clauses" title="Value Accumulation Clauses">
+<link rel="next" href="Unconditional-Execution-Clauses.html#Unconditional-Execution-Clauses" title="Unconditional Execution Clauses">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Termination-Test-Clauses"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Unconditional-Execution-Clauses.html#Unconditional-Execution-Clauses">Unconditional Execution Clauses</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Value-Accumulation-Clauses.html#Value-Accumulation-Clauses">Value Accumulation Clauses</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="The-LOOP-Facility.html#The-LOOP-Facility">The LOOP Facility</a>
+<hr>
+</div>
+
+<h4 class="subsection">6.1.4 Termination Test Clauses</h4>
+
+<p>The <code>repeat</code> construct causes iteration to terminate after a
+specified number of times. 
+The loop body executes <i>n</i> times, where <i>n</i> is the value
+of the expression <var>form</var>.  The <var>form</var> argument is evaluated one time
+in the loop prologue.  If the expression evaluates to 0 or
+to a negative <i>number</i>, the loop body is not evaluated.
+
+<p>The constructs <code>always</code>,
+<code>never</code>,
+<code>thereis</code>,
+<code>while</code>,
+<code>until</code>,
+and the macro <code>loop-finish</code>
+allow conditional termination of iteration within
+a <code>loop</code>.
+
+<p>The constructs <code>always</code>, <code>never</code>, and <code>thereis</code> provide
+specific values to be returned when a <code>loop</code> terminates. 
+Using <code>always</code>, <code>never</code>, or <code>thereis</code> in a loop with
+value accumulation clauses that are not <code>into</code> causes
+an error of <i>type</i> <code>program-error</code> to be signaled (at macro expansion time). 
+Since <code>always</code>, <code>never</code>, and <code>thereis</code>
+use
+the <code>return-from</code> <i>special operator</i>
+to terminate iteration,
+any <code>finally</code> clause that is supplied is not evaluated
+when exit occurs due to any of these constructs. 
+In all other respects these
+constructs behave like the <code>while</code> and <code>until</code> constructs.
+
+<p>The <code>always</code> construct takes one <i>form</i> and terminates the
+<code>loop</code>
+if the <i>form</i> ever evaluates to <code>nil</code>; in this case, it returns
+<code>nil</code>.  Otherwise, it provides a default return value of <code>t</code>. 
+If the value of the supplied <i>form</i> is never <code>nil</code>, some other construct
+can terminate the iteration.
+
+<p>The <code>never</code> construct terminates iteration the first time that
+the value of the supplied <var>form</var> is <i>non-nil</i>; the <code>loop</code> returns
+<code>nil</code>. 
+If the value of the supplied <var>form</var> is always  <code>nil</code>, some other
+construct can terminate the iteration. 
+Unless some other clause contributes
+a return value, the default value returned is <code>t</code>.
+
+<p>The <code>thereis</code> construct terminates iteration the first time that the
+value of the supplied <var>form</var> is <i>non-nil</i>; the <code>loop</code> returns the
+value of the supplied <var>form</var>. 
+If the value of the supplied <var>form</var>
+is always  <code>nil</code>, some other
+construct can terminate the iteration.  Unless some other clause contributes a
+return value, the default value returned is <code>nil</code>.
+
+<p>There are two differences between the <code>thereis</code> and <code>until</code>
+constructs:
+
+     <ul>
+<li>The <code>until</code> construct does not return a value or
+<code>nil</code>&nbsp;<!-- /@w -->based on the value of the supplied <var>form</var>.
+
+     <li>The <code>until</code> construct executes
+any <code>finally</code> clause. 
+Since <code>thereis</code> uses
+the <code>return-from</code> <i>special operator</i>
+to terminate iteration,
+any <code>finally</code> clause that is supplied is not evaluated
+when exit occurs due to <code>thereis</code>. 
+</ul>
+
+<p>The <code>while</code> construct allows iteration to continue until the
+supplied <var>form</var>
+evaluates to <i>false</i>.  The supplied <var>form</var>
+is reevaluated at the location of the <code>while</code> clause.
+
+<p>The <code>until</code> construct is equivalent to
+<code>while (not </code><var>form</var><code>)...</code>.  If the value of the
+supplied <var>form</var> is <i>non-nil</i>, iteration terminates.
+
+<p>Termination-test control constructs can be used anywhere within the loop body. 
+The termination tests are used in the order in which they appear. 
+If an <code>until</code> or <code>while</code> clause causes
+termination, any clauses that precede it in the source
+are still evaluated. 
+If the <code>until</code> and <code>while</code> constructs cause termination,
+control is passed to the loop epilogue, where any <code>finally</code>
+clauses will be executed.
+
+<p>There are two differences between the <code>never</code> and <code>until</code>
+constructs:
+
+     <ul>
+<li>The <code>until</code> construct does not return
+<code>t</code>&nbsp;<!-- /@w -->or <code>nil</code>&nbsp;<!-- /@w -->based on the value of the supplied <var>form</var>.
+
+     <li>The <code>until</code> construct
+does not bypass any <code>finally</code> clauses. 
+Since <code>never</code> uses
+the <code>return-from</code> <i>special operator</i>
+to terminate iteration,
+any <code>finally</code> clause that is supplied is not evaluated
+when exit occurs due to <code>never</code>. 
+</ul>
+
+<p>In most cases it is not necessary to use <code>loop-finish</code>
+because other loop control clauses terminate the <code>loop</code>. 
+The macro <code>loop-finish</code> is used to provide a normal exit
+from a nested conditional inside a <code>loop</code>. 
+Since <code>loop-finish</code> transfers control to the loop epilogue,
+using <code>loop-finish</code> within a <code>finally</code> expression can cause
+infinite looping.
+
+<h5 class="subsubsection">6.1.4.1 Examples of REPEAT clause</h5>
+
+<pre class="lisp"> (loop repeat 3
+       do (format t "~&amp;What I say three times is true.~%"))
+▷ What I say three times is true.
+▷ What I say three times is true.
+▷ What I say three times is true.
+<span class="roman">→</span> NIL
+ (loop repeat -15
+   do (format t "What you see is what you expect~%"))
+<span class="roman">→</span> NIL
+</pre>
+<h5 class="subsubsection">6.1.4.2 Examples of ALWAYS, NEVER, and THEREIS clauses</h5>
+
+<pre class="lisp">;; Make sure I is always less than 11 (two ways).
+;; The FOR construct terminates these loops.
+ (loop for i from 0 to 10
+       always (&lt; i 11))
+<span class="roman">→</span> T
+ (loop for i from 0 to 10
+       never (&gt; i 11))
+<span class="roman">→</span> T
+
+;; If I exceeds 10 return I; otherwise, return NIL.
+;; The THEREIS construct terminates this loop.
+ (loop for i from 0
+       thereis (when (&gt; i 10) i) )
+<span class="roman">→</span> 11
+
+;;; The FINALLY clause is not evaluated in these examples.
+ (loop for i from 0 to 10
+       always (&lt; i 9)
+       finally (print "you won't see this"))
+<span class="roman">→</span> NIL
+ (loop never t
+       finally (print "you won't see this"))
+<span class="roman">→</span> NIL
+ (loop thereis "Here is my value"
+       finally (print "you won't see this"))
+<span class="roman">→</span> "Here is my value"
+
+;; The FOR construct terminates this loop, so the FINALLY clause
+;; is evaluated.
+ (loop for i from 1 to 10
+       thereis (&gt; i 11)
+       finally (prin1 'got-here))
+▷ GOT-HERE
+<span class="roman">→</span> NIL
+
+;; If this code could be used to find a counterexample to Fermat's
+;; last theorem, it would still not return the value of the
+;; counterexample because all of the THEREIS clauses in this example
+;; only return T.  But if Fermat is right, that won't matter
+;; because this won't terminate.
+
+ (loop for z upfrom 2
+       thereis
+         (loop for n upfrom 3 below (log z 2)
+               thereis
+                 (loop for x below z
+                       thereis
+                         (loop for y below z
+                               thereis (= (+ (expt x n) (expt y n))
+                                          (expt z n))))))
+</pre>
+<h5 class="subsubsection">6.1.4.3 Examples of WHILE and UNTIL clauses</h5>
+
+<pre class="lisp"> (loop while (hungry-p) do (eat))
+
+;; UNTIL NOT is equivalent to WHILE.
+ (loop until (not (hungry-p)) do (eat))
+
+;; Collect the length and the items of STACK.
+ (let ((stack '(a b c d e f)))
+   (loop for item = (length stack) then (pop stack)
+         collect item
+         while stack))
+<span class="roman">→</span> (6 A B C D E F)
+
+;; Use WHILE to terminate a loop that otherwise wouldn't terminate.
+;; Note that WHILE occurs after the WHEN.
+ (loop for i fixnum from 3
+       when (oddp i) collect i
+       while (&lt; i 5))
+<span class="roman">→</span> (3 5)
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Termination-Test-Clauses.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:34 GMT -->
+</html>
+

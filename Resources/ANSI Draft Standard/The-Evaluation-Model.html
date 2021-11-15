@@ -1,0 +1,448 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/The-Evaluation-Model.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+<head>
+<title>The Evaluation Model - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Evaluation.html#Evaluation" title="Evaluation">
+<link rel="prev" href="Introduction-to-Environments.html#Introduction-to-Environments" title="Introduction to Environments">
+<link rel="next" href="Lambda-Expressions.html#Lambda-Expressions" title="Lambda Expressions">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="The-Evaluation-Model"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Lambda-Expressions.html#Lambda-Expressions">Lambda Expressions</a>,
+Previous:&nbsp;<a rel="previous" accesskey="p" href="Introduction-to-Environments.html#Introduction-to-Environments">Introduction to Environments</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Evaluation.html#Evaluation">Evaluation</a>
+<hr>
+</div>
+
+<h4 class="subsection">3.1.2 The Evaluation Model</h4>
+
+<p>A <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->system evaluates <i>forms</i> with respect to lexical,
+dynamic, and global <i>environments</i>.  The following sections
+describe the components of the <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->evaluation model.
+
+<h5 class="subsubsection">3.1.2.1 Form Evaluation</h5>
+
+<p><i>Forms</i> fall into three categories:
+<i>symbols</i>, <i>conses</i>, and <i>self-evaluating objects</i>. 
+The following sections explain these categories.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.1 Symbols as Forms</h5>
+
+<p><a name="SymbolsAsForms"></a>If a <i>form</i> is a <i>symbol</i>,
+then it is either a <i>symbol macro</i> or a <i>variable</i>.
+
+<p>The <i>symbol</i> names a <i>symbol macro</i>
+if there is a <i>binding</i> of the <i>symbol</i> as a <i>symbol macro</i>
+in the current <i>lexical environment</i>
+(see <code>define-symbol-macro</code> and <code>symbol-macrolet</code>). 
+If the <i>symbol</i> is a <i>symbol macro</i>,
+its expansion function is obtained. 
+The expansion function is a function of two arguments, and is invoked
+by calling the <i>macroexpand hook</i> with
+the expansion function as its first argument,
+the <i>symbol</i> as its second argument,
+and an <i>environment object</i> (corresponding to the current <i>lexical environment</i>)
+as its third argument. 
+The <i>macroexpand hook</i>, in turn, calls the expansion function with the
+<i>form</i> as its first argument and the <i>environment</i> as its second argument. 
+The <i>value</i> of the expansion function, which is passed through
+by the <i>macroexpand hook</i>, is a <i>form</i>. 
+This resulting <i>form</i> is processed in place of the original <i>symbol</i>.
+
+<p>If a <i>form</i> is a <i>symbol</i> that is not a <i>symbol macro</i>,
+then it is the <i>name</i> of a <i>variable</i>, and the <i>value</i> of that
+<i>variable</i> is returned. There are three kinds of variables:
+<i>lexical variables</i>,
+<i>dynamic variables</i>,
+and
+<i>constant variables</i>. 
+A <i>variable</i> can store one <i>object</i>. 
+The main operations on a <i>variable</i> are
+to <i>read</i><sub>1</sub> and
+to <i>write</i><sub>1</sub>
+
+<p>its <i>value</i>.
+
+<p>An error of <i>type</i> <code>unbound-variable</code> should be signaled if
+an <i>unbound variable</i> is referenced.
+
+<p><i>Non-constant variables</i> can be <i>assigned</i> by using <code>setq</code>
+or <i>bound</i><sub>3</sub> by using <code>let</code>. 
+The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that
+are applicable to assigning, binding, and defining <i>variables</i>.
+
+<div class="float">
+<a name="fig3_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">boundp </td><td valign="top">let </td><td valign="top">progv
+<br></td></tr><tr align="left"><td valign="top">defconstant </td><td valign="top">let* </td><td valign="top">psetq
+<br></td></tr><tr align="left"><td valign="top">defparameter </td><td valign="top">makunbound </td><td valign="top">set
+<br></td></tr><tr align="left"><td valign="top">defvar </td><td valign="top">multiple-value-bind </td><td valign="top">setq
+<br></td></tr><tr align="left"><td valign="top">lambda </td><td valign="top">multiple-value-setq </td><td valign="top">symbol-value
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.1: Some Defined Names Applicable to Variables</strong></p></div>
+
+<p>The following is a description of each kind of variable.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.1.1 Lexical Variables</h5>
+
+<p>A <i>lexical variable</i> is a <i>variable</i> that can be referenced only within
+the <i>lexical scope</i> of the <i>form</i> that establishes that <i>variable</i>;
+<i>lexical variables</i> have <i>lexical scope</i>. 
+Each time a <i>form</i> creates a <i>lexical binding</i> of a <i>variable</i>,
+a <i>fresh</i> <i>binding</i> is <i>established</i>.
+
+<p>Within the <i>scope</i> of a <i>binding</i> for a <i>lexical variable</i> <i>name</i>,
+uses of that <i>name</i> as a <i>variable</i> are considered to be references
+to that <i>binding</i> except where the <i>variable</i> is <i>shadowed</i><sub>2</sub>
+
+<p>by a <i>form</i> that <i>establishes</i> a <i>fresh</i> <i>binding</i> for that
+<i>variable</i> <i>name</i>,
+or by a <i>form</i> that locally <i>declares</i> the <i>name</i> <code>special</code>.
+
+<p>A <i>lexical variable</i> always has a <i>value</i>. 
+There is no <i>operator</i> that introduces a <i>binding</i> for a
+<i>lexical variable</i> without giving it an initial <i>value</i>, nor
+is there any <i>operator</i> that can make a <i>lexical variable</i> be <i>unbound</i>.
+
+<p><i>Bindings</i> of <i>lexical variables</i> are found in the <i>lexical environment</i>.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.1.2 Dynamic Variables</h5>
+
+<p>A <i>variable</i> is a <i>dynamic variable</i> if one of the following
+conditions hold:
+
+     <ul>
+<li>It is locally declared or globally proclaimed <code>special</code>.
+
+     <li>It occurs textually within a <i>form</i> that
+creates a <i>dynamic binding</i> for a <i>variable</i> of the <i>same</i> <i>name</i>,
+and the <i>binding</i> is not <i>shadowed</i><sub>2</sub> by a <i>form</i>
+that creates a <i>lexical binding</i> of the same <i>variable</i> <i>name</i>. 
+</ul>
+
+<p>A <i>dynamic variable</i> can be referenced at any time in any <i>program</i>;
+there is no textual limitation on references to <i>dynamic variables</i>. 
+At any given time, all <i>dynamic variables</i> with a given name refer to
+exactly one <i>binding</i>, either in the <i>dynamic environment</i>
+or in the <i>global environment</i>.
+
+<p>The <i>value</i> part of the <i>binding</i> for a <i>dynamic variable</i> might
+be empty; in this case, the <i>dynamic variable</i> is said to have no <i>value</i>,
+or to be <i>unbound</i>.  A <i>dynamic variable</i> can be made <i>unbound</i>
+by using <code>makunbound</code>.
+
+<p>The effect of <i>binding</i> a <i>dynamic variable</i> is to create
+a new <i>binding</i> to which all references to that <i>dynamic variable</i>
+in any <i>program</i> refer for the duration of the <i>evaluation</i> of the <i>form</i>
+that creates the <i>dynamic binding</i>.
+
+<p>A <i>dynamic variable</i> can be referenced outside the <i>dynamic extent</i> of
+a <i>form</i> that <i>binds</i> it.  Such a <i>variable</i> is sometimes called
+a &ldquo;global variable&rdquo; but is still in all respects just a <i>dynamic variable</i>
+whose <i>binding</i> happens to exist in the <i>global environment</i> rather than in some
+<i>dynamic environment</i>.
+
+<p>A <i>dynamic variable</i> is <i>unbound</i>
+unless and until explicitly assigned a value, except for
+those variables whose initial value is
+defined in this specification or by an <i>implementation</i>.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.1.3 Constant Variables</h5>
+
+<p><a name="ConstantVars"></a>Certain variables, called <i>constant variables</i>, are reserved as &ldquo;named constants.&rdquo;
+The consequences are undefined if an attempt is made to
+assign a value to,
+or create
+a <i>binding</i> for a <i>constant variable</i>,
+except that a `compatible' redefinition of a <i>constant variable</i>
+using <code>defconstant</code> is permitted; see the <i>macro</i> <a href="defconstant.html#defconstant">defconstant</a>.
+
+<p><i>Keywords</i>,
+<i>symbols</i> defined by <span class="roman">Common Lisp</span>&nbsp;<!-- /@w -->or the <i>implementation</i>
+as constant (such as <code>nil</code>, <code>t</code>, and <code>pi</code>),
+and <i>symbols</i> declared as constant using <code>defconstant</code>
+are <i>constant variables</i>.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.1.4 Symbols Naming Both Lexical and Dynamic Variables</h5>
+
+<p>The same <i>symbol</i> can name both
+a <i>lexical variable</i>
+and a <i>dynamic variable</i>,
+but never in the same <i>lexical environment</i>.
+
+<p>In the following example, the <i>symbol</i> <code>x</code> is used,
+at different times,
+as the <i>name</i> of a <i>lexical variable</i>
+and as the <i>name</i> of a <i>dynamic variable</i>.
+
+<pre class="lisp"> (let ((x 1))            ;Binds a special variable X
+   (declare (special x))
+   (let ((x 2))          ;Binds a lexical variable X
+     (+ x                ;Reads a lexical variable X
+        (locally (declare (special x))
+                 x))))   ;Reads a special variable X
+<span class="roman">→</span> 3
+</pre>
+<h5 class="unnumberedsubsubsec">3.1.2.1.2 Conses as Forms</h5>
+
+<p>A <i>cons</i> that is used as a <i>form</i> is called a <i>compound form</i>.
+
+<p>If the <i>car</i> of that <i>compound form</i> is a <i>symbol</i>,
+that <i>symbol</i> is the <i>name</i> of an <i>operator</i>,
+and the <i>form</i> is either a <i>special form</i>, a <i>macro form</i>,
+or a <i>function form</i>, depending on the <i>function</i> <i>binding</i>
+of the <i>operator</i> in the current <i>lexical environment</i>. 
+If the <i>operator</i> is neither a <i>special operator</i>
+nor a <i>macro name</i>, it is assumed to be a <i>function name</i>
+(even if there is no definition for such a <i>function</i>).
+
+<p>If the <i>car</i> of the <i>compound form</i> is not a <i>symbol</i>,
+then that <i>car</i> must be a <i>lambda expression</i>,
+in which case the <i>compound form</i> is a <i>lambda form</i>.
+
+<p>How a <i>compound form</i> is processed depends on whether it is
+classified as a <i>special form</i>, a <i>macro form</i>,
+a <i>function form</i>, or a <i>lambda form</i>.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.2.1 Special Forms</h5>
+
+<p>A <i>special form</i> is a <i>form</i> with special syntax,
+special evaluation rules, or both, possibly manipulating the
+evaluation environment, control flow, or both. 
+A <i>special operator</i> has access to
+the current <i>lexical environment</i>
+and the current <i>dynamic environment</i>. 
+Each <i>special operator</i> defines the manner in which its <i>subexpressions</i>
+are treated&mdash;which are <i>forms</i>, which are special syntax, <i>etc</i>.
+
+<p>Some <i>special operators</i> create new
+lexical or dynamic <i>environments</i> for use during the
+<i>evaluation</i> of <i>subforms</i>
+of the <i>special form</i>.  For example, <code>block</code> creates a
+new <i>lexical environment</i> that is the same as the one in force
+at the point of evaluation of the <code>block</code> <i>form</i>
+with the addition of a <i>binding</i> of the <code>block</code> name
+to an <i>exit point</i> from the <code>block</code>.
+
+<p>The set of <i>special operator</i> <i>names</i> is fixed in <span class="roman">Common Lisp</span>;
+no way is provided for the user to define a <i>special operator</i>. 
+The next figure&nbsp;<!-- /@w -->lists all of the <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>symbols</i>
+that have definitions as <i>special operators</i>.
+
+<div class="float">
+<a name="CLSpecialOps"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">block </td><td valign="top">let* </td><td valign="top">return-from
+<br></td></tr><tr align="left"><td valign="top">catch </td><td valign="top">load-time-value </td><td valign="top">setq
+<br></td></tr><tr align="left"><td valign="top">eval-when </td><td valign="top">locally </td><td valign="top">symbol-macrolet
+<br></td></tr><tr align="left"><td valign="top">flet </td><td valign="top">macrolet </td><td valign="top">tagbody
+<br></td></tr><tr align="left"><td valign="top">function </td><td valign="top">multiple-value-call </td><td valign="top">the
+<br></td></tr><tr align="left"><td valign="top">go </td><td valign="top">multiple-value-prog1 </td><td valign="top">throw
+<br></td></tr><tr align="left"><td valign="top">if </td><td valign="top">progn </td><td valign="top">unwind-protect
+<br></td></tr><tr align="left"><td valign="top">labels </td><td valign="top">progv </td><td valign="top">
+<br></td></tr><tr align="left"><td valign="top">let </td><td valign="top">quote </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.2: Common Lisp Special Operators</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.2.2 Macro Forms</h5>
+
+<p>If the <i>operator</i> names a <i>macro</i>,
+its associated <i>macro function</i> is applied
+to the entire <i>form</i> and the result of that application is
+used in place of the original <i>form</i>.
+
+<p>Specifically, a <i>symbol</i> names a <i>macro</i> in a given <i>lexical environment</i> if
+<code>macro-function</code> is <i>true</i> of the
+<i>symbol</i> and that <i>environment</i>. 
+The <i>function</i> returned by <code>macro-function</code>
+is a <i>function</i> of two arguments, called the
+expansion function. 
+The expansion function is invoked by calling the <i>macroexpand hook</i> with
+the expansion function as its first argument,
+the entire <i>macro form</i> as its second argument,
+and an <i>environment object</i> (corresponding to the current <i>lexical environment</i>)
+as its third argument. 
+The <i>macroexpand hook</i>, in turn, calls the expansion function with the
+<i>form</i> as its first argument and the <i>environment</i> as its second argument. 
+The <i>value</i> of the expansion function, which is passed through
+by the <i>macroexpand hook</i>, is a <i>form</i>. 
+The returned <i>form</i> is <i>evaluated</i> in place of the original <i>form</i>.
+
+<p>The consequences are undefined if a <i>macro function</i> destructively modifies
+any part of its <i>form</i> argument.
+
+<p>A <i>macro name</i> is not a <i>function designator</i>,
+and cannot be used as the <var>function</var> argument to <i>functions</i>
+such as <code>apply</code>, <code>funcall</code>, or <code>map</code>.
+
+<p>An <i>implementation</i> is free to implement a <span class="roman">Common Lisp</span>&nbsp;<!-- /@w --><i>special operator</i>
+as a <i>macro</i>.  An <i>implementation</i> is free to implement any
+<i>macro</i> <i>operator</i> as a <i>special operator</i>, but only
+if an equivalent definition of the <i>macro</i> is also provided.
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable
+to <i>macros</i>.
+
+<div class="float">
+<a name="fig3_002e3"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">*macroexpand-hook* </td><td valign="top">macro-function </td><td valign="top">macroexpand-1
+<br></td></tr><tr align="left"><td valign="top">defmacro </td><td valign="top">macroexpand </td><td valign="top">macrolet
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.3: Defined names applicable to macros</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.2.3 Function Forms</h5>
+
+<p><a name="FunctionForms"></a>If the <i>operator</i> is a <i>symbol</i> naming a <i>function</i>,
+the <i>form</i> represents a <i>function form</i>,
+and the <i>cdr</i> of the list contains the <i>forms</i>
+which when evaluated will supply the arguments passed to the <i>function</i>.
+
+<p>When a <i>function name</i> is not defined,
+an error of <i>type</i> <code>undefined-function</code> should be signaled at run time;
+see <a href="SemanticConstraints.html#SemanticConstraints">Section 3.2.2.3 (Semantic Constraints)</a>.
+
+<p>A <i>function form</i> is evaluated as follows:
+
+<p>The <i>subforms</i> in the <i>cdr</i> of the original <i>form</i>
+are evaluated in left-to-right order in the current lexical and
+dynamic <i>environments</i>.  The <i>primary value</i> of each
+such <i>evaluation</i> becomes an <i>argument</i> to the named <i>function</i>;
+any additional <i>values</i> returned by the <i>subforms</i> are discarded.
+
+<p>The <i>functional value</i> of the <i>operator</i>
+is retrieved from the <i>lexical environment</i>,
+and that <i>function</i> is invoked with the indicated arguments.
+
+<p>Although the order of <i>evaluation</i> of
+the <i>argument</i> <i>subforms</i> themselves is
+strictly left-to-right, it is not specified whether
+the definition of the <i>operator</i> in a <i>function form</i> is looked up
+before the <i>evaluation</i> of the <i>argument</i> <i>subforms</i>,
+after the <i>evaluation</i> of the <i>argument</i> <i>subforms</i>,
+or between the <i>evaluation</i> of any two <i>argument</i> <i>subforms</i>
+if there is more than one such <i>argument</i> <i>subform</i>. 
+For example, the following might return 23 or&nbsp;24.
+
+<pre class="lisp"> (defun foo (x) (+ x 3))
+ (defun bar () (setf (symbol-function 'foo) #'(lambda (x) (+ x 4))))
+ (foo (progn (bar) 20))
+</pre>
+<p>A <i>binding</i> for a <i>function name</i> can be <i>established</i> in
+one of several ways.  A <i>binding</i> for a <i>function name</i> in
+the <i>global environment</i> can be <i>established</i> by
+<code>defun</code>,
+<code>setf</code> of <code>fdefinition</code>,
+<code>setf</code> of <code>symbol-function</code>,
+<code>ensure-generic-function</code>,
+<code>defmethod</code> (implicitly, due to <code>ensure-generic-function</code>),
+or
+<code>defgeneric</code>. 
+A <i>binding</i> for a <i>function name</i> in the <i>lexical environment</i>
+can be <i>established</i> by
+<code>flet</code>
+or <code>labels</code>.
+
+<p>The next figure&nbsp;<!-- /@w -->lists some <i>defined names</i> that are applicable to <i>functions</i>.
+
+<div class="float">
+<a name="fig3_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">apply </td><td valign="top">fdefinition </td><td valign="top">mapcan
+<br></td></tr><tr align="left"><td valign="top">call-arguments-limit </td><td valign="top">flet </td><td valign="top">mapcar
+<br></td></tr><tr align="left"><td valign="top">complement </td><td valign="top">fmakunbound </td><td valign="top">mapcon
+<br></td></tr><tr align="left"><td valign="top">constantly </td><td valign="top">funcall </td><td valign="top">mapl
+<br></td></tr><tr align="left"><td valign="top">defgeneric </td><td valign="top">function </td><td valign="top">maplist
+<br></td></tr><tr align="left"><td valign="top">defmethod </td><td valign="top">functionp </td><td valign="top">multiple-value-call
+<br></td></tr><tr align="left"><td valign="top">defun </td><td valign="top">labels </td><td valign="top">reduce
+<br></td></tr><tr align="left"><td valign="top">fboundp </td><td valign="top">map </td><td valign="top">symbol-function
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 3.4: Some function-related defined names</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.2.4 Lambda Forms</h5>
+
+<p><a name="LambdaForms"></a>A <i>lambda form</i> is similar to a <i>function form</i>, except that
+the <i>function name</i> is replaced by a <i>lambda expression</i>.
+
+<p>A <i>lambda form</i> is equivalent to using <i>funcall</i> of a
+<i>lexical closure</i> of the <i>lambda expression</i> on the given <i>arguments</i>. 
+(In practice, some compilers are more likely to produce inline code
+for a <i>lambda form</i> than for an arbitrary named function
+that has been declared <code>inline</code>; however, such a difference
+is not semantic.)
+
+<p>For further information, see <a href="Lambda-Expressions.html#Lambda-Expressions">Section 3.1.3 (Lambda Expressions)</a>.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.3 Self-Evaluating Objects</h5>
+
+<p>A <i>form</i> that is neither a <i>symbol</i> nor a <i>cons</i> is
+defined to be a <i>self-evaluating object</i>.  <i>Evaluating</i>
+such an <i>object</i> <i>yields</i> the <i>same</i> <i>object</i>
+as a result.
+
+<p>Certain specific <i>symbols</i> and <i>conses</i> might also happen
+to be &ldquo;self-evaluating&rdquo; but only as a special case of a more
+general set of rules for the <i>evaluation</i> of <i>symbols</i> and
+<i>conses</i>; such <i>objects</i> are not considered to be
+<i>self-evaluating objects</i>.
+
+<p>The consequences are undefined if <i>literal objects</i> (including
+<i>self-evaluating objects</i>) are destructively modified.
+
+<h5 class="unnumberedsubsubsec">3.1.2.1.3.1 Examples of Self-Evaluating Objects</h5>
+
+<p><i>Numbers</i>, <i>pathnames</i>, and <i>arrays</i> are examples of
+<i>self-evaluating objects</i>.
+
+<pre class="lisp"> 3 <span class="roman">→</span> 3
+ #c(2/3 5/8) <span class="roman">→</span> #C(2/3 5/8)
+ #p"S:[BILL]OTHELLO.TXT" <span class="roman">→</span> #P"S:[BILL]OTHELLO.TXT"
+ #(a b c) <span class="roman">→</span> #(A B C)
+ "fred smith" <span class="roman">→</span> "fred smith"
+</pre>
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/The-Evaluation-Model.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:33 GMT -->
+</html>
+

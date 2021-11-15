@@ -1,0 +1,239 @@
+<html lang="en">
+
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Streams.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+<head>
+<title>Introduction to Streams - ANSI Common Lisp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="ANSI Common Lisp">
+<meta name="generator" content="makeinfo 4.13">
+<link title="Top" rel="start" href="index-2.html#Top">
+<link rel="up" href="Stream-Concepts.html#Stream-Concepts" title="Stream Concepts">
+<link rel="next" href="Stream-Variables.html#Stream-Variables" title="Stream Variables">
+<link href="http://www.gnu.org/software/texinfo/" rel="generator-home" title="Texinfo Homepage">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css"><!--
+  pre.display { font-family:inherit }
+  pre.format  { font-family:inherit }
+  pre.smalldisplay { font-family:inherit; font-size:smaller }
+  pre.smallformat  { font-family:inherit; font-size:smaller }
+  pre.smallexample { font-size:smaller }
+  pre.smalllisp    { font-size:smaller }
+  span.sc    { font-variant:small-caps }
+  span.roman { font-family:serif; font-weight:normal; } 
+  span.sansserif { font-family:sans-serif; font-weight:normal; } 
+body {font-family: century schoolbook, serif;
+      line-height: 1.3;
+      padding-left: 5em; padding-right: 1em;
+      padding-bottom: 1em; max-width: 60em;}
+table {border-collapse: collapse}
+span.roman { font-family: century schoolbook, serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 {font-family:  Helvetica, sans-serif}
+dfn {font-family: inherit; font-variant: italic; font-weight: bolder }
+kbd {font-family: monospace; text-decoration: underline}
+var {font-family: Helvetica, sans-serif; font-variant: slanted}
+td  {padding-right: 1em; padding-left: 1em}
+sub {font-size: smaller}
+.node {padding: 0; margin: 0}
+--></style>
+</head>
+<body>
+<div class="node">
+<a name="Introduction-to-Streams"></a>
+<p>
+Next:&nbsp;<a rel="next" accesskey="n" href="Stream-Variables.html#Stream-Variables">Stream Variables</a>,
+Up:&nbsp;<a rel="up" accesskey="u" href="Stream-Concepts.html#Stream-Concepts">Stream Concepts</a>
+<hr>
+</div>
+
+<h4 class="subsection">21.1.1 Introduction to Streams</h4>
+
+<p>A <a name="index-stream-2582"></a><dfn>stream</dfn> is an <i>object</i> that can be used with an input or output
+function to identify an appropriate source or sink of <i>characters</i> or
+<i>bytes</i> for that operation. 
+A <a name="index-character-2583"></a><dfn>character</dfn> <a name="index-stream-2584"></a><dfn>stream</dfn> is a source or sink of <i>characters</i>. 
+A <a name="index-binary-2585"></a><dfn>binary</dfn> <a name="index-stream-2586"></a><dfn>stream</dfn> is a source or sink of <i>bytes</i>.
+
+<p>Some operations may be performed on any kind of <i>stream</i>;
+the next figure&nbsp;<!-- /@w -->provides a list of <i>standardized</i> operations
+that are potentially useful with any kind of <i>stream</i>.
+
+<div class="float">
+<a name="fig21_002e1"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">close </td><td valign="top">stream-element-type
+<br></td></tr><tr align="left"><td valign="top">input-stream-p </td><td valign="top">streamp
+<br></td></tr><tr align="left"><td valign="top">interactive-stream-p </td><td valign="top">with-open-stream
+<br></td></tr><tr align="left"><td valign="top">output-stream-p </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 21.1: Some General-Purpose Stream Operations</strong></p></div>
+
+<p>Other operations are only meaningful on certain <i>stream</i> <i>types</i>. 
+For example, <code>read-char</code> is only defined for <i>character</i> <i>streams</i>
+and <code>read-byte</code> is only defined for <i>binary</i> <i>streams</i>.
+
+<h5 class="subsubsection">21.1.1.1 Abstract Classifications of Streams</h5>
+
+<h5 class="unnumberedsubsubsec">21.1.1.1.1 Input, Output, and Bidirectional Streams</h5>
+
+<p>A <i>stream</i>, whether a <i>character</i> <i>stream</i> or a <i>binary</i> <i>stream</i>,
+can be an <a name="index-input-2587"></a><dfn>input</dfn> <a name="index-stream-2588"></a><dfn>stream</dfn> (source of data),
+an <a name="index-output-2589"></a><dfn>output</dfn> <a name="index-stream-2590"></a><dfn>stream</dfn> (sink for data),
+both,
+or (<i>e.g.</i>, when &ldquo;<code>:direction :probe</code>&rdquo; is given to <code>open</code>) neither.
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> relating to
+<i>input</i> <i>streams</i>.
+
+<div class="float">
+<a name="InputStreamOps"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">clear-input </td><td valign="top">read-byte </td><td valign="top">read-from-string
+<br></td></tr><tr align="left"><td valign="top">listen </td><td valign="top">read-char </td><td valign="top">read-line
+<br></td></tr><tr align="left"><td valign="top">peek-char </td><td valign="top">read-char-no-hang </td><td valign="top">read-preserving-whitespace
+<br></td></tr><tr align="left"><td valign="top">read </td><td valign="top">read-delimited-list </td><td valign="top">unread-char
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 21.2: Operators relating to Input Streams.</strong></p></div>
+
+<p>The next figure&nbsp;<!-- /@w -->shows <i>operators</i> relating to
+<i>output</i> <i>streams</i>.
+
+<div class="float">
+<a name="OutputStreamOps"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">clear-output </td><td valign="top">prin1 </td><td valign="top">write
+<br></td></tr><tr align="left"><td valign="top">finish-output </td><td valign="top">prin1-to-string </td><td valign="top">write-byte
+<br></td></tr><tr align="left"><td valign="top">force-output </td><td valign="top">princ </td><td valign="top">write-char
+<br></td></tr><tr align="left"><td valign="top">format </td><td valign="top">princ-to-string </td><td valign="top">write-line
+<br></td></tr><tr align="left"><td valign="top">fresh-line </td><td valign="top">print </td><td valign="top">write-string
+<br></td></tr><tr align="left"><td valign="top">pprint </td><td valign="top">terpri </td><td valign="top">write-to-string
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 21.3: Operators relating to Output Streams.</strong></p></div>
+
+<p>A <i>stream</i> that is both an <i>input</i> <i>stream</i> and an <i>output</i> <i>stream</i>
+is called a <a name="index-bidirectional-2591"></a><dfn>bidirectional</dfn> <a name="index-stream-2592"></a><dfn>stream</dfn>. 
+See the <i>functions</i> <a href="input_002dstream_002dp.html#input_002dstream_002dp">input-stream-p</a> and <code>output-stream-p</code>.
+
+<p>Any of the <i>operators</i> listed in <a href="InputStreamOps.html#InputStreamOps">Figure 21.2</a>&nbsp;<!-- /@w -->or <a href="OutputStreamOps.html#OutputStreamOps">Figure 21.3</a>
+can be used with <i>bidirectional</i> <i>streams</i>.  In addition, the next figure
+shows a list of <i>operators</i> that relate specificaly to
+<i>bidirectional</i> <i>streams</i>.
+
+<div class="float">
+<a name="fig21_002e4"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary="">
+<tr align="left"><td valign="top">y-or-n-p </td><td valign="top">yes-or-no-p </td><td valign="top">
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 21.4: Operators relating to Bidirectional Streams.</strong></p></div>
+
+<h5 class="unnumberedsubsubsec">21.1.1.1.2 Open and Closed Streams</h5>
+
+<p><i>Streams</i> are either <a name="index-open-2593"></a><dfn>open</dfn> or <a name="index-closed-2594"></a><dfn>closed</dfn>.
+
+<p>Except as explicitly specified otherwise,
+operations that create and return <i>streams</i> return <i>open</i> <i>streams</i>.
+
+<p>The action of <i>closing</i> a <i>stream</i> marks the end of its use as a source
+or sink of data, permitting the <i>implementation</i> to reclaim its internal data
+structures, and to free any external resources which might have been locked by the
+<i>stream</i> when it was opened.
+
+<p>Except as explicitly specified otherwise,
+the consequences are undefined when a <i>closed</i> <i>stream</i>
+is used where a <i>stream</i> is called for.
+
+<p>Coercion of <i>streams</i> to <i>pathnames</i>
+is permissible for <i>closed</i> <i>streams</i>;
+in some situations, such as for a <i>truename</i> computation,
+the result might be different for an <i>open</i> <i>stream</i>
+and for that same <i>stream</i> once it has been <i>closed</i>.
+
+<h5 class="unnumberedsubsubsec">21.1.1.1.3 Interactive Streams</h5>
+
+<p><a name="InteractiveStreams"></a>An <a name="index-interactive-stream-2595"></a><dfn>interactive stream</dfn> is one on which it makes sense to perform
+interactive querying.
+
+<p>The precise meaning of an <i>interactive stream</i> is
+<i>implementation-defined</i>, and may depend on the underlying
+operating system.  Some examples of the things that an
+<i>implementation</i> might choose to use as identifying characteristics
+of an <i>interactive stream</i> include:
+
+     <ul>
+<li>The <i>stream</i> is connected to a person (or equivalent) in such a way
+that the program can prompt for information and expect to receive different
+input depending on the prompt.
+
+     <li>The program is expected to prompt for input and support &ldquo;normal input editing&rdquo;.
+
+     <li><code>read-char</code> might wait for the user to type something before returning
+instead of immediately returning a character or end-of-file. 
+</ul>
+
+<p>The general intent of having some <i>streams</i> be classified as
+<i>interactive streams</i> is to allow them to be distinguished from
+streams containing batch (or background or command-file) input. 
+Output to batch streams is typically discarded or saved for later viewing,
+so interactive queries to such streams might not have the expected effect.
+
+<p><i>Terminal I/O</i> might or might not be an <i>interactive stream</i>.
+
+<h5 class="subsubsection">21.1.1.2 Abstract Classifications of Streams</h5>
+
+<h5 class="unnumberedsubsubsec">21.1.1.2.4 File Streams</h5>
+
+<p>Some <i>streams</i>, called
+<a name="index-file-stream-2596"></a><dfn>file streams</dfn>, provide access to <i>files</i>. 
+An <i>object</i> of <i>class</i> <code>file-stream</code> is used to represent a <i>file stream</i>.
+
+<p>The basic operation for opening a <i>file</i> is <code>open</code>,
+which typically returns a <i>file stream</i>
+(see its dictionary entry for details). 
+The basic operation for closing a <i>stream</i> is <code>close</code>. 
+The macro <code>with-open-file</code> is useful
+to express the common idiom of opening a <i>file</i>
+for the duration of a given body of <i>code</i>,
+and assuring that the resulting <i>stream</i> is closed upon exit from that body.
+
+<h5 class="subsubsection">21.1.1.3 Other Subclasses of Stream</h5>
+
+<p>The <i>class</i> <code>stream</code> has a number of <i>subclasses</i> defined
+by this specification.  The next figure&nbsp;<!-- /@w -->shows some information
+about these subclasses.
+
+<div class="float">
+<a name="fig21_002e5"></a><p><table class="cartouche" summary="cartouche" border="1"><tr><td>
+<p><table summary=""><tr align="left"><th valign="top">Class </th><th valign="top">Related Operators
+<br></th></tr><tr align="left"><td valign="top"><code>broadcast-stream</code> </td><td valign="top"><code>make-broadcast-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>broadcast-stream-streams</code>
+<br></td></tr><tr align="left"><td valign="top"><code>concatenated-stream</code> </td><td valign="top"><code>make-concatenated-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>concatenated-stream-streams</code>
+<br></td></tr><tr align="left"><td valign="top"><code>echo-stream</code> </td><td valign="top"><code>make-echo-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>echo-stream-input-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>echo-stream-output-stream</code>
+<br></td></tr><tr align="left"><td valign="top"><code>string-stream</code> </td><td valign="top"><code>make-string-input-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>with-input-from-string</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>make-string-output-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>with-output-to-string</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>get-output-stream-string</code>
+<br></td></tr><tr align="left"><td valign="top"><code>synonym-stream</code> </td><td valign="top"><code>make-synonym-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>synonym-stream-symbol</code>
+<br></td></tr><tr align="left"><td valign="top"><code>two-way-stream</code> </td><td valign="top"><code>make-two-way-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>two-way-stream-input-stream</code>
+<br></td></tr><tr align="left"><td valign="top"></td><td valign="top"><code>two-way-stream-output-stream</code>
+<br></td></tr></table>
+</td></tr></table>
+
+<p><strong class="float-caption">Figure 21.5: Defined Names related to Specialized Streams</strong></p></div>
+
+</body>
+<!-- Mirrored from mr.gy/ansi-common-lisp/Introduction-to-Streams.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 10 Sep 2021 20:40:18 GMT -->
+</html>
+
