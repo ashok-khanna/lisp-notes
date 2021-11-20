@@ -63,7 +63,7 @@
           :initform (make-hash-table :test #'equal))))
 
 (defclass test-hash-mixin (hash-mixin)
-  ((hash-table :accessor table :allocation :class
+  ((table :accessor table :allocation :class
                :initform (make-hash-table :test #'equal))))
 
 ;;;;****************************************************************************
