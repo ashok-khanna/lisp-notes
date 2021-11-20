@@ -14,6 +14,8 @@
 (defpackage "MIXIN-EXAMPLE"
   (:use :cl))
 
+(in-package "MIXIN-EXAMPLE")
+
 ;;;;****************************************************************************
 
 ;;; Part 1 of Article
