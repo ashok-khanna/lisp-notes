@@ -19,15 +19,15 @@
 ;;; Part 1 of Article
 
 (defclass fundamental-test ()
-  ((#:test-form :initarg :form
-                :accessor test-form)
-   (#:test-value :initarg :value
-                 :accessor test-value)
-   (#:test-result :initform nil
-                  :accessor test-result)
-   (#:test-equal :initform #'equal
-                 :initarg :test
-                 :accessor test-equal)))
+  ((test-form :initarg :form
+              :accessor test-form)
+   (test-value :initarg :value
+               :accessor test-value)
+   (test-result :initform nil
+                :accessor test-result)
+   (test-equal :initform #'equal
+               :initarg :test
+               :accessor test-equal)))
 
 (defgeneric run-test (obj))
 
@@ -55,14 +55,14 @@
 ;;; Part 2 of Article
 
 (defclass hash-mixin ()
-  ((#:key :initarg :key :accessor key)
-   (#:hash-table :accessor table
-                 :allocation :class
-                 :initform (make-hash-table :test #'equal))))
+  ((key :initarg :key :accessor key)
+   (table :accessor table
+          :allocation :class
+          :initform (make-hash-table :test #'equal))))
 
 (defclass test-hash-mixin (hash-mixin)
-  ((#:hash-table :accessor table :allocation :class
-                 :initform (make-hash-table :test #'equal))))
+  ((hash-table :accessor table :allocation :class
+               :initform (make-hash-table :test #'equal))))
 
 ;;;;****************************************************************************
 
@@ -99,7 +99,7 @@
 ;; Now lets create another class that only uses HASH-MIXIN:
 
 (defclass book (hash-mixin)
-  ((#:title :initarg :title)))
+  ((title :initarg :title)))
 
 (defparameter *book-1*
   (make-instance 'book
