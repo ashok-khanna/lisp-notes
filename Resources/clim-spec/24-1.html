@@ -1,0 +1,2312 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 24.1 The Input Editor</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="24 Input Editing and Completion Facilities" HREF="24.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="24.2 Activation and Delimiter Gestures" HREF="24-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="24 Input Editing and Completion Facilities" HREF="24.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="24.html"
+>Prev</A
+><BR
+><A HREF="24-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="24.html"
+>24&nbsp;Input&nbsp;Editing&nbsp;and&nbsp;Completion&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="24-1.html"
+><B
+>24.1&nbsp;The&nbsp;Input&nbsp;Editor</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1297"></A><DIV
+><H3
+>24.1 The Input Editor</H3
+><LI CLASS="outline_item"
+><A HREF="24-1.html#_1305"
+>24.1.1 The Input Editing Stream Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="24-1.html#_1321"
+>24.1.2 Suggestions for Input Editing Commands</A
+></LI
+><P
+>An input editing stream "encapsulates" an interactive stream, that is, most operations are handled by the encapsulated interactive stream, but some operations are handled directly by the input editing stream itself. (See Appendix&nbsp;<A NAME="_5346"></A><A HREF="C.html#_1906"
+>C</A
+> for a discussion of encapsulating streams.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC72F3067C1332372650247093DCB951%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An input editing stream will have the following components: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E3E40309E9F10770DE554D3C5F8D518B%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>The encapsulated interactive stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BEB37BA85A6DB8832A3457EFECA6CEF0%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A buffer with a fill pointer, which we shall refer to as <I
+>FP</I
+>. The buffer contains all of the user's input, and <I
+>FP</I
+> is the length of that input. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2665415F58DF296967DC792736E9BCE4%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>An insertion pointer, which we shall refer to as <I
+>IP</I
+>. The insertion pointer is the point in the buffer at which the "editing cursor" is. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA96FED33707632FF1884581582FB24C%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A scan pointer, which we shall refer to as <I
+>SP</I
+>. The scan pointer is the point in the buffer from which CLIM will get the next input gesture object (in the sense of <A NAME="_5347"></A><A HREF="22-2.html#_1081"
+><B CLASS="cl"
+>read-gesture</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=93F460E0EE85DA62F74700F514842824%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A "rescan queued" flag indicating that the programmer (or CLIM) requested that a "rescan" operation should take place before the next gesture is read from the user. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=216A268348FB38FA759890B01D5FB3E9%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A "rescan in progress" flag that indicates that CLIM is rescanning the user's input, rather than reading freshly supplied gestures from the user.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85DDC5C4B0E192550D3DD3FF9A981BAC%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>The input editing stream may also have other components to store internal state, such as a slot to accumulate a numeric argument or remember the most recently used presentation history, and so forth. These other components are explicitly left unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=40DAAADB5F9660D8B738A98425BC4B64%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The high level description of the operation of the input editor is that it reads either "real" gestures from the user (such as characters from the keyboard or pointer button events) or input editing commands. The input editing commands can modify the state of the input buffer. When such modifications take place, it is necessary to "rescan" the input buffer, that is, reset the scan pointer <I
+>SP</I
+> to its original state and reparse the contents of the input editor buffer before reading any other gestures from the user. While this rescanning operation is taking place, the "rescan in progress" flag is set to <SPAN CLASS="term"
+>true</SPAN
+>. The relationship <I
+>SP&le;IP&le;FP</I
+> always holds. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81711E3780BBB0C4FF43DC94E26C84F4%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z162"
+></A
+>Instead of SP&amp;#8804;IP&amp;#8804;FP, let's use a more fuzzy definition that says "SP will never move beyond IP during rescan". That solves the problem this equation is meant to handle, without having to trigger rescans during IP motion. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81711E3780BBB0C4FF43DC94E26C84F4%2F24.1&amp;editp=t&amp;id=Z162#Z162"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels Henriksen 2007-01-30 09:54Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The overall control structure of the input editor is: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CCC1877C259F4EF00F5A770A1A320223%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(catch 'rescan                  ;thrown to when a rescan is invoked&#10;  (reset-scan-pointer stream)   ;sets STREAM-RESCANNING-P to T&#10;  (loop&#10;     (funcall continuation stream)))&#10;</PRE
+><P
+>where <I
+>stream</I
+> is the input editing stream and <I
+>continuation</I
+> is the code supplied by the programmer, and typically contains calls to such functions as <A NAME="_5349"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and <A NAME="_5350"></A><A HREF="24-4.html#_1339"
+><B CLASS="cl"
+>read-token</B
+></A
+> (which will eventually call <A NAME="_5351"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+>). When a rescan operation is invoked, it has the effect of throwing to the <B CLASS="cl"
+>rescan</B
+> tag in the example above. The loop is terminated when an activation gesture is seen, and at that point the values produced by <I
+>continuation</I
+> are returned as values from the input editor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E7DE644EB7F6167A6444FB510ABEE5E%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The important point is that functions such as <A NAME="_5353"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>, <A NAME="_5354"></A><A HREF="22-2.html#_1081"
+><B CLASS="cl"
+>read-gesture</B
+></A
+>, and <A NAME="_5355"></A><A HREF="22-2.html#_1084"
+><B CLASS="cl"
+>unread-gesture</B
+></A
+> read (or restore) the next gesture object from the buffer at the position pointed to by the scan pointer <I
+>SP</I
+>. However, insertion and input editing commands take place at the position pointed to by <I
+>IP</I
+>. The purpose of the rescanning operation is to eventually ensure that all the input gestures issued by the user (typed characters, pointer button presses, and so forth) have been read by CLIM. During input editing, the input editor should maintain some sort of visible cursor to remind the user of the position of <I
+>IP</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79E0741035AE8E2064DD5533F5A287C8%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The overall structure of <A NAME="_5356"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+> on an input editing stream is: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C799971A8F6ECE026F2F3E2DCB37721%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(progn&#10;  (rescan-if-necessary stream)&#10;  (loop&#10;    ;; If SP is less than FP&#10;    ;;   Then get the next gesture from the input editor buffer at SP&#10;    ;;   and increment SP&#10;    ;;   Else read the next gesture from the encapsulated stream&#10;    ;;   and insert it into the buffer at IP&#10;    ;; Set the "rescan in progress" flag to false&#10;    ;; Call STREAM-PROCESS-GESTURE on the gesture&#10;    ;;   If it was a "real" gesture&#10;    ;;     Then exit with the gesture as the result&#10;    ;;     Else it was an input editing command (which has already been&#10;    ;;     processed), so continue looping&#10;    ))&#10;</PRE
+><P
+>When a new gesture object is inserted into the input editor buffer, it is inserted at the insertion pointer <I
+>IP</I
+>. If <I
+>IP&nbsp;=&nbsp;FP</I
+>, this is accomplished by a <B CLASS="cl"
+>vector-push-extend</B
+>-like operation on the input buffer and <I
+>FP</I
+>, and then incrementing <I
+>IP</I
+>. If <I
+>IP&lt;FP</I
+>, CLIM must first "make room" for the new gesture in the input buffer, then insert the gesture at <I
+>IP</I
+>, then increment both <I
+>IP</I
+> and <I
+>FP</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=03E7A76B676B98C2994327772196F738%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the user requests an input editor motion command, only the insertion pointer <I
+>IP</I
+> is affected. Motion commands do not need to request a rescan operation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91F40FFCB57E9DC86A283C4C95EAFD3C%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z130"
+></A
+>Although it is true that pure motion does not need to trigger rescan,&#10;just adjusting IP can violate the SP&lt;=IP relationship. So make up your mind:&#10;Either loosen the SP&lt;=IP assertion, or indicate that editor motion can indeed&#10;trigger rescan. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91F40FFCB57E9DC86A283C4C95EAFD3C%2F24.1&amp;editp=t&amp;id=Z130#Z130"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2006-03-01 10:51Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>When the user requests an input editor deletion command, the sequence of gesture objects at <I
+>IP</I
+> are removed, and <I
+>IP</I
+> and <I
+>FP</I
+> must be modified to reflect the new state of the input buffer. Deletion commands (and other commands that modify the input buffer) must arrange for a rescan to occur when they are done modifying the buffer, either by calling <A NAME="_5358"></A><A HREF="24-1.html#_1314"
+><B CLASS="cl"
+>queue-rescan</B
+></A
+> or <A NAME="_5359"></A><A HREF="24-1.html#_1313"
+><B CLASS="cl"
+>immediate-rescan</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07C7199A101270A8D500004F3249A2CB%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM implementations are free to put special objects in the input editor buffer, such as "noise strings" and "accept results". A "noise string" is used to represent some sort of in-line prompt and is never seen as input; the <A NAME="_5360"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+> method may insert a noise string into the input buffer. An "accept result" is an object in the input buffer that is used to represent some object that was inserted into the input buffer (typically via a pointer gesture) that has no readable representation (in the Lisp sense); <A NAME="_5361"></A><A HREF="24-4.html#_1338"
+><B CLASS="cl"
+>presentation-replace-input</B
+></A
+> may create accept results. Noise strings are skipped over by input editing commands, and accept results are treated as a single gesture. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1A4BB8ACE37284D5E620DB652CB7F81%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1298"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>interactive-stream-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an interactive stream, that is, a bidrectional stream intended for user interactions. Otherwise it returns <SPAN CLASS="term"
+>false</SPAN
+>. This is exactly the same function as in X3J13 Common Lisp, except that in CLIM it is a generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DE0F46EF8FEEF1C456B171C2259A484%2Finteractive-stream-p%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The input editor need only be fully implemented for interactive streams. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CF88945DB0202A7FEE143863EEF2F00%2Finteractive-stream-p%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58067B949D0A08DB797A4D7B238E8C3C%2Finteractive-stream-p%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1299"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>input-editing-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to an input editing stream. If you want to create a new class that behaves like an input editing stream, it should be a subclass of <B CLASS="cl"
+>input-editing-stream</B
+>. All instantiable subclasses of <B CLASS="cl"
+>input-editing-stream</B
+> must obey the input editing stream protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B00B0F2E052D7942818D4FDB10AD3BE%2Finput-editing-stream%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E68FA0FD3C7AEB7C40404FDAE6E7E203%2Finput-editing-stream%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7504"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5397"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1300"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>input-editing-stream-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>input editing stream</SPAN
+> (that is, a stream of the sort created by a call to <A NAME="_5368"></A><A HREF="24-1.html#_1302"
+><B CLASS="cl"
+>with-input-editing</B
+></A
+>), otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2E0440255A595C389B8BB688FF7BB22%2Finput-editing-stream-p%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E288AF72179150FECCAC58DD4905DB5C%2Finput-editing-stream-p%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1301"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-input-editing-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that implements CLIM's standard input editor. This is the class of stream created by calling <A NAME="_5370"></A><A HREF="24-1.html#_1302"
+><B CLASS="cl"
+>with-input-editing</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E1EE0C2832CB30AF94CCD61F40B104E5%2Fstandard-input-editing-stream%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C9CBE2F40DCFC8D7FB54A7B3219F6040%2Fstandard-input-editing-stream%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=514BF60352604AD28D5BF8A03ECE868D%2Fstandard-input-editing-stream%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1302"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-input-editing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>input-sensitizer initial-contents class)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes a context in which the user can edit the input typed in on the interactive stream <I
+>stream</I
+>. <I
+>body</I
+> is then executed in this context, and the values returned by <I
+>body</I
+> are returned as the values of <B CLASS="cl"
+>with-input-editing</B
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BD0A34DCAE1B79520B6DEBCAD15E5CBA%2Fwith-input-editing%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an input stream. If <I
+>stream</I
+> is <A NAME="_5372"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-input*</B
+> is used. If <I
+>stream</I
+> is a stream that is not an interactive stream, then <B CLASS="cl"
+>with-input-editing</B
+> is equivalent to <B CLASS="cl"
+>progn</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E6472C242CD103BB6556BA742EAC2306%2Fwith-input-editing%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>input-sensitizer</I
+>, if supplied, is a function of two arguments, a stream and a continuation function; the function has dynamic extent. The continuation, supplied by CLIM, is responsible for displaying output corresponding to the user's input on the stream. The <I
+>input-sensitizer</I
+> function will typically call <A NAME="_5376"></A><A HREF="23-4.html#_1192"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></A
+> in order to make the output produced by the continuation sensitive. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=60F7006A45261B3BE6BA09FC58649A36%2Fwith-input-editing%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>initial-contents</I
+> is supplied, it must be either a string or a list of two elements, an object and a presentation type. If it is a string, the string will be inserted into the input buffer using <A NAME="_5377"></A><A HREF="24-4.html#_1337"
+><B CLASS="cl"
+>replace-input</B
+></A
+>. If it is a list, the printed representation of the object will be inserted into the input buffer using <A NAME="_5378"></A><A HREF="24-4.html#_1338"
+><B CLASS="cl"
+>presentation-replace-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDE3A9F2381021F4BD09C585DDA18E85%2Fwith-input-editing%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=393086C1B8F01D6BEDA025A9F61F4248%2Fwith-input-editing%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5424"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>immediate-rescan</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5379"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-editor-typeout</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5370"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>standard-input-editing-stream</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5368"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>input-editing-stream-p</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1303"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-input-editor-typeout</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>erase) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes a context inside of <A NAME="_5379"></A><A HREF="24-1.html#_1302"
+><B CLASS="cl"
+>with-input-editing</B
+></A
+> in which output can be done by <I
+>body</I
+> to the input editing stream <I
+>stream</I
+>. If <I
+>erase</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the area underneath the typeout will be erased before the typeout is done. <B CLASS="cl"
+>with-input-editor-typeout</B
+> should call <B CLASS="cl"
+>fresh-line</B
+> before and after evaluating the body. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=52F8ED14A82ED983C593AF2C2EF8DEF2%2Fwith-input-editor-typeout%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_5383"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-input*</B
+> is used. If <I
+>stream</I
+> is a stream that is not an input editing stream, then <B CLASS="cl"
+>with-input-editor-typeout</B
+> is equivalent to calling <B CLASS="cl"
+>fresh-line</B
+>, evaluating the body, and then calling <B CLASS="cl"
+>fresh-line</B
+> again. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=30470EE6E5AE9E66C7B27EF25B691A95%2Fwith-input-editor-typeout%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE4F02181608137BA8CAA619D8474B13%2Fwith-input-editor-typeout%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z149"
+></A
+>What's the point of this? Should it modify the input buffer? Insert noise strings? What is "the area underneath the typeout"? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE4F02181608137BA8CAA619D8474B13%2Fwith-input-editor-typeout%2F24.1&amp;editp=t&amp;id=Z149#Z149"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-11-07 19:22Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1304"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>input-editor-format</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream format-string </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>format-args</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is like <B CLASS="cl"
+>format</B
+>, except that it is intended to be called on input editing streams. It arranges to insert "noise strings" in the input editor's input buffer. Programmers can use this to display in-line prompts in <A NAME="_5389"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> methods. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8AC8C2CA9192B5A827665D57676BFB11%2Finput-editor-format%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>stream</I
+> is a stream that is not an input editing stream, then <B CLASS="cl"
+>input-editor-format</B
+> is equivalent to <B CLASS="cl"
+>format</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=763D0EB4D0F664EB93F445313CAD307A%2Finput-editor-format%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F82817FCB901EFC65A412A4160DF5D15%2Finput-editor-format%2F24.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1305"></A><DIV
+><H4
+>24.1.1 The Input Editing Stream Protocol</H4
+><P
+>Input editing streams obey both the extended input and extended output stream protocols, and must support the generic functions that comprise those protocols. For the most part, this will simply entail "trampolining" those operations to the encapsulated interactive stream. However, some generic functions as <A NAME="_5392"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+> and <A NAME="_5393"></A><A HREF="24-1.html#_1320"
+><B CLASS="cl"
+>stream-unread-gesture</B
+></A
+> will need methods that observe the use of the input editor's scan pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C13E6C2E2A9DE71CA77D345F703DB25D%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Input editing streams will typically also implement methods for <A NAME="_5394"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+> (in order to provide in-line prompting that interacts correctly with input editing) and <A NAME="_5395"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> (in order to cause <A NAME="_5396"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> to obey the scan pointer). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58D39E6BE3EF5035B02313592420AE87%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The following generic functions comprise the remainder of the input editing protocol, and must be implemented for all classes that inherit from <A NAME="_5397"></A><A HREF="24-1.html#_1299"
+><B CLASS="cl"
+>input-editing-stream</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7716D5E826E77146E527D4C2F487108C%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1306"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-input-buffer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>input-editing-stream</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the input buffer (that is, the string being edited) associated with the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>. This must be an unspecialized vector with a fill pointer. The fill pointer of the vector points past the last gesture object in the buffer. During input editing, this buffer is side-effected. The consequences of modifying the input buffer by means other than the specified API (such as <A NAME="_5399"></A><A HREF="24-4.html#_1337"
+><B CLASS="cl"
+>replace-input</B
+></A
+>) are unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FBFD9CE532DF495C81007DE2C344DA84%2Fstream-input-buffer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=584888EB88785B931828DE5D534E554F%2Fstream-input-buffer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="22-2.html#_1072"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-input-buffer, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7509"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1307"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-insertion-pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an integer corresponding to the current input position in the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>'s buffer, that is, the point in the buffer at which the next user input gesture will be inserted. The insertion pointer will always be less than <B CLASS="cl"
+>(fill-pointer (stream-input-buffer </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>))</B
+>. The insertion pointer can also be thought of as an editing cursor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB1D4F04D2507E393368EE27EE13335B%2Fstream-insertion-pointer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E4751BB16C482FBD7ECA01C5D298D7E%2Fstream-insertion-pointer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7511"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1308"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-insertion-pointer)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the input position of the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+> to <I
+>pointer</I
+>. <I
+>pointer</I
+> is an integer, and must be less than <B CLASS="cl"
+>(fill-pointer (stream-input-buffer </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>))</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CBE334C8F13008C832F7A8BA356165C2%2F%28setf%20stream-insertion-pointer%29%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89E23CE265A70855852D9467A41D4D57%2F%28setf%20stream-insertion-pointer%29%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1309"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-scan-pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an integer corresponding to the current scan pointer in the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>'s buffer, that is, the point in the buffer at which calls to <A NAME="_5409"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> have stopped parsing input. The scan pointer will always be less than or equal to <B CLASS="cl"
+>(stream-insertion-pointer </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>)</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E0E33549A5CFE36019A2B580FDE8D40%2Fstream-scan-pointer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74B2EC21C803AA374190A95035C64DED%2Fstream-scan-pointer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7510"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1310"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-scan-pointer)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the scan pointer of the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+> to <I
+>pointer</I
+>. <I
+>pointer</I
+> is an integer, and must be less than or equal to <B CLASS="cl"
+>(stream-insertion-pointer </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>)</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7D57D889DE499B7991CEAE9086BD722%2F%28setf%20stream-scan-pointer%29%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ECF3A828F4AE7C2C5ACEF7C19EB6551D%2F%28setf%20stream-scan-pointer%29%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1311"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-rescanning-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the state of the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>'s "rescan in progress" flag, which is <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>stream</I
+> is performing a rescan operation, otherwise it is <SPAN CLASS="term"
+>false</SPAN
+>. All extended input streams must implement a method for this, but non-input editing streams will always returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=53C2BBFFBF7B35EAB9E2B93FEC3E2B94%2Fstream-rescanning-p%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2220A7E191E378D501A4474BABA192AA%2Fstream-rescanning-p%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7512"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5422"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>reset-scan-pointer</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1312"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>reset-scan-pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(scan-pointer </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>'s scan pointer to <I
+>scan-pointer</I
+>, and sets the state of <A NAME="_5422"></A><A HREF="24-1.html#_1311"
+><B CLASS="cl"
+>stream-rescanning-p</B
+></A
+> to <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DAFCD16B378B1DA263D5AD7E6D714B07%2Freset-scan-pointer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F1F8F47B6CA4A830BD341CF91A157A3%2Freset-scan-pointer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1313"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>immediate-rescan</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invokes a rescan operation immediately by "throwing" out to the most recent invocation of <A NAME="_5424"></A><A HREF="24-1.html#_1302"
+><B CLASS="cl"
+>with-input-editing</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE8152FAA93AA5453ACBF8D64DF2CFD8%2Fimmediate-rescan%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD8EFA2631B2A3C7F95A526095D1DDF9%2Fimmediate-rescan%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5359"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1314"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>queue-rescan</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Indicates that a rescan operation on the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+> should take place after the next non-input editing gesture is read by setting the "rescan queued" flag to <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=52DAD03234DA84A7F0B2D574A03F3444%2Fqueue-rescan%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=138997B8CEF00DF38E0282F49EC5621A%2Fqueue-rescan%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-4.html#_5482"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>replace-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5428"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rescan-if-necessary</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5358"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1315"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rescan-if-necessary</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>inhibit-activation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invokes a rescan operation on the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+> if <A NAME="_5428"></A><A HREF="24-1.html#_1314"
+><B CLASS="cl"
+>queue-rescan</B
+></A
+> was called on the same stream and no intervening rescan operation has taken place. Resets the state of the "rescan queued" flag to <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A3C7917B10881E4006038C475567BDB2%2Frescan-if-necessary%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>inhibit-activation</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, the input line will not be activated even if there is an activation character in it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF3571EE096FB45100D30E036BF09A7B%2Frescan-if-necessary%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0B887EB2CD92B918AAE42C8CB93452E%2Frescan-if-necessary%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1316"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>erase-input-buffer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(start-position </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Erases the part of the display that corresponds to the input editor's buffer starting at the position <I
+>start-position</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CDB3178DC5CE80D4E63CA4BB722A2E5C%2Ferase-input-buffer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=418ABA1939838BEA36D22985B7DCA36A%2Ferase-input-buffer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1317"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>redraw-input-buffer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(start-position </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays the input editor's buffer starting at the position <I
+>start-position</I
+> on the interactive stream that is encapsulated by the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=174368C43274BB2D6754D8DB0E2C4600%2Fredraw-input-buffer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36376FD77FDADF40166B91C200CA9C8B%2Fredraw-input-buffer%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1318"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-process-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream gesture type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>gesture</I
+> is an input editing command, <B CLASS="cl"
+>stream-process-gesture</B
+> performs the input editing operation on the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+> and returns <A NAME="_5434"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. Otherwise, it returns the two values <I
+>gesture</I
+> and <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84D8654AAD4C9502F875182199EEF3DD%2Fstream-process-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F3E705EC078251B44EDED0417F29A2A%2Fstream-process-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5437"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1319"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-read-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>standard-input-editing-stream</B
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;key </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads and returns a gesture from the user on the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9904DBA60288D2D0EFE3D0CA497BE670%2Fstream-read-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>stream-read-gesture</B
+> method must call <A NAME="_5437"></A><A HREF="24-1.html#_1318"
+><B CLASS="cl"
+>stream-process-gesture</B
+></A
+>, which will either return a "real" gesture (such as a typed character, a pointer gesture, or a timeout) or will return <A NAME="_5438"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (indicating that some sort of input editing operation was performed). <B CLASS="cl"
+>stream-read-gesture</B
+> must only return when a real gesture was been read; if an input editing operation was performed, <B CLASS="cl"
+>stream-read-gesture</B
+> will loop until a "real" gesture is typed by the user. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB2DE12894F38D14ABD4034E6755D14D%2Fstream-read-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=43073FBDFBBB0F4A597DB1E88EEE1C3E%2Fstream-read-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="22-2.html#_1082"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-read-gesture, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="24-4.html#_5495"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>read-token</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5392"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5351"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4445"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-unread-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4441"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-input-wait</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4412"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1320"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-unread-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>standard-input-editing-stream</B
+></I
+><I
+>) gesture</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Inserts the gesture <I
+>gesture</I
+> back into the input editor's buffer, maintaining the scan pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5B8DC56CCF5AC66151C9BAA77E2A1DC%2Fstream-unread-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC940B06A07C3D2034A09E7687175B47%2Fstream-unread-gesture%2F24.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="22-2.html#_1085"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-unread-gesture, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5393"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4442"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>unread-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1321"></A><DIV
+><H4
+>24.1.2 Suggestions for Input Editing Commands</H4
+><P
+>An implementation of the input editor should provide a set of generally useful input editing commands. The exact set of these commands is unspecified, and the key bindings for these commands may vary from platform to platform. The following is a suggested minimum set of input editing commands and key bindings, taken roughly from EMACS. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8982CEC787CB63B5499E83963F99990D%2F24.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;</TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>Suggested</I
+></TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>Input editor command</I
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>key binding</I
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Forward character </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-F</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Forward word </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-F</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Backward character </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-B</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Backward word </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-B</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Beginning of line </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-A</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> End of line </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-E</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Next line </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-N</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Previous line </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-P</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Beginning of buffer </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-&lt;</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> End of buffer </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-&lt;</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Delete next character </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-D</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Delete next word </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-D</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Delete previous character </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>Rubout</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Delete previous word </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>m-Rubout</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Kill to end of line </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-K</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Clear input buffer </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>varies</I
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Insert new line </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-O</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Transpose adjacent characters </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-T</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Transpose adjacent words </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-T</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Yank from kill ring </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-Y</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Yank from presentation history </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-meta-Y</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Yank next item </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-Y</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Scroll output history forward </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>control-V</TT
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+> Scroll output history backward </TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><TT
+>meta-V</TT
+> </TD
+></TR
+></TABLE
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A214ADBE26EEE667045B59E6E78866A6%2F24.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An implementation of the input may also support "numeric arguments" (such as <TT
+>control-0</TT
+>, <TT
+>control-1</TT
+>, <TT
+>meta-0</TT
+>, and so forth) that modify the behavior of the input editing commands. For instance, the motion and deletion commands should be repeated as many times as specified by the numeric argument. Furthermore, the accumulated numeric argument should be passed to the command processor in such a way that <A NAME="_5441"></A><A HREF="27-4.html#_1430"
+><B CLASS="cl"
+>substitute-numeric-argument-marker</B
+></A
+> can be used to insert the numeric argument into a command that was read via a keystroke accelerator. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E54DDB1B414C81A5B8AC172036B518C6%2F24.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1322"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-input-editor-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gestures function</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds an input editing command that causes <I
+>function</I
+> to be executed when the specified gesture(s) are typed by the user. <I
+>gestures</I
+> is either a single gesture name, or a list of gesture names. When <I
+>gestures</I
+> is a sequence of gesture names, the function is executed only after all of the gestures are typed in order with no intervening gestures. (This is used to implement "prefixed" commands, such as the <TT
+>control-X control-F</TT
+> command one might fix in EMACS.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F601681F92EFF306EA728048EB773318%2Fadd-input-editor-command%2F24.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=243182BF47307313AFA520AD88D3584A%2Fadd-input-editor-command%2F24.1.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z116"
+></A
+><P
+>What is the signature of /function/?</P
+><P
+>Why isn't this tied to a command table or a frame class or anything?&#10;How is it prevented that the input editor commands of one application &#10;do not clobber the editing commands of another?</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=243182BF47307313AFA520AD88D3584A%2Fadd-input-editor-command%2F24.1.2&amp;editp=t&amp;id=Z116#Z116"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-11-27 01:08Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z147"
+></A
+><P
+>I think function does not take any arguments.</P
+><P
+>I also think that these input-editor commands are global, and that this facility is not meant to be a way to create application-specific input-editor commands. If this is true, however, then this function is truly useless, as CLIM does not really specify an interface to the input-editor buffer, so you can't do anything portably anyway.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=243182BF47307313AFA520AD88D3584A%2Fadd-input-editor-command%2F24.1.2&amp;editp=t&amp;id=Z147#Z147"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-10-28 16:55Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z172"
+></A
+><P
+>To answer my own question.</P
+><P
+>Section 17.5, Examples of extending the input editor, of the CLIM 2.2 User Guide (Franz' edition) has examples on how to define your own input editor commands.</P
+><P
+>The signature of the command functions seems to be /stream/ /input-buffer/ /gesture/ /numeric-argument/.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=243182BF47307313AFA520AD88D3584A%2Fadd-input-editor-command%2F24.1.2&amp;editp=t&amp;id=Z172#Z172"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2008-08-17 22:43Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

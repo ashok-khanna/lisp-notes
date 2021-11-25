@@ -1,0 +1,494 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 8.4 Repaint Protocol</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="8.3 Output Protocol" HREF="8-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="8.5 Sheet Notification Protocol" HREF="8-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="8 Sheet Protocols" HREF="8.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="8-3.html"
+>Prev</A
+><BR
+><A HREF="8-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="8.html"
+>8&nbsp;Sheet&nbsp;Protocols</A
+><BR
+>&rarr;&nbsp;<A HREF="8-4.html"
+><B
+>8.4&nbsp;Repaint&nbsp;Protocol</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_426"></A><DIV
+><H3
+>8.4 Repaint Protocol</H3
+><LI CLASS="outline_item"
+><A HREF="8-4.html#_427"
+>8.4.1 Repaint Protocol Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="8-4.html#_431"
+>8.4.2 Repaint Protocol Classes</A
+></LI
+><P
+>The repaint protocol is the mechanism whereby a program keeps the display up-to-date, reflecting the results of both synchronous and asynchronous events. The repaint mechanism may be invoked by user programs each time through their top-level command loop. It may also be invoked directly or indirectly as a result of events received from the display server host. For example, if a window is on display with another window overlapping it, and the second window is buried, a "damage notification" event may be sent by the server; CLIM would cause a repaint to be executed for the newly-exposed region. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DABFEDF12FAE6C15597F11B3FAE0CC2%2F8.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_427"></A><DIV
+><H4
+>8.4.1 Repaint Protocol Functions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_428"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>queue-repaint</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet repaint-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Requests that the repaint event <I
+>repaint-event</I
+> be placed in the input queue of the <A NAME="_2777"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. A program that reads events out of the queue will be expected to call <A NAME="_2778"></A><A HREF="8-1.html#_309"
+><B CLASS="cl"
+>handle-event</B
+></A
+> for the sheet using the repaint region gotten from <I
+>repaint-event</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66F220FB19A411E97FAABB6960DCC0A9%2Fqueue-repaint%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=711B032EC57A96186D7720E2171B6C9D%2Fqueue-repaint%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-4.html#_2787"
+><SPAN CLASS="reverselink"
+>[&larr; 8.4.2 Repaint Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-mute-repainting-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2783"
+><SPAN CLASS="reverselink"
+>[&larr; 8.4.2 Repaint Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-repainting-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_429"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>handle-repaint</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Implements repainting for a given sheet class. <A NAME="_2779"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> is the sheet to repaint and <I
+>region</I
+> is the region to repaint. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8E86E8AA5B401F8BE29C8F457BAA1F33%2Fhandle-repaint%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8D3202C69898C2A9F87205DA9E46F29%2Fhandle-repaint%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-4.html#_2785"
+><SPAN CLASS="reverselink"
+>[&larr; 8.4.2 Repaint Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>immediate-repainting-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_430"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>repaint-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Recursively causes repainting of the <A NAME="_2780"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> and any of its descendants that overlap the <A NAME="_2781"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=104D118AE0343B9824B082C7B1173022%2Frepaint-sheet%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All CLIM implementations must support repainting for regions that are rectangles or region sets composed entirely of rectangles. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9BA0AF63B876C53F6C86AD4967036985%2Frepaint-sheet%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B80294393ACEA6D218745112C892830%2Frepaint-sheet%2F8.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-1.html#_3714"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2788"
+><SPAN CLASS="reverselink"
+>[&larr; 8.4.2 Repaint Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-mute-repainting-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_431"></A><DIV
+><H4
+>8.4.2 Repaint Protocol Classes</H4
+><P
+>The following classes implement the standard repaint protocols. None of the three following classes is instantiable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=593424FB2CE1793DC62BE6E26D05DFB8%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_432"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-repainting-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a <B CLASS="cl"
+>dispatch-repaint</B
+> method that calls <A NAME="_2783"></A><A HREF="8-4.html#_428"
+><B CLASS="cl"
+>queue-repaint</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1045D11D58474F3C1657D2E4514CEC7F%2Fstandard-repainting-mixin%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E01CF525E4DFF8F34F06E10570C933AD%2Fstandard-repainting-mixin%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_433"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>immediate-repainting-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a <B CLASS="cl"
+>dispatch-repaint</B
+> method that calls <A NAME="_2785"></A><A HREF="8-4.html#_429"
+><B CLASS="cl"
+>handle-repaint</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E1B3FDC16CF2EA01124834C018BB770%2Fimmediate-repainting-mixin%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D8B6E2DF0FE8F3F871A34B1F924BC419%2Fimmediate-repainting-mixin%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_434"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-mute-repainting-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a <B CLASS="cl"
+>dispatch-repaint</B
+> method that calls <A NAME="_2787"></A><A HREF="8-4.html#_428"
+><B CLASS="cl"
+>queue-repaint</B
+></A
+>, and a method on <A NAME="_2788"></A><A HREF="8-4.html#_430"
+><B CLASS="cl"
+>repaint-sheet</B
+></A
+> that does nothing. This means that its children will be recursively repainted when the repaint event is handled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F58CF816BA9C28FBC11E8F8FC9612B33%2Fsheet-mute-repainting-mixin%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z235"
+></A
+>Note that this implies that an :AROUND, :BEFORE, or :AFTER method on REPAINT-SHEET exists that arranges for child sheets to be repainted...  Or that it really means a method on HANDLE-REPAINT that does nothing. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F58CF816BA9C28FBC11E8F8FC9612B33%2Fsheet-mute-repainting-mixin%2F8.4.2&amp;editp=t&amp;id=Z235#Z235"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2015-06-27 14:27Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F712AC0379B171669C6372168311D68%2Fsheet-mute-repainting-mixin%2F8.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

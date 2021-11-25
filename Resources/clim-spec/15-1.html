@@ -1,0 +1,917 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/15-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 15.1 Basic Output Streams</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="15 Extended Stream Output" HREF="15.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="15.2 Extended Output Streams" HREF="15-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="15 Extended Stream Output" HREF="15.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="15.html"
+>Prev</A
+><BR
+><A HREF="15-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="15.html"
+>15&nbsp;Extended&nbsp;Stream&nbsp;Output</A
+><BR
+>&rarr;&nbsp;<A HREF="15-1.html"
+><B
+>15.1&nbsp;Basic&nbsp;Output&nbsp;Streams</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_758"></A><DIV
+><H3
+>15.1 Basic Output Streams</H3
+><P
+>CLIM provides an implementation of the basic output stream facilities (described in more detail in Appendix&nbsp;<A NAME="_3596"></A><A HREF="D.html#_1917"
+>D</A
+>), either by directly using the underlying Lisp implementation, or by implementing the facilities itself. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29871860B93812B970705FEA6048C0F1%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_759"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-output-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class provides an implementation of the CLIM basic output stream protocol, based on the CLIM output kernel. Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=10DD7D1CBB1E6F5D97E93F5E5842B91B%2Fstandard-output-stream%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3541A8ABBD35E4FA04EEAF8392465448%2Fstandard-output-stream%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_760"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-write-char</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream character</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Writes the character <I
+>character</I
+> to the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+>, and returns <I
+>character</I
+> as its value. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=861092DBDEBDAA92552447C49E0CA726%2Fstream-write-char%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB14DF935EC3BC4E1EDC06D43A9F9221%2Fstream-write-char%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1949"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-write-char, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="D-4.html#_7248"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-advance-to-column</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="D-4.html#_7232"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-terpri</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="D-4.html#_7229"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-write-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4913"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3912"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-add-character-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3814"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.3 Text Displayed Output Record]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_761"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-write-string</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream string </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(start </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) end</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Writes the string <I
+>string</I
+> to the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+>. If <I
+>start</I
+> and <I
+>end</I
+> are supplied, they are integers that specify what part of <I
+>string</I
+> to output. <I
+>string</I
+> is returned as the value. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EBA5BF66C50113170C2F804D760B7CB%2Fstream-write-string%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=358BFEB15E13B85D97C39227A8F887E1%2Fstream-write-string%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1952"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-write-string, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3920"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-add-string-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3895"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3815"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.3 Text Displayed Output Record]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_762"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-terpri</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Writes an end of line character on the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+>, and returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A43F899E002BB785CB4173AA8B3100E%2Fstream-terpri%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15152B70125A4BFA0ACAE0BFA480AECD%2Fstream-terpri%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1953"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-terpri, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="D-4.html#_7235"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-fresh-line</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_763"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-fresh-line</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Writes an end of line character on the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+> only if the stream is not at the beginning of the line. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA4BDFE0B66E949D8A0230AB6EACD123%2Fstream-fresh-line%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2032836EC7F1F56CD1DB5A5A63459D8%2Fstream-fresh-line%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1954"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-fresh-line, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="D-4.html#_7226"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-start-line-p</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_764"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-finish-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Ensures that all the output sent to the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+> has reached its destination, and only then return <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE9C878D37CF67125B8ACB3E9089AD49%2Fstream-finish-output%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42619DAEB93A204A36C5F91253155C8B%2Fstream-finish-output%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1955"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-finish-output, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="D-4.html#_7238"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-force-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3900"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="15-1.html#_3604"
+><SPAN CLASS="reverselink"
+>[&larr; 15.1 Basic Output Streams, <B CLASS="cl"
+><B CLASS="cl"
+>stream-force-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_765"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-force-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_3604"></A><A HREF="D-4.html#_1955"
+><B CLASS="cl"
+>stream-finish-output</B
+></A
+>, except that it may immediately return <SPAN CLASS="term"
+>false</SPAN
+> without waiting for the output to complete. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=54E3715376C0DBF87A5055412B0ED3F5%2Fstream-force-output%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CBD3E3602DF17096B178DD5E5D55229F%2Fstream-force-output%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1956"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-force-output, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3901"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_766"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-clear-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Aborts any outstanding output operation in progress on the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+>, and returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76A19BD48A0C7BB940322B5B3F870A19%2Fstream-clear-output%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F8C5494CA57498AEABEB2E9DE1192E9F%2Fstream-clear-output%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1957"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-clear-output, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_767"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-line-column</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function returns the column number where the next character will be written on the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+>. The first column on a line is numbered 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9116C689F435BA705E2329380702AD0B%2Fstream-line-column%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B0FC096DC4CF1CDE5D6D9DDB2A9FB8E%2Fstream-line-column%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1950"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-line-column, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="D-4.html#_7247"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-advance-to-column</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="D-4.html#_7218"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-start-line-p</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_768"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-start-line-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+> is positioned at the beginning of a line (that is, column 0), otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=836EC194408076DB3A732BBE0116E581%2Fstream-start-line-p%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE289AA659E83F4D34A5D77BA915B46C%2Fstream-start-line-p%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1951"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-start-line-p, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="D-4.html#_7234"
+><SPAN CLASS="reverselink"
+>[&larr; D.4 Character Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-fresh-line</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_769"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-advance-to-column</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream column</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Writes enough blank space on the <SPAN CLASS="term"
+>output stream</SPAN
+> <I
+>stream</I
+> so that the next character will be written at the position specified by <I
+>column</I
+>, which is an integer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3682CFC411F8DD09F3F1593106BF22E1%2Fstream-advance-to-column%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E44DC3B81573704521DA61835F40956%2Fstream-advance-to-column%2F15.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="D-4.html#_1958"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-advance-to-column, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/15-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

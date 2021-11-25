@@ -1,0 +1,185 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/30-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 30.2 Abstract Gadgets</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="30.1 Overview of Gadgets" HREF="30-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="30.3 Basic Gadget Classes" HREF="30-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="30 Gadgets" HREF="30.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="30-1.html"
+>Prev</A
+><BR
+><A HREF="30-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="30.html"
+>30&nbsp;Gadgets</A
+><BR
+>&rarr;&nbsp;<A HREF="30-2.html"
+><B
+>30.2&nbsp;Abstract&nbsp;Gadgets</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1705"></A><DIV
+><H3
+>30.2 Abstract Gadgets</H3
+><LI CLASS="outline_item"
+><A HREF="30-2.html#_1707"
+>30.2.1 Using Gadgets</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="30-2.html#_1710"
+>30.2.2 Implementing Gadgets</A
+></LI
+><P
+>The push button and slider gadgets alluded to above are <A NAME="_1706"></A><SPAN CLASS="concept"
+>abstract gadgets</SPAN
+>. The callback interface to all of the various implementations of the gadget is defined by the abstract class. In the <A NAME="_6699"></A><A HREF="28-2.html#_1474"
+><B CLASS="cl"
+>:panes</B
+></A
+> clause of <A NAME="_6700"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+>, the abbreviation for a gadget is the name of the abstract gadget class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AEFABAA3E5B23251C56C92EC2C58422%2F30.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>At pane creation time (that is, <A NAME="_6701"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+>), the frame manager resolves the abstract class into a specific implementation class; the implementation classes specify the detailed look and feel of the gadget. Each frame manager will keep a mapping from abstract gadgets to an implementation class; if the frame manager does not implement its own gadget for the abstract gadget classes in the following sections, it should use the portable class provided by CLIM. Since every implementation of an abstract gadget class is a subclass of the abstract class, they all share the same programmer interface. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7278E84AFCD880DD4A66052447D1432D%2F30.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1707"></A><DIV
+><H4
+>30.2.1 Using Gadgets</H4
+><P
+>Every gadget has a <A NAME="_1708"></A><SPAN CLASS="concept"
+>client</SPAN
+> that is specified when the gadget is created. The client is notified via the callback mechanism when any important user interaction takes place. Typically, a gadget's client will be an application frame or a composite pane. Each callback generic function is invoked on the gadget, its client, the gadget id (described below), and other arguments that vary depending on the callback. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66EA69B72F6A4304888BF1D99E7C1DA9%2F30.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, the argument list for <A NAME="_6702"></A><A HREF="30-3.html#_1742"
+><B CLASS="cl"
+>activate-callback</B
+></A
+> looks like <I
+>(gadget client gadget-id)</I
+>. Assuming the programmer has defined an application frame called <B CLASS="cl"
+>button-test</B
+> that has a CLIM stream pane in the slot <B CLASS="cl"
+>output-pane</B
+>, he could write the following method: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=450112DD493D93427CE59FB62ECE79CF%2F30.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defmethod activate-callback&#10;           ((button push-button) (client button-test) gadget-id) &#10;  (with-slots (output-pane) client&#10;    (format output-pane "The button ~S was pressed, client ~S, id ~S."&#10;       button client gadget-id)))&#10;</PRE
+><P
+>One problem with this example is that it differentiates on the class of the gadget, not on the particular gadget instance. That is, the same method will run for every push button that has the <B CLASS="cl"
+>button-test</B
+> frame as its client. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=55D778006460D95F5EAE0744CE51D0D0%2F30.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>One way to distinguish between the various gadgets is via the <A NAME="_1709"></A><SPAN CLASS="concept"
+>gadget id</SPAN
+>, which is also specified when the gadget is created. The value of the gadget id is passed as the third argument to each callback generic function. In this case, if we have two buttons, we might install <B CLASS="cl"
+>start</B
+> and <B CLASS="cl"
+>stop</B
+> as the respective gadget ids and then use <B CLASS="cl"
+>eql</B
+> specializers on the gadget ids. We could then refine the above as: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E94BB1D90D46D15CA0F5CEB0ED10A5E%2F30.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defmethod activate-callback&#10;           ((button push-button) (client button-test) (gadget-id (eql 'start)))&#10;  (start-test client))&#10;&#10;(defmethod activate-callback&#10;           ((button push-button) (client button-test) (gadget-id (eql 'stop)))&#10;  (stop-test client))&#10;&#10;;; Create the start and stop push buttons&#10;(make-pane 'push-button&#10;  :label "Start"&#10;  :client frame :id 'start)&#10;(make-pane 'push-button&#10;  :label "Stop"&#10;  :client frame :id 'stop)&#10;</PRE
+><P
+>Another way to distinguish between gadgets is to explicitly specify what function should be called when the callback is invoked. This is specified when the gadget is created by supplying an appropriate initarg. The above example could then be written as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3CC36CE752D1EBF65AFAE7D6C3D6A081%2F30.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;;; No callback methods needed, just create the push buttons&#10;(make-pane 'push-button&#10;  :label "Start"&#10;  :client frame :id 'start&#10;  :activate-callback&#10;    #'(lambda (gadget)&#10;        (start-test (gadget-client gadget))))&#10;(make-pane 'push-button&#10;  :label "Stop"&#10;  :client frame :id 'stop&#10;  :activate-callback&#10;    #'(lambda (gadget)&#10;        (stop-test (gadget-client gadget))))&#10;</PRE
+></DIV
+><A NAME="_1710"></A><DIV
+><H4
+>30.2.2 Implementing Gadgets</H4
+><P
+>The following shows how a push button gadget might be implemented. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67D173B546E029EE3866C819353C72C3%2F30.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;;; Here is a concrete implementation of a CLIM PUSH-BUTTON.&#10;;; The "null" frame manager create a pane of type PUSH-BUTTON-PANE when&#10;;; asked to create a PUSH-BUTTON.&#10;(defclass push-button-pane&#10;          (push-button&#10;           leaf-pane&#10;           space-requirement-mixin)&#10;    ((show-as-default :initarg :show-as-default&#10;                      :accessor push-button-show-as-default)&#10;     (armed :initform nil)))&#10;&#10;;; General highlight-by-inverting method.&#10;(defmethod highlight-button ((pane push-button-pane) medium)&#10;  (with-bounding-rectangle* (left top right bottom) (sheet-region pane)&#10;    (draw-rectangle* medium left top right bottom&#10;                     :ink +flipping-ink+ :filled t)&#10;    (medium-force-output medium)))&#10;&#10;;; Compute the amount of space required by a PUSH-BUTTON-PANE.&#10;(defmethod compose-space ((pane push-button-pane) &amp;key width height)&#10;  (let ((x-margin 4)&#10;        (y-margin 2))&#10;  (multiple-value-bind (width height)&#10;      (compute-gadget-label-size pane)&#10;    (make-space-requirement :width  (+ width  (* x-margin 2))&#10;                            :height (+ height (* y-margin 2))))&#10;&#10;;; This gets invoked to draw the push button.&#10;(defmethod handle-repaint ((pane push-button-pane) region)&#10;  (declare (ignore region))&#10;  (with-sheet-medium (medium pane)&#10;    (let ((text (gadget-label pane))&#10;          (text-style (slot-value pane 'text-style))&#10;          (armed (slot-value pane 'armed))&#10;          (region (sheet-region pane)))&#10;      (multiple-value-call #'draw-rectangle*&#10;        medium (bounding-rectangle* (sheet-region pane))&#10;        :filled nil)&#10;      (draw-text medium text (bounding-rectangle-center region)&#10;                 :text-style text-style&#10;                 :align-x ':center :align-y ':center)&#10;      (when (eql armed ':button-press)&#10;        (highlight-button pane medium)))))&#10;&#10;(defmethod handle-event :around ((pane push-button-pane) (event pointer-event))&#10;  (when (gadget-active-p pane)&#10;    (call-next-method)))&#10;&#10;;; When we enter the push button's region, arm it.  If there is a pointer&#10;;; button down, make the button active as well.&#10;(defmethod handle-event ((pane push-button-pane) (event pointer-enter-event))&#10;  (with-slots (armed) pane&#10;    (unless armed&#10;      (cond ((let ((pointer (pointer-event-pointer event)))&#10;               (and (pointer-button-state pointer)&#10;                    (not (zerop (pointer-button-state pointer)))))&#10;             (setf armed :active)&#10;             (with-sheet-medium (medium pane)&#10;               (highlight-button pane medium)))&#10;            (t (setf armed t)))&#10;      (armed-callback pane (gadget-client pane) (gadget-id pane)))))&#10;&#10;;; When we leave the push button's region, disarm it.&#10;(defmethod handle-event ((pane push-button-pane) (event pointer-exit-event))&#10;  (with-slots (armed) pane&#10;    (when armed&#10;      (when (prog1 (eq armed :active) (setf armed nil))&#10;        (with-sheet-medium (medium pane)&#10;          (highlight-button pane medium)))&#10;      (disarmed-callback pane (gadget-client pane) (gadget-id pane)))))&#10;&#10;;; When the user presses a pointer button, ensure that the button&#10;;; is armed, and highlight it. &#10;(defmethod handle-event ((pane push-button-pane) (event pointer-button-press-event))&#10;  (with-slots (armed) pane&#10;    (when armed&#10;      (setf armed :active)&#10;      (with-sheet-medium (medium pane)&#10;        (highlight-button pane medium)))))&#10;&#10;;; When the user releases the button and the button is still armed,&#10;;; call the activate callback.&#10;(defmethod handle-event ((pane push-button-pane) (event pointer-button-release-event))&#10;  (with-slots (armed) pane&#10;    (when (eq armed :active)&#10;      (setf armed t)&#10;      (with-sheet-medium (medium pane)&#10;        (highlight-button pane medium))&#10;      (activate-callback pane (gadget-client pane) (gadget-id pane)))))&#10;</PRE
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/30-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

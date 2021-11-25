@@ -1,0 +1,151 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 2.2 Package Structure</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="2.1 Audience, Goals, and Purpose" HREF="2-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="2.3 "Spread" Point Arguments to Functions " HREF="2-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="2 Conventions" HREF="2.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="2-1.html"
+>Prev</A
+><BR
+><A HREF="2-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-I.html"
+>Part&nbsp;I:&nbsp;Overview&nbsp;and&nbsp;Conventions</A
+> &rarr;&nbsp;<A HREF="2.html"
+>2&nbsp;Conventions</A
+><BR
+>&rarr;&nbsp;<A HREF="2-2.html"
+><B
+>2.2&nbsp;Package&nbsp;Structure</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_8"></A><DIV
+><H3
+>2.2 Package Structure</H3
+><P
+>CLIM defines a variety of packages in order to provide its functionality. In general, no symbols except for the symbols in this specification should be added to those packages. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8232EC3DD3708FF7ABD4C79352414045%2F2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>clim-lisp</B
+> package is intended to implement as much of the draft X3J13 Common Lisp as possible, independent of the conformance of individual vendors. (When all Lisp vendors implement X3J13 Common Lisp, the <B CLASS="cl"
+>clim-lisp</B
+> package could be eliminated.) <B CLASS="cl"
+>clim-lisp</B
+> is the version of Common Lisp in which CLIM is implemented and which the <B CLASS="cl"
+>clim-user</B
+> package uses instead of <B CLASS="cl"
+>common-lisp</B
+>. <B CLASS="cl"
+>clim-lisp</B
+> contains only exported symbols, and is locked in those implementations that allow package locking. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D2587F83D37D4FFAB1B2225C7A8A7FE%2F2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>clim</B
+> is the package where the symbols specified in this specification live. It contains only exported symbols and is locked in those implementations that allow package locking. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9E5FA8A3DCD686C7B7636D539858F24F%2F2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>clim-sys</B
+> is the package where useful "system-like" functionality lives, including such things as resources and multi-processing primitives. It contains functionality that is not part of Common Lisp, but which is not conceptually the province of CLIM itself. It contains only exported symbols and is locked in those implementations that allow package locking. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE2EF915DE9581A99B9F332E015E408E%2F2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>No code is written in any of the above packages, but rather code is written for symbols in the above packages. None of the above use any other packages (in the sense of the <B CLASS="cl"
+>:use</B
+> option to <B CLASS="cl"
+>defpackage</B
+>). A CLIM implementation might define a <B CLASS="cl"
+>clim-internals</B
+> package that uses each of the above packages, thus getting the definition of Lisp from <B CLASS="cl"
+>clim-lisp</B
+>. It would then implement the functionality of the symbols in <B CLASS="cl"
+>clim</B
+> and <B CLASS="cl"
+>clim-sys</B
+> in the <B CLASS="cl"
+>clim-internals</B
+> package. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=581C3485839326D38EE2AE658B8E70D3%2F2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>clim-user</B
+> is a package that programmers can use if they don't wish to create their own package. It is the CLIM analog of <B CLASS="cl"
+>common-lisp-user</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E0917E9335992D491466425B03F11BB%2F2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

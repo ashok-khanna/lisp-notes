@@ -1,0 +1,165 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.3 Drawing is Approximate</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.2 Definitions" HREF="12-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12.4 Rendering Conventions for Geometric Shapes" HREF="12-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-2.html"
+>Prev</A
+><BR
+><A HREF="12-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-3.html"
+><B
+>12.3&nbsp;Drawing&nbsp;is&nbsp;Approximate</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_604"></A><DIV
+><H3
+>12.3 Drawing is Approximate</H3
+><P
+>Note that although the drawing plane contains an infinite number of mathematical points, and drawing can be described as an infinite number of color and opacity computations, the drawing plane cannot be viewed directly and has no material existence. It is only an abstraction. What can be viewed directly is the result of rendering portions of the drawing plane onto a medium. No infinite computations or objects of infinite size are required to implement CLIM, because the results of rendering have finite size and finite resolution. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=723B5B8EFF500D32D7F0B607E85BDCF9%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A drawing plane is described as having infinitely fine spatial, color, and opacity resolution, and as allowing coordinates of unbounded positive or negative magnitude. A viewport into a drawing plane, on the other hand, views only a finite region (usually rectangular) of the drawing plane. Furthermore, a viewport has limited spatial resolution and can only produce a limited number of colors. These limitations are imposed by the display hardware on which the viewport is displayed. A viewport also has limited opacity resolution, determined by the finite arithmetic used in the drawing engine (which may be hardware or software or both). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1FBED32C27E547F1B3B6A20380AB1C5C%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Coordinates are real numbers in implementation-defined units. Often these units equal the spatial resolution of a viewport, so that a line of thickness 1 is equivalent to the thinnest visible line. However, this equivalence is not required and should not be assumed by application programs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2DA0C81B6DDD29AF61E5AA0662835D97%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A valid CLIM implementation can be quite restrictive in the size and resolution of its viewports. For example, the spatial resolution might be only a few dozen points per inch, the maximum size might be only a few hundred points on a side, and there could be as few as two displayable colors (usually black and white). The fully transparent and fully opaque opacity levels must always be supported, but a valid CLIM implementation might support only a few opacity levels in between (or possibly even none). A valid CLIM implementation might implement color blending and unsaturated colors by stippling, although it is preferred, when possible, for a viewport to display a uniform color as a uniform color rather than as a perceptible stipple. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BBA17293A67A57E4F9F9E5EA5BD7E8D%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When CLIM records the output to a sheet, there are no such limitations since CLIM just remembers the drawing operations that were performed, not the results of rendering. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=542551DEF0E61D28A389E6A720A9FEA6%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides some ways to ask what resolution limits are in effect for a medium. See Chapter&nbsp;<A NAME="_3171"></A><A HREF="10.html#_505"
+>10</A
+> for their descriptions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=117C547490597CAF523A8A83BD332C61%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z125"
+></A
+>I wonder what functions would that be. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=117C547490597CAF523A8A83BD332C61%2F12.3&amp;editp=t&amp;id=Z125#Z125"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2006-01-29 02:07Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z315"
+></A
+>I think author meant Chapter 9 (graft-width / graft-height). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=117C547490597CAF523A8A83BD332C61%2F12.3&amp;editp=t&amp;id=Z315#Z315"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-03-02 15:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The application programmer uses the CLIM graphic drawing model as an interface to describe the intended visual appearance. An implementation does its best to approximate that ideal appearance in a viewport, within its limitations of spatial resolution, color resolution, number of simultaneously displayable colors, and drawing speed. This will usually require tradeoffs, for example between speed and accuracy, and each implementation must make these tradeoffs according to its own hardware/software environment and user concerns. For example, if the actual device supports a limited number of colors, the desired color may be approximated by techniques such as dithering or stippling. If the actual device cannot draw curves exactly, they may be approximated, with or without anti-aliasing. If the actual device has limited opacity resolution, color blending may be approximate. A viewport might display colors that don't appear in the drawing plane, both because of color and opacity approximation and because of anti-aliasing at the edges of drawn shapes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D73119CE513E3524581044A46E4C1D87%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is likely that different implementations will produce somewhat different visual appearance when running the same application. If an application requires more detailed control, it must resort to a lower-level interface, and will become less portable as a result. These lower-level interfaces will be documented on a per-platform basis. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=056F6400B3024CE51FEF357BA1901B69%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Drawing computations are always carried out "in color", even if the viewport is only capable of displaying black and white. In other words, the CLIM drawing model is always the fully general model, even if an implementation's color resolution is limited enough that full use of the model is not possible. Of course an application that fundamentally depends on color will not work well on a viewport that cannot display color. Other applications will degrade gracefully. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA4AA3B031ABEAF1C9ACEC2E04A9346B%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Whether the implementation uses raster graphics or some other display technique is invisible at this interface. CLIM does not specify the existence of pixels nor the exact details of scan conversion, which will vary from one drawing engine to the next. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6C83E050483CF6148AC94A4DC13BEF2%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Performance will also vary between implementations. This interface is defined in terms of simple conceptual operations, however an actual implementation may use caching, specialized object representations, and other optimizations to avoid materializing storage-intensive or computation-costly intermediate results and to take advantage of available hardware. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=129F3851415DB0A8BBA56074A4FF3903%2F12.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

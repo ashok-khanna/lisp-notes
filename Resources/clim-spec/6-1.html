@@ -1,0 +1,799 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/6-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 6.1 Introduction</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="6 Overview of Window Facilities" HREF="6.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="6.2 Properties of Sheets" HREF="6-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="6 Overview of Window Facilities" HREF="6.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="6.html"
+>Prev</A
+><BR
+><A HREF="6-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="6.html"
+>6&nbsp;Overview&nbsp;of&nbsp;Window&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="6-1.html"
+><B
+>6.1&nbsp;Introduction</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_224"></A><DIV
+><H3
+>6.1 Introduction</H3
+><P
+>A central notion in organizing user interfaces is allocating screen regions to particular tasks and recursively subdividing these regions into subregions. The windowing layer of CLIM defines an extensible framework for constructing, using, and managing such <A NAME="_225"></A><SPAN CLASS="concept"
+>hierarchies of interactive regions</SPAN
+>. This framework allows uniform treatment of the following things: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=582D44CC3ECA65BA9716D1B8C59F5FB4%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>Window objects like those in X or NeWS. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97DA2226130A8A6AB57BE876D15345D0%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Lightweight gadgets typical of toolkit layers, such as Motif or OpenLook. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4911178B693967888AA28EE3152FBD4%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Structured graphics like output records and an application's presentation objects. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F14785FBCF0E606BF03D7B1B60C365F%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Objects that act as Lisp handles for windows or gadgets implemented in a different language (such as OpenLook gadgets implemented in C).  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A265FEC4F67B7D32BE1C61E741B8A45E%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>From the perspective of most CLIM users, CLIM's windowing layer plays the role of a window system. However, CLIM will usually use the services of a window system platform to provide efficient windowing, input, and output facilities. In this specification, such window system platforms will be referred to as host window systems or as display servers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D9D6393B158E43CBE6B78E7796F1134E%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>The fundamental window abstraction defined by CLIM is called a <A NAME="_226"></A><SPAN CLASS="concept"
+>sheet</SPAN
+>. A sheet can participate in a relationship called a <A NAME="_227"></A><SPAN CLASS="concept"
+>windowing relationship</SPAN
+>. This relationship is one in which one sheet called the <A NAME="_228"></A><SPAN CLASS="concept"
+>parent</SPAN
+> provides space to a number of other sheets called <A NAME="_229"></A><SPAN CLASS="concept"
+>children</SPAN
+>. Support for establishing and maintaining this kind of relationship is the essence of what window systems provide. At any point in time, CLIM allows a sheet to be a child in one relationship called its <A NAME="_230"></A><SPAN CLASS="concept"
+>youth windowing relationship</SPAN
+> and a parent in another relationship called its <A NAME="_231"></A><SPAN CLASS="concept"
+>adult windowing relationship</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F2669671A2C1FA31B31C5B2FA9FC4FB%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7019"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7011"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6979"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6977"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6959"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6932"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6915"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6910"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6908"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6903"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6901"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6884"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6882"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6863"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6861"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2893"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>invalidate-cached-regions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2888"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>invalidate-cached-transformations</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2884"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-native-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2883"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-native-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2878"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>bury-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2876"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>raise-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2874"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>destroy-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2872"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>realize-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2869"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2868"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-mirrored-ancestor</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2862"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-direct-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-5.html#_2791"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.5.2 Sheet Geometry Notifications, <B CLASS="cl"
+><B CLASS="cl"
+>note-sheet-region-changed</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-5.html#_2790"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.5.1 Relationship to Window System Change Notifications, <B CLASS="cl"
+><B CLASS="cl"
+>note-sheet-grafted</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2780"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.4.1 Repaint Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>repaint-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2779"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.4.1 Repaint Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>handle-repaint</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2777"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.4.1 Repaint Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>queue-repaint</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2772"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>degraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2767"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>engraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2751"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2557"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-allocated-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2556"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-allocated-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2548"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>children-overlapping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2547"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>child-containing-position</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2543"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-sheet-rectangle*-to-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2541"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-sheet-rectangle*-to-parent</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2540"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-sheet-position-to-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2539"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-sheet-position-to-parent</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2537"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>move-and-resize-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2535"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>resize-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2533"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>move-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2528"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2525"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2522"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-occluding-sheets</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2521"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-occluding-sheets</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2519"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-viewable-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2516"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>(setf sheet-enabled-p)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2513"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-enabled-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2509"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>reorder-sheets</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2508"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>raise-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2506"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-ancestor-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2505"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-ancestor-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2503"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-enabled-children</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2502"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-siblings</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2498"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-disown-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2495"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-adopt-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2493"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-children</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-2.html#_2491"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.2.1 Sheet Relationship Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-parent</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-1.html#_2488"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 7.1 Basic Sheet Classes, <B CLASS="cl"
+><B CLASS="cl"
+>sheetp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="1.html#_2019"
+><SPAN CLASS="reverselink"
+>[sheet, <I
+>Concept</I
+>&larr; 1 Overview of CLIM]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Programmers can manipulate unrooted hierarchies of sheets (those without a connection to any particular display server). However, a sheet hierarchy must be attached to a display server to make it visible. <A NAME="_232"></A><SPAN CLASS="concept"
+>Ports</SPAN
+> and <A NAME="_233"></A><SPAN CLASS="concept"
+>grafts</SPAN
+> provide the functionality for managing this capability. A <A NAME="_2479"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> is an abstract connection to a display service that is responsible for managing host display server resources and for processing input events received from the host display server. A <A NAME="_2480"></A><A HREF="9-3.html#_473"
+><SPAN CLASS="term"
+>graft</SPAN
+></A
+> is a special kind of sheet that represents a host window, typically a root window (that is, a screen-level window). A sheet is attached to a display by making it a child of a graft, which represents an appropriate host window. The sheet will then appear to be a child of that host window. So, a sheet is put onto a particular screen by making it a child of an appropriate graft and enabling it. Ports and grafts are described in detail in Chapter&nbsp;<A NAME="_2481"></A><A HREF="9.html#_446"
+>9</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0362E767D515DC800A6DA2E12D188952%2F6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/6-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

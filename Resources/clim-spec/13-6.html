@@ -1,0 +1,337 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 13.6 Indirect Inks</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="13.5 Color Blending" HREF="13-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13.7 Flipping Ink" HREF="13-7.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="13 Drawing in Color" HREF="13.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="13-5.html"
+>Prev</A
+><BR
+><A HREF="13-7.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="13.html"
+>13&nbsp;Drawing&nbsp;in&nbsp;Color</A
+><BR
+>&rarr;&nbsp;<A HREF="13-6.html"
+><B
+>13.6&nbsp;Indirect&nbsp;Inks</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_713"></A><DIV
+><H3
+>13.6 Indirect Inks</H3
+><DIV
+><P
+>Drawing with an <A NAME="_714"></A><SPAN CLASS="concept"
+>indirect ink</SPAN
+> is the same as drawing another design named directly. For example, <A NAME="_3481"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+> is a design that draws the medium's foreground design and is the default value of the <A NAME="_3482"></A><A HREF="10-2.html#_527"
+><B CLASS="cl"
+>:ink</B
+></A
+> drawing option. Indirect inks exist for the benefit of output recording. For example, one can draw with <A NAME="_3483"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+>, change to a different <A NAME="_3484"></A><A HREF="10-1.html#_507"
+><B CLASS="cl"
+>medium-foreground</B
+></A
+>, and replay the output record; the replayed output will come out in the new color. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C8D5100D9B732DD04AE0D57AA2A48BD%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6940"
+><SPAN CLASS="reverselink"
+>[indirect ink, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>You can change the foreground or background design of a medium at any time. This changes the contents of the medium's drawing plane. The effect is as if everything on the drawing plane is erased, the background design is drawn onto the drawing plane, and then everything that was ever drawn (provided it was saved in the output history) is drawn over again, using the medium's new foreground and background. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA721685AF7CB64D3CE3B96A4218F780%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If an infinite recursion is created using an indirect ink, an error is signalled when the recursion is created, when the design is used for drawing, or both. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF955EE864FA98C6C957FCDE92A0D8BB%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Two indirect inks are defined, but no advertised way is provided to create more of them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8495DA08F8D598FAC4306B1D25C87111%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_715"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+foreground-ink+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An indirect ink that uses the medium's foreground design. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01963FD3B4380B1E2CB597465F63622D%2F%2Bforeground-ink%2B%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=907E9263CE586F9EBB6EC03BC1DB1980%2F%2Bforeground-ink%2B%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7332"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="A.html#_6922"
+><SPAN CLASS="reverselink"
+>[&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3571"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-7.html#_3491"
+><SPAN CLASS="reverselink"
+>[&larr; 13.7 Flipping Ink, <B CLASS="cl"
+><B CLASS="cl"
+>+flipping-ink+</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-6.html#_3481"
+><SPAN CLASS="reverselink"
+>[&larr; 13.6 Indirect Inks]</SPAN
+></A
+><BR
+><A HREF="13-3.html#_3455"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3.2 Contrasting Colors, <B CLASS="cl"
+><B CLASS="cl"
+>make-contrasting-inks</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-2.html#_3301"
+><SPAN CLASS="reverselink"
+>[&larr; 13.2 Basic Designs, <B CLASS="cl"
+><B CLASS="cl"
+>design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-1.html#_3286"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2959"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:ink</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_716"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+background-ink+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An indirect ink that uses the medium's background design. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A58ECCB31975AF7E4CB8017D52B2CE5%2F%2Bbackground-ink%2B%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E4336FED10E5F72BED7A84D1B4AFE0B%2F%2Bbackground-ink%2B%2F13.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7333"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="A.html#_6874"
+><SPAN CLASS="reverselink"
+>[&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3572"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-7.html#_3492"
+><SPAN CLASS="reverselink"
+>[&larr; 13.7 Flipping Ink, <B CLASS="cl"
+><B CLASS="cl"
+>+flipping-ink+</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-3.html#_3456"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3.2 Contrasting Colors, <B CLASS="cl"
+><B CLASS="cl"
+>make-contrasting-inks</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-1.html#_3287"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:41 GMT -->
+</HTML
+>

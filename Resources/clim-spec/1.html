@@ -1,0 +1,189 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 1 Overview of CLIM</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="Part I: Overview and Conventions" HREF="P-I.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="2 Conventions" HREF="2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part I: Overview and Conventions" HREF="P-I.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="P-I.html"
+>Prev</A
+><BR
+><A HREF="2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-I.html"
+>Part&nbsp;I:&nbsp;Overview&nbsp;and&nbsp;Conventions</A
+><BR
+>&rarr;&nbsp;<A HREF="1.html"
+><B
+>1&nbsp;Overview&nbsp;of&nbsp;CLIM</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_2"></A><DIV
+><H2
+>1 Overview of CLIM</H2
+><P
+>The Common Lisp Interface Manager (CLIM) is a powerful Lisp-based programming interface that provides a layered set of portable facilities for constructing user interfaces. These include basic windowing, input, output, and graphics services; stream-oriented input and output extended with facilities such as output recording, presentations, and context sensitive input; high level "formatted output" facilities; application building facilities; command processing; and a compositional toolkit similar to those found in the X world that supports look and feel independence. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=86FFBBCE357860CF93C7EEF1C70C2E20%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides an API (applications programmer interface) to user interface facilities for the Lisp application programmer. CLIM does not compete with the window system or toolkits of the host machine (such as Motif or OpenLook), but rather uses their services (to the extent that it makes sense) to integrate Lisp applications into the host's window environment. For example, CLIM "windows" are mapped onto one or more host windows, and input and output operations performed on the CLIM window are ultimately carried out by the host window system. CLIM will support a large number of host environments including Genera, Motif, OpenLook, the Macintosh, CLOE-386/486, and the Next machine. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98CBC038A2C78C0B84583E821D1EE6BF%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The programmer using CLIM is insulated from most of the complexities of portability, since the Lisp-based application need only deal with CLIM objects and functions regardless of their operating platform (that is, the combination of Lisp system, host computer, and host window environment). CLIM abstracts out many of the concepts common to all window environments. The programmer is encouraged to think in terms of these abstractions, rather than in the specific capabilities of a particular host system. For example, using CLIM, the programmer can specify the appearance of output in high-level terms and those high-level descriptions are turned into the appropriate appearance for the given host. Thus, the application has the same fundamental interface across multiple environments, although the details will differ from system to system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EED5590D3660BB86123132908F7D1C3%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Another important goal in the design and organization of CLIM is to provide a spectrum of user interface building options, all the way from detailed, low-level specification of "what goes where", to high-level user interface specification where the programmer leaves all of the details up to CLIM. This allows CLIM to balance the ease of use on one hand, and versatility on the other. By using high level facilities, a programmer can build portable user interfaces quickly, whereas by recombining lower level facilities he can build his own programming and user interfaces according to his specific needs or requirements. For example, CLIM supports the development of applications independent of look and feel, as well as the portable development of toolkit libraries that define and implement a particular look and feel. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=71A667D342D707D64A08627AEF38FBEB%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In addition, CLIM's layered design allows application programs to exclude facilities that they do not use, or reimplement or extend any part of the substrate. To these ends, CLIM is specified and implemented in a layered, modular fashion based on protocols. Each facility documented in this specification has several layers of interface, and each facility is independently specified and has a documented external interface. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B7F050DFC2435AD29F78C2091816FFE8%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The facilities provided by CLIM include: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBC9E1119AE5C90BA341FD8523ABC52A%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DL
+><DT
+>Geometry</DT
+><DD
+>CLIM provides provides geometric objects like point, rectangle, and transformations and functions for manipulating them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A615CBF54FBDBD64CE6AC0BE83ACC669%2FGeometry%2F1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z173"
+></A
+>*provides provides* <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A615CBF54FBDBD64CE6AC0BE83ACC669%2FGeometry%2F1&amp;editp=t&amp;id=Z173#Z173"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Fred Feuerstein 2008-11-05 18:02Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></DD
+><DT
+>Graphics</DT
+><DD
+>CLIM provides a rich set of drawing functions, including ones for drawing complex geometric shapes, a wide variety of drawing options (such as line thickness), a sophisticated inking model, and color. CLIM provides full affine transforms, so that a drawing may be arbitrarily translated, rotated, and scaled (to the extent that the underlying window system supports the rendering of such objects). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1AF9FDCD8A21FB87E545E426E66546E6%2FGraphics%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Windowing</DT
+><DD
+>CLIM provides a portable layer for implementing <A NAME="_2019"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> classes (types of window-like objects) that are suited to support particular high level facilities or interfaces. The windowing module of CLIM defines a uniform interface for creating and managing hierarchies of these objects regardless of their sheet class. This layer also provides event management. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E737F51DDC33884264F97D8619F70BA8%2FWindowing%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Output Recording</DT
+><DD
+>CLIM provides a facility for capturing all output done to a window. This facility provides the support for arbitrarily scrollable windows. In addition, this facility serves as the root for a variety of interesting high-level tools. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=814E4C192DE80C485424A67848CFB304%2FOutput%20Recording%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Formatted Output</DT
+><DD
+>CLIM provides a set of macros and functions that enable programs to produce neatly formatted tabular and graphical displays with very little effort. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EE2FDFAA866AE952C42EA3D2D939368%2FFormatted%20Output%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Context Sensitive Input</DT
+><DD
+>The <A NAME="_2020"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> facility of CLIM provides the ability to associate semantics with output, such that objects may be retrieved later by selecting their displayed representation with the pointer. This <SPAN CLASS="term"
+>sensitivity</SPAN
+> comes along automatically and is integrated with the Common Lisp type system. A mechanism for type coercion is also included, providing the basis for powerful user interfaces. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC4AAE292E9D8FCDE834FFF08EDB57A4%2FContext%20Sensitive%20Input%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Application Building</DT
+><DD
+>CLIM provides a set of tools for organizing an application's top-level user interface and command processing loops centered on objects called frames. CLIM provides functionality for laying out frames under arbitrary constraints, managing command menus and/or menu bars, and associating user interface gestures with application commands. Using these tools, application writers can easily and quickly construct user interfaces that can grow flexibly from prototype to delivery. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB1B1E41F214CF1A60694F277F60988D%2FApplication%20Building%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Adaptive Toolkit</DT
+><DD
+>CLIM provides a uniform interface to the standard compositional toolkits available in many environments. CLIM defines abstract panes that are analogous to the gadgets or widgets of a toolkit like Motif or OpenLook. CLIM fosters look and feel independence by specifying the interface of these abstract panes in terms of their function and not in terms of the details of their appearance or operation. If an application uses these interfaces, its user interface will adapt to use whatever toolkit is available in the host environment. By using this facility, application programmers can easily construct applications that will automatically conform to a variety of user interface standards. In addition, a portable Lisp-based implementation of the abstract panes is provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A9D61B4848834926F60AB21D9AB3FBB%2FAdaptive%20Toolkit%2F1#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+></DL
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:36 GMT -->
+</HTML
+>

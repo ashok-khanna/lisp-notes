@@ -1,0 +1,1374 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/11-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 11.1 Text Styles</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="11 Text Styles" HREF="11.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="11.2 Text Style Binding Forms" HREF="11-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="11 Text Styles" HREF="11.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="11.html"
+>Prev</A
+><BR
+><A HREF="11-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="11.html"
+>11&nbsp;Text&nbsp;Styles</A
+><BR
+>&rarr;&nbsp;<A HREF="11-1.html"
+><B
+>11.1&nbsp;Text&nbsp;Styles</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_564"></A><DIV
+><H3
+>11.1 Text Styles</H3
+><LI CLASS="outline_item"
+><A HREF="11-1.html#_572"
+>11.1.1 Text Style Protocol and Text Style Suboptions</A
+></LI
+><P
+>Text style objects have components for family, face, and size. Not all of these attributes need be supplied for a given text style object. Text styles can be merged in much the same way as pathnames are merged; unspecified components in the style object (that is, components that have <A NAME="_3088"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> in them) may be filled in by the components of a "default" style object. A text style object is called <A NAME="_565"></A><SPAN CLASS="concept"
+>fully specified</SPAN
+> if none of its components is <A NAME="_3089"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, and the size component is not a relative size (that is, is neither <B CLASS="cl"
+>:smaller</B
+> nor <B CLASS="cl"
+>:larger</B
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B90EF64FC47D70648020F6B6C2778010%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_566"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class for text styles. If you want to create a new class that behaves like a text style, it should be a subclass of <B CLASS="cl"
+>text-style</B
+>. All instantiable subclasses of <B CLASS="cl"
+>text-style</B
+> must obey the text style protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F6F8A7D5FEDFA5D65EEA3AE168606A3E%2Ftext-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A99916036339AA442EAF9493959054C4%2Ftext-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5870"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>define-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3126"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1.1 Text Style Protocol and Text Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>parse-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3121"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1.1 Text Style Protocol and Text Style Suboptions]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3097"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1 Text Styles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_567"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_3095"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7ECE8E0F59D6866C96182D0AD6C91840%2Ftext-style-p%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1F5CEC20486628398BAB6C56C4A84023%2Ftext-style-p%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_568"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements text styles. It is a subclass of <A NAME="_3097"></A><A HREF="11-1.html#_566"
+><B CLASS="cl"
+>text-style</B
+></A
+>. This is the class that <A NAME="_3098"></A><A HREF="11-1.html#_569"
+><B CLASS="cl"
+>make-text-style</B
+></A
+> instantiates. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D6CE322AA6AD8C94D2F5EDBF35BA1214%2Fstandard-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The interface to text styles is as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29564CC4DC8ADD92E7A74AE7641485BD%2Fstandard-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=897356DFDDAE3E6B8D02A554F7722071%2Fstandard-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="11-1.html#_3099"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1 Text Styles, <B CLASS="cl"
+><B CLASS="cl"
+>make-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_569"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>family face size</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_3099"></A><A HREF="11-1.html#_568"
+><B CLASS="cl"
+>standard-text-style</B
+></A
+> with a family of <I
+>family</I
+>, a face of <I
+>face</I
+>, and a size of <I
+>size</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66C148D0249371EE4842AACA3740DE22%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>family</I
+> is one of <B CLASS="cl"
+>:fix</B
+>, <B CLASS="cl"
+>:serif</B
+>, <B CLASS="cl"
+>:sans-serif</B
+>, or <A NAME="_3103"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=666B78389774D4D90223AA7DE27D6E64%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>face</I
+> is one of <B CLASS="cl"
+>:roman</B
+>, <B CLASS="cl"
+>:bold</B
+>, <B CLASS="cl"
+>:italic</B
+>, <B CLASS="cl"
+>(:bold :italic)</B
+>, or <A NAME="_3108"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B1FF8D905B2E78D8AE85E7EFBA54A48%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>size</I
+> is a real number representing the size in printer's points, one of the logical sizes (<B CLASS="cl"
+>:normal</B
+>, <B CLASS="cl"
+>:tiny</B
+>, <B CLASS="cl"
+>:very-small</B
+>, <B CLASS="cl"
+>:small</B
+>, <B CLASS="cl"
+>:large</B
+>, <B CLASS="cl"
+>:very-large</B
+>, <B CLASS="cl"
+>:huge</B
+>), a relative size (<B CLASS="cl"
+>:smaller</B
+> or <B CLASS="cl"
+>:larger</B
+>), or <A NAME="_3118"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DFC2D3E2A7D03F6CF7EA868E802711A%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z324"
+></A
+>When specifying :SMALLER or :LARGER, what is that size relative to? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DFC2D3E2A7D03F6CF7EA868E802711A%2Fmake-text-style%2F11.1&amp;editp=t&amp;id=Z324#Z324"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Elias M&#229;rtenson 2018-06-10 06:46Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z347"
+></A
+>To the text-style you merge with and/or *default-text-style*. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DFC2D3E2A7D03F6CF7EA868E802711A%2Fmake-text-style%2F11.1&amp;editp=t&amp;id=Z347#Z347"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-10-09 06:08Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>Implementations are permitted to extend legal values for <I
+>family</I
+>, <I
+>face</I
+>, and <I
+>size</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2F3B2AE4294D2F3913757C5E05EE941%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Need to describe what family, face, size mean in terms of visual appearance. This should also be reconciled with the ISO description of the attributes of a "text style", including such things as underlining, subscripts, superscripts, etc. ---&nbsp;York, SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB9B9953F7BBC8C54FEEA774880EA0D5%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F902F7DCE0F1682968B06F92E33D4F39%2Fmake-text-style%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="11-2.html#_3154"
+><SPAN CLASS="reverselink"
+>[&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-text-family</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3098"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1 Text Styles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_570"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*default-text-style*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The default text style used on a CLIM medium if no text style it explicitly specified for the medium when it it created. This must be a fully merged text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB35505AD881F99F52E8B1D408BF07B9%2F%2Adefault-text-style%2A%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A25A4CD9974A897865E3ACFFAB386E3C%2F%2Adefault-text-style%2A%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-1.html#_2934"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-default-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_571"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*undefined-text-style*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The text style that is used as a fallback if no mapping exists for some other text style when some text is about to be rendered on a display device (via <B CLASS="cl"
+>write-string</B
+> and <B CLASS="cl"
+>draw-string*</B
+>, for example). This text style be fully merged, and it must have a mapping for all display devices. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F7E1C79611B1BE0D983199DAF56C20B%2F%2Aundefined-text-style%2A%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=99A76430D0D60EB0B6C2A920E627017C%2F%2Aundefined-text-style%2A%2F11.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_572"></A><DIV
+><H4
+>11.1.1 Text Style Protocol and Text Style Suboptions</H4
+><P
+>The following generic functions comprise the text style protocol. All subclasses of <A NAME="_3121"></A><A HREF="11-1.html#_566"
+><B CLASS="cl"
+>text-style</B
+></A
+> must implement methods for each of these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C0D1B04EE5CFA36D65C657600EE9D93F%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Each of the suboptions described below has a corresponding reader accessor that can be used to extract a particular component from a text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3EDD6B9B19860A4B6A338207E6AC4C65%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_573"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-components</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the components of the <A NAME="_3122"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+> as three values, the family, face, and size. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A7A00EE631210221E0E2DF815E672F8%2Ftext-style-components%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BAEFD6EE250F025B21CE109295CEF407%2Ftext-style-components%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_574"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-family</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_575"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-family</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies the family of the <A NAME="_3123"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C85B0C04B53E10EAEB1FAD46FB494171%2F%3Atext-family%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFD0EC92F559D095C3B6D8328E7D61CF%2F%3Atext-family%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_576"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-face</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_577"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-face</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies the face of the <A NAME="_3124"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2A7CB626D186CB5B89726184DC4D30E%2F%3Atext-face%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA2795EA694834E564AC63E138DDCB36%2F%3Atext-face%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_578"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_579"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies the size of the <A NAME="_3125"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2FD3EBBBE188DF48AC859CCD2A4E6F03%2F%3Atext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84B0AFDAE3D41696F7C0734E69FBA695%2F%3Atext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_580"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>parse-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>style-spec</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a text style object. <I
+>style-spec</I
+> may be a <A NAME="_3126"></A><A HREF="11-1.html#_566"
+><B CLASS="cl"
+>text-style</B
+></A
+> object or a device font, in which case it is returned as is, or it may be a list of the family, face, and size (that is, a "style spec"), in which case it is "parsed" and a <A NAME="_3127"></A><A HREF="11-1.html#_566"
+><B CLASS="cl"
+>text-style</B
+></A
+> object is returned. This function is for efficiency, since a number of common functions that take a style object as an argument can also take a style spec, in particular <A NAME="_3128"></A><A HREF="12-5.html#_636"
+><B CLASS="cl"
+>draw-text</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C050DA7FE888D1811D1A6E79B08BF3F0%2Fparse-text-style%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1207749C941CF95FAFAFF281E163833%2Fparse-text-style%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_581"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>merge-text-styles</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>style1 style2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Merges the <SPAN CLASS="term"
+>text styles</SPAN
+> <I
+>style1</I
+> with <I
+>style2</I
+>, that is, returns a new text style that is the same as <I
+>style1</I
+>, except that unspecified components in <I
+>style1</I
+> are filled in from <I
+>style2</I
+>. For convenience, the two arguments may be also be style specs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=908E51AF69BB99EA28A5D9E94BD894C3%2Fmerge-text-styles%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When merging the sizes of two text styles, if the size from <I
+>style1</I
+> is a relative size, the resulting size is either the next smaller or next larger size than is specified by <I
+>style2</I
+>. The ordering of sizes, from smallest to largest, is <B CLASS="cl"
+>:tiny</B
+>, <B CLASS="cl"
+>:very-small</B
+>, <B CLASS="cl"
+>:small</B
+>, <B CLASS="cl"
+>:normal</B
+>, <B CLASS="cl"
+>:large</B
+>, <B CLASS="cl"
+>:very-large</B
+>, and <B CLASS="cl"
+>:huge</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47884BC6B63EAB9599C1872CD6318507%2Fmerge-text-styles%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Need to describe face-merging properly. For example, merging a bold face with an italic one can result in a bold-italic face. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE8A2D9AE8D2527B6462F31FD09E94E5%2Fmerge-text-styles%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9FF4AC22280DA02F88FF739FFBDCE0C9%2Fmerge-text-styles%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-1.html#_2932"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-default-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_582"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-ascent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_583"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-descent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_584"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_585"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the ascent, descent, height, and width (respectively) of the font corresponding to the <A NAME="_3137"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+> as it would be rendered on the <A NAME="_3138"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <I
+>text-style</I
+> must be a fully specified text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=088769D8F72CEF69581B22896A41ED56%2Ftext-style-ascent%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The ascent of a font is the distance between the top of the tallest character in that font and the font's baseline. The descent of a font is the distance between the baseline and the bottom of the lowest descending character (usually "g", "p", "q", or "y"). The height of a font is the sum of the ascent and the descent of the font. The width of a font is the width of some representative character in the font. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5FA9B48C24B0EB4BC27601EA934DD1C2%2Ftext-style-ascent%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The methods for these generic functions will typically specialize both the <I
+>text-style</I
+> and <I
+>medium</I
+> arguments. Implementations should also provide "trampoline" for these generic functions on output sheets; the trampolines will simply call the method for the medium. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18544EDC387C30530EE338DAF1C347C8%2Ftext-style-ascent%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63D06DE9075F9CD24821FB0400F9D1FC%2Ftext-style-ascent%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_586"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-fixed-width-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>text styles</SPAN
+> <I
+>text-style</I
+> will map to a fixed-width font on the <A NAME="_3141"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <I
+>text-style</I
+> must be a fully specified text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A399697ACC56DD34052BB3E131C9497C%2Ftext-style-fixed-width-p%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The methods for this generic function will typically specialize both the <I
+>text-style</I
+> and <I
+>medium</I
+> arguments. Implementations should also provide a "trampoline" for this generic function for output sheets; the trampoline will simply call the method for the medium. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF47B3913678ED4DEF12FD37874DD3B7%2Ftext-style-fixed-width-p%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Discuss baselines? Kerning? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=791EE38A2E1BEED42AF37A99D502964E%2Ftext-style-fixed-width-p%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FC1671E15BE53F1911BBDE2D6FD1EDC%2Ftext-style-fixed-width-p%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_587"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium string </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>text-style (start </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) end</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Computes the "cursor motion" in device units that would take place if <I
+>string</I
+> (which may be either a string or a character) were output to the <A NAME="_3143"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> starting at the position <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+>. Five values are returned: the total width of the string in device units, the total height of the string in device units, the final <I
+>x</I
+> cursor position (which is the same as the width if there are no <CODE
+>#\Newline</CODE
+> characters in the string), the final <I
+>y</I
+> cursor position (which is 0 if the string has no <CODE
+>#\Newline</CODE
+> characters in it, and is incremented by the line height of <I
+>medium</I
+> for each <CODE
+>#\Newline</CODE
+> character in the string), and the string's baseline. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=308050D8A5078A48044A055EA69933F4%2Ftext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>text-style</I
+> specifies what text style is to be used when doing the output, and defaults to <A NAME="_3144"></A><A HREF="8-3.html#_405"
+><B CLASS="cl"
+>medium-merged-text-style</B
+></A
+> of the medium. <I
+>text-style</I
+> must be a fully specified text style. <I
+>start</I
+> and <I
+>end</I
+> may be used to specify a substring of <I
+>string</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B7A78DEBC6BC066CE89E89337511BC3A%2Ftext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If a programmer needs to account for kerning or the ascent or descent of the text style, he should measure the size of the bounding rectangle of the text rendered on <I
+>medium</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63C6882448D71EC96430B0706E1A5A15%2Ftext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z431"
+></A
+>How convenient! Tell me, how should the output record know? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63C6882448D71EC96430B0706E1A5A15%2Ftext-size%2F11.1.1&amp;editp=t&amp;id=Z431#Z431"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-02-22 02:46Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All mediums and output sheets must implement a method for this generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E43241BDC199DC75A57F64FF662EFE61%2Ftext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB9F693BA932E0FBEF4F01C5A6AFC128%2Ftext-size%2F11.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z432"
+></A
+>I would appreciate, when this function would also take :text-family, :text-face, and :text-size arguments. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB9F693BA932E0FBEF4F01C5A6AFC128%2Ftext-size%2F11.1.1&amp;editp=t&amp;id=Z432#Z432"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-03-10 03:28Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/11-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

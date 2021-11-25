@@ -1,0 +1,363 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/11-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 11.3 Controlling Text Style Mappings</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="11.2 Text Style Binding Forms" HREF="11-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="11 Text Styles" HREF="11.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="11-2.html"
+>Prev</A
+><BR
+><A HREF="12.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="11.html"
+>11&nbsp;Text&nbsp;Styles</A
+><BR
+>&rarr;&nbsp;<A HREF="11-3.html"
+><B
+>11.3&nbsp;Controlling&nbsp;Text&nbsp;Style&nbsp;Mappings</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_594"></A><DIV
+><H3
+>11.3 Controlling Text Style Mappings</H3
+><P
+>Text styles are mapped to fonts using the <A NAME="_3159"></A><A HREF="11-3.html#_595"
+><B CLASS="cl"
+>text-style-mapping</B
+></A
+> function, which takes a port, a character set, and a text style and returns a font object. All ports must implement methods for the following generic functions, for all classes of text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6224C6FF2DFF231D681279E75B20F0CC%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The objects used to represent a font mapping are unspecified and are likely to vary from port to port. For instance, a mapping might be some sort of font object on one type of port, or might simply be the name of a font on another. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CE23C32AD62B4D24021A4B21FE994D44%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>We still need to describe what a device font is. Ditto, character sets. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=51663D58E5D4468EB880322F306764B7%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Part of initializing a port is to define the mappings between text styles and font names for the port's host window system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ECD9AF73D69F431A85B7DC2FE58B7B10%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_595"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>text-style-mapping</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port text-style </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>character-set</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the font mapping that will be used when rendering characters in the character set <I
+>character-set</I
+> in the <A NAME="_3160"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+> on any medium on the <A NAME="_3161"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. If there is no mapping associated with <I
+>character-set</I
+> and <I
+>text-style</I
+> on <I
+>port</I
+>, then some other object will be returned that corresponds to the "unmapped" text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39CEB7CF1C8B4522BB0D2E5501F63AC6%2Ftext-style-mapping%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>character-set</I
+> defaults to the standard character set. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02F3095D94AA04C6FAEEBB07842D58E4%2Ftext-style-mapping%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8E6277299FC7E6D721E8A77755E68807%2Ftext-style-mapping%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="11-3.html#_3162"
+><SPAN CLASS="reverselink"
+>[&larr; 11.3 Controlling Text Style Mappings, <B CLASS="cl"
+><B CLASS="cl"
+>(setf text-style-mapping)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-3.html#_3159"
+><SPAN CLASS="reverselink"
+>[&larr; 11.3 Controlling Text Style Mappings]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_596"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf text-style-mapping)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>mapping port text-style </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>character-set</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the text style mapping for <I
+>port</I
+>, <I
+>character-set</I
+>, and <I
+>text-style</I
+> to <I
+>mapping</I
+>. <I
+>port</I
+>, <I
+>character-set</I
+>, and <I
+>text-style</I
+> are as for <A NAME="_3162"></A><A HREF="11-3.html#_595"
+><B CLASS="cl"
+>text-style-mapping</B
+></A
+>. <I
+>mapping</I
+> is either a font name or a list of the form <B CLASS="cl"
+>(:style </B
+><B CLASS="cl"
+><I
+>family</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>face</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>size</I
+></B
+><B CLASS="cl"
+>)</B
+>; in the latter case, the given style is translated at runtime into the font represented by the specified style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7340D833B8D1746D1306EDA00EEBD11F%2F%28setf%20text-style-mapping%29%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>character-set</I
+> defaults to the standard character set. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02F3095D94AA04C6FAEEBB07842D58E4%2F%28setf%20text-style-mapping%29%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1026F746C6E6F562786564CDF4F0702A%2F%28setf%20text-style-mapping%29%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_597"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-device-font-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>display-device device-font-name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a text style object that will be mapped directly to the specified device font when text is output to a to the display device with this style. Device font styles do not merge with any other kind of style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72B0EF7E621DE27CEE59738D519FF2E4%2Fmake-device-font-text-style%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=653C3C5A7154D62833B4DFB4776AC89F%2Fmake-device-font-text-style%2F11.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z417"
+></A
+>What is a display device? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=653C3C5A7154D62833B4DFB4776AC89F%2Fmake-device-font-text-style%2F11.3&amp;editp=t&amp;id=Z417#Z417"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2020-10-20 19:13Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/11-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

@@ -1,0 +1,962 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/9-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 9.3 Grafts</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="9.2 Ports" HREF="9-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="9.4 Mirrors and Mirrored Sheets" HREF="9-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="9 Ports, Grafts, and Mirrored Sheets" HREF="9.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="9-2.html"
+>Prev</A
+><BR
+><A HREF="9-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="9.html"
+>9&nbsp;Ports,&nbsp;Grafts,&nbsp;and&nbsp;Mirrored&nbsp;Sheets</A
+><BR
+>&rarr;&nbsp;<A HREF="9-3.html"
+><B
+>9.3&nbsp;Grafts</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_472"></A><DIV
+><H3
+>9.3 Grafts</H3
+><DIV
+><P
+>A <A NAME="_473"></A><SPAN CLASS="concept"
+>graft</SPAN
+> is a special sheet that is directly connected to a display server. Typically, a graft is the CLIM sheet that represents the root window of the display. There may be several grafts that are all attached to the same root window; these grafts may have differing coordinate systems. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4E3AA67297F41752FAC0EFC87B8B8B0%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6961"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6933"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2859"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-pixels-per-millimeter</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2851"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2845"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-units</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2841"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-orientation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2839"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>with-graft-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="6-1.html#_2480"
+><SPAN CLASS="reverselink"
+>[graft, <I
+>Concept</I
+>&larr; 6.1 Introduction]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>To display a sheet on a display, it must have a graft for an ancestor. In addition, the sheet and all of its ancestors must be enabled, including the graft. In general, a sheet becomes grafted when it (or one of its ancestors) is adopted by a graft. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=35F1F356259FA124ACA431127174F90C%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_474"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-grafted-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if any of the sheet's ancestors is a graft, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7BAFEFE9990A15725C0868030C76334A%2Fsheet-grafted-p%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A05EA22624079FB9B784ED72EC58ED5A%2Fsheet-grafted-p%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_475"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-graft</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(server-path </I
+><I
+><B CLASS="cl"
+>*default-server-path*</B
+></I
+><I
+>)  (port </I
+><I
+><B CLASS="cl"
+>(find-port :server-path server-path)</B
+></I
+><I
+>)  (orientation </I
+><I
+><B CLASS="cl"
+>:default</B
+></I
+><I
+>) (units </I
+><I
+><B CLASS="cl"
+>:device</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Finds a graft that represents the display device on the port <I
+>port</I
+> that also matches the other supplied parameters. If no such graft exists, a new graft is constructed and returned. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0B62086FE0B2AD0F99FDD0C598F7FE56%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z231"
+></A
+>I wonder how a new graft could be constructed, if either the combination of orientation and units is not supported by any graft of the port. Or even, if there cannot be any port found, because I passed say :server-path '(:acme)? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0B62086FE0B2AD0F99FDD0C598F7FE56%2Ffind-graft%2F9.3&amp;editp=t&amp;id=Z231#Z231"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2015-03-19 01:47Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If <I
+>server-path</I
+> is supplied, <B CLASS="cl"
+>find-graft</B
+> finds a graft whose port provides a connection to the window server addressed by <I
+>server-path</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A675D25ACE22D52248070AB8A65CB4A4%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is an error to provide both <I
+>port</I
+> and <I
+>server-path</I
+> in a call to <B CLASS="cl"
+>find-graft</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EA025B59798F792B64C0A2E1685451C%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>orientation</I
+> specifies the orientation of the graft's coordinate system. Supported values are <B CLASS="cl"
+>:default</B
+> and <B CLASS="cl"
+>:graphics</B
+>, which have the meanings describe below: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7EB7AD0A26A971E09C51A295D36122F6%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:default</B
+>---a coordinate system with its origin is in the upper left hand corner of the display device with <I
+>y</I
+> increasing from top to bottom and <I
+>x</I
+> increasing from left to right. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B73CEB745960EBA84DF7647881784A91%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:graphics</B
+>---a coordinate system with its origin in the lower left hand corner of the display device with <I
+>y</I
+> increasing from bottom to top and <I
+>x</I
+> increasing from left to right.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E75FBC85C0300DAB80333799787BE214%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><I
+>units</I
+> specifies the units of the coordinate system and defaults to <B CLASS="cl"
+>:device</B
+>, which means the device units of the host window system (such as pixels). Other supported values include <B CLASS="cl"
+>:inches</B
+>, <B CLASS="cl"
+>:millimeters</B
+>, and <B CLASS="cl"
+>:screen-sized</B
+>, which means that one unit in each direction is the width and height of the display device. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66C1BF5C6E87CFF7CA6E8C1CEED45172%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>I don't know how much of this is obsolete. ---&nbsp;RSL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=822F3739607AB53B85BA0907B698B97F%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z232"
+></A
+>Given that application frames are adopted by a frame manager and not by a graft and the extra arguments like orientation and units are not part of FIND-FRAME-MANAGER [which implies that the defaults apply], I'd say that in practice those arguments are obsolete. From a pure Silica point of view however, they might not. However, even then I am very skeptical, since flipping over the y-axis is a  dramatic change. Likewise changing the unit is dramatic. I think we are better off, by accepting that our unit is some approximation of printers points and live with that. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=822F3739607AB53B85BA0907B698B97F%2Ffind-graft%2F9.3&amp;editp=t&amp;id=Z232#Z232"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2015-03-19 01:59Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0A090EE03B2975915148FF7AAA8D5226%2Ffind-graft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-3.html#_2856"
+><SPAN CLASS="reverselink"
+>[&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2850"
+><SPAN CLASS="reverselink"
+>[&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-units</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2844"
+><SPAN CLASS="reverselink"
+>[&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-orientation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_476"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the graft currently associated with <I
+>object</I
+>. <B CLASS="cl"
+>graft</B
+> is defined for all sheet classes (including streams that support the CLIM graphics protocol), mediums, and application frames. For degrafted sheets or other objects that aren't currently associated with a particular graft, <B CLASS="cl"
+>graft</B
+> will return <A NAME="_2837"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=625A45B035DD7786825417CEBDA1534F%2Fgraft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=713A8485D4F6C7C77ABFD75CB12BD757%2Fgraft%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-3.html#_2840"
+><SPAN CLASS="reverselink"
+>[&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>with-graft-locked</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_477"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-grafts</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invokes <I
+>function</I
+> on each existing graft associated with the <A NAME="_2838"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <I
+>function</I
+> is a function of one argument, the graft; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=87864B6F9390033554BD80223579F446%2Fmap-over-grafts%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2AD099B25DDE5BECACA668935112D8F%2Fmap-over-grafts%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_478"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-graft-locked</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(graft) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Executes <I
+>body</I
+> after grabbing a lock associated with the <A NAME="_2839"></A><A HREF="9-3.html#_473"
+><SPAN CLASS="term"
+>graft</SPAN
+></A
+> <I
+>graft</I
+>, which may be a graft or any object on which the function <A NAME="_2840"></A><A HREF="9-3.html#_476"
+><B CLASS="cl"
+>graft</B
+></A
+> works. If <I
+>object</I
+> currently has no graft, <I
+>body</I
+> will be executed without locking. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6DC194F6B2529B0582384EC463D2C390%2Fwith-graft-locked%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE1B554A421B95107F6F1745EA75BC4E%2Fwith-graft-locked%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8773D7097D4B7C15CA83D35F3859A04%2Fwith-graft-locked%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_479"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft-orientation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graft</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the orientation of the <A NAME="_2841"></A><A HREF="9-3.html#_473"
+><SPAN CLASS="term"
+>graft</SPAN
+></A
+> <I
+>graft</I
+>'s coordinate system. The returned value will be either <B CLASS="cl"
+>:default</B
+> or <B CLASS="cl"
+>:graphics</B
+>. The meanings of these values are the same as described for the orientation argument to <A NAME="_2844"></A><A HREF="9-3.html#_475"
+><B CLASS="cl"
+>find-graft</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F89BD3AED7FCA3E19D96DDEEE857B16A%2Fgraft-orientation%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=64AFB32449DDF54207D4216E6BF293D1%2Fgraft-orientation%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_480"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft-units</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graft</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the units of the <A NAME="_2845"></A><A HREF="9-3.html#_473"
+><SPAN CLASS="term"
+>graft</SPAN
+></A
+> <I
+>graft</I
+>'s coordinate system. The returned value will be one of <B CLASS="cl"
+>:device</B
+>, <B CLASS="cl"
+>:inches</B
+>, <B CLASS="cl"
+>:millimeters</B
+>, or <B CLASS="cl"
+>:screen-sized</B
+>. The meanings of these values are the same as described for the units argument to <A NAME="_2850"></A><A HREF="9-3.html#_475"
+><B CLASS="cl"
+>find-graft</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A45FABD8D08E499B4D329A0630AA97B8%2Fgraft-units%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C384AD9ED25E10E93B7E5E0202902A61%2Fgraft-units%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_481"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graft </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(units </I
+><I
+><B CLASS="cl"
+>:device</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_482"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graft </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(units </I
+><I
+><B CLASS="cl"
+>:device</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the width and height of the <A NAME="_2851"></A><A HREF="9-3.html#_473"
+><SPAN CLASS="term"
+>graft</SPAN
+></A
+> <I
+>graft</I
+> (and by extension the associated host window) in the units indicated. <I
+>Units</I
+> may be any of <B CLASS="cl"
+>:device</B
+>, <B CLASS="cl"
+>:inches</B
+>, <B CLASS="cl"
+>:millimeters</B
+>, or <B CLASS="cl"
+>:screen-sized</B
+>. The meanings of these values are the same as described for the units argument to <A NAME="_2856"></A><A HREF="9-3.html#_475"
+><B CLASS="cl"
+>find-graft</B
+></A
+>. Note if a <I
+>unit</I
+> of <B CLASS="cl"
+>:screen-sized</B
+> is specified, both of these functions will return a value of <B CLASS="cl"
+>1</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEC6C2176E465F0684AC2146CA3ED337%2Fgraft-width%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0DF0556DD851CCBE390D69BFB9AE5C4%2Fgraft-width%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-3.html#_2861"
+><SPAN CLASS="reverselink"
+>[&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>graft-pixels-per-millimeter</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_483"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft-pixels-per-millimeter</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graft</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_484"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graft-pixels-per-inch</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graft</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the number of pixels per millimeter or inch of the <A NAME="_2859"></A><A HREF="9-3.html#_473"
+><SPAN CLASS="term"
+>graft</SPAN
+></A
+> <I
+>graft</I
+>. These functions are provided as a convenience to programmers and can be easily written in terms of <A NAME="_2860"></A><A HREF="9-3.html#_481"
+><B CLASS="cl"
+>graft-width</B
+></A
+> or <A NAME="_2861"></A><A HREF="9-3.html#_482"
+><B CLASS="cl"
+>graft-height</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89260BF26A13A50B6A37C86E72AA67A0%2Fgraft-pixels-per-millimeter%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Do we want to support non-square pixels? If so, these functions aren't sufficient. ---&nbsp;Rao</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9CB3A331C671FB080472CF0D91A5DCD%2Fgraft-pixels-per-millimeter%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CAA68D519B9E4C918227D81BF21F1F7%2Fgraft-pixels-per-millimeter%2F9.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/9-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

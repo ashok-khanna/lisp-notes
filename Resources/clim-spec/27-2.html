@@ -1,0 +1,2356 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 27.2 Command Tables</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="27.1 Commands" HREF="27-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="27.3 Command Menus" HREF="27-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="27-1.html"
+>Prev</A
+><BR
+><A HREF="27-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="27.html"
+>27&nbsp;Command&nbsp;Processing</A
+><BR
+>&rarr;&nbsp;<A HREF="27-2.html"
+><B
+>27.2&nbsp;Command&nbsp;Tables</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1381"></A><DIV
+><H3
+>27.2 Command Tables</H3
+><DIV
+><P
+>There are four main styles of interaction: keyboard interaction using a command- line processor, keyboard interaction using keystroke accelerators, mouse interaction via command menus, and mouse interaction via translators. A <A NAME="_1382"></A><SPAN CLASS="concept"
+>command table</SPAN
+> is an object that serves to mediate between an application frame, a set of commands, and the four interaction styles. Command tables contain the following information: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12F93E98FD966D0693E06855A91720C1%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6893"
+><SPAN CLASS="reverselink"
+>[command table, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5943"
+><SPAN CLASS="reverselink"
+>[command table, <I
+>Concept</I
+>&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5855"
+><SPAN CLASS="reverselink"
+>[command table, <I
+>Concept</I
+>&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-inherit-from</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5854"
+><SPAN CLASS="reverselink"
+>[command table, <I
+>Concept</I
+>&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-name</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5850"
+><SPAN CLASS="reverselink"
+>[command table, <I
+>Concept</I
+>&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5149"
+><SPAN CLASS="reverselink"
+>[command table, <I
+>Concept</I
+>&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-presentation-translators</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><UL
+><LI
+>The name of the command table, which is a symbol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8C0CD094407492015265FC2C4E07BF35%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>An ordered list of command tables to inherit from. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F8E2E7BBAB70C85C1FBC30778739A2B%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The set of commands that are present in this command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F9D6ACFB3291F591FE6AA024C7C5C6B6%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A table that associates command-line names to command names (used to support command-line processor interactions). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFBC24EBF752D87339054A16FE964734%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A set of presentation translators, defined via <A NAME="_5843"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+> and <A NAME="_5844"></A><A HREF="23-7.html#_1233"
+><B CLASS="cl"
+>define-presentation-to-command-translator</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1DBA1A9C63FD641A9ECB16B6D3591C46%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A table that associates keyboard gesture names to menu items (used to support keystroke accelerator interactions). The keystroke accelerator table does not contain any items inherited from superior command tables. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C8F76871BA72D49FAB00BD20B260DD9%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A menu that associates menu names to command menu items (used to support interaction via command menus). The command menu items can invoke commands or sub-menus. By default, the menu does not contain any command menu items inherited from superior command tables, although this can be overridden by the <B CLASS="cl"
+>:inherit-menu</B
+> option to <A NAME="_5846"></A><A HREF="27-2.html#_1390"
+><B CLASS="cl"
+>define-command-table</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5E63643F056F161879AAF602EBE2FBE%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>We say that a command is <A NAME="_1383"></A><SPAN CLASS="concept"
+>present</SPAN
+> in a command table when it has been added to that command table. We say that a command is <A NAME="_1384"></A><SPAN CLASS="concept"
+>accessible</SPAN
+> in a command table when it is present in that command table or is present in any of the command tables from which that command table inherits. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E58FEABA0C8372FACB5D54613914E1EA%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1385"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to command tables. If you want to create a new class that behaves like a command table, it should be a subclass of <B CLASS="cl"
+>command-table</B
+>. All instantiable subclasses of <B CLASS="cl"
+>command-table</B
+> must obey the command table protocol. Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AABD81EB7254DFA3258A194C5A5D00C1%2Fcommand-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=252A83F34E60F3AAE31816D114D3EF62%2Fcommand-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5852"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>standard-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1386"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_5850"></A><A HREF="27-2.html#_1382"
+><SPAN CLASS="term"
+>command table</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A220CD01131474C434D8EA55D3D0F50%2Fcommand-table-p%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F2FE147E25AE8F0B859A4C4C933EB04%2Fcommand-table-p%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1387"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that implements command tables, a subclass of <A NAME="_5852"></A><A HREF="27-2.html#_1385"
+><B CLASS="cl"
+>command-table</B
+></A
+>. <A NAME="_5853"></A><A HREF="27-2.html#_1392"
+><B CLASS="cl"
+>make-command-table</B
+></A
+> returns objects that are members of this class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0C00136873BBDCFE857040A5E874D6CC%2Fstandard-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Do we really want to advertise these classes, since all the functions below are vanilla functions instead of generic functions? Or should we make those functions be generic functions? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B0EB01D6DCB1897F1DCFC6BA4013662%2Fstandard-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0632F22A81369247DD30E7457B348218%2Fstandard-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1388"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the name of the <A NAME="_5854"></A><A HREF="27-2.html#_1382"
+><SPAN CLASS="term"
+>command table</SPAN
+></A
+> <I
+>command-table</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=302312729D239A673844805D1AE0040E%2Fcommand-table-name%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A70A1FC77E303170CEBBC404DAE8D588%2Fcommand-table-name%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1389"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-inherit-from</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of the command tables from which the <A NAME="_5855"></A><A HREF="27-2.html#_1382"
+><SPAN CLASS="term"
+>command table</SPAN
+></A
+> <I
+>command-table</I
+> inherits. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DA36C47A12B7665C268621370643DEA3%2Fcommand-table-inherit-from%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F35B01D00815C8CAB1F812B9EC2C801%2Fcommand-table-inherit-from%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1390"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>inherit-from menu inherit-menu</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a command table whose name is the symbol <I
+>name</I
+>. The new command table inherits from all of the command tables specified by <I
+>inherit-from</I
+>, which is a list of <A NAME="_1391"></A><SPAN CLASS="concept"
+>command table designators</SPAN
+> (that is, either a command table or a symbol that names a command table). The inheritance is done by union with shadowing. If no inheritance is specified, the command table will be made to inherit from CLIM's global command table. (This command table contains such things as the "menu" translator that is associated with the right-hand button on pointers.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C5CBF880989174408D48B6100856816D%2Fdefine-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>inherit-menu</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the new command table will inherit the menu items and keystroke accelerators from all of the inherited command tables. If it is <SPAN CLASS="term"
+>false</SPAN
+> (the default), no menu items or keystroke accelerators will be inherited. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D952A5CC0D22163A07F95DE678A8195E%2Fdefine-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z103"
+></A
+><P
+>The handling of keystroke accelerators described here is inconsistent with the text earlier on this page, where it says "The keystroke accelerator table does not contain any items inherited from superior command tables".  Which is it to be?  (I would rather have optional inheritance rather than no inheritance, but I don't know what classic clim does)</P
+><P
+></P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D952A5CC0D22163A07F95DE678A8195E%2Fdefine-command-table%2F27.2&amp;editp=t&amp;id=Z103#Z103"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Barlow 2005-06-28 14:18Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>menu</I
+> can be used to specify a menu for the command table. The value of <I
+>menu</I
+> is a list of clauses. Each clause is a list with the syntax <B CLASS="cl"
+>(</B
+><A NAME="_5859"></A><A HREF="23-8.html#_1271"
+><B CLASS="cl"
+><I
+>string</I
+></B
+></A
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>type</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>value</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><TT
+>&amp;key </TT
+></B
+><B CLASS="cl"
+><I
+>keystroke</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>documentation</I
+></B
+><B CLASS="cl"
+> </B
+><A NAME="_5870"></A><A HREF="11-1.html#_566"
+><B CLASS="cl"
+><I
+>text-style</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+>, where <I
+>string</I
+>, <I
+>type</I
+>, <I
+>value</I
+>, <I
+>keystroke</I
+>, <I
+>documentation</I
+>, and <I
+>text-style</I
+> are as for <A NAME="_5872"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1320A6E3C0879A6D0A69F77A166AA4E1%2Fdefine-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command table named by <I
+>name</I
+> already exists, <B CLASS="cl"
+>define-command-table</B
+> will modify the existing command table to have the new value for <I
+>inherit-from</I
+> and <I
+>menu</I
+>, and leaves the other attributes for the existing command table alone. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A78002C7B08A83FD01276E458DEA25FC%2Fdefine-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z418"
+></A
+>What about the inherit-menu value? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A78002C7B08A83FD01276E458DEA25FC%2Fdefine-command-table%2F27.2&amp;editp=t&amp;id=Z418#Z418"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-10-22 13:23Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>None of <B CLASS="cl"
+>define-command-table</B
+>'s arguments are evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84A751DCFE0B3A6D85C6A3AD5A2F3533%2Fdefine-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49BFE801CAEF3BBEB861465342FCE6DD%2Fdefine-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-2.html#_6147"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>define-application-frame</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5875"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>make-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5846"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1392"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>inherit-from menu inherit-menu (errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a command table named <I
+>name</I
+>. <I
+>inherit-from</I
+>, <I
+>menu</I
+>, and <I
+>inherit-menu</I
+> are the same as for <A NAME="_5875"></A><A HREF="27-2.html#_1390"
+><B CLASS="cl"
+>define-command-table</B
+></A
+>. <B CLASS="cl"
+>make-command-table</B
+> does not implicitly include CLIM's global command table in the inheritance list for the new command table. If the command table already exists and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the <A NAME="_5878"></A><A HREF="27-2.html#_1396"
+><B CLASS="cl"
+>command-table-already-exists</B
+></A
+> error will be signalled. If the command table already exists and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, then the old command table will be discarded. The returned value is the command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C36671959880E66D162C39DD7C2CBBFC%2Fmake-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0A1BF573C6E6F9B2E8682712D4FFAEF%2Fmake-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5853"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>standard-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1393"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the command table named by <I
+>name</I
+>. If <I
+>name</I
+> is itself a command table, it is returned. If the command table is not found and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the <A NAME="_5881"></A><A HREF="27-2.html#_1395"
+><B CLASS="cl"
+>command-table-not-found</B
+></A
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=08BE712CDBA2B785072DE573154D467B%2Ffind-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A0F0671D4DDA9F10F402CC210554FA6%2Ffind-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5887"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-not-found</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1394"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-error</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Error Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The class that is the superclass of the following four conditions. This class is a subclass of <B CLASS="cl"
+>error</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=408450154AF268737106ED5F1FA86A20%2Fcommand-table-error%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z135"
+></A
+>It probably means "...superclass of the following five conditions." <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=408450154AF268737106ED5F1FA86A20%2Fcommand-table-error%2F27.2&amp;editp=t&amp;id=Z135#Z135"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2006-04-21 12:13Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>command-table-error</B
+> and its subclasses must handle the <B CLASS="cl"
+>:format-string</B
+> and <B CLASS="cl"
+>:format-arguments</B
+> initargs, which are used to specify a control string and arguments for a call to <B CLASS="cl"
+>format</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98F95D69FE66BFE4C7D17E00F81BB1FF%2Fcommand-table-error%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9EAC0D1C796548A90BB3A6DB3738320%2Fcommand-table-error%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1395"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-not-found</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Error Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The error that is signalled by such functions as <A NAME="_5887"></A><A HREF="27-2.html#_1393"
+><B CLASS="cl"
+>find-command-table</B
+></A
+> when a command table is not found. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A198EDFBFF73245BC258E445F6B35651%2Fcommand-table-not-found%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6478452FB5BA8E20DC7AE8955ADC124D%2Fcommand-table-not-found%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5881"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>find-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5780"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1396"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-already-exists</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Error Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The error that is signalled when the programmer tries to create a command table that already exists. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FDAC53967EA10512F29C0E85E3DF7096%2Fcommand-table-already-exists%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92EC6D75C4774EB1F1856EE8444A5505%2Fcommand-table-already-exists%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5878"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>make-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1397"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-not-present</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Error Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The error that is signalled when a command is not present in a command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=096DAB95FEEFC8942CB29436CDA3B913%2Fcommand-not-present%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=151A57D66707C0505FA6B0805D524455%2Fcommand-not-present%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-5.html#_6044"
+><SPAN CLASS="reverselink"
+>[&larr; 27.5 Presentation Translator Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>remove-presentation-translator-from-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6019"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>find-keystroke-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6012"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>remove-keystroke-from-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5985"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>remove-menu-item-from-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5914"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>remove-command-from-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1398"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-not-accessible</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Error Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The error that is signalled when a command is not accessible in a command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC532ECD66AAE08801AC7ACC056B4950%2Fcommand-not-accessible%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=694E3B3E002EBE82CD215F5769257063%2Fcommand-not-accessible%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-5.html#_6050"
+><SPAN CLASS="reverselink"
+>[&larr; 27.5 Presentation Translator Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>find-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5993"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>find-menu-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5940"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-line-name-for-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5931"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>find-command-from-command-line-name</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1399"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-already-present</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Error Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The error that is signalled when a function tries to add a command to a command table when it is already present in the command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D3E37174A247119B856F0FFEDF9F1A8%2Fcommand-already-present%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A409CDB0DEE78E41BAB7E217DC3651B9%2Fcommand-already-present%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-5.html#_6040"
+><SPAN CLASS="reverselink"
+>[&larr; 27.5 Presentation Translator Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>add-presentation-translator-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6008"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>add-keystroke-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5981"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5910"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1400"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-command-to-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-name command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>name menu keystroke (errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the command named by <I
+>command-name</I
+> to the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41DC0AB9A3F337FCDE9869A9B6A0869E%2Fadd-command-to-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>name</I
+> is the command-line name for the command, and can be <A NAME="_5889"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, <A NAME="_5890"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, or a string. When it is <A NAME="_5891"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, the command will not be available via command-line interactions. When it is a string, that string is the command-line name for the command. When it is <A NAME="_5892"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, the command-line name is generated automatically by calling <A NAME="_5893"></A><A HREF="27-2.html#_1402"
+><B CLASS="cl"
+>command-name-from-symbol</B
+></A
+> on <I
+>command-name</I
+>. For the purposes of command-line name lookup, the character case of <I
+>name</I
+> is ignored. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=60D25F50728D1BBE4DFF6F811348C57B%2Fadd-command-to-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>menu</I
+> is a menu item for the command, and can be <A NAME="_5894"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, <A NAME="_5895"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, a string, or a cons. When it is <A NAME="_5896"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, the command will not be available via menus. When it is a string, the string will be used as the menu name. When <I
+>menu</I
+> is <A NAME="_5897"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> and <I
+>name</I
+> is a string, then <I
+>name</I
+> will be used as the menu name. When <I
+>menu</I
+> is <A NAME="_5898"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> and <I
+>name</I
+> is not a string, an automatically generated menu name will be used. When <I
+>menu</I
+> is a cons of the form <B CLASS="cl"
+>(</B
+><A NAME="_5900"></A><A HREF="23-8.html#_1271"
+><B CLASS="cl"
+><I
+>string</I
+></B
+></A
+><B CLASS="cl"
+> . </B
+><B CLASS="cl"
+><I
+>menu-options</I
+></B
+><B CLASS="cl"
+>)</B
+>, <I
+>string</I
+> is the menu name and <I
+>menu-options</I
+> consists of keyword-value pairs. The valid keywords are <B CLASS="cl"
+>:after</B
+>, <B CLASS="cl"
+>:documentation</B
+>, and <A NAME="_5906"></A><A HREF="29-2.html#_1594"
+><B CLASS="cl"
+>:text-style</B
+></A
+>, which are interpreted as for <A NAME="_5907"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B8492D89289D0CD38E45CAE631EDD99%2Fadd-command-to-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The value for <I
+>keystroke</I
+> is either keyboard gesture name or <A NAME="_5908"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. When it is a gesture name, it is the keystroke accelerator for the command; otherwise the command will not be available via keystroke accelerators. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=828C84CD85C2E01589E5EBF1D3984E0F%2Fadd-command-to-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command is already present in the command table and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the <A NAME="_5910"></A><A HREF="27-2.html#_1399"
+><B CLASS="cl"
+>command-already-present</B
+></A
+> error will be signalled. When the command is already present in the command table and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, then the old command-line name, menu, and keystroke accelerator will first be removed from the command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BD5A4CF39EA7DFBA8717FBD8BFC9795B%2Fadd-command-to-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5CD30EE245A261E6EE088B34337AE61%2Fadd-command-to-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7528"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5938"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-line-name-for-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5789"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5133"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-to-command-translator</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1401"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>remove-command-from-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-name command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the command named by <I
+>command-name</I
+> from the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FD1B91F57983EB73197C28AE3CD79CC1%2Fremove-command-from-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command is not present in the command table and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the <A NAME="_5914"></A><A HREF="27-2.html#_1397"
+><B CLASS="cl"
+>command-not-present</B
+></A
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=09C376A5D21955BB1542287A6F38961C%2Fremove-command-from-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=87F635BDD683166965F740F2EC8FF113%2Fremove-command-from-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1402"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-name-from-symbol</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>symbol</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Generates a string suitable for use as a command-line name from the symbol <I
+>symbol</I
+>. The string consists the symbol name with the hyphens replaced by spaces, and the words capitalized. If the symbol name is prefixed by "COM-", the prefix is removed. For example, if the symbol is <B CLASS="cl"
+>com-show-file</B
+>, the result string will be "Show File". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B56623E8E23032217DBFD5DE59746DED%2Fcommand-name-from-symbol%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=65563523DB6DB0CC585AFB15C0A59115%2Fcommand-name-from-symbol%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5893"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1403"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>do-command-table-inheritance</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(command-table-var command-table) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Successively executes <I
+>body</I
+> with <I
+>command-table-var</I
+> bound first to the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>, and then (recursively) to all of the command tables from which <I
+>command-table</I
+> inherits. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32216E5455AA1FF36943CC0E3AB13A16%2Fdo-command-table-inheritance%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>command-table-var</I
+> argument is not evaluated. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFB39DC5AE6B1E0FDC9C5DDD02B1BD30%2Fdo-command-table-inheritance%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD29D032C1DF8FF5355C892321698FEF%2Fdo-command-table-inheritance%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-5.html#_6048"
+><SPAN CLASS="reverselink"
+>[&larr; 27.5 Presentation Translator Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-command-table-translators</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5924"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-command-table-names</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5920"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-command-table-commands</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1404"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-command-table-commands</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(inherited t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the commands accessible in the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>. <I
+>function</I
+> must be a function that takes a single argument, the command name; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E31B91B5B348F8991A45A5A481D2EF6F%2Fmap-over-command-table-commands%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>inherited</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this applies <I
+>function</I
+> only to those commands present in <I
+>command-table</I
+>, that is, it does not map over any inherited command tables. If <I
+>inherited</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the inherited command tables are traversed in the same order as for <A NAME="_5920"></A><A HREF="27-2.html#_1403"
+><B CLASS="cl"
+>do-command-table-inheritance</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B650B0C3FEBB5CEAE25E88C95BEC6C3%2Fmap-over-command-table-commands%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=25AB0686A6CF56C046E9B965F4977D2F%2Fmap-over-command-table-commands%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1405"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-command-table-names</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(inherited t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the command-line name accessible in the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>. <I
+>function</I
+> must be a function of two arguments, the command-line name and the command name; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46139819B8BC5BD8AAC83271E4C9DCF5%2Fmap-over-command-table-names%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>inherited</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this applies <I
+>function</I
+> only to those command-line names present in <I
+>command-table</I
+>, that is, it does not map over any inherited command tables. If <I
+>inherited</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the inherited command tables are traversed in the same order as for <A NAME="_5924"></A><A HREF="27-2.html#_1403"
+><B CLASS="cl"
+>do-command-table-inheritance</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98AE24349AF26ECE53D9C4A15FC70A2E%2Fmap-over-command-table-names%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1938398365F313B7C943C6A0EB98285%2Fmap-over-command-table-names%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1406"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-present-in-command-table-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-name command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the command named by <I
+>command-name</I
+> is present in the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A950EDF09DCDB79AE699C8D1651D79ED%2Fcommand-present-in-command-table-p%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B56DEA47A0B857D45D34F9FE2BA3BD0%2Fcommand-present-in-command-table-p%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1407"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-accessible-in-command-table-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-name command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If the command named by <I
+>command-name</I
+> is not accessible in the command table specified by the <SPAN CLASS="term"
+>command table designator</SPAN
+> <I
+>command-table</I
+>, then this function returns <A NAME="_5929"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. Otherwise, it returns the command table in which the command was found. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=37E8A901B123B2EE08724C8F5F6BF2E3%2Fcommand-accessible-in-command-table-p%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C78920285662976482480C82A7B5C585%2Fcommand-accessible-in-command-table-p%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1408"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-command-from-command-line-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a command-line name <I
+>name</I
+> and a command table, returns two values, the command name and the command table in which the command was found. If the command is not accessible in <I
+>command-table</I
+> and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the <A NAME="_5931"></A><A HREF="27-2.html#_1398"
+><B CLASS="cl"
+>command-not-accessible</B
+></A
+> error will be signalled. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=561D897982B3C78DA75322D30BF10B4F%2Ffind-command-from-command-line-name%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>find-command-from-command-line-name</B
+> ignores character case. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A13420982F3B69DFD851BA279B319C0%2Ffind-command-from-command-line-name%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DE30DD9E461AA11EB076204F5FB25DC%2Ffind-command-from-command-line-name%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5941"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-line-name-for-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1409"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-line-name-for-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-name command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the command-line name for <I
+>command-name</I
+> as it is installed in <I
+>command-table</I
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F2DF54B23A02DA0E9A24CAFA6CFCBEF9%2Fcommand-line-name-for-command%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command is not accessible in <I
+>command-table</I
+> or has no command-line name, then there are three possible results. If <I
+>errorp</I
+> is <A NAME="_5935"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, then the returned value will be <A NAME="_5936"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. If <I
+>errorp</I
+> is <B CLASS="cl"
+>:create</B
+>, then a command-line name will be generated, as described in <A NAME="_5938"></A><A HREF="27-2.html#_1400"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></A
+>. Otherwise, if <I
+>errorp</I
+> is <A NAME="_5939"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, then the <A NAME="_5940"></A><A HREF="27-2.html#_1398"
+><B CLASS="cl"
+>command-not-accessible</B
+></A
+> error will be signalled. The returned command-line name should not be modified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=52372D13127397A9B5D970AF79C7CA4E%2Fcommand-line-name-for-command%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This is the inverse of <A NAME="_5941"></A><A HREF="27-2.html#_1408"
+><B CLASS="cl"
+>find-command-from-command-line-name</B
+></A
+>. It should be implemented in such as way that it is fast, since it may be used by presentation translators to produce pointer documentation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=891BFCD15DBC1B336C8F7DB160598496%2Fcommand-line-name-for-command%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8235C4366B3CABD5C4EDB5CDD0A2CC92%2Fcommand-line-name-for-command%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1410"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-table-complete-input</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table string action </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A function that can be used as in conjunction with <A NAME="_5942"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+> in order to complete over all of the command lines names accessible in the <A NAME="_5943"></A><A HREF="27-2.html#_1382"
+><SPAN CLASS="term"
+>command table</SPAN
+></A
+> <I
+>command-table</I
+>. <I
+>string</I
+> is the input string to complete over, and <I
+>action</I
+> is as for <A NAME="_5944"></A><A HREF="24-5.html#_1351"
+><B CLASS="cl"
+>complete-from-possibilities</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8ED941349ADC372BFE3F5892C6A5B82C%2Fcommand-table-complete-input%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>frame</I
+> is either an application frame, or <A NAME="_5945"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. If <I
+>frame</I
+> is supplied, no disabled commands should be offered as valid completions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5940E4F1C223908182CA98A29B75966E%2Fcommand-table-complete-input%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>command-table-complete-input</B
+> could be implemented by collecting all of the command line names accessible in the command table and then calling <A NAME="_5947"></A><A HREF="24-5.html#_1351"
+><B CLASS="cl"
+>complete-from-possibilities</B
+></A
+>, or it could be implemented more efficiently than that (such as by caching a sorted list of command line names and using a binary search). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE35E470E7E06C612B175C0DA410A5D8%2Fcommand-table-complete-input%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6B9963405B0B7CFB20F8E591841428E%2Fcommand-table-complete-input%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1411"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>global-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Command&nbsp;Table]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The command table from which all other command tables inherit by default. Programmers should not explicitly add anything to or remove anything from this command table. CLIM can use this command to store internals or system-wide commands and translators (for example, the translator that implements the "identity" translation from a type to itself). Programmers should not casually install any commands or translators into this command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=289FC2D7E01834EAAF5946EFBAF0C7C1%2Fglobal-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3D94B045AEEBD6052E26103AF6B77DE6%2Fglobal-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1412"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>user-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Command&nbsp;Table]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A command table that can be used by the programmer for any purpose. CLIM does not use it for anything, and its contents are completely undefined. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C0C127F322059BFDF04D046ED62E969%2Fuser-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=30BF233D86BABF4B7A0BE69564B05E82%2Fuser-command-table%2F27.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

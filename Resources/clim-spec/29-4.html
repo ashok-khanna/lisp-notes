@@ -1,0 +1,2101 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 29.4 CLIM Stream Panes</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="29.3 Composite and Layout Panes" HREF="29-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="29.5 Defining New Pane Types" HREF="29-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="29-3.html"
+>Prev</A
+><BR
+><A HREF="29-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="29.html"
+>29&nbsp;Panes</A
+><BR
+>&rarr;&nbsp;<A HREF="29-4.html"
+><B
+>29.4&nbsp;CLIM&nbsp;Stream&nbsp;Panes</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1665"></A><DIV
+><H3
+>29.4 CLIM Stream Panes</H3
+><LI CLASS="outline_item"
+><A HREF="29-4.html#_1667"
+>29.4.1 CLIM Stream Pane Options</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-4.html#_1678"
+>29.4.2 CLIM Stream Pane Classes</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-4.html#_1685"
+>29.4.3 Making CLIM Stream Panes</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-4.html#_1689"
+>29.4.4 CLIM Stream Pane Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-4.html#_1697"
+>29.4.5 Creating a Standalone CLIM Window</A
+></LI
+><P
+>In addition to the various layout panes and gadgets, an application usually needs some space to display application-specific output and receive application-specific input from the user. For example, a paint program needs a "canvas" pane on which to display the picture and handle the "mouse strokes". An application frame can use the basic CLIM input and output services in an application-specific way through use of a <A NAME="_1666"></A><SPAN CLASS="concept"
+>CLIM stream pane</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F1C51186275FBFF15215F1F700B4814%2F29.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This section describes the basic CLIM stream pane types. Programmers are free to customize pane behavior by defining subclasses of these pane classes writing methods to change the repaint or event-handling behavior. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DA88CEE0DB16A1CCF4D60939CFAB3BC1%2F29.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1667"></A><DIV
+><H4
+>29.4.1 CLIM Stream Pane Options</H4
+><P
+>CLIM application frames accept the <A NAME="_6607"></A><A HREF="29-2.html#_1592"
+><B CLASS="cl"
+>:foreground</B
+></A
+>, <A NAME="_6608"></A><A HREF="29-2.html#_1593"
+><B CLASS="cl"
+>:background</B
+></A
+>, <A NAME="_6609"></A><A HREF="29-2.html#_1594"
+><B CLASS="cl"
+>:text-style</B
+></A
+>, and layout pane options. The space requirement options (<A NAME="_6610"></A><A HREF="29-3.html#_1605"
+><B CLASS="cl"
+>:width</B
+></A
+>, <A NAME="_6611"></A><A HREF="29-3.html#_1608"
+><B CLASS="cl"
+>:height</B
+></A
+>, and so forth) can also take a size specification of <B CLASS="cl"
+>:compute</B
+>, which causes CLIM to run the display function for the pane, and make the pane large enough to hold the output of the display function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3AC790A3892737DB4B8DB1FFB1EA6C5%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In addition to the above, CLIM stream panes accept the following options: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E457B8F427FA55C642995803E04C3C8%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1668"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:display-function</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is used to specify a function to be called in order to display the contents of a CLIM stream pane. CLIM's default top level function, <A NAME="_6613"></A><A HREF="28-4.html#_1534"
+><B CLASS="cl"
+>default-frame-top-level</B
+></A
+>, function will invoke the pane's display function at the appropriate time (see the <A NAME="_6614"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> option). The value of this option is either the name of a function to invoke, or a cons whose car is the name of a function and whose cdr is additional arguments to the function. The function will be invoked on the frame, the pane, and the additional function arguments, if any. The default for this option is <A NAME="_6615"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B348388AB31C7D7D7C52B046E0F2114E%2F%3Adisplay-function%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB4048AB909D5E225B77857F2B1DD8D6%2F%3Adisplay-function%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1669"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:display-time</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is used to indicate to CLIM when the pane's display function should be run. If it is <B CLASS="cl"
+>:command-loop</B
+>, CLIM will clear the pane and run the display function after each time a frame command is executed. If it is <A NAME="_6617"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, the pane will be displayed once and not again until <B CLASS="cl"
+>(setf&nbsp;pane-needs-redisplay)</B
+> is called on the pane. If it is <A NAME="_6619"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, CLIM will never run the display function until it is explicitly requested, either via <A NAME="_6620"></A><A HREF="28-3.html#_1516"
+><B CLASS="cl"
+>pane-needs-redisplay</B
+></A
+> or <A NAME="_6621"></A><A HREF="28-3.html#_1518"
+><B CLASS="cl"
+>redisplay-frame-pane</B
+></A
+>. The default for this option varies depending on the type of the pane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F58D169C25986D9527946CB263341FE8%2F%3Adisplay-time%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=220B1EC3FE19FFFACEFCB0BF06565DFC%2F%3Adisplay-time%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6670"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6660"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-documentation-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6655"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>title-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6647"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>command-menu-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6641"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>application-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6635"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>interactor-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6614"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:display-function</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1670"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:incremental-redisplay</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>When <SPAN CLASS="term"
+>true</SPAN
+>, the redisplay function will initially be executed inside of an invocation to <A NAME="_6623"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> and the resulting output record will be saved. Subsequent calls to <A NAME="_6624"></A><A HREF="28-3.html#_1518"
+><B CLASS="cl"
+>redisplay-frame-pane</B
+></A
+> will simply use <A NAME="_6625"></A><A HREF="21-2.html#_1021"
+><B CLASS="cl"
+>redisplay</B
+></A
+> to redisplay the pane. The default for this option is <A NAME="_6626"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BC48BAF337E0737B1E7E6A74ABAA87A%2F%3Aincremental-redisplay%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB74263C4038F0C700182DE50FBA6C50%2F%3Aincremental-redisplay%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6649"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>command-menu-pane</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1671"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-margin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1672"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:vertical-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These options specify the default text margin (that is, how much space is left around the inside edge of the pane) and vertical spacing (that is, how much space is between each text line) for the pane. The default for <B CLASS="cl"
+>:text-margin</B
+> is the width of the window, and the default for <B CLASS="cl"
+>:vertical-spacing</B
+> is 2. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A60569726FA345D624E58664D932D51E%2F%3Atext-margin%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z362"
+></A
+><P
+>text-margin wording indicates that margin should be split between left edge and right edge what gives us area which is centered to the middle of the pane. </P
+><P
+>text-margin default value wording is confusing - it should be 0 given the first sentence. Width of the window indicates y coordinate of a default right margin vertical line.</P
+><P
+>Would it make sense to add text-left-margin and text-right-margin initargs too? Both would be mutually exclusive with text-margin when supplied together and default to 0.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A60569726FA345D624E58664D932D51E%2F%3Atext-margin%2F29.4.1&amp;editp=t&amp;id=Z362#Z362"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-01-09 10:11Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0290E6427C6168EEEC41267E659E2B55%2F%3Atext-margin%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="15-2.html#_777"
+><SPAN CLASS="forwardlink"
+>[&rarr; :text-margin, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="15-2.html#_776"
+><SPAN CLASS="forwardlink"
+>[&rarr; :vertical-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1673"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:end-of-line-action</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1674"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:end-of-page-action</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These options specify the end-of-line and end-of-page actions to be used for the pane. The default for these options are <B CLASS="cl"
+>:wrap</B
+> and <B CLASS="cl"
+>:scroll</B
+>, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=912826FA809C18E30EDE72BB26F5EF5D%2F%3Aend-of-line-action%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE86947FB5E7DB02478CEDBA4C898ADC%2F%3Aend-of-line-action%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="15-2.html#_778"
+><SPAN CLASS="forwardlink"
+>[&rarr; :end-of-line-action, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="15-2.html#_779"
+><SPAN CLASS="forwardlink"
+>[&rarr; :end-of-page-action, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1675"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This option names the output record class to be used for the output history of the pane. The default is <A NAME="_6631"></A><A HREF="16-3.html#_885"
+><B CLASS="cl"
+>standard-tree-output-history</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=161DFE6D60815132493B68B442FEA1BE%2F%3Aoutput-record%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BAC485F720B758A94A4C287DC33A63D%2F%3Aoutput-record%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1676"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:draw</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1677"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These options specify whether the pane should initially allow drawing and output recording. The default for both options is <A NAME="_6632"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98FED306583647E47883905CB7893EA7%2F%3Adraw%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=04D1E086C4A58C1ABB2A89FCD31C24DE%2F%3Adraw%2F29.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-5.html#_4596"
+><SPAN CLASS="reverselink"
+>[&larr; 22.5 Pointer Tracking, <B CLASS="cl"
+><B CLASS="cl"
+>drag-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7408"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1678"></A><DIV
+><H4
+>29.4.2 CLIM Stream Pane Classes</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1679"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>clim-stream-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class implements a pane that supports the CLIM graphics, extended input and output, and output recording protocols. Most CLIM stream panes will be subclasses of this class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F2D385700BAFAB74B0056C3FF3230CC%2Fclim-stream-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2CB21972E02CAD4A1C9E092BF4342F34%2Fclim-stream-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6681"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.4 CLIM Stream Pane Functions]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6664"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6530"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:width</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1680"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>interactor-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The pane class that is used to implement "interactor" panes. The default method for <A NAME="_6633"></A><A HREF="28-3.html#_1497"
+><B CLASS="cl"
+>frame-standard-input</B
+></A
+> will return the first pane of this type. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A3AA189789BD1CA95452CDDEF384405F%2Finteractor-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For <B CLASS="cl"
+>interactor-pane</B
+>, the default for <A NAME="_6635"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> is <A NAME="_6636"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> and the default for <B CLASS="cl"
+>:scroll-bars</B
+> is <B CLASS="cl"
+>:vertical</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FEAA8643DA49B55E9056F2DC548EAEE%2Finteractor-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A256B7016077DE4C4D985C6F7E2C042B%2Finteractor-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6678"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-interactor-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6259"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>frame-standard-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6255"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>frame-standard-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6206"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1681"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>application-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The pane class that is used to implement "application" panes. The default method for <A NAME="_6639"></A><A HREF="28-3.html#_1496"
+><B CLASS="cl"
+>frame-standard-output</B
+></A
+> will return the first pane of this type. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=010C88D1A275D7A85C6541B1DAFE5C92%2Fapplication-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z344"
+></A
+>Is there somewhere in the spec where the superclasses of application-pane are listed? In McCLIM, it is a subclass of clim-stream-pane, but it doesn't seem that the spec says that this has to be the case. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=010C88D1A275D7A85C6541B1DAFE5C92%2Fapplication-pane%2F29.4.2&amp;editp=t&amp;id=Z344#Z344"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Cyrus Harmon 2018-08-26 22:01Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>For <B CLASS="cl"
+>application-pane</B
+>, the default for <A NAME="_6641"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> is <B CLASS="cl"
+>:command-loop</B
+> and the default for <B CLASS="cl"
+>:scroll-bars</B
+> is <A NAME="_6644"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5FF5952235C8AAD7E2D670C539380EA4%2Fapplication-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F587117DCAB781FE9F1CE745C2505BD7%2Fapplication-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6680"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-application-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6254"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>frame-standard-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6208"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1682"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-menu-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The pane class that is used to implement command menu panes that are not menu bars. The default display function for panes of this type is <A NAME="_6645"></A><A HREF="28-4.html#_1539"
+><B CLASS="cl"
+>display-command-menu</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1305A4C958D919AE31859FB474894914%2Fcommand-menu-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For <B CLASS="cl"
+>command-menu-pane</B
+>, the default for <A NAME="_6647"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> is <B CLASS="cl"
+>:command-loop</B
+>, the default for <A NAME="_6649"></A><A HREF="29-4.html#_1670"
+><B CLASS="cl"
+>:incremental-redisplay</B
+></A
+> is <A NAME="_6650"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, and the default for <B CLASS="cl"
+>:scroll-bars</B
+> is <A NAME="_6652"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D23DE01F2C0F1B3ECAA224ECEAC6B42%2Fcommand-menu-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EFFC1B184BBA2F405DB868FF952A3CAB%2Fcommand-menu-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-2.html#_6210"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1683"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>title-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The pane class that is used to implement a title pane. The default display function for panes of this type is <B CLASS="cl"
+>display-title</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8BF75A594ED198853C2BA099B40F2CE3%2Ftitle-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For <B CLASS="cl"
+>title-pane</B
+>, the default for <A NAME="_6655"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> is <A NAME="_6656"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> and the default for <B CLASS="cl"
+>:scroll-bars</B
+> is <A NAME="_6658"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4F8086653D2CE71AF72608705FF5DCB%2Ftitle-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D91A6EAA6060CCD006AC9B57F5152BCE%2Ftitle-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1684"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-documentation-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The pane class that is used to implement the pointer documentation pane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=886709F5A7E13EAF76DFB0E3BF34AE7E%2Fpointer-documentation-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For <B CLASS="cl"
+>pointer-documentation-pane</B
+>, the default for <A NAME="_6660"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> is <A NAME="_6661"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> and the default for <B CLASS="cl"
+>:scroll-bars</B
+> is <A NAME="_6663"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCFA6E97AB03CD8AE91BB05C5B7E8287%2Fpointer-documentation-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B53BA29E720275F7CA396EF44EF9CDC9%2Fpointer-documentation-pane%2F29.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6274"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>frame-pointer-documentation-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1685"></A><DIV
+><H4
+>29.4.3 Making CLIM Stream Panes</H4
+><P
+>Most CLIM stream panes will contain more information than can be displayed in the allocated space, so scroll bars are nearly always desirable. CLIM therefore provides a convenient form for creating composite panes that include the CLIM stream pane, scroll bars, labels, and so forth. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2B62378DFDBAACC7F47FA0FD94A70251%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1686"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>type label label-alignment scroll-bars borders  display-after-commands </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a pane of type <I
+>type</I
+>, which defaults to <A NAME="_6664"></A><A HREF="29-4.html#_1679"
+><B CLASS="cl"
+>clim-stream-pane</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01FC0657C1B1AC3D2A52C9D738C2BD6E%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>label</I
+> is supplied, it is a string used to label the pane. <I
+>label-alignment</I
+> is as for the <A NAME="_6665"></A><A HREF="29-3.html#_1635"
+><B CLASS="cl"
+>labelling</B
+></A
+> macro. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B1491BAB02AA480F6AA2E4C432752D3%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>scroll-bars</I
+> may be <A NAME="_6666"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> to indicate that both vertical and horizontal scroll bars should be included, <B CLASS="cl"
+>:vertical</B
+> (the default) to indicate that vertical scroll bars should be included, or <B CLASS="cl"
+>:horizontal</B
+> to indicate that horizontal scroll bars should be included. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C067B086593B3B304DC8199ECFDFD44C%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z122"
+></A
+>There seems to be some confusion about the :scroll-bars option. If you&#10;compare this to <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=open-window-stream"
+>open-window-stream</A
+></SPAN
+>, you see that what is&#10;<SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=t"
+>t</A
+></SPAN
+> here is <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aboth"
+>:both</A
+></SPAN
+> over there. And &#10;<SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=open-window-stream"
+>open-window-stream</A
+></SPAN
+> also takes <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=nil"
+>nil</A
+></SPAN
+>, while this one&#10;does not. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C067B086593B3B304DC8199ECFDFD44C%2Fmake-clim-stream-pane%2F29.4.3&amp;editp=t&amp;id=Z122#Z122"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumman 2005-11-29 10:30Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z152"
+></A
+>The Franz User Guide (CLIM 2.2) says that :both is used here as well. I would consider it an oversight in the CLIM spec, and I believe we should use :both as well (though probably also support T with a warning, since most people probably use the CLIM 2.0 spec as their reference). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C067B086593B3B304DC8199ECFDFD44C%2Fmake-clim-stream-pane%2F29.4.3&amp;editp=t&amp;id=Z152#Z152"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-12-04 21:37Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If <I
+>borders</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the default, a border is drawn around the pane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4B05C065F82BB31B2583E0ACAC8370F%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>display-after-commands</I
+> is used to initialize the <A NAME="_6670"></A><A HREF="29-4.html#_1669"
+><B CLASS="cl"
+>:display-time</B
+></A
+> property of the pane. It may be <A NAME="_6671"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (for <B CLASS="cl"
+>:display-time :command-loop</B
+>), <B CLASS="cl"
+>:no-clear</B
+> (for <B CLASS="cl"
+>:display-time :no-clear</B
+>), or <A NAME="_6675"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (for <B CLASS="cl"
+>:display-time nil</B
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D2AC9B15A47EDDA7B4A9B2F7C8DA3A5D%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The other options may include all of the valid CLIM stream pane options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F424BE412E2C556FDFAFAF8E3406A49E%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A4037FABF27B8603C8540FB84284B172%2Fmake-clim-stream-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6679"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-application-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6677"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-interactor-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5648"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1687"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-clim-interactor-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_6677"></A><A HREF="29-4.html#_1686"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+></A
+>, except that the type is forced to be <A NAME="_6678"></A><A HREF="29-4.html#_1680"
+><B CLASS="cl"
+>interactor-pane</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9721B22C5CD63A2148D160A3C3ECF46D%2Fmake-clim-interactor-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6ACF3F502ECCF87443A3A594E189A324%2Fmake-clim-interactor-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1688"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-clim-application-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_6679"></A><A HREF="29-4.html#_1686"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+></A
+>, except that the type is forced to be <A NAME="_6680"></A><A HREF="29-4.html#_1681"
+><B CLASS="cl"
+>application-pane</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AC601050065E26AB608B89E1DE75D7FC%2Fmake-clim-application-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6D8DA01640E51C21697F833FC2632E4F%2Fmake-clim-application-pane%2F29.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1689"></A><DIV
+><H4
+>29.4.4 CLIM Stream Pane Functions</H4
+><P
+>The following functions can be called on any pane that is a subclass of <A NAME="_6681"></A><A HREF="29-4.html#_1679"
+><B CLASS="cl"
+>clim-stream-pane</B
+></A
+>. (Such a pane is often simply referred to as a <A NAME="_1690"></A><SPAN CLASS="concept"
+>window</SPAN
+>.) These are provided purely as a convenience for programmers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92CF5D8460F57F8C00D6E1A4A0C13AA5%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1691"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-clear</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Clears the entire drawing plane by filling it with the background design of the CLIM stream pane <I
+>window</I
+>. If <I
+>window</I
+> has an output history, that is cleared as well. The text cursor position of <I
+>window</I
+>, if there is one, is reset to the upper left corner. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18843B6B3EA177AC9C784D9AA1BA4553%2Fwindow-clear%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCDC2E4298E7424E2555B8FC4C921FAD%2Fwindow-clear%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="30-5.html#_6856"
+><SPAN CLASS="reverselink"
+>[&larr; 30.5 Integrating Gadgets and Output Records]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1692"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-refresh</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Clears the visible part of the drawing plane of the CLIM stream pane <I
+>window</I
+>, and then if the window stream is an output recording stream, the output records in the visible part of the window are replayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A6E5965F6ADB0F2C7EFFCDDB3FF5EDFF%2Fwindow-refresh%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D9BB7D696399E82487CF3B5B046B285%2Fwindow-refresh%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1693"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-viewport</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the viewport region of the CLIM stream pane <I
+>window</I
+>. If the window is not scrollable, and hence has no viewport, this will region <A NAME="_6682"></A><A HREF="7-3.html#_273"
+><B CLASS="cl"
+>sheet-region</B
+></A
+> of <I
+>window</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6FD58C402519210EABC6E4FE26691CA9%2Fwindow-viewport%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned region will generally be a <A NAME="_6683"></A><A HREF="4-1.html#_154"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BCF125596D91BEE9C28DABC0D81968E7%2Fwindow-viewport%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCF93A8C5D4B2E06F49AE7F4BF88A45B%2Fwindow-viewport%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1694"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-erase-viewport</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Clears the visible part of the drawing plane of the CLIM stream pane <I
+>window</I
+> by filling it with the background design. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEDCDFC2745A18E4C28FCEAF8EF386A3%2Fwindow-erase-viewport%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7CF1B58B94356BF2130E13FB5F42C088%2Fwindow-erase-viewport%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1695"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-viewport-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns two values, the <I
+>x</I
+> and <I
+>y</I
+> position of the top-left corner of the CLIM stream pane <I
+>window</I
+>'s viewport. If the window is not scrollable, this will return the two values 0 and 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B599EA59AA066D1E619E06DA197BE6F%2Fwindow-viewport-position%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0112A660C23C18CF36D9C51844F6B8F%2Fwindow-viewport-position%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7550"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1696"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* window-viewport-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the position of the CLIM stream pane <I
+>window</I
+>'s viewport to <I
+>x</I
+> and <I
+>y</I
+>. If the window is not scrollable, this will do nothing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73DD8EE6BE1C43368706D55115551564%2F%28setf%2A%20window-viewport-position%29%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>window-set-viewport-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3DAC531F40F81B7CA1CB036B42317B42%2F%28setf%2A%20window-viewport-position%29%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=482AB31BB8C24ADFB97E4DB7CB781FCE%2F%28setf%2A%20window-viewport-position%29%2F29.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1697"></A><DIV
+><H4
+>29.4.5 Creating a Standalone CLIM Window</H4
+><P
+>The following function can be used to create a standalone window that obeys CLIM's extended input and output stream and output recording protocols. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=60480D3DAD0AC1EAD01917014596F948%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1698"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>open-window-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>port left top right bottom width height  foreground background text-style  (vertical-spacing </I
+><I
+><B CLASS="cl"
+>2</B
+></I
+><I
+>)  end-of-line-action end-of-page-action  output-record (draw </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) (record </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  (initial-cursor-visibility </I
+><I
+><B CLASS="cl"
+>:off</B
+></I
+><I
+>)  text-margin save-under input-buffer  (scroll-bars </I
+><I
+><B CLASS="cl"
+>:vertical</B
+></I
+><I
+>) borders label</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates and returns a sheet that can be used as a standalone window that obeys CLIM's extended input and output stream and output recording protocols. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=44864C092DB2215E4CF20BF43015D8A6%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The window will be created on the port <I
+>port</I
+> at the position specified by <I
+>left</I
+> and <I
+>top</I
+>, which default to 0. <I
+>right</I
+>, <I
+>bottom</I
+>, <I
+>width</I
+>, and <I
+>height</I
+> default in such a way that the default width will be 100 and the default height will be 100. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E141A0433E534EE3B2C117BC273BF2C%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>foreground</I
+>, <I
+>background</I
+>, and <I
+>text-style</I
+> are used to specify the window's default foreground and background inks, and text style. <I
+>vertical-spacing</I
+>, <I
+>text-margin</I
+>, <I
+>end-of-line-action</I
+>, <I
+>end-of-page-action</I
+>, <I
+>output-record</I
+>, <I
+>draw</I
+>, and <I
+>record</I
+> are described in Section&nbsp;<A NAME="_6686"></A><A HREF="29-4.html#_1667"
+>29.4.1</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36F7F1E0D265F4BD0ECB3AB78759B195%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>scroll-bars</I
+> specifies whether scroll bars should be included in the resulting window. It may be one of <I
+>nil</I
+>, <B CLASS="cl"
+>:vertical</B
+> (the default), <B CLASS="cl"
+>:horizontal</B
+>, or <B CLASS="cl"
+>:both</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D98087FC0CB6A71007DBBBFF3A736892%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z123"
+></A
+>Please see comment for <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=make-clim-stream-pane"
+>make-clim-stream-pane</A
+></SPAN
+>. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D98087FC0CB6A71007DBBBFF3A736892%2Fopen-window-stream%2F29.4.5&amp;editp=t&amp;id=Z123#Z123"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-11-29 10:32Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>borders</I
+> is a booleans that specifies whether or not the resulting window should have a border drawn around it. The default is <A NAME="_6690"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <I
+>label</I
+> is either <A NAME="_6691"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or a string to use as a label for the window. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1CFC7CF2C92B9DEEC2CFB0AB21581A07%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>initial-cursor-visibility</I
+> is used to specify whether the window should have a text cursor. <B CLASS="cl"
+>:off</B
+> (the default) means to make the cursor visible if the window is waiting for input. <B CLASS="cl"
+>:on</B
+> means to make the cursor visible immediately. <A NAME="_6694"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> means the cursor will not be visible at all. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9030FC685F4A3EBD3145FF16319D7B00%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>save-under</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the result window will be given a "bit save array". The default is <A NAME="_6696"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B5D4F01D549FB350750680FD9F8274D%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <B CLASS="cl"
+>input-buffer</B
+> is supplied, it is an input buffer or event queue to use for the resulting window. Programmers will generally supply this when they want the new window to share its input buffer with an existing application. The default is to create a new input buffer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EC4D7A0C85DB656A145B1B2512FF6CC%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z367"
+></A
+>Mixing input-buffers and event-queues here is not helpful. Event queues are for sheets while input buffers are for streams. Former may insert to the latter. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EC4D7A0C85DB656A145B1B2512FF6CC%2Fopen-window-stream%2F29.4.5&amp;editp=t&amp;id=Z367#Z367"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-06-21 12:25Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=895A25B78C4C44E21FC87F81710A815E%2Fopen-window-stream%2F29.4.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7535"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

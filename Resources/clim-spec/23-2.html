@@ -1,0 +1,1074 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.2 Presentations</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23.1 Overview of Presentation Types" HREF="23-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.3 Presentation Types" HREF="23-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23-1.html"
+>Prev</A
+><BR
+><A HREF="23-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-2.html"
+><B
+>23.2&nbsp;Presentations</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1127"></A><DIV
+><H3
+>23.2 Presentations</H3
+><LI CLASS="outline_item"
+><A HREF="23-2.html#_1137"
+>23.2.1 The Presentation Protocol</A
+></LI
+><DIV
+><P
+>A <A NAME="_1128"></A><SPAN CLASS="concept"
+>presentation</SPAN
+> is a special kind of output record that remembers not only output, but the object associated with the output and the semantic type associated with that object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F588CD31BF59789E2A7130C38CE6133F%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7006"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7005"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6991"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6935"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6868"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5217"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>set-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5206"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>throw-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5194"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>call-presentation-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5187"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>call-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5182"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-matches-context-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5159"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-applicable-translators</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4828"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>highlight-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4630"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-modifier</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4629"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>(setf presentation-single-box)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4620"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-single-box</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4619"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>(setf presentation-type)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4618"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4617"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>(setf presentation-object)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4616"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2.1 The Presentation Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-object</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4612"
+><SPAN CLASS="reverselink"
+>[presentation, <I
+>Concept</I
+>&larr; 23.2 Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>presentationp</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+><B
+>Minor issue: </B
+> <I
+>Describe exactly what a presentation is. What does it mean for presentations to be nested? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BCA26DB1929FF31849EAF8D83079424F%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1129"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a presentation. If you want to create a new class that behaves like a presentation, it should be a subclass of <B CLASS="cl"
+>presentation</B
+>. All instantiable subclasses of <B CLASS="cl"
+>presentation</B
+> must obey the presentation protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73B5398A8D05ED2657364693DC8C4F33%2Fpresentation%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05DC5DE5C15F3741AF5BEAD00394D569%2Fpresentation%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z110"
+></A
+>Should this description mention that PRESENTATION is a subclass of OUTPUT-RECORD? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05DC5DE5C15F3741AF5BEAD00394D569%2Fpresentation%2F23.2&amp;editp=t&amp;id=Z110#Z110"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2005-09-03 23:04Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-2.html#_4615"
+><SPAN CLASS="reverselink"
+>[&larr; 23.2.1 The Presentation Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1130"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentationp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_4612"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F933FF75B8191F1E23789638ADF5255%2Fpresentationp%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=811042B9F904739BA597B832E5C4AECB%2Fpresentationp%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1131"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable output record class that represents presentations. <A NAME="_4614"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> normally creates output records of this class. Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F93CB133C98F48A3F8067814A7DDB1FF%2Fstandard-presentation%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7B1DD33256BFD7BA2522C6038405C81%2Fstandard-presentation%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z111"
+></A
+>Perhaps this description should mention that STANDARD-PRESENTATION is a subclass of PRESENTATION? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7B1DD33256BFD7BA2522C6038405C81%2Fstandard-presentation%2F23.2&amp;editp=t&amp;id=Z111#Z111"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2005-09-03 23:05Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-4.html#_4896"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1132"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:object</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1133"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1134"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1135"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:single-box</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1136"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:modifier</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All presentation classes must handle these five initargs, which are used to specify, respectively, the object, type, view, single-box, and modifier components of a presentation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D631869E1C87F18A56806D3BE029255A%2F%3Aobject%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFDBDC3FFDC0673F4DA96E30EFFF3424%2F%3Aobject%2F23.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5619"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-3.html#_5478"
+><SPAN CLASS="reverselink"
+>[&larr; 24.3 Signalling Errors Inside <TT
+>present</TT
+> Methods, <B CLASS="cl"
+><B CLASS="cl"
+>input-not-of-required-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1137"></A><DIV
+><H4
+>23.2.1 The Presentation Protocol</H4
+><P
+>The following functions comprise the presentation protocol. All classes that inherit from <A NAME="_4615"></A><A HREF="23-2.html#_1129"
+><B CLASS="cl"
+>presentation</B
+></A
+> must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=988CAF904B357CCBD7018EA6999E7127%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1138"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-object</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the object associated with the <A NAME="_4616"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79A1E0E4997C37334DDB7164BA96A751%2Fpresentation-object%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=400873CF42C07D351DEEC1C03228B96C%2Fpresentation-object%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1139"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf presentation-object)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the object associated with the <A NAME="_4617"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+> to <I
+>object</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=54AC0A021C4F7B6266D48C7AC573F9AE%2F%28setf%20presentation-object%29%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14065A59F91052FF914355FB1940EC74%2F%28setf%20presentation-object%29%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1140"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the presentation type associated with the <A NAME="_4618"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9ADD0BF4A8C7A702E7056D319DA9074%2Fpresentation-type%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8ACA16A0D662C448859413D770C07512%2Fpresentation-type%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1141"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf presentation-type)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the object associated with the <A NAME="_4619"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+> to <I
+>object</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=54AC0A021C4F7B6266D48C7AC573F9AE%2F%28setf%20presentation-type%29%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1142"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-single-box</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the "single box" attribute of the <A NAME="_4620"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>, which controls how the presentation is highlighted and when it is sensitive. This will be one of four values: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE5DE996ADE78C0BC5C844DC0A7863D1%2Fpresentation-single-box%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><A NAME="_4621"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (the default)---if the pointer is pointing at a visible piece of the output that was drawn as part of the presentation, then it is considered to be pointing at the presentation. The presentation is highlighted by highlighting each visible part of the output that was drawn as part of the presentation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C70A6B5612FABE45604501B69D970311%2Fpresentation-single-box%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_4622"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>---if the pointer is inside the bounding rectangle of the presentation, it is considered to be pointing at the presentation. The presentation is highlighted by drawing a thin border around the bounding rectangle. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=417CCAB80D27E2ADB94FA234C80FCF1C%2Fpresentation-single-box%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:position</B
+>---like <A NAME="_4624"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> for determining whether the pointer is pointing at the presentation, but like <A NAME="_4625"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> for highlighting. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B75359AB0BB5B7DC8B1982CDE97B880%2Fpresentation-single-box%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:highlighting</B
+>---like <A NAME="_4627"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> for determining whether the pointer is pointing at the presentation, but like <A NAME="_4628"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> for highlighting.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E38C3D948E89D1623FC5A071AE5A29A%2Fpresentation-single-box%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79484EA404009683F6CAC75F6E67CFE8%2Fpresentation-single-box%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-4.html#_4889"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1143"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf presentation-single-box)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>single-box presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the "single box" attribute of the <A NAME="_4629"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+> to <I
+>single-box</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=53F6B8F2053FCEF27D2C8E40ADF2089F%2F%28setf%20presentation-single-box%29%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6559DECEA81DCD4E7FCA6EE5576E054C%2F%28setf%20presentation-single-box%29%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1144"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-modifier</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the "modifier" associated with the <A NAME="_4630"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>. The modifier is some sort of object that describes how the presentation object might be modified. For example, it might be a function of one argument (the new value) that can be called in order to store a new value for <I
+>object</I
+> after a user somehow "edits" the presentation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8AFB311BAA6633AAB2B02F1695D22B29%2Fpresentation-modifier%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2117D223FA53152CCB4737752ADB44BF%2Fpresentation-modifier%2F23.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

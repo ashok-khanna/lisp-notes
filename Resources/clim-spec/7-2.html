@@ -1,0 +1,1301 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/7-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 7.2 Relationships Between Sheets</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="7.1 Basic Sheet Classes" HREF="7-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="7.3 Sheet Geometry" HREF="7-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="7 Properties of Sheets" HREF="7.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="7-1.html"
+>Prev</A
+><BR
+><A HREF="7-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="7.html"
+>7&nbsp;Properties&nbsp;of&nbsp;Sheets</A
+><BR
+>&rarr;&nbsp;<A HREF="7-2.html"
+><B
+>7.2&nbsp;Relationships&nbsp;Between&nbsp;Sheets</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_241"></A><DIV
+><H3
+>7.2 Relationships Between Sheets</H3
+><LI CLASS="outline_item"
+><A HREF="7-2.html#_248"
+>7.2.1 Sheet Relationship Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="7-2.html#_264"
+>7.2.2 Sheet Genealogy Classes</A
+></LI
+><P
+>Sheets are arranged in a tree-structured, acyclic, top-down hierarchy. Thus, in general, a sheet has one parent (or no parent) and zero or more children. A sheet may have zero or more siblings (that is, other sheets that share the same parent). In order to describe the relationships between sheets, we need to define some terms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B372F8E7B08AEFCE7E212F0B2DEC2A56%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DL
+><DT
+>Adopted</DT
+><DD
+>A sheet is said to be <A NAME="_242"></A><SPAN CLASS="concept"
+>adopted</SPAN
+> if it has a parent. A sheet becomes the parent of another sheet by adopting that sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=48F11B7E80E3EDC93BE5C33E8644E116%2FAdopted%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Disowned</DT
+><DD
+>A sheet is said to be <A NAME="_243"></A><SPAN CLASS="concept"
+>disowned</SPAN
+> if it does not have a parent. A sheet ceases to be a child of another sheet by being disowned. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=54B4028C1D866EEA99084CAA6077720A%2FDisowned%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Grafted</DT
+><DD
+>A sheet is said to be <A NAME="_244"></A><SPAN CLASS="concept"
+>grafted</SPAN
+> when it is part of a sheet hierarchy whose highest ancestor is a graft. In this case, the sheet may be visible on a particular window server. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD92779121AA4EFC7CA253B83DF9B60C%2FGrafted%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Degrafted</DT
+><DD
+>A sheet is said to be <A NAME="_245"></A><SPAN CLASS="concept"
+>degrafted</SPAN
+> when it is part of a sheet hierarchy that cannot possibly be visible on a server, that is, the highest ancestor is not a graft. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBE11277C0E22CAD8747CE95235441D5%2FDegrafted%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Enabled</DT
+><DD
+>A sheet is said to be <A NAME="_246"></A><SPAN CLASS="concept"
+>enabled</SPAN
+> when it is actively participating in the windowing relationship with its parent. If a sheet is enabled and grafted, and all its ancestors are enabled (they are grafted by definition), then the sheet will be visible if it occupies a portion of the graft region that isn't clipped by its ancestors or ancestor's siblings. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47C419955C282F44887801E5CBCDFAF4%2FEnabled%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+><DT
+>Disabled</DT
+><DD
+>The opposite of enabled is <A NAME="_247"></A><SPAN CLASS="concept"
+>disabled</SPAN
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EAC4D29DB858A6032888ABBCA65FBAD%2FDisabled%2F7.2#Z" CLASS="annolink"
+>[annotate]</A
+></DD
+></DL
+><A NAME="_248"></A><DIV
+><H4
+>7.2.1 Sheet Relationship Functions</H4
+><P
+>The generic functions in this section comprise the sheet protocol. All sheet objects must implement or inherit methods for each of these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2C03B00031500CC3DE0B14FC989F0B0%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_249"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-parent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the parent of the <A NAME="_2491"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>, or <A NAME="_2492"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if the sheet has no parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DAB4927BF68E713D2CAE68D2BB0D52C2%2Fsheet-parent%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D587A9CC6FF80F2F754AE6B995DF3292%2Fsheet-parent%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-1.html#_3706"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_250"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-children</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of sheets that are the children of the <A NAME="_2493"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. Some sheet classes support only a single child; in this case, the result of <B CLASS="cl"
+>sheet-children</B
+> will be a list of one element. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=65110FD95F8C5143477BA85213609E9E%2Fsheet-children%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E718336A725D8EC8472B8EE124F8CE59%2Fsheet-children%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-1.html#_3708"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_251"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-adopt-child</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet child</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the child sheet <I
+>child</I
+> to the set of children of the <A NAME="_2495"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>, and makes the <I
+>sheet</I
+> the child's parent. If <I
+>child</I
+> already has a parent, the <B CLASS="cl"
+>sheet-already-has-parent</B
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5AE84412505F73C0F5D847983CFCCF96%2Fsheet-adopt-child%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some sheet classes support only a single child. For such sheets, attempting to adopt more than a single child will cause the <B CLASS="cl"
+>sheet-supports-only-one-child</B
+> error to be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85A9E82AEE237CB6E54819A08D4F2DE2%2Fsheet-adopt-child%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F2541C81900D9E8ADA3D7636AD249AF%2Fsheet-adopt-child%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z343"
+></A
+>What should sheet-adopt-child return? The adopted child? All of the sheets children? no values? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F2541C81900D9E8ADA3D7636AD249AF%2Fsheet-adopt-child%2F7.2.1&amp;editp=t&amp;id=Z343#Z343"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Cyrus Harmon 2018-08-26 18:37Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-1.html#_3710"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_252"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-disown-child</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet child </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the child sheet <I
+>child</I
+> from the set of children of the <A NAME="_2498"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>, and makes the parent of the child be <A NAME="_2499"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. If <I
+>child</I
+> is not actually a child of <I
+>sheet</I
+> and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <B CLASS="cl"
+>sheet-is-not-child</B
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D845021778A85EBFE189BA6B6A32768%2Fsheet-disown-child%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=210742EE853320A207926BCE50736A73%2Fsheet-disown-child%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-1.html#_3712"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_253"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-siblings</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of all of the siblings of the <A NAME="_2502"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. The sibling are all of the children of <I
+>sheet</I
+>'s parent excluding <I
+>sheet</I
+> itself. This function returns fresh objects that may be modified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A0A85B267BD6FED4C141F697011EE564%2Fsheet-siblings%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=095EA342902A6616E7B0B61963C92F37%2Fsheet-siblings%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_254"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-enabled-children</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of those children of the <A NAME="_2503"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> that are enabled. This function returns fresh objects that may be modified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=588F9E31D510887140720B436E3AE4B5%2Fsheet-enabled-children%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42497ED7BA3AAB54D74902C59AE64125%2Fsheet-enabled-children%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_255"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-ancestor-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet putative-ancestor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the the <A NAME="_2505"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>putative-ancestor</I
+> is in fact an ancestor of the <A NAME="_2506"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5AC1856DDD72395B109390EF45972772%2Fsheet-ancestor-p%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D6081C34D038B2BC218D56DC0EA3C840%2Fsheet-ancestor-p%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_256"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>raise-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_257"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bury-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions reorder the children of a sheet by raising the <A NAME="_2508"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> to the top or burying it at the bottom. Raising a sheet puts it at the beginning of the ordering; burying it puts it at the end. If sheets overlap, the one that appears "on top" on the display device is earlier in the ordering than the one underneath. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2A58089D20ACE551A6C03EBAB058FCD%2Fraise-sheet%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This may change which parts of which sheets are visible on the display device. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F2D41AD769A6189DCDDE1641D9A6EAE%2Fraise-sheet%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EA04EF40D185E7C5397DC2FFC310503%2Fraise-sheet%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z71"
+></A
+>Maybe we should have these as vanilla functions calling reorder-sheets. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EA04EF40D185E7C5397DC2FFC310503%2Fraise-sheet%2F7.2.1&amp;editp=t&amp;id=Z71#Z71"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-11-20 23:52Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-2.html#_6187"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>raise-frame</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6188"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>bury-frame</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_258"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>reorder-sheets</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet new-ordering</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reorders the children of the <A NAME="_2509"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> to have the new ordering specified by <I
+>new-ordering</I
+>. <I
+>new-ordering</I
+> is an ordered list of the child sheets; elements at the front of <I
+>new-ordering</I
+> are "on top" of elements at the rear. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A45F088ECF540B9944331FBAB1AC4C6%2Freorder-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>new-ordering</I
+> does not contain all of the children of <I
+>sheet</I
+>, the <B CLASS="cl"
+>sheet-ordering-underspecified</B
+> error will be signalled. If <I
+>new-ordering</I
+> contains a sheet that is not a child of <I
+>sheet</I
+>, the <B CLASS="cl"
+>sheet-is-not-child</B
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85839DEF560CF99A6FF939C490D37D61%2Freorder-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF22C1C73DB76A54BCF1302F293DBB17%2Freorder-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z72"
+></A
+><P
+>An <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=note-children-reordered"
+>note-children-reordered</A
+></SPAN
+> generic function would be nice to have&#10;for some layout panes, which want react on the order changed by re-arranging&#10;the position of the children.</P
+><P
+>Though I really don't know if that is the correct way. Also see the note to &#10;<SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=raise-sheet"
+>raise-sheet</A
+></SPAN
+> and <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=bury-sheet"
+>bury-sheet</A
+></SPAN
+></P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF22C1C73DB76A54BCF1302F293DBB17%2Freorder-sheets%2F7.2.1&amp;editp=t&amp;id=Z72#Z72"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-11-20 23:55Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_259"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-enabled-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the the <A NAME="_2513"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> is enabled by its parent, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. Note that all of a sheet's ancestors must be enabled before the sheet is viewable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A6185381279234071981AE4FEC9E0B98%2Fsheet-enabled-p%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=710D68E78E7162A3DA465452E9319453%2Fsheet-enabled-p%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_260"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf sheet-enabled-p)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>enabled-p sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>When <I
+>enabled-p</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, this enables the the <A NAME="_2516"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. When <I
+>enabled-p</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this disables the sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEE613E47635DE538D4C96C73FE6598E%2F%28setf%20sheet-enabled-p%29%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that a sheet is not visible unless it and all of its ancestors are enabled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A04194362B5F6816FA5EE6FC2FE832CB%2F%28setf%20sheet-enabled-p%29%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE042BCCD4A6C672C3F431A396AF27A0%2F%28setf%20sheet-enabled-p%29%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_261"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-viewable-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <A NAME="_2519"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> and all its ancestors are enabled, and if one of its ancestors is a graft. See Chapter&nbsp;<A NAME="_2520"></A><A HREF="9.html#_446"
+>9</A
+> for further information. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=13E52916AB33365635A4D91664AF17C4%2Fsheet-viewable-p%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B633F000FBE18272D0A521B744FE9746%2Fsheet-viewable-p%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_262"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-occluding-sheets</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet child</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of the <A NAME="_2521"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>child</I
+>'s siblings that occlude part or all of the region of the <I
+>child</I
+>. In general, these are the siblings that are enabled and appear earlier in the <A NAME="_2522"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s children. If <I
+>sheet</I
+> does not permit overlapping among its children, <B CLASS="cl"
+>sheet-occluding-sheets</B
+> will return <A NAME="_2524"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F2D8E63E19A0AABCEF421303F79712F%2Fsheet-occluding-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function returns fresh objects that may be modified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96FDBC89B45293006C146AA6D18E6331%2Fsheet-occluding-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72B68526A1B5A7B0AF754D4D1DD73949%2Fsheet-occluding-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_263"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-sheets</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the function <I
+>function</I
+> to the sheet <I
+>sheet</I
+>, and then applies <I
+>function</I
+> to all of the descendents (the children, the children's children, and so forth) of <I
+>sheet</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=83D608D10C1F76CDF708A9EC41F1B0B5%2Fmap-over-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Function is a function of one argument, the sheet; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5B31AFE5F45D0C4DAC9B4E25E0F63D0%2Fmap-over-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AE1F87C357A80A078EDC892DCB40BA3%2Fmap-over-sheets%2F7.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_264"></A><DIV
+><H4
+>7.2.2 Sheet Genealogy Classes</H4
+><P
+>Different "mixin" classes are provided that implement the relationship protocol. None of the four following classes is instantiable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FDD7620BA3974DCAFEB410F282456A67%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_265"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-parent-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes that have a parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=710C206CFD42F949843CA60D6FA0B26E%2Fsheet-parent-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=525DF4184F16A6D5C8092AAB80DFD1ED%2Fsheet-parent-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_266"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-leaf-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes that will never have children. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80CE58E9CECA0E1CAAFB3DB6B54FFD34%2Fsheet-leaf-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=87D8AC9FD314C92CD137AAF806524FDA%2Fsheet-leaf-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_267"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-single-child-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes that have at most a single child. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A63F71F25EEBB40E5EFDC78A4471B3B%2Fsheet-single-child-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D12B9DAC92E9B793623F62CD7A1A25D4%2Fsheet-single-child-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_268"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-multiple-child-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes that may have zero or more children. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B032A4C096E145AD8C16ADCD0EACEFD%2Fsheet-multiple-child-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1546255EF93649772A1490CA580F43BB%2Fsheet-multiple-child-mixin%2F7.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/7-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

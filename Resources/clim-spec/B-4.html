@@ -1,0 +1,279 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/B-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; B.4 Multiple Value setf</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="B.3 Locks" HREF="B-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="C Encapsulating Streams" HREF="C.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="B The CLIM-SYS Package" HREF="B.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="B-3.html"
+>Prev</A
+><BR
+><A HREF="C.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+> &rarr;&nbsp;<A HREF="B.html"
+>B&nbsp;The&nbsp;CLIM-SYS&nbsp;Package</A
+><BR
+>&rarr;&nbsp;<A HREF="B-4.html"
+><B
+>B.4&nbsp;Multiple&nbsp;Value&nbsp;setf</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1903"></A><DIV
+><H3
+>B.4 Multiple Value <TT
+>setf</TT
+></H3
+><P
+>CLIM provides a facility, sometimes referred to as <B CLASS="cl"
+>setf*</B
+>, that allows <B CLASS="cl"
+>setf</B
+> to be used on "places" that name multiple values. For example, <A NAME="_7077"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+> returns the position of an output record as two values that correspond to the <I
+>x</I
+> and <I
+>y</I
+> coordinates. In order to change the position of an output record, the programmer would like to invoke <B CLASS="cl"
+>(setf&nbsp;output-record-position)</B
+>. Normally however, <B CLASS="cl"
+>setf</B
+> only takes a single value with which to modify the specified place. The <B CLASS="cl"
+>setf*</B
+> facility provides a "multiple value" version of <B CLASS="cl"
+>setf</B
+> that allows an expression that returns multiple values to be used to update the specified place. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C492F6102FFDA8577BCC46129EC0C767%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1904"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>defgeneric*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name lambda-list </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a <B CLASS="cl"
+>setf*</B
+> generic function named <I
+>name</I
+>. The last argument in <I
+>lambda-list</I
+> is intended to be class specialized, just as is the case for normal <B CLASS="cl"
+>setf</B
+> generic functions. <I
+>options</I
+> is as for <B CLASS="cl"
+>defgeneric</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16E91888C9CA94B85A91156C3A2E2554%2Fdefgeneric%2A%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z203"
+></A
+>LAMBDA-LIST may also have &amp;KEY values (definitely used), and presumably &amp;OPTIONAL values or an &amp;REST list.  It might be better to say that the last REQUIRED argument in LAMBDA-LIST is intended to be class specialized.  The same argument applies to DEFMETHOD*, below, as well. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16E91888C9CA94B85A91156C3A2E2554%2Fdefgeneric%2A%2FB.4&amp;editp=t&amp;id=Z203#Z203"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2011-03-30 22:36Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A1CBA473105505480041E1DD3B3916E%2Fdefgeneric%2A%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1905"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>defmethod*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name {method-qualifier}* specialized-lambda-list </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a <B CLASS="cl"
+>setf*</B
+> method for the generic function <I
+>name</I
+>. The last argument in <I
+>specialized-lambda-list</I
+> is intended to be class specialized, just as is the case for normal <B CLASS="cl"
+>setf</B
+> methods. <I
+>{method-qualifier}*</I
+> amd <I
+>body</I
+> are as for <B CLASS="cl"
+>defgeneric</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D46AD1CE368EB9EFECC7C3CD945DB374%2Fdefmethod%2A%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> For example, <A NAME="_7088"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+> and its <B CLASS="cl"
+>setf*</B
+> method for a class called <B CLASS="cl"
+>sample-output-record</B
+> might be defined as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=765052232F9254CB3A81387BF398617E%2Fdefmethod%2A%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defgeneric output-record-position (record)&#10;  (declare (values x y)))&#10;(defgeneric* (setf output-record-position) (x y record))&#10;&#10;(defmethod output-record-position ((record sample-output-record))&#10;  (with-slots (x y)&#10;    (values x y)))&#10;&#10;(defmethod* (setf output-record-position) (nx ny (record sample-output-record))&#10;  (with-slots (x y)&#10;    (setf x nx&#10;          y ny)))&#10;</PRE
+><P
+>The position of such an output record could then be changed as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58E76F21E3B15C7AFE195D67D69460CD%2Fdefmethod%2A%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(setf (output-record-position record) (values nx ny))&#10;&#10;(setf (output-record-position record1) (output-record-position record2))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA18C64554CB3E720D8AC1CD20632E6D%2Fdefmethod%2A%2FB.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/B-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

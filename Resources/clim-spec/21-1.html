@@ -1,0 +1,377 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/21-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 21.1 Overview of Incremental Redisplay</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="21 Incremental Redisplay" HREF="21.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="21.2 Standard Programmer Interface" HREF="21-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="21 Incremental Redisplay" HREF="21.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="21.html"
+>Prev</A
+><BR
+><A HREF="21-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="21.html"
+>21&nbsp;Incremental&nbsp;Redisplay</A
+><BR
+>&rarr;&nbsp;<A HREF="21-1.html"
+><B
+>21.1&nbsp;Overview&nbsp;of&nbsp;Incremental&nbsp;Redisplay</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1016"></A><DIV
+><H3
+>21.1 Overview of Incremental Redisplay</H3
+><LI CLASS="outline_item"
+><A HREF="21-1.html#_1017"
+>21.1.1 Examples of Incremental Redisplay</A
+></LI
+><P
+>CLIM's incremental redisplay facility to allows the programmer to change the output in an output history (and hence, on the screen or other output device) in an incremental fashion. It allows the programmer to redisplay individual pieces of the existing output differently, under program control. It is "incremental" in the sense that CLIM will try to minimize the changes to the existing output on a display device when displaying new output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A260C1B078EC4620E4AC027128FC1747%2F21.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There are two different ways to do incremental redisplay. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=70686464F77573E344F7D488E3BADB31%2F21.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The first is to call <A NAME="_4218"></A><A HREF="21-2.html#_1021"
+><B CLASS="cl"
+>redisplay</B
+></A
+> on an output record. In essence, this tells CLIM to recompute the output of that output record over from scratch. CLIM compares the new results with the existing output and tries to do minimal redisplay. The <A NAME="_4219"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> form allows the programmer to assist CLIM by informing it that entire branches of the output history are known not to have changed. <A NAME="_4220"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> also allows the programmer to communicate the fact that a piece of the output record hierarchy has moved, either by having an output record change its parent, or by having an output record change its position. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E4037E6EE152FD99E6E5BBA56E5E905%2F21.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The second way to do incremental redisplay is for the programmer to manually do the updates to the output history, and then call <A NAME="_4221"></A><A HREF="21-3.html#_1039"
+><B CLASS="cl"
+>note-output-record-child-changed</B
+></A
+> on an output record. This causes CLIM to propagate the changes up the output record tree and allows parent output records to readjust themselves to account for the changes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77F52C404E4C99E22EEACBB97D539A22%2F21.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Each style is appropriate under different circumstances. <A NAME="_4222"></A><A HREF="21-2.html#_1021"
+><B CLASS="cl"
+>redisplay</B
+></A
+> is often easier to use, especially when there might are large numbers of changes between two passes, or when the programmer has only a poor idea as to what the changes might be. <A NAME="_4223"></A><A HREF="21-3.html#_1039"
+><B CLASS="cl"
+>note-output-record-child-changed</B
+></A
+> can be more efficient for small changes at the bottom of the output record hierarchy, or in cases where the programmer is well informed as to the specific changes necessary and can help CLIM out. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB96AA60F650F9F8548A4E9788405D5C%2F21.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1017"></A><DIV
+><H4
+>21.1.1 Examples of Incremental Redisplay</H4
+><P
+>The usual technique of incremental redisplay is to use <A NAME="_4224"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> to inform CLIM what output has changed, and use <A NAME="_4225"></A><A HREF="21-2.html#_1021"
+><B CLASS="cl"
+>redisplay</B
+></A
+> to recompute and redisplay that output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=71C43C55652B70F49407D46CB2DD8FB3%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The outermost call to <A NAME="_4226"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> identifies a program fragment that produces incrementally redisplayable output. A nested call to <A NAME="_4227"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> (that is, a call to <A NAME="_4228"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> that occurs during the execution of the body of the outermost <A NAME="_4229"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> and specifies the same stream) identifies an individually redisplayable piece of output, the program fragment that produces that output, and the circumstances under which that output needs to be redrawn. This nested calls to <A NAME="_4230"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> are just hints to incremental redisplay that can reduce the amount of work done by CLIM. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF332F49AF88630C196BE88D99963BA5%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z435"
+></A
+>The typo in the last sentence (singular "this", instead of... phrasing the entire thing differently, rather than merely using a plural) amusingly coincides with the problematic aspects of such recursive updates; consider clarifying. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF332F49AF88630C196BE88D99963BA5%2F21.1.1&amp;editp=t&amp;id=Z435#Z435"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Adlai Chandrasekhar 2021-03-19 18:47Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The outermost call to <A NAME="_4231"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> executes its body, producing the initial version of the output, and returns an <A NAME="_4232"></A><A HREF="21-3.html#_1024"
+><B CLASS="cl"
+>updating-output-record</B
+></A
+> that captures the body in a closure. Each nested call to <A NAME="_4233"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> stores its <A NAME="_4234"></A><A HREF="21-3.html#_1026"
+><B CLASS="cl"
+>:unique-id</B
+></A
+> and <A NAME="_4235"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+> arguments and the portion of the output produced by its body. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8CA3E7442B75294A9C0596C25B60E99%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_4236"></A><A HREF="21-2.html#_1021"
+><B CLASS="cl"
+>redisplay</B
+></A
+> takes an <A NAME="_4237"></A><A HREF="21-3.html#_1024"
+><B CLASS="cl"
+>updating-output-record</B
+></A
+> and executes the captured body of <A NAME="_4238"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> over again. When a nested call to <A NAME="_4239"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> is executed during redisplay, <A NAME="_4240"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> decides whether the cached output can be reused or the output needs to be redrawn. This is controlled by the <A NAME="_4241"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+> argument to <A NAME="_4242"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>. If its value matches its previous value, the body would produce output identical to the previous output and thus it is unnecessary for CLIM to execute the body again. In this case the cached output is reused and <A NAME="_4243"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> does not execute its body. If the cache value does not match, the output needs to be recomputed, so <A NAME="_4244"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> executes its body and the new output drawn on the stream replaces the previous output. The <A NAME="_4245"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+> argument is only meaningful for nested calls to <A NAME="_4246"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5C0F95FEC1159CD7F05B8C67806127B%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In order to compare the cache to the output record, two pieces of information are necessary: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8CDFA72225863914FAECBE3E944C73F%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>An association between the output being done by the program and a particular cache. This is supplied in the <A NAME="_4247"></A><A HREF="21-3.html#_1026"
+><B CLASS="cl"
+>:unique-id</B
+></A
+> option to <A NAME="_4248"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F2608FA7BD076D7D3D667564F9375EB%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A means of determining whether this particular cache is valid. This is the <A NAME="_4249"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+> option to <A NAME="_4250"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=10DEFE3A12B21D8DC407E0933A710F72%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>Normally, the programmer would supply both options. The unique-id would be some data structure associated with the corresponding part of output. The cache value would be something in that data structure that changes whenever the output changes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6D4EA8075EFB39D19463E640C4FABADA%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is valid to give the <A NAME="_4251"></A><A HREF="21-3.html#_1026"
+><B CLASS="cl"
+>:unique-id</B
+></A
+> and not the <A NAME="_4252"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+>. This is done to identify a parent in the hierarchy. By this means, the children essentially get a more complex unique id when they are matched for output. (In other words, it is like using a telephone area code.) The cache without a cache value is never valid. Its children always have to be checked. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D250D3A63267D99E6D12BC9EEF2062F7%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is also valid to give the <A NAME="_4253"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+> and not the <A NAME="_4254"></A><A HREF="21-3.html#_1026"
+><B CLASS="cl"
+>:unique-id</B
+></A
+>. In this case, unique ids are just assigned sequentially. So, if output associated with the same thing is done in the same order each time, it isn't necessary to invent new unique ids for each piece. This is especially true in the case of children of a cache with a unique id and no cache value of its own. In this case, the parent marks the particular data structure, whose components can change individually, and the children are always in the same order and properly identified by their parent and the order in which they are output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=067B353C10349AFF939F563157A6AC1B%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A unique id need not be unique across the entire redisplay, only among the children of a given output cache; that is, among all possible (current and additional) uses made of <A NAME="_4255"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> that are dynamically (not lexically) within another. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3CAD73538B07AE21CF6C9F2AAF97249A%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>To make incremental redisplay maximally efficient, the programmer should attempt to give as many caches with <A NAME="_4256"></A><A HREF="21-3.html#_1028"
+><B CLASS="cl"
+>:cache-value</B
+></A
+> as possible. For instance, if the thing being redisplayed is a deeply nested tree, it is better to be able to know when whole branches have not changed than to have to recurse to every single leaf and check it. So, if there is a modification tick in the leaves, it is better to also have one in their parent of the leaves and propagate the modification up when things change. While the simpler approach works, it requires CLIM to do more work than is necessary. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=313F50DA5F51374CB4FCB77AFA604F5D%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The following function illustrates the standard use of incremental redisplay: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A151388B7DE8AA97777853597A611230%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun test (stream)&#10;  (let* ((list (list 1 2 3 4 5))&#10;         (record&#10;           (updating-output (stream)&#10;             (do* ((elements list (cdr elements))&#10;                   (count 0 (1+ count)))&#10;                  ((null elements))&#10;               (let ((element (first elements)))&#10;                 (updating-output (stream :unique-id count&#10;                                          :cache-value element)&#10;                   (format stream "Element ~D" element)&#10;                   (terpri stream)))))))&#10;    (sleep 10)&#10;    (setf (nth 2 list) 17)&#10;    (redisplay record stream)))&#10;</PRE
+><P
+>When this function is run on a window, the initial display will look like: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58DC05FA6983BA7BD00DFA360C68009D%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;  Element 1&#10;  Element 2&#10;  Element 3&#10;  Element 4&#10;  Element 5&#10;</PRE
+><P
+>After the sleep has terminated, the display will look like: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42ED731C6BD1CA9149ACDB6E54A0F467%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;  Element 1&#10;  Element 2&#10;  Element 17&#10;  Element 4&#10;  Element 5&#10;</PRE
+><P
+>CLIM takes care of ensuring that only the third line gets erased and redisplayed. In the case where items moved around (try the example substituting <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A999DB2DE167179726D536F7FF1F0D71%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(setq list (sort list #'(lambda (x y)&#10;                          (declare (ignore x y))&#10;                          (zerop (random 2))))) &#10;</PRE
+><P
+>for the form after the call to <B CLASS="cl"
+>sleep</B
+>), CLIM would ensure that the minimum amount of work would be done in updating the display, thereby minimizing "flashiness" while providing a powerful user interface. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FB9C07145F5CA4BA7AEE3D011335292%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>See Chapter&nbsp;<A NAME="_4258"></A><A HREF="28.html#_1457"
+>28</A
+> for a discussion of how to use incremental redisplay automatically within the panes of an application frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=54523614952CE62D178CF6DFF56A7189%2F21.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/21-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:54 GMT -->
+</HTML
+>

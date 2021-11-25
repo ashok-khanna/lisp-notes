@@ -1,0 +1,1884 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.5 Drawing Functions</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.4 Rendering Conventions for Geometric Shapes" HREF="12-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12.6 Pixmaps" HREF="12-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-4.html"
+>Prev</A
+><BR
+><A HREF="12-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-5.html"
+><B
+>12.5&nbsp;Drawing&nbsp;Functions</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_616"></A><DIV
+><H3
+>12.5 Drawing Functions</H3
+><LI CLASS="outline_item"
+><A HREF="12-5.html#_617"
+>12.5.1 Basic Drawing Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="12-5.html#_638"
+>12.5.2 Compound Drawing Functions</A
+></LI
+><P
+>Each drawing function takes keyword arguments allowing any drawing option or suboption to be supplied separately in the call to the function. In some implementations of CLIM, the drawing functions may ignore drawing options that are irrelevant to that function; in other implementations, an error may be signalled. See Chapter&nbsp;<A NAME="_3179"></A><A HREF="10.html#_505"
+>10</A
+> for a more complete discussion of the drawing options. An error will be signalled if any drawing function is called on a sheet that is mute for output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C9F9AF7A37158FF162568BBF066F4C1%2F12.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>While the functions in this section are specified to be called on mediums, they can also be called on sheets and streams. CLIM implementations will typically implement the method on a medium, and write a "trampoline" on the various sheet and stream classes that trampolines to the medium. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=21C359EC8AB560D5A589B32729ED95C7%2F12.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> The drawing functions are all specified as ordinary functions, not as generic functions. This is intended to ease the task of writing compile-time optimizations that avoid keyword argument taking, check for such things as constant drawing options, and so forth. If you need to specialize any of the drawing methods, use <B CLASS="cl"
+>define-graphics-method</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A0D3CA4A27D5FF970C42F898DED6CC5A%2F12.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Each drawing function comes in two forms, a "structured" version and a "spread" version. The structured version passes points, whereas the spread version passes coordinates. See Section&nbsp;<A NAME="_3181"></A><A HREF="2-3.html#_9"
+>2.3</A
+> for more information on this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8B286367DE2336951A0019D3F9AA1FA%2F12.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Any drawing functions may create an <SPAN CLASS="term"
+>output record</SPAN
+> that corresponds to the figure being drawn. See Chapter&nbsp;<A NAME="_3183"></A><A HREF="15.html#_757"
+>15</A
+> for a complete discussion of output recording. During output recording, none of these functions capture any arguments that are points, point sequences, coordinate sequences, or text strings. Line styles, text styles, transformations, and clipping regions may be captured. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EF5667F692C0B7667FBFBFBE3F7C308B%2F12.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that the CLIM specification does not specify more complex shapes such as cubic splines and B&#233;zier curves. These are suitable candidates for extensions to CLIM. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=307AE79AB8A5F39CA14DFE704A384678%2F12.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z392"
+></A
+>Quadratic and Cubic Beziers seem notably lacking in 2020. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=307AE79AB8A5F39CA14DFE704A384678%2F12.5&amp;editp=t&amp;id=Z392#Z392"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Matt  2020-01-30 19:12Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><A NAME="_617"></A><DIV
+><H4
+>12.5.1 Basic Drawing Functions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_618"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium point </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_619"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-point*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x y </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a single point on the <A NAME="_3184"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> at the <A NAME="_3185"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point</I
+> (or the position <I
+>(x,y)</I
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0C98D4B0F8D433B75D246197A420A5B5%2Fdraw-point%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The unit and thickness components of the current line style (see Chapter&nbsp;<A NAME="_3186"></A><A HREF="10.html#_505"
+>10</A
+>) affect the drawing of the point by controlling the size on the display device of the "blob" that is used to render the point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE4E4BDA2ED68773EC6866EA3A0D0D1C%2Fdraw-point%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=783C717390B47B978A963F8526CC50EF%2Fdraw-point%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3555"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_620"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-points</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium points </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_621"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-points*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium position-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a set of points on the <A NAME="_3187"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <I
+>points</I
+> is a sequence of point objects; <I
+>position-seq</I
+> is a sequence of coordinate pairs, which are real numbers. It is an error if <I
+>position-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB62C0F1C0A50D91CDA2B7AF417B8C84%2Fdraw-points%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Ignoring the drawing options, these functions exist as equivalents to  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA352B8386D942B33E4A3535B6431500%2Fdraw-points%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(map nil #`(lambda (point) (draw-point medium point)) points)&#10;</PRE
+><P
+> and  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE5D5D37542D75F93A87094459F76678%2Fdraw-points%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(do ((i 0 (+ i 2)))&#10;    ((= i (length position-seq)))&#10;  (draw-point* medium (elt position-seq i) (elt position-seq (+ i 1))))&#10;</PRE
+><P
+> for convenience and efficiency. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3E08F9D64BB0741F79ABE8620463497%2Fdraw-points%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20587060EB316930BEEFE0A942933E19%2Fdraw-points%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_622"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-line</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium point1 point2 </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_623"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-line*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x1 y1 x2 y2 </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a line segment on the <A NAME="_3188"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> from the <A NAME="_3189"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point1</I
+> to <I
+>point2</I
+> (or from the position (<I
+>x1</I
+>,<I
+>y1</I
+>) to (<I
+>x2</I
+>,<I
+>y2</I
+>)). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3D15682A8C85853A9951807997E7F933%2Fdraw-line%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The current line style (see Chapter&nbsp;<A NAME="_3190"></A><A HREF="10.html#_505"
+>10</A
+>) affects the drawing of the line in the obvious way, except that the joint shape has no effect. Dashed lines start dashing at <I
+>point1</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=55ACE21335C4DA4C860D4624EC791746%2Fdraw-line%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8AAC3402AF95FFD05E7F70855CE60B28%2Fdraw-line%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="E-1.html#_7259"
+><SPAN CLASS="reverselink"
+>[&larr; E.1 Support for PostScript Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-to-postscript-stream</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-1.html#_4121"
+><SPAN CLASS="reverselink"
+>[&larr; 18.1 Graph Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3971"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>make-design-from-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3869"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.2 Graphics Output Recording]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3807"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.2 Graphics Displayed Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>graphics-displayed-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3806"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.2 Graphics Displayed Output Records]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3247"
+><SPAN CLASS="reverselink"
+>[&larr; 12.7.1 General Behavior of Drawing Functions]</SPAN
+></A
+><BR
+><A HREF="2-3.html#_2040"
+><SPAN CLASS="reverselink"
+>[&larr; 2.3 "Spread" Point Arguments to Functions ]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_624"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-lines</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium points </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_625"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-lines*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium position-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a set of disconnected line segments. <I
+>points</I
+> is a sequence of point objects; <I
+>position-seq</I
+> is a sequence of coordinate pairs. It is an error if <I
+>position-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=253647C17BAEB683225CC95787A26EDE%2Fdraw-lines%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Ignoring the drawing options, these functions are equivalent to  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D91C86F668EE21CC27BC8B33CE4EF100%2Fdraw-lines%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(do ((i 0 (+ i 2)))&#10;    ((= i (length points)))&#10;  (draw-line medium (elt points i) (elt points (1+ i))))&#10;</PRE
+><P
+> and  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE5D5D37542D75F93A87094459F76678%2Fdraw-lines%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(do ((i 0 (+ i 4)))&#10;    ((= i (length position-seq)))&#10;  (draw-line* medium (elt position-seq i)       (elt position-seq (+ i 1))&#10;                     (elt position-seq (+ i 2)) (elt position-seq (+ i 3))))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9E5E8FE12FDDC0BEC9D02BD5A83C3F0A%2Fdraw-lines%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_626"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-polygon</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium point-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) (closed </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_627"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-polygon*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium coord-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) (closed </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a polygon or polyline on the <A NAME="_3191"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. When <I
+>filled</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this draws a set of connected lines, otherwise it draws a filled polygon. If <I
+>closed</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default) and <I
+>filled</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, it ensures that a segment is drawn that connects the ending point of the last segment to the starting point of the first segment. The current line style (see Chapter&nbsp;<A NAME="_3195"></A><A HREF="10.html#_505"
+>10</A
+>) affects the drawing of unfilled polygons in the obvious way. The cap shape affects only the "open" vertices in the case when <I
+>closed</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. Dashed lines start dashing at the starting point of the first segment, and may or may not continue dashing across vertices, depending on the window system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C5BB9A21A2AF5E0E55072C9E61F7DA2D%2Fdraw-polygon%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>point-seq</I
+> is a sequence of point objects; <I
+>coord-seq</I
+> is a sequence of coordinate pairs. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C7EAE9464051E1FC36ED407F07005CB2%2Fdraw-polygon%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>filled</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, a closed polygon is drawn and filled in. In this case, <I
+>closed</I
+> is assumed to be <SPAN CLASS="term"
+>true</SPAN
+> as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FAC7DE46A4C713AEE98501785A47FDA9%2Fdraw-polygon%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DFEA89ABC422760079CA38AC139B66B0%2Fdraw-polygon%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-5.html#_3201"
+><SPAN CLASS="reverselink"
+>[&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_628"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium point1 point2 </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E080764C38604A670466A36E4976D8FD%2Fdraw-rectangle%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_629"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x1 y1 x2 y2 </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws either a filled or unfilled rectangle on the <A NAME="_3199"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> that has its sides aligned with the coordinate axes of the native coordinate system. One corner of the rectangle is at the position (<I
+>x1</I
+>,<I
+>y1</I
+>) and the opposite corner is at (<I
+>x2</I
+>,<I
+>y2</I
+>). The arguments <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y1</I
+> are real numbers that are canonicalized in the same way as for <A NAME="_3200"></A><A HREF="4-1.html#_155"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+></A
+>. <I
+>filled</I
+> is as for <A NAME="_3201"></A><A HREF="12-5.html#_627"
+><B CLASS="cl"
+>draw-polygon*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1F048A997679A33EBC4698A08C74E6A%2Fdraw-rectangle%2A%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The current line style (see Chapter&nbsp;<A NAME="_3202"></A><A HREF="10.html#_505"
+>10</A
+>) affects the drawing of unfilled rectangles in the obvious way, except that the cap shape has no effect. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=51D962AE21867F103B219BC1B4F18355%2Fdraw-rectangle%2A%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=393C80F4189A655456E022900F180782%2Fdraw-rectangle%2A%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-7.html#_3279"
+><SPAN CLASS="reverselink"
+>[&larr; 12.7.3 Other Medium-specific Output Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clear-area</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_630"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-rectangles</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium points </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_631"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-rectangles*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium position-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a set of rectangles. <I
+>points</I
+> is a sequence of point objects; <I
+>position-seq</I
+> is a sequence of coordinate pairs. It is an error if <I
+>position-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC06C1028B7DF53D52079424F7065F6A%2Fdraw-rectangles%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Ignoring the drawing options, these functions are equivalent to  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D91C86F668EE21CC27BC8B33CE4EF100%2Fdraw-rectangles%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(do ((i 0 (+ i 2)))&#10;    ((= i (length points)))&#10;  (draw-rectangle medium (elt points i) (elt points (1+ i))))&#10;</PRE
+><P
+> and  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE5D5D37542D75F93A87094459F76678%2Fdraw-rectangles%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(do ((i 0 (+ i 4)))&#10;    ((= i (length position-seq)))&#10;  (draw-rectangle* medium (elt position-seq i)       (elt position-seq (+ i 1))&#10;                          (elt position-seq (+ i 2)) (elt position-seq (+ i 3))))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2B21BBC9E554C22202FFE7D2FF66507E%2Fdraw-rectangles%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_632"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-ellipse</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-pt radius-1-dx radius-1-dy radius-2-dx radius-2-dy  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) start-angle end-angle  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_633"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-ellipse*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-x center-y radius-1-dx radius-1-dy radius-2-dx radius-2-dy  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) start-angle end-angle  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw an ellipse (when <I
+>filled</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the default) or an elliptical arc (when <I
+>filled</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>) on the <A NAME="_3205"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The center of the ellipse is the <A NAME="_3206"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>center-pt</I
+> (or the position (<I
+>center-x</I
+>,<I
+>center-y</I
+>)). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=93C78EF1F5613C7D0E41D35F0D97A44C%2Fdraw-ellipse%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Two vectors, (<I
+>radius-1-dx</I
+>,<I
+>radius-1-dy</I
+>) and (<I
+>radius-2-dx</I
+>,<I
+>radius-2-dy</I
+>) specify the bounding parallelogram of the ellipse as explained in Chapter&nbsp;<A NAME="_3207"></A><A HREF="3.html#_31"
+>3</A
+>. All of the radii are real numbers. If the two vectors are collinear, the ellipse is not well-defined and the <B CLASS="cl"
+>ellipse-not-well-defined</B
+> error will be signalled. The special case of an ellipse with its major axes aligned with the coordinate axes can be obtained by setting both <I
+>radius-1-dy</I
+> and <I
+>radius-2-dx</I
+> to 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=802232171986194DB2B9C246A353A4EB%2Fdraw-ellipse%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>start-angle</I
+> and <I
+>end-angle</I
+> are real numbers that specify an arc rather than a complete ellipse. Angles are measured with respect to the positive <I
+>x</I
+> axis. The elliptical arc runs positively (counter-clockwise) from <I
+>start-angle</I
+> to <I
+>end-angle</I
+>. The default for <I
+>start-angle</I
+> is <I
+><SPAN
+>0</SPAN
+></I
+>; the default for <I
+>end-angle</I
+> is <I
+><SPAN
+>2</SPAN
+>&pi;</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BD3888A44E5CACEF8D303F936BA262D8%2Fdraw-ellipse%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In the case of a "filled arc" (that is when <I
+>filled</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> and <I
+>start-angle</I
+> or <I
+>end-angle</I
+> are supplied and are not <I
+><SPAN
+>0</SPAN
+></I
+> and <I
+><SPAN
+>2</SPAN
+>&pi;</I
+>), the figure drawn is the "pie slice" area swept out by a line from the center of the ellipse to a point on the boundary as the boundary point moves from <I
+>start-angle</I
+> to <I
+>end-angle</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E495911C28A6FE6682721696AD4786C%2Fdraw-ellipse%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When drawing unfilled ellipses, the current line style (see Chapter&nbsp;<A NAME="_3210"></A><A HREF="10.html#_505"
+>10</A
+>) affects the drawing in the obvious way, except that the joint shape has no effect. Dashed elliptical arcs start "dashing" at <I
+>start-angle</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7DF4BCD7740542CB505AFD70AA19F613%2Fdraw-ellipse%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91674396B00EB731D95ADD698F981329%2Fdraw-ellipse%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3972"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>make-design-from-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3215"
+><SPAN CLASS="reverselink"
+>[&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-circle</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_634"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-circle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-pt radius </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) start-angle end-angle  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_635"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-circle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-x center-y radius </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) start-angle end-angle  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a circle (when <I
+>filled</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the default) or a circular arc (when <I
+>filled</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>) on the <A NAME="_3213"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The center of the circle is <I
+>center-pt</I
+> or (<I
+>center-x</I
+>,<I
+>center-y</I
+>) and the radius is <I
+>radius</I
+>. These are just special cases of <A NAME="_3214"></A><A HREF="12-5.html#_632"
+><B CLASS="cl"
+>draw-ellipse</B
+></A
+> and <A NAME="_3215"></A><A HREF="12-5.html#_633"
+><B CLASS="cl"
+>draw-ellipse*</B
+></A
+>. <I
+>filled</I
+> is as for <A NAME="_3216"></A><A HREF="12-5.html#_633"
+><B CLASS="cl"
+>draw-ellipse*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F31745BB3E905F10402567C30EBCE12D%2Fdraw-circle%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>start-angle</I
+> and <I
+>end-angle</I
+> allow the specification of an arc rather than a complete circle in the same manner as that of the ellipse functions, above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=501780FA54C6512F4747C86BEACCF923%2Fdraw-circle%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The "filled arc" behavior is the same as that of an ellipse, above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9648413D04DB425E54666CCDC6D01016%2Fdraw-circle%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F8579C8A526D28215C657ADEE7F4F24%2Fdraw-circle%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_636"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-text</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium string-or-char point  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>text-style (start </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) end  (align-x </I
+><I
+><B CLASS="cl"
+>:left</B
+></I
+><I
+>) (align-y </I
+><I
+><B CLASS="cl"
+>:baseline</B
+></I
+><I
+>)  toward-point transform-glyphs  ink clipping-region transformation text-style text-family text-face text-size</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_637"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-text*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium string-or-char x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>text-style (start </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) end  (align-x </I
+><I
+><B CLASS="cl"
+>:left</B
+></I
+><I
+>) (align-y </I
+><I
+><B CLASS="cl"
+>:baseline</B
+></I
+><I
+>)  toward-x toward-y transform-glyphs  ink clipping-region transformation text-style text-family text-face text-size</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The text specified by <I
+>string-or-char</I
+> is drawn on the <A NAME="_3217"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> starting at the position specified by the <A NAME="_3218"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point</I
+> (or the position <I
+>(x,y)</I
+>). The exact definition of "starting at" is dependent on <I
+>align-x</I
+> and <I
+>align-y</I
+>. <I
+>align-x</I
+> is one of <B CLASS="cl"
+>:left</B
+>, <B CLASS="cl"
+>:center</B
+>, or <B CLASS="cl"
+>:right</B
+>. <I
+>align-y</I
+> is one of <B CLASS="cl"
+>:baseline</B
+>, <B CLASS="cl"
+>:top</B
+>, <B CLASS="cl"
+>:center</B
+>, or <B CLASS="cl"
+>:bottom</B
+>. <I
+>align-x</I
+> defaults to <B CLASS="cl"
+>:left</B
+> and <I
+>align-y</I
+> defaults to <B CLASS="cl"
+>:baseline</B
+>; with these defaults, the first glyph is drawn with its left edge and its baseline at <I
+>point</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CDC1A6776960377AA3187A357260E87%2Fdraw-text%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>text-style</I
+> defaults to <A NAME="_3228"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that the text will be drawn using the current text style of the medium. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6986342A6CA301A6AE05FE647F2D05E5%2Fdraw-text%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>start</I
+> and <I
+>end</I
+> specify the start and end of the string, in the case where <I
+>string-or-char</I
+> is a string. If <I
+>start</I
+> is supplied, it must be an integer that is less than the length of the string. If <I
+>end</I
+> is supplied, it must be an integer that is less than the length of the string, but greater than or equal to <I
+>start</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3AECC20CDF2FA78B72718DAAF240231%2Fdraw-text%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Normally, glyphs are drawn from left to right no matter what transformation is in effect. <I
+>toward-x</I
+> or <I
+>toward-y</I
+> (derived from <I
+>toward-point</I
+> in the case of <B CLASS="cl"
+>draw-text</B
+>) can be used to change the direction from one glyph to the next one. For example, if <I
+>toward-x</I
+> is less than the <I
+>x</I
+> position of <I
+>point</I
+>, then the glyphs will be drawn from right to left. If <I
+>toward-y</I
+> is greater than the <I
+>y</I
+> position of <I
+>point</I
+>, then the glyphs' baselines will be positioned one above another. More precisely, the reference point in each glyph lies on a line from <I
+>point</I
+> to <I
+>toward-point</I
+>, and the spacing of each glyph is determined by packing rectangles along that line, where each rectangle is "char-width" wide and "char-height" high. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A2264A120239EB59198812603E55BEC%2Fdraw-text%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>transform-glyphs</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then each glyph is transformed as an image before it is drawn. That is, if a rotation transformation is in effect, then each glyph will be rotated individually. If <I
+>transform-glyphs</I
+> is not supplied, then the individual glyphs are not subject to the current transformation. It is permissible for CLIM implementations to ignore <I
+>transform-glyphs</I
+> if it is too expensive to implement. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2933FA29055E841D75CBA6A0F291F4FA%2Fdraw-text%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EB2FEF59B068506C52D4503D21CB89A%2Fdraw-text%2F12.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="11-1.html#_3128"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1.1 Text Style Protocol and Text Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>parse-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2939"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_638"></A><DIV
+><H4
+>12.5.2 Compound Drawing Functions</H4
+><P
+>CLIM also provides a few compound drawing functions. The compound drawing functions could be composed by a programmer from the basic drawing functions, but are provided by CLIM because they are commonly used. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C966ED05C9654F4B0690FFDFF0E0EB61%2F12.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_639"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-arrow</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium point-1 point-2 </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape  to-head from-head head-length head-width</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_640"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-arrow*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x1 y1 x2 y2 </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape  from-head to-head head-length head-width</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a line segment on the <A NAME="_3231"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> from the <A NAME="_3232"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point1</I
+> to <I
+>point2</I
+> (or from the position (<I
+>x1</I
+>,<I
+>y1</I
+>) to (<I
+>x2</I
+>,<I
+>y2</I
+>)). If <I
+>to-head</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), then the "to" end of the line is capped by an arrowhead. If <I
+>from-head</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default is <SPAN CLASS="term"
+>false</SPAN
+>), then the "from" end of the line is capped by an arrowhead. The arrowhead has length <I
+>head-length</I
+> (default 10) and width <I
+>head-width</I
+> (default 5). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=10B74F322046247A15469F7FC10AE883%2Fdraw-arrow%2F12.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The current line style (see Chapter&nbsp;<A NAME="_3236"></A><A HREF="10.html#_505"
+>10</A
+>) affects the drawing of the line portion of the arrow in the obvious way, except that the joint shape has no effect. Dashed arrows start dashing at <I
+>point1</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B0AA9B1811A0175DAB63F71BD975A2A%2Fdraw-arrow%2F12.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D20D63C4144878826325FB501CB225E3%2Fdraw-arrow%2F12.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_641"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-oval</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-pt x-radius y-radius </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_642"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-oval*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-x center-y x-radius y-radius </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(filled </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  ink clipping-region transformation line-style line-thickness line-unit line-dashes line-cap-shape</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions (structured and spread arguments, respectively) draw a filled or unfilled oval (that is, a "race-track" shape) on the <A NAME="_3237"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The oval is centered on <I
+>center-pt</I
+> (or (<I
+>center-x</I
+>,<I
+>center-y</I
+>)). If <I
+>x-radius</I
+> or <I
+>y-radius</I
+> is <I
+><SPAN
+>0</SPAN
+></I
+>, then a circle is drawn with the specified non-zero radius. Other, a figure is drawn that results from drawing a rectangle with dimension x-radius by <I
+>y-radius</I
+>, and the replacing the two short sides with a semicircular arc of the appropriate size. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98631F7259C1AEECAEB33C857338DE85%2Fdraw-oval%2F12.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E2B48358C4EE6F78EF9F275F2339801%2Fdraw-oval%2F12.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

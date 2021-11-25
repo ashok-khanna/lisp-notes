@@ -1,0 +1,1771 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 28.5 Frame Managers</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="28.4 The Generic Command Loop" HREF="28-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="28.6 Examples of Applications" HREF="28-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="28 Application Frames" HREF="28.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="28-4.html"
+>Prev</A
+><BR
+><A HREF="28-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="28.html"
+>28&nbsp;Application&nbsp;Frames</A
+><BR
+>&rarr;&nbsp;<A HREF="28-5.html"
+><B
+>28.5&nbsp;Frame&nbsp;Managers</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1540"></A><DIV
+><H3
+>28.5 Frame Managers</H3
+><LI CLASS="outline_item"
+><A HREF="28-5.html#_1548"
+>28.5.1 Finding Frame Managers</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="28-5.html#_1552"
+>28.5.2 Frame Manager Operations</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="28-5.html#_1573"
+>28.5.3 Frame Manager Settings</A
+></LI
+><DIV
+><P
+>Frames may be <A NAME="_1541"></A><SPAN CLASS="concept"
+>adopted</SPAN
+> by a frame manager, which involves invoking a protocol for generating the pane hierarchy of the frame. This protocol provides for selecting pane types for abstract gadget panes based on the style requirements imposed by the frame manager. That is, the frame manager is responsible for the "look and feel" of a frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD87D05F9399702FA228192931CC553B%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6909"
+><SPAN CLASS="reverselink"
+>[adopted, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><DIV
+><P
+>After a frame is adopted it can be in any of the three following states: <A NAME="_1542"></A><SPAN CLASS="concept"
+>enabled</SPAN
+>, <A NAME="_1543"></A><SPAN CLASS="concept"
+>disabled</SPAN
+>, or <A NAME="_1544"></A><SPAN CLASS="concept"
+>shrunk</SPAN
+>. An enabled frame is visible unless it is occluded by other frames or the user is browsing outside of the portion of the frame manager's space that the frame occupies. A shrunken frame provides a cue or handle for the frame, but generally will not show the entire contents of the frame. For example, the frame may be iconified or an item for the frame may be placed in a special suspended frame menu. A disabled frame is not visible, nor is there any user accessible handle for enabling the frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97424A24580CE09034ED3CEB1E113995%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6911"
+><SPAN CLASS="reverselink"
+>[enabled, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Frames may also be <A NAME="_1545"></A><SPAN CLASS="concept"
+>disowned</SPAN
+>, which involves releasing the frame's panes as well as all associated foreign resources. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E859A9F5DE271D6ABA2228B744C74B8%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1546"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-manager</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a frame manager. If you want to create a new class that behaves like a frame manager, it should be a subclass of <B CLASS="cl"
+>frame-manager</B
+>. All instantiable subclasses of <B CLASS="cl"
+>frame-manager</B
+> must obey the frame manager protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FF32ED2519D2F2AC579BDFBF75504E3%2Fframe-manager%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There are no advertised standard frame manager classes. Each port will implement one or more frame managers that correspond to the look and feel for the port. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B888FA8E6D0E6D0AB1264BB4BCEE389%2Fframe-manager%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=267DB8016E601788BE0C842A9A9EBA5F%2Fframe-manager%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-5.html#_1553"
+><SPAN CLASS="forwardlink"
+>[&rarr; frame-manager, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6278"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>frame-parent</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1547"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-mananger-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>frame manager</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ABD6003C83DB547DA628E93C68904418%2Fframe-mananger-p%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0A1E4F8119928882CAD4050B34CEFD45%2Fframe-mananger-p%2F28.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1548"></A><DIV
+><H4
+>28.5.1 Finding Frame Managers</H4
+><P
+>Most frames need only deal directly with frame managers to the extent that they need to find a frame manager into which they can insert themselves. Since frames will usually be invoked by some user action that is handled by some frame manager, finding an appropriate frame manager is usually straightforward. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=458DAB848CF9B8F9377EA9DEA4D85042%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some frames will support the embedding of other frames within themselves. Such frames would not only use frames but also act as frame managers, so that other frames could insert frames. In this case, the embedded frames are mostly unaware that they are nested within other frames, but only know that they are controlled by a particular frame manager. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ADD659E4E4ADE7C34A6739268E3D2607%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>How does one write a frame that supports an embedded frame, such as an editor frame within a documentation-writing frame? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=13D74D037B644518648CAA874F2005BD%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <A NAME="_6423"></A><A HREF="28-5.html#_1549"
+><B CLASS="cl"
+>find-frame-manager</B
+></A
+> function provides a flexible means for locating an frame manager to adopt an application's frames into. There are a variety of ways that the user or the application can influence where an application's frame is adopted. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B21D65DC20CA35BC3B9633CC53159163%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An application can establish an application default frame manager using <A NAME="_6424"></A><A HREF="28-5.html#_1551"
+><B CLASS="cl"
+>with-frame-manager</B
+></A
+>. A frame's top-level loop automatically establishes the frame's frame manager. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5734236D98224AF49DE0E538923292D%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The programmer or user can influence what frame manager is found by setting <A NAME="_6425"></A><A HREF="28-5.html#_1550"
+><B CLASS="cl"
+>*default-frame-manager*</B
+></A
+> or <A NAME="_6426"></A><A HREF="9-2.html#_457"
+><B CLASS="cl"
+>*default-server-path*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD1B1CE8E5213F6F873AD18A5F8A59E3%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Each frame manager is associated with one specific port. However, a single port may have multiple frame managers managing various frames associated with the port. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE9B75B2C89E61E316A57F46D2920DE5%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1549"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-frame-manager</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>port </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Finds an appropriate frame manager that conforms to the options, including the <I
+>port</I
+> argument. Furthermore, CLIM applications may set up dynamic contexts that affect what <B CLASS="cl"
+>find-frame-manager</B
+> will return. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BEB66EA79B8276B019ECC44674378FAF%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>port</I
+> defaults to the value returned by <A NAME="_6428"></A><A HREF="9-2.html#_456"
+><B CLASS="cl"
+>find-port</B
+></A
+> applied to the remaining options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3982DFE3B6CD9BFB184E018AC30FB64C%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A frame manager is found using the following rules in the order listed: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=86134E5E6991A865848F885979B90A07%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><OL
+><LI
+>If a current frame manager has been established via an invocation of <A NAME="_6429"></A><A HREF="28-5.html#_1551"
+><B CLASS="cl"
+>with-frame-manager</B
+></A
+>, as is the case within a frame's top-level, and that frame manager conforms to the options, it is returned. The exact definition of "conforming to the options" varies from one port to another, but it may include such things as matching the console number, color or resolution properties, and so forth. If the options are empty, then any frame manager will conform. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3DAA7741ED71040AF448464443DCB89A%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>If <A NAME="_6430"></A><A HREF="28-5.html#_1550"
+><B CLASS="cl"
+>*default-frame-manager*</B
+></A
+> is bound to a currently active frame manager and it conforms to the options, it is returned. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA4E7988B449B5A66608049A85E61001%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>If <I
+>port</I
+> is <A NAME="_6431"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, a port is found and an appropriate frame manager is constructed using <A NAME="_6432"></A><A HREF="9-2.html#_457"
+><B CLASS="cl"
+>*default-server-path*</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA31FC10A229BDA2EAB294804EB00DEA%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></OL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FB75FF3A8ED53BBDB8F5C600ADA4CC1%2Ffind-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6434"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers, <B CLASS="cl"
+><B CLASS="cl"
+>with-frame-manager</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_6423"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1550"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*default-frame-manager*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This variable provides a convenient point for allowing a programmer or user to override what frame manager type would normally be selected. Most users will not set this variable since they can set <A NAME="_6433"></A><A HREF="9-2.html#_457"
+><B CLASS="cl"
+>*default-server-path*</B
+></A
+> to indicate which host window system they want to use and are willing to use whatever frame manager is the default for the particular port. However, some users may want to use a frame manager that isn't the typical frame manager. For example, a user may want to use both an OpenLook frame manager and a Motif frame manager on a single port. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=648ACD33F7FA5CEFBB6843B3F255DDAD%2F%2Adefault-frame-manager%2A%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36B4F82281CBF08B0E3D9BB33C4FA36F%2F%2Adefault-frame-manager%2A%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6430"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers, <B CLASS="cl"
+><B CLASS="cl"
+>find-frame-manager</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_6425"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1551"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-frame-manager</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(frame-manager) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Generates a dynamic context that causes all calls to <A NAME="_6434"></A><A HREF="28-5.html#_1549"
+><B CLASS="cl"
+>find-frame-manager</B
+></A
+> to return <I
+>frame-manager</I
+> if the <I
+>where</I
+> argument passed to it conforms to <I
+>frame-manager</I
+>. Nested calls to <B CLASS="cl"
+>with-frame-manager</B
+> will shadow outer contexts. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C32DD7EA0D337FD4FF96A2BE2259B6CA%2Fwith-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=94BFEDE0C39994CFF394B813A321E19B%2Fwith-frame-manager%2F28.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6429"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers, <B CLASS="cl"
+><B CLASS="cl"
+>find-frame-manager</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_6424"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1552"></A><DIV
+><H4
+>28.5.2 Frame Manager Operations</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1553"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-manager</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the current frame manager of <I
+>frame</I
+> if it is adopted, otherwise returns <A NAME="_6436"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=593C5FB2F008535B8F91B2EC034C55F0%2Fframe-manager%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B3D622BDEE9E09D23EBC32B40E70733%2Fframe-manager%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-5.html#_1546"
+><SPAN CLASS="forwardlink"
+>[&rarr; frame-manager, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6278"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>frame-parent</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1554"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf frame-manager)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the frame manager of <I
+>frame</I
+> to <I
+>frame-manager</I
+>. In effect, the frame is disowned from its old frame manager and is adopted into the new frame manager. Transferring a frame preserves its <A NAME="_6437"></A><A HREF="28-5.html#_1560"
+><B CLASS="cl"
+>frame-state</B
+></A
+>, for example, if the frame was previously enabled it will be enabled in the new frame manager. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=59C164A9B34A4864470F51CC7BBD2075%2F%28setf%20frame-manager%29%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F7A6B4D0891CB37B66E12C08B89FA8C5%2F%28setf%20frame-manager%29%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1555"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-manager-frames</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of all of the frames being managed by <I
+>frame-manager</I
+>. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=903BEF5FDCE78F33DE58D44111E612AB%2Fframe-manager-frames%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BD603361BAB2F27F2AF57AE24D508D39%2Fframe-manager-frames%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1556"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>adopt-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1557"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>disown-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions insert or remove a frame from a frame manager's control. These functions allow a frame manager to allocate and deallocate resources associated with a frame. For example, removing a frame from a frame manager that is talking to a remote server allows it to release all remote resources used by the frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CCA9616D4BA7807C008BA4418AC7E01B%2Fadopt-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDAE259F4E4A48C707690D02DDD82844%2Fadopt-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6454"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.2 Frame Manager Operations, <B CLASS="cl"
+><B CLASS="cl"
+>find-pane-for-frame</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_6446"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.2 Frame Manager Operations, <B CLASS="cl"
+><B CLASS="cl"
+>generate-panes</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1558"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(frame </I
+><I
+><B CLASS="cl"
+>standard-application-frame</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>frame</I
+> has been adopted by a frame manager, this returns the port with which <I
+>frame</I
+> is associated. Otherwise it returns <A NAME="_6438"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A35C13B326EEE1AA5693D8D220C7B79%2Fport%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=70E9917F00761D175243DD0241E4AC06%2Fport%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="22-4.html#_1119"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_496"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_462"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_453"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_419"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1559"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2816"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2800"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>basic-port</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1559"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(frame-manager </I
+><I
+><B CLASS="cl"
+>standard-frame-manager</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the port with which <I
+>frame-manager</I
+> is associated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3DDF2B1DFB472F7A4E6E573215E1FEC4%2Fport%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42DE28EE131B29C0EE5414DA329C3C77%2Fport%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z439"
+></A
+>there is no class clim:standard-frame-manager. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42DE28EE131B29C0EE5414DA329C3C77%2Fport%2F28.5.2&amp;editp=t&amp;id=Z439#Z439"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-03-25 13:40Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-5.html#_1558"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="22-4.html#_1119"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_496"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_462"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_453"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_419"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2816"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2800"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>basic-port</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1560"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-state</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns one of <B CLASS="cl"
+>:disowned</B
+>, <B CLASS="cl"
+>:enabled</B
+>, <B CLASS="cl"
+>:disabled</B
+>, or <B CLASS="cl"
+>:shrunk</B
+>, indicating the current state of frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=71F7CCCC2645CD687FF28CC61F1990E2%2Fframe-state%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C3FB4D675000E43EAC165A94131F538D%2Fframe-state%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6437"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.2 Frame Manager Operations, <B CLASS="cl"
+><B CLASS="cl"
+>(setf frame-manager)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1561"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>enable-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1562"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>disable-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1563"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>shrink-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions force a frame into the enabled, disabled, or shrunken (iconified) states. A frame in the enabled state may be visible if it is not occluded or placed out of the user's focus of attention. A disabled frame is never visible. A shrunk frame is accessible to the user for re-enabling, but may be represented in some abbreviated form, such as an icon or a menu item. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F4EA64DAE58A124F3A0AD3465C0FAE8%2Fenable-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>These functions call the notification functions describe below to notify the frame manager that the state of the frame changed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A62494384D28A1606238BE867435A960%2Fenable-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D82E957FD10022BBEC3ECE0FD7AD1CF1%2Fenable-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1564"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-frame-enabled</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1565"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-frame-disabled</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1566"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-frame-iconified</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1567"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-frame-deiconified</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Notifies the frame manager <I
+>frame-manager</I
+> that the frame <I
+>frame</I
+> has changed its state to the enabled, disabled, iconified, or deiconified state, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7BEA4E34354E9016827F0EAB0665E06%2Fnote-frame-enabled%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D91BABAAA6E7F3A037E0158B64449CEB%2Fnote-frame-enabled%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1568"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-command-enabled</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame command-name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1569"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-command-disabled</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame command-name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Notifies the frame manager <I
+>frame-manager</I
+> that the command named by <I
+>command-name</I
+> has been enabled or disabled (respectively) in the frame <I
+>frame</I
+>. The frame manager can update the appearance of the user interface as appropriate, for instance, by "graying out" a newly disabled command from a command menu or menu bar. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C7AE05C8F7C049661FE232E42F6DE19F%2Fnote-command-enabled%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF60036BC8A3AEC002F6D492D37BAB47%2Fnote-command-enabled%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6410"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>(setf command-enabled)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1570"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-manager-notify-user</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>framem message-string  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>frame associated-window title documentation  exit-boxes name style text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is the generic function used by <A NAME="_6443"></A><A HREF="28-3.html#_1521"
+><B CLASS="cl"
+>notify-user</B
+></A
+>. The arguments are as for <A NAME="_6444"></A><A HREF="28-3.html#_1521"
+><B CLASS="cl"
+>notify-user</B
+></A
+>. The default method on <B CLASS="cl"
+>standard-frame-manager</B
+> will display a dialog or an alert box that contains the message and has exit boxes that allow the user to dismiss the notification. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4167B826C0782184CAE7A17D9230470E%2Fframe-manager-notify-user%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=829536E8425D4F57C1E8932028696AE4%2Fframe-manager-notify-user%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1571"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>generate-panes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is invoked by a standard method of <A NAME="_6446"></A><A HREF="28-5.html#_1556"
+><B CLASS="cl"
+>adopt-frame</B
+></A
+>. <A NAME="_6447"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+> automatically supplies a <B CLASS="cl"
+>generate-panes</B
+> method if either the <B CLASS="cl"
+>:pane</B
+> or <A NAME="_6450"></A><A HREF="28-2.html#_1474"
+><B CLASS="cl"
+>:panes</B
+></A
+> option is used in the <A NAME="_6451"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA388F9A492D8DC347B24FC263D2C244%2Fgenerate-panes%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is the responsibility of this method to call <B CLASS="cl"
+>setf</B
+> on <A NAME="_6453"></A><A HREF="28-3.html#_1504"
+><B CLASS="cl"
+>frame-panes</B
+></A
+> on the frame in order to set the current <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C324A580E912BAF8E942529C61116872%2Fgenerate-panes%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z280"
+></A
+>... layout. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C324A580E912BAF8E942529C61116872%2Fgenerate-panes%2F28.5.2&amp;editp=t&amp;id=Z280#Z280"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2016-11-24 14:55Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E27F73F6D36465610284097DCE87DA06%2Fgenerate-panes%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1572"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-pane-for-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is invoked by a standard method of <A NAME="_6454"></A><A HREF="28-5.html#_1556"
+><B CLASS="cl"
+>adopt-frame</B
+></A
+>. It must return the root pane of the frame's layout. It is the responsibility of the frame implementor to provide a method that constructs the frame's top-level pane. <A NAME="_6455"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+> automatically supplies a a method for this function if either the <B CLASS="cl"
+>:pane</B
+> or <A NAME="_6457"></A><A HREF="28-2.html#_1474"
+><B CLASS="cl"
+>:panes</B
+></A
+> option is used in the <A NAME="_6458"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=447BF3E42351F1CD7EA91C5C09FD4C8F%2Ffind-pane-for-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=53129123F026824A1D51A9618006BF12%2Ffind-pane-for-frame%2F28.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1573"></A><DIV
+><H4
+>28.5.3 Frame Manager Settings</H4
+><P
+>CLIM provides frame manager settings in order to allow a frame to communicate information to its frame manager. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED0BFD3EFC7D3D11C6E0B39B702D7B85%2F28.5.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1574"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf client-setting)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>value frame setting</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the setting <I
+>setting</I
+> to <I
+>value</I
+> for the frame <I
+>frame</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84617A3AC9666209CFC0886E34957E62%2F%28setf%20client-setting%29%2F28.5.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62A5CDF31DEDAC56B472103F1ACA1CEB%2F%28setf%20client-setting%29%2F28.5.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1575"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>reset-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>client-settings</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Resets the settings of frame. <B CLASS="cl"
+>reset-frame</B
+> invokes a protocol that forces the frame manager to notice that the settings have changed, where the setf generic function just updates the frame data. For example, the width and height can be reset to force resizing of the window. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23BF74DEB87189DECF21415F76336B88%2Freset-frame%2F28.5.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3381B06B9E647233B75D5A57B7A45881%2Freset-frame%2F28.5.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

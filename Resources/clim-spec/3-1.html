@@ -1,0 +1,2677 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/3-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 3.1 General Regions</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="3 Regions" HREF="3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="3.2 Other Region Types" HREF="3-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="3 Regions" HREF="3.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="3.html"
+>Prev</A
+><BR
+><A HREF="3-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-II.html"
+>Part&nbsp;II:&nbsp;Geometry&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="3.html"
+>3&nbsp;Regions</A
+><BR
+>&rarr;&nbsp;<A HREF="3-1.html"
+><B
+>3.1&nbsp;General&nbsp;Regions</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_34"></A><DIV
+><H3
+>3.1 General Regions</H3
+><LI CLASS="outline_item"
+><A HREF="3-1.html#_50"
+>3.1.1 The Region Predicate Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="3-1.html#_55"
+>3.1.2 Region Composition Protocol</A
+></LI
+><DIV
+><P
+>A <A NAME="_35"></A><SPAN CLASS="concept"
+>region</SPAN
+> is an object that denotes a set of mathematical points in the plane. Regions include their boundaries, that is, they are closed. Regions have infinite resolution. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E87920420E3ECA4A1FBB72281E101E1B%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7031"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7002"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7001"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6985"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6981"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6876"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6872"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3862"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-replay</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3789"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 16.2.2 The Output Record "Database" Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-output-records-overlapping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2781"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 8.4.1 Repaint Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>repaint-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2549"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>children-overlapping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2461"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 5.3.3 Applying Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>transform-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2460"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 5.3.3 Applying Transformations]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2190"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-difference</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2189"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-difference</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2141"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 3.1.1 The Region Predicate Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-contains-position-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2138"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 3.1.1 The Region Predicate Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-contains-region-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2137"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 3.1.1 The Region Predicate Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-contains-region-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2093"
+><SPAN CLASS="reverselink"
+>[region, <I
+>Concept</I
+>&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>regionp</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><DIV
+><P
+>A <A NAME="_36"></A><SPAN CLASS="concept"
+>bounded region</SPAN
+> is a region that contains at least one point and for which there exists a number, <I
+>d</I
+>, called the region's diameter, such that if <I
+>p<SPAN
+>1</SPAN
+></I
+> and <I
+>p<SPAN
+>2</SPAN
+></I
+> are points in the region, the distance between <I
+>p<SPAN
+>1</SPAN
+></I
+> and <I
+>p<SPAN
+>2</SPAN
+></I
+> is always less than or equal to <I
+>d</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A03E65ECFFA6ACD7472A81FBA62672F%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6878"
+><SPAN CLASS="reverselink"
+>[bounded region, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>An <A NAME="_37"></A><SPAN CLASS="concept"
+>unbounded region</SPAN
+> either contains no points or contains points arbitrarily far apart. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1F43F02215E997A574A569601C0D748%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>Another way to describe a region is that it maps every <I
+>(x,y)</I
+> pair into either <SPAN CLASS="term"
+>true</SPAN
+> or <SPAN CLASS="term"
+>false</SPAN
+> (meaning member or not a member, respectively, of the region). Later, in Chapter&nbsp;<A NAME="_2086"></A><A HREF="14.html#_725"
+>14</A
+>, we will generalize a region to something called a <A NAME="_38"></A><SPAN CLASS="concept"
+>design</SPAN
+> that maps every point <I
+>(x,y)</I
+> into color and opacity values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3F5A3D9757717D5229AD2C8334ED0C1%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7032"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7030"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7026"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7024"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7022"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7016"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_7012"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6984"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6965"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6921"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6895"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6889"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6887"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6875"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6873"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3550"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-3.html#_3545"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.3 Tiling, <B CLASS="cl"
+><B CLASS="cl"
+>make-rectangular-tile</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3517"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-out</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3516"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-out</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3510"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-in</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3509"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-in</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3505"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-over</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3504"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-over</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-2.html#_3306"
+><SPAN CLASS="reverselink"
+>[design, <I
+>Concept</I
+>&larr; 13.2 Basic Designs, <B CLASS="cl"
+><B CLASS="cl"
+>designp</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_39"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a set of points. This includes both bounded and unbounded regions. This is a subclass of <A NAME="_2087"></A><A HREF="13-2.html#_675"
+><B CLASS="cl"
+>design</B
+></A
+> (see Chapter&nbsp;<A NAME="_2088"></A><A HREF="13.html#_672"
+>13</A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A9166D7D3612AF50E9C5434E49284BE%2Fregion%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If you want to create a new class that behaves like a region, it should be a subclass of <B CLASS="cl"
+>region</B
+>. All instantiable subclasses of <B CLASS="cl"
+>region</B
+> must obey the region protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B7A92689EE478755328719A7B8AFBA9%2Fregion%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z166"
+></A
+>The spec mentions the "region predicate protocol" and the "region composition protocol", but there seems to be no explicit mention of "the region protocol".  Should we assume that the "region protocol" is the union of those two protocols? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B7A92689EE478755328719A7B8AFBA9%2Fregion%2F3.1&amp;editp=t&amp;id=Z166#Z166"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-08-23 08:57Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>There is no general constructor called <B CLASS="cl"
+>make-region</B
+> because of the impossibility of a uniform way to specify the arguments to such a function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=755F6072B8BA12433DF453350902DBBD%2Fregion%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A5C0E2398F9191A5118CF48AB80D43B%2Fregion%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-4.html#_3546"
+><SPAN CLASS="reverselink"
+>[&larr; 14.4 Regions as Designs]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2985"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2456"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2367"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.1 The Bounding Rectangle Protocol]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2357"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2205"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2162"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-region-union</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2155"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-set</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2154"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2129"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2110"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>area</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2096"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>path</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="2-4.html#_2041"
+><SPAN CLASS="reverselink"
+>[&larr; 2.4 Immutability of Objects]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_40"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>regionp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2093"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98D3131269C2340E6D74B92F0312C5B6%2Fregionp%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EBFD4308104E579E34421C995E251755%2Fregionp%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_41"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>path</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class <B CLASS="cl"
+>path</B
+> denotes bounded regions that have <A NAME="_42"></A><SPAN CLASS="concept"
+>dimensionality</SPAN
+> 1 (that is, have length). It is a subclass of <A NAME="_2096"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> and <A NAME="_2097"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+>. If you want to create a new class that behaves like a path, it should be a subclass of <B CLASS="cl"
+>path</B
+>. All instantiable subclasses of <B CLASS="cl"
+>path</B
+> must obey the path protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23C4A548185947F0A3E7A8612FC52A69%2Fpath%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Constructing a <B CLASS="cl"
+>path</B
+> object with no length (via <A NAME="_2101"></A><A HREF="3-2.html#_105"
+><B CLASS="cl"
+>make-line*</B
+></A
+>, for example) may canonicalize it to <A NAME="_2102"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE666DFB215310E1F794F23ECD66681D%2Fpath%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some rendering models support the constructing of areas by filling a closed path. In this case, the path needs a direction associated with it. Since CLIM does not currently support the path-filling model, paths are directionless. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1CCB1544509F563983931BCC8B056C05%2Fpath%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DD265ACD65A21B53E598DA7997FE35F%2Fpath%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2325"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>elliptical-arc</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2225"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>polyline</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2106"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>pathp</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_43"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pathp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>path</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C375DB7D82C4A07BE3DC3E7949DF22AD%2Fpathp%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that constructing a <A NAME="_2106"></A><A HREF="3-1.html#_41"
+><B CLASS="cl"
+>path</B
+></A
+> object with no length (such as calling <A NAME="_2107"></A><A HREF="3-2.html#_104"
+><B CLASS="cl"
+>make-line</B
+></A
+> with two coincident points), for example) may canonicalize it to <A NAME="_2108"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5072C4607DE33D55694D4E7AABEB4E8B%2Fpathp%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28C48903648D366409565CF6205D1B09%2Fpathp%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_44"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>area</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class <B CLASS="cl"
+>area</B
+> denotes bounded regions that have dimensionality 2 (that is, have area). It is a subclass of <A NAME="_2110"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> and <A NAME="_2111"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+>. If you want to create a new class that behaves like an area, it should be a subclass of <B CLASS="cl"
+>area</B
+>. All instantiable subclasses of <B CLASS="cl"
+>area</B
+> must obey the area protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1956E856E68F2C58CB79BF2549D8F9E%2Farea%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that constructing an <B CLASS="cl"
+>area</B
+> object with no area (such as calling <A NAME="_2115"></A><A HREF="3-2.html#_115"
+><B CLASS="cl"
+>make-rectangle</B
+></A
+> with two coincident points), for example) may canonicalize it to <A NAME="_2116"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4677130D2CC0DFFBECD139B265D78145%2Farea%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA44553B5DE3D01F921621281B94D1E5%2Farea%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-2.html#_2976"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2921"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-clipping-region)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2313"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2238"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>polygon</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_45"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>areap</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>area</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D1A94757C61F4C6E198A0C2AF8917519%2Fareap%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15F1C4FE2C63563A2FD79A4AEF4EF80B%2Fareap%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_46"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>coordinate</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Type]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The type that represents a coordinate. This must either be <A NAME="_2120"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, or a subtype of <A NAME="_2121"></A><A HREF="23-8.html#_1264"
+><B CLASS="cl"
+>real</B
+></A
+>. CLIM implementations may use a more specific subtype of <A NAME="_2122"></A><A HREF="23-8.html#_1264"
+><B CLASS="cl"
+>real</B
+></A
+>, such as <B CLASS="cl"
+>single-float</B
+>, for reasons of efficiency. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE1AC0710DF40685256284C7CB47D6A4%2Fcoordinate%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the specific region classes and subclasses of <A NAME="_2124"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+> will use this type to store their coordinates. However, the constructor functions for the region classes and for bounding rectangles must accept numbers of any type and coerce them to <B CLASS="cl"
+>coordinate</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9CB1D9B932C1011832D087201BD0BEB9%2Fcoordinate%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB2E5A7573194153F75260075A9344AC%2Fcoordinate%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="3-1.html#_47"
+><SPAN CLASS="forwardlink"
+>[&rarr; coordinate, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_47"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>coordinate</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>n</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Coerces the number <I
+>n</I
+> to be a coordinate. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB913BBF0E0480E60D5223D0AC97232E%2Fcoordinate%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B6461CA2138B4A8631457EDFF61B959A%2Fcoordinate%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="3-1.html#_46"
+><SPAN CLASS="forwardlink"
+>[&rarr; coordinate, <I
+>Type</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_48"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+everywhere+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_49"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+nowhere+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>+everywhere+</B
+> is the region that includes all the points on the two-dimensional infinite drawing plane. <B CLASS="cl"
+>+nowhere+</B
+> is the empty region, the opposite of <B CLASS="cl"
+>+everywhere+</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9E273069E276A55C5CF94510D3C89E17%2F%2Beverywhere%2B%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F7EB571B5F269D7CB059037DF768084%2F%2Beverywhere%2B%2F3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-2.html#_3764"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>replay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2977"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2722"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3573"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3557"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-7.html#_3489"
+><SPAN CLASS="reverselink"
+>[&larr; 13.7 Flipping Ink, <B CLASS="cl"
+><B CLASS="cl"
+>make-flipping-ink</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2192"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-difference</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2184"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-intersection</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2152"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2150"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-intersects-region-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2116"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>area</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2108"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>pathp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2102"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>path</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_50"></A><DIV
+><H4
+>3.1.1 The Region Predicate Protocol</H4
+><P
+>The following generic functions comprise the region predicate protocol. All classes that are subclasses of <A NAME="_2129"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> must either inherit or implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=754AD7764DA5734F369170015423C4E2%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z167"
+></A
+>My hunch is that it might be very hard to implement some of these&#10;functions for all region types, in particular region-equal and region-contains-region-p when one of the arguments is a union or intersection of other regions. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=754AD7764DA5734F369170015423C4E2%2F3.1.1&amp;editp=t&amp;id=Z167#Z167"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-08-23 09:15Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The methods for <A NAME="_2130"></A><A HREF="3-1.html#_51"
+><B CLASS="cl"
+>region-equal</B
+></A
+>, <A NAME="_2131"></A><A HREF="3-1.html#_52"
+><B CLASS="cl"
+>region-contains-region-p</B
+></A
+>, and <A NAME="_2132"></A><A HREF="3-1.html#_54"
+><B CLASS="cl"
+>region-intersects-region-p</B
+></A
+> will typically specialize both the <I
+>region1</I
+> and <I
+>region2</I
+> arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5973B96EA5FEFCC9D6A576602FEB9E5F%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_51"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-equal</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region1 region2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the two <SPAN CLASS="term"
+>regions</SPAN
+> <I
+>region1</I
+> and <I
+>region2</I
+> contain exactly the same set of points, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E2E66069DD800F3A4C47BFB5AF3B598%2Fregion-equal%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D82AA50C7686B0E0F87992A39348E432%2Fregion-equal%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-1.html#_2130"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_52"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-contains-region-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region1 region2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if all points in the <A NAME="_2137"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region2</I
+> are members of the <A NAME="_2138"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region1</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=93107197E23506F31AE77667A8911F91%2Fregion-contains-region-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84D5EF6F99C46E79AA97E2DD8F4D6F9F%2Fregion-contains-region-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-1.html#_2146"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-contains-position-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2131"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_53"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-contains-position-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the point at <I
+>(x,y)</I
+> is contained in the <A NAME="_2141"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. Since regions in CLIM are closed, this must return <SPAN CLASS="term"
+>true</SPAN
+> if the point at <I
+>(x,y)</I
+> is on the region's boundary. CLIM implementations are permitted to return different non-<A NAME="_2144"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> values depending on whether the point is completely inside the region or is on the border. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D5E10617C3CF85AD06677E12B616A8D%2Fregion-contains-position-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>region-contains-position-p</B
+> is a special case of <A NAME="_2146"></A><A HREF="3-1.html#_52"
+><B CLASS="cl"
+>region-contains-region-p</B
+></A
+> in which the region is the point <I
+>(x,y)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C0D8E0B53762CDDEC7859E79BE238F89%2Fregion-contains-position-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D235C8359B5100CFB6F18DFD7913767A%2Fregion-contains-position-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7291"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_54"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-intersects-region-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region1 region2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>false</SPAN
+> if <A NAME="_2148"></A><A HREF="3-1.html#_66"
+><B CLASS="cl"
+>region-intersection</B
+></A
+> of the two <SPAN CLASS="term"
+>regions</SPAN
+> <I
+>region1</I
+> and <I
+>region2</I
+> would be <A NAME="_2150"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>, otherwise returns <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4001737F913DB4CDD01CEF4810974F43%2Fregion-intersects-region-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CDDB92CCA0759A28A67F078B2732771C%2Fregion-intersects-region-p%2F3.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-1.html#_2132"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_55"></A><DIV
+><H4
+>3.1.2 Region Composition Protocol</H4
+><P
+>Region composition is not always equivalent to simple set operations. Instead, composition attempts to return an object that has the same dimensionality as one of its arguments. If this is not possible, then the result is defined to be an empty region, which is canonicalized to <A NAME="_2152"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>. (The exact details of this are specified with each function.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A6E7C35D0842793711A2D06521CFD237%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>Sometimes, composition of regions can produce a result that is not a simple contiguous region. For example, <A NAME="_2153"></A><A HREF="3-1.html#_65"
+><B CLASS="cl"
+>region-union</B
+></A
+> of two rectangular regions might not be a single rectangle. In order to support cases like this, CLIM has the concept of a <A NAME="_56"></A><SPAN CLASS="concept"
+>region set</SPAN
+>, which is an object that represents one or more <A NAME="_2154"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> objects related by some region operation, usually a union. CLIM provides standard classes to cover the cases of region union, intersection, and difference. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F45AFDA3FA491CB9BCBE1B8B2604365C%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7003"
+><SPAN CLASS="reverselink"
+>[region set, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2176"
+><SPAN CLASS="reverselink"
+>[region set, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-region-set-regions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2174"
+><SPAN CLASS="reverselink"
+>[region set, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-region-set-regions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2167"
+><SPAN CLASS="reverselink"
+>[region set, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-set-regions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2166"
+><SPAN CLASS="reverselink"
+>[region set, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-set-regions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2160"
+><SPAN CLASS="reverselink"
+>[region set, <I
+>Concept</I
+>&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-set-p</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Some CLIM implementations might only implement a subset of full region composition. Because of the importance of rectangular regions and region sets that are the union of rectangular regions, every CLIM implementation is required to fully support all functions that use regions for those cases. (For example, CLIM implementations must be able do clipping and repainting on region sets composed entirely of axis-aligned rectangles.) If a CLIM implementation does not support some functions on non-rectangular region sets (for example, clipping), it must signal an error when an unsupported case is encountered; the exact details of this depend on the particular CLIM implementation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=629E2B48E4C1D868930C8C285CB2E567%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_57"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-set</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents a region set; a subclass of <A NAME="_2155"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> and <A NAME="_2156"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3CE09EDEA24C9D2AC1729DC5B18EBA67%2Fregion-set%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In addition to the three classes below, there may be other instantiable subclasses of <B CLASS="cl"
+>region-set</B
+> that represent special cases, for instance, some implementations might have a <B CLASS="cl"
+>standard-rectangle-set</B
+> class that represents the union of several axis-aligned rectangles. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D71B58D7459866FF0D95E0A5169AE64%2Fregion-set%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8DC7A6082B3F1A5BF0B623A9DEEE8C08%2Fregion-set%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F1CA2F9DCBB9B024030F339ED3D5B56%2Fregion-set%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_58"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-set-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2160"></A><A HREF="3-1.html#_56"
+><SPAN CLASS="term"
+>region set</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E50A15DD89A77F414FC436CBB44EBFF5%2Fregion-set-p%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D9C0CC7BC59536EC85670E1A73A7FD1%2Fregion-set-p%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_59"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-region-union</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_60"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-region-intersection</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_61"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-region-difference</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These three instantiable classes respectively implement the union, intersection, and differences of regions. Implementations may, but are not required to, take advantage of the commutativity and associativity of union and intersection in order to "collapse" complicated region sets into simpler ones. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C24EBAC2B0A432CBED0B412AE1B3505%2Fstandard-region-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Region sets that are composed entirely of axis-aligned rectangles must be canonicalized into either a single rectangle or a union of rectangles. Furthermore, the rectangles in the union must not overlap each other. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D44FED1BFADC908132F237FD92FCB10D%2Fstandard-region-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The following generic functions comprise the region composition protocol. All classes that are subclasses of <A NAME="_2162"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=552A5ECF307B5B9DBC4BFF2372B6A69F%2Fstandard-region-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The methods for <A NAME="_2163"></A><A HREF="3-1.html#_65"
+><B CLASS="cl"
+>region-union</B
+></A
+>, <A NAME="_2164"></A><A HREF="3-1.html#_66"
+><B CLASS="cl"
+>region-intersection</B
+></A
+>, and <A NAME="_2165"></A><A HREF="3-1.html#_67"
+><B CLASS="cl"
+>region-difference</B
+></A
+> will typically specialize both the <I
+>region1</I
+> and <I
+>region2</I
+> arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B94989771BF30B33612A1032E48D23DD%2Fstandard-region-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FF0F95CEC321DCC53D8781E884B6FAB%2Fstandard-region-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-1.html#_2181"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-union</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2188"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-intersection</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7295"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2194"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-difference</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_62"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-set-regions</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>normalize</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence of the regions in the <A NAME="_2166"></A><A HREF="3-1.html#_56"
+><SPAN CLASS="term"
+>region set</SPAN
+></A
+> <I
+>region</I
+>. <I
+>region</I
+> can be either a <A NAME="_2167"></A><A HREF="3-1.html#_56"
+><SPAN CLASS="term"
+>region set</SPAN
+></A
+> or a "simple" region, in which case the result is simply a sequence of one element: <I
+>region</I
+>. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D03E57498D34F0EB42B9B95B13CF2FC%2Fregion-set-regions%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For the case of region sets that are unions of axis-aligned rectangles, the rectangles returned by <B CLASS="cl"
+>region-set-regions</B
+> are guaranteed not to overlap. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C917FEA21EAB768F2BE658F70699FC40%2Fregion-set-regions%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>normalize</I
+> is supplied, it must be either <B CLASS="cl"
+>:x-banding</B
+> or <B CLASS="cl"
+>:y-banding</B
+>. If it is <B CLASS="cl"
+>:x-banding</B
+> and all the regions in <I
+>region</I
+> are axis-aligned rectangles, the result is normalized by merging adjacent rectangles with banding done in the <I
+>x</I
+> direction. If it is <B CLASS="cl"
+>:y-banding</B
+> and all the regions in <I
+>region</I
+> are rectangles, the result is normalized with banding done in the <I
+>y</I
+> direction. Normalizing a region set that is not composed entirely of axis-aligned rectangles using x- or y-banding causes CLIM to signal the <B CLASS="cl"
+>region-set-not-rectangular</B
+> error. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD644393A2A5CACA9F4B89A44C4AE6EA%2Fregion-set-regions%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EFEBFD137A6D36041397E90109B3BA17%2Fregion-set-regions%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-1.html#_2175"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-region-set-regions</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_63"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-region-set-regions</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function region </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>normalize</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls <I
+>function</I
+> on each region in the <A NAME="_2174"></A><A HREF="3-1.html#_56"
+><SPAN CLASS="term"
+>region set</SPAN
+></A
+> <I
+>region</I
+>. This is often more efficient than calling <A NAME="_2175"></A><A HREF="3-1.html#_62"
+><B CLASS="cl"
+>region-set-regions</B
+></A
+>. <I
+>function</I
+> is a function of one argument, a region; it has dynamic extent. <I
+>region</I
+> can be either a <A NAME="_2176"></A><A HREF="3-1.html#_56"
+><SPAN CLASS="term"
+>region set</SPAN
+></A
+> or a "simple" region, in which case <I
+>function</I
+> is called once on <I
+>region</I
+> itself. <I
+>normalize</I
+> is as for <A NAME="_2177"></A><A HREF="3-1.html#_62"
+><B CLASS="cl"
+>region-set-regions</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E74178D61D3870D1498029058FA06661%2Fmap-over-region-set-regions%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z213"
+></A
+>What does "it has dynamic extent" mean? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E74178D61D3870D1498029058FA06661%2Fmap-over-region-set-regions%2F3.1.2&amp;editp=t&amp;id=Z213#Z213"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Otto Drachen 2013-09-09 00:58Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z273"
+></A
+>The function can safely be allocated on the stack instead of the heap, as with the dynamic-extent declaration. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E74178D61D3870D1498029058FA06661%2Fmap-over-region-set-regions%2F3.1.2&amp;editp=t&amp;id=Z273#Z273"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Elijah Malaby 2016-09-04 15:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="region-normalization.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 3.1: Normalization of rectangular region sets.</DIV
+></DIV
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C3BC7BCAEF42C07A71DEA26659F14BCF%2Fmap-over-region-set-regions%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="2-6.html#_2054"
+><SPAN CLASS="reverselink"
+>[&larr; 2.6 Specialized Arguments to Generic Functions]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_65"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-union</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region1 region2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a region that contains all points that are in either of the <SPAN CLASS="term"
+>regions</SPAN
+> <I
+>region1</I
+> or <I
+>region2</I
+> (possibly with some points removed in order to satisfy the dimensionality rule). The result of <B CLASS="cl"
+>region-union</B
+> always has dimensionality that is the maximum dimensionality of <I
+>region1</I
+> and <I
+>region2</I
+>. For example, the union of a path and an area produces an area; the union of two paths is a path. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=947F9A337A0FB471EB4E041CB891DEFE%2Fregion-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>region-union</B
+> will return either a simple region, a region set, or a member of the class <A NAME="_2181"></A><A HREF="3-1.html#_59"
+><B CLASS="cl"
+>standard-region-union</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3EE66129B6D4260952B2150F1CF2D12%2Fregion-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fregion-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C28B619C861C1AD24BE9BC8A4FF92B6%2Fregion-union%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-1.html#_3507"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-over</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2163"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-region-union</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2153"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_66"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-intersection</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region1 region2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a region that contains all points that are in both of the <SPAN CLASS="term"
+>regions</SPAN
+> <I
+>region1</I
+> and <I
+>region2</I
+> (possibly with some points removed in order to satisfy the dimensionality rule). The result of <B CLASS="cl"
+>region-intersection</B
+> has dimensionality that is the minimum dimensionality of <I
+>region1</I
+> and <I
+>region2</I
+>, or is <A NAME="_2184"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>. For example, the intersection of two areas is either another area or <A NAME="_2185"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>; the intersection of two paths is either another path or <A NAME="_2186"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>; the intersection of a path and an area produces the path clipped to stay inside of the area. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3CD131FE184A07CD3065E4309CEFC545%2Fregion-intersection%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>region-intersection</B
+> will return either a simple region or a member of the class <A NAME="_2188"></A><A HREF="3-1.html#_60"
+><B CLASS="cl"
+>standard-region-intersection</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9CA1DBF5469E1C46BA7BEB79231288A0%2Fregion-intersection%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fregion-intersection%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA63C3C350B507B98AEB33CACD5E8F5D%2Fregion-intersection%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-1.html#_3514"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-in</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2989"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2164"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-region-union</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2148"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.1 The Region Predicate Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-intersects-region-p</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_67"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>region-difference</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region1 region2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a region that contains all points in the <A NAME="_2189"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region1</I
+> that are not in the <A NAME="_2190"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region2</I
+> (possibly plus additional boundary points to make the result closed). The result of <B CLASS="cl"
+>region-difference</B
+> has the same dimensionality as <I
+>region1</I
+>, or is <A NAME="_2192"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>. For example, the difference of an area and a path produces the same area; the difference of a path and an area produces the path clipped to stay outside of the area. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=604C9DEC6135C8A42A55711375284ADF%2Fregion-difference%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>region-difference</B
+> will return either a simple region, a region set, or a member of the class <A NAME="_2194"></A><A HREF="3-1.html#_61"
+><B CLASS="cl"
+>standard-region-difference</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A71ABE6CD0CB7F0BE7EB903B992A5A95%2Fregion-difference%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fregion-difference%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="region-composition.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 3.2: Examples of region union, intersection, and difference.</DIV
+></DIV
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98A3C82D9EE29029EE8939CA26A82A6D%2Fregion-difference%2F3.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-1.html#_3520"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-out</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2558"
+><SPAN CLASS="reverselink"
+>[&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-allocated-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2165"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-region-union</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/3-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:41 GMT -->
+</HTML
+>

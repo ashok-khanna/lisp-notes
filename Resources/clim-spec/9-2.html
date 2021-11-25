@@ -1,0 +1,1571 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/9-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 9.2 Ports</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="9.1 Introduction" HREF="9-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="9.3 Grafts" HREF="9-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="9 Ports, Grafts, and Mirrored Sheets" HREF="9.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="9-1.html"
+>Prev</A
+><BR
+><A HREF="9-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="9.html"
+>9&nbsp;Ports,&nbsp;Grafts,&nbsp;and&nbsp;Mirrored&nbsp;Sheets</A
+><BR
+>&rarr;&nbsp;<A HREF="9-2.html"
+><B
+>9.2&nbsp;Ports</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_450"></A><DIV
+><H3
+>9.2 Ports</H3
+><DIV
+><P
+>A <A NAME="_451"></A><SPAN CLASS="concept"
+>port</SPAN
+> is a logical connection to a display server. It is responsible for managing display output and server resources, and for handling incoming input events. Typically, the programmer will create a single port that will manage all of the windows on the display. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DF610227AFBE9A20E9F1358BC588E45%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="13-3.html#_3460"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 13.3.2 Contrasting Colors, <B CLASS="cl"
+><B CLASS="cl"
+>contrasting-inks-limit</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-3.html#_3161"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 11.3 Controlling Text Style Mappings, <B CLASS="cl"
+><B CLASS="cl"
+>text-style-mapping</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-3.html#_3087"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 10.3.2 Contrasting Dash Patterns, <B CLASS="cl"
+><B CLASS="cl"
+>contrasting-dash-pattern-limit</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2879"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>bury-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2877"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>raise-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2875"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>destroy-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2873"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>realize-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-3.html#_2838"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.3 Grafts, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-grafts</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2822"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>destroy-port</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2821"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>restart-port</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2817"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>port-server-path</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2815"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2798"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>portp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2773"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>degraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2768"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>engraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2765"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>make-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2762"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>allocate-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="6-1.html#_2479"
+><SPAN CLASS="reverselink"
+>[port, <I
+>Concept</I
+>&larr; 6.1 Introduction]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>A port is described with a <A NAME="_452"></A><SPAN CLASS="concept"
+>server path</SPAN
+>. A server path is a list whose first element is a keyword that selects the kind of port. The remainder of the server path is a list of alternating keywords and values whose interpretation is port type-specific. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB76062349F661ABFBF703A9442FACE1%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_453"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a port. If you want to create a new class that behaves like a port, it should be a subclass of <B CLASS="cl"
+>port</B
+>. All instantiable subclasses of <B CLASS="cl"
+>port</B
+> must obey the port protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49B7AD476681D39AC92BF2F769B8DCAA%2Fport%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z187"
+></A
+>The "should be a subclass of port" part misleads one away from subclassing basic-port, or am I missing something? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49B7AD476681D39AC92BF2F769B8DCAA%2Fport%2F9.2&amp;editp=t&amp;id=Z187#Z187"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Samium Gromoff 2009-08-28 23:25Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z285"
+></A
+>For difference between port and basic-port, I think it's just like basic-port is like standard-class in mop (usually we only define class of standard-class, but for special purpose class we define class of different meta class.) In this case we usually define our port of basic-port, but if under some platforms port object has same utility but different internal process, we may direct subclass port? For example, on Windows and OSX, the native GUI is not via a client-server approach that use a port connect to x-server, but directly manipulate foreign pointers. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49B7AD476681D39AC92BF2F769B8DCAA%2Fport%2F9.2&amp;editp=t&amp;id=Z285#Z285"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Bo Yao 2016-12-03 21:58Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All of the subclasses of <B CLASS="cl"
+>port</B
+> are mutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=881F1DDA7455FEA423691BAF5E2B1E92%2Fport%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42509C879945108A0637E125B7FDFF99%2Fport%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="8-3.html#_419"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1559"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1558"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="22-4.html#_1119"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_496"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_462"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2816"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2800"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>basic-port</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_454"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>portp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2798"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=22743DBB8D511D5D8B9051941481AA7B%2Fportp%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFA1E71A1798446407C70990280F9F77%2Fportp%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_455"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>basic-port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The basic class on which all CLIM ports are built, a subclass of <A NAME="_2800"></A><A HREF="28-5.html#_1559"
+><B CLASS="cl"
+>port</B
+></A
+>. This class is an abstract class, intended only to be subclassed, not instantiated.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0513186734C10B96CE79E9CEFE89FD66%2Fbasic-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=88D63A35C9F9666D4CDFCE27D8C71113%2Fbasic-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_456"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(server-path </I
+><I
+><B CLASS="cl"
+>*default-server-path*</B
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Finds a port that provides a connection to the window server addressed by <I
+>server-path</I
+>. If no such connection exists, a new connection will be constructed and returned. The initargs in <I
+>initargs</I
+> will be passed to the function that constructed the new port. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3073A9B35CD55574A1FB87EC8D750B29%2Ffind-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=768B7C04EE20A0559271A65D7FFD2DB7%2Ffind-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6428"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers, <B CLASS="cl"
+><B CLASS="cl"
+>find-frame-manager</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2810"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>:genera</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2808"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>:openlook</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2806"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>:motif</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2804"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>:clx</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2801"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>*default-server-path*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_457"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*default-server-path*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This special variable is used by <A NAME="_2801"></A><A HREF="9-2.html#_456"
+><B CLASS="cl"
+>find-port</B
+></A
+> and its callers to default the choice of a display service to locate. Binding this variable in a dynamic context will affect the defaulting of this argument to these functions. This variable will be defaulted according to the environment. In the Unix environment, for example, CLIM will attempt to set this variable based on the value of the <B CLASS="cl"
+>DISPLAY</B
+> environment variable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0AF888740DE6BE454A8211B0361174FE%2F%2Adefault-server-path%2A%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The value of <B CLASS="cl"
+>*default-server-path*</B
+> is a cons of a port type followed by a list of initargs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D107382FD4FA6F2962595090F5CC9843%2F%2Adefault-server-path%2A%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The following are the recommendations for port types and their initargs. This list is not intended to be comprehensive, nor is it required that a CLIM implementation support any of these port types. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B8C81F1E5ADE9014380F45066EA4B65%2F%2Adefault-server-path%2A%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EC6A35EE7FC0216F6AD7853129BAACC4%2F%2Adefault-server-path%2A%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-5.html#_6433"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers, <B CLASS="cl"
+><B CLASS="cl"
+>*default-frame-manager*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_6432"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers, <B CLASS="cl"
+><B CLASS="cl"
+>find-frame-manager</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_6426"
+><SPAN CLASS="reverselink"
+>[&larr; 28.5.1 Finding Frame Managers]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_458"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:clx</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>host display-id screen-id</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Server&nbsp;Path]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given this server path, <A NAME="_2804"></A><A HREF="9-2.html#_456"
+><B CLASS="cl"
+>find-port</B
+></A
+> finds a port for the X server on the given <I
+>host</I
+>, using the <I
+>display-id</I
+> and <I
+>screen-id</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D94826A52A90DAC8D2E1222FB9B8C6D%2F%3Aclx%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>On a Unix host, if these values are not supplied, the defaults come from the <B CLASS="cl"
+>DISPLAY</B
+> environment variable. Each CLIM implementation must describe how it uses such environment variables. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2D90508A8CD9675121E0C29A14A71C1%2F%3Aclx%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15F6BADB5E404028DBE8873E157B1209%2F%3Aclx%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2818"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>port-name</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_459"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:motif</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>host display-id screen-id</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Server&nbsp;Path]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given this server path, <A NAME="_2806"></A><A HREF="9-2.html#_456"
+><B CLASS="cl"
+>find-port</B
+></A
+> finds a port for a Motif X server on the given <I
+>host</I
+>, using the <I
+>display-id</I
+> and <I
+>screen-id</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=425E2598168D28BC5F62CDCBAFA989D5%2F%3Amotif%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>On a Unix host, if these values are not supplied, the defaults come from the <B CLASS="cl"
+>DISPLAY</B
+> environment variable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AA8109A22A36F6FBC8D300046AE594C%2F%3Amotif%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=99A8344C915CF5E32D94F550B1D69AF2%2F%3Amotif%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_460"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:openlook</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>host display-id screen-id</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Server&nbsp;Path]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given this server path, <A NAME="_2808"></A><A HREF="9-2.html#_456"
+><B CLASS="cl"
+>find-port</B
+></A
+> finds a port for an OpenLook X server on the given <I
+>host</I
+>, using the <I
+>display-id</I
+> and <I
+>screen-id</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=360D465B643EC1C14368F54660718729%2F%3Aopenlook%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>On a Unix host, if these values are not supplied, the defaults come from the <B CLASS="cl"
+>DISPLAY</B
+> environment variable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AA8109A22A36F6FBC8D300046AE594C%2F%3Aopenlook%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1CD8622A63C1625D1CA42E77B5542FE8%2F%3Aopenlook%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_461"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:genera</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>screen</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Server&nbsp;Path]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given this server path, <A NAME="_2810"></A><A HREF="9-2.html#_456"
+><B CLASS="cl"
+>find-port</B
+></A
+> finds a port for local Genera platform on the screen object <I
+>screen</I
+>. <I
+>screen</I
+> defaults to <I
+>tv:main-screen</I
+>, but could also be an object return from <B CLASS="cl"
+>color:find-color-screen</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B9D7EA8664356B5C63BD016542A5A66%2F%3Agenera%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB21CDC76644DD49855FFA60DB30D6FA%2F%3Agenera%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_462"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the port associated with <I
+>object</I
+>. <B CLASS="cl"
+>port</B
+> is defined for all sheet classes (including grafts and streams that support the CLIM graphics protocol), mediums, and application frames. For degrafted sheets or other objects that aren't currently associated with particular ports, <B CLASS="cl"
+>port</B
+> will return <A NAME="_2814"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=874120988ED901200187D13DB87C0F16%2Fport%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=022C84F9B42EC849D940718CDDF0A001%2Fport%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="9-2.html#_453"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_419"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1559"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1558"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="22-4.html#_1119"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_496"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2816"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2800"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>basic-port</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_463"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-port-locked</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(port) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Executes <I
+>body</I
+> after grabbing a lock associated with the <A NAME="_2815"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>, which may be a port or any object on which the function <A NAME="_2816"></A><A HREF="28-5.html#_1559"
+><B CLASS="cl"
+>port</B
+></A
+> works. If <I
+>object</I
+> currently has no port, <I
+>body</I
+> will be executed without locking. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=477B1C5DD8E07FC384BFF4754280FBF2%2Fwith-port-locked%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE1B554A421B95107F6F1745EA75BC4E%2Fwith-port-locked%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FBB6F798C31A7B8D41C00ECCDE65954%2Fwith-port-locked%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_464"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-ports</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invokes <I
+>function</I
+> on each existing port. Function is a function of one argument, the port; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=93B6448F8FA10F53B1AAB8B1865F1C5F%2Fmap-over-ports%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7BC462CB2A515797FBFFC13B62BEE88%2Fmap-over-ports%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_465"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port-server-path</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the server path associated with the <A NAME="_2817"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85D1EBD4BE31B5D19FD307F288A90283%2Fport-server-path%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=44C63913DD17DCF1206B04D700CBE6D7%2Fport-server-path%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_466"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an implementation-dependent string that is the name of the port. For example, a <A NAME="_2818"></A><A HREF="9-2.html#_458"
+><B CLASS="cl"
+>:clx</B
+></A
+> port might have a name of <B CLASS="cl"
+>"summer:0.0"</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0CAA72C1285995514800C4CAFF5A0048%2Fport-name%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73E14C523AB94EBA70C61AE6ECB44276%2Fport-name%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_467"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the type of the port, that is, the first element of the server path spec. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2AEA4FFDCF116F1B0D7C42420AB1217D%2Fport-type%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CBF24ED45E166745F4DD6C32CB68EAE8%2Fport-type%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_468"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port-properties</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port indicator</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_469"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf port-properties)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>property port indicator</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions provide a port-based property list. They are primarily intended to support users of CLIM that may need to associate certain information with ports. For example, the implementor of a special graphics package may need to maintain resource tables for each port on which it is used. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B78C71349E5D829B98503A59CA78A0BE%2Fport-properties%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC669163F72E09982D86D74F36DA7264%2Fport-properties%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_470"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>restart-port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>In a multi-process Lisp, <B CLASS="cl"
+>restart-port</B
+> restarts the global input processing loop associated with the <A NAME="_2821"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. All pending input events are discarded. Server resources may or may not be released and reallocated during or after this action. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D2547F46FE14F099CD04514BAA7979FA%2Frestart-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=27BDD0D7A67F8D9D06CB991ADA07D46E%2Frestart-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_471"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>destroy-port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Destroys the connection with the window server represented by the <A NAME="_2822"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. All sheet hierarchies that are associated with <I
+>port</I
+> are forcibly degrafted by disowning the children of grafts on <I
+>port</I
+> using <I
+>sheet-disown-child</I
+>. All server resources utilized by such hierarchies or by any graphics objects on <I
+>port</I
+> are released as part of the connection shutdown. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC470DDDA6FC65B265ED61BBBD23A2C9%2Fdestroy-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC0E21D8B0C439B7938D0EBF45E0A9F2%2Fdestroy-port%2F9.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/9-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

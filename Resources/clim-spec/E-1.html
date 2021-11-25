@@ -1,0 +1,289 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/E-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; E.1 Support for PostScript Output</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="E Suggested Extensions to CLIM" HREF="E.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="E.2 Support for Reading Bitmap Files" HREF="E-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="E Suggested Extensions to CLIM" HREF="E.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="E.html"
+>Prev</A
+><BR
+><A HREF="E-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+> &rarr;&nbsp;<A HREF="E.html"
+>E&nbsp;Suggested&nbsp;Extensions&nbsp;to&nbsp;CLIM</A
+><BR
+>&rarr;&nbsp;<A HREF="E-1.html"
+><B
+>E.1&nbsp;Support&nbsp;for&nbsp;PostScript&nbsp;Output</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1963"></A><DIV
+><H3
+>E.1 Support for PostScript Output</H3
+><P
+>CLIM implementations may choose to implement a PostScript back-end. Such a back-end must include a medium that supports CLIM's medium protocol, and should support CLIM's output stream protocol as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A42BC53773F32DB6D5CD81491288B13%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1964"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-to-postscript-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream-var file-stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>device-type multi-page scale-to-fit  orientation header-comments)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Within <I
+>body</I
+>, <I
+>stream-var</I
+> is bound to a stream that produces PostScript code. This stream is suitable as a stream or medium argument to any CLIM output utility, such as <A NAME="_7259"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> or <B CLASS="cl"
+>write-string</B
+>. A PostScript program describing the output to the <I
+>stream-var</I
+> stream will be written to <I
+>file-stream</I
+>. <I
+>stream-var</I
+> must be a symbol. <I
+>file-stream</I
+> is a stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=083B569C09B03594261E3DC27DC85FA8%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>device-type</I
+> is a symbol that names some sort of PostScript display device. Its default value is unspecified, but must be a useful display device type for the CLIM implementation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E6EE064A7AC48639B678CCD134A856E%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>multi-page</I
+> is a <SPAN CLASS="term"
+>boolean</SPAN
+> that specifies whether or not the output should be broken into multiple pages if it is larger than one page. How the output is broken into multiple pages, and how these multiple pages should be pieced together is unspecified. The default is <A NAME="_7262"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB8571A4E64AF72439A138CE51BB1785%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>scale-to-fit</I
+> is a <SPAN CLASS="term"
+>boolean</SPAN
+> that specifies whether or not the output should be scaled to fit on a single page if it is larger than one page. The default is <A NAME="_7264"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. It is an error if <I
+>multi-page</I
+> and <B CLASS="cl"
+>scale-to-fit</B
+> are both supplied as <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A4E38FA516675F6A5CF13BC304641909%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>orientation</I
+> may be one of <B CLASS="cl"
+>:portrait</B
+> (the default) or <B CLASS="cl"
+>:landscape</B
+>. It specifies how the output should be oriented. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DDE529D9B3C7A70700DDA7116DF42111%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>header-comments</I
+> allows the programmer to specify some PostScript header comment fields for the resulting PostScript output. The value of <I
+>header-comments</I
+> is a list consisting of alternating keyword and value pairs. These are the supported keywords: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8769C1B840912EC044D18F5A546D4DB3%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:title</B
+>---specifies a title for the document, as it will appear in the "  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6ED18FFDFB313FDF7EA79A4A43679028%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:for</B
+>---specifies who the document is for. The associated value will appear in a " <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D6180BAD86048A98AB98C6EBBBBF0021%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B04CB2B51FB6BF9E807903D33437D277%2Fwith-output-to-postscript-stream%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1965"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>new-page</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Give a PostScript stream <I
+>stream</I
+>, <B CLASS="cl"
+>new-page</B
+> sends all of the currently collected output to the related file stream (by emitting a PostScript <B CLASS="cl"
+>showpage</B
+> command), and resets the PostScript stream to have no output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=34FFFCE9CD1D29F0BF5D85EAD2E464FF%2Fnew-page%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5929F7A4AB4D567FDD32DA3718DF7F28%2Fnew-page%2FE.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/E-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

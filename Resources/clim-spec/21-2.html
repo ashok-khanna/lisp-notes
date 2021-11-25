@@ -1,0 +1,810 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/21-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 21.2 Standard Programmer Interface</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="21.1 Overview of Incremental Redisplay" HREF="21-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="21.3 Incremental Redisplay Protocol" HREF="21-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="21 Incremental Redisplay" HREF="21.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="21-1.html"
+>Prev</A
+><BR
+><A HREF="21-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="21.html"
+>21&nbsp;Incremental&nbsp;Redisplay</A
+><BR
+>&rarr;&nbsp;<A HREF="21-2.html"
+><B
+>21.2&nbsp;Standard&nbsp;Programmer&nbsp;Interface</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1018"></A><DIV
+><H3
+>21.2 Standard Programmer Interface</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1019"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>updating-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>args  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>unique-id (id-test </I
+>&#35;<I
+>'</I
+><I
+><B CLASS="cl"
+>eql</B
+></I
+><I
+>)  cache-value (cache-test </I
+>&#35;<I
+>'</I
+><I
+><B CLASS="cl"
+>eql</B
+></I
+><I
+>)  fixed-position all-new parent-cache  record-type)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Introduces a caching point for incremental redisplay. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6905749F37E71CC4084C47DBBE6B0FF6%2Fupdating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an output recording stream. If <I
+>stream</I
+> is <A NAME="_4259"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5C19912A29428A2D99F028193E4E873%2Fupdating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of output record to create. The default is <A NAME="_4261"></A><A HREF="21-3.html#_1031"
+><B CLASS="cl"
+>standard-updating-output-record</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the updating output record protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1774E35F825ACCAD53C7E5FEE871C767%2Fupdating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z195"
+></A
+>In mcclim the macro returns the created output record, which makes a lot of sense. Is that part of the spec and required for new output-record classes? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1774E35F825ACCAD53C7E5FEE871C767%2Fupdating-output%2F21.2&amp;editp=t&amp;id=Z195#Z195"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Orm Finnendahl 2011-01-04 15:29Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z197"
+></A
+>At least "21.1.1 Examples of Incremental Redisplay" describes this behaviour (third pragagraph). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1774E35F825ACCAD53C7E5FEE871C767%2Fupdating-output%2F21.2&amp;editp=t&amp;id=Z197#Z197"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Janis Dzerins 2011-01-24 16:18Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>updating-output</B
+> must be implemented by expanding into a call to <A NAME="_4263"></A><A HREF="21-2.html#_1020"
+><B CLASS="cl"
+>invoke-updating-output</B
+></A
+>, supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <A NAME="_4264"></A><A HREF="21-2.html#_1020"
+><B CLASS="cl"
+>invoke-updating-output</B
+></A
+>. The exact behavior of this macro is described under <A NAME="_4265"></A><A HREF="21-2.html#_1020"
+><B CLASS="cl"
+>invoke-updating-output</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CDA0029AE7885DC6F5FEF26785C7BD8E%2Fupdating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38547711C12FADBA2C17A6115F525F46%2Fupdating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6623"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:incremental-redisplay</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5755"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-accept-values-command-button</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-3.html#_4309"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compute-new-output-records</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-2.html#_4291"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>redisplay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-2.html#_4270"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-updating-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-1.html#_4224"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1.1 Examples of Incremental Redisplay]</SPAN
+></A
+><BR
+><A HREF="21-1.html#_4219"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1 Overview of Incremental Redisplay]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1020"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-updating-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream continuation record-type  unique-id id-test  cache-value cache-test  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>all-new parent-cache</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Introduces a caching point for incremental redisplay. Calls the function <I
+>continuation</I
+>, which generates the output records to be redisplayed. <I
+>continuation</I
+> is a function of one argument, the stream; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0078D3251BB670D78DA7AEF57C95B6CE%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If this is used outside the dynamic scope of an incremental redisplay, it has no particular effect. However, when incremental redisplay is occurring, the supplied <I
+>cache-value</I
+> is compared with the value stored in the cache identified by <I
+>unique-id</I
+>. If the values differ or the code in <I
+>body</I
+> has not been run before, the code in <I
+>body</I
+> runs, and <I
+>cache-value</I
+> is saved for next time. If the cache values are the same, the code in <I
+>body</I
+> is not run, because the current output is still valid. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02F88F98A8F690724EB28657CA4ED16B%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>unique-id</I
+> provides a means to uniquely identify the output done by <I
+>body</I
+>. If <I
+>unique-id</I
+> is not supplied, CLIM will generate one that is guaranteed to be unique. <I
+>unique-id</I
+> may be any object as long as it is unique with respect to the <I
+>id-test</I
+> predicate among all such unique ids in the current incremental redisplay. <I
+>id-test</I
+> is a function of two arguments that is used for comparing unique ids; it has indefinite extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D7418CBC98B23842577E97B6781D155%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cache-value</I
+> is a value that remains constant if and only if the output produced by body does not need to be recomputed. If the cache value is not supplied, CLIM will not use a cache for this piece of output. <I
+>cache-test</I
+> is a function of two arguments that is used for comparing cache values; it has indefinite extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=814678CA3E4E52AD0033F18C5A519159%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>fixed-position</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the location of this output is fixed relative to its parent output record. When CLIM redisplays an output record that has a fixed position, then if the contents have not changed, the position of the output record will not change. If the contents have changed, CLIM assumes that the code will take care to preserve its position. The default for <I
+>fixed-position</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8BAC173E2483703F46BF3D4AA76F6BC1%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z108"
+></A
+>So, how come fixed-position is not part of the signature of invoke-updating-output?  Is it supposed to be a &amp;key argument?&#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8BAC173E2483703F46BF3D4AA76F6BC1%2Finvoke-updating-output%2F21.2&amp;editp=t&amp;id=Z108#Z108"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2005-08-17 21:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z127"
+></A
+>It's a keyword argument. It's not explicitly included in invoke-updating-output's signature because it's part of the &amp;rest list that is passed when the updating output record is constructed. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8BAC173E2483703F46BF3D4AA76F6BC1%2Finvoke-updating-output%2F21.2&amp;editp=t&amp;id=Z127#Z127"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Tim Moore 2006-02-06 16:44Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If <I
+>all-new</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, that indicates that all of the output done by <I
+>body</I
+> is new, and will never match output previously recorded. In this case, CLIM will discard the old output and do the redisplay from scratch. The default for <I
+>all-new</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A63A35C80427B496D476F5245BF6245%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The output record tree created by <A NAME="_4270"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+> defines a caching structure where mappings from a unique-id to an output record are maintained. If the programmer specifies an output record some output record <I
+>P</I
+> via the <I
+>parent-cache</I
+> argument, then CLIM will try to find a corresponding output record with the matching unique-id in the cache belonging to <I
+>P</I
+>. If neither <I
+>parent-cache</I
+> is not provided, then CLIM looks for the unique-id in the output record created by immediate dynamically enclosing call to <A NAME="_4271"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>. If that fails, CLIM use the unique-id to find an output record that is a child of the output history of <I
+>stream</I
+>. Once CLIM has found an output record that matches the unique-id, it uses the cache value and cache test to determine whether the output record has changed. If the output record has not changed, it may have moved, in which case CLIM will simply move the display of the output record on the display device. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D65241BBB40A5E4EE2026D0ED84FA0B7%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z109"
+></A
+><P
+>The text in this paragraph could use some work.  For instance "If the programmer specifies an output record some output record P..." should be replaced by simply "If the programmers specifies some output record P...".  And the "neither" in "If neither parent-cache is not provided...".</P
+><P
+>It would be nice also to indicate that "simply move"-ing the display of an output record is not a simple thing, since CLIM must guarantee that the effects of replaying the output records is the same as if the were all drawn freshly in the right order.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D65241BBB40A5E4EE2026D0ED84FA0B7%2Finvoke-updating-output%2F21.2&amp;editp=t&amp;id=Z109#Z109"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2005-08-17 21:53Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E3E6A5CDE50534AC898AC2A08152930F%2Finvoke-updating-output%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-2.html#_4263"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>updating-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1021"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>redisplay</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(check-overlapping </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function simply calls <A NAME="_4272"></A><A HREF="21-2.html#_1022"
+><B CLASS="cl"
+>redisplay-output-record</B
+></A
+> on the arguments <I
+>record</I
+> and <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=65D3FE8FC2425BF1EFFA4F0EEDA2D0D2%2Fredisplay%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B6D2C019F1E89C07EA433CF0B99A71F7%2Fredisplay%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6625"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:incremental-redisplay</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-4.html#_4371"
+><SPAN CLASS="reverselink"
+>[&larr; 21.4 Incremental Redisplay Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-redisplaying-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-1.html#_4225"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1.1 Examples of Incremental Redisplay]</SPAN
+></A
+><BR
+><A HREF="21-1.html#_4218"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1 Overview of Incremental Redisplay]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3902"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1022"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>redisplay-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream  </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(check-overlapping </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  x y parent-x parent-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B
+>Minor issue: </B
+> <I
+>The coordinate system stuff affected by the x/y and parent-x/y arguments is entirely bogus. The proposal to make "stream relative" coordinates for output records instead of "parent relative" coordinates will eliminate this completely. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75E8D711F9B42A737A69D3AE1A7317A4%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>(redisplay-output-record </B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>)</B
+> causes the output of <I
+>record</I
+> to be recomputed. CLIM redisplays the changes "incrementally", that is, it only displays those parts that have been changed. <I
+>record</I
+> must already be part of the output history of the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>, although it can be anywhere inside the hierarchy. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA8F7DA5A26E62E2B75BD7A5A329B1DD%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>check-overlapping</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this means that CLIM can assume that no sibling output records overlap each other at any level in the output record tree. Supplying a <SPAN CLASS="term"
+>false</SPAN
+> value for this argument can improve performance of redisplay. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEFE8F15506A841995EF76638313984A%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> <B CLASS="cl"
+>redisplay-output-record</B
+> is implemented by first binding <A NAME="_4282"></A><A HREF="21-4.html#_1051"
+><B CLASS="cl"
+>stream-redisplaying-p</B
+></A
+> of the stream to <SPAN CLASS="term"
+>true</SPAN
+>, then creating the new output records by invoking <A NAME="_4284"></A><A HREF="21-3.html#_1036"
+><B CLASS="cl"
+>compute-new-output-records</B
+></A
+>. Once the new output records have been computed, <A NAME="_4285"></A><A HREF="21-3.html#_1037"
+><B CLASS="cl"
+>compute-difference-set</B
+></A
+> is called to compute the difference set, which is then passed to <B CLASS="cl"
+>note-child-output-record-changed</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C4B7E8CAB86ED053C50A9DE4C78D417A%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z450"
+></A
+>note-output-record-child-changed * <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C4B7E8CAB86ED053C50A9DE4C78D417A%2Fredisplay-output-record%2F21.2&amp;editp=t&amp;id=Z450#Z450"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-11-23 17:43Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The other optional arguments can be used to specify where on the <I
+>stream</I
+> the output record should be redisplayed. <I
+>x</I
+> and <I
+>y</I
+> represent where the cursor should be, relative to (<A NAME="_4287"></A><A HREF="16-2.html#_851"
+><B CLASS="cl"
+>output-record-parent</B
+></A
+> record), before we start redisplaying <I
+>record</I
+>. <I
+>parent-x</I
+> and <I
+>parent-y</I
+> can be supplied to say: do the output as if the parent started at positions <I
+>parent-x</I
+> and <I
+>parent-y</I
+> (which are in absolute coordinates). The default values for <I
+>x</I
+> and <I
+>y</I
+> are <B CLASS="cl"
+>(output-record-start-position </B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+>)</B
+>. The default values for <I
+>parent-x</I
+> and <I
+>parent-y</I
+> are <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=31E283CF2420E8F27A22D4E3617848DA%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(convert-from-relative-to-absolute-coordinates &#10;  stream (output-record-parent record))&#10;</PRE
+><P
+><I
+>record</I
+> will usually be an output record created by <A NAME="_4291"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>. If it is not, then <B CLASS="cl"
+>redisplay-output-record</B
+> will be equivalent to <A NAME="_4293"></A><A HREF="16-2.html#_853"
+><B CLASS="cl"
+>replay-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1AA84795FC231A78335EE14614EBC85D%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1691843CBFF87F49528300E85473EF4E%2Fredisplay-output-record%2F21.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7439"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="21-2.html#_4272"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>redisplay</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/21-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

@@ -1,0 +1,1446 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/7-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 7.3 Sheet Geometry</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="7.2 Relationships Between Sheets" HREF="7-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="8 Sheet Protocols" HREF="8.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="7 Properties of Sheets" HREF="7.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="7-2.html"
+>Prev</A
+><BR
+><A HREF="8.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="7.html"
+>7&nbsp;Properties&nbsp;of&nbsp;Sheets</A
+><BR
+>&rarr;&nbsp;<A HREF="7-3.html"
+><B
+>7.3&nbsp;Sheet&nbsp;Geometry</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_269"></A><DIV
+><H3
+>7.3 Sheet Geometry</H3
+><LI CLASS="outline_item"
+><A HREF="7-3.html#_270"
+>7.3.1 Sheet Geometry Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="7-3.html#_289"
+>7.3.2 Sheet Geometry Classes</A
+></LI
+><P
+>Every sheet has a region and a coordinate system. A sheet's region refers to its position and extent on the display device, and is represented by some sort of a region object, frequently a rectangle. A sheet's coordinate system is represented by a coordinate transformation that converts coordinates in its coordinate system to coordinates in its parent's coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=61BC0BF74AFACD6BEBB9A398A069FCC1%2F7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_270"></A><DIV
+><H4
+>7.3.1 Sheet Geometry Functions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_271"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_272"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf sheet-transformation)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a transformation that converts coordinates in the <A NAME="_2525"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s coordinate system into coordinates in its parent's coordinate system. Using <B CLASS="cl"
+>setf</B
+> on this accessor will modify the sheet's coordinate system, including moving its region in its parent's coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA8B643E7A54989251A842A9C2112B64%2Fsheet-transformation%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the sheet's transformation is changed, <A NAME="_2527"></A><A HREF="8-5.html#_445"
+><B CLASS="cl"
+>note-sheet-transformation-changed</B
+></A
+> is called on the to notify the sheet of the change. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFAA5C9155242D8D0FDCE634113916EC%2Fsheet-transformation%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F94D23059D206103A12806C3A029A61%2Fsheet-transformation%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_273"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_274"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf sheet-region)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a region object that represents the set of points to which the <A NAME="_2528"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> refers. The region is in the sheet's coordinate system. Using <B CLASS="cl"
+>setf</B
+> on this accessor modifies the sheet's region. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F942027F4BC42EAA2249134FD078E2A%2Fsheet-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the sheet's region is changed, <B CLASS="cl"
+>note-sheet-region-region</B
+> is called on <I
+>sheet</I
+> to notify the sheet of the change. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=951601297F3FBA20CDB7B155C660A4A5%2Fsheet-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z317"
+></A
+>s/note-sheet-region-region/note-sheet-region-changed/ <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=951601297F3FBA20CDB7B155C660A4A5%2Fsheet-region%2F7.3.1&amp;editp=t&amp;id=Z317#Z317"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-03-16 12:33Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>To reshape and move a region, you generally have to manipulate both of the above. Maybe there should be a single function that takes either or both of a new transformation or region? Maybe region coordinates should be expressed in parents' coordinates, since that's easier to set only one? ---&nbsp;RSL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=931E3A87C27927B8F4742F05ECC21514%2Fsheet-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>I'm not convinced I like this business of requesting a change by modifying an accessor. It might be better to have a </I
+><I
+><B CLASS="cl"
+>request-</B
+></I
+><I
+> function, so it would be clear that there might be some delay before the region or transformation was modified. Currently, using </I
+><I
+><B CLASS="cl"
+>setf</B
+></I
+><I
+> on mirrored sheets requests that the server move or resize the sheet; the accessor will continue to return the old value until the notification comes in from the display server that says that the mirror has been moved. ---&nbsp;RSL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0039FED446C052C8565A96BB5CB2E40B%2Fsheet-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0A771C1F4CF1796CE97D588C541D5A6%2Fsheet-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6682"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.4 CLIM Stream Pane Functions, <B CLASS="cl"
+><B CLASS="cl"
+>window-viewport</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_275"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>move-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Moves the <A NAME="_2533"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> to the new position <I
+>(x,y)</I
+>. <I
+>x</I
+> and <I
+>y</I
+> are expressed in the coordinate system of <I
+>sheet</I
+>'s parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F3BBECF38FE27164A6AD08401E03A12%2Fmove-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>move-sheet</B
+> simply modifies <I
+>sheet</I
+>'s transformation, and could be implemented as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56DF1A41E05683179D6B772418EF4476%2Fmove-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defmethod move-sheet ((sheet basic-sheet) x y)&#10;  (let ((transform (sheet-transformation sheet)))&#10;    (multiple-value-bind (old-x old-y)&#10;        (transform-position transform 0 0)&#10;      (setf (sheet-transformation sheet)&#10;            (compose-translation-with-transformation&#10;              transform (- x old-x) (- y old-y))))))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=952D685C2ECC4FD6E047C9E85965B57B%2Fmove-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_276"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>resize-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet width height</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Resizes the <A NAME="_2535"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> to have a new width <I
+>width</I
+> and a new height <I
+>height</I
+>. <I
+>width</I
+> and <I
+>height</I
+> are real numbers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=33DEF65BE3B1E6FA36E90BB56DB4088C%2Fresize-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>resize-sheet</B
+> simply modifies <I
+>sheet</I
+>'s region, and could be implemented as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9591DAB33FA4CD91A69D7EAE603FBD7C%2Fresize-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defmethod resize-sheet ((sheet basic-sheet) width height)&#10;  (setf (sheet-region sheet)&#10;        (make-bounding-rectangle 0 0 width height)))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7843B310C689FFB5F2B38E409D19413D%2Fresize-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z209"
+></A
+>This definition is wrong, since a <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=bounding-rectangle"
+>bounding-rectangle</A
+></SPAN
+> is not a <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=region"
+>region</A
+></SPAN
+>. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7843B310C689FFB5F2B38E409D19413D%2Fresize-sheet%2F7.3.1&amp;editp=t&amp;id=Z209#Z209"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2013-03-15 16:39Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z316"
+></A
+>We use make-bounding-rectangle, because we want region to have proper coordinates even if x1=x2 and/or y1=y2. If we'd use make-rectangle*, that would be demoted to +nowhere+ region.&#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7843B310C689FFB5F2B38E409D19413D%2Fresize-sheet%2F7.3.1&amp;editp=t&amp;id=Z316#Z316"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-03-16 12:11Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_277"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>move-and-resize-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x y width height</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Moves the <A NAME="_2537"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> to the new position <I
+>(x,y)</I
+>, and changes its size to the new width <I
+>width</I
+> and the new height <I
+>height</I
+>. <I
+>x</I
+> and <I
+>y</I
+> are expressed in the coordinate system of <I
+>sheet</I
+>'s parent. <I
+>width</I
+> and <I
+>height</I
+> are real numbers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB2D3211BAAE11A1386BAE96E5672829%2Fmove-and-resize-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>move-and-resize-sheet</B
+> could be implemented as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFC7F862F2DC781F6EF34BC057CBAD2A%2Fmove-and-resize-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defmethod move-and-resize-sheet ((sheet basic-sheet) x y width height)&#10;  (move-sheet sheet x y)&#10;  (resize-sheet sheet width height))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E8271D129C105F6A6904C665E957FC6%2Fmove-and-resize-sheet%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_278"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-sheet-position-to-parent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the <A NAME="_2539"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s transformation to the point <I
+>(x,y)</I
+>, returning the coordinates of that point in <I
+>sheet</I
+>'s parent's coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E9F7D9594925F5B283405BFF480D05B%2Fmap-sheet-position-to-parent%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B8739AACFF330B58B8A7FFA012F935A%2Fmap-sheet-position-to-parent%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_279"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-sheet-position-to-child</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the inverse of the <A NAME="_2540"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s transformation to the point <I
+>(x,y)</I
+> (represented in <I
+>sheet</I
+>'s parent's coordinate system), returning the coordinates of that same point in <I
+>sheet</I
+> coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=702638463474006A0D2713728747300C%2Fmap-sheet-position-to-child%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=881C4F1F16003576BE77814580009FDA%2Fmap-sheet-position-to-child%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_280"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-sheet-rectangle*-to-parent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the <A NAME="_2541"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s transformation to the bounding rectangle specified by the corner points <I
+>(x<SPAN
+>1</SPAN
+>,y<SPAN
+>1</SPAN
+>)</I
+> and <I
+>(x<SPAN
+>2</SPAN
+>,y<SPAN
+>2</SPAN
+>)</I
+>, returning the bounding rectangle of the transformed region as four values, <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+>. The arguments <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y1</I
+> are canonicalized in the same way as for <A NAME="_2542"></A><A HREF="4-1.html#_155"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EDEC548AC33E55A9E2CF0EB9DD913322%2Fmap-sheet-rectangle%2A-to-parent%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=636621EB8811A85A2D939D1CABD0F52E%2Fmap-sheet-rectangle%2A-to-parent%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_281"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-sheet-rectangle*-to-child</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the inverse of the <A NAME="_2543"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s transformation to the bounding rectangle delimited by the corner points <I
+>(x<SPAN
+>1</SPAN
+>,y<SPAN
+>1</SPAN
+>)</I
+> and <I
+>(x<SPAN
+>2</SPAN
+>,y<SPAN
+>2</SPAN
+>)</I
+> (represented in <I
+>sheet</I
+>'s parent's coordinate system), returning the bounding rectangle of the transformed region as four values, <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+>. The arguments <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y1</I
+> are canonicalized in the same way as for <A NAME="_2544"></A><A HREF="4-1.html#_155"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3836A6A8F21EF41C8A3D4FB81CA964EE%2Fmap-sheet-rectangle%2A-to-child%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>I now think that </I
+><I
+><B CLASS="cl"
+>map-</B
+></I
+><I
+> in these names is misleading; maybe </I
+><I
+><B CLASS="cl"
+>convert-</B
+></I
+><I
+> is better? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=244F9B56A9F3D1AF9CD01EF5CAA9E0F8%2Fmap-sheet-rectangle%2A-to-child%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCF8083967E9E7B245AAD1B4F3BEF879%2Fmap-sheet-rectangle%2A-to-child%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_282"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-sheets-containing-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function sheet x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the function <I
+>function</I
+> to all of the children of the sheet <I
+>sheet</I
+> that contain the position <I
+>(x,y)</I
+>. <I
+>x</I
+> and <I
+>y</I
+> are expressed in <I
+>sheet</I
+>'s coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA590E9714217708062A098465D3377B%2Fmap-over-sheets-containing-position%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Function is a function of one argument, the sheet; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5B31AFE5F45D0C4DAC9B4E25E0F63D0%2Fmap-over-sheets-containing-position%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7848B4FDA5D1896BD6BDA50570EDA9BE%2Fmap-over-sheets-containing-position%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_283"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-sheets-overlapping-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function sheet region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the function <I
+>function</I
+> to all of the children of the sheet <I
+>sheet</I
+> that overlap the region <I
+>region</I
+>. <I
+>region</I
+> is expressed in <I
+>sheet</I
+>'s coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E25955869D8A33FAF157D5EE0281AFD0%2Fmap-over-sheets-overlapping-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Function is a function of one argument, the sheet; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5B31AFE5F45D0C4DAC9B4E25E0F63D0%2Fmap-over-sheets-overlapping-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=35876563A727F02B23BE96FAA6AD4642%2Fmap-over-sheets-overlapping-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_284"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>child-containing-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the topmost enabled direct child of the <A NAME="_2547"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> whose region contains the position <I
+>(x,y)</I
+>. The position is expressed in <I
+>sheet</I
+>'s coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C7895A3CB1A0750C08BA8E083526FD94%2Fchild-containing-position%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A80121B7330BBDB3920F966FF882367%2Fchild-containing-position%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_285"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>children-overlapping-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_286"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>children-overlapping-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the list of enabled direct children of the <A NAME="_2548"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> whose region overlaps the <A NAME="_2549"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region</I
+>. <B CLASS="cl"
+>children-overlapping-rectangle*</B
+> is a special case of <B CLASS="cl"
+>children-overlapping-region</B
+> in which the region is a bounding rectangle whose corner points are <I
+>(x<SPAN
+>1</SPAN
+>,y<SPAN
+>1</SPAN
+>)</I
+> and <I
+>(x<SPAN
+>2</SPAN
+>,y<SPAN
+>2</SPAN
+>)</I
+>. The region is expressed in <I
+>sheet</I
+>'s coordinate system. This function returns fresh objects that may be modified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D2B8B077AF4B69F386E2D1BB4E8B4E4%2Fchildren-overlapping-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C0183588B1770638F83111C84B5466A%2Fchildren-overlapping-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_287"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-delta-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet ancestor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a transformation that is the composition of all of the sheet transformations between the <SPAN CLASS="term"
+>sheets</SPAN
+> <I
+>sheet</I
+> and <I
+>ancestor</I
+>. If <I
+>ancestor</I
+> is <A NAME="_2553"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, <B CLASS="cl"
+>sheet-delta-transformation</B
+> will return the transformation to the root of the sheet hierarchy. If <I
+>ancestor</I
+> is not an ancestor of sheet, the <B CLASS="cl"
+>sheet-is-not-ancestor</B
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C8463BECA3C0B76B3E0F714AF8C259C%2Fsheet-delta-transformation%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The computation of the delta transformation is likely to be cached. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62B89B0BE1A3E225E0E93B9C1362653E%2Fsheet-delta-transformation%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=394A56326697D1A27AE9A5A45BA6D74F%2Fsheet-delta-transformation%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_288"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-allocated-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet child</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the visible region of the <A NAME="_2556"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>child</I
+> in the <A NAME="_2557"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s coordinate system. If <I
+>child</I
+> is occluded by any of its siblings, those siblings' regions are subtracted (using <A NAME="_2558"></A><A HREF="3-1.html#_67"
+><B CLASS="cl"
+>region-difference</B
+></A
+>) from <I
+>child</I
+>'s actual region. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14A376CA7A393F184AD27336A9E57AB5%2Fsheet-allocated-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B24E79C92042AC6693D45902947A338D%2Fsheet-allocated-region%2F7.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_289"></A><DIV
+><H4
+>7.3.2 Sheet Geometry Classes</H4
+><P
+>Each of the following implements the sheet geometry protocol in a different manner, according to the sheet's requirements. None of the four following classes is instantiable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A288033FD218471FE51CE4EF12075EED%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_290"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-identity-transformation-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes whose coordinate system is identical to that of its parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C8DBED0D130CE62BC1C5AF0DD3B3215F%2Fsheet-identity-transformation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0AA3B62F8E8055919DFC6DFD652A1AC8%2Fsheet-identity-transformation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_291"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-translation-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes whose coordinate system is related to that of its parent by a simple translation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=860BDCDF09C8AE60EFB0A46AB17D1A9B%2Fsheet-translation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=09D1514E9DF84DC73BBB433778C43EFC%2Fsheet-translation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_292"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-y-inverting-transformation-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes whose coordinate system is related to that of its parent by inverting the <I
+>y</I
+> coordinate system, and optionally translating by some amount in <I
+>x</I
+> and <I
+>y</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68CA26DCD8AFEA1AE73872A95DD3EFB5%2Fsheet-y-inverting-transformation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07559089130B02103517923CFBCDB792%2Fsheet-y-inverting-transformation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_293"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-transformation-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed into sheet classes whose coordinate system is related to that of its parent by an arbitrary affine transformation. CLIM implementations are allowed to restrict these transformations to just rectilinear ones. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D84A21914D02D40372D59BAC155E852B%2Fsheet-transformation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC0FE8DA1692B0554D09B3C377BA635D%2Fsheet-transformation-mixin%2F7.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/7-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

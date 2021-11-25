@@ -1,0 +1,451 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/11-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 11.2 Text Style Binding Forms</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="11.1 Text Styles" HREF="11-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="11.3 Controlling Text Style Mappings" HREF="11-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="11 Text Styles" HREF="11.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="11-1.html"
+>Prev</A
+><BR
+><A HREF="11-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="11.html"
+>11&nbsp;Text&nbsp;Styles</A
+><BR
+>&rarr;&nbsp;<A HREF="11-2.html"
+><B
+>11.2&nbsp;Text&nbsp;Style&nbsp;Binding&nbsp;Forms</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_588"></A><DIV
+><H3
+>11.2 Text Style Binding Forms</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_589"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium text-style) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the current text style of the <A NAME="_3145"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> to correspond to the new text style. <I
+>text-style</I
+> may either a text style object or a style spec (that is, a list of the a family, a face code, and a size). <I
+>body</I
+> is executed with the new text style in effect. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5EC020E54B13D5C3B5B135B5FB8A6D1%2Fwith-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3146"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-text-style</B
+> must be implemented by expanding into a call to <A NAME="_3149"></A><A HREF="11-2.html#_590"
+><B CLASS="cl"
+>invoke-with-text-style</B
+></A
+>, supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <A NAME="_3150"></A><A HREF="11-2.html#_590"
+><B CLASS="cl"
+>invoke-with-text-style</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA822152D3FF257D4546C127A66C0F1C%2Fwith-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6333B582578DC734908AC2617AA261C7%2Fwith-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7324"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="11-2.html#_3157"
+><SPAN CLASS="reverselink"
+>[&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-text-family</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2896"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_590"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-with-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium continuation text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the current text style of the <A NAME="_3151"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> to correspond to the new text style, and calls the function <I
+>continuation</I
+> with the new text style in effect. <I
+>text-style</I
+> may either a text style object or a style spec (that is, a list of the a family, a face code, and a size). <I
+>continuation</I
+> is a function of one argument, the medium; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC12DD80B79B359F0E478EBEE2D0E0E%2Finvoke-with-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>medium</I
+> can be a medium, a sheet that supports the sheet output protocol, or a stream that outputs to such a sheet. All classes that obey the medium protocol must implement a method for <B CLASS="cl"
+>invoke-with-text-style</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2AC94F43ACF5C95948695A0C96999427%2Finvoke-with-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B514DA393B29532E40EF3D323D98B8F%2Finvoke-with-text-style%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="11-2.html#_3158"
+><SPAN CLASS="reverselink"
+>[&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-text-family</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-2.html#_3149"
+><SPAN CLASS="reverselink"
+>[&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_591"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-text-family</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium family) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+><A NAME="_592"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-text-face</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium face) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+><A NAME="_593"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-text-size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium size) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the current text style of the <A NAME="_3153"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> to correspond to a new text style consisting of the current text style with the new family, face, or size (respectively) merged in. <I
+>face</I
+>, <I
+>family</I
+>, and <I
+>size</I
+> are as for <A NAME="_3154"></A><A HREF="11-1.html#_569"
+><B CLASS="cl"
+>make-text-style</B
+></A
+>. <I
+>body</I
+> is executed with the new text style in effect. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB7E56DBDDF5F74C03B34EBF683587D0%2Fwith-text-family%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3155"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-text-family%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>These macros are "convenience" forms of <A NAME="_3157"></A><A HREF="11-2.html#_589"
+><B CLASS="cl"
+>with-text-style</B
+></A
+> that must expand into calls to <A NAME="_3158"></A><A HREF="11-2.html#_590"
+><B CLASS="cl"
+>invoke-with-text-style</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D719443A4B8A499BCA8A7897832ACB8D%2Fwith-text-family%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4337A70D1AA100DA635D3A2A6DD54466%2Fwith-text-family%2F11.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7327"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/11-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

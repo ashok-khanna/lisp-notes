@@ -1,0 +1,1684 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 27.6 The Command Processor</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="27.5 Presentation Translator Utilities" HREF="27-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="28 Application Frames" HREF="28.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="27-5.html"
+>Prev</A
+><BR
+><A HREF="28.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="27.html"
+>27&nbsp;Command&nbsp;Processing</A
+><BR
+>&rarr;&nbsp;<A HREF="27-6.html"
+><B
+>27.6&nbsp;The&nbsp;Command&nbsp;Processor</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1436"></A><DIV
+><H3
+>27.6 The Command Processor</H3
+><LI CLASS="outline_item"
+><A HREF="27-6.html#_1452"
+>27.6.1 Command Presentation Types</A
+></LI
+><P
+>Once a set of commands has been defined, CLIM provides a variety of means to read a command. These are all mediated by the Command Processor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E20F3FC16276BC8A4CE2F036A3586E63%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1437"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>read-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(stream *standard-input*)  command-parser command-unparser partial-command-parser  use-keystrokes</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>read-command</B
+> is the standard interface used to read a command line. <I
+>stream</I
+> is an extended input stream, and <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5AFB1B24923ED872D00A3F2F88876057%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>command-parser</I
+> must be a function of two arguments, a command table and a stream. It reads a command from the user and returns a command object, or <A NAME="_6054"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if an empty command line was read. The default value for <I
+>command-parser</I
+> is the value of <A NAME="_6055"></A><A HREF="27-6.html#_1445"
+><B CLASS="cl"
+>*command-parser*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1765A1EB99FA31C0B6B21EEB67ADE30%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>command-unparser</I
+> must be a function of three arguments, a command table, a stream, and a command to "unparse". It prints a textual description of the command its supplied arguments onto the stream. The default value for <I
+>command-unparser</I
+> is the value of <A NAME="_6056"></A><A HREF="27-6.html#_1446"
+><B CLASS="cl"
+>*command-unparser*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=06C3A9E669B847A1E02D3C229BA0BDB5%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z448"
+></A
+>This is most likely an omission. CLIM-TOS (and soon enough McCLIM) passes keywords acceptably and for-context-type from the pmethod `present`. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=06C3A9E669B847A1E02D3C229BA0BDB5%2Fread-command%2F27.6&amp;editp=t&amp;id=Z448#Z448"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-11-07 11:50Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>partial-command-parser</I
+> must be a function of four arguments, a command table, a stream, a partial command, and a start position. The partial command is a command object with the value of <A NAME="_6057"></A><A HREF="27-6.html#_1448"
+><B CLASS="cl"
+>*unsupplied-argument-marker*</B
+></A
+> in place of any argument that needs to be filled in. The function reads the remaining, unsupplied arguments in any way it sees fit (for example, via an <A NAME="_6058"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> dialog), and returns a command object. The start position is the original input-editor scan position of the stream, when the stream is an interactive stream. The default value for <I
+>partial-command-parser</I
+> is the value of <A NAME="_6059"></A><A HREF="27-6.html#_1447"
+><B CLASS="cl"
+>*partial-command-parser*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=03B880F70A1E5F70D1A48B55B69A51D8%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>command-parser</I
+>, <I
+>command-unparser</I
+>, and <I
+>partial-command-parser</I
+> have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16961FCDA57673080EE4DA8F3C68216D%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>use-keystrokes</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the command reader will also process keystroke accelerators. (Implementations will typically use <A NAME="_6061"></A><A HREF="27-6.html#_1438"
+><B CLASS="cl"
+>with-command-table-keystrokes</B
+></A
+> and <A NAME="_6062"></A><A HREF="27-6.html#_1439"
+><B CLASS="cl"
+>read-command-using-keystrokes</B
+></A
+> to implement the case when <I
+>use-keystrokes</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7EF970B55DD0EB69DE03EEDA02046232%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Input editing, while conceptually an independent facility, fits into the command processor via its use of <A NAME="_6064"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. That is, <B CLASS="cl"
+>read-command</B
+> must be implemented by calling <A NAME="_6066"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> to read command objects, and <A NAME="_6067"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> itself makes use of the input editing facilities. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=140CB8A9F0C0F8C9C12B1C8688F1B8AB%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=767DDFB16FCB955291459AFC50106E80%2Fread-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7532"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="28-4.html#_6394"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>read-frame-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-4.html#_6381"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6069"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command-using-keystrokes</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1438"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-command-table-keystrokes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(keystroke-var command-table) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds <I
+>keystroke-var</I
+> to a sequence that contains all of the keystroke accelerators in <I
+>command-table</I
+>'s menu, and then executes <I
+>body</I
+> in that context. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8466DB8614E447AC9A9AA09B92DF4752%2Fwith-command-table-keystrokes%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z416"
+></A
+>This should descend into submenus until a keystroke is encountered (unlike map-over-command-table-keystrokes which does not descend). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8466DB8614E447AC9A9AA09B92DF4752%2Fwith-command-table-keystrokes%2F27.6&amp;editp=t&amp;id=Z416#Z416"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-10-18 08:08Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=57A5DD6F849DD1CCF1CDEE4ADE850EA5%2Fwith-command-table-keystrokes%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-6.html#_6061"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1439"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>read-command-using-keystrokes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table keystrokes  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(stream *standard-input*)  command-parser command-unparser  partial-command-parser</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads a command from the user via command lines, the pointer, or a single keystroke, and returns either a command object, or a keyboard gesture object if the user typed a keystroke that is in <I
+>keystrokes</I
+> but does not have a command associated with it in <I
+>command-table</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0E1C81D7819D7D4A661CF75D69B33BF%2Fread-command-using-keystrokes%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>keystrokes</I
+> is a sequence of keyboard gesture names that are the keystroke accelerators. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E48FB511DCCC4C0A59E40A5A0008C072%2Fread-command-using-keystrokes%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>command-table</I
+>, <I
+>stream</I
+>, <I
+>command-parser</I
+>, <I
+>command-unparser</I
+>, and <I
+>partial-command-parser</I
+> are as for <A NAME="_6069"></A><A HREF="27-6.html#_1437"
+><B CLASS="cl"
+>read-command</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD5A2B48A726008EFCA9BBBE3650EB61%2Fread-command-using-keystrokes%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=822F796B425708C8648041575CB6C65F%2Fread-command-using-keystrokes%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7533"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6062"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1440"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-line-command-parser</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The default command-line parser. It reads a command name and the command's arguments as a command line from <I
+>stream</I
+> (with completion as much as is possible), and returns a command object. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+> that specifies the command table to use; the commands are read via the textual command-line name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A88BB140AB1DE0E690C97A0CAE50090D%2Fcommand-line-command-parser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DCA84D99BFC79418F9B4B80A937830C7%2Fcommand-line-command-parser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6382"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6076"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>*command-parser*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1441"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-line-command-unparser</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table stream command</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The default command-line unparser. It prints the command <I
+>command</I
+> as a command name and its arguments as a command line on <I
+>stream</I
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+> that specifies the command table to use; the commands are displayed using the textual command-line name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CBF7B1FAF5AD642C3FBF55D21EAFD8B%2Fcommand-line-command-unparser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7326CC92866E4461AEE81EC39EEBDB0C%2Fcommand-line-command-unparser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z447"
+></A
+><P
+>This function should also have at least</P
+><P
+>&amp;key acceptably for-context-type</P
+><P
+>in order to be able to accept these arguments from the presentation method present specialized on the command.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7326CC92866E4461AEE81EC39EEBDB0C%2Fcommand-line-command-unparser%2F27.6&amp;editp=t&amp;id=Z447#Z447"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2021-10-27 19:10Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6384"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6077"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>*command-unparser*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1442"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-line-read-remaining-arguments-for-partial-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>command-table stream partial-command start-position <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E1A8339D15C7AA189D059CC55DB007F%2Fcommand-line-read-remaining-arguments-for-partial-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default partial command-line parser. If the remaining arguments are at the end of the command line, it reads them as a command line, otherwise it constructs a dialog using <A NAME="_6072"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> and reads the remaining arguments from the dialog. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97606C2E547928DDF5FB77B4C37D5472%2Fcommand-line-read-remaining-arguments-for-partial-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96AD7D8861352ED4F594AD5B3D7C8D5D%2Fcommand-line-read-remaining-arguments-for-partial-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6385"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6078"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>*partial-command-parser*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1443"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-command-parser</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The default menu-driven command parser. It uses only pointer clicks to construct a command. It relies on presentations of all arguments being visible. <I
+>command-table</I
+> and <I
+>stream</I
+> are as for <B CLASS="cl"
+>command-line-parser</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A44DAA840AE540B3175AB93F08E3D07%2Fmenu-command-parser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There is no menu-driven command unparser, since it makes no sense to unparse a completely menu-driven command. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=048DE2CEE1CFDEC79C3F7376684A8679%2Fmenu-command-parser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F5D4A7E78B80C5DAE3CD7D643D9B0E6%2Fmenu-command-parser%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1444"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-read-remaining-arguments-for-partial-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>command-table stream partial-command start-position <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E1A8339D15C7AA189D059CC55DB007F%2Fmenu-read-remaining-arguments-for-partial-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default menu-driven partial command parser. It uses only pointer clicks to fill in the command. Again, it relies on presentations of all arguments being visible. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02C726119BF20D44F8372D80898C7691%2Fmenu-read-remaining-arguments-for-partial-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F4D396F2040B4444EADDAAB1A7E453E%2Fmenu-read-remaining-arguments-for-partial-command%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1445"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*command-parser*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Contains the currently active command parsing function. The default value is the function <A NAME="_6076"></A><A HREF="27-6.html#_1440"
+><B CLASS="cl"
+>command-line-command-parser</B
+></A
+>, which is the default command-line parser. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C020E131F2976CCA4BBC6B4F12ACB916%2F%2Acommand-parser%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3351F0739469F816FFE4E5207C7B8B7D%2F%2Acommand-parser%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6388"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6088"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6055"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1446"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*command-unparser*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Contains the currently active command unparsing function. The default value is the function <A NAME="_6077"></A><A HREF="27-6.html#_1441"
+><B CLASS="cl"
+>command-line-command-unparser</B
+></A
+>, which is the default command-line unparser. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=065BC671CA01911BECC629C4D2A918A7%2F%2Acommand-unparser%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=591E4BA25C3C2BF38759A7F645F8A5B4%2F%2Acommand-unparser%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6389"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6097"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6056"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1447"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*partial-command-parser*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Contains the currently active partial command parsing function. The default value is the function <A NAME="_6078"></A><A HREF="27-6.html#_1442"
+><B CLASS="cl"
+>command-line-read-remaining-arguments-for-partial-command</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AAE8AE09F87FD3FC801CB81B9ED2393%2F%2Apartial-command-parser%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F663C12DDA3A10D94CB774FFE63D94C%2F%2Apartial-command-parser%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6390"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6094"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6059"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1448"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*unsupplied-argument-marker*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The value of <B CLASS="cl"
+>*unsupplied-argument-marker*</B
+> is an object that can be uniquely identified as standing for an unsupplied argument in a command object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF00D8B81FC5E1668C5E2C3F396C5F6C%2F%2Aunsupplied-argument-marker%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7622111DE7FE203EC5CD65F7F6BF6D43%2F%2Aunsupplied-argument-marker%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7519"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6057"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5763"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>partial-command-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5760"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1449"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*numeric-argument-marker*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The value of <B CLASS="cl"
+>*numeric-argument-marker*</B
+> is an object that can be uniquely identified as standing for a numeric argument in a command object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F21A65CFC763E2A6E6056D01D7E7231%2F%2Anumeric-argument-marker%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23C1EB83A406A5ADC54620B3D51CEA4C%2F%2Anumeric-argument-marker%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7520"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6034"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>substitute-numeric-argument-marker</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6032"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>lookup-keystroke-command-item</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1450"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*command-name-delimiters*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is a list of the characters that separate the command name from the command arguments in a command line. The standard set of command name delimiters must include <CODE
+>#\Space</CODE
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB65E5E18B3D104B93128B0734C315FD%2F%2Acommand-name-delimiters%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81A8329D34E6341A3C3C8A4B35A15604%2F%2Acommand-name-delimiters%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1451"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*command-argument-delimiters*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is a list of the characters that separate the command arguments from each other in a command line. The standard set of command argument delimiters must include <CODE
+>#\Space</CODE
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A18AD1DDBEE9907CD7A816820A9E041%2F%2Acommand-argument-delimiters%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=899F43441CA9BCB87738EC4CA1BBA9CC%2F%2Acommand-argument-delimiters%2A%2F27.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1452"></A><DIV
+><H4
+>27.6.1 Command Presentation Types</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1453"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Type]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The presentation type used to represent a command and its arguments; the command must be accessible in <I
+>command-table</I
+> and enabled in <A NAME="_6081"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. If <I
+>command-table</I
+> is not supplied, it defaults to the command table for the current application frame, <B CLASS="cl"
+>(frame-command-table *application-frame*)</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBDA40D6D2567A2F1A4A6E5AA55F7FEF%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The object returned by the <A NAME="_6084"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation method for <B CLASS="cl"
+>command</B
+> must be a command object, that is, a cons of the command name and the list of the command's arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=225BB68ADB3C01898032E334CF61CB89%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <A NAME="_6086"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation method for the <B CLASS="cl"
+>command</B
+> type must call the command parser stored in <A NAME="_6088"></A><A HREF="27-6.html#_1445"
+><B CLASS="cl"
+>*command-parser*</B
+></A
+> to read the command. The parser will recursively call <A NAME="_6089"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> to read a <A NAME="_6090"></A><A HREF="27-6.html#_1454"
+><B CLASS="cl"
+>command-name</B
+></A
+> and all of the command's arguments. The parsers themselves must be implemented by accepting objects whose presentation type is <B CLASS="cl"
+>command</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A63C0937763783C9AF2D9C435FA8516%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command parser returns a partial command, the <A NAME="_6092"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation method for the <B CLASS="cl"
+>command</B
+> type must call the partial command prser stored in <A NAME="_6094"></A><A HREF="27-6.html#_1447"
+><B CLASS="cl"
+>*partial-command-parser*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C88C4E5F85D360CC4D7ED48544FF3A45%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <A NAME="_6095"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> presentation method for the <B CLASS="cl"
+>command</B
+> type must call the command unparser stored in <A NAME="_6097"></A><A HREF="27-6.html#_1446"
+><B CLASS="cl"
+>*command-unparser*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F9B4C6EEF8E81B4677CCE8F8804EB498%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If a presentation history is maintained for the <B CLASS="cl"
+>command</B
+> presentation type, it should be maintained separately for each instance of an application frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EBC938B54BBD280B2E40DC034A63351%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EC711AED29731FF435DD5A5933984AAB%2Fcommand%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-6.html#_6109"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command-or-form</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1454"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Type]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The presentation type used to represent the name of a command that is both accessible in the command table <I
+>command-table</I
+> and enabled in <A NAME="_6099"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. If <I
+>command-table</I
+> is not supplied, it defaults to the command table for the current application frame, <B CLASS="cl"
+>(frame-command-table *application-frame*)</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8FAD60B55FC489BC2186618F9E5FC17A%2Fcommand-name%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The textual representation of a <B CLASS="cl"
+>command-name</B
+> object is the command-line name of the command, while the internal representation is the command name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EDB61BFA39FBB26270C8B1CAB0C528D1%2Fcommand-name%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=932DFC6AE312BD3312743F5F18640AB8%2Fcommand-name%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="27-1.html#_1377"
+><SPAN CLASS="forwardlink"
+>[&rarr; command-name, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6398"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>execute-frame-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6090"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1455"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-or-form</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Type]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The presentation type used to represent an object that is either a Lisp form, or a command and its arguments. The command must be accessible in <I
+>command-table</I
+> and enabled in <A NAME="_6103"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. If <I
+>command-table</I
+> is not supplied, it defaults to the command table for the current application frame, <B CLASS="cl"
+>(frame-command-table *application-frame*)</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB803BD02925D2E6F0F8D01F1B982A6B%2Fcommand-or-form%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <A NAME="_6106"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation method for this type reads a Lisp form, except that if the first character in the user's input is one of the characters in <A NAME="_6107"></A><A HREF="27-6.html#_1456"
+><B CLASS="cl"
+>*command-dispatchers*</B
+></A
+> it will read a command. The two returned values from the <A NAME="_6108"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation method will be the command or form object and a presentation type specifier that is either <A NAME="_6109"></A><A HREF="27-6.html#_1453"
+><B CLASS="cl"
+>command</B
+></A
+> or <A NAME="_6110"></A><A HREF="23-8.html#_1295"
+><B CLASS="cl"
+>form</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=776957CF923857C4A0518BEB1D51F9A4%2Fcommand-or-form%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If a presentation history is maintained for the <B CLASS="cl"
+>command-or-form</B
+> presentation type, it should be maintained separately for each instance of an application frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AE3FB85411115490D791F6B6A634FB7%2Fcommand-or-form%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4ADCE82375E274613FEB805C898036F0%2Fcommand-or-form%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-6.html#_6112"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>*command-dispatchers*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1456"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*command-dispatchers*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is a list of the characters that indicates that CLIM reads a command when it is accepting a <A NAME="_6112"></A><A HREF="27-6.html#_1455"
+><B CLASS="cl"
+>command-or-form</B
+></A
+>. The standard set of command argument delimiters must include the colon character, <CODE
+>#\:</CODE
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=09FBE0646FB089F5782AF630B32DAF0B%2F%2Acommand-dispatchers%2A%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFC09A8C69748F59B9DC54BE2799B6FA%2F%2Acommand-dispatchers%2A%2F27.6.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-6.html#_6107"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command-or-form</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

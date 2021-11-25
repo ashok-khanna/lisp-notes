@@ -1,0 +1,165 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 13 Drawing in Color</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.7 Graphics Protocols" HREF="12-7.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13.1 The :ink Drawing Option" HREF="13-1.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part IV: Sheet and Medium Output Facilities" HREF="P-IV.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-7.html"
+>Prev</A
+><BR
+><A HREF="13-1.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="13.html"
+><B
+>13&nbsp;Drawing&nbsp;in&nbsp;Color</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_672"></A><DIV
+><H2
+>13 Drawing in Color</H2
+><LI CLASS="outline_item"
+><A HREF="13-1.html#_673"
+>13.1 The <TT
+>:ink</TT
+> Drawing Option</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-2.html#_674"
+>13.2 Basic Designs</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-3.html#_685"
+>13.3 Color</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-4.html#_706"
+>13.4 Opacity</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-5.html#_712"
+>13.5 Color Blending</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-6.html#_713"
+>13.6 Indirect Inks</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-7.html#_717"
+>13.7 Flipping Ink</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-8.html#_720"
+>13.8 Examples of Simple Drawing Effects</A
+></LI
+><P
+>This chapter describes the <A NAME="_3281"></A><A HREF="10-2.html#_527"
+><B CLASS="cl"
+>:ink</B
+></A
+> drawing option and the simpler values that can be supplied for that option, such as colors. More complex values that have a regular or irregular pattern in the ink are described in Chapter&nbsp;<A NAME="_3282"></A><A HREF="14.html#_725"
+>14</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=809FD76514D7087F1433021155870C32%2F13#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Major issue: </B
+> <I
+>We need to add a thing called a "palette", which is simply an abstract color map. Palettes are primarily used as a resource for the limited number of colors on most hosts. Do we need to be able to used them to more directly control color maps, to do "color map animation", for example? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36E9AC8421F73F9D60478B507B11D585%2F13#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>We need to add a thing called a "raster ink", which includes things like plane masks, pixel values, etc. Be clear that this is platform and device dependent. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB5D6FAE6194927ECE1E9A662EAE6E78%2F13#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z14"
+></A
+>See above <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB5D6FAE6194927ECE1E9A662EAE6E78%2F13&amp;editp=t&amp;id=Z14#Z14"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- GB 2003-01-11 09:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:36 GMT -->
+</HTML
+>

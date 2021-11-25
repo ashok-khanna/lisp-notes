@@ -1,0 +1,3327 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 8.3 Output Protocol</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="8.2 Standard Device Events" HREF="8-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="8.4 Repaint Protocol" HREF="8-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="8 Sheet Protocols" HREF="8.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="8-2.html"
+>Prev</A
+><BR
+><A HREF="8-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="8.html"
+>8&nbsp;Sheet&nbsp;Protocols</A
+><BR
+>&rarr;&nbsp;<A HREF="8-3.html"
+><B
+>8.3&nbsp;Output&nbsp;Protocol</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_383"></A><DIV
+><H3
+>8.3 Output Protocol</H3
+><LI CLASS="outline_item"
+><A HREF="8-3.html#_384"
+>8.3.1 Output Properties</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="8-3.html#_406"
+>8.3.2 Output Protocol Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="8-3.html#_407"
+>8.3.3 Output Protocol Classes</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="8-3.html#_413"
+>8.3.4 Associating a Medium with a Sheet</A
+></LI
+><P
+>The output protocol is concerned with the appearance of displayed output on the window associated with a sheet. The sheet output protocol is responsible for providing a means of doing output to a sheet, and for delivering repaint requests to the sheet's client. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3BD33880591E73C6789D8DFFAAD7445A%2F8.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Sheets either participate fully in the output protocol or are mute for output. If any functions in the output protocol are called on a sheet that is mute for output, the <B CLASS="cl"
+>sheet-is-mute-for-output</B
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB4378CD2161BC2E18B9F3096B48B9EE%2F8.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_384"></A><DIV
+><H4
+>8.3.1 Output Properties</H4
+><DIV
+><P
+>Each sheet retains some output state that logically describes how output is to be rendered on its window. Such information as the foreground and background ink, line thickness, and transformation to be used during drawing are provided by this state. This state may be stored in a <A NAME="_385"></A><SPAN CLASS="concept"
+>medium</SPAN
+> associated with the sheet itself, be derived from a parent, or may have some global default, depending on the sheet itself. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB264372E889FBB0277A0ECE5F77D10C%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6971"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6957"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6891"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="15-6.html#_3699"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 15.6 Buffering of Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-buffered</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="15-6.html#_3697"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 15.6 Buffering of Output, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-buffering-output-p)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="15-6.html#_3694"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 15.6 Buffering of Output, <B CLASS="cl"
+><B CLASS="cl"
+>medium-buffering-output-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3567"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3551"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3269"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-text*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3268"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-ellipse*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3267"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-rectangles*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3266"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3265"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-polygon*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3264"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-lines*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3263"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-line*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3262"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-points*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3261"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.7.2 Medium-specific Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-draw-point*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3237"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.2 Compound Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-oval</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3231"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.2 Compound Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-arrow</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3217"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-text</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3213"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-circle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3205"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3199"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3191"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-polygon</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3188"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-line</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3187"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-points</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3184"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-2.html#_3153"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-text-family</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-2.html#_3151"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-with-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-2.html#_3145"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 11.2 Text Style Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3143"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 11.1.1 Text Style Protocol and Text Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>text-size</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3141"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 11.1.1 Text Style Protocol and Text Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>text-style-fixed-width-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="11-1.html#_3138"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 11.1.1 Text Style Protocol and Text Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>text-style-ascent</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3046"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2.2 Establishing Local Coordinate Systems, <B CLASS="cl"
+><B CLASS="cl"
+>with-first-quadrant-coordinates</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3043"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2.2 Establishing Local Coordinate Systems, <B CLASS="cl"
+><B CLASS="cl"
+>with-local-coordinates</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3040"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2.1 Transformation "Convenience" Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-identity-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3036"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2.1 Transformation "Convenience" Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-rotation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3032"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2.1 Transformation "Convenience" Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-scaling</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3028"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2.1 Transformation "Convenience" Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-translation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2957"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-with-drawing-options</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2949"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-drawing-options</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2946"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-current-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2944"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-text-style)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2938"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2936"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-default-text-style)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2928"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-default-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2926"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-line-style)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2922"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-line-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2920"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-clipping-region)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2917"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2915"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-transformation)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2911"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2909"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-ink)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2905"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-ink</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2902"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-foreground)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2900"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-foreground</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2771"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>degraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2766"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>engraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2764"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>deallocate-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2758"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>medium-drawable</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2755"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>medium-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2733"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-merged-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2731"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-default-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2728"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2724"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-line-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2720"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2717"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2714"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-ink</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2711"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-background</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2708"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-foreground</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2703"
+><SPAN CLASS="reverselink"
+>[medium, <I
+>Concept</I
+>&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>mediump</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>If a sheet is mute for output, it is an error to set any of these values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEFF2A34EC21BD45E0862A0D36E2E0B7%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_386"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to the output state for some kind of sheet. There is no single advertised standard medium class. If you want to create a new class that behaves like a medium, it should be a subclass of <B CLASS="cl"
+>medium</B
+>. All instantiable subclasses of <B CLASS="cl"
+>medium</B
+> must obey the medium protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C74158948D738078F0FF46C47861A03%2Fmedium%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=899404D9C412E88D92E125853410E21E%2Fmedium%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-6.html#_3588"
+><SPAN CLASS="reverselink"
+>[&larr; 14.6 Examples of More Complex Drawing Effects]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3026"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2.1 Transformation "Convenience" Forms]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3007"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2993"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:line-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2980"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2969"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_2963"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>:ink</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2705"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>basic-medium</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_387"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>mediump</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2703"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF3CF5E270F5109B36855B561854E95E%2Fmediump%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=00EBBE043639E793043F21810F843AD0%2Fmediump%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_388"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>basic-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The basic class on which all CLIM mediums are built, a subclass of <A NAME="_2705"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+>medium</B
+></A
+>. This class is an abstract class, intended only to be subclassed, not instantiated.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD11FE88910D6EDFB388AB856F961AA1%2Fbasic-medium%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The following generic functions comprise the basic medium protocol. All mediums must implement methods for these generic functions. Often, a sheet class that supports the output protocol will implement a "trampoline" method that passes the operation on to <A NAME="_2706"></A><A HREF="8-3.html#_416"
+><B CLASS="cl"
+>sheet-medium</B
+></A
+> of the sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B5F4C6B63116E297BCE13B6CA306B1F%2Fbasic-medium%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3BAD950FBF437456C751BFD5011F775B%2Fbasic-medium%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-7.html#_3278"
+><SPAN CLASS="reverselink"
+>[&larr; 12.7.3 Other Medium-specific Output Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clear-area</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3260"
+><SPAN CLASS="reverselink"
+>[&larr; 12.7.2 Medium-specific Drawing Functions]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2774"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>degraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2769"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>engraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_389"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-foreground</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_390"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-foreground)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>design medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the current foreground ink for the <A NAME="_2708"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. This is described in detail in Chapter&nbsp;<A NAME="_2709"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2839CF26FBC5410B5A5274BA191145A6%2Fmedium-foreground%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74627838B33E0F84AD1C18B9A352A2AF%2Fmedium-foreground%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_507"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-foreground, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_509"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-foreground), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="29-2.html#_6499"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2.2 Pane Properties, <B CLASS="cl"
+><B CLASS="cl"
+>pane-foreground</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-6.html#_3484"
+><SPAN CLASS="reverselink"
+>[&larr; 13.6 Indirect Inks]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2910"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-ink)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2903"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-foreground)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_391"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-background</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_392"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-background)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>design medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the current background ink for the <A NAME="_2711"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. This is described in detail in Chapter&nbsp;<A NAME="_2712"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB08A7127A2B346186BA5C1B7CCB7280%2Fmedium-background%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCEA3AC36B53CDC40C96482CE6433073%2Fmedium-background%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_508"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-background, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_510"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-background), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="29-2.html#_6500"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2.2 Pane Properties, <B CLASS="cl"
+><B CLASS="cl"
+>pane-foreground</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2904"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-foreground)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_393"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-ink</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_394"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-ink)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>design medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the current drawing ink for the <A NAME="_2714"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. This is described in detail in Chapter&nbsp;<A NAME="_2715"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=35D227A9C6D56771666738E00A70BEF5%2Fmedium-ink%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7DE524817FA91A1620C33F728C204F59%2Fmedium-ink%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_511"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-ink, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_512"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-ink), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_395"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_396"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-transformation)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the "user" transformation that converts the coordinates presented to the drawing functions by the programmer to the <A NAME="_2717"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>'s coordinate system. By default, it is the identity transformation. This is described in detail in Chapter&nbsp;<A NAME="_2718"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8DFD128A506FBC85C9D9D2F4498076C%2Fmedium-transformation%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0ADBB854E07A8AF9FC19A396E7C5161E%2Fmedium-transformation%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_513"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-transformation, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_514"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-transformation), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="8-3.html#_2721"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_397"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-clipping-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_398"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-clipping-region)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the clipping region that encloses all output performed on the <A NAME="_2720"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. It is returned and set in user coordinates. That is, to convert the user clipping region to medium coordinates, it must be transformed by the value of <A NAME="_2721"></A><A HREF="10-1.html#_513"
+><B CLASS="cl"
+>medium-transformation</B
+></A
+>. For example, the values returned by <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DC6B400E189E716AAAB152362255F095%2Fmedium-clipping-region%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(let (cr1 cr2)&#10;  ;; Ensure that the sheet's clipping region and transformation will be reset:&#10;  (with-drawing-options (sheet :transformation +identity-transformation+&#10;                               :clipping-region +everywhere+)&#10;    (setf (medium-clipping-region sheet) (make-rectangle* 0 0 10 10))&#10;    (setf (medium-transformation sheet) (clim:make-scaling-transformation 2 2))&#10;    (setf cr1 (medium-clipping-region sheet))&#10;    (setf (medium-clipping-region sheet) (make-rectangle* 0 0 10 10))&#10;    (setf (medium-transformation sheet) +identity-transformation+)&#10;    (setf cr2 (medium-clipping-region sheet))&#10;    (values cr1 cr2)))&#10;</PRE
+><P
+>are two rectangles. The first one has edges of (0,0,5,5), while the second one has edges of (0,0,20,20). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE59917F8041D3E4B98ED2AD3F0400F5%2Fmedium-clipping-region%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>By default, the user clipping region is the value of <A NAME="_2722"></A><A HREF="3-1.html#_48"
+><B CLASS="cl"
+>+everywhere+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D9BC9B2F90B1E3876692893196FF185D%2Fmedium-clipping-region%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Major issue: </B
+> <I
+>What exactly are "user coordinates"? We need to define all of the coordinate systems in one place: device, window, stream, etc. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=892B6BF29B4C44F18E95824F0AE8CFEE%2Fmedium-clipping-region%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A3339C5B6719B91077B218084362409%2Fmedium-clipping-region%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_515"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-clipping-region, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_516"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-clipping-region), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_399"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-line-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_400"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-line-style)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the current line style for the <A NAME="_2724"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. This is described in detail in Chapter&nbsp;<A NAME="_2725"></A><A HREF="10.html#_505"
+>10</A
+> and Section&nbsp;<A NAME="_2726"></A><A HREF="10-3.html#_540"
+>10.3</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=19DFDB7BB0990AAA82EC73FC92E8C740%2Fmedium-line-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5D7E909E2E61FE113BBB535DEC88A76%2Fmedium-line-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_517"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-line-style, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_518"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-line-style), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_401"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_402"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-text-style)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the current text style for the <A NAME="_2728"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> of any textual output that may be displayed on the window. This is described in detail in Chapter&nbsp;<A NAME="_2729"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B072572FF9E5C9836EDBAA2E4DE7FCD8%2Fmedium-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB1583C341B7CB533211861FD7383C9A%2Fmedium-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_521"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-text-style, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_522"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-text-style), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="10-1.html#_2947"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-current-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2930"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-default-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_403"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-default-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_404"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-default-text-style)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>text-style medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (and, with <B CLASS="cl"
+>setf</B
+>, sets) the default text style for output on the <A NAME="_2731"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. This is described in detail in Chapter&nbsp;<A NAME="_2732"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=634B133298C951C49225FD19F0F17C85%2Fmedium-default-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DF68BC467FC2AC8972DB406853B6E85%2Fmedium-default-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="10-1.html#_519"
+><SPAN CLASS="forwardlink"
+>[&rarr; medium-default-text-style, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_520"
+><SPAN CLASS="forwardlink"
+>[&rarr; (setf medium-default-text-style), <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="10-1.html#_2948"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-current-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_405"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-merged-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the actual text style used in rendering text on the <A NAME="_2733"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. It returns the result of <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62F5956C79B22FFEF13BB49A309DAB79%2Fmedium-merged-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+> &#10;(merge-text-styles (medium-text-style medium)&#10;                   (medium-default-text-style medium))&#10;</PRE
+><P
+>Thus, those components of the current text style that are not <A NAME="_2734"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> will replace the defaults from medium's default text style. Unlike the preceding text style function, <B CLASS="cl"
+>medium-merged-text-style</B
+> is read-only. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56B42356EE004878D60034FE138D9149%2Fmedium-merged-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D22959A5AE3C40C8FA17832F05AD184F%2Fmedium-merged-text-style%2F8.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z85"
+></A
+>How is that different from <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-current-text-style"
+>medium-current-text-style</A
+></SPAN
+>? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D22959A5AE3C40C8FA17832F05AD184F%2Fmedium-merged-text-style%2F8.3.1&amp;editp=t&amp;id=Z85#Z85"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 16:19Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="11-1.html#_3144"
+><SPAN CLASS="reverselink"
+>[&larr; 11.1.1 Text Style Protocol and Text Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>text-size</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_406"></A><DIV
+><H4
+>8.3.2 Output Protocol Functions</H4
+><P
+>The output protocol functions on mediums (and sheets that support the standard output protocol) include those functions described in Section&nbsp;<A NAME="_2736"></A><A HREF="12-7.html#_655"
+>12.7</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=347EA51D3A57C8DE6240354BE01AB338%2F8.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>We need to do a little better than this. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=631E7CD72BFEF7A8374C9F74E607C59C%2F8.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><A NAME="_407"></A><DIV
+><H4
+>8.3.3 Output Protocol Classes</H4
+><P
+>The following classes implement the standard output protocols. None of the five following classes is instantiable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E9CB3CAD9D8F5BD87E07FA1528C9E33%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_408"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-sheet-output-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed in to any sheet that provides the standard output protocol, such as repainting and graphics. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=285AC427C989D16D45B27AB340834267%2Fstandard-sheet-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A01DE70E7326559EC77BC9D725C2B5C1%2Fstandard-sheet-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_409"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-mute-output-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed in to any sheet that provides none of the output protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DEEA8CDF51682ADDCF49D42981C3135%2Fsheet-mute-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA856F2A72CA545A711B77D61FDB3C14%2Fsheet-mute-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_410"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is used for any sheet that has either a permanent or a temporary medium. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D06532621284212EA7DB3D5F2BD47162%2Fsheet-with-medium-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB5AFFC5F9A2CE5BF47FBF8581BDF0A2%2Fsheet-with-medium-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-3.html#_2754"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2750"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>with-sheet-medium-bound</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2743"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>with-sheet-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2740"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2738"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.3 Output Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>temporary-medium-sheet-output-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2737"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.3 Output Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>permanent-medium-sheet-output-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_411"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>permanent-medium-sheet-output-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed in to any sheet that always has a medium associated with it. It is a subclass of <A NAME="_2737"></A><A HREF="8-3.html#_410"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDFD60B699061191DFC15796B612C36C%2Fpermanent-medium-sheet-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4098D3E78AA8A690FB348F14D6D4CDD5%2Fpermanent-medium-sheet-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_412"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>temporary-medium-sheet-output-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed in to any sheet that may have a medium associated with it, but does not necessarily have a medium at any given instant. It is a subclass of <A NAME="_2738"></A><A HREF="8-3.html#_410"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=107695A8DFEC8C0E8C0A442E76D3CAFD%2Ftemporary-medium-sheet-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E20DA31DAC0328E7E4A92F7CB9FF288B%2Ftemporary-medium-sheet-output-mixin%2F8.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_413"></A><DIV
+><H4
+>8.3.4 Associating a Medium with a Sheet</H4
+><P
+>Before a sheet may be used for output, it must be associated with a medium. Some sheets are permanently associated with media for output efficiency; for example, CLIM window stream sheets have a medium that is permanently allocated to the window. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07DC7998DCEDD0A952BC77B4FFD9A37D%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>However, many kinds of sheets only perform output infrequently, and therefore do not need to be associated with a medium except when output is actually required. Sheets without a permanently associated medium can be much more lightweight than they otherwise would be. For example, in a program that creates a sheet for the purpose of displaying a border for another sheet, the border sheet receives output only when the window's shape is changed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=88B2C3BB558FCC7ADDCF4E260ADB2C04%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>To associate a sheet with a medium, the macro <A NAME="_2739"></A><A HREF="8-3.html#_414"
+><B CLASS="cl"
+>with-sheet-medium</B
+></A
+> is used. Only sheets that are subclasses of <A NAME="_2740"></A><A HREF="8-3.html#_410"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+></A
+> may have a medium associated with them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAE96424379D09554A55EA5C6D53CD52%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_414"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-sheet-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium sheet) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Within the body, the variable <I
+>medium</I
+> is bound to the sheet's medium. If the sheet does not have a medium permanently allocated, one will be allocated and associated with the sheet for the duration of the body (by calling <A NAME="_2741"></A><A HREF="8-3.html#_424"
+><B CLASS="cl"
+>engraft-medium</B
+></A
+>), and then degrafted from the sheet and deallocated when the body has been exited. The values of the last form of the body are returned as the values of <B CLASS="cl"
+>with-sheet-medium</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84B459B1B8FAF8D0A60B90BC57FB2BCF%2Fwith-sheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This macro will signal a runtime error if sheet is not a subclass of <A NAME="_2743"></A><A HREF="8-3.html#_410"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C3CF825324BBA6A69AAAABB47B3F02C%2Fwith-sheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a medium. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=24F6529E3FFA38A0ADBC82290A533EE6%2Fwith-sheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9D3F9D70EF1F8D8B623B7F07477EFB5%2Fwith-sheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-3.html#_2748"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>with-sheet-medium-bound</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2739"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_415"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-sheet-medium-bound</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(sheet medium) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>with-sheet-medium-bound</B
+> is used to associate the specific medium <I
+>medium</I
+> with the sheet <I
+>sheet</I
+> for the duration of the body <I
+>body</I
+>. Typically, a single medium will be allocated an passed to several different sheets that can use the same medium. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2EFE481912952AD3D686E73EF36C12E0%2Fwith-sheet-medium-bound%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the sheet already has a medium allocated to it, the new medium will not be grafted to the sheet, and <B CLASS="cl"
+>with-sheet-medium-bound</B
+> will simple evaluate the body. If the value of <I
+>medium</I
+> is <A NAME="_2746"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, <B CLASS="cl"
+>with-sheet-medium-bound</B
+> is exactly equivalent to <A NAME="_2748"></A><A HREF="8-3.html#_414"
+><B CLASS="cl"
+>with-sheet-medium</B
+></A
+>. The values of the last form of the body are returned as the values of <B CLASS="cl"
+>with-sheet-medium-bound</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B7BBCAD9290B431393AB8E9859DC43F%2Fwith-sheet-medium-bound%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z233"
+></A
+>The requirement of equivalence to WITH-SHEET-MEDIUM could possibly imply that MEDIUM must be a symbol.  However, there is no requirement that MEDIUM be bound to the medium associated with SHEET over course of executing BODY.  This suggests that MEDIUM need not be a symbol, and that a user who needs to know which MEDIUM is actually being used has to use WITH-SHEET-MEDIUM or SHEET-MEDIUM. And if SHEET already has a medium, should MEDIUM still be evaluated? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B7BBCAD9290B431393AB8E9859DC43F%2Fwith-sheet-medium-bound%2F8.3.4&amp;editp=t&amp;id=Z233#Z233"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2015-06-27 04:46Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>This macro will signal a runtime error if sheet is not a subclass of <A NAME="_2750"></A><A HREF="8-3.html#_410"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C3CF825324BBA6A69AAAABB47B3F02C%2Fwith-sheet-medium-bound%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE1B554A421B95107F6F1745EA75BC4E%2Fwith-sheet-medium-bound%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5E1626558DE5EFDEC1B82F8DF1E0612%2Fwith-sheet-medium-bound%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_416"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the medium associated with the <A NAME="_2751"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. If <I
+>sheet</I
+> does not have a medium allocated to it, <B CLASS="cl"
+>sheet-medium</B
+> returns <A NAME="_2753"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84EA7954358152181B8B4E25C572AB68%2Fsheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function will signal an error if sheet is not a subclass of <A NAME="_2754"></A><A HREF="8-3.html#_410"
+><B CLASS="cl"
+>sheet-with-medium-mixin</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=312639901B59DF055F4C274BA1E8FB8A%2Fsheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6C35AB649BEC5E4828D8A0E0D6F93AE7%2Fsheet-medium%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-1.html#_2899"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2706"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.1 Output Properties, <B CLASS="cl"
+><B CLASS="cl"
+>basic-medium</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_417"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the sheet associated with the <A NAME="_2755"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. If <I
+>medium</I
+> is not grafted to a sheet, <B CLASS="cl"
+>medium-sheet</B
+> returns <A NAME="_2757"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A5C71BF902BFC8CB0E23BC56582649D%2Fmedium-sheet%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47BD0DF68EAEED6FA16760340D9286E3%2Fmedium-sheet%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-3.html#_2775"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>degraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_2770"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>engraft-medium</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_418"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-drawable</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an implementation-dependent object that corresponds to the actual host window that will be drawn on when the <A NAME="_2758"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> is drawn on. If <I
+>medium</I
+> is not grafted to a sheet or the medium's sheet is not currently mirrored on a display server, <B CLASS="cl"
+>medium-drawable</B
+> returns <A NAME="_2760"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA9AD726D2C7FCD4D539F95611B7AB51%2Fmedium-drawable%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z422"
+></A
+>It would be nice if it was left unspecified - so we could set a drawable without engrafting the medium to a sheet (i.e to a pixmap!) <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA9AD726D2C7FCD4D539F95611B7AB51%2Fmedium-drawable%2F8.3.4&amp;editp=t&amp;id=Z422#Z422"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-01-08 11:24Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>Programmers can use this function to get a host window system object that can be manipulated using the functions of the host window system. This might be done in order to explicitly trade of performance against portability. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3DABA0715C327C70ADD8A5667F3CAF20%2Fmedium-drawable%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F9933A1779342693C5FDAEF9B3165167%2Fmedium-drawable%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_419"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium </I
+><I
+><B CLASS="cl"
+>basic-medium</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>medium</I
+> is both grafted to a sheet and the sheet is currently mirrored on a display server, this returns the port with which <I
+>medium</I
+> is associated. Otherwise it returns <A NAME="_2761"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E13446FA4BBCE9343583012812511CC%2Fport%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FE3D07015E7535442457049F3963A78%2Fport%2F8.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-5.html#_1559"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1558"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="22-4.html#_1119"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_496"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_462"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_453"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2816"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2800"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>basic-port</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_420"></A><DIV
+><H4
+>8.3.4.1 Grafting and Degrafting of Mediums</H4
+><P
+>The following generic functions are the protocol-level functions responsible for the allocating, deallocating, grafting, and degrafting of mediums. They are not intended for general use by programmers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=957CBC41704B29EC614835AF00B98F76%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_421"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>allocate-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Allocates a medium from the <A NAME="_2762"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>'s medium resource, or calls <A NAME="_2763"></A><A HREF="8-3.html#_423"
+><B CLASS="cl"
+>make-medium</B
+></A
+> on the port to create a new medium if the resource is empty or the port does not maintain a resource of mediums. The resulting medium will have its default characteristics determined by <I
+>sheet</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B0FFF614F2C27FD820799A7D4233815%2Fallocate-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D8CFF9F312AF8FD1F2A3C83A49A3FDB%2Fallocate-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_422"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>deallocate-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <A NAME="_2764"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> to <I
+>port</I
+>'s medium resource. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5D0DC803358038C525D58B1AE31A8EA%2Fdeallocate-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE27DC19B9BD24A8B6048D3F4F13EA62%2Fdeallocate-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_423"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a new medium for the <A NAME="_2765"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. The new medium will have its default characteristics determined by <I
+>sheet</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B58888EB968B30D9709712DF5E10FB3%2Fmake-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E95E874874F41D4A152CEB6A30394F99%2Fmake-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-3.html#_2763"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4.1 Grafting and Degrafting of Mediums, <B CLASS="cl"
+><B CLASS="cl"
+>allocate-medium</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_424"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>engraft-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium port sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Grafts the <A NAME="_2766"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> to the <A NAME="_2767"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> on the <A NAME="_2768"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7028F5A59DA65A003AF66C78E614D21A%2Fengraft-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default method on <A NAME="_2769"></A><A HREF="8-3.html#_388"
+><B CLASS="cl"
+>basic-medium</B
+></A
+> will set <A NAME="_2770"></A><A HREF="8-3.html#_417"
+><B CLASS="cl"
+>medium-sheet</B
+></A
+> on <I
+>medium</I
+> to point to the sheet, and will set up the medium state (foreground ink, background ink, and so forth) from the defaults gotten from sheet. Each implementation may specialize this generic function in order to set up such things as per-medium ink caches, and so forth. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5044E69FF7A49CD989013318B2E61F4A%2Fengraft-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67160E139777F87B6181DEAEEF2E2DF7%2Fengraft-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-3.html#_2741"
+><SPAN CLASS="reverselink"
+>[&larr; 8.3.4 Associating a Medium with a Sheet, <B CLASS="cl"
+><B CLASS="cl"
+>with-sheet-medium</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_425"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>degraft-medium</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium port sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Degrafts the <A NAME="_2771"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> from the <A NAME="_2772"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> on the <A NAME="_2773"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=158812C956B563B3090CA777C4DB7AF6%2Fdegraft-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default method on <A NAME="_2774"></A><A HREF="8-3.html#_388"
+><B CLASS="cl"
+>basic-medium</B
+></A
+> will set <A NAME="_2775"></A><A HREF="8-3.html#_417"
+><B CLASS="cl"
+>medium-sheet</B
+></A
+> back to <A NAME="_2776"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. Each implementation may specialize this generic function in order to clear any caches it has set up, and so forth. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC32C874BCD333E08F86AB5211A01ED1%2Fdegraft-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3AA9517B3376C357688D8259EEC4EC2%2Fdegraft-medium%2F8.3.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

@@ -1,0 +1,888 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/22-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 22.5 Pointer Tracking</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="22.4 The Pointer Protocol" HREF="22-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="22 Extended Stream Input" HREF="22.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="22-4.html"
+>Prev</A
+><BR
+><A HREF="23.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="22.html"
+>22&nbsp;Extended&nbsp;Stream&nbsp;Input</A
+><BR
+>&rarr;&nbsp;<A HREF="22-5.html"
+><B
+>22.5&nbsp;Pointer&nbsp;Tracking</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1120"></A><DIV
+><H3
+>22.5 Pointer Tracking</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1121"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>tracking-pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(sheet </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>pointer multiple-window  transformp context-type highlight)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>tracking-pointer</B
+> macro provides a general means for running code while following the position of a pointing device, and monitoring for other input events. The programmer supplies code (the clauses in <I
+>body</I
+>) to be run upon the occurrence of any of the following types of events: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B11EB0833BD164B3F6A822A9035FF34%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>Motion of the pointer <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2FBD311031F6C75202092B07F3B82287%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Motion of the pointer over a presentation <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E06D7385E0D807BD3E1958A53F693905%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Clicking or releasing a pointer button <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBEFF0C7E2461DC61464B6343923AAE0%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Clicking or releasing a pointer button while the pointer is over a presentation <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EB148C81DCF4100CCEB562BB217325A%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Keyboard event (typing a character)  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=267E60DC4108CB2AE1795C6DB8A30A82%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>The <I
+>sheet</I
+> argument is not evaluated, and must be a symbol that is bound to an input sheet or stream. If <I
+>sheet</I
+> is <A NAME="_4540"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3D9318D64BF6CB34AE7530AB52374A1%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>pointer</I
+> argument specifies a pointer to track. It defaults to the primary pointer for the sheet, <B CLASS="cl"
+>(port-pointer (port </B
+><A NAME="_4543"></A><A HREF="7-1.html#_238"
+><B CLASS="cl"
+><I
+>sheet</I
+></B
+></A
+><B CLASS="cl"
+>))</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C423D92EEE6D2FC664343F4CB236E034%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the boolean <I
+>multiple-windows</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the pointer will be tracked across multiple windows, otherwise is will be tracked only in the window corresponding to <I
+>sheet</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4088019E9E34ACADC4592E6B3A28E3B4%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the boolean <I
+>transformp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the coordinates supplied to the <B CLASS="cl"
+>:pointer-motion</B
+> clause will be in the "user" coordinate system rather than in stream coordinates, that is, the medium's transformation will be applied to the coordinates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAB229F84D2180208A2173FF45327A78%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>context-type</I
+> is used to specify the presentation type of presentations that will be "visible" to the tracking code for purposes of highlighting and for the <B CLASS="cl"
+>:presentation</B
+>, <B CLASS="cl"
+>:presentation-button-press</B
+>, and <B CLASS="cl"
+>:presentation-button-release</B
+> clauses. Supplying <I
+>context-type</I
+> is only useful when <I
+>sheet</I
+> is an output recording stream. <I
+>context-type</I
+> defaults to <A NAME="_4551"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, meaning that all presentations are visible. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=754453592E08E68B63CE635D3E961C58%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>highlight</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, <B CLASS="cl"
+>tracking-pointer</B
+> will highlight applicable presentations as the pointer is positioned over them. highlight defaults to <SPAN CLASS="term"
+>true</SPAN
+> when any of the <B CLASS="cl"
+>:presentation</B
+>, <B CLASS="cl"
+>:presentation-button-press</B
+>, or <B CLASS="cl"
+>:presentation-button-release</B
+> clauses is supplied, otherwise it defaults to <SPAN CLASS="term"
+>false</SPAN
+>. See Chapter&nbsp;<A NAME="_4559"></A><A HREF="16.html#_829"
+>16</A
+> for a complete discussion of presentations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B33817BD561CFB7D4D96109652649546%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z375"
+></A
+>Presentations are discussed in chapter 23, but, it makes perfect sense to define this kind of output record in chapter 16 which discusses output recording. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B33817BD561CFB7D4D96109652649546%2Ftracking-pointer%2F22.5&amp;editp=t&amp;id=Z375#Z375"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-08-03 18:54Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The body of <B CLASS="cl"
+>tracking-pointer</B
+> consists of a list of clauses. Each clause is of the form <BR
+> <I
+>(clause-keyword arglist . clause-body)</I
+> <BR
+> and defines a local function to be run upon occurrence of each type of event. The possible values for <I
+>clause-keyword</I
+> and the associated <I
+>arglist</I
+> are: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=661932D29E74CA377E675EDA4D14C001%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:pointer-motion</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>window x y)</I
+> <BR
+> Defines a clause to run whenever the pointer moves. In the clause, <I
+>window</I
+> is bound to the window in which the motion occurred, and <I
+>x</I
+> and <I
+>y</I
+> to the coordinates of the pointer. (See the keyword argument <B CLASS="cl"
+>:transformp</B
+> below for a description of the coordinate system in which <I
+>x</I
+> and <I
+>y</I
+> are expressed.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E61117D60D533F0652B1B94F44DADA00%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><P
+><B CLASS="cl"
+>:presentation</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>presentation window x y)</I
+> <BR
+> Defines a clause to run whenever the pointer moves over a presentation of the desired type. (See the keyword argument <B CLASS="cl"
+>:context-type</B
+> above for a description of how to specify the desired type.) In the clause, <I
+>presentation</I
+> is bound to the presentation, <I
+>window</I
+> to the window in which the motion occurred, and <I
+>x</I
+> and <I
+>y</I
+> to the coordinates of the pointer. (See the keyword argument <B CLASS="cl"
+>:transformp</B
+> above for a description of the coordinate system in which <I
+>x</I
+> and <I
+>y</I
+> are expressed.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0921817FB6C0953B2C7BCFAC33C3E8A3%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When both <B CLASS="cl"
+>:presentation</B
+> and <B CLASS="cl"
+>:pointer-motion</B
+> clauses are provided, the two clauses are mutually exclusive. The <B CLASS="cl"
+>:presentation</B
+> clause will run only if the pointer is over an applicable presentation, otherwise the <B CLASS="cl"
+>:pointer-motion</B
+> clause will run. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB7D3F2639A783FB3F8152EEA986013C%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD34967B37E1D8CAC04856846846E168%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><P
+><B CLASS="cl"
+>:pointer-button-press</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>event x y)</I
+> <BR
+> Defines a clause to run whenever a pointer button is pressed. In the clause, <I
+>event</I
+> is bound to the pointer button press event. (The window and the coordinates of the pointer are part of <I
+>event</I
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E544AE4002A1784E3E0B6071B2AC176%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x</I
+> and <I
+>y</I
+> are the transformed <I
+>x</I
+> and <I
+>y</I
+> positions of the pointer. These will be different from <A NAME="_4571"></A><A HREF="8-2.html#_346"
+><B CLASS="cl"
+>pointer-event-x</B
+></A
+> and <A NAME="_4572"></A><A HREF="8-2.html#_347"
+><B CLASS="cl"
+>pointer-event-y</B
+></A
+> if the user transformation is not the identity transformation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A6A164943DC95864775745DD5A484437%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9786523712EA172BE19AB37090C8039D%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><P
+><B CLASS="cl"
+>:presentation-button-press</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>presentation event x y)</I
+> <BR
+> Defines a clause to run whenever the pointer button is pressed while the pointer is over a presentation of the desired type. (See the keyword argument <B CLASS="cl"
+>:context-type</B
+> below for a description of how to specify the desired type.) In the clause, <I
+>presentation</I
+> is bound to the presentation, and <I
+>event</I
+> to the pointer button press event. (The window and the stream coordinates of the pointer are part of <I
+>event</I
+>.) <I
+>x</I
+> and <I
+>y</I
+> are as for the <B CLASS="cl"
+>:pointer-button-press</B
+> clause. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DEC95ACD05ECA6EE3379A8395A3C1649%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When both <B CLASS="cl"
+>:presentation-button-press</B
+> and <B CLASS="cl"
+>:pointer-button-press</B
+> clauses are provided, the two clauses are mutually exclusive. The <B CLASS="cl"
+>:presentation-button-press</B
+> clause will run only if the pointer is over an applicable presentation, otherwise the <B CLASS="cl"
+>:pointer-button-press</B
+> clause will run. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84EAA4CB944A34316A8637A38A1AAB0A%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=236730E856E644FB31DFD334A4E355B7%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><P
+><B CLASS="cl"
+>:pointer-button-release</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>event x y)</I
+> <BR
+> Defines a clause to run whenever a pointer button is released. In the clause, <I
+>event</I
+> is bound to the pointer button release event. (The window and the coordinates of the pointer are part of <I
+>event</I
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA18390879C057C57B596B87BD38BBDF%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x</I
+> and <I
+>y</I
+> are the transformed <I
+>x</I
+> and <I
+>y</I
+> positions of the pointer. These will be different from <A NAME="_4581"></A><A HREF="8-2.html#_346"
+><B CLASS="cl"
+>pointer-event-x</B
+></A
+> and <A NAME="_4582"></A><A HREF="8-2.html#_347"
+><B CLASS="cl"
+>pointer-event-y</B
+></A
+> if the user transformation is not the identity transformation.</P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56613F0D30097B8D5F0B803CFB473AF5%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><P
+><B CLASS="cl"
+>:presentation-button-release</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>presentation event x y)</I
+> <BR
+> Defines a clause to run whenever a pointer button is released while the pointer is over a presentation of the desired type. (See the keyword argument <B CLASS="cl"
+>:context-type</B
+> below for a description of how to specify the desired type.) In the clause, <I
+>presentation</I
+> is bound to the presentation, and <I
+>event</I
+> to the pointer button release event. (The window and the stream coordinates of the pointer are part of <I
+>event</I
+>.) <I
+>x</I
+> and <I
+>y</I
+> are as for the <B CLASS="cl"
+>:pointer-button-release</B
+> clause. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF3F6E4C53DF72180643B2FB4FE25877%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When both <B CLASS="cl"
+>:presentation-button-release</B
+> and <B CLASS="cl"
+>:pointer-button-release</B
+> clauses are provided, the two clauses are mutually exclusive. The <B CLASS="cl"
+>:presentation-button-release</B
+> clause will run only if the pointer is over an applicable presentation, otherwise the <B CLASS="cl"
+>:pointer-button-release</B
+> clause will run. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFE49B26B61E888E02BCA6DCBBDA8095%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0A432885A66AE5D77485CF946CC17ED5%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:keyboard</B
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>gesture)</I
+> <BR
+> Defines a clause to run whenever a character is typed on the keyboard. In the clause, <I
+>gesture</I
+> is bound to the keyboard gesture corresponding to the character typed.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C95BA7E67B002AC60EE537257207AD5E%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F64F04707E5A5661B2729DA525806378%2Ftracking-pointer%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7444"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="22-5.html#_4602"
+><SPAN CLASS="reverselink"
+>[&larr; 22.5 Pointer Tracking, <B CLASS="cl"
+><B CLASS="cl"
+>drag-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1122"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>drag-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream output-record  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>repaint erase feedback finish-on-release  multiple-window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Enters an interaction mode in which the user moves the pointer and <I
+>output-record</I
+> "follows" the pointer by being dragged on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>. By default, the dragging is accomplished by erasing the output record from its previous position and redrawing at the new position. <I
+>output-record</I
+> remains in the output history of <I
+>stream</I
+> at its final position. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3886CB81352CCE984063364A6472094B%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned values are the final <I
+>x</I
+> and <I
+>y</I
+> position of the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E88BB93CD6A1FE16B251C1D48B654B96%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The boolean <I
+>repaint</I
+> allows the programmer to control the appearance of windows as the pointer is dragged. If <I
+>repaint</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), displayed contents of windows are not disturbed as the output record is dragged over them (that is, those regions of the screen are repainted). If it is <SPAN CLASS="term"
+>false</SPAN
+>, then no repainting is done as the output record is dragged. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=089FBC7E436135F0B757D6B3F703198B%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>erase</I
+> allows the programmer to identify a function that will be called to erase the output record as it is dragged. It must be a function of two arguments, the output record to erase and the stream; it has dynamic extent. The default is <A NAME="_4594"></A><A HREF="16-4.html#_901"
+><B CLASS="cl"
+>erase-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FBF1A14B4FA729B15A4390B1E2116B0B%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>feedback</I
+> allows the programmer to identify a "feedback" function. <I
+>feedback</I
+> must be a is a function of seven arguments: the output record, the stream, the initial <I
+>x</I
+> and <I
+>y</I
+> position of the pointer, the current <I
+>x</I
+> and <I
+>y</I
+> position of the pointer, and a drawing argument (either <B CLASS="cl"
+>:erase</B
+> or <A NAME="_4596"></A><A HREF="29-4.html#_1676"
+><B CLASS="cl"
+>:draw</B
+></A
+>). It has dynamic extent. The default is <A NAME="_4597"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that the feedback behavior will be for the output record to track the pointer. (The <I
+>feedback</I
+> argument is used when the programmer desires more complex feedback behavior, such as drawing a "rubber band" line as the user moves the mouse.) Note that if <I
+>feedback</I
+> is supplied, <I
+>erase</I
+> is ignored. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1FD64CAE960C4D8D2A889790B317FBF%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z376"
+></A
+>it is worth noting that feedback function is responsible for repainting the window too because only it can know what are damaged regions. That implies the following: "Note that if feedback is supplied, repaint is ignored.". <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1FD64CAE960C4D8D2A889790B317FBF%2Fdrag-output-record%2F22.5&amp;editp=t&amp;id=Z376#Z376"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-08-06 12:47Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If the boolean <I
+>finish-on-release</I
+> is <SPAN CLASS="term"
+>false</SPAN
+> (the default), <B CLASS="cl"
+>drag-output-record</B
+> is exited when the user presses a pointer button. When it is <SPAN CLASS="term"
+>true</SPAN
+>, <B CLASS="cl"
+>drag-output-record</B
+> is exited when the user releases the pointer button currently being held down. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5083E7C0654ADF91E0E4F794F03481E2%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>multiple-window</I
+> is as for <A NAME="_4602"></A><A HREF="22-5.html#_1121"
+><B CLASS="cl"
+>tracking-pointer</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C8D09AEC61BBF6508BCF94043022097B%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8D0B37E14C39CFD6B3EF371E44B5630%2Fdrag-output-record%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7447"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="22-5.html#_4604"
+><SPAN CLASS="reverselink"
+>[&larr; 22.5 Pointer Tracking, <B CLASS="cl"
+><B CLASS="cl"
+>dragging-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1123"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>dragging-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>repaint finish-on-release multiple-window)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Evaluates <I
+>body</I
+> inside of <A NAME="_4603"></A><A HREF="16-4.html#_914"
+><B CLASS="cl"
+>with-output-to-output-record</B
+></A
+> to produce an output record for the stream <I
+>stream</I
+>, and then invokes <A NAME="_4604"></A><A HREF="22-5.html#_1122"
+><B CLASS="cl"
+>drag-output-record</B
+></A
+> on the record in order to drag the output. The output record is not inserted into <I
+>stream</I
+>'s output history. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1613D061EF356D1678C84B9CBD6C5953%2Fdragging-output%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z377"
+></A
+>This could be implemented by verifying if the output-record passed to drag-output-record has a parent. If it does, then we need to reinsert it, otherwise it is not necessary. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1613D061EF356D1678C84B9CBD6C5953%2Fdragging-output%2F22.5&amp;editp=t&amp;id=Z377#Z377"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-08-06 17:49Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The returned values are the final <I
+>x</I
+> and <I
+>y</I
+> position of the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E88BB93CD6A1FE16B251C1D48B654B96%2Fdragging-output%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an <SPAN CLASS="term"
+>output recording stream</SPAN
+> stream. If <I
+>stream</I
+> is <A NAME="_4606"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3987121582C2B5FBD93FA60D78C9A9F%2Fdragging-output%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>repaint</I
+>, <I
+>finish-on-release</I
+>, and <I
+>multiple-window</I
+> are as for <A NAME="_4608"></A><A HREF="22-5.html#_1122"
+><B CLASS="cl"
+>drag-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B2D7D47F4BF83C1D777848964369E7C%2Fdragging-output%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=045FE760889E626F40C1702B96596111%2Fdragging-output%2F22.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/22-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

@@ -1,0 +1,137 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.1 Overview of Graphics</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12.2 Definitions" HREF="12-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12.html"
+>Prev</A
+><BR
+><A HREF="12-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-1.html"
+><B
+>12.1&nbsp;Overview&nbsp;of&nbsp;Graphics</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_599"></A><DIV
+><H3
+>12.1 Overview of Graphics</H3
+><P
+>The CLIM graphic drawing model is an idealized model of graphical pictures. The model provides the language that application programs use to describe the intended visual appearance of textual and graphical output. Usually not all of the contents of the screen are described using the graphic drawing model. For example, menus and scroll bars might be described in higher-level terms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3526B364DF264EF51D29B796B48228B%2F12.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An important aspect of the CLIM graphic drawing model is its extreme device independence. The model describes ideal graphical images and ignores limitations of actual graphics devices. One consequence of this is that the actual visual appearance of the screen can only be an approximation of the appearance specified by the model. Another consequence of this is that the model is highly portable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=454DA5972A9E6728692E415E7A25BF2E%2F12.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM separates output into two layers, a text/graphics layer in which one specifies the desired visual appearance independent of device resolution and characteristics, and a rendering layer in which some approximation of the desired visual appearance is created on the device. Of course application programs can inquire about the device resolution and characteristics if they wish and modify their desired visual appearance on that basis. (There is also a third layer above these two layers, the adaptive toolkit layer where one specifies the desired functionality rather than the desired visual appearance.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42C5F31C4EFB8C2CB0894621F7D61659%2F12.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Major issue: </B
+> <I
+>There are still no functions to ask about device resolution and characteristics. What characteristics do we need to be able to get to besides the obvious ones of resolution and "color depth". Also, do we really need to refer to the adaptive toolkit layer here? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A9694EBB15480C6A71E8D0569423A8E%2F12.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z388"
+></A
+>Where possible, device DPI- but (e.g. on the web) this is not possible, so perhaps at bare minimum a "devicePixelRatio"? (see MDN) <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A9694EBB15480C6A71E8D0569423A8E%2F12.1&amp;editp=t&amp;id=Z388#Z388"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Matt Seddon 2020-01-23 22:21Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>CLIM's drawing functions provide convenient ways to draw several commonly-used shapes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28B1A209219CE0C588F3A386C42B190B%2F12.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The interaction between graphics and output recording will be described in Chapter&nbsp;<A NAME="_3170"></A><A HREF="16.html#_829"
+>16</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2AE858EA6980F7B429D73292A9216F02%2F12.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

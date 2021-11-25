@@ -1,0 +1,884 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.4 Typed Output</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23.3 Presentation Types" HREF="23-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.5 Context-dependent (Typed) Input" HREF="23-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23-3.html"
+>Prev</A
+><BR
+><A HREF="23-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-4.html"
+><B
+>23.4&nbsp;Typed&nbsp;Output</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1191"></A><DIV
+><H3
+>23.4 Typed Output</H3
+><P
+>An application can specify that all output done within a certain dynamic extent should be associated with a given Lisp object and be declared to be of a specified presentation type. The resulting output is saved in the window's output history as a presentation. Specifically, the presentation remembers the output that was performed (by saving the associated output record), the Lisp object associated with the output, and the presentation type specified at output time. The object can be any Lisp object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=512D6887A87C73D75825BD05665B907D%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1192"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-as-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream object type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>modifier single-box allow-sensitive-inferiors  parent record-type </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The output of <I
+>body</I
+> to the <SPAN CLASS="term"
+>extended output recording</SPAN
+> <I
+>stream</I
+> is used to generate a presentation whose underlying object is <I
+>object</I
+> and whose presentation type is <I
+>type</I
+>. Each invocation of this macro results in the creation of a presentation object in the stream's output history unless output recording has been disabled or <B CLASS="cl"
+>:allow-sensitive-inferiors nil</B
+> was specified at a higher level, in which case the presentation object is not inserted into the history. <B CLASS="cl"
+>with-output-as-presentation</B
+> returns the presentation corresponding to the output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6252A8AF4F8A9BFECC344A8162F7509A%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an extended output stream or output recording stream. If <I
+>stream</I
+> is <A NAME="_4886"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C37BFC658FDD3857F48E8EE67BE6EC9B%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+> may be a presentation type abbreviation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=302D540BBFC792EA085C8738176CB16E%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>modifier</I
+>, which defaults to <A NAME="_4888"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, is some sort of object that describes how the presentation object might be modified. For example, it might be a function of one argument (the new value) that can be called in order to store a new value for <I
+>object</I
+> after a user somehow "edits" the presentation. <I
+>modifier</I
+> must have indefinite extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DA4AE2AE0A2037224DCF94DE193BD9E3%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>single-box</I
+> is used to specify the <A NAME="_4889"></A><A HREF="23-2.html#_1142"
+><B CLASS="cl"
+>presentation-single-box</B
+></A
+> component of the resulting presentation. It can take on the values described under <A NAME="_4890"></A><A HREF="23-2.html#_1142"
+><B CLASS="cl"
+>presentation-single-box</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=57000B5E925AFB2F18932AA7DB1B9912%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the boolean <I
+>allow-sensitive-inferiors</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, nested calls to <A NAME="_4892"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> or <B CLASS="cl"
+>with-output-as-presentation</B
+> inside this one will not generate presentations. The default is <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B58954C1DB8680E83F1F8508B11E6339%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>parent</I
+> specifies what output record should serve as the parent for the newly created presentation. If unspecified, <A NAME="_4895"></A><A HREF="16-4.html#_897"
+><B CLASS="cl"
+>stream-current-output-record</B
+></A
+> of <I
+>stream</I
+> will be used as the parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA343797E706937BC19DDC9F61ADC061%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of the presentation output record to be created. It defaults to <A NAME="_4896"></A><A HREF="23-2.html#_1131"
+><B CLASS="cl"
+>standard-presentation</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the updating output record protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D785FB2ED34D286132E075F6E1B15A9%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z441"
+></A
+>...that supports the presentation protocol? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D785FB2ED34D286132E075F6E1B15A9%2Fwith-output-as-presentation%2F23.4&amp;editp=t&amp;id=Z441#Z441"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Elijah Malaby 2021-05-17 23:02Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All arguments of this macro are evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11C7EE4BE0B7F258F49216F70237F961%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example,  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=17273C9AB9C7FEC6143A77D2BAC7D1BE%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(with-output-as-presentation (stream #p"foo" 'pathname)&#10;  (princ "FOO" stream))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE9158E33C20B2E486960B4C4845BFDD%2Fwith-output-as-presentation%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7448"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5376"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-editing</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4921"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1193"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>present</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>stream view modifier acceptably for-context-type  single-box allow-sensitive-inferiors sensitive record-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <I
+>object</I
+> of <A NAME="_4897"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> is presented to the <SPAN CLASS="term"
+>extended output stream</SPAN
+> <I
+>stream</I
+> (which defaults to <B CLASS="cl"
+>*standard-output*</B
+>), using the type's <B CLASS="cl"
+>present</B
+> method for the supplied <SPAN CLASS="term"
+>view</SPAN
+> <I
+>view</I
+>. <I
+>type</I
+> is a presentation type specifier, and can be an abbreviation. It defaults to <B CLASS="cl"
+>(presentation-type-of </B
+><B CLASS="cl"
+><I
+>object</I
+></B
+><B CLASS="cl"
+>)</B
+>. The other arguments and overall behavior of <B CLASS="cl"
+>present</B
+> are as for <A NAME="_4906"></A><A HREF="23-4.html#_1194"
+><B CLASS="cl"
+>stream-present</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2FA6DEB37D9679F1E6C4BB47424B274%2Fpresent%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value of <B CLASS="cl"
+>present</B
+> is the presentation object that contains the output corresponding to the object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8F8F39B54D99F6FA66470C049CE8D1B%2Fpresent%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>present</B
+> must be implemented by first expanding any presentation type abbreviations (<I
+>type</I
+> and <I
+>for-context-type</I
+>), and then calling <A NAME="_4909"></A><A HREF="23-4.html#_1194"
+><B CLASS="cl"
+>stream-present</B
+></A
+> on <I
+>stream</I
+>, <I
+>object</I
+>, <I
+>type</I
+>, and the remaining keyword arguments, which are described below. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8FE51D3696B59721FEDF76A2632113D2%2Fpresent%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D2EEC255C4BF2B163FAA006054A9CC8%2Fpresent%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1161"
+><SPAN CLASS="forwardlink"
+>[&rarr; present, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="27-6.html#_6095"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5654"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5623"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-4.html#_5502"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>write-token</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-4.html#_5486"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-replace-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5336"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.7 "Meta" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>and</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5273"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.5 "One-of" and "Some-of" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>completion</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5085"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>stream-default-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5056"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4929"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>present-to-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4911"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4892"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4811"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4755"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>funcall-presentation-generic-function</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4743"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4692"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4614"
+><SPAN CLASS="reverselink"
+>[&larr; 23.2 Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>standard-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1194"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-present</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream object type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>view modifier acceptably for-context-type  single-box allow-sensitive-inferiors sensitive  record-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>stream-present</B
+> is the per-stream implementation of <A NAME="_4911"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+>, analogous to the relationship between <B CLASS="cl"
+>write-char</B
+> and <A NAME="_4913"></A><A HREF="D-4.html#_1949"
+><B CLASS="cl"
+>stream-write-char</B
+></A
+>. All extended output streams and output recording streams must implement a method for <B CLASS="cl"
+>stream-present</B
+>. The default method (on <A NAME="_4915"></A><A HREF="15-2.html#_781"
+><B CLASS="cl"
+>standard-extended-output-stream</B
+></A
+>) implements the following behavior. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=792C1B50D3F59F73923BE583D93E70B1%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The object <I
+>object</I
+> of type <I
+>type</I
+> is presented to the <SPAN CLASS="term"
+>stream</SPAN
+> <I
+>stream</I
+> by calling the type's <A NAME="_4917"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> method for the supplied <SPAN CLASS="term"
+>view</SPAN
+> <I
+>view</I
+>. The returned value is the presentation containing the output corresponding to the object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA0903D43A83250D6B9D0D4605330BC8%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+> is a presentation type specifier. <I
+>view</I
+> is a view object that defaults to <A NAME="_4919"></A><A HREF="23-6.html#_1225"
+><B CLASS="cl"
+>stream-default-view</B
+></A
+> of <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FC1EE5F08BBED8E86921ABCBD8FEAD0%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>for-context-type</I
+> is a presentation type specifier that is passed to the <A NAME="_4920"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> method for <I
+>type</I
+>, which can use it to tailor how the object will be presented. <I
+>for-context-type</I
+> defaults to <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BF65D7494D8F862F0611A5F62A2642D1%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>modifier</I
+>, <I
+>single-box</I
+>, <I
+>allow-sensitive-inferiors</I
+>, and <I
+>record-type</I
+> are the same as for <A NAME="_4921"></A><A HREF="23-4.html#_1192"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=30EEADC324654CF3FDE1F0ACF77ACA79%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>acceptably</I
+> defaults to <A NAME="_4922"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, which requests the <A NAME="_4923"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> method to produce text designed to be read by human beings. If <I
+>acceptably</I
+> is <A NAME="_4924"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, it requests the <A NAME="_4925"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> method to produce text that is recognized by the <A NAME="_4926"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> method for <I
+>for-context-type</I
+>. This makes no difference to most presentation types. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7BA8E74366AC53EFCDBF07027BED0F7D%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z148"
+></A
+>What happens when `acceptably' is T, but it's not possible to create "acceptable" output? We need some way to detect this, so the input-editor can choose between putting literal-object "accept gestures" or just a sequence of characters into the input buffer when a presentation is clicked on. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7BA8E74366AC53EFCDBF07027BED0F7D%2Fstream-present%2F23.4&amp;editp=t&amp;id=Z148#Z148"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels Henriksen 2006-10-29 20:05Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The boolean <I
+>sensitive</I
+> defaults to <SPAN CLASS="term"
+>true</SPAN
+>. If it is <SPAN CLASS="term"
+>false</SPAN
+>, no presentation is produced. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=19C44F035E47C02191CFA4DE8BD15D37%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8613BC2FBF1D22E6196F0DECA7CE38BC%2Fstream-present%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-4.html#_4906"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>present</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1195"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>present-to-string</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>view acceptably for-context-type string index</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Same as <A NAME="_4929"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> inside <B CLASS="cl"
+>with-output-to-string</B
+>. If <I
+>string</I
+> is supplied, it must be a string with a fill pointer. When <I
+>index</I
+> is supplied, it is used as an index into <I
+>string</I
+>. <I
+>view</I
+>, <I
+>acceptably</I
+>, and <I
+>for-context-type</I
+> are as for <A NAME="_4931"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=061A849146379E786B3BF9CD8596E868%2Fpresent-to-string%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The first returned value is the string. When <I
+>string</I
+> is supplied, a second value is returned, the updated <I
+>index</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA36B487351AE04B55CB1323FBB6950C%2Fpresent-to-string%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7AD00D091952EAEBEBC319CEAF8A088E%2Fpresent-to-string%2F23.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-4.html#_5487"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-replace-input</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

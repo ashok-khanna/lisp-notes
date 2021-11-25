@@ -1,0 +1,167 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 28.1 Overview of Application Frames</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="28 Application Frames" HREF="28.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="28.2 Defining and Creating Application Frames" HREF="28-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="28 Application Frames" HREF="28.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="28.html"
+>Prev</A
+><BR
+><A HREF="28-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="28.html"
+>28&nbsp;Application&nbsp;Frames</A
+><BR
+>&rarr;&nbsp;<A HREF="28-1.html"
+><B
+>28.1&nbsp;Overview&nbsp;of&nbsp;Application&nbsp;Frames</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1458"></A><DIV
+><H3
+>28.1 Overview of Application Frames</H3
+><P
+><A NAME="_1459"></A><SPAN CLASS="concept"
+>Application frames</SPAN
+> (or simply, <A NAME="_1460"></A><SPAN CLASS="concept"
+>frames</SPAN
+>) are the central abstraction defined by CLIM for presenting an application's user interface. Many of the other features and facilities provided by CLIM (for example, the generic command loop, gadgets, look and feel independence) can be conveniently accessed through the frame facility. Frames can be displayed as either top-level windows or regions embedded within the space of the user interfaces of other applications. In addition to controlling the screen real estate managed by an application, a frame keeps track of the Lisp state variables that contain the state of the application. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B589EB29DF4BB06A9B1A4393F9A0180%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The visual aspect of an application frame is established by defining a hierarchy of <A NAME="_1461"></A><SPAN CLASS="concept"
+>panes</SPAN
+>. CLIM panes are interactive objects that are analogous to the windows, gadgets, or widgets of other toolkits. Application builders can compose their application's user interface from a library of standard panes or by defining and using their own pane types. Application frames can use a number of different types of panes including <A NAME="_1462"></A><SPAN CLASS="concept"
+>layout panes</SPAN
+> for spatially organizing panes, <A NAME="_1463"></A><SPAN CLASS="concept"
+>user panes</SPAN
+> for presenting application specific information, and <A NAME="_1464"></A><SPAN CLASS="concept"
+>gadget panes</SPAN
+> for displaying data and obtaining user input. Panes are describe in greater detail in Chapter&nbsp;<A NAME="_6113"></A><A HREF="29.html#_1577"
+>29</A
+> and Chapter&nbsp;<A NAME="_6114"></A><A HREF="30.html#_1702"
+>30</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9603A181B094B6AEF30D9ED14E9DA806%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Frames are managed by special applications called <A NAME="_1465"></A><SPAN CLASS="concept"
+>frame managers</SPAN
+>. Frame managers control the realization of the look and feel of a frame. The frame manager interprets the specification of the application frame in the context of the available window system facilities, taking into account preferences expressed by the user. In addition, the frame manager takes care of attaching the pane hierarchy of an application frame to an appropriate place in a window hierarchy. The most common type of frame manager is one that allows the user to manipulate the frames of other applications. This type of application is typically called a desktop manager, or in X Windows terminology, a window manager. In many cases, the window manager will be a non-Lisp application. In these cases, the frame manager will act as a mediator between the Lisp application and the host desktop manager. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=17443AE22CD67B79FE8FEA9E64275559%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some applications may act as frame managers that allow the frames of other applications to be displayed with their own frames. For example, a text editor might allow figures generated by a graphic editor to be edited in place by managing the graphics editor's frame within its own frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4244D013A8E2CE44045EEF8E61093A45%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Application frames provide support for a standard interaction processing loop, like the Lisp "read-eval-print" loop, called a <A NAME="_1466"></A><SPAN CLASS="concept"
+>command loop</SPAN
+>. The application programmer has to write only the code that implements the frame-specific commands and output display functions. A key aspect of the command loop is the separation of the specification of the frame's commands from the specification of the end-user interaction style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=445AFB8E167773FCD9A37D56B0A00071%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The standard interaction loop consists of reading an input "sentence" (the command and all of its operands), executing the command, and updating the displayed information as appropriate. CLIM implementations are free to run the display update part of the loop at a lower priority than command execution, for example, some implementations may choose not to update the display if there is typed-ahead input. Note that by default command execution and display will not occur simultaneously, so user-defined functions need not have to cope with multiprocessing. Of course, the programmer can use multiple processes, but CLIM neither directly supports nor precludes doing so. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=78CDD2C2F4EEF9A68C05D1C43E72AB78%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>To write an application that uses the standard interaction loop provided by CLIM, an application programmer does the following: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D29385477E2B6D2C6364FB40FEC9AE1%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>Defines the presentation types that correspond to the user interface entities of the application. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAB88E7ED7E9CAA42AF9250DEFDEF063%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Defines the commands that correspond to the visible operations of the application, specifying the presentation types of the operands involved in each command. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BFCAC64AA99C2298A330218C79E9E55D%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Defines the set of frames and panes needed to support the application. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B6C0B1BF7E75E8831C83C92D9380F1C7%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Defines the output display functions associated with each of the panes (possibly using other facilities such as the incremental redisplay).  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=783726EE4A2F07FA25F5A29D18A1F56B%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>Taking as an example a simple ECAD program, the programmer would first define the appropriate presentation types, such as wires, input and output signals, gates, resistors, and so forth. He would then define the program's commands in terms of these types. For example, the "Connect" command might take two operands, one of type "component" and the other of type "wire". The programmer may wish to specify the interaction style for invoking each command, for example, direct manipulation via translators, or selection of commands from menus. After defining an application frame that includes a CLIM stream pane, the programmer then writes the frame-specific display routine that displays the circuit layout. Now the application is ready to go. The end-user selects a command (via a menu or command-line, or whatever), the top-level loop takes care of collecting the operands for that command (via a variety of user gestures), and then the application invokes the command. The command may have a side-effect on the frame's "database" of information, which can in turn affect the output displayed by the redisplay phase. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C96517E3E199106E50EAD31ABCDADDAD%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that this definition of the standard interaction loop does not constrain the interaction style to be a command-line interface. The input sentence may be entered via single keystrokes, pointer input, menu selection, dialogs, or by typing full command lines. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BF6605FE37452341EDEA1E202F530DF6%2F28.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

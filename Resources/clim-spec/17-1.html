@@ -1,0 +1,173 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/17-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 17.1 Overview of Table Formatting Facilities</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="17 Table Formatting" HREF="17.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="17.2 Table Formatting Functions" HREF="17-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="17 Table Formatting" HREF="17.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="17.html"
+>Prev</A
+><BR
+><A HREF="17-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="17.html"
+>17&nbsp;Table&nbsp;Formatting</A
+><BR
+>&rarr;&nbsp;<A HREF="17-1.html"
+><B
+>17.1&nbsp;Overview&nbsp;of&nbsp;Table&nbsp;Formatting&nbsp;Facilities</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_919"></A><DIV
+><H3
+>17.1 Overview of Table Formatting Facilities</H3
+><P
+>In general, table formatting involves a sharing of responsibilities between user-written code and CLIM code. Code that employs only the lower level output facilities has full control over "where every piece of ink goes" in the output. In contrast, code that employs CLIM's table formatting facilities passes control to CLIM at a higher level. The programmer benefits by being able to specify the appearance of output in more compact abstract terms, and by not having to write the code that constrains the output to appear in proper tabular form. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF16D675A8D069C79B0B04CD74207DF6%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Tabular output consists of a rectangular array of pieces of output corresponding to the bounding rectangles of the output. Each piece of output forms the contents of a <A NAME="_920"></A><SPAN CLASS="concept"
+>table cell</SPAN
+>. There is no restriction on the contents of a table cell; cells may contain text, graphics, even other tables. For purposes of this discussion, we draw a strong distinction between specifying what goes in a cell, and specifying how the cells are arranged to form a table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5170C76095EDD5971B5272D2AEE2BA5A%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Specifying the contents of a cell is the responsibility of the programmer. A programmer using the table formatting facilities can predict the appearance of any individual cell by simply looking at the code for that cell. A cell's appearance does not depend upon where in the table it lies, for instance. The only thing about a cell's appearance that cannot be predicted from that cell alone is the amount of space the table formatting has to introduce in order to perform the desired alignment. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2D2F13FE7A2DDE032F9B634990EDFA3%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Specifying the relative arrangements of cells to form a table is the responsibility of CLIM based on the advice of the programmer. The programmer advises CLIM about extra space to put between rows or columns, for instance, but does not directly control the absolute positioning of a cell's contents. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EF0989EED47B73A82FC4DAFAEAD3D5D3%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For purposes of understanding table formatting, the following model may be used.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DCB4EE2E64F157D04CE6B1068212A7C3%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>The code for a cell draws to a stream that has a "private" (local to that cell) drawing plane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=421A98B21E2152654A3E3C7F0FEB9CAB%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>After output for a cell has finished, the bounding rectangle of all output on the "private" drawing plane is found. The region within that bounding rectangle forms the contents of a cell. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C18748B2BD115607ACD78DEF5784D9E%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Additional rectangular regions, containing only background ink, are attached to the edges of the cell contents. These regions ensure that the cells satisfy the tabular constraints that within a row all cells have the same height, and within a column all cells have the same width. CLIM may also introduce additional background for other purposes as described below. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0091152FDCF94B566F588AF8D424FDC4%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z44"
+></A
+>"Containing only background ink" seems to suggest that somebody&#10;actually paints background ink there. Currently we don't do that&#10;and it would IMHO also be a silly thing to do. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0091152FDCF94B566F588AF8D424FDC4%2F17.1&amp;editp=t&amp;id=Z44#Z44"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-05 18:15Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+><LI
+>The cells are assembled into rows and columns.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFEB77D93162EC814DB3912F51690EDC%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>Some tables are "multiple column" tables, in which two or more rows of the table are placed side by side (usually with intervening spacing) rather than all rows being aligned vertically. Multiple column tables are generally used to produce a table that is more esthetically pleasing, or to make more efficient use of space on the output device. When a table is a multiple column table, one additional step takes place in the formatting of the table: the rows of the table are rearranged into multiple columns in which some rows are placed side by side. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58B90B1A8C9D75E977B3F051B5BD18F3%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The advice that the programmer gives to CLIM on how to assemble the table consists of the following:  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2DDD9D6D6C1D5EDE82B2F638928768C2%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>How to place the contents of the cell within the cell (such as centered vertically, flush-left, and so forth) The possibilities for this advice are described below. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1362D1E783DE8EA4859E3974AFB8FA98%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Optionally, how much additional space to insert between columns and between rows of the table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7AC65F3F4C17104BB94B1A463CBF1EE6%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Optionally, whether to make all columns the same size.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B514DD017B4F625505406BE945077D1%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>The advice describing how to place the contents of the cell within the cell consists of two pieces---how to constrain the cell contents in the horizontal direction, and how to constrain them in the vertical direction. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=750EB3E4461B035F96379DC2A8DC7B35%2F17.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/17-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

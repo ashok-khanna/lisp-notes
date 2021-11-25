@@ -1,0 +1,1354 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/18-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 18.2 The Graph Formatting Protocols</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="18.1 Graph Formatting Functions" HREF="18-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="19 Bordered Output" HREF="19.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="18 Graph Formatting" HREF="18.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="18-1.html"
+>Prev</A
+><BR
+><A HREF="19.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="18.html"
+>18&nbsp;Graph&nbsp;Formatting</A
+><BR
+>&rarr;&nbsp;<A HREF="18-2.html"
+><B
+>18.2&nbsp;The&nbsp;Graph&nbsp;Formatting&nbsp;Protocols</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_979"></A><DIV
+><H3
+>18.2 The Graph Formatting Protocols</H3
+><P
+>Graph formatting is implemented on top of the basic output recording protocol, using <A NAME="_4131"></A><A HREF="16-4.html#_912"
+><B CLASS="cl"
+>with-new-output-record</B
+></A
+> to specify the appropriate type of output record. For example, <A NAME="_4132"></A><A HREF="18-1.html#_978"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></A
+> first collects all the output that belongs in the graph into a collection of graph node output records by calling <A NAME="_4133"></A><A HREF="18-2.html#_993"
+><B CLASS="cl"
+>generate-graph-nodes</B
+></A
+>. All of the graph node output records are descendents of a single graph output record. During this phase, <A NAME="_4134"></A><A HREF="16-4.html#_894"
+><B CLASS="cl"
+>stream-drawing-p</B
+></A
+> is bound to <A NAME="_4135"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> and <A NAME="_4136"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> is bound to <A NAME="_4137"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. When all the output has been generated, the graph layout code (<A NAME="_4138"></A><A HREF="18-2.html#_994"
+><B CLASS="cl"
+>layout-graph-nodes</B
+></A
+> and <A NAME="_4139"></A><A HREF="18-2.html#_995"
+><B CLASS="cl"
+>layout-graph-edges</B
+></A
+>) is called to compute the graph layout. Finally, the graph output record is positioned on the stream at the current text cursor position and then displayed by calling <A NAME="_4140"></A><A HREF="16-2.html#_852"
+><B CLASS="cl"
+>replay</B
+></A
+> on the graph output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DAB59A222FC5D17509501B02EB53015%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_980"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents a graph; a subclass of <A NAME="_4141"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like a graph output record, it should be a subclass of <B CLASS="cl"
+>graph-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>graph-output-record</B
+> must obey the graph output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F83CBE7A3D66E018DEDC34D07EBC76AA%2Fgraph-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73BCB42980AA27BD39251FC8D8689ABD%2Fgraph-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4148"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>define-graph-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4147"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>standard-graph-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_981"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>graph output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3751C80F3AB95CE304EB64570FD6090E%2Fgraph-output-record-p%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1EEA7EE002B8A828BE8A050CAC9B1F02%2Fgraph-output-record-p%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_982"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-graph-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that represents a graph. Its children will be a sequence graph nodes. This is a subclass of <A NAME="_4147"></A><A HREF="18-2.html#_980"
+><B CLASS="cl"
+>graph-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1B82AF8F7B7A8AF959B51D54469CE19%2Fstandard-graph-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9995EB87B21CAA24BEFC70459F2698A2%2Fstandard-graph-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4157"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>layout-graph-edges</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4156"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>layout-graph-nodes</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_983"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:orientation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_984"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:center-nodes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_985"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:cutoff-depth</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_986"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:merge-duplicates</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_987"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:generation-separation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_988"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:within-generation-separation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_989"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:hash-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All the graph output record must handle these seven initargs, which are used to specify, respectively, the orientation, node centering, cutoff depth, merge duplicates, generation and within-generation spacing, and the node hash table of a graph output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2FDEC3109AD465920462684605637F6%2F%3Aorientation%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z66"
+></A
+>I wonder what the hash table is doing here. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2FDEC3109AD465920462684605637F6%2F%3Aorientation%2F18.2&amp;editp=t&amp;id=Z66#Z66"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-03-19 19:07Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14DA3B9CDF290982E88669AF2AF17F65%2F%3Aorientation%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z98"
+></A
+><P
+>It seems that these initargs are intended to be passed through from the top-level call to format-graph-from-roots, but I don't see that this is ever stated explicitly. </P
+><P
+>If that is what is intended, it also seems that FORMAT-GRAPH-FROM-ROOTS should be specified as a function with &amp;allow-other-keys (as is the case in McCLIM), but this is not the case.  Is this an omission in the specification, or was that intended?</P
+><P
+>I have only experimented a little with defining my own graph class, but the current framework does not seem to be well set-up to support colored graphs ("colored" not meant literally, but in the sense of there being different classes of edges and nodes).  It seems reasonably easy to specialize how graph nodes could be indicated as of different classes, through the drawing function.  But arcs are not so easy, since the only piece of information the drawer has access to is the nodes on either end.  This makes it difficult if there can be multiple edges (of different types) between a single pair of vertices.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14DA3B9CDF290982E88669AF2AF17F65%2F%3Aorientation%2F18.2&amp;editp=t&amp;id=Z98#Z98"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Goldman (rpgoldman AT real dash time dot com) 2005-05-11 01:59Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="30-3.html#_1744"
+><SPAN CLASS="forwardlink"
+>[&rarr; :orientation, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_990"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-graph-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-type class</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a new graph type named by the symbol <I
+>graph-type</I
+> that is implemented by the class <I
+>class</I
+>. <I
+>class</I
+> must be a subclass of <A NAME="_4148"></A><A HREF="18-2.html#_980"
+><B CLASS="cl"
+>graph-output-record</B
+></A
+>. Neither of the arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DC8524581319D94D30E554BE35229711%2Fdefine-graph-type%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All CLIM implementations must support graphs of type <B CLASS="cl"
+>:tree</B
+>, <B CLASS="cl"
+>:directed-graph</B
+> (and its synonym <B CLASS="cl"
+>:digraph</B
+>), and <B CLASS="cl"
+>:directed-acyclic-graph</B
+> (and its synonym <B CLASS="cl"
+>:dag</B
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4428465BA3A2AEB76B2EF2B18C15366%2Fdefine-graph-type%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1AC765E1D504CD3026DE7A4414E12C6D%2Fdefine-graph-type%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_991"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-root-nodes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence of the graph node output records corresponding to the root objects for the graph output record <I
+>graph-record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A38871B7841C5BE0F6E70E19776BF5E%2Fgraph-root-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5B85EB534CCAE8BAED9C389E1D8818A%2Fgraph-root-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4154"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>generate-graph-nodes</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_992"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf graph-root-nodes)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>roots graph-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the root nodes of <I
+>graph-record</I
+> to <I
+>roots</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB76F621EDC59294F87E4DA1E5D7BD4D%2F%28setf%20graph-root-nodes%29%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DB779348F369964D0F8B2A605392F62%2F%28setf%20graph-root-nodes%29%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_993"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>generate-graph-nodes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-record stream  root-objects object-printer inferior-producer  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>duplicate-key duplicate-test</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is responsible for generating all of the graph node output records of the graph. <I
+>graph-record</I
+> is the graph output record, and <I
+>stream</I
+> is the output stream. The graph node output records are generating by calling the object printer on the root objects, then (recursively) calling the inferior producer on the root objects and calling the object printer on all inferiors. After all of the graph node output records have been generated, the value of <A NAME="_4154"></A><A HREF="18-2.html#_991"
+><B CLASS="cl"
+>graph-root-nodes</B
+></A
+> of <I
+>graph-record</I
+> must be set to be a sequence of the those graph node output records that correspond to the root objects. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0F9B39F48FB006C89DC05E2D66302A3%2Fgenerate-graph-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>root-objects</I
+>, <I
+>object-printer</I
+>, <I
+>inferior-producer</I
+>, <I
+>duplicate-key</I
+>, and <I
+>duplicate-test</I
+> are as for <A NAME="_4155"></A><A HREF="18-1.html#_978"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D31E6C4FADC28F6F8F3E9F21DDA825E%2Fgenerate-graph-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84D4643552EA8D5AD320F47B14D949F5%2Fgenerate-graph-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4133"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_994"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>layout-graph-nodes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-record stream arc-drawer arc-drawing-options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is responsible for laying out the nodes in the graph contained in the output record <I
+>graph-record</I
+>. It is called after the graph output has been collected, but before the graph record has been displayed. The method on <A NAME="_4156"></A><A HREF="18-2.html#_982"
+><B CLASS="cl"
+>standard-graph-output-record</B
+></A
+> implements the usual graph layout constraint solver. <I
+>stream</I
+> is the stream on which the graph is displayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8288E4DFA6544C56F4664DB23E2C8F5E%2Flayout-graph-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z99"
+></A
+>Is there a reference somewhere to indicate what "the usual graph layout constraint solver," is? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8288E4DFA6544C56F4664DB23E2C8F5E%2Flayout-graph-nodes%2F18.2&amp;editp=t&amp;id=Z99#Z99"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Goldman rpgoldman at real dash time dot com 2005-05-11 02:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F11C067D2E5C0AE074487959CF86CD98%2Flayout-graph-nodes%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4158"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>layout-graph-edges</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4138"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_995"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>layout-graph-edges</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-record stream arc-drawer arc-drawing-options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is responsible for laying out the edges in the graph. It is called after the graph nodes have been layed out, but before the graph record has been displayed. The method on <A NAME="_4157"></A><A HREF="18-2.html#_982"
+><B CLASS="cl"
+>standard-graph-output-record</B
+></A
+> simply causes thin lines to be drawn from each node to all of its children. <I
+>graph-record</I
+> and <I
+>stream</I
+> are as for <A NAME="_4158"></A><A HREF="18-2.html#_994"
+><B CLASS="cl"
+>layout-graph-nodes</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=922D15078877D887D5B40FE1B8143B8D%2Flayout-graph-edges%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BAD9088A9A71D4287D04B8178CF07128%2Flayout-graph-edges%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4139"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_996"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-node-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents a node in graph; a subclass of <A NAME="_4159"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like a graph node output record, it should be a subclass of <B CLASS="cl"
+>graph-node-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>graph-node-output-record</B
+> must obey the graph node output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA4D3F1740FEE1EB4950F120D656DA2A%2Fgraph-node-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A9DF68D1EA787F1E6D81CA22C0F9928%2Fgraph-node-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4165"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>standard-graph-node-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_997"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-node-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>graph node output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4C6E5FC2FF653B1296941F0B6007AE8%2Fgraph-node-output-record-p%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD9613B46F90C6FF1317533E33B7AD9C%2Fgraph-node-output-record-p%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_998"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-graph-node-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that represents a graph node. Its parent will be a graph output record. This is a subclass of <A NAME="_4165"></A><A HREF="18-2.html#_996"
+><B CLASS="cl"
+>graph-node-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6FBD41B4D9F7345C696A4DF9EC38D7E9%2Fstandard-graph-node-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0BA9A6FF7EF6F159F60AFA9A095D062%2Fstandard-graph-node-output-record%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_999"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-node-parents</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-node-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence of the graph node output records whose objects are "parents" of the object corresponding to the graph node output record <I
+>graph-node-record</I
+>. Note that this is not the same as <A NAME="_4166"></A><A HREF="16-2.html#_851"
+><B CLASS="cl"
+>output-record-parent</B
+></A
+>, since <B CLASS="cl"
+>graph-node-parents</B
+> can return output records that are not the parent records of <I
+>graph-node-record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D1F58A5164C27B1EF9A02FD975E1A7EF%2Fgraph-node-parents%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BA2772CD47991758D0A1A91B2283B79%2Fgraph-node-parents%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1000"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf graph-node-parents)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>parents graph-node-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the parents of <I
+>graph-node-record</I
+> to be <I
+>parents</I
+>. <I
+>parents</I
+> must be a list of graph node records. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F326C82688D7A84C22DE34217305F69%2F%28setf%20graph-node-parents%29%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=87E707219B4899F44D1A3A14F1454CF9%2F%28setf%20graph-node-parents%29%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1001"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-node-children</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-node-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence of the graph node output records whose objects are "children" of the object corresponding to the graph node output record <I
+>graph-node-record</I
+>. Note that this is not the same as <A NAME="_4168"></A><A HREF="16-2.html#_859"
+><B CLASS="cl"
+>output-record-children</B
+></A
+>, since <B CLASS="cl"
+>graph-node-children</B
+> can return output records that are not child records of <I
+>graph-node-record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A8E5DA5A678608C27C62674A7306743%2Fgraph-node-children%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=71645929DF07F1614FA238A2471AE754%2Fgraph-node-children%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1002"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf graph-node-children)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>children graph-node-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the children of <I
+>graph-node-record</I
+> to be <I
+>children</I
+>. <I
+>children</I
+> must be a list of graph node records. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BBE291119698C3AC459E2ABC3CDF125%2F%28setf%20graph-node-children%29%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F995B13B3095BE2C9059840CCED81300%2F%28setf%20graph-node-children%29%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1003"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>graph-node-object</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>graph-node-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the object that corresponds to the graph node output record <I
+>graph-node-record</I
+>. It is permissible for this function to work correctly only while inside of the call to <A NAME="_4170"></A><A HREF="18-1.html#_978"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></A
+>. It is unspecified what result will be returned outside of <A NAME="_4171"></A><A HREF="18-1.html#_978"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></A
+>. This restriction is permitted so that CLIM is not required to capture application objects that might have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6523FC4596C9E2D8E27FB06BC3B868BA%2Fgraph-node-object%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C94C3427F8D7A74A5EC01B29BD51B794%2Fgraph-node-object%2F18.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/18-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

@@ -1,0 +1,1555 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/F.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; F Changes from CLIM 1.0</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="E.2 Support for Reading Bitmap Files" HREF="E-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="Part IX: Index" HREF="P-IX.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part VIII: Appendices" HREF="P-VIII.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="E-2.html"
+>Prev</A
+><BR
+><A HREF="P-IX.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+><BR
+>&rarr;&nbsp;<A HREF="F.html"
+><B
+>F&nbsp;Changes&nbsp;from&nbsp;CLIM&nbsp;1.0</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1969"></A><DIV
+><H2
+>F Changes from CLIM 1.0</H2
+><LI CLASS="outline_item"
+><A HREF="F.html#_1970"
+>Regions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1971"
+>Bounding Rectangles</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1972"
+>Affine Transformations</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1973"
+>Properties of Sheets</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1974"
+>Sheet Protocols</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1975"
+>Ports, Grafts, and Mirrored Sheets</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1976"
+>Text Styles</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1977"
+>Drawing in Color</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1978"
+>Extended Stream Output</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1979"
+>Output Recording</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1980"
+>Table Formatting</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1981"
+>Graph Formatting</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1982"
+>Incremental Redisplay</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1983"
+>Extended Stream Input</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1984"
+>Presentation Types</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1985"
+>Input Editing and Completion Facilities</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1986"
+>Menus</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1987"
+>Command Processing</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1988"
+>Application Frames</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="F.html#_1989"
+>Panes</A
+></LI
+><P
+>This appendix lists the incompatible changes from CLIM 1.0 (and CLIM 0.9 for the API related to the windowing substrate and gadgets), and the rationale for those changes. They are listed on a chapter-by-chapter basis. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD10A95D32E39FAA3017B71F8549311F%2FF#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the items say that a compatibility stub will be provided, this does not mean that this compatibility needs to be part of CLIM itself. It could be provided by a small compatibility package that defines stubs that translate from the old behavior to the new behavior at compile-time or run-time, or by some sort of conversion utility, or both. In the first case, compiler warnings should be generated to indicate that an obsolete form is being used. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F7B0089EE2F5AFCEBDE6A08BABF7F92D%2FF#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>There are still lots of things from the windowing part, and the frames, panes, and gadgets chapters that need to be included here. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8DB03F6D7ADC700AC223EAC051C08A3%2FF#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1970"></A><DIV
+><H4
+>Regions</H4
+><UL
+><LI
+><B CLASS="cl"
+>point-position*</B
+> has been renamed to <A NAME="_7289"></A><A HREF="3-2.html#_78"
+><B CLASS="cl"
+>point-position</B
+></A
+>, since the term "position" unambiguously refers to an <I
+>(x,y)</I
+> coordinate pair. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=091A7A11A6BCDC503A9406B05CB7B207%2FRegions#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>region-contains-point*-p</B
+> has been renamed to <A NAME="_7291"></A><A HREF="3-1.html#_53"
+><B CLASS="cl"
+>region-contains-position-p</B
+></A
+>, since the term "position" unambiguously refers to an <I
+>(x,y)</I
+> coordinate pair. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ACF8EE80E80D208525A6E17178D508F6%2FRegions#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The use of <B CLASS="cl"
+>region-set-function</B
+> has been deprecated in favor of using the three classes <A NAME="_7293"></A><A HREF="3-1.html#_59"
+><B CLASS="cl"
+>standard-region-union</B
+></A
+>, <A NAME="_7294"></A><A HREF="3-1.html#_60"
+><B CLASS="cl"
+>standard-region-intersection</B
+></A
+>, and <A NAME="_7295"></A><A HREF="3-1.html#_61"
+><B CLASS="cl"
+>standard-region-difference</B
+></A
+>, in keeping with the spirit of CLOS. <B CLASS="cl"
+>region-set-function</B
+> will be provided as a compatibility function.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A0E0A74A392F3B3FDFF1BEB3CA9C6B7%2FRegions#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1971"></A><DIV
+><H4
+>Bounding Rectangles</H4
+><UL
+><LI
+><A NAME="_7297"></A><A HREF="4-1.html#_160"
+><B CLASS="cl"
+>with-bounding-rectangle*</B
+></A
+> used to have optional <I
+>max-x</I
+> and <I
+>max-y</I
+> arguments. They are now required. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8DF4B43BEF96266469080A8F94D09848%2FBounding%20Rectangles#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>bounding-rectangle-set-edges</B
+> has been removed, since bounding rectangles have been made immutable. There is no replacement for it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C0FA36AF96A07CC38714AA9E9D214498%2FBounding%20Rectangles#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>bounding-rectangle-position*</B
+> has been renamed to <A NAME="_7300"></A><A HREF="4-1.html#_161"
+><B CLASS="cl"
+>bounding-rectangle-position</B
+></A
+>, since the term "position" unambiguously refers to an <I
+>(x,y)</I
+> coordinate pair. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7AE4DA9B395D13EDC50BAEB8386B3CE8%2FBounding%20Rectangles#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The functions <B CLASS="cl"
+>bounding-rectangle-left</B
+>, <B CLASS="cl"
+>bounding-rectangle-top</B
+>, <B CLASS="cl"
+>bounding-rectangle-right</B
+>, and <B CLASS="cl"
+>bounding-rectangle-bottom</B
+> have been replaced by <A NAME="_7305"></A><A HREF="4-1.html#_162"
+><B CLASS="cl"
+>bounding-rectangle-min-x</B
+></A
+>, <A NAME="_7306"></A><A HREF="4-1.html#_163"
+><B CLASS="cl"
+>bounding-rectangle-min-y</B
+></A
+>, <A NAME="_7307"></A><A HREF="4-1.html#_164"
+><B CLASS="cl"
+>bounding-rectangle-max-x</B
+></A
+>, and <A NAME="_7308"></A><A HREF="4-1.html#_165"
+><B CLASS="cl"
+>bounding-rectangle-max-y</B
+></A
+>. This is because left, top, right, and bottom are ill-specified. Compatibility functions will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A948235172E2A370B730D725B46E8152%2FBounding%20Rectangles#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1972"></A><DIV
+><H4
+>Affine Transformations</H4
+><UL
+><LI
+>The function <A NAME="_7309"></A><A HREF="5-2.html#_189"
+><B CLASS="cl"
+>make-3-point-transformation</B
+></A
+> has had its argument list changed from <I
+>(point-1 point-1-image point-2 point-2-image point-3 point-3-image)</I
+> to <I
+>(point-1 point-2 point-3 point-1-image point-2-image point-3-image)</I
+>. This was done because the original argument list did not group together inputs and output, which was confusing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11E7CC0D939773BCEA8001E675095BC9%2FAffine%20Transformations#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <A NAME="_7310"></A><A HREF="5-2.html#_190"
+><B CLASS="cl"
+>make-3-point-transformation*</B
+></A
+> has had its argument list changed from <I
+>(x1 y1 x1-image y1-image x2 y2 x2-image y2-image x3 y3 x3-image y3-image)</I
+> to <I
+>(x1 y1 x2 y2 x3 y3 x1-image y1-image x2-image y2-image x3-image y3-image)</I
+>. This was done because the original argument list did not group together inputs and output, which was confusing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=793032F41E0CF3A893E0789D3B6A0D9A%2FAffine%20Transformations#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>compose-scaling-transformation</B
+>, <B CLASS="cl"
+>compose-translation-transformation</B
+>, and <B CLASS="cl"
+>compose-rotation-transformation</B
+> have been replaced by the six functions <A NAME="_7314"></A><A HREF="5-3.html#_207"
+><B CLASS="cl"
+>compose-translation-with-transformation</B
+></A
+>, <A NAME="_7315"></A><A HREF="5-3.html#_208"
+><B CLASS="cl"
+>compose-scaling-with-transformation</B
+></A
+>, <A NAME="_7316"></A><A HREF="5-3.html#_209"
+><B CLASS="cl"
+>compose-rotation-with-transformation</B
+></A
+>, <A NAME="_7317"></A><A HREF="5-3.html#_210"
+><B CLASS="cl"
+>compose-transformation-with-translation</B
+></A
+>, <A NAME="_7318"></A><A HREF="5-3.html#_211"
+><B CLASS="cl"
+>compose-transformation-with-scaling</B
+></A
+>, and <A NAME="_7319"></A><A HREF="5-3.html#_212"
+><B CLASS="cl"
+>compose-transformation-with-rotation</B
+></A
+>. This was done because the six functions implement all of the optimized useful cases of composition of transformations, and new names are required for all six. Compatibility functions will be provided for the three CLIM 1.0 functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9BD2337BC7345880518EF96C5ED55A99%2FAffine%20Transformations#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>transform-point*</B
+> and <B CLASS="cl"
+>untransform-point*</B
+> have been renamed to <A NAME="_7322"></A><A HREF="5-3.html#_216"
+><B CLASS="cl"
+>transform-position</B
+></A
+> and <A NAME="_7323"></A><A HREF="5-3.html#_217"
+><B CLASS="cl"
+>untransform-position</B
+></A
+>. Compatibility functions will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3CED8D5A1FFA2C0BF57CBCF2C7975E48%2FAffine%20Transformations#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1973"></A><DIV
+><H4
+>Properties of Sheets</H4
+></DIV
+><A NAME="_1974"></A><DIV
+><H4
+>Sheet Protocols</H4
+></DIV
+><A NAME="_1975"></A><DIV
+><H4
+>Ports, Grafts, and Mirrored Sheets</H4
+></DIV
+><A NAME="_1976"></A><DIV
+><H4
+>Text Styles</H4
+><UL
+><LI
+>The macros <A NAME="_7324"></A><A HREF="11-2.html#_589"
+><B CLASS="cl"
+>with-text-style</B
+></A
+>, <A NAME="_7325"></A><A HREF="11-2.html#_591"
+><B CLASS="cl"
+>with-text-family</B
+></A
+>, <A NAME="_7326"></A><A HREF="11-2.html#_592"
+><B CLASS="cl"
+>with-text-face</B
+></A
+>, and <A NAME="_7327"></A><A HREF="11-2.html#_593"
+><B CLASS="cl"
+>with-text-size</B
+></A
+> have been changed to take the <I
+>medium</I
+> argument first and the text style (or family, face, or size) argument second. This was done in order to be consistent with all of the other macros that take a <I
+>medium</I
+> argument as the first argument. Compatibility code will be provided that attempts to detect the old syntax and massages it into the new syntax, although it will probably not be able to detect all cases. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA0AF0F4CEB92B83CA702D00BB27BF36%2FText%20Styles#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>add-text-style-mapping</B
+> has been replaced by <B CLASS="cl"
+>(setf&nbsp;text-style-mapping)</B
+> to be consistent with Common Lisp conventions. A compatibility function will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAD33ED2320ACF2E7CF8FEC54912F13F%2FText%20Styles#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1977"></A><DIV
+><H4
+>Drawing in Color</H4
+><UL
+><LI
+><B CLASS="cl"
+>+foreground+</B
+> and <B CLASS="cl"
+>+background+</B
+> have been renamed to <A NAME="_7332"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+> and <A NAME="_7333"></A><A HREF="13-6.html#_716"
+><B CLASS="cl"
+>+background-ink+</B
+></A
+>, for consistency with <A NAME="_7334"></A><A HREF="13-7.html#_719"
+><B CLASS="cl"
+>+flipping-ink+</B
+></A
+>. Compatibility constants will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=223B5D27B20AF23070D06F2CBD9B8910%2FDrawing%20in%20Color#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>make-color-rgb</B
+> and <B CLASS="cl"
+>make-color-ihs</B
+> have been renamed to <A NAME="_7337"></A><A HREF="13-3.html#_688"
+><B CLASS="cl"
+>make-rgb-color</B
+></A
+> and <A NAME="_7338"></A><A HREF="13-3.html#_689"
+><B CLASS="cl"
+>make-ihs-color</B
+></A
+>, by popular demand. Compatibility functions will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1DEC6F4EA43030B2D931E2E846EB58D9%2FDrawing%20in%20Color#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1978"></A><DIV
+><H4
+>Extended Stream Output</H4
+><UL
+><LI
+><B CLASS="cl"
+>stream-cursor-position*</B
+> and <B CLASS="cl"
+>stream-increment-cursor-position*</B
+> have been renamed to <A NAME="_7341"></A><A HREF="15-3.html#_803"
+><B CLASS="cl"
+>stream-cursor-position</B
+></A
+> and <A NAME="_7342"></A><A HREF="15-3.html#_805"
+><B CLASS="cl"
+>stream-increment-cursor-position</B
+></A
+>. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=285323485484944747E733152FB638BB%2FExtended%20Stream%20Output#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>stream-set-cursor-position*</B
+> has been replaced by <B CLASS="cl"
+>(setf*&nbsp;stream-cursor-position)</B
+> to be consistent with Common Lisp conventions. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6553E9CA930E890F510A57A9AA8B4C74%2FExtended%20Stream%20Output#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>stream-vsp</B
+> has been replace by <A NAME="_7346"></A><A HREF="15-4.html#_812"
+><B CLASS="cl"
+>stream-vertical-spacing</B
+></A
+>. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B877A93920C17AE101EB434AC7F367C7%2FExtended%20Stream%20Output#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The macros <A NAME="_7347"></A><A HREF="15-4.html#_819"
+><B CLASS="cl"
+>with-end-of-line-action</B
+></A
+> and <A NAME="_7348"></A><A HREF="15-4.html#_822"
+><B CLASS="cl"
+>with-end-of-page-action</B
+></A
+> have been changed to take the <I
+>stream</I
+> argument first and the action argument second. This was done in order to be consistent with all of the other macros that take a <I
+>stream</I
+> argument as the first argument. Compatibility code will be provided that attempts to detect the old syntax and massages it into the new syntax, although it will probably not be able to detect all cases.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2D32AC0260E00B5CD1388DA2FFE1FD5%2FExtended%20Stream%20Output#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1979"></A><DIV
+><H4
+>Output Recording</H4
+><UL
+><LI
+>The three protocol classes <A NAME="_7349"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>, <B CLASS="cl"
+>output-record-element</B
+>, and <B CLASS="cl"
+>displayed-output-record-element</B
+> have been replaced by the two classes <A NAME="_7352"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+> and <A NAME="_7353"></A><A HREF="16-2.html#_838"
+><B CLASS="cl"
+>displayed-output-record</B
+></A
+>. The predicates for the classes have been similarly changed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1A45D92EBAD37097E983F33A0FD8DC89%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>output-record-position*</B
+> has been renamed to <A NAME="_7355"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+>. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01C68E557AA5586D3A1773DC3A2A4949%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>output-record-set-position*</B
+> has been replaced by <B CLASS="cl"
+>(setf*&nbsp;output-record-position)</B
+> to be consistent with Common Lisp conventions. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=336CCC1BC6FD759252C08E4606ECA565%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The functions <B CLASS="cl"
+>output-record-start-position*</B
+>, <B CLASS="cl"
+>output-record-set-start-position*</B
+>, <B CLASS="cl"
+>output-record-end-position*</B
+>, <B CLASS="cl"
+>output-record-set-end-position*</B
+> have been replaced by <A NAME="_7362"></A><A HREF="16-2.html#_847"
+><B CLASS="cl"
+>output-record-start-cursor-position</B
+></A
+>, <B CLASS="cl"
+>(setf*&nbsp;output-record-start-cursor-position)</B
+>, <A NAME="_7364"></A><A HREF="16-2.html#_849"
+><B CLASS="cl"
+>output-record-end-cursor-position</B
+></A
+>, <B CLASS="cl"
+>(setf*&nbsp;output-record-end-cursor-position)</B
+> to better reflect their functionality. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E605F4B2982C6F867DCD7864D3FC243C%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>replay-1</B
+> has been renamed to <A NAME="_7367"></A><A HREF="16-2.html#_853"
+><B CLASS="cl"
+>replay-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F7F2AEA046A1008F86E9671AACE9A7A%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>output-record-elements</B
+> and <B CLASS="cl"
+>output-record-element-count</B
+> have been renamed to <A NAME="_7370"></A><A HREF="16-2.html#_859"
+><B CLASS="cl"
+>output-record-children</B
+></A
+> and <A NAME="_7371"></A><A HREF="16-2.html#_863"
+><B CLASS="cl"
+>output-record-count</B
+></A
+>, since the term "element" is no longer used when referring to output records. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0BEDA58E51A14984208574903E7C742%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>add-output-record-element</B
+> and <B CLASS="cl"
+>delete-output-record-element</B
+> have been renamed to <A NAME="_7374"></A><A HREF="16-2.html#_860"
+><B CLASS="cl"
+>add-output-record</B
+></A
+> and <A NAME="_7375"></A><A HREF="16-2.html#_861"
+><B CLASS="cl"
+>delete-output-record</B
+></A
+>, and the argument order has been changed. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FEC542ACD94726C9F3BE673FD08749E7%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>map-over-output-record-elements-containing-point*</B
+> and <B CLASS="cl"
+>map-over-output-record-elements-overlapping-region</B
+> have been renamed to <A NAME="_7378"></A><A HREF="16-2.html#_864"
+><B CLASS="cl"
+>map-over-output-records-containing-position</B
+></A
+> and <A NAME="_7379"></A><A HREF="16-2.html#_865"
+><B CLASS="cl"
+>map-over-output-records-overlapping-region</B
+></A
+>. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4DC586D8A8A885D716596F886F3B194B%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>linear-output-record</B
+> and <B CLASS="cl"
+>coordinate-sorted-set-output-record</B
+> have been renamed to <A NAME="_7382"></A><A HREF="16-3.html#_872"
+><B CLASS="cl"
+>standard-sequence-output-record</B
+></A
+> and <A NAME="_7383"></A><A HREF="16-3.html#_873"
+><B CLASS="cl"
+>standard-tree-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9023432650D41C6978CD5F4E74378D29%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>stream-draw-p</B
+> and <B CLASS="cl"
+>stream-record-p</B
+> and their <B CLASS="cl"
+>setf</B
+> functions have been renamed to <A NAME="_7387"></A><A HREF="16-4.html#_894"
+><B CLASS="cl"
+>stream-drawing-p</B
+></A
+> and <A NAME="_7388"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> to better reflect their functionality. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2110E16D63BB05D4AA864C5B2FF0B3E%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>output-recording-stream-output-record</B
+>, <B CLASS="cl"
+>output-recording-stream-current-output-record-stack</B
+>, and <B CLASS="cl"
+>output-recording-stream-text-output-record</B
+> have been renamed to <A NAME="_7392"></A><A HREF="16-4.html#_896"
+><B CLASS="cl"
+>stream-output-history</B
+></A
+>, <A NAME="_7393"></A><A HREF="16-4.html#_897"
+><B CLASS="cl"
+>stream-current-output-record</B
+></A
+>, and <A NAME="_7394"></A><A HREF="16-4.html#_905"
+><B CLASS="cl"
+>stream-text-output-record</B
+></A
+>. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C38AE2298D1BABEBC7941473B09C9DB%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_7395"></A><A HREF="16-2.html#_860"
+><B CLASS="cl"
+>add-output-record</B
+></A
+> has been renamed to <A NAME="_7396"></A><A HREF="16-4.html#_899"
+><B CLASS="cl"
+>stream-add-output-record</B
+></A
+>. Because of the change to <B CLASS="cl"
+>add-output-record-element</B
+> above, no compatibility function can be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F9AFF00FCAC474201DE935AA5794488%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>close-current-text-output-record</B
+> has been renamed to <A NAME="_7399"></A><A HREF="16-4.html#_906"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></A
+>. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=296743D37CF7B102B159341B8DC5BD70%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>add-string-output-to-output-record</B
+> and <B CLASS="cl"
+>add-character-output-to-output-record</B
+> have been renamed to <A NAME="_7402"></A><A HREF="16-4.html#_908"
+><B CLASS="cl"
+>stream-add-string-output</B
+></A
+> and <A NAME="_7403"></A><A HREF="16-4.html#_907"
+><B CLASS="cl"
+>stream-add-character-output</B
+></A
+>. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=370EEAA7CDBCAD9B3D0141FC0D20B172%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_7404"></A><A HREF="16-4.html#_910"
+><B CLASS="cl"
+>with-output-recording-options</B
+></A
+> has had its <B CLASS="cl"
+>:draw-p</B
+> and <B CLASS="cl"
+>:record-p</B
+> keyword arguments changed to <A NAME="_7407"></A><A HREF="29-4.html#_1676"
+><B CLASS="cl"
+>:draw</B
+></A
+> and <A NAME="_7408"></A><A HREF="29-4.html#_1677"
+><B CLASS="cl"
+>:record</B
+></A
+> to conform to Common Lisp naming conventions. Compatibility code will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8DE32F31AC5781EE43F6F78428F8840F%2FOutput%20Recording#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1980"></A><DIV
+><H4
+>Table Formatting</H4
+><UL
+><LI
+>The <B CLASS="cl"
+>:inter-column-spacing</B
+>, <B CLASS="cl"
+>:inter-row-spacing</B
+>, and <B CLASS="cl"
+>:multiple-columns-inter-column-spacing</B
+> options to <A NAME="_7412"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+> have been renamed to <A NAME="_7413"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+>, <A NAME="_7414"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+>, and <A NAME="_7415"></A><A HREF="17-3.html#_934"
+><B CLASS="cl"
+>:multiple-columns-x-spacing</B
+></A
+> in order to be consistent with the pane options. Compatibility options will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D8FF8413DAD60D2C76AEDB39D097B85%2FTable%20Formatting#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:minimum-width</B
+> and <B CLASS="cl"
+>:minimum-height</B
+> options to <A NAME="_7418"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+> have been renamed to <A NAME="_7419"></A><A HREF="29-3.html#_1607"
+><B CLASS="cl"
+>:min-width</B
+></A
+> and <A NAME="_7420"></A><A HREF="29-3.html#_1610"
+><B CLASS="cl"
+>:min-height</B
+></A
+> in order to be consistent with the pane options. Compatibility options will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2665BCF8173083478C150C54E5A3EE7D%2FTable%20Formatting#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:inter-column-spacing</B
+> and <B CLASS="cl"
+>:inter-row-spacing</B
+> options to <A NAME="_7423"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+> and <A NAME="_7424"></A><A HREF="17-2.html#_927"
+><B CLASS="cl"
+>format-items</B
+></A
+> have been renamed to <A NAME="_7425"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> and <A NAME="_7426"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> in order to be consistent with the pane options. Compatibility options will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5AAE172D3CB63C13F524DFCD63B95068%2FTable%20Formatting#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:no-initial-spacing</B
+> option to <A NAME="_7428"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+> and <A NAME="_7429"></A><A HREF="17-2.html#_927"
+><B CLASS="cl"
+>format-items</B
+></A
+> has been renamed to <A NAME="_7430"></A><A HREF="17-3.html#_966"
+><B CLASS="cl"
+>:initial-spacing</B
+></A
+>, because inverted-sense flags are too hard to keep straight. The default for <B CLASS="cl"
+>:no-initial-spacing</B
+> was <SPAN CLASS="term"
+>true</SPAN
+>, therefore the default for <A NAME="_7433"></A><A HREF="17-3.html#_966"
+><B CLASS="cl"
+>:initial-spacing</B
+></A
+> is <SPAN CLASS="term"
+>false</SPAN
+>. Compatibility options will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CEF90508FFBBF061E0B548A6F7174B2%2FTable%20Formatting#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1981"></A><DIV
+><H4
+>Graph Formatting</H4
+><UL
+><LI
+>The function <B CLASS="cl"
+>format-graph-from-root</B
+> has been renamed to <A NAME="_7436"></A><A HREF="18-1.html#_978"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></A
+>, since it now takes a sequence of root objects, rather than a single root object. The function <B CLASS="cl"
+>format-graph-from-root</B
+> will remain as a compatibility function that takes a single root object.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=45D867ED302DD5B6A42D66DEE34E381B%2FGraph%20Formatting#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1982"></A><DIV
+><H4
+>Incremental Redisplay</H4
+><UL
+><LI
+><B CLASS="cl"
+>redisplay-1</B
+> has been renamed to <A NAME="_7439"></A><A HREF="21-2.html#_1022"
+><B CLASS="cl"
+>redisplay-output-record</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=862AD6BB94F8D6AD52EC6AFEC5102BF9%2FIncremental%20Redisplay#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1983"></A><DIV
+><H4
+>Extended Stream Input</H4
+><UL
+><LI
+><B CLASS="cl"
+>stream-pointer-position*</B
+> has been renamed to <A NAME="_7441"></A><A HREF="22-2.html#_1074"
+><B CLASS="cl"
+>stream-pointer-position</B
+></A
+>. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=354CCC4E9B9BD1D9141D0DD1AA3D8646%2FExtended%20Stream%20Input#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>stream-set-pointer-position*</B
+> has been replaced by <B CLASS="cl"
+>(setf*&nbsp;stream-pointer-position)</B
+> to be consistent with Common Lisp conventions. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7FA5A3F92A653F0093FD1B5841A86477%2FExtended%20Stream%20Input#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>All of the clause arglists for <A NAME="_7444"></A><A HREF="22-5.html#_1121"
+><B CLASS="cl"
+>tracking-pointer</B
+></A
+> are specified with <TT
+>&amp;key</TT
+>, that is, they are named arguments rather than positional ones. This should not cause any problems, except for the one case that the <I
+>character</I
+> argument to the <B CLASS="cl"
+>:keyboard</B
+> clause has been renamed to <I
+>gesture</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E16401C03BFA7A9176F6DCBF74C37E5%2FExtended%20Stream%20Input#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>dragging-output-record</B
+> has been renamed to <A NAME="_7447"></A><A HREF="22-5.html#_1122"
+><B CLASS="cl"
+>drag-output-record</B
+></A
+> to be consistent with our naming conventions. A compatibility function will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF32ECDFC57108C86D540B229CB77FA4%2FExtended%20Stream%20Input#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1984"></A><DIV
+><H4
+>Presentation Types</H4
+><UL
+><LI
+>The argument list for <A NAME="_7448"></A><A HREF="23-4.html#_1192"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></A
+> has been changed to make <I
+>stream</I
+>, <I
+>object</I
+>, and <I
+>type</I
+> be required arguments instead of keyword arguments. This is because it is always necessary to supply those arguments in order for <A NAME="_7449"></A><A HREF="23-4.html#_1192"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></A
+> to work. Compatibility code will be provided to support the old syntax. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=389E9F3FD5F18B6D0C5444FBD3E3E4CD%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:activation-characters</B
+>, <B CLASS="cl"
+>:additional-activation-characters</B
+>, <B CLASS="cl"
+>:blip-characters</B
+>, and <B CLASS="cl"
+>:additional-blip-characters</B
+> keyword arguments to the <A NAME="_7454"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> functions have been renamed to <B CLASS="cl"
+>:activation-gestures</B
+>, <B CLASS="cl"
+>:additional-activation-gestures</B
+>, <B CLASS="cl"
+>:delimiter-gestures</B
+>, and <B CLASS="cl"
+>:additional-delimiter-gestures</B
+>. Compatibility code will be provided to support the old keyword arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=21110C42FA7AF9A6828C06F40FFF520F%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The arglists for presentation translators and their documentation and tester components have been changed to take a single positional <I
+>object</I
+> argument and a list of named (keyword) arguments. Except for translators that omit the <I
+>object</I
+> argument or have it in other than the initial position of the arglist, this will not pose a problem. This change can be detected. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FEE0E4F1E8A7089C3530ACA14E0DF022%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <I
+>frame</I
+> argument to <A NAME="_7459"></A><A HREF="23-7.html#_1237"
+><B CLASS="cl"
+>find-presentation-translators</B
+></A
+> has been changed to be a <I
+>command-table</I
+> argument. A check at run-time can detect when a frame is supplied to <A NAME="_7460"></A><A HREF="23-7.html#_1237"
+><B CLASS="cl"
+>find-presentation-translators</B
+></A
+> instead of a command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BCA6B747BDA88AAE47CA96E440426CC2%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:shift-mask</B
+> keyword argument to <A NAME="_7462"></A><A HREF="23-7.html#_1238"
+><B CLASS="cl"
+>test-presentation-translator</B
+></A
+>, <A NAME="_7463"></A><A HREF="23-7.html#_1239"
+><B CLASS="cl"
+>find-applicable-translators</B
+></A
+>, <A NAME="_7464"></A><A HREF="23-7.html#_1240"
+><B CLASS="cl"
+>presentation-matches-context-type</B
+></A
+>, and <A NAME="_7465"></A><A HREF="23-7.html#_1245"
+><B CLASS="cl"
+>find-innermost-applicable-presentation</B
+></A
+> has been renamed to <A NAME="_7466"></A><A HREF="8-2.html#_332"
+><B CLASS="cl"
+>:modifier-state</B
+></A
+> in order to be consistent with the device event terminology. Compatibility code will be provided to support the old keyword. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F9405460E23D271DE4044CF12E325D56%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_7467"></A><A HREF="22-3.html#_1100"
+><B CLASS="cl"
+>define-gesture-name</B
+></A
+> is completely different from CLIM 1.1. There will be no compatibility code provided to support the old version of <A NAME="_7468"></A><A HREF="22-3.html#_1100"
+><B CLASS="cl"
+>define-gesture-name</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B0173B3B01B63DD5F6A9E38B65655309%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>dialog-view</B
+> and <B CLASS="cl"
+>+dialog-view+</B
+> have been renamed to <A NAME="_7471"></A><A HREF="23-6.html#_1213"
+><B CLASS="cl"
+>textual-dialog-view</B
+></A
+> and <A NAME="_7472"></A><A HREF="23-6.html#_1220"
+><B CLASS="cl"
+>+textual-dialog-view+</B
+></A
+> in order to accurately reflect what they are. Likewise, <B CLASS="cl"
+>menu-view</B
+> and <B CLASS="cl"
+>+menu-view+</B
+> have been renamed to <A NAME="_7475"></A><A HREF="23-6.html#_1212"
+><B CLASS="cl"
+>textual-menu-view</B
+></A
+> and <A NAME="_7476"></A><A HREF="23-6.html#_1219"
+><B CLASS="cl"
+>+textual-menu-view+</B
+></A
+>. Compatibility classes and constants will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6193D15664576AFDF1A6904D70EA11CC%2FPresentation%20Types#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1985"></A><DIV
+><H4
+>Input Editing and Completion Facilities</H4
+><UL
+><LI
+><B CLASS="cl"
+>*activation-characters*</B
+>, <B CLASS="cl"
+>*standard-activation-characters*</B
+>, <B CLASS="cl"
+>with-activation-characters</B
+>, and <B CLASS="cl"
+>activation-character-p</B
+> have been renamed to <A NAME="_7481"></A><A HREF="24-2.html#_1324"
+><B CLASS="cl"
+>*activation-gestures*</B
+></A
+>, <A NAME="_7482"></A><A HREF="24-2.html#_1325"
+><B CLASS="cl"
+>*standard-activation-gestures*</B
+></A
+>, <A NAME="_7483"></A><A HREF="24-2.html#_1326"
+><B CLASS="cl"
+>with-activation-gestures</B
+></A
+>, and <A NAME="_7484"></A><A HREF="24-2.html#_1327"
+><B CLASS="cl"
+>activation-gesture-p</B
+></A
+>. Compatibility functions will remain for <B CLASS="cl"
+>with-activation-characters</B
+> and <B CLASS="cl"
+>activation-character-p</B
+>, but since the variables were not previously documented, no compatibility will be provided for them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FEEEE6A76576B9FEC2600B430467D16F%2FInput%20Editing%20and%20Completion%20Facilities#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>*blip-characters*</B
+>, <B CLASS="cl"
+>with-blip-characters</B
+>, and <B CLASS="cl"
+>blip-character-p</B
+> have been renamed to <A NAME="_7490"></A><A HREF="24-2.html#_1328"
+><B CLASS="cl"
+>*delimiter-gestures*</B
+></A
+>, <A NAME="_7491"></A><A HREF="24-2.html#_1329"
+><B CLASS="cl"
+>with-delimiter-gestures</B
+></A
+>, and <A NAME="_7492"></A><A HREF="24-2.html#_1330"
+><B CLASS="cl"
+>delimiter-gesture-p</B
+></A
+>. Compatibility functions will remain for <B CLASS="cl"
+>with-blip-characters</B
+> and <B CLASS="cl"
+>blip-character-p</B
+>, but since <B CLASS="cl"
+>*blip-characters*</B
+> was not previously documented, no compatibility will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2583D4390342916D1FD92B81B0FECB0B%2FInput%20Editing%20and%20Completion%20Facilities#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>*abort-characters*</B
+> has been renamed to <A NAME="_7497"></A><A HREF="22-2.html#_1087"
+><B CLASS="cl"
+>*abort-gestures*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BEDE7394D1C7CAF6EF314CF7440A4ECD%2FInput%20Editing%20and%20Completion%20Facilities#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>*completion-characters*</B
+>, <B CLASS="cl"
+>*help-characters*</B
+>, and <B CLASS="cl"
+>*possibilities-characters*</B
+> have been renamed to <A NAME="_7501"></A><A HREF="24-5.html#_1343"
+><B CLASS="cl"
+>*completion-gestures*</B
+></A
+>, <A NAME="_7502"></A><A HREF="24-5.html#_1344"
+><B CLASS="cl"
+>*help-gestures*</B
+></A
+>, and <A NAME="_7503"></A><A HREF="24-5.html#_1345"
+><B CLASS="cl"
+>*possibilities-gestures*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3A75F37707D7B6FD0741FAA0F4DDE37%2FInput%20Editing%20and%20Completion%20Facilities#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Input editing streams no longer use the interactive stream class. Instead, interactive streams are defined to be any stream that can potentially support input editing, and the class <A NAME="_7504"></A><A HREF="24-1.html#_1299"
+><B CLASS="cl"
+>input-editing-stream</B
+></A
+> now refers to input editor streams. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6094B51D788E69AC583ED5B1017D5244%2FInput%20Editing%20and%20Completion%20Facilities#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>input-editor-buffer</B
+>, <B CLASS="cl"
+>input-position</B
+>, <B CLASS="cl"
+>insertion-pointer</B
+>, and <B CLASS="cl"
+>rescanning-p</B
+> have been renamed to <A NAME="_7509"></A><A HREF="24-1.html#_1306"
+><B CLASS="cl"
+>stream-input-buffer</B
+></A
+>, <A NAME="_7510"></A><A HREF="24-1.html#_1309"
+><B CLASS="cl"
+>stream-scan-pointer</B
+></A
+>, <A NAME="_7511"></A><A HREF="24-1.html#_1307"
+><B CLASS="cl"
+>stream-insertion-pointer</B
+></A
+>, and <A NAME="_7512"></A><A HREF="24-1.html#_1311"
+><B CLASS="cl"
+>stream-rescanning-p</B
+></A
+>. Compatibility functions will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DD32D7DE438D9F6EC6B95EBEAE3C290%2FInput%20Editing%20and%20Completion%20Facilities#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1986"></A><DIV
+><H4
+>Menus</H4
+><UL
+><LI
+>The <B CLASS="cl"
+>:inter-column-spacing</B
+> and <B CLASS="cl"
+>:inter-row-spacing</B
+> options to <A NAME="_7515"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+> have been renamed to <A NAME="_7516"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> and <A NAME="_7517"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> in order to be consistent with the pane options. Compatibility options will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA6A8F0310BCCFB0BBCC1A613D9E189B%2FMenus#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1987"></A><DIV
+><H4
+>Command Processing</H4
+><UL
+><LI
+>The variable <B CLASS="cl"
+>*unsupplied-argument*</B
+> has been renamed to <A NAME="_7519"></A><A HREF="27-6.html#_1448"
+><B CLASS="cl"
+>*unsupplied-argument-marker*</B
+></A
+> in keeping with its functionality, and to match the new <A NAME="_7520"></A><A HREF="27-6.html#_1449"
+><B CLASS="cl"
+>*numeric-argument-marker*</B
+></A
+>. <B CLASS="cl"
+>*unsupplied-argument*</B
+> will be retained, but its use is deprecated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D1AE402B43C1A20EC2F804979969101F%2FCommand%20Processing#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:inter-column-spacing</B
+> and <B CLASS="cl"
+>:inter-row-spacing</B
+> options to <A NAME="_7524"></A><A HREF="27-3.html#_1421"
+><B CLASS="cl"
+>display-command-table-menu</B
+></A
+> have been renamed to <A NAME="_7525"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> and <A NAME="_7526"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> in order to be consistent with the pane options. Compatibility options will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5FAE32F215598D205543BA18A83BA978%2FCommand%20Processing#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <A NAME="_7527"></A><A HREF="30-4.html#_1850"
+><B CLASS="cl"
+>:test</B
+></A
+> argument to the following functions has been removed, since the use of gesture names makes it unnecessary: <A NAME="_7528"></A><A HREF="27-2.html#_1400"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></A
+>, <B CLASS="cl"
+>(add-keystroke-to-command-table</B
+>, and <A NAME="_7530"></A><A HREF="27-4.html#_1425"
+><B CLASS="cl"
+>remove-keystroke-from-command-table</B
+></A
+>. The <B CLASS="cl"
+>:keystroke-test</B
+> argument has been removed from <A NAME="_7532"></A><A HREF="27-6.html#_1437"
+><B CLASS="cl"
+>read-command</B
+></A
+> and <A NAME="_7533"></A><A HREF="27-6.html#_1439"
+><B CLASS="cl"
+>read-command-using-keystrokes</B
+></A
+> for the same reason.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF79EB288FF496CB958619B7CFC17B79%2FCommand%20Processing#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1988"></A><DIV
+><H4
+>Application Frames</H4
+><UL
+><LI
+>The <B CLASS="cl"
+>:root</B
+> argument has been removed from <A NAME="_7535"></A><A HREF="29-4.html#_1698"
+><B CLASS="cl"
+>open-window-stream</B
+></A
+> and <A NAME="_7536"></A><A HREF="28-2.html#_1481"
+><B CLASS="cl"
+>make-application-frame</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3600F470134CEA3C48EE821421F42F8B%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:layout</B
+> option has been removed, and is replaced by the more general <B CLASS="cl"
+>:layouts</B
+> option. A compatibility hook will be provided that handles the old <B CLASS="cl"
+>:layout</B
+> option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1A8B780C8ED1572568BB823B9743946F%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>set-frame-layout</B
+> has been replaced by <B CLASS="cl"
+>(setf&nbsp;frame-current-layout)</B
+> to be consistent with Common Lisp conventions. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9149604721CB6F8B1D933907246510F6%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The function <B CLASS="cl"
+>frame-top-level-window</B
+> has been renamed to <A NAME="_7543"></A><A HREF="28-3.html#_1505"
+><B CLASS="cl"
+>frame-top-level-sheet</B
+></A
+>. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7890CC2E80572F76F49F36472B90430F%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>command-enabled-p</B
+>, <B CLASS="cl"
+>enable-command</B
+>, and <B CLASS="cl"
+>disable-command</B
+> have been replaced by <A NAME="_7547"></A><A HREF="28-4.html#_1537"
+><B CLASS="cl"
+>command-enabled</B
+></A
+> and <B CLASS="cl"
+>(setf&nbsp;command-enabled)</B
+>. Compatibility functions will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3B9B63FD56583682C00E5BC0C6F3338%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>window-viewport-position*</B
+> has been renamed to <A NAME="_7550"></A><A HREF="29-4.html#_1695"
+><B CLASS="cl"
+>window-viewport-position</B
+></A
+>. A compatibility function will be provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9072357276D908C4848A5341C2457CB%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>window-set-viewport-position*</B
+> has been replaced by (setf*&nbsp;window-viewport-position). A compatibility function will be provided.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32E2C7B7B069F842565CA34DF9412B7D%2FApplication%20Frames#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_1989"></A><DIV
+><H4
+>Panes</H4
+><UL
+><LI
+><B CLASS="cl"
+>realize-pane</B
+> and <B CLASS="cl"
+>realize-pane-1</B
+> have been renamed to <A NAME="_7554"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> and <A NAME="_7555"></A><A HREF="29-2.html#_1589"
+><B CLASS="cl"
+>make-pane-1</B
+></A
+>. A compatibility function will be provided for <B CLASS="cl"
+>realize-pane</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C2A49233DA7238889C3F5C42B049B8B%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The pane options <B CLASS="cl"
+>:hs</B
+>, <B CLASS="cl"
+>:hs+</B
+>, <B CLASS="cl"
+>:hs-</B
+>, <B CLASS="cl"
+>:vs</B
+>, <B CLASS="cl"
+>:vs+</B
+>, and <B CLASS="cl"
+>:vs-</B
+> have been replaced by the options <A NAME="_7563"></A><A HREF="29-3.html#_1605"
+><B CLASS="cl"
+>:width</B
+></A
+>, <A NAME="_7564"></A><A HREF="29-3.html#_1606"
+><B CLASS="cl"
+>:max-width</B
+></A
+>, <A NAME="_7565"></A><A HREF="29-3.html#_1607"
+><B CLASS="cl"
+>:min-width</B
+></A
+>, <A NAME="_7566"></A><A HREF="29-3.html#_1608"
+><B CLASS="cl"
+>:height</B
+></A
+>, <A NAME="_7567"></A><A HREF="29-3.html#_1609"
+><B CLASS="cl"
+>:max-height</B
+></A
+>, and <A NAME="_7568"></A><A HREF="29-3.html#_1610"
+><B CLASS="cl"
+>:min-height</B
+></A
+> to be more perspicuous, and to conform the the same options for the formatted output facilities. Compatibility options will be supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5AC45342D9C3F607C2D0922271246995%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:nchars</B
+> and <A NAME="_7570"></A><A HREF="30-4.html#_1861"
+><B CLASS="cl"
+>:nlines</B
+></A
+> pane options have been removed in favor of an extended syntax to the <A NAME="_7571"></A><A HREF="29-3.html#_1605"
+><B CLASS="cl"
+>:width</B
+></A
+> and <A NAME="_7572"></A><A HREF="29-3.html#_1608"
+><B CLASS="cl"
+>:height</B
+></A
+> options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07BD4F10EA5F475F14CFF10F3D28A2CE%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The pane layout options <B CLASS="cl"
+>:halign</B
+> and <B CLASS="cl"
+>:valign</B
+> have been renamed to <A NAME="_7575"></A><A HREF="30-3.html#_1748"
+><B CLASS="cl"
+>:align-x</B
+></A
+> and <A NAME="_7576"></A><A HREF="30-3.html#_1749"
+><B CLASS="cl"
+>:align-y</B
+></A
+> to conform with table formatting. Compatibility options will be supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=962071B394B3C4F76A8980A973FF7248%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The pane layout options <B CLASS="cl"
+>:hspace</B
+> and <B CLASS="cl"
+>:vspace</B
+> have been renamed to <A NAME="_7579"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> and <A NAME="_7580"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> to conform with table formatting. Compatibility options will be supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B2FAD9BB80D54F405A56CDA2FEAB9DB%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The term "space req" has been renamed to "space requirement". All of the functions with <B CLASS="cl"
+>space-req</B
+> in their names have been renamed to have <A NAME="_7582"></A><A HREF="29-3.html#_1648"
+><B CLASS="cl"
+>space-requirement</B
+></A
+> instead. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1C8B0B589CC56679125F0A9881AE6BC6%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_7583"></A><A HREF="29-3.html#_1649"
+><B CLASS="cl"
+>make-space-requirement</B
+></A
+> no longer takes the <B CLASS="cl"
+>:hs</B
+> and <B CLASS="cl"
+>:vs</B
+> arguments, <I
+>et al</I
+>. It now takes <A NAME="_7586"></A><A HREF="29-3.html#_1605"
+><B CLASS="cl"
+>:width</B
+></A
+> and <A NAME="_7587"></A><A HREF="29-3.html#_1608"
+><B CLASS="cl"
+>:height</B
+></A
+>, <I
+>et al</I
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7451CBA8C55DC9F30BA9A38AE5D780C2%2FPanes#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/F.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

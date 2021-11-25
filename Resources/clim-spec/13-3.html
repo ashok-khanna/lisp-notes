@@ -1,0 +1,1527 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 13.3 Color</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="13.2 Basic Designs" HREF="13-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13.4 Opacity" HREF="13-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="13 Drawing in Color" HREF="13.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="13-2.html"
+>Prev</A
+><BR
+><A HREF="13-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="13.html"
+>13&nbsp;Drawing&nbsp;in&nbsp;Color</A
+><BR
+>&rarr;&nbsp;<A HREF="13-3.html"
+><B
+>13.3&nbsp;Color</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_685"></A><DIV
+><H3
+>13.3 Color</H3
+><LI CLASS="outline_item"
+><A HREF="13-3.html#_693"
+>13.3.1 Standard Color Names and Constants</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="13-3.html#_703"
+>13.3.2 Contrasting Colors</A
+></LI
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_686"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>color</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A member of the class <B CLASS="cl"
+>color</B
+> is a completely opaque design that represents the intuitive definition of color: white, black, red, pale yellow, and so forth. The visual appearance of a single point is completely described by its color. Drawing a color sets the color of every point in the drawing plane to that color, and sets the opacity to 1. The <B CLASS="cl"
+>color</B
+> class is the protocol class for a color, and is a subclass of <A NAME="_3310"></A><A HREF="13-2.html#_675"
+><B CLASS="cl"
+>design</B
+></A
+>. If you want to create a new class that behaves like a color, it should be a subclass of <B CLASS="cl"
+>color</B
+>. All instantiable subclasses of <B CLASS="cl"
+>color</B
+> must obey the color protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=31BCAD0ED029DA6067B71883B72D0ED5%2Fcolor%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the standard instantiable color classes provided by CLIM are immutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=670976588822D8BE50108310C18040D4%2Fcolor%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A color can be specified by three real numbers between 0 and 1 (inclusive), giving the amounts of red, green, and blue. Three 0's mean black; three 1's mean white. The intensity-hue-saturation color model is also supported, but the red-green-blue color model is the primary model we will use in the specification. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49944373D03306C5E3B5D9D5A82507D9%2Fcolor%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=647E7809C1AD6C02504F9FB99A73C70B%2Fcolor%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="13-3.html#_3318"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3 Color, <B CLASS="cl"
+><B CLASS="cl"
+>make-gray-color</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-3.html#_3317"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3 Color, <B CLASS="cl"
+><B CLASS="cl"
+>make-ihs-color</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-3.html#_3316"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3 Color, <B CLASS="cl"
+><B CLASS="cl"
+>make-rgb-color</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="2-4.html#_2044"
+><SPAN CLASS="reverselink"
+>[&larr; 2.4 Immutability of Objects]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_687"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>colorp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>color</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=312E106064767FF45E40CF20A5771576%2Fcolorp%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The following functions create colors. These functions produce objects that have equivalent effects; the only difference is in how the color components are specified. The resulting objects are indistinguishable when drawn. Whether these functions use the specified values exactly or approximate them because of limited color resolution is unspecified. Whether these functions create a new object or return an existing object with equivalent color component values is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4DA3F0CFCCB71C1BD4998E31E12B94E%2Fcolorp%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=634ABF3CD67A44D188B81AC8991EFE1C%2Fcolorp%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_688"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-rgb-color</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>red green blue</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a member of class <A NAME="_3316"></A><A HREF="13-3.html#_686"
+><B CLASS="cl"
+>color</B
+></A
+>. The <I
+>red</I
+>, <I
+>green</I
+>, and <I
+>blue</I
+> arguments are real numbers between 0 and 1 (inclusive) that specify the values of the corresponding color components. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A05C793885F0ABFBB02D22FA2E896F6%2Fmake-rgb-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B4E14ED996BA3D952A72D838D57C3AF%2Fmake-rgb-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7337"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="2-4.html#_2045"
+><SPAN CLASS="reverselink"
+>[&larr; 2.4 Immutability of Objects]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_689"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-ihs-color</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>intensity hue saturation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a member of class <A NAME="_3317"></A><A HREF="13-3.html#_686"
+><B CLASS="cl"
+>color</B
+></A
+>. The <I
+>intensity</I
+> argument is a real number between 0 and <I
+>sqrt(<SPAN
+>3</SPAN
+>)</I
+> (inclusive). The <I
+>hue</I
+> and <I
+>saturation</I
+> arguments are real numbers between 0 and 1 (inclusive). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C738FE4B5B03E15FEB46FF3EE48AA980%2Fmake-ihs-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3EA54F745F8644F1A9B8DCE2AF764D84%2Fmake-ihs-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7338"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_690"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-gray-color</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>luminance</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a member of class <A NAME="_3318"></A><A HREF="13-3.html#_686"
+><B CLASS="cl"
+>color</B
+></A
+>. <I
+>luminance</I
+> is a real number between 0 and 1 (inclusive). On a black-on-white display device, 0 means black, 1 means white, and the values in between are shades of gray. On a white-on-black display device, 0 means white, 1 means black, and the values in between are shades of gray. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE139B9D95DAEE1EA57BB4E0FAE5B94C%2Fmake-gray-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The following two functions comprise the color protocol. Both of them return the components of a color. All subclasses of <A NAME="_3319"></A><A HREF="13-3.html#_686"
+><B CLASS="cl"
+>color</B
+></A
+> must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F14756361CEE5E011E13ACADB1A7ECED%2Fmake-gray-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD1E70F24B58B6F3A404CF2DA417E090%2Fmake-gray-color%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_691"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>color-rgb</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>color</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns three values, the <I
+>red</I
+>, <I
+>green</I
+>, and <I
+>blue</I
+> components of the <SPAN CLASS="term"
+>color</SPAN
+> <I
+>color</I
+>. The values are real numbers between 0 and 1 (inclusive). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7EA4E0A733B1AD79E0F379CDD53AAD0%2Fcolor-rgb%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC766E1CDDE6DF42D6FBDFC50A73F9C1%2Fcolor-rgb%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_692"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>color-ihs</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>color</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns three values, the <I
+>intensity</I
+>, <I
+>hue</I
+>, and <I
+>saturation</I
+> components of the <SPAN CLASS="term"
+>color</SPAN
+> <I
+>color</I
+>. The first value is a real number between 0 andn <I
+>sqrt(<SPAN
+>3</SPAN
+>)</I
+> (inclusive). The second and third values are real numbers between 0 and 1 (inclusive). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2BDD25C87B0941E729B978D34D04DAC%2Fcolor-ihs%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80C39AF52152CB64A71D6038B2AFDB27%2Fcolor-ihs%2F13.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_693"></A><DIV
+><H4
+>13.3.1 Standard Color Names and Constants</H4
+><P
+>Table&nbsp;<A NAME="_3322"></A><A HREF="13-3.html#_694"
+>13.1</A
+> lists the commonly provided color names that can be looked up with <B CLASS="cl"
+>find-named-color</B
+>. Application programs can define other colors; these are provided because they are commonly used in the X Windows community, not because there is anything special about these particular colors. This table is a subset of the color listed in the file <B CLASS="cl"
+>/X11/R4/mit/rgb/rgb.txt</B
+>, from the X11 R4 distribution. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01C5A08D56FF605E22A763086AA24B78%2F13.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="table"
+><HR
+></HR
+><P
+><TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> alice-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> antique-white </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> aquamarine </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> azure </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> beige </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> bisque </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> black </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> blanched-almond </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> blue </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> blue-violet </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> brown </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> burlywood </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> cadet-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> chartreuse </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> chocolate </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> coral </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> cornflower-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> cornsilk </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> cyan </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-goldenrod </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-green </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-khaki </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-olive-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-orange </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-orchid </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-salmon </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-sea-green </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-slate-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-slate-gray </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-turquoise </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dark-violet </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> deep-pink </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> deep-sky-blue </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dim-gray </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> dodger-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> firebrick </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> floral-white </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> forest-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> gainsboro </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> ghost-white </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> gold </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> goldenrod </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> gray </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> green-yellow </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> honeydew </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> hot-pink </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> indian-red </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> ivory </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> khaki </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> lavender </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> lavender-blush </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> lawn-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> lemon-chiffon </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-coral </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-cyan </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-goldenrod </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-goldenrod-yellow </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-gray </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-pink </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-salmon </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-sea-green </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-sky-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-slate-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-slate-gray </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-steel-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> light-yellow </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> lime-green </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> linen </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> magenta </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> maroon </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-aquamarine </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-orchid </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-purple </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-sea-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-slate-blue </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-spring-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-turquoise </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> medium-violet-red </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> midnight-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> mint-cream </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> misty-rose </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> moccasin </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> navajo-white </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> navy-blue </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> old-lace </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> olive-drab </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> orange </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> orange-red </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> orchid </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> pale-goldenrod </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> pale-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> pale-turquoise </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> pale-violet-red </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> papaya-whip </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> peach-puff </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> peru </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> pink </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> plum </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> powder-blue </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> purple </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> red </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> rosy-brown </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> royal-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> saddle-brown </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> salmon </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> sandy-brown </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> sea-green </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> seashell </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> sienna </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> sky-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> slate-blue </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> slate-gray </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> snow </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> spring-green </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> steel-blue </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> tan </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> thistle </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> tomato </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> turquoise </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> violet </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> violet-red </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> wheat </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> white </B
+></TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> white-smoke </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> yellow </B
+></TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+> yellow-green </B
+></TD
+></TR
+></TABLE
+>    <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB8D4F5AFE2BE7C4BB617BE33AF7F13E%2F13.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><HR
+></HR
+><BR
+><DIV CLASS="caption"
+>Table 13.1:  Standard color names.</DIV
+></DIV
+><P
+>In addition, the following color constants are provided. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C864273BC2C29FBE075E6C75509161C7%2F13.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_695"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+red+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_696"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+green+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_697"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+blue+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_698"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+cyan+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_699"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+magenta+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_700"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+yellow+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_701"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+black+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_702"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+white+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Constants corresponding to the usual definitions of red, green, blue, cyan, magenta, yellow, black, and white. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=99B0EDC0E874FF394CD08562656182AF%2F%2Bred%2B%2F13.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAE4B9336A02F3F7506A723A8CD75DA4%2F%2Bred%2B%2F13.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_703"></A><DIV
+><H4
+>13.3.2 Contrasting Colors</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_704"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-contrasting-inks</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>n </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>k</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>k</I
+> is not supplied, this returns a vector of <I
+>n</I
+> designs with recognizably different appearance. Elements of the vector are guaranteed to be acceptable values for the <A NAME="_3454"></A><A HREF="10-2.html#_527"
+><B CLASS="cl"
+>:ink</B
+></A
+> argument to the drawing functions, and will not include <A NAME="_3455"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+>, <A NAME="_3456"></A><A HREF="13-6.html#_716"
+><B CLASS="cl"
+>+background-ink+</B
+></A
+>, or <A NAME="_3457"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. Their class is otherwise unspecified. The vector is a fresh object that may be modified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A2868F062C6A2BD0FD135501591DA8D%2Fmake-contrasting-inks%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>k</I
+> is supplied, it must be an integer between 0 and <I
+><I
+>n</I
+>&nbsp;-&nbsp;<SPAN
+>1</SPAN
+></I
+> (inclusive), in which case <B CLASS="cl"
+>make-contrasting-inks</B
+> returns the <I
+>k</I
+>'th design rather than returning a vector of designs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B5386CEE27A26C4D41C1FAC5711D1EF%2Fmake-contrasting-inks%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the implementation does not have <I
+>n</I
+> different contrasting inks, <B CLASS="cl"
+>make-contrasting-inks</B
+> signals an error. This will not happen unless <I
+>n</I
+> is greater than eight. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=580A1E409BE59F006B5C46EBB710F1FF%2Fmake-contrasting-inks%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The rendering of the design may be a color or a stippled pattern, depending on whether the output medium supports color. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B927168E83118F2D95BB21399191657%2Fmake-contrasting-inks%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E750AD6142A16634996DDD63CA8477A%2Fmake-contrasting-inks%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_705"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>contrasting-inks-limit</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the number of contrasting colors (or stipple patterns if <I
+>port</I
+> is monochrome or grayscale) that can be rendered on any medium on the <A NAME="_3460"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. Implementations are encouraged to make this as large as possible, but it must be at least 8. All classes that obey the medium protocol must implement a method for this generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=654C5884890892BE70A377017085116F%2Fcontrasting-inks-limit%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F863F00682E2C6B355AE98A0B168C54%2Fcontrasting-inks-limit%2F13.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

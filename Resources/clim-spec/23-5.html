@@ -1,0 +1,1775 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.5 Context-dependent (Typed) Input</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23.4 Typed Output" HREF="23-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.6 Views" HREF="23-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23-4.html"
+>Prev</A
+><BR
+><A HREF="23-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-5.html"
+><B
+>23.5&nbsp;Context-dependent&nbsp;(Typed)&nbsp;Input</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1196"></A><DIV
+><H3
+>23.5 Context-dependent (Typed) Input</H3
+><DIV
+><P
+>Associating semantics with output is only half of the user interface equation. The presentation type system also supports the input side of the user interaction. When an application wishes to solicit from the user input of a particular presentation type, it establishes an <A NAME="_1197"></A><SPAN CLASS="concept"
+>input context</SPAN
+> for that type. CLIM will then automatically allow the user to satisfy the input request by pointing at a visible presentation of the requested type (or a valid subtype) and pressing a pointer button. Only the presentations that "match" the input context will be "sensitive" (that is, highlighted when the pointer is moved over them) and accepted as input, thus the presentation-based input mechanism supports <A NAME="_1198"></A><SPAN CLASS="concept"
+>context-dependent input</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69856104501627D8500B72E96EC35369%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6994"
+><SPAN CLASS="reverselink"
+>[input context, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6944"
+><SPAN CLASS="reverselink"
+>[input context, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6870"
+><SPAN CLASS="reverselink"
+>[input context, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+><B
+>Minor issue: </B
+> <I
+>What exactly is an input context? What does it mean for them to be nested? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C2FAE76C2AC0FBC0E2B961244BEBB7B%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1199"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*input-context*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The current input context. This will be a list, each element of which corresponds to a single call to <A NAME="_4932"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+>. The first element of the list represents the context established by the most recent call to <A NAME="_4933"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+>, and the last element represents the context established by the least recent call to <A NAME="_4934"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42E6206E71F16B3E2451DF9CF667CA27%2F%2Ainput-context%2A%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The exact format of the elements in the list is unspecified, but will typically be a list of a presentation type and a tag that corresponds to the point in the control structure of CLIM at which the input context was establish. <B CLASS="cl"
+>*input-context*</B
+> and the elements in it may have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0ADC6366CDEAC70644599735BBF06D16%2F%2Ainput-context%2A%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62B81D1EC8B50CAD295705CE7909B78C%2F%2Ainput-context%2A%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6359"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>run-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6328"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3.1 Interface with Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>frame-input-context-button-press-handler</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5211"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5111"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4938"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-context</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4936"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>input-context-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1200"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>input-context-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>context-entry</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given one element from <A NAME="_4936"></A><A HREF="23-5.html#_1199"
+><B CLASS="cl"
+>*input-context*</B
+></A
+>, <I
+>context-entry</I
+>, returns the presentation type of the context entry. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F2BCE9730A828860D58EDBE317C107DF%2Finput-context-type%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B4D7DDEE5BC3825804C075F53466CC9%2Finput-context-type%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1201"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-input-context</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(type </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>override)  (</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>object-var type-var event-var options-var)  form  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>pointer-cases</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes an input context of <A NAME="_4937"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+>; this must be done by binding <A NAME="_4938"></A><A HREF="23-5.html#_1199"
+><B CLASS="cl"
+>*input-context*</B
+></A
+> to reflect the new input context. When the boolean <I
+>override</I
+> is <SPAN CLASS="term"
+>false</SPAN
+> (the default), this invocation of <B CLASS="cl"
+>with-input-context</B
+> adds its context presentation type to the current context. In this way an application can solicit more than one type of input at the same time. When <I
+>override</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, it overrides the current input context rather than nesting inside the current input context. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D73A7B53C1204CF20CAA3AA90C926225%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+> can be a presentation type abbreviation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB5B65984AEEEE9D3FAF0CAA4B6705A3%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>After establishing the new input context, <I
+>form</I
+> is evaluated. If no pointer gestures are made by the user during the evaluation of <I
+>form</I
+>, the values of <I
+>form</I
+> are returned. Otherwise, one of the <I
+>pointer-cases</I
+> is executed (based on the presentation type of the object that was clicked on) and the value of that is returned. (See the descriptions of <A NAME="_4942"></A><A HREF="23-7.html#_1243"
+><B CLASS="cl"
+>call-presentation-menu</B
+></A
+> and <A NAME="_4943"></A><A HREF="23-7.html#_1246"
+><B CLASS="cl"
+>throw-highlighted-presentation</B
+></A
+>.) <I
+>pointer-cases</I
+> is constructed like a <B CLASS="cl"
+>typecase</B
+> statement clause list whose keys are presentation types; the first clause whose key satisfies the condition <B CLASS="cl"
+>(presentation-subtypep </B
+><B CLASS="cl"
+><I
+>type</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>key</I
+></B
+><B CLASS="cl"
+>)</B
+> is the one that is chosen. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EBBFFB5A92FDD9E9F12F8BB286450F94%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>During the execution of one of the <I
+>pointer-cases</I
+>, <I
+>object-var</I
+> is bound to the object that was clicked on (the first returned value from the presentation translator that was invoked), <I
+>type-var</I
+> is bound to its presentation type (the second returned value from the translator), and <I
+>event-var</I
+> is bound to the pointer button event that was used. <I
+>options-var</I
+> is bound to any options that a presentation translator might have returned (the third value from the translator), and will be either <A NAME="_4950"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or a list of keyword-value pairs. <I
+>object-var</I
+>, <I
+>type-var</I
+>, <I
+>event-var</I
+>, and <I
+>options-var</I
+> must all be symbols. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD1A210878908A0263073718CE8B3202%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+>, <I
+>stream</I
+>, and <I
+>override</I
+> are evaluated, the others are not. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F1E7B8D2C8BC70ED0A73A728BB02490%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z61"
+></A
+>stream? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F1E7B8D2C8BC70ED0A73A728BB02490%2Fwith-input-context%2F23.5&amp;editp=t&amp;id=Z61#Z61"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Tim Moore 2003-07-11 06:48Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>For example,  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=17273C9AB9C7FEC6143A77D2BAC7D1BE%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(with-input-context ('pathname)&#10;                    (path)&#10;     (read)&#10;   (pathname&#10;     (format t "~&amp;The pathname ~A was clicked on." path)))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75915339CB16C7B34F2B499F235ACE06%2Fwith-input-context%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5221"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5208"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5207"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>throw-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5196"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>call-presentation-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4982"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4932"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>*input-context*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1202"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>stream view  default default-type provide-default  insert-default replace-input history active-p  prompt prompt-mode display-default query-identifier  activation-gestures additional-activation-gestures  delimiter-gestures additional-delimiter-gestures</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Requests input of type <I
+>type</I
+> from the <SPAN CLASS="term"
+>stream</SPAN
+> <I
+>stream</I
+>, which defaults to <B CLASS="cl"
+>*standard-input*</B
+>. <B CLASS="cl"
+>accept</B
+> returns two values, the object representing the input and its presentation type. <I
+>type</I
+> is a presentation type specifier, and can be an abbreviation. The other arguments and overall behavior of <B CLASS="cl"
+>accept</B
+> are as for <A NAME="_4955"></A><A HREF="23-5.html#_1204"
+><B CLASS="cl"
+>accept-1</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01E92D911BFF4C2F7678584F5B0E841F%2Faccept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>accept</B
+> must be implemented by first expanding any presentation type abbreviations (<I
+>type</I
+>, <I
+>default-type</I
+>, and <I
+>history</I
+>), handling the interactions between the default, default type, and presentation history, prompting the user by calling <A NAME="_4957"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+>, and then calling <A NAME="_4958"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> on <I
+>stream</I
+>, <I
+>type</I
+>, and the remaining keyword arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5050AD54F9C8EFA088704D9A9AC66F44%2Faccept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=880D4D41B4EC74B693B6E07E52024DDF%2Faccept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1162"
+><SPAN CLASS="forwardlink"
+>[&rarr; accept, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7454"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="C.html#_7092"
+><SPAN CLASS="reverselink"
+>[&larr; C Encapsulating Streams]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6106"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command-or-form</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6084"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6064"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5816"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5673"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5579"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>with-accept-help</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5507"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>*help-gestures*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5465"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures, <B CLASS="cl"
+><B CLASS="cl"
+>with-delimiter-gestures</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5453"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures, <B CLASS="cl"
+><B CLASS="cl"
+>with-activation-gestures</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5442"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5409"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-scan-pointer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5396"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5389"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>input-editor-format</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5349"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5340"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.8 Compound Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>type-or-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5335"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.7 "Meta" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>and</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5311"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.7 "Meta" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>or</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5308"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.6 Sequence Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>sequence-enumerated</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5302"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.6 Sequence Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>sequence</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5272"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.5 "One-of" and "Some-of" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>completion</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5265"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.4 Pathname Presentation Type, <B CLASS="cl"
+><B CLASS="cl"
+>pathname</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5117"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5084"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>stream-default-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5055"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5049"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5033"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5029"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-from-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4983"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4960"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>stream-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4926"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4810"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4742"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4735"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-generic-function</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4691"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-3.html#_4513"
+><SPAN CLASS="reverselink"
+>[&larr; 22.3.1 Standard Gesture Names]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1203"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-accept</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>view  default default-type provide-default  insert-default replace-input history active-p  prompt prompt-mode display-default query-identifier  activation-gestures additional-activation-gestures  delimiter-gestures additional-delimiter-gestures</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>stream-accept</B
+> is the per-stream implementation of <A NAME="_4960"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>, analogous to the relationship between <B CLASS="cl"
+>read-char</B
+> and <A NAME="_4962"></A><A HREF="D-3.html#_1941"
+><B CLASS="cl"
+>stream-read-char</B
+></A
+>. All extended input streams must implement a method for <B CLASS="cl"
+>stream-accept</B
+>. The default method (on <A NAME="_4964"></A><A HREF="22-2.html#_1070"
+><B CLASS="cl"
+>standard-extended-input-stream</B
+></A
+>) simply calls <A NAME="_4965"></A><A HREF="23-5.html#_1204"
+><B CLASS="cl"
+>accept-1</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6D9F5A5A68F9FBAEEAEDA50566BC092D%2Fstream-accept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The arguments and overall behavior of <B CLASS="cl"
+>stream-accept</B
+> are as for <A NAME="_4967"></A><A HREF="23-5.html#_1204"
+><B CLASS="cl"
+>accept-1</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2FC270909928465F1973E376444BFE74%2Fstream-accept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Rationale:</B
+> the reason <A NAME="_4968"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> is specified as a three-function "trampoline" is to allow close tailoring of the behavior of <A NAME="_4969"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A NAME="_4970"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> itself is the function that should be called by application programmers. CLIM implementors will specialize <B CLASS="cl"
+>stream-accept</B
+> on a per-stream basis. (For example, the behavior of <A NAME="_4972"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> can be implemented by creating a special class of stream that turns calls to <A NAME="_4973"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> into fields of a dialog.) <A NAME="_4974"></A><A HREF="23-5.html#_1204"
+><B CLASS="cl"
+>accept-1</B
+></A
+> is provided as a convenient function for the <B CLASS="cl"
+>stream-accept</B
+> methods to call when they require the default behavior. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=029E5014E32E4E14ED6BF5FBD0295BD4%2Fstream-accept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23681A33BF1168CD9B8C353BC727D60F%2Fstream-accept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="C-1.html#_7117"
+><SPAN CLASS="reverselink"
+>[&larr; C.1.2 The "Delegation Problem"]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5395"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4958"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1204"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept-1</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>view  default default-type provide-default  insert-default replace-input history active-p  prompt prompt-mode display-default query-identifier  activation-gestures additional-activation-gestures  delimiter-gestures additional-delimiter-gestures</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Requests input of type <I
+>type</I
+> from the <SPAN CLASS="term"
+>stream</SPAN
+> <I
+>stream</I
+>. <I
+>type</I
+> must be a presentation type specifier. <I
+>view</I
+> is a view object that defaults to <A NAME="_4977"></A><A HREF="23-6.html#_1225"
+><B CLASS="cl"
+>stream-default-view</B
+></A
+> of <I
+>stream</I
+>. <B CLASS="cl"
+>accept-1</B
+> returns two values, the object representing the input and its presentation type. (If <A NAME="_4979"></A><A HREF="28-3.html#_1525"
+><B CLASS="cl"
+>frame-maintain-presentation-histories</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+> for the current frame, then the returned object is also pushed on to the presentation history for that object.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE66FB53538A0BB71BF8B553C48387C2%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z151"
+></A
+>Doesn't it mean "presentation history for that presentation type"? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE66FB53538A0BB71BF8B553C48387C2%2Faccept-1%2F23.5&amp;editp=t&amp;id=Z151#Z151"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Athas "Troels" Henriksen 2006-11-26 22:42Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>accept-1</B
+> establishes an input context via <A NAME="_4982"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+>, and then calls the <A NAME="_4983"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation method for <I
+>type</I
+> and <I
+>view</I
+>. When called on an interactive stream, <A NAME="_4984"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> must allow input editing; see Chapter&nbsp;<A NAME="_4985"></A><A HREF="24.html#_1296"
+>24</A
+> for a discussion of input editing. The call to <A NAME="_4986"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> will be terminated when the <A NAME="_4987"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> method returns, or the user clicks on a sensitive presentation. The typing of an activation and delimiter character is typically one way in which a call to an <A NAME="_4988"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> method is terminated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB239A872491FA4EE1CC8C5A39275DD1%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A top-level <A NAME="_4989"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> satisfied by keyboard input discards the terminating keyboard gesture (which will be either a delimiter or an activation gesture). A nested call to <A NAME="_4990"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> leaves the terminating gesture unread. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A011C3980A5BCD30B786DA3CF9C9E305%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the user clicked on a matching presentation, <B CLASS="cl"
+>accept-1</B
+> will insert the object into the input buffer by calling <A NAME="_4992"></A><A HREF="24-4.html#_1338"
+><B CLASS="cl"
+>presentation-replace-input</B
+></A
+> on the object and type returned by the presentation translator, unless either the boolean <I
+>replace-input</I
+> is <SPAN CLASS="term"
+>false</SPAN
+> or the presentation translator returned an <B CLASS="cl"
+>:echo</B
+> option of <SPAN CLASS="term"
+>false</SPAN
+>. <I
+>replace-input</I
+> defaults to <SPAN CLASS="term"
+>true</SPAN
+>, but this default is overridden by the translator explicitly returning an <B CLASS="cl"
+>:echo</B
+> option of <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=03CA31DE89FB3DEFCD30D5041654B603%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>default</I
+> is supplied, then it and <I
+>default-type</I
+> are returned as values from <B CLASS="cl"
+>accept-1</B
+> when the input is empty. <I
+>default-type</I
+> must be a presentation type specifier. If <I
+>default</I
+> is not supplied and <I
+>provide-default</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default is <SPAN CLASS="term"
+>false</SPAN
+>), then the default is determined by taking the most recent item from the presentation type history specified by <I
+>history</I
+>. If <I
+>insert-default</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> and there is a default, the default will be inserted into the input stream by calling <A NAME="_5003"></A><A HREF="24-4.html#_1338"
+><B CLASS="cl"
+>presentation-replace-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E238C9D1AFCDE772C60BF42C65BE2A6%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>history</I
+> must be either <A NAME="_5004"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that no presentation type history will be used, or a presentation type (or abbreviation) that names a history to be used for the call to <A NAME="_5005"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <I
+>history</I
+> defaults to <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D2C9D32E8BE83E5B3025FC192A857CD%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prompt</I
+> can be <A NAME="_5006"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, which prompts by describing the type, <A NAME="_5007"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, which suppresses prompting, or a string, which is displayed as a prompt (via <B CLASS="cl"
+>write-string</B
+>). The default is <A NAME="_5009"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, which produces "Enter a <I
+>type</I
+>:" in a top-level call to <A NAME="_5010"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> or "(<I
+>type</I
+>)" in a nested call to <A NAME="_5011"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF41CA3E1EB4F8B95D335AF35C593C82%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>display-default</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the default is displayed (if one was supplied). If <I
+>display-default</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, the default is not displayed. <I
+>display-default</I
+> defaults to <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>prompt</I
+> was provided, otherwise it defaults to <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3A2B9D7C1C9007400667E15C6977C8C%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prompt-mode</I
+> can be <B CLASS="cl"
+>:normal</B
+> (the default) or <B CLASS="cl"
+>:raw</B
+>, which suppresses putting a colon after the prompt and/or default in a top-level <A NAME="_5018"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and suppresses putting parentheses around the prompt and/or default in a nested <A NAME="_5019"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F5362B92A3A13C6AA96BE027D245230%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>query-identifier</I
+> is used within <A NAME="_5020"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> to identify the field within the dialog. The <B CLASS="cl"
+>active-p</B
+> argument (which defaults to <A NAME="_5022"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>) can be used to control whether a field within an <A NAME="_5023"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> is active; when <SPAN CLASS="term"
+>false</SPAN
+>, the field will not be active, that is, it will not be available for input. Some CLIM implementations will provide a visual cue that the field is inactive, for instance, by "graying out" the field. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ECD84CA64C82647CA5EF8AE54FC91C3C%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>activation-gestures</I
+> is a list of gesture names that will override the current activation gestures (which are stored in <A NAME="_5025"></A><A HREF="24-2.html#_1324"
+><B CLASS="cl"
+>*activation-gestures*</B
+></A
+>). Alternatively, <I
+>additional-activation-gestures</I
+> can be supplied to add activation gestures without overriding the current ones. See Chapter&nbsp;<A NAME="_5026"></A><A HREF="24.html#_1296"
+>24</A
+> for a discussion of activation gestures. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=44B7DC4BD3359E26E044844C22391B84%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>delimiter-gestures</I
+> is a list of gesture names that will override the current delimiter gestures (which are stored in <A NAME="_5027"></A><A HREF="24-2.html#_1328"
+><B CLASS="cl"
+>*delimiter-gestures*</B
+></A
+>). Alternatively, <I
+>additional-delimiter-gestures</I
+> can be supplied to add delimiter gestures without overriding the current ones. See Chapter&nbsp;<A NAME="_5028"></A><A HREF="24.html#_1296"
+>24</A
+> for a discussion of delimiter gestures. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89B78B0F117AFF65B63A6EDAD2445A8A%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4C02880C93E656A098A06E55D0C4762%2Faccept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-5.html#_4965"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>stream-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4955"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1205"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept-from-string</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type string </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>view default default-type start end</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_5029"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>, except that the input is taken from <I
+>string</I
+>, starting at the position specified by <I
+>start</I
+> and ending at <I
+>end</I
+>. <I
+>view</I
+>, <I
+>default</I
+>, and <I
+>default-type</I
+> are as for <A NAME="_5030"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EFD7DDF088B1EFF5452891BEC02FCA1%2Faccept-from-string%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>accept-from-string</B
+> returns an object and a presentation type (as in <A NAME="_5032"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>), but also returns a third value, the index at which input terminated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D09BC3231C3BA37A8D65E203324DE3DD%2Faccept-from-string%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4C5E98881259FCAC1F35D8D98CE42C7%2Faccept-from-string%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1206"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>prompt-for-accept</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream type view </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>accept-args </I
+><I
+><TT
+>&amp;key </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Called by <A NAME="_5033"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> to prompt the user for input of <A NAME="_5034"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> on the <SPAN CLASS="term"
+>stream</SPAN
+> <I
+>stream</I
+> for the <SPAN CLASS="term"
+>view</SPAN
+> <I
+>view</I
+>. <I
+>accept-args</I
+> are all of the keyword arguments supplied to <A NAME="_5037"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. The default method (on <A NAME="_5038"></A><A HREF="22-2.html#_1070"
+><B CLASS="cl"
+>standard-extended-input-stream</B
+></A
+>) simply calls <A NAME="_5039"></A><A HREF="23-5.html#_1207"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A169430A4E14EA1EDF4CBBED61480DEE%2Fprompt-for-accept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B6557FE712EFF8E5FF0FD7AE1AC5868D%2Fprompt-for-accept%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="C-1.html#_7118"
+><SPAN CLASS="reverselink"
+>[&larr; C.1.2 The "Delegation Problem"]</SPAN
+></A
+><BR
+><A HREF="C.html#_7093"
+><SPAN CLASS="reverselink"
+>[&larr; C Encapsulating Streams]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5394"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5360"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4957"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1207"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>default default-type display-default  prompt prompt-mode  </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Prompts the user for input of <A NAME="_5040"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> on the <SPAN CLASS="term"
+>stream</SPAN
+> <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38C06DBF4074D49D4A35350947727C56%2Fprompt-for-accept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>display-default</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the default is displayed; otherwise, the default is not displayed. When the default is being displayed, <I
+>default</I
+> and <I
+>default-type</I
+> are the taken as the object and presentation type of the default to display. <I
+>display-default</I
+> defaults to <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>prompt</I
+> is non-<A NAME="_5044"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, otherwise it defaults to <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=04F3467DE19C67EF7B3E405E41DA9D84%2Fprompt-for-accept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>prompt</I
+> is <A NAME="_5046"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, no prompt is displayed. If it is a string, that string is displayed as the prompt. If <I
+>prompt</I
+> is <A NAME="_5047"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), the prompt is generated by calling <A NAME="_5048"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+> to produce a prompt of the form "Enter a <I
+>type</I
+>:" in a top-level call to <A NAME="_5049"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>, or "(<I
+>type</I
+>)" in a nested call to <A NAME="_5050"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=856B15244790CF7018B11E38F4461538%2Fprompt-for-accept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prompt-mode</I
+> can be <B CLASS="cl"
+>:normal</B
+> (the default) or <B CLASS="cl"
+>:raw</B
+>, which suppresses putting a colon after the prompt and/or default in a top-level <A NAME="_5053"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and suppresses putting parentheses around the prompt and/or default in a nested <A NAME="_5054"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F5362B92A3A13C6AA96BE027D245230%2Fprompt-for-accept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=584FBF55F396ABC49E9EE3DEB2354F52%2Fprompt-for-accept-1%2F23.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-5.html#_5039"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

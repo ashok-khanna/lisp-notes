@@ -1,0 +1,1101 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 29.2 Basic Pane Construction</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="29.1 Overview of Panes" HREF="29-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="29.3 Composite and Layout Panes" HREF="29-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="29-1.html"
+>Prev</A
+><BR
+><A HREF="29-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="29.html"
+>29&nbsp;Panes</A
+><BR
+>&rarr;&nbsp;<A HREF="29-2.html"
+><B
+>29.2&nbsp;Basic&nbsp;Pane&nbsp;Construction</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1584"></A><DIV
+><H3
+>29.2 Basic Pane Construction</H3
+><LI CLASS="outline_item"
+><A HREF="29-2.html#_1591"
+>29.2.1 Pane Initialization Options </A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-2.html#_1596"
+>29.2.2 Pane Properties</A
+></LI
+><P
+>Applications typically define the hierarchy of panes used in their frames using the <B CLASS="cl"
+>:pane</B
+> or <A NAME="_6463"></A><A HREF="28-2.html#_1474"
+><B CLASS="cl"
+>:panes</B
+></A
+> options of <A NAME="_6464"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+>. These options generate the body of methods on functions that are invoked when the frame is being adopted into a particular frame manager, so the frame manager can select the specific implementations of the abstract panes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72637FB99AB43E7E842DC3051B86929F%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There are two basic interfaces to constructing a pane: <A NAME="_6465"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> of an abstract pane class name, or <B CLASS="cl"
+>make-instance</B
+> of a "concrete" pane class. The former approach is generally preferable, since it results in more portable code. However, in some cases the programmer may wish to instantiate panes of a specific class (such as an <A NAME="_6467"></A><A HREF="29-3.html#_1618"
+><B CLASS="cl"
+>hbox-pane</B
+></A
+> or a <A NAME="_6468"></A><A HREF="29-3.html#_1620"
+><B CLASS="cl"
+>vbox-pane</B
+></A
+>). In this case, using <B CLASS="cl"
+>make-instance</B
+> directly circumvents the abstract pane selection mechanism. However, the <B CLASS="cl"
+>make-instance</B
+> approach requires the application programmer to know the name of the specific pane implementation class that is desired, and so is inherently less portable. By convention, all of the concrete pane class names, including those of the implementations of abstract pane protocol specifications, end in "<B CLASS="cl"
+>-pane</B
+>". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=327955DFC577F20114673FCF2EEF222C%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Using <A NAME="_6472"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> instead of <B CLASS="cl"
+>make-instance</B
+> invokes the "look and feel" realization process to select and construct a pane. Normally this process is implemented by the frame manager, but it is possible for other "realizers" to implement this process. <A NAME="_6474"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> is typically invoked using an abstract pane class name, which by convention is a symbol in the CLIM package that doesn't include the "<B CLASS="cl"
+>-pane</B
+>" suffix. (This naming convention distinguishes the names of the abstract pane protocols from the names of classes that implement them.) Programmers, however, are allowed to pass any pane class name to <A NAME="_6476"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+>, in which case the frame manager will generally instantiate that specific class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9302B4F41CF327A92056C91EF851DB96%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1585"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a pane, a subclass of <A NAME="_6477"></A><A HREF="7-1.html#_238"
+><B CLASS="cl"
+>sheet</B
+></A
+>. A pane is a special kind of sheet that implements the pane protocols, including the layout protocols. If you want to create a new class that behaves like a pane, it should be a subclass of <B CLASS="cl"
+>pane</B
+>. All instantiable subclasses of <B CLASS="cl"
+>pane</B
+> must obey the pane protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E3FA2015D35C65159764475627A2FA8%2Fpane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the subclasses of <B CLASS="cl"
+>pane</B
+> are mutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20A8610C5595B59F049922417484A5AD%2Fpane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F80BB100599157FD59413B6ADCFA743F%2Fpane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="30-3.html#_6709"
+><SPAN CLASS="reverselink"
+>[&larr; 30.3 Basic Gadget Classes, <B CLASS="cl"
+><B CLASS="cl"
+>gadget</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6484"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction, <B CLASS="cl"
+><B CLASS="cl"
+>basic-pane</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1586"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>panep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>pane</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7869CFE8DCD3F662A5A1364810836278%2Fpanep%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=320B46AA01F3A0C66E7433C2B9CEE21D%2Fpanep%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1587"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>basic-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The basic class on which all CLIM panes are built, a subclass of <A NAME="_6484"></A><A HREF="29-2.html#_1585"
+><B CLASS="cl"
+>pane</B
+></A
+>. This class is an abstract class, intended only to be subclassed, not instantiated.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FD6903D0D7E504710AAE364F4713C995%2Fbasic-pane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=650988C68CCBE1C7685929E81CC40C3C%2Fbasic-pane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1588"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>abstract-class-name </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Selects a class that implements the behavior of the abstract pane <I
+>abstract-class-name</I
+> and constructs a pane of that class. <B CLASS="cl"
+>make-pane</B
+> must be used either within the scope of a call to <A NAME="_6486"></A><A HREF="29-2.html#_1590"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+></A
+>, or within the <B CLASS="cl"
+>:pane</B
+> or <A NAME="_6488"></A><A HREF="28-2.html#_1474"
+><B CLASS="cl"
+>:panes</B
+></A
+> options of a <A NAME="_6489"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+> (which implicitly invokes <A NAME="_6490"></A><A HREF="29-2.html#_1590"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEE51A8F6518924777CE3EB263323334%2Fmake-pane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is permitted for this function to have lexical scope, and be defined only within the body of <A NAME="_6491"></A><A HREF="29-2.html#_1590"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F591797FF55E627B82C01DA3094350E6%2Fmake-pane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C5E549C6AA986B5B13F69E5840B9C42%2Fmake-pane%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7554"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="30-2.html#_6701"
+><SPAN CLASS="reverselink"
+>[&larr; 30.2 Abstract Gadgets]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6501"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3 Composite and Layout Panes]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6494"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction, <B CLASS="cl"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6492"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction, <B CLASS="cl"
+><B CLASS="cl"
+>make-pane-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6465"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction]</SPAN
+></A
+><BR
+><A HREF="7-1.html#_2483"
+><SPAN CLASS="reverselink"
+>[&larr; 7.1 Basic Sheet Classes]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1589"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-pane-1</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>realizer frame abstract-class-name </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The generic function that is invoked by a call to <A NAME="_6492"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+>. The object that realizes the pane, <I
+>realizer</I
+>, is established by <A NAME="_6493"></A><A HREF="29-2.html#_1590"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+></A
+>. Usually, <I
+>realizer</I
+> is a frame manager, but it could be another object that implements the pane realization protocol. <I
+>frame</I
+> is the frame for which the pane will be created, and <I
+>abstract-class-name</I
+> is the type of pane to create. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFB208F7C59A298D05A3323395E02996%2Fmake-pane-1%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=540CD1BBFAF47839AF93087CEE084FE8%2Fmake-pane-1%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7555"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6496"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction, <B CLASS="cl"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1590"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-look-and-feel-realization</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(realizer frame) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>forms</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes a dynamic context that installs <I
+>realizer</I
+> as the object responsible for realizing panes. All calls to <A NAME="_6494"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> within the context of <B CLASS="cl"
+>with-look-and-feel-realization</B
+> result in <A NAME="_6496"></A><A HREF="29-2.html#_1589"
+><B CLASS="cl"
+>make-pane-1</B
+></A
+> being invoked on <I
+>realizer</I
+>. This macro can be nested dynamically; inner uses shadow outer uses. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C599926343D68D39B7362C822639508%2Fwith-look-and-feel-realization%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Typically <I
+>realizer</I
+> is a frame manager, but in some cases <I
+>realizer</I
+> may be some other object. For example, within the implementation of pane that is uses its own subpanes to achieve its functionality, this form might be used with <I
+>realizer</I
+> being the pane itself. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8F9F62D53F2367C1CA8996FA46379EA%2Fwith-look-and-feel-realization%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B078172FE7C11171C8B95A0F86EB3D62%2Fwith-look-and-feel-realization%2F29.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-2.html#_6493"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction, <B CLASS="cl"
+><B CLASS="cl"
+>make-pane-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6486"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction, <B CLASS="cl"
+><B CLASS="cl"
+>make-pane</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1591"></A><DIV
+><H4
+>29.2.1 Pane Initialization Options </H4
+><P
+>The following options must be accepted by all pane classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=31A076A8350F7289941B75C0C030475F%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1592"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:foreground</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1593"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:background</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These options specify the default foreground and background inks for a pane. These will normally default from window manager resources. If there are no such resources, the defaults are black and white, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA90749B3914DC1BF0081A9C8459D0E3%2F%3Aforeground%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Client code should be cautious about passing values for these two options, since the window manager's look and feel or the user's preferences should usually determine these values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20020C55ED7D58328D49F1B33960CA13%2F%3Aforeground%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1DFAAB0971DA83AA9C203CBEB5304E95%2F%3Aforeground%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="15-2.html#_773"
+><SPAN CLASS="forwardlink"
+>[&rarr; :foreground, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="15-2.html#_774"
+><SPAN CLASS="forwardlink"
+>[&rarr; :background, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6608"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6569"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.2 Layout Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>outlined-pane</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1594"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This option specifies the default text style that should be used for any sort of pane that supports text output. Panes that do not support text output ignore this option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23C47C5B2DD8D509559AF1BF6AA9DEB9%2F%3Atext-style%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Client code should be cautious about passing values for this option, since the window manager's look and feel or the user's preferences should usually determine this value. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=82D0BC625819580DDAF2B3909668E033%2F%3Atext-style%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A7CC3FED7CCE87E760497A7622C6C15%2F%3Atext-style%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="15-2.html#_775"
+><SPAN CLASS="forwardlink"
+>[&rarr; :text-style, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_531"
+><SPAN CLASS="forwardlink"
+>[&rarr; :text-style, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6609"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5957"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5906"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5802"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2942"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1595"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This option specifies the name of the pane. It defaults to <A NAME="_6497"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE2E135B72563025B83DDE019C16E6B2%2F%3Aname%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28F490D48B3CB72E6DA32D99A9663487%2F%3Aname%2F29.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-2.html#_1470"
+><SPAN CLASS="forwardlink"
+>[&rarr; :name, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="27-1.html#_5785"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1596"></A><DIV
+><H4
+>29.2.2 Pane Properties</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1597"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-frame</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the frame that "owns" the pane. <B CLASS="cl"
+>pane-frame</B
+> can be invoked on any pane in a frame's pane hierarchy, but it can only be invoked on "active" panes, that is, those panes that are currently adopted into the frame's pane hierarchy. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4419F64A9C47384C74B87F624594EE12%2Fpane-frame%2F29.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D3BFCF706EBEEF7E80C24CF5A11B804%2Fpane-frame%2F29.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1598"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the name of the pane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2EECB4C9F864773448BD87C182F00783%2Fpane-name%2F29.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96593931ECF0DAAE6B8065611B907E5E%2Fpane-name%2F29.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1599"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-foreground</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1600"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-background</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1601"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Return the default foreground and background inks and the default text style, respectively, for the pane <I
+>pane</I
+>. These will be used as the default value for <A NAME="_6499"></A><A HREF="10-1.html#_507"
+><B CLASS="cl"
+>medium-foreground</B
+></A
+> and <A NAME="_6500"></A><A HREF="10-1.html#_508"
+><B CLASS="cl"
+>medium-background</B
+></A
+> when a medium is grafted to the pane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAAA051108FACC45B8A4FC4298543471%2Fpane-foreground%2F29.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A1BC5D8F284C933ABF77C226F3B4A113%2Fpane-foreground%2F29.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

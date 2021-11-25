@@ -1,0 +1,752 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 27.4 Keystroke Accelerators</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="27.3 Command Menus" HREF="27-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="27.5 Presentation Translator Utilities" HREF="27-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="27-3.html"
+>Prev</A
+><BR
+><A HREF="27-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="27.html"
+>27&nbsp;Command&nbsp;Processing</A
+><BR
+>&rarr;&nbsp;<A HREF="27-4.html"
+><B
+>27.4&nbsp;Keystroke&nbsp;Accelerators</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1423"></A><DIV
+><H3
+>27.4 Keystroke Accelerators</H3
+><P
+>Each command table may have a mapping from keystroke accelerator gesture names to command menu items. When a user types a key on the keyboard that corresponds to the gesture for keystroke accelerator, the corresponding command menu item will be invoked. Note that command menu items are shared among the command table's menu and the accelerator table. There are several reasons for this. One is that it is common to have menus display the keystroke associated with a particular item, if there is one. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A97748A9FF410F6F5689EE98BC83A8C%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that, despite the fact the keystroke accelerators are specified using keyboard gesture names rather than characters, the conventions for typed characters vary widely from one platform to another. Therefore the programmer must be careful in choosing keystroke accelerators. Some sort of per-platform conditionalization is to be expected. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=569570FAB122D89E3D87C333D5D440A7%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1424"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-keystroke-to-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table gesture type value  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>documentation (errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds a command menu item to <I
+>command-table</I
+>'s keystroke accelerator table. <I
+>gesture</I
+> is a keyboard gesture name to be used as the accelerator. <I
+>type</I
+> and <I
+>value</I
+> are as in <A NAME="_6002"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>, except that <I
+>type</I
+> must be either <B CLASS="cl"
+>:command</B
+>, <B CLASS="cl"
+>:function</B
+> or <B CLASS="cl"
+>:menu</B
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A43A2BFDFB3945E999D152FF3A87DA2%2Fadd-keystroke-to-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Should we allow </I
+><I
+><I
+>gesture</I
+></I
+><I
+> to be a gesture specification as well as just a gesture name? It simplifies its use by avoiding a profusion of defined gesture names, but we may want to encourage the use of gesture names. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4BD3EF08DCE50B468FEC39677971DE4C%2Fadd-keystroke-to-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>documentation</I
+> is a documentation string, which can be used as documentation for the keystroke accelerator. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67BBDBB3E86EC4FCA6ABC23EA9810E85%2Fadd-keystroke-to-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command menu item associated with <I
+>gesture</I
+> is already present in the command table's accelerator table and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_6008"></A><A HREF="27-2.html#_1399"
+><B CLASS="cl"
+>command-already-present</B
+></A
+> error will be signalled. When the item is already present in the command table's accelerator table and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, the old item will first be removed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A384A055D69218DB5322A969EBDBEBC%2Fadd-keystroke-to-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=24CE24522DCBDEE84C8F78670B6013E6%2Fadd-keystroke-to-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-3.html#_5976"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1425"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>remove-keystroke-from-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table gesture </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the command menu item named by keyboard gesture name <I
+>gesture</I
+> from <I
+>command-table</I
+>'s accelerator table. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=316A913E80DD11333C0E66FCB73BBF00%2Fremove-keystroke-from-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the command menu item associated with <I
+>gesture</I
+> is not present in the command table's menu and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_6012"></A><A HREF="27-2.html#_1397"
+><B CLASS="cl"
+>command-not-present</B
+></A
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9DB546006753AA0D077D82D08A6161B%2Fremove-keystroke-from-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=55030BA70D96C4D695D7F5B4A83942C2%2Fremove-keystroke-from-command-table%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7530"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1426"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-command-table-keystrokes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the keystroke accelerators in <I
+>command-table</I
+>'s accelerator table. <I
+>function</I
+> must be a function of three arguments, the menu name (which will be <A NAME="_6013"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if there is none), the keystroke accelerator, and the command menu item; it has dynamic extent. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=21F5249EBAA181A886740C9DEFBFA7BF%2Fmap-over-command-table-keystrokes%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>map-over-command-table-keystrokes</B
+> does not descend into sub-menus. If the programmer requires this behavior, he should examine the type of the command menu item to see if it is <B CLASS="cl"
+>:menu</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75C40F1DFF4CAEA197106958664C9C07%2Fmap-over-command-table-keystrokes%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CDACFC106AF7B614DC7AEE9DA0D8E36E%2Fmap-over-command-table-keystrokes%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1427"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-keystroke-item</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gesture command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>test (errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a keyboard gesture <I
+>gesture</I
+> and a command table, returns two values, the command menu item associated with the gesture and the command table in which it was found. (Since keystroke accelerators are not inherited, the second returned value will always be <I
+>command-table</I
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=83C6D36DCD9014294059B60138C5FA8F%2Ffind-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=602E85124C78DFF317FD968404745022%2Ffind-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>test</I
+> is the test used to compare the supplied gesture to the gesture name in the command table. The supplied gesture will generally be an event object, so the default for <I
+>test</I
+> is <A NAME="_6017"></A><A HREF="22-3.html#_1103"
+><B CLASS="cl"
+>event-matches-gesture-name-p</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EFABAD9C15BDC7E9F4E1D27D77E389E0%2Ffind-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the keystroke accelerator is not present in <I
+>command-table</I
+> and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_6019"></A><A HREF="27-2.html#_1397"
+><B CLASS="cl"
+>command-not-present</B
+></A
+> error will be signalled. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14186DC76E1BC80B8E0AA576372612AA%2Ffind-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=809E2EC2FD2C2F9E688B4F7E0A139D14%2Ffind-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-4.html#_6028"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>lookup-keystroke-command-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6021"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>lookup-keystroke-item</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1428"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>lookup-keystroke-item</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gesture command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>test</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a keyboard gesture <I
+>gesture</I
+> and a command table, returns two values, the command menu item associated with the gesture and the command table in which it was found. Note that <I
+>gesture</I
+> may be either a keyboard gesture name of a gesture object, and is handled in the same way as in <A NAME="_6021"></A><A HREF="27-4.html#_1427"
+><B CLASS="cl"
+>find-keystroke-item</B
+></A
+>. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0636477C77C80CC65EF6C8B8CDB09047%2Flookup-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Unlike <A NAME="_6022"></A><A HREF="27-4.html#_1427"
+><B CLASS="cl"
+>find-keystroke-item</B
+></A
+>, this follows the sub-menu chains that can be created with <A NAME="_6023"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>. If the keystroke accelerator cannot be found in the command table or any of the command tables from which it inherits, <B CLASS="cl"
+>lookup-keystroke-item</B
+> will return <A NAME="_6025"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7288E01A40E874640C9839307C68D750%2Flookup-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z415"
+></A
+>This part of the specification is silly: are we talking about inheritance or about menu items? Sub-chains are specified with :menu option while inheritance with :inherit-from. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7288E01A40E874640C9839307C68D750%2Flookup-keystroke-item%2F27.4&amp;editp=t&amp;id=Z415#Z415"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-10-15 15:00Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>test</I
+> is the test used to compare the supplied gesture to the gesture name in the command table. The supplied gesture will generally be an event object, so the default for <I
+>test</I
+> is <A NAME="_6027"></A><A HREF="22-3.html#_1103"
+><B CLASS="cl"
+>event-matches-gesture-name-p</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EFABAD9C15BDC7E9F4E1D27D77E389E0%2Flookup-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3AC0BBEA5BB0DA87659DB3600DDBCEF%2Flookup-keystroke-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1429"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>lookup-keystroke-command-item</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gesture command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>test numeric-arg</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a keyboard gesture <I
+>gesture</I
+> and a command table, returns the command associated with the keystroke, or <I
+>gesture</I
+> if no command is found. Note that <I
+>gesture</I
+> may be either a keyboard gesture name of a gesture object, and is handled in the same way as in <A NAME="_6028"></A><A HREF="27-4.html#_1427"
+><B CLASS="cl"
+>find-keystroke-item</B
+></A
+>. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=542804444371EA667573242E0353633F%2Flookup-keystroke-command-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This is like <A NAME="_6029"></A><A HREF="27-4.html#_1427"
+><B CLASS="cl"
+>find-keystroke-item</B
+></A
+>, except that only keystrokes that map to an enabled application command will be matched. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F0C20DF4082F6DF6105AEEA064FA2FD%2Flookup-keystroke-command-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>test</I
+> is the test used to compare the supplied gesture to the gesture name in the command table. The supplied gesture will generally be an event object, so the default for <I
+>test</I
+> is <A NAME="_6031"></A><A HREF="22-3.html#_1103"
+><B CLASS="cl"
+>event-matches-gesture-name-p</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EFABAD9C15BDC7E9F4E1D27D77E389E0%2Flookup-keystroke-command-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>numeric-arg</I
+> (which defaults to 1) is substituted into the resulting command for any occurrence of <A NAME="_6032"></A><A HREF="27-6.html#_1449"
+><B CLASS="cl"
+>*numeric-argument-marker*</B
+></A
+> in the command. This is intended to allow programmers to define keystroke accelerators that take simple numeric arguments, which will be passed on by the input editor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E96C64FE56A9D8392D74052486E0F319%2Flookup-keystroke-command-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Do the above three functions need to have their hands on the port? If </I
+><I
+><A NAME="_6033"></A><A HREF="22-3.html#_1103"
+><B CLASS="cl"
+>event-matches-gesture-name-p</B
+></A
+></I
+><I
+> needs the port, then the answer is yes. Otherwise, if gesture names are "global" across all ports, then these don't need the port. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EE9E8B9458DD0CBE41201BB1731B72B%2Flookup-keystroke-command-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5718E98B6F2BFCBBD4C1927FE1C9F50D%2Flookup-keystroke-command-item%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1430"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>substitute-numeric-argument-marker</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command numeric-arg</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a command object <I
+>command</I
+>, this substitutes the value of <I
+>numeric-arg</I
+> for all occurrences of the value of <A NAME="_6034"></A><A HREF="27-6.html#_1449"
+><B CLASS="cl"
+>*numeric-argument-marker*</B
+></A
+> in the command, and returns a command object with those substitutions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E086D6C7EFA690CF27D5B74528E1F804%2Fsubstitute-numeric-argument-marker%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B5B6894B7ABB3F654AF9AB416D5D06E%2Fsubstitute-numeric-argument-marker%2F27.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5441"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.2 Suggestions for Input Editing Commands]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

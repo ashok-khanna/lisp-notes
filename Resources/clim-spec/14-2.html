@@ -1,0 +1,479 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/14-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 14.2 Patterns and Stencils</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="14.1 The Compositing Protocol" HREF="14-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="14.3 Tiling" HREF="14-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="14 General Designs" HREF="14.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="14-1.html"
+>Prev</A
+><BR
+><A HREF="14-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="14.html"
+>14&nbsp;General&nbsp;Designs</A
+><BR
+>&rarr;&nbsp;<A HREF="14-2.html"
+><B
+>14.2&nbsp;Patterns&nbsp;and&nbsp;Stencils</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_735"></A><DIV
+><H3
+>14.2 Patterns and Stencils</H3
+><P
+><A NAME="_736"></A><SPAN CLASS="concept"
+>Patterning</SPAN
+> creates a bounded rectangular arrangement of designs, like a checkerboard. Drawing a pattern draws a different design in each rectangular cell of the pattern. To create an infinite pattern, apply <A NAME="_3522"></A><A HREF="14-3.html#_744"
+><B CLASS="cl"
+>make-rectangular-tile</B
+></A
+> to a pattern. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A56FF9758BD18FACCE16E990F474BDA9%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z327"
+></A
+>That means, that rectangular-tile is a pattern which has a special treatment. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A56FF9758BD18FACCE16E990F474BDA9%2F14.2&amp;editp=t&amp;id=Z327#Z327"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-08-16 05:24Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z330"
+></A
+>Are patterns regions? 14.5 implies that by advising use of transform-region on them. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A56FF9758BD18FACCE16E990F474BDA9%2F14.2&amp;editp=t&amp;id=Z330#Z330"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-08-16 05:50Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z444"
+></A
+><P
+>Patterns are no regions. The region protocol does not apply to them. Only because <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=transform-region"
+>transform-region</A
+></SPAN
+> is also defined on designs, does not make them regions. In so far a mention of <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=transform-region"
+>transform-region</A
+></SPAN
+> as part of a design protocol would be called for.</P
+><P
+>There is different "overloading" with <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=compose-in"
+>compose-in</A
+></SPAN
+>, <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=compose-out"
+>compose-out</A
+></SPAN
+> and <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%2Bnowhere%2B"
+>+nowhere+</A
+></SPAN
+> being the same as <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%2Btransparent-ink%2B"
+>+transparent-ink+</A
+></SPAN
+> and <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%2Beverywhere%2B"
+>+everywhere+</A
+></SPAN
+> being <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%2Bforeground-ink%2B"
+>+foreground-ink+</A
+></SPAN
+>. But: Areas have no colour. Or mathematically areas are sets of points, while designs are a mapping of the 2d plane to colour and opacity.</P
+><P
+>Further:  Patterns are bounded, rectangular tiles are not. And thus rectangular tiles are no patterns.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A56FF9758BD18FACCE16E990F474BDA9%2F14.2&amp;editp=t&amp;id=Z444#Z444"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-08-15 04:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>A <A NAME="_737"></A><SPAN CLASS="concept"
+>stencil</SPAN
+> is a special kind of pattern that contains only opacities. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=920C370192FC0B6CAC02CBCD69B2C896%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_738"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-pattern</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>array designs</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a pattern design that has <B CLASS="cl"
+>(array-dimension </B
+><B CLASS="cl"
+><I
+>array</I
+></B
+><B CLASS="cl"
+> 0)</B
+> cells in the vertical direction and <B CLASS="cl"
+>(array-dimension </B
+><B CLASS="cl"
+><I
+>array</I
+></B
+><B CLASS="cl"
+> 1)</B
+> cells in the horizontal direction. <I
+>array</I
+> must be a two-dimensional array of non-negative integers less than the length of <I
+>designs</I
+>. <I
+>designs</I
+> must be a sequence of <SPAN CLASS="term"
+>designs</SPAN
+>. The design in cell <I
+>(i,j)</I
+> of the resulting pattern is the <I
+>n</I
+>th element of <I
+>designs</I
+>, if <I
+>n</I
+> is the value of <B CLASS="cl"
+>(aref </B
+><B CLASS="cl"
+><I
+>array</I
+></B
+><B CLASS="cl"
+> i j)</B
+>. For example, <I
+>array</I
+> can be a bit-array and <I
+>designs</I
+> can be a list of two designs, the design drawn for 0 and the one drawn for 1. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C943FF9AB5647996A036A02AB849B517%2Fmake-pattern%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Each cell of a pattern can be regarded as a hole that allows the design in it to show through. Each cell might have a different design in it. The portion of the design that shows through a hole is the portion on the part of the drawing plane where the hole is located. In other words, incorporating a design into a pattern does not change its alignment to the drawing plane, and does not apply a coordinate transformation to the design. Drawing a pattern collects the pieces of designs that show through all the holes and draws the pieces where the holes lie on the drawing plane. The pattern is completely transparent outside the area defined by the array. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D1CFF9AE88979F9F72796584FD046DC4%2Fmake-pattern%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Each cell of a pattern occupies a 1 by 1 square. You can use <A NAME="_3533"></A><A HREF="5-3.html#_214"
+><B CLASS="cl"
+>transform-region</B
+></A
+> to scale the pattern to a different cell size and shape, or to rotate the pattern so that the rectangular cells become diamond-shaped. Applying a coordinate transformation to a pattern does not affect the designs that make up the pattern. It only changes the position, size, and shape of the cells' holes, allowing different portions of the designs in the cells to show through. Consequently, applying <A NAME="_3534"></A><A HREF="14-3.html#_744"
+><B CLASS="cl"
+>make-rectangular-tile</B
+></A
+> to a pattern of nonuniform designs can produce a different appearance in each tile. The pattern cells' holes are tiled, but the designs in the cells are not tiled and a different portion of each of those designs shows through in each tile. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2B5B17A0C7BE2CB02EFA32D6E166572%2Fmake-pattern%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-pattern%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A435A88B798ADAFC336797E21925C8EE%2Fmake-pattern%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="E-2.html#_7284"
+><SPAN CLASS="reverselink"
+>[&larr; E.2 Support for Reading Bitmap Files, <B CLASS="cl"
+><B CLASS="cl"
+>make-pattern-from-bitmap-file</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-5.html#_3568"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-4.html#_3473"
+><SPAN CLASS="reverselink"
+>[&larr; 13.4 Opacity, <B CLASS="cl"
+><B CLASS="cl"
+>+transparent-ink+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_739"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pattern-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pattern</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_740"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pattern-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pattern</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions return the width and height, respectively, of the <SPAN CLASS="term"
+>pattern</SPAN
+> <I
+>pattern</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2F0A11FE5FF914C173C7025667C61E9%2Fpattern-width%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC189ADA70CB8E06F880157D8878E093%2Fpattern-width%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3576"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_741"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-stencil</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>array</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a pattern design that has <B CLASS="cl"
+>(array-dimension </B
+><B CLASS="cl"
+><I
+>array</I
+></B
+><B CLASS="cl"
+> 0)</B
+> cells in the vertical direction and <B CLASS="cl"
+>(array-dimension </B
+><B CLASS="cl"
+><I
+>array</I
+></B
+><B CLASS="cl"
+> 1)</B
+> cells in the horizontal direction. <I
+>array</I
+> must be a two-dimensional array of real numbers between 0 and 1 (inclusive) that represent opacities. The design in cell <I
+>(i,j)</I
+> of the resulting pattern is the value of <B CLASS="cl"
+>(make-opacity (aref </B
+><B CLASS="cl"
+><I
+>array</I
+></B
+><B CLASS="cl"
+> i j))</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE401BAC83E9166576A11FA3745507C9%2Fmake-stencil%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-stencil%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=668F246208B2279FAE58E39D6AB03014%2Fmake-stencil%2F14.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/14-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

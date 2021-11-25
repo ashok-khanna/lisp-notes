@@ -1,0 +1,191 @@
+
+.cl { font-family: sans-serif; }
+
+.term    { text-decoration: none;
+           font-style: italic;
+           color: rgb(0%,0%,50%);
+         }
+
+.concept { font-style: italic;
+           font-weight: bold;
+           text-decoration: none;
+         }
+
+.outlineline { font-family: helvetica, sans-serif; }
+.outlineline A { text-decoration: none; color: black; }
+
+.sl  { font-style: italic; }
+.arg { font-style: italic; }
+
+
+H1, H2, H3, H4, H5 { font-family: sans-serif; margin-left: -2pc;}
+
+.defun {
+    margin-left: 0pc;
+    padding-top: 1ex;
+    padding-bottom: 1ex;
+    margin-top: 2em;
+    margin-bottom: 2em; 
+    border-top: 1px solid;
+    xborder-bottom: 1px solid;
+    xbackground: rgb(95%,95%,100%);
+}
+
+.defunsignatures {
+    margin-bottom: 1em;
+}
+
+.cl { color: rgb(30%,0%,0%); }
+A .cl { color: rgb(30%,0%,50%); }
+
+.defun, DD, LI, P { 
+    xborder: 1px solid rgb(60%,60%,60%); }
+
+A { text-decoration: none; }
+
+.forwardlink, .reverselink { 
+    color: black;
+}
+
+/* Unfortunately all this does not work with Opera, since it refuses to
+   install the scroll bars.
+
+   So when i want to have what i want to have i'll probably have to
+   resort to frames ;(
+*/
+
+/*
+ * Let us mount the navbar at the bottom of the viewport, so that it is
+ * always reachable.
+ */
+.navbar { /* position: fixed; */
+          font-family: sans-serif;
+          font-size: 12px;
+          left: 0; bottom: 0; right: 0;
+          background: rgb(93%,95%,96%);
+          border-bottom: 1px solid black;
+          height: 4em;
+          padding-top: .5em;
+          padding-bottom: .5em;
+          padding-left: 2pc; padding-right: 2pc;
+          margin-left: -8pc; margin-right: -4pc;
+}
+/* Why, oh why, are tables still s.th. special to browsers? */
+.navbar TABLE { font-family: sans-serif; font-size: 12px; }
+.navbar INPUT { font-family: monospace; font-size: 14px; }
+
+
+.upchain { }
+
+/*
+ * Also make it appear like some GUI element
+ */
+.navbar A { color: black; xfont-size: 12px; }
+/*
+ * The CLIM Feeling
+ *
+ * Now there is 'outline' in the CSS2 spec, but it unsupported by both
+ * Mozilla and Opera, so I resort to a hack using border.
+ * Note that I also added a white border to the non-hovered A elements, 
+ * since the border dimensions add to the elements dimensions and the element
+ * should remain the same size irregardless if the mouse is above it or not. 
+ *
+ */
+
+A:visited:hover, A:link:hover { border: 1px solid black; }
+A:visited, A:link       { border: 1px solid white; }
+.navbar A { border: 1px solid rgb(93%,95%,96%); }
+.navbar A:hover { border: 1px solid black; }
+
+
+/*
+ * Annotation Stuff
+ *
+ * In theory it would be a good idea to let the annotation link float
+ * into the margin of the document, in praxis common browser are too
+ * weak for that.
+ */
+
+.annolink { /*float: right; width: 8pc; margin-right: -10pc; */ }
+.annolink {
+    color: rgb(100%,70%,70%); } /* some shade of very light rose */
+
+/* make it more visible when hovered above */
+.annolink:hover {
+    color: rgb(100%,40%,40%);
+}
+    
+.annotation {
+    padding-left: 3pc;
+    border-right: 1px dotted;
+    padding-right: 1pc;
+    color: rgb(80%,30%,30%);
+}
+.annotationheader {
+    float: left;
+    width: 3pc;
+    margin-left: -3pc;
+}
+.annotationsignature {
+    white-space: nowrap;
+    float: right;
+    text-align: right;
+    /*width: 13pc;*/
+}
+
+
+
+.footer { /* position: fixed; */
+          font-family: sans-serif;
+          font-size: 12px;
+          position: fixed;
+          left: 0; bottom: 0; right: 0;
+          background: rgb(93%,95%,96%);
+          border-top: 1px solid black;
+          height: 3em;
+          padding-top: .5em;
+          padding-bottom: .5em;
+          padding-left: 2pc; padding-right: 2pc;
+          //margin-left: -4pc; margin-right: -4pc;
+}
+.footer A { color: black; font-size: 12px; }
+.footer A { border: 1px solid rgb(93%,95%,96%); }
+.footer A:hover { border: 1px solid black; }
+
+
+.xnavbar { position: fixed;
+          font-family: sans-serif;
+          font-size: 12px;
+          left: 0; top: 0; right: 0;
+          xbackground: rgb(100%,81%,10%);
+          background: rgb(93%,95%,96%);
+          border-bottom: 1px solid black;
+          height: 3em;
+          padding-top: .5em;
+          padding-bottom: .5em;
+          padding-left: 2pc; padding-right: 2pc;
+          margin-left: 0; margin-right: 0;
+}
+
+BODY {
+    margin: 0; 
+    padding-left: 8pc; 
+    padding-right: 4pc;
+    padding-bottom: 6pc; 
+}
+
+.blah { display: none; }
+
+BODY, TABLE { font-family: "XXXTimes New Roman", "Georgia", serif; line-height: 1.6; }
+
+@media print {
+    .reverselinks { display: none; }
+    .annolink { display: none; }
+    .footer { position: static; }
+    .navbar { display: none; }
+    BODY { padding: 0 0.66in 0 0.66in; }
+    .footer IMG { display: none; }
+    BODY, TABLE { font-size: 11pt; }
+    P { hyphens: auto; -moz-hyphens: auto; -webkit-hyphens: auto; text-align: justify; }
+    .cl { hyphens: none; -moz-hyphens: none; -webkit-hyphens: none; }
+}

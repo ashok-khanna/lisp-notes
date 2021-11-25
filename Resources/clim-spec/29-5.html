@@ -1,0 +1,161 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 29.5 Defining New Pane Types</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="29.4 CLIM Stream Panes" HREF="29-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="30 Gadgets" HREF="30.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="29-4.html"
+>Prev</A
+><BR
+><A HREF="30.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="29.html"
+>29&nbsp;Panes</A
+><BR
+>&rarr;&nbsp;<A HREF="29-5.html"
+><B
+>29.5&nbsp;Defining&nbsp;New&nbsp;Pane&nbsp;Types</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1699"></A><DIV
+><H3
+>29.5 Defining New Pane Types</H3
+><LI CLASS="outline_item"
+><A HREF="29-5.html#_1700"
+>29.5.1 Defining a New Leaf Pane</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-5.html#_1701"
+>29.5.2 Defining a New Composite Pane</A
+></LI
+><P
+>This section describes how to define new pane classes. The first section shows a new kind of leaf pane (an odd kind of push-button). The second section shows a new composite pane that draws a dashed border around its contents. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7868C5236E72021F03215A0F31BCAB6%2F29.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1700"></A><DIV
+><H4
+>29.5.1 Defining a New Leaf Pane</H4
+><P
+>To define a gadget pane implementation, first define the appearance and layout behavior of the gadget, then define the callbacks, then define the specific user interactions that trigger the callbacks. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1F3BFF6BDEF694EABB9E265150BCD642%2F29.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, to define an odd new kind of button that displays itself as a circle, and activates whenever the mouse is moved over it, proceed as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85A6F681B706A5FD5D5AE14D1C1D7F3E%2F29.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;;; A new kind of button.&#10;(defclass sample-button-pane&#10;          (action-gadget&#10;           space-requirement-mixin&#10;           leaf-pane)&#10;    ())&#10;&#10;;; An arbitrary size parameter.&#10;(defparameter *sample-button-radius* 10)&#10;&#10;;; Define the sheet's repaint method to draw the button.&#10;(defmethod handle-repaint ((button sample-button-pane) region)&#10;  (with-sheet-medium (medium button)&#10;    (let ((radius *sample-button-radius*)&#10;          (half (round  *sample-button-radius* 2)))&#10;      ;; Larger circle with small one in the center&#10;      (draw-circle* medium radius radius radius&#10;                    :filled nil)&#10;      (draw-circle* medium radius radius half&#10;                    :filled t)))&#10;&#10;;; Define the pane's compose-space method to always request the&#10;;; fixed size of the pane.&#10;(defmethod compose-space ((pane sample-button-pane) &amp;key width height)&#10;  (declare (ignore width height))&#10;  (make-space-requirement :width  (* 2 *sample-button-radius*)&#10;                          :height (* 2 *sample-button-radius*)))&#10;</PRE
+><P
+>The above code is enough to allow you to instantiate the button pane in an application frame. It will fit in with the space composition protocol of, for example, an <A NAME="_6698"></A><A HREF="29-3.html#_1618"
+><B CLASS="cl"
+>hbox-pane</B
+></A
+>. It will display itself as two nested circles. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77B3E1FD704E5190DA83B5BF683E4DB4%2F29.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The next step is to define the callbacks supported by this gadget, and the user interaction that triggers them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=843EE611F6DFEB26014FEA1EAF464C1C%2F29.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;;; This default method is defined so that the callback can be invoked&#10;;; on an arbitrary client without error.&#10;(defmethod activate-callback&#10;           ((button sample-button-pane) client id)&#10;  (declare (ignore client id value)))&#10;&#10;;; This event processing method defines the rather odd interaction&#10;;; style of this button, to wit, it triggers the activate callback&#10;;; whenever the mouse moves into it.&#10;(defmethod handle-event ((pane sample-button-pane) (event pointer-enter-event))&#10;  (activate-callback pane (gadget-client pane) (gadget-id pane)))&#10;</PRE
+></DIV
+><A NAME="_1701"></A><DIV
+><H4
+>29.5.2 Defining a New Composite Pane</H4
+><P
+>To define a new layout pane implementation, the programmer must define how the much space the pane takes, where its children go, and what the pane looks like. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67BD3A556F48F63C196A33AA041D41E4%2F29.5.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, to define a new kind of border pane that draws a dashed border around its child pane, proceed as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69B8AF562D8CD3291FE9BDC4247A3E3E%2F29.5.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z25"
+></A
+>The LAYOUT-PANE class refered to below in nowhere described in this&#10;specification. But: By experimentation we found out that it in fact&#10;needed in "real" CLIM. In Lispworks it hides as CLIM-SILICA::LAYOUT-PANE.&#10;In real CLIM the example below would not work by inheriting from say &#10;BASIC-PANE; allocate-space would never be called.&#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69B8AF562D8CD3291FE9BDC4247A3E3E%2F29.5.2&amp;editp=t&amp;id=Z25#Z25"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-05-30 00:19Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><PRE
+>&#10;;; The new layout pane class.&#10;(defclass dashed-border-pane (layout-pane)&#10;    ((thickness :initform 1 :initarg :thickness))&#10;  (:default-initargs :background +black+))&#10;&#10;;; The specified contents are the sole child of the pane.&#10;(defmethod initialize-instance :after ((pane dashed-border-pane) &amp;key contents)&#10;  (sheet-adopt-child pane contents))&#10;&#10;;; The composite pane takes up all of the space of the child, plus&#10;;; the space required for the border.&#10;(defmethod compose-space ((pane dashed-border-pane) &amp;key width height)&#10;  (let ((thickness (slot-value pane 'thickness))&#10;        (child (sheet-child pane)))&#10;    (space-requirement+&#10;      (compose-space child :width width :height height)&#10;      (make-space-requirement &#10;        :width (* 2 thickness)&#10;        :height (* 2 thickness)))))&#10;&#10;;; The child pane is positioned just inside the borders.&#10;(defmethod allocate-space ((pane dashed-border-pane) width height)&#10;  (let ((thickness (slot-value pane 'thickness)))&#10;    (move-and-resize-sheet&#10;      (sheet-child pane)&#10;      thickness thickness&#10;      (- width (* 2 thickness)) (- height (* 2 thickness)))))&#10;  &#10;(defmethod handle-repaint ((pane dashed-border-pane) region)&#10;  (declare (ignore region))                     ;not worth checking&#10;  (with-sheet-medium (medium pane)&#10;    (with-bounding-rectangle* (left top right bottom) (sheet-region pane)&#10;      (let ((thickness (slot-value pane 'thickness)))&#10;        (decf right (ceiling thickness 2))&#10;        (decf bottom (ceiling thickness 2))&#10;        (draw-rectangle* medium left top right bottom&#10;                         :line-thickness thickness :filled nil&#10;                         :ink (pane-background pane))))))&#10;&#10;(defmacro dashed-border ((&amp;rest options &amp;key thickness &amp;allow-other-keys)&#10;                         &amp;body contents)&#10;  (declare (ignore thickness))&#10;  `(make-pane 'dashed-border-pane&#10;     :contents ,@contents&#10;     ,@options))&#10;</PRE
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:54 GMT -->
+</HTML
+>

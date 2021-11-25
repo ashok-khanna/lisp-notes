@@ -1,0 +1,1079 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/26.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 26 Dialog Facilities</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="25 Menu Facilities" HREF="25.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="Part VII: Building Applications" HREF="P-VII.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part VI: Extended Stream Input Facilities" HREF="P-VI.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="25.html"
+>Prev</A
+><BR
+><A HREF="P-VII.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="26.html"
+><B
+>26&nbsp;Dialog&nbsp;Facilities</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1363"></A><DIV
+><H2
+>26 Dialog Facilities</H2
+><P
+><B
+>Major issue: </B
+> <I
+>There is a general issue about how these dialogs fit in with the dialogs that might be provided by the underlying toolkit. For example, under what circumstances is CLIM allowed to directly use the dialog facility provided by the host? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=90439BD2B228ED3004474ECE9D08688C%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1364"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accepting-values</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>own-window exit-boxes  initially-select-query-identifier modify-initial-query  resynchronize-every-pass resize-frame  align-prompts label scroll-bars  x-position y-position width height  command-table frame-class)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Builds a dialog for user interaction based on calls to <A NAME="_5673"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> within <I
+>body</I
+>. The user can select the values and change them, or use defaults if they are supplied. The dialog will also contain some sort of "end" and "abort" choices. If "end" is selected, then <B CLASS="cl"
+>accepting-values</B
+> returns whatever values the body returns. If "abort" is selected, <B CLASS="cl"
+>accepting-values</B
+> will invoke the <B CLASS="cl"
+>abort</B
+> restart. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8CAF6F071FAC0BDC363A3B279B18E14C%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an interactive stream that <B CLASS="cl"
+>accepting-values</B
+> will use to build up the dialog. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_5678"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-input*</B
+> is used. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CE6D97547221CB7972D8A45E0FC0CCA5%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> is the body of the dialog, which contains calls to <A NAME="_5680"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> that will be intercepted by <B CLASS="cl"
+>accepting-values</B
+> and used to build up the dialog. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1DA4F7970142CCFABDDF124E63C11956%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An <B CLASS="cl"
+>accepting-values</B
+> dialog is implemented as an application frame with a looping structure. First, <I
+>body</I
+> is evaluated in order to collect the output. While the body is being evaluated, all calls to <A NAME="_5683"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> call the <A NAME="_5684"></A><A HREF="23-3.html#_1168"
+><B CLASS="cl"
+>accept-present-default</B
+></A
+> presentation methods instead of calling the <A NAME="_5685"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation methods. The output is then displayed, preferably using incremental redisplay in order to avoid unnecessary redisplay of unchanged output. If <I
+>align-prompts</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default is <A NAME="_5687"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>), then the fields of the dialog will be displayed within a call to <A NAME="_5688"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+> so that the prompts are aligned vertically on their right-hand sides and the input fields are aligned on their left-hand sides. This option is intended to support toolkits where users expect dialogs to have this sort of layout. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F7F59BD33C989B21D4E0F389C52DF4B8%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z21"
+></A
+>The requirement that accepting-values be defined as a frame appears to have been dropped; the Franz user guide doesn't mention it. In any event, it would imply that extended output streams be able to adopt frames, which is rather onerous. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F7F59BD33C989B21D4E0F389C52DF4B8%2Faccepting-values%2F26&amp;editp=t&amp;id=Z21#Z21"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Tim Moore 2003-05-08 06:17Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>After <B CLASS="cl"
+>accepting-values</B
+> has displayed all of the fields, it awaits a user gesture, such as clicking on one of the fields of the dialog. When the user clicks on a field, <B CLASS="cl"
+>accepting-values</B
+> reads a new value for that field using <A NAME="_5691"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and replaces the old value with the new value. Then the loop is started again, until the user either exits or aborts from the dialog. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4DAD980A1B18E120D6D38D56C6EAD0B%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Because of its looping structure, <B CLASS="cl"
+>accepting-values</B
+> needs to be able to uniquely identify each call to <A NAME="_5693"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> in the body of the dialog. The <A NAME="_1365"></A><SPAN CLASS="concept"
+>query identifier</SPAN
+> is used to identify the calls to <A NAME="_5694"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. The query identifier for a call to <A NAME="_5695"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> is computed on each loop through the dialog, and should therefore be free of side-effects. Query identifiers are compared using <B CLASS="cl"
+>equal</B
+>. Inside of <B CLASS="cl"
+>accepting-values</B
+>, programmers should supply the <B CLASS="cl"
+>:query-identifier</B
+> argument to each call to <A NAME="_5699"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. If <B CLASS="cl"
+>:query-identifier</B
+> is not explicitly supplied, the prompt for that call to <A NAME="_5701"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> is used as the query identifier. Thus, if <B CLASS="cl"
+>:query-identifier</B
+> is not supplied, programmers must ensure that all of the prompts are different. If there is more than one call to <A NAME="_5703"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> with the same query identifier, the behavior of <B CLASS="cl"
+>accepting-values</B
+> is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75A918660219D7C835592B3187A8BDE8%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>While inside <B CLASS="cl"
+>accepting-values</B
+>, calls to <A NAME="_5706"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> return a third value, a boolean ("changed-p") that indicates whether the object is the result of new input by the user, or is just the previously supplied default. The third value will be <SPAN CLASS="term"
+>true</SPAN
+> in the former case, <SPAN CLASS="term"
+>false</SPAN
+> in the latter. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1AF3A965D47845C57A0B350E3CF3F62C%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> each invocation of <B CLASS="cl"
+>accepting-values</B
+> will probably need to maintain a table that maps from a query identifier to the output record for the field that used the query identifier, and the output record for each field in the dialog will probably need a mapping back to the query identifier. A mediating object (a "query object") is also useful, for instance, as a place to store the "changed-p" flag. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB81FDE730375066D116269B42417DF2%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The class of the application frame created by <B CLASS="cl"
+>accepting-values</B
+> will be <A NAME="_5711"></A><A HREF="26.html#_1366"
+><B CLASS="cl"
+>accept-values</B
+></A
+> or a subclass of <A NAME="_5712"></A><A HREF="26.html#_1366"
+><B CLASS="cl"
+>accept-values</B
+></A
+>. Programmers can use a class of their own by supplying the name of a class via the <I
+>frame-class</I
+> argument. CLIM will use the command table <A NAME="_5713"></A><A HREF="26.html#_1366"
+><B CLASS="cl"
+>accept-values</B
+></A
+> as the command table for <B CLASS="cl"
+>accepting-values</B
+>. Programmers can supply a command table of their own by supplying the <I
+>command-table</I
+> argument. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F1C6B300E6F01DCA0001CDAF1144342%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>own-window</I
+> is non-<A NAME="_5715"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, the dialog will appear in its own "popped-up" window. In this case the initial value of <I
+>stream</I
+> is a window with which the dialog is associated. (This is similar to the <I
+>associated-window</I
+> argument to <A NAME="_5716"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>.) Within the <I
+>body</I
+>, the value of <I
+>stream</I
+> will be the "popped-up" window. <I
+>own-window</I
+> is either <A NAME="_5717"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> or a list of alternating keyword options and values. The accepted options are <B CLASS="cl"
+>:right-margin</B
+> and <B CLASS="cl"
+>:bottom-margin</B
+>; their values control the amount of extra space to the right of and below the dialog (useful if the user's responses to the dialog take up more space than the initially displayed defaults). The allowed values for <B CLASS="cl"
+>:right-margin</B
+> are the same as for the <A NAME="_5721"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> option to <A NAME="_5722"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>; the allowed values for <B CLASS="cl"
+>:bottom-margin</B
+> are the same as for the <A NAME="_5724"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=13060DCA083D25FB84E5208347154474%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>When the programmer supplies </I
+><I
+><B CLASS="cl"
+>:right-margin</B
+></I
+><I
+> or </I
+><I
+><B CLASS="cl"
+>:bottom-margin</B
+></I
+><I
+> options in the own-window argument, how is he supposed to determine what's needed? How about providing an option to permit the window to resize itself dynamically? There really needs to be a hook into </I
+><I
+><A NAME="_5727"></A><A HREF="29-3.html#_1663"
+><B CLASS="cl"
+>note-space-requirements-changed</B
+></A
+></I
+><I
+> or something. ---&nbsp;barmar, SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A422A4EB583F245BD41B4C71940B7D7%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>exit-boxes</I
+> specifies what the exit boxes should look like. The default behavior is though the following were supplied: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E73EA9A6D791F8CFCA243FAA294727EF%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;'((:exit "&lt;End&gt; uses these values")&#10;  (:abort "&lt;Abort&gt; aborts"))&#10;</PRE
+><P
+><B
+>Minor issue: </B
+> <I
+>We need to describe the interpretation of the </I
+><I
+><I
+>exit-boxes</I
+></I
+><I
+> argument. Are other keywords beside </I
+><I
+><B CLASS="cl"
+>:exit</B
+></I
+><I
+> and </I
+><I
+><B CLASS="cl"
+>:abort</B
+></I
+><I
+> permitted, such as </I
+><I
+><B CLASS="cl"
+>:help</B
+></I
+><I
+>? It's pretty common for a dialog to have multiple ways to exit; perhaps </I
+><I
+><B CLASS="cl"
+>accepting-values</B
+></I
+><I
+> should return a second value that indicates which exit box was selected. This alist looks sort of like a menu item list; perhaps the full generality should be permitted (so that the style of the exit box messages can be specified). The text strings that are shown in the default value look more like documentation than button labels; I think both are necessary, and the programmer must be able to find out what the default labels are so that he can include them in the documentation (rather than hard-coding "&lt;End&gt;" and "&lt;Abort&gt;"). ---&nbsp;barmar</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6C3BC0E011A775B1E6259298F7AC0DE3%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>initially-select-query-identifier</I
+> specifies that a particular field in the dialog should be pre-selected when the user interaction begins. The field to be selected is tagged by the <B CLASS="cl"
+>:query-identifier</B
+> option to <A NAME="_5733"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. When the initial display is output, the input editor cursor appears after the prompt of the tagged field, just as if the user had selected that field by clicking on it. The default value, if any, for the selected field is not displayed. When <I
+>modify-initial-query</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the initially selected field is selected for modification rather than for replacement; the default is <A NAME="_5735"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B0EDFA8F3247AEBE3D0338A5F98B8CD%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>resynchronize-every-pass</I
+> is a boolean option specifying whether earlier queries depend on later values; the default is <SPAN CLASS="term"
+>false</SPAN
+>. When it is <SPAN CLASS="term"
+>true</SPAN
+>, the contents of the dialog are redisplayed an additional time after each user interaction. This has the effect of ensuring that, when the value of some field of a dialog depends on the value of another field, all of the displayed fields will be up to date. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B36A00EE7F4CC0D494B71E2361267FCA%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>resize-frame</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, own-window dialogs will be resized after each pass through the redisplay loop. The default is <A NAME="_5739"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28CA0BB073548E667FD724DC99333113%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>label</I
+> is as for <A NAME="_5740"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. <I
+>x-position</I
+> and <I
+>y-position</I
+> are as for <A NAME="_5741"></A><A HREF="25.html#_1356"
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+></A
+>. <I
+>width</I
+> and <I
+>height</I
+> are real numbers that specify the initial width and height of own-window dialogs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B07275ABDCAA33F681D9BDF9AB33C51C%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=640972C3BDEAD2B071642E22612EA3B6%2Faccepting-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="C-1.html#_7115"
+><SPAN CLASS="reverselink"
+>[&larr; C.1.2 The "Delegation Problem"]</SPAN
+></A
+><BR
+><A HREF="C.html#_7091"
+><SPAN CLASS="reverselink"
+>[&larr; C Encapsulating Streams]</SPAN
+></A
+><BR
+><A HREF="30-5.html#_6854"
+><SPAN CLASS="reverselink"
+>[&larr; 30.5 Integrating Gadgets and Output Records]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6214"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6072"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>command-line-read-remaining-arguments-for-partial-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6058"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5754"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-accept-values-command-button</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5746"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accept-values-resynchronize</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5744"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>display-exit-boxes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5742"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accept-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5074"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>gadget-dialog-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5069"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>textual-dialog-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5020"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4972"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>stream-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4812"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1366"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept-values</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Application&nbsp;Frame]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><A NAME="_5742"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> must be implemented as a CLIM application frame that uses <B CLASS="cl"
+>accept-values</B
+> as the name of the frame class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4D1B6801882A6E3C30CEC8BBAC74617%2Faccept-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=710012AA4CAB1984B69D5B3A3390E84E%2Faccept-values%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="26.html#_5745"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>display-exit-boxes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5711"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1367"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>display-exit-boxes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame stream view</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays the exits boxes for the <A NAME="_5744"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> frame <I
+>frame</I
+> on the stream <I
+>strea,</I
+> in the view <I
+>view</I
+>. The exit boxes specification is not passed in directly, but is a slot in the frame. The default method (on <A NAME="_5745"></A><A HREF="26.html#_1366"
+><B CLASS="cl"
+>accept-values</B
+></A
+>) simply writes a line of text associating the Exit and Abort strings with presentations that either exit or abort from the dialog. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E73C3225017524C599F0DC51A9DF9C0D%2Fdisplay-exit-boxes%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>frame</I
+>, <I
+>stream</I
+>, and <I
+>view</I
+> arguments may be specialized to provide a different look-and-feel for different host window systems. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2BF8809655A5EDF5D71609FADEFF0808%2Fdisplay-exit-boxes%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74AB9B80A034C1CD6D12FD4CFD702815%2Fdisplay-exit-boxes%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1368"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept-values-resynchronize</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Causes <A NAME="_5746"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> to resynchronizes the dialog once on the accepting values stream <I
+>stream</I
+> before it restarts the dialog loop. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B41BEE281B22B38BFC32DE3BB683658%2Faccept-values-resynchronize%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38641C1BA8774CC63B28AD6417FCA959%2Faccept-values-resynchronize%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1369"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept-values-command-button</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>documentation query-identifier  cache-value cache-test resynchronize)  prompt  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays the prompt <I
+>prompt</I
+> on the stream <I
+>stream</I
+> and creates an area (the "button"). When a pointer button is clicked in this area at runtime, <I
+>body</I
+> will be evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC8AE5150EBC30DDF070D04B16A2B69B%2Faccept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>accept-values-command-button</B
+> must be implemented by expanding into a call to <A NAME="_5748"></A><A HREF="26.html#_1370"
+><B CLASS="cl"
+>invoke-accept-values-command-button</B
+></A
+>, supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <B CLASS="cl"
+>accept-values-command-button</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E3D4BDE6E5570383F5E153DD8E2B69D%2Faccept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_5750"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-input*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D823CE0C4CA669FB257818AE2AE384B3%2Faccept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=25CD9EF65A93C5D9B709C80840CF1766%2Faccept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1370"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-accept-values-command-button</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>stream continuation view prompt  <TT
+>&amp;key </TT
+>documentation query-identifier cache-value cache-test resynchronize <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E915D28478DEB246E61CD029920E1D7E%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Displays the prompt <I
+>prompt</I
+> on the stream <I
+>stream</I
+> and creates an area (the "button"). When a pointer button is clicked in this area at runtime, the continuation will be called. <I
+>continuation</I
+> is a function that takes no arguments. <I
+>view</I
+> is a view. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A7FB8B9841D3F8EADE5BEA4BB6D9726%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prompt</I
+> may be either a string (which will be displayed via <B CLASS="cl"
+>write-string</B
+>), or a form that will be evaluated to draw the button. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD0873AD72627D329C65768310F36083%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>documentation</I
+> is an object that will be used to produce pointer documentation for the button. It defaults to <I
+>prompt</I
+>. If it is a string, the string itself will be used as the pointer documentation. Otherwise it must be a function of one argument, the stream to which the documentation should be written. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C34E0A9714080C2080E6C33F26E3DACD%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>resynchronize</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the dialog will be redisplayed an additional time whenever the command button is clicked on. See the <I
+>resynchronize-every-pass</I
+> argument to <A NAME="_5754"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89B4AB4C029F1D346EF20F752D20CBEB%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cache-value</I
+> and <I
+>cache-test</I
+> are as for <A NAME="_5755"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>. That is, <I
+>cache-value</I
+> should evaluate to the same value if and only if the output produced by <I
+>prompt</I
+> does not ever change. <I
+>cache-test</I
+> is a function of two arguments that is used to compare cache values. <I
+>cache-value</I
+> defaults to <A NAME="_5756"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> and <I
+>cache-test</I
+> defaults to <B CLASS="cl"
+>eql</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69A7251BB095E5A9366D6D299949200B%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function may only be used inside the dynamic context of an <A NAME="_5758"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A41C038249D0655E4FD5B412267E4A9%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=068968AB32FFA20BB44454595D9E175B%2Finvoke-accept-values-command-button%2F26#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="26.html#_5748"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accept-values-command-button</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/26.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

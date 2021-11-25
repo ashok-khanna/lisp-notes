@@ -1,0 +1,528 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/B-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; B.1 Resources</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="B The CLIM-SYS Package" HREF="B.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="B.2 Multi-processing" HREF="B-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="B The CLIM-SYS Package" HREF="B.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="B.html"
+>Prev</A
+><BR
+><A HREF="B-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+> &rarr;&nbsp;<A HREF="B.html"
+>B&nbsp;The&nbsp;CLIM-SYS&nbsp;Package</A
+><BR
+>&rarr;&nbsp;<A HREF="B-1.html"
+><B
+>B.1&nbsp;Resources</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1870"></A><DIV
+><H3
+>B.1 Resources</H3
+><P
+>CLIM provides a facility called <A NAME="_1871"></A><SPAN CLASS="concept"
+>resources</SPAN
+> that provides for reusing objects. A resource describes how to construct an object, how to initialize and deinitialize it, and how an object should be selected from the resource of objects based on a set of parameters. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4D4DAF5005CBC578008A2FEB68D65BB%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z78"
+></A
+><P
+>In general I think that this resource stuff is already a good abstraction,&#10;however I miss a thing: Resources really should be first class objects. So that say a port can have&#10;a [private] resource on stuff like 1x1 pixel pixmaps of a certain color, or similar things.&#10;Of course you can always include a port argument but that isn't ideal.&#10;Also missing is some way to specify the maximum number of objects hold in the &#10;resource.</P
+><P
+>But then, I what really want is a cache, I suppose.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4D4DAF5005CBC578008A2FEB68D65BB%2FB.1&amp;editp=t&amp;id=Z78#Z78"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-12-12 17:12Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1872"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>defresource</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name parameters  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>constructor initializer deinitializer  matcher initial-copies</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a resource named <I
+>name</I
+>, which must be a symbol. <I
+>parameters</I
+> is a lambda-list giving names and default values (for optional and keyword parameters) of parameters to an object of this type. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=080CE49D8F827F24DD69CA434689F576%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>constructor</I
+> is a form that is responsible for creating an object, and is called when someone tries to allocate an object from the resource and no suitable free objects exist. The constructor form can access the parameters as variables. This argument is required. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6513524C7D4C436C70B31CF5D585B824%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>initializer</I
+> is a form that is used to initialize an object gotten from the resource. It can access the parameters as variables, and also has access to a variable called <I
+>name</I
+>, which is the object to be initialized. The initializer is called both on newly created objects and objects that are being reused. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA6302CD6015D3EAE607A3D31C0519AA%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>deinitializer</I
+> is a form that is used to deinitialize an object when it is about to be returned to the resource. It can access the parameters as variables, and also has access to a variable called <I
+>name</I
+>, which is the object to be deinitialized. It is called whenever an object is deallocated back to the resource, but is not called by <A NAME="_7041"></A><A HREF="B-1.html#_1876"
+><B CLASS="cl"
+>clear-resource</B
+></A
+>. Deinitializers are typically used to clear references to other objects. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=04FB15C6ABD2EDD2CF7BDB4EDEE4490D%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>matcher</I
+> is a form that ensures that an object in the resource "matches" the specified parameters, which it can access as variables. In addition, the matcher also has access to a variable called <I
+>name</I
+>, which is the object in the resource being matched against. If no matcher is supplied, the system remembers the values of the parameters (including optional ones that defaulted) that were used to construct the object, and assumes that it matches those particular values for all time. This comparison is done with <B CLASS="cl"
+>equal</B
+>. The matcher should return <SPAN CLASS="term"
+>true</SPAN
+> if there is a match, otherwise it should return <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9348AC322A140895A733E8302CCC3B8%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>initial-copies</I
+> is used to specify the number of objects that should be initially put into the resource. It must be an integer or <A NAME="_7045"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (the default), meaning that no initial copies should be made. If initial copies are made and there are parameters, all the parameters must be optional; in this case, the initial copies have the default values of the parameters. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=005BE6949B0EEA19329E14146702B6F6%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5918B72F8F61A3209A413A9B09FB37CE%2Fdefresource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1873"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>using-resource</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(variable name </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>parameters) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The forms in <I
+>body</I
+> are evaluated with <I
+>variable</I
+> bound to an object allocated from the resource named <I
+>name</I
+>, using the parameters given by <I
+>parameters</I
+>. The parameters (if any) are evaluated, but <I
+>name</I
+> is not. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B739064A741B624CCCA3AB1FAE8C44A8%2Fusing-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>After the body has been evaluated, <B CLASS="cl"
+>using-resource</B
+> returns the object in <I
+>variable</I
+> back to the resource. If some form in the body sets <I
+>variable</I
+> to <A NAME="_7047"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, the object will not be returned to the resource. Otherwise, the body should not changes the value of <I
+>variable</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1031B82520A9FB764FE439635328D4EB%2Fusing-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED4303303372395273D681EE784C3196%2Fusing-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1874"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>allocate-resource</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>parameters</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Allocates an object from the resource named <I
+>name</I
+>, using the parameters given by <I
+>parameters</I
+>. <I
+>name</I
+> must be a symbol that names a resource. The returned value is the allocated object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=876C8A40FFCA20E996DAD5EF1ACC1D5D%2Fallocate-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47CD43F057431D2FA5A261A71B615959%2Fallocate-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1875"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>deallocate-resource</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the object <I
+>object</I
+> to the resource named <I
+>name</I
+>. <I
+>name</I
+> must be a symbol that names a resource. <I
+>object</I
+> must be an object that was originally allocated from the same resource. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=365AF52E8628FB91C07731A4B9FDFF43%2Fdeallocate-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96B2EF7230C750CE903C13DF9C67F6D8%2Fdeallocate-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1876"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>clear-resource</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Clears the resource named <I
+>name</I
+>, that is, removes all of the resourced object from the resource. <I
+>name</I
+> must be a symbol that names a resource. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63353C999886D7682F2F6A4F7DAD1EA6%2Fclear-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB5D5ACD6A37C86729C25457CEAB8BBE%2Fclear-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="B-1.html#_7041"
+><SPAN CLASS="reverselink"
+>[&larr; B.1 Resources, <B CLASS="cl"
+><B CLASS="cl"
+>defresource</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1877"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-resource</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls <I
+>function</I
+> once on each object in the resource named <I
+>name</I
+>. <I
+>function</I
+> is a function of three arguments, the object, a boolean value that is <SPAN CLASS="term"
+>true</SPAN
+> if the object is in use or <SPAN CLASS="term"
+>false</SPAN
+> if it is free, and <I
+>name</I
+>. <I
+>function</I
+> has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14023B45C6175DD362E2EF13085C9626%2Fmap-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6566FC7528D7D29149F3B26853AAF3F8%2Fmap-resource%2FB.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/B-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

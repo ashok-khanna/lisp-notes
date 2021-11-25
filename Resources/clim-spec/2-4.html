@@ -1,0 +1,231 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 2.4 Immutability of Objects</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="2.3 "Spread" Point Arguments to Functions " HREF="2-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="2.5 Protocol Classes and Predicates" HREF="2-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="2 Conventions" HREF="2.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="2-3.html"
+>Prev</A
+><BR
+><A HREF="2-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-I.html"
+>Part&nbsp;I:&nbsp;Overview&nbsp;and&nbsp;Conventions</A
+> &rarr;&nbsp;<A HREF="2.html"
+>2&nbsp;Conventions</A
+><BR
+>&rarr;&nbsp;<A HREF="2-4.html"
+><B
+>2.4&nbsp;Immutability&nbsp;of&nbsp;Objects</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_12"></A><DIV
+><H3
+>2.4 Immutability of Objects</H3
+><LI CLASS="outline_item"
+><A HREF="2-4.html#_17"
+>2.4.1 Behavior of Interfaces</A
+></LI
+><DIV
+><P
+>Most CLIM objects are <A NAME="_13"></A><SPAN CLASS="concept"
+>immutable</SPAN
+>, that is, at the protocol level none of their components can be modified once the object is created. Examples of immutable objects include all of the members of the <A NAME="_2041"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> classes, colors and opacities, text styles, and line styles. Since immutable objects by definition never change, functions in the CLIM API can safely capture immutable objects without first copying them. This also allows CLIM to cache immutable objects. Constructor functions that return immutable objects are free to either create and return a new object, or return an already existing object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=13E5E41CCF82DFA633DD8105C24E9B53%2F2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6939"
+><SPAN CLASS="reverselink"
+>[immutable, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><DIV
+><P
+>A few CLIM objects are <A NAME="_14"></A><SPAN CLASS="concept"
+>mutable</SPAN
+>. Examples of mutable objects include streams and output records. Some components of mutable objects can be modified once the object has been created, usually via <B CLASS="cl"
+>setf</B
+> accessors. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3D49F0A46728BFBC29FFCC3EEF7478AF%2F2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6964"
+><SPAN CLASS="reverselink"
+>[mutable, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>In CLIM, object immutability is maintained at the class level. Throughout this specification, the immutability or mutability of a class will be explicitly specified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=570E1456E7475EE1F830BD48A8D86C8D%2F2.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z434"
+></A
+>throughout the specification, the words "instances of" are likely to be omitted when describing the behavior of instances of a class. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=570E1456E7475EE1F830BD48A8D86C8D%2F2.4&amp;editp=t&amp;id=Z434#Z434"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Adlai Chandrasekhar 2021-03-19 18:29Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>Some immutable classes also allow <A NAME="_15"></A><SPAN CLASS="concept"
+>interning</SPAN
+>. A class is said to be interning if it guarantees that two instances that are equivalent will always be <B CLASS="cl"
+>eq</B
+>. For example, if the class <A NAME="_2044"></A><A HREF="13-3.html#_686"
+><B CLASS="cl"
+>color</B
+></A
+> were interning, calling <A NAME="_2045"></A><A HREF="13-3.html#_688"
+><B CLASS="cl"
+>make-rgb-color</B
+></A
+> twice with the same arguments would return <B CLASS="cl"
+>eq</B
+> values. CLIM does not specify that any class is interning, however all immutable classes are allowed to be interning at the discretion of the implementation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=44BB5D026626BE611DD4C1C6AF86FF87%2F2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In some rare cases, CLIM will modify objects that are members of immutable classes. Such objects are referred to as being <A NAME="_16"></A><SPAN CLASS="concept"
+>volatile</SPAN
+>. Extreme care must be take with volatile objects. This specification will note whenever some object that is part of the API is volatile. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=94BFA8BB01F495BD553F6B163664EE8F%2F2.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z403"
+></A
+>s/must be take/must be taken/ <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=94BFA8BB01F495BD553F6B163664EE8F%2F2.4&amp;editp=t&amp;id=Z403#Z403"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Fred Feuerstein 5 2020-04-11 02:20Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><A NAME="_17"></A><DIV
+><H4
+>2.4.1 Behavior of Interfaces</H4
+><P
+>In this specification, any interfaces that take or return mutable objects can be classified in a few different ways. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9671137C815013E19C8EA87C0B8331F0%2F2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Most functions <A NAME="_18"></A><SPAN CLASS="concept"
+>do not capture</SPAN
+> their mutable input objects, that is, these functions will either not store the objects at all, or will copy any mutable objects before storing them, or perhaps store only some of the components of the objects. Later modifications to those objects will not affect the internal state of CLIM. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=78734E375A2C10AC95AA1298A61E2B12%2F2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some functions <A NAME="_19"></A><SPAN CLASS="concept"
+>may capture</SPAN
+> their mutable input objects. That is, it is unspecified as to whether a CLIM implementation will or will not capture the mutable inputs to some function. For such functions, programmers should assume that these objects will be captured and must not modify these objects capriciously. Furthermore, it is unspecifed what will happen if these objects are later modified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DF7A1A15DAB2A711E08AFB37E8BDFF7%2F2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some programmers might choose to create a mutable subclass of an immutable class. If CLIM captures an object that is a member of such a class, it is unspecified what will happen if the programmer later modifies that object. If a programmer passes such an object to a CLIM function that may capture its inputs, he is responsible for either first copying the object or ensuring that the object does not change later. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD0590AA50BA09E48345B9128927E9B8%2F2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some functions that return mutable objects are guaranteed to create <A NAME="_20"></A><SPAN CLASS="concept"
+>fresh outputs</SPAN
+>. These objects can be modified without affecting the internal state of CLIM. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1C8A819B415BC766D3B90D4AF91C02DB%2F2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Functions that return mutable objects that are not fresh objects fall into two categories: those that return <A NAME="_21"></A><SPAN CLASS="concept"
+>read-only state</SPAN
+>, and those that return <A NAME="_22"></A><SPAN CLASS="concept"
+>read/write state</SPAN
+>. If a function returns read-only state, programmers must not modify that object; doing so might corrupt the state of CLIM. If a function returns read/write state, the modification of that object is part of CLIM's interface, and programmers are free to modify the object in ways that "make sense". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1F9007D1C5FC251EB1C45A9B469D93A%2F2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

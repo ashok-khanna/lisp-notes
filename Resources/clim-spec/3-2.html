@@ -1,0 +1,4510 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/3-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 3.2 Other Region Types</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="3.1 General Regions" HREF="3-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="4 Bounding Rectangles" HREF="4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="3 Regions" HREF="3.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="3-1.html"
+>Prev</A
+><BR
+><A HREF="4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-II.html"
+>Part&nbsp;II:&nbsp;Geometry&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="3.html"
+>3&nbsp;Regions</A
+><BR
+>&rarr;&nbsp;<A HREF="3-2.html"
+><B
+>3.2&nbsp;Other&nbsp;Region&nbsp;Types</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_69"></A><DIV
+><H3
+>3.2 Other Region Types</H3
+><LI CLASS="outline_item"
+><A HREF="3-2.html#_71"
+>3.2.1 Points</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="3-2.html#_81"
+>3.2.2 Polygons and Polylines</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="3-2.html#_100"
+>3.2.3 Lines</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="3-2.html#_111"
+>3.2.4 Rectangles</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="3-2.html#_128"
+>3.2.5 Ellipses and Elliptical Arcs</A
+></LI
+><P
+>The other types of regions are points, polylines, polygons, elliptical arcs, and ellipses. All of these region types are closed under affine transformations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C104ACBB048991A27EF6AD2CB20A7204%2F3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Major issue: </B
+> <I
+>There is a proposal to remove the </I
+><I
+><A NAME="_2195"></A><A HREF="3-2.html#_90"
+><B CLASS="cl"
+>polygon</B
+></A
+></I
+><I
+>, </I
+><I
+><A NAME="_2196"></A><A HREF="3-2.html#_85"
+><B CLASS="cl"
+>polyline</B
+></A
+></I
+><I
+>, </I
+><I
+><A NAME="_2197"></A><A HREF="3-2.html#_101"
+><B CLASS="cl"
+>line</B
+></A
+></I
+><I
+>, </I
+><I
+><A NAME="_2198"></A><A HREF="3-2.html#_132"
+><B CLASS="cl"
+>ellipse</B
+></A
+></I
+><I
+>, and </I
+><I
+><A NAME="_2199"></A><A HREF="3-2.html#_137"
+><B CLASS="cl"
+>elliptical-arc</B
+></A
+></I
+><I
+> classes, since they are only of limited utility, and CLIM itself doesn't use the classes at all. The advantage of removing these classes is that both the spec and CLIM itself become a little simpler, and there are fewer cases of the region protocol to implement. However, removing these classes results in a geometric model that is no longer closed (in the mathematical sense). This lack of closure makes it difficult to specify the design-based drawing model. Furthermore, these are intuitive objects that are used by a small, but important, class of applications, and some people feel that CLIM should relieve programmers from having to implement these classes for himself or herself.</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8500CC183B05AA057426E0771A5B2AF3%2F3.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z314"
+></A
+>Removal of these classes in an age where geographic information and mapping applications are ascendant and are critical to most organizations in business and academia would be a negative move. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8500CC183B05AA057426E0771A5B2AF3%2F3.2&amp;editp=t&amp;id=Z314#Z314"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Mike Thomas 2017-12-14 10:00Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>The advocates of of removing these classes also propose removing the design-based drawing model. In this case, a more consistent proposal is to remove all of the geometric classes, including </I
+><I
+><A NAME="_2200"></A><A HREF="3-2.html#_73"
+><B CLASS="cl"
+>point</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_2201"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+></I
+><I
+>.</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7C3EDB85552537455F68AFFB27EF69AA%2F3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>Again, the opposing point of view believes that the power and flexibility of the design-based drawing model does not justify the removal of any of these classes. One counter-proposal is to require CLIM not to use any of the extended region classes internally, and to move the implementation of the extended region classes to a separately loadable module (via </I
+><I
+><B CLASS="cl"
+>provide</B
+></I
+><I
+> and </I
+><I
+><B CLASS="cl"
+>require</B
+></I
+><I
+>). ---&nbsp;SWM, York</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8359290FBF0EE4F2C37CB6DBF29807F7%2F3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="region-structure.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 3.3: The class structure for all regions.</DIV
+></DIV
+><A NAME="_71"></A><DIV
+><H4
+>3.2.1 Points</H4
+><DIV
+><P
+>A <A NAME="_72"></A><SPAN CLASS="concept"
+>point</SPAN
+> is a mathematical point in the plane, designated by its coordinates, which are a pair of real numbers (where a real number is defined as either an integer, a ratio, or a floating point number). Points have neither area nor length (that is, they have dimensionality 0). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1B39A993F4FA1D3624B972C10D59CE0%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6986"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3232"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 12.5.2 Compound Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-arrow</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3218"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-text</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3206"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3189"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-line</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-5.html#_3185"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2335"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>make-elliptical-arc</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2323"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>make-ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2294"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>make-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2293"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>make-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2220"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 3.2.1.1 The Point Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>point-x</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2210"
+><SPAN CLASS="reverselink"
+>[point, <I
+>Concept</I
+>&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>pointp</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Note well that a point is <I
+>not</I
+> a pixel; CLIM models a drawing plane with continuous coordinates. This is discussed in more detail in Chapter&nbsp;<A NAME="_2204"></A><A HREF="12.html#_598"
+>12</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11221EFC0547077C75B2B3AC8831564D%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_73"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a mathematical point. This is a subclass of <A NAME="_2205"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> and <A NAME="_2206"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+>. If you want to create a new class that behaves like a point, it should be a subclass of <B CLASS="cl"
+>point</B
+>. All instantiable subclasses of <B CLASS="cl"
+>point</B
+> must obey the point protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F398CDB22F4FD5394DA54D22F697C73A%2Fpoint%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5669CF8ECD931C8DA9E68A08C40BF51B%2Fpoint%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2223"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1.1 The Point Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>point-x</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2216"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1.1 The Point Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2212"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>standard-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2200"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+><A HREF="2-3.html#_2039"
+><SPAN CLASS="reverselink"
+>[&larr; 2.3 "Spread" Point Arguments to Functions ]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_74"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2210"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=412D7999142364D5AC23CF34C5439BCB%2Fpointp%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1F6DCC1570EF75A405C63454A53E294%2Fpointp%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_75"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements a point. This is a subclass of <A NAME="_2212"></A><A HREF="3-2.html#_73"
+><B CLASS="cl"
+>point</B
+></A
+>. This is the class that <A NAME="_2213"></A><A HREF="3-2.html#_76"
+><B CLASS="cl"
+>make-point</B
+></A
+> instantiates. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0A1FED3A4C3158889C5E095AA415DF2%2Fstandard-point%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1789AA3CCA031737C8C033393C9E938A%2Fstandard-point%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2214"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>make-point</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_76"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2214"></A><A HREF="3-2.html#_75"
+><B CLASS="cl"
+>standard-point</B
+></A
+> whose coordinates are <I
+>x</I
+> and <I
+>y</I
+>. <I
+>x</I
+> and <I
+>y</I
+> must be real numbers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C493CDA5E42CA71BF9581FDABA07133%2Fmake-point%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63A881E0BCB6D1C41FBA691D16431963%2Fmake-point%2F3.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2213"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>standard-point</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_77"></A><DIV
+><H4
+>3.2.1.1 The Point Protocol</H4
+><P
+>The following generic functions comprise the point API. Only <A NAME="_2215"></A><A HREF="3-2.html#_78"
+><B CLASS="cl"
+>point-position</B
+></A
+> is in the point protocol, that is, all classes that are subclasses of <A NAME="_2216"></A><A HREF="3-2.html#_73"
+><B CLASS="cl"
+>point</B
+></A
+> must implement methods for <A NAME="_2217"></A><A HREF="3-2.html#_78"
+><B CLASS="cl"
+>point-position</B
+></A
+>, but need not implement methods for <A NAME="_2218"></A><A HREF="3-2.html#_79"
+><B CLASS="cl"
+>point-x</B
+></A
+> and <A NAME="_2219"></A><A HREF="3-2.html#_80"
+><B CLASS="cl"
+>point-y</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=643F69F48562AD9C4BF65BDE642A75F2%2F3.2.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_78"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>point-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>point</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns both the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the point <I
+>point</I
+> as two values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EC60D7D4474FF7A1FC162B30C7DE4AAA%2Fpoint-position%2F3.2.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B98913CC76B9082915EC6AE73B3B5FC%2Fpoint-position%2F3.2.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7289"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2224"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1.1 The Point Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>point-x</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2215"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1.1 The Point Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_79"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>point-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>point</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_80"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>point-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>point</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> or <I
+>y</I
+> coordinate of the <A NAME="_2220"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point</I
+>, respectively. CLIM will supply default methods for <B CLASS="cl"
+>point-x</B
+> and <B CLASS="cl"
+>point-y</B
+> on the protocol class <A NAME="_2223"></A><A HREF="3-2.html#_73"
+><B CLASS="cl"
+>point</B
+></A
+> that are implemented by calling <A NAME="_2224"></A><A HREF="3-2.html#_78"
+><B CLASS="cl"
+>point-position</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=754D06FF2F3BCC22CC0A863D1EB2F35B%2Fpoint-x%2F3.2.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7144FAF91A67CE2F82A768A2D98DAB1A%2Fpoint-x%2F3.2.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2219"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1.1 The Point Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><A NAME="_81"></A><DIV
+><H4
+>3.2.2 Polygons and Polylines</H4
+><DIV
+><P
+>A <A NAME="_82"></A><SPAN CLASS="concept"
+>polyline</SPAN
+> is a path that consists of one or more line segments joined consecutively at their end-points. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4BFBFA1AE22697079253493ACEF7EDBE%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="3-2.html#_2252"
+><SPAN CLASS="reverselink"
+>[polyline, <I
+>Concept</I
+>&larr; 3.2.2.1 The Polygon and Polyline Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2229"
+><SPAN CLASS="reverselink"
+>[polyline, <I
+>Concept</I
+>&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>polylinep</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Polylines that have the end-point of their last line segment coincident with the start-point of their first line segment are called <A NAME="_83"></A><SPAN CLASS="concept"
+>closed</SPAN
+>; this use of the term "closed" should not be confused with closed sets of points. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2CE5C9074A6B42F26079E47B9FA501A0%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>A <A NAME="_84"></A><SPAN CLASS="concept"
+>polygon</SPAN
+> is an area bounded by a closed polyline. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2136E7B25D7E508FAB9153B3CACF0366%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="3-2.html#_2251"
+><SPAN CLASS="reverselink"
+>[polygon, <I
+>Concept</I
+>&larr; 3.2.2.1 The Polygon and Polyline Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2242"
+><SPAN CLASS="reverselink"
+>[polygon, <I
+>Concept</I
+>&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>polygonp</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>If the boundary of a polygon intersects itself, the odd-even winding-rule defines the polygon: a point is inside the polygon if a ray from the point to infinity crosses the boundary an odd number of times. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=400B620E53BF1B3A0F0B8586734F6667%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_85"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>polyline</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a polyline. This is a subclass of <A NAME="_2225"></A><A HREF="3-1.html#_41"
+><B CLASS="cl"
+>path</B
+></A
+>. If you want to create a new class that behaves like a polyline, it should be a subclass of <B CLASS="cl"
+>polyline</B
+>. All instantiable subclasses of <B CLASS="cl"
+>polyline</B
+> must obey the polyline protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=145178CDFD61C2CFA12BA8DE69EC49E1%2Fpolyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F684A85A48D2BD248769BB43066D841%2Fpolyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2258"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3 Lines, <B CLASS="cl"
+><B CLASS="cl"
+>line</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2250"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2.1 The Polygon and Polyline Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2231"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>standard-polyline</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2196"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_86"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>polylinep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2229"></A><A HREF="3-2.html#_82"
+><SPAN CLASS="term"
+>polyline</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF0BB648B6779C6DB1E30AD154AC7E3A%2Fpolylinep%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EB679A279FF51FE2760C897E5B46B0C%2Fpolylinep%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_87"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-polyline</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements a polyline. This is a subclass of <A NAME="_2231"></A><A HREF="3-2.html#_85"
+><B CLASS="cl"
+>polyline</B
+></A
+>. This is the class that <A NAME="_2232"></A><A HREF="3-2.html#_88"
+><B CLASS="cl"
+>make-polyline</B
+></A
+> and <A NAME="_2233"></A><A HREF="3-2.html#_89"
+><B CLASS="cl"
+>make-polyline*</B
+></A
+> instantiate. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB33A6D045778119B5E2860C64FD25E2%2Fstandard-polyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB80484ECFEB346277DD04C7E288505B%2Fstandard-polyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2234"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>make-polyline</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_88"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-polyline</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>point-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>closed</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_89"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-polyline*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>coord-seq </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>closed</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2234"></A><A HREF="3-2.html#_87"
+><B CLASS="cl"
+>standard-polyline</B
+></A
+> consisting of the segments connecting each of the points in <I
+>point-seq</I
+> (or the points represented by the coordinate pairs in <I
+>coord-seq</I
+>). <I
+>point-seq</I
+> is a sequence of <SPAN CLASS="term"
+>points</SPAN
+>; <I
+>coord-seq</I
+> is a sequence of coordinate pairs, which are real numbers. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFD978233F0F725288FE96D96E08A565%2Fmake-polyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>closed</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the segment connecting the first point and the last point is included in the polyline. The default for <I
+>closed</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E073E7B80B9F8766D766A54B616516BA%2Fmake-polyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-polyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD2336C039F9D8B52316A9212819FB25%2Fmake-polyline%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2233"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>standard-polyline</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_90"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>polygon</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a mathematical polygon. This is a subclass of <A NAME="_2238"></A><A HREF="3-1.html#_44"
+><B CLASS="cl"
+>area</B
+></A
+>. If you want to create a new class that behaves like a polygon, it should be a subclass of <B CLASS="cl"
+>polygon</B
+>. All instantiable subclasses of <B CLASS="cl"
+>polygon</B
+> must obey the polygon protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DA649F538A49B8C0382F7A62BEB006F1%2Fpolygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91CDD7541B6E060703682B7CA48FECAC%2Fpolygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2283"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2249"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2.1 The Polygon and Polyline Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2244"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>standard-polygon</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2195"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_91"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>polygonp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2242"></A><A HREF="3-2.html#_84"
+><SPAN CLASS="term"
+>polygon</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE7998E4AF857974A369F88EBDC7EF97%2Fpolygonp%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77CCB334A61EA61624D1AC25AC47D35B%2Fpolygonp%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_92"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-polygon</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements a polygon. This is a subclass of <A NAME="_2244"></A><A HREF="3-2.html#_90"
+><B CLASS="cl"
+>polygon</B
+></A
+>. This is the class that <A NAME="_2245"></A><A HREF="3-2.html#_93"
+><B CLASS="cl"
+>make-polygon</B
+></A
+> and <A NAME="_2246"></A><A HREF="3-2.html#_94"
+><B CLASS="cl"
+>make-polygon*</B
+></A
+> instantiate. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A53F34580AF7290517B5343DBB68D70%2Fstandard-polygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=666BBDFC65ED65663BF53BFBDB977419%2Fstandard-polygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2247"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>make-polygon</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_93"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-polygon</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>point-seq</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_94"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-polygon*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>coord-seq</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2247"></A><A HREF="3-2.html#_92"
+><B CLASS="cl"
+>standard-polygon</B
+></A
+> consisting of the area contained in the boundary that is specified by the segments connecting each of the points in <I
+>point-seq</I
+> (or the points represented by the coordinate pairs in <I
+>coord-seq</I
+>). <I
+>point-seq</I
+> is a sequence of <SPAN CLASS="term"
+>points</SPAN
+>; <I
+>coord-seq</I
+> is a sequence of coordinate pairs, which are real numbers. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38B70B59BB4EBC3A0BAF5F84945AE29A%2Fmake-polygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-polygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F008D6AC7990FA47D84C9CDC0CFCAC05%2Fmake-polygon%2F3.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2246"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.2 Polygons and Polylines, <B CLASS="cl"
+><B CLASS="cl"
+>standard-polygon</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_95"></A><DIV
+><H4
+>3.2.2.1 The Polygon and Polyline Protocol</H4
+><P
+>The following generic functions comprise the polygon and polyline protocol. All classes that are subclasses of either <A NAME="_2249"></A><A HREF="3-2.html#_90"
+><B CLASS="cl"
+>polygon</B
+></A
+> or <A NAME="_2250"></A><A HREF="3-2.html#_85"
+><B CLASS="cl"
+>polyline</B
+></A
+> must implement methods for these generic functions. Some of the functions below take an argument named <I
+>polygon-or-polyline</I
+>; this argument may be either a <A NAME="_2251"></A><A HREF="3-2.html#_84"
+><SPAN CLASS="term"
+>polygon</SPAN
+></A
+> or a <A NAME="_2252"></A><A HREF="3-2.html#_82"
+><SPAN CLASS="term"
+>polyline</SPAN
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DCB0DF76E924268D7FB4A9B9EC4CDE5B%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_96"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>polygon-points</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>polygon-or-polyline</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence of points that specify the segments in <I
+>polygon-or-polyline</I
+>. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C34A9A10509B4C9EF21119D70EED0F0%2Fpolygon-points%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F6C6865C7724884018746142C3106DE%2Fpolygon-points%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_97"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-polygon-coordinates</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function polygon-or-polyline</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the coordinates of the vertices of <I
+>polygon-or-polyline</I
+>. <I
+>function</I
+> is a function of two arguments, the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the vertex; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02DEAB77946DD26118625F8BC31EE29F%2Fmap-over-polygon-coordinates%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2929983F802034D04365C47FFC41AEF9%2Fmap-over-polygon-coordinates%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_98"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-polygon-segments</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function polygon-or-polyline</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to the segments that compose <I
+>polygon-or-polyline</I
+>. <I
+>function</I
+> is a function of four arguments, the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the start of the segment, and the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the end of the segment; it has dynamic extent. When <B CLASS="cl"
+>map-over-polygon-segments</B
+> is called on a closed polyline, it will call <I
+>function</I
+> on the segment that connects the last point back to the first point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9FFACB8B7AC8D56F7056FAAA2D17AAAC%2Fmap-over-polygon-segments%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9EDDBC0A83E0825B1F6A9490D2EF3091%2Fmap-over-polygon-segments%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_99"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>polyline-closed</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>polyline</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the polyline <I
+>polyline</I
+> is closed, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. This function need be implemented only for <SPAN CLASS="term"
+>polylines</SPAN
+>, not for <SPAN CLASS="term"
+>polygons</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5C12C7A8BB94AE6F88BDAB9025F5718%2Fpolyline-closed%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=37F9357DD6A7555F34AA890C99895216%2Fpolyline-closed%2F3.2.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><A NAME="_100"></A><DIV
+><H4
+>3.2.3 Lines</H4
+><P
+>A line is a polyline consisting of a single segment. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED755DE9800F7A254BB58886ADEDF26B%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_101"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a mathematical line segment, that is, a polyline with only a single segment. This is a subclass of <A NAME="_2258"></A><A HREF="3-2.html#_85"
+><B CLASS="cl"
+>polyline</B
+></A
+>. If you want to create a new class that behaves like a line, it should be a subclass of <B CLASS="cl"
+>line</B
+>. All instantiable subclasses of <B CLASS="cl"
+>line</B
+> must obey the line protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E781475B2F55DBD7C813E70CBBB9A3AF%2Fline%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4AE1C4D9D4FF56B88B077F203B7099E%2Fline%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2280"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3.1 The Line Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>line-start-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2271"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3.1 The Line Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2264"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3 Lines, <B CLASS="cl"
+><B CLASS="cl"
+>standard-line</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2197"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_102"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>linep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>line</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66F9D2DEAC418E64DC2B68B254D27CFA%2Flinep%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=25A2E295D14E9EF8DB30F0B4566045C8%2Flinep%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_103"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-line</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements a line segment. This is a subclass of <A NAME="_2264"></A><A HREF="3-2.html#_101"
+><B CLASS="cl"
+>line</B
+></A
+>. This is the class that <A NAME="_2265"></A><A HREF="3-2.html#_104"
+><B CLASS="cl"
+>make-line</B
+></A
+> and <A NAME="_2266"></A><A HREF="3-2.html#_105"
+><B CLASS="cl"
+>make-line*</B
+></A
+> instantiate. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9ECF842468FA1AA03C893BAFBF7A4484%2Fstandard-line%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80555DC25EFBE6224EA92730E6A74BEC%2Fstandard-line%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2267"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3 Lines, <B CLASS="cl"
+><B CLASS="cl"
+>make-line</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_104"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-line</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>start-point end-point</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_105"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-line*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>start-x start-y end-x end-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2267"></A><A HREF="3-2.html#_103"
+><B CLASS="cl"
+>standard-line</B
+></A
+> that connects the two <SPAN CLASS="term"
+>points</SPAN
+> <I
+>start-point</I
+> and <I
+>end-point</I
+> (or the positions (<I
+>start-x</I
+>,<I
+>start-y</I
+>) and (<I
+>end-x</I
+>,<I
+>end-y</I
+>)). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FAEA40EA199F0A3D7362230F5DC734F9%2Fmake-line%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-line%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42A192F74E412DB82100E7C1140C0069%2Fmake-line%2F3.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3562"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2107"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>pathp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2266"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3 Lines, <B CLASS="cl"
+><B CLASS="cl"
+>standard-line</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2101"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>path</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_106"></A><DIV
+><H4
+>3.2.3.1 The Line Protocol</H4
+><P
+>The following generic functions comprise the line API. Only <A NAME="_2269"></A><A HREF="3-2.html#_107"
+><B CLASS="cl"
+>line-start-point*</B
+></A
+> and <A NAME="_2270"></A><A HREF="3-2.html#_108"
+><B CLASS="cl"
+>line-end-point*</B
+></A
+> are in the line protocol, that is, all classes that are subclasses of <A NAME="_2271"></A><A HREF="3-2.html#_101"
+><B CLASS="cl"
+>line</B
+></A
+> must implement methods for <A NAME="_2272"></A><A HREF="3-2.html#_107"
+><B CLASS="cl"
+>line-start-point*</B
+></A
+> and <A NAME="_2273"></A><A HREF="3-2.html#_108"
+><B CLASS="cl"
+>line-end-point*</B
+></A
+>, but need not implement methods for <A NAME="_2274"></A><A HREF="3-2.html#_109"
+><B CLASS="cl"
+>line-start-point</B
+></A
+> and <A NAME="_2275"></A><A HREF="3-2.html#_110"
+><B CLASS="cl"
+>line-end-point</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC8491B9E520D81C5079B335A504CE8B%2F3.2.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_107"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-start-point*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_108"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-end-point*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the starting or ending point, respectively, of the <SPAN CLASS="term"
+>line</SPAN
+> <I
+>line</I
+> as two real numbers representing the coordinates of the point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3D9E904FABC56ADF958157316533DD2%2Fline-start-point%2A%2F3.2.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=82480D1ADBE9D1D16D197E129580874D%2Fline-start-point%2A%2F3.2.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2282"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3.1 The Line Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>line-start-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2270"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3.1 The Line Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_109"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-start-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_110"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-end-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the starting or ending point of the <SPAN CLASS="term"
+>line</SPAN
+> <I
+>line</I
+>, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07BC8FCC92D96573C6926DD2DDDFC826%2Fline-start-point%2F3.2.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM will supply default methods for <B CLASS="cl"
+>line-start-point</B
+> and <B CLASS="cl"
+>line-end-point</B
+> on the protocol class <A NAME="_2280"></A><A HREF="3-2.html#_101"
+><B CLASS="cl"
+>line</B
+></A
+> that are implemented by calling <A NAME="_2281"></A><A HREF="3-2.html#_107"
+><B CLASS="cl"
+>line-start-point*</B
+></A
+> and <A NAME="_2282"></A><A HREF="3-2.html#_108"
+><B CLASS="cl"
+>line-end-point*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0B8D71A3B35EDDD1FC352528F3A9D7CC%2Fline-start-point%2F3.2.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E65440447FCEEFAC2645022225ED83DC%2Fline-start-point%2F3.2.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2275"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.3.1 The Line Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><A NAME="_111"></A><DIV
+><H4
+>3.2.4 Rectangles</H4
+><P
+>Rectangles whose edges are parallel to the coordinate axes are a special case of polygon that can be specified completely by four real numbers (<I
+>x1</I
+>,<I
+>y1</I
+>,<I
+>x2</I
+>,<I
+>y2</I
+>). They are <I
+>not</I
+> closed under general affine transformations (although they are closed under rectilinear transformations). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=790CF3919EC335F9570C04AF9AC25430%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_112"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a mathematical rectangle, that is, rectangular polygons whose sides are parallel to the coordinate axes. This is a subclass of <A NAME="_2283"></A><A HREF="3-2.html#_90"
+><B CLASS="cl"
+>polygon</B
+></A
+>. If you want to create a new class that behaves like a rectangle, it should be a subclass of <B CLASS="cl"
+>rectangle</B
+>. All instantiable subclasses of <B CLASS="cl"
+>rectangle</B
+> must obey the rectangle protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16FCB6337944958FEE7117A74C9434CA%2Frectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A1121CD8D7A27122AB9C4DAE4CEEBB65%2Frectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="4-1.html#_2369"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.1 The Bounding Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2363"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2356"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2311"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle-width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2305"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle-min-x</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2302"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle-min-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2297"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2289"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2201"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_113"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectanglep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>rectangle</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=362BE4698756D8349C11AD3E78B4F1B9%2Frectanglep%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B94DC1B914444EA7C3568656F5089A06%2Frectanglep%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_114"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements an axis-aligned rectangle. This is a subclass of <A NAME="_2289"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+>. This is the class that <A NAME="_2290"></A><A HREF="3-2.html#_115"
+><B CLASS="cl"
+>make-rectangle</B
+></A
+> and <A NAME="_2291"></A><A HREF="3-2.html#_116"
+><B CLASS="cl"
+>make-rectangle*</B
+></A
+> instantiate. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B73BB99D5C7B8E2D95CE0FB6100A385E%2Fstandard-rectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D9603BA067A8160E0AC9F1D691105D31%2Fstandard-rectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2292"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>make-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_115"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>point1 point2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_116"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2292"></A><A HREF="3-2.html#_114"
+><B CLASS="cl"
+>standard-rectangle</B
+></A
+> whose edges are parallel to the coordinate axes. One corner is at the <A NAME="_2293"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point1</I
+> (or the position (<I
+>x1</I
+>,<I
+>y1</I
+>)) and the opposite corner is at the <A NAME="_2294"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>point2</I
+> (or the position (<I
+>x2</I
+>,<I
+>y2</I
+>)). There are no ordering constraints among <I
+>point1</I
+> and <I
+>point2</I
+> (or <I
+>x1</I
+> and <I
+>x2</I
+>, and <I
+>y1</I
+> and <I
+>y2</I
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1523947763ED49E11BC8D237B6A7F4AA%2Fmake-rectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Most CLIM implementations will choose to represent rectangles in the most efficient way, such as by storing the coordinates of two opposing corners of the rectangle. Because this representation is not sufficient to represent the result of arbitrary transformations of arbitrary rectangles, CLIM is allowed to return a polygon as the result of such a transformation. (The most general class of transformations that is guaranteed to always turn a rectangle into another rectangle is the class of transformations that satisfy <A NAME="_2295"></A><A HREF="5-3.html#_201"
+><B CLASS="cl"
+>rectilinear-transformation-p</B
+></A
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41089BA9EEBF8E61ACEFC9ACDF709DAC%2Fmake-rectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-rectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB3E1E3C19AEA6EB37E4DF1626844D84%2Fmake-rectangle%2F3.2.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-1.html#_2115"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>area</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2291"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_117"></A><DIV
+><H4
+>3.2.4.1 The Rectangle Protocol</H4
+><P
+>The following generic functions comprise the rectangle API. Only <A NAME="_2296"></A><A HREF="3-2.html#_118"
+><B CLASS="cl"
+>rectangle-edges*</B
+></A
+> is in the rectangle protocol, that is, all classes that are subclasses of <A NAME="_2297"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+> must implement methods for <A NAME="_2298"></A><A HREF="3-2.html#_118"
+><B CLASS="cl"
+>rectangle-edges*</B
+></A
+>, but need not implement methods for the remaining functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED6D10C9BE3989862377948A9D6F8AD8%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_118"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-edges*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the coordinates of the minimum <I
+>x</I
+> and <I
+>y</I
+> and maximum <I
+>x</I
+> and <I
+>y</I
+> of the rectangle <I
+>rectangle</I
+> as four values, <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1FBDA5F1895D3F928A3971AA82CD00B%2Frectangle-edges%2A%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E84940DAB5BF7E2589A988BED5ED4C0%2Frectangle-edges%2A%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2312"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle-width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2306"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle-min-x</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2303"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>rectangle-min-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2296"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4.1 The Rectangle Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_119"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-min-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_120"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-max-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the min point and max point of the <SPAN CLASS="term"
+>rectangle</SPAN
+> <I
+>rectangle</I
+>, respectively. The position of a rectangle is specified by its min point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC2BE1AE28B74016278097F2E2938F09%2Frectangle-min-point%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM will supply default methods for <B CLASS="cl"
+>rectangle-min-point</B
+> and <B CLASS="cl"
+>rectangle-max-point</B
+> on the protocol class <A NAME="_2302"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+> that are implemented by calling <A NAME="_2303"></A><A HREF="3-2.html#_118"
+><B CLASS="cl"
+>rectangle-edges*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C1EC7C2AD73B51F9B6D97763FFCCFAC%2Frectangle-min-point%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=21A958EFC91ADFD88F588A6F6CE1E84F%2Frectangle-min-point%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_121"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-min-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_122"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-min-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_123"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-max-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_124"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-max-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (respectively) the minimum <I
+>x</I
+> and <I
+>y</I
+> coordinate and maximum <I
+>x</I
+> and <I
+>y</I
+> coordinate of the <SPAN CLASS="term"
+>rectangle</SPAN
+> <I
+>rectangle</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E11C041894E08E518F057B83E4129955%2Frectangle-min-x%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM will supply default methods for these four generic functions on the protocol class <A NAME="_2305"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+> that are implemented by calling <A NAME="_2306"></A><A HREF="3-2.html#_118"
+><B CLASS="cl"
+>rectangle-edges*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5665D9E46C3CA0F3BC82E6D3707B008B%2Frectangle-min-x%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=275ABA243271A320AB51C3B6AF557722%2Frectangle-min-x%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_125"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_126"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_127"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectangle-size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>rectangle-width</B
+> returns the width of the <SPAN CLASS="term"
+>rectangle</SPAN
+> <I
+>rectangle</I
+>, which is the difference between the maximum <I
+>x</I
+> and its minimum <I
+>x</I
+>. <B CLASS="cl"
+>rectangle-height</B
+> returns the height, which is the difference between the maximum <I
+>y</I
+> and its minimum <I
+>y</I
+>. <B CLASS="cl"
+>rectangle-size</B
+> returns two values, the width and the height. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C928B65F677F94A0A4CA30C5D548F764%2Frectangle-width%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM will supply default methods for these four generic functions on the protocol class <A NAME="_2311"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+> that are implemented by calling <A NAME="_2312"></A><A HREF="3-2.html#_118"
+><B CLASS="cl"
+>rectangle-edges*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5665D9E46C3CA0F3BC82E6D3707B008B%2Frectangle-width%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC627E5E7A12689F6D92510748B3894D%2Frectangle-width%2F3.2.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><A NAME="_128"></A><DIV
+><H4
+>3.2.5 Ellipses and Elliptical Arcs</H4
+><DIV
+><P
+>An <A NAME="_129"></A><SPAN CLASS="concept"
+>ellipse</SPAN
+> is an area that is the outline and interior of an ellipse. Circles are special cases of ellipses. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67C5FD46DE840EB8F1F9598A9FBD301F%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="3-2.html#_2337"
+><SPAN CLASS="reverselink"
+>[ellipse, <I
+>Concept</I
+>&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2317"
+><SPAN CLASS="reverselink"
+>[ellipse, <I
+>Concept</I
+>&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>ellipsep</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><DIV
+><P
+>An <A NAME="_130"></A><SPAN CLASS="concept"
+>elliptical arc</SPAN
+> is a path consisting of all or a portion of the outline of an ellipse. Circular arcs are special cases of elliptical arcs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD439951FC4F435041FFB49E52C0CBD0%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="3-2.html#_2338"
+><SPAN CLASS="reverselink"
+>[elliptical arc, <I
+>Concept</I
+>&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2329"
+><SPAN CLASS="reverselink"
+>[elliptical arc, <I
+>Concept</I
+>&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>elliptical-arc-p</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>An ellipse is specified in a manner that is easy to transform, and treats all ellipses on an equal basis. An ellipse is specified by its center point and two vectors that describe a bounding parallelogram of the ellipse. The bounding parallelogram is made by adding and subtracting the vectors from the the center point in the following manner: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=34B4957D93BD08E492D1857BE0ED4357%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;</TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+><I
+>x</I
+></I
+><I
+> coordinate</I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+><I
+>y</I
+></I
+><I
+> coordinate</I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>  Center of Ellipse </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>x<SUB
+>c</SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>y<SUB
+>c</SUB
+></I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>  Vectors </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>dx<SUB
+><SPAN
+>1</SPAN
+></SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>dy<SUB
+><SPAN
+>1</SPAN
+></SUB
+></I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;</TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>dx<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>dy<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>  Corners of Parallelogram </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>x<SUB
+>c</SUB
+>&nbsp;+&nbsp;dx<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;+&nbsp;dx<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>y<SUB
+>c</SUB
+>&nbsp;+&nbsp;dy<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;+&nbsp;dy<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;</TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>x<SUB
+>c</SUB
+>&nbsp;+&nbsp;dx<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;-&nbsp;dx<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>y<SUB
+>c</SUB
+>&nbsp;+&nbsp;dy<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;-&nbsp;dy<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;</TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>x<SUB
+>c</SUB
+>&nbsp;-&nbsp;dx<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;-&nbsp;dx<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>y<SUB
+>c</SUB
+>&nbsp;-&nbsp;dy<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;-&nbsp;dy<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+></TR
+><TR
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;</TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>x<SUB
+>c</SUB
+>&nbsp;-&nbsp;dx<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;+&nbsp;dx<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>y<SUB
+>c</SUB
+>&nbsp;-&nbsp;dy<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;+&nbsp;dy<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> </TD
+></TR
+></TABLE
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0A099EFFF801D1A61914A5D6B97B0AD%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that several different parallelograms specify the same ellipse. One parallelogram is bound to be a rectangle---the vectors will be perpendicular and correspond to the semi-axes of the ellipse. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0221BDC449A9FE826AF4D5AF64730DD9%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="different-ellipses.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 3.4: Different vectors may specify the same ellipse.</DIV
+></DIV
+><P
+>The special case of an ellipse with its axes aligned with the coordinate axes can be obtained by setting <I
+>dx<SUB
+><SPAN
+>2</SPAN
+></SUB
+>&nbsp;=&nbsp;dy<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;=&nbsp;<SPAN
+>0</SPAN
+></I
+> or <I
+>dx<SUB
+><SPAN
+>1</SPAN
+></SUB
+>&nbsp;=&nbsp;dy<SUB
+><SPAN
+>2</SPAN
+></SUB
+>&nbsp;=&nbsp;<SPAN
+>0</SPAN
+></I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76E08F18FA1B14597E3E720A9DD6D707%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_132"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipse</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a mathematical ellipse. This is a subclass of <A NAME="_2313"></A><A HREF="3-1.html#_44"
+><B CLASS="cl"
+>area</B
+></A
+>. If you want to create a new class that behaves like an ellipse, it should be a subclass of <B CLASS="cl"
+>ellipse</B
+>. All instantiable subclasses of <B CLASS="cl"
+>ellipse</B
+> must obey the ellipse protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8BB58E3A8E89A912EED9CEBA19EF85B%2Fellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F5E3622E3BDF98F91E246857298BBD9%2Fellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2343"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>ellipse-center-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2339"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2319"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>standard-ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2198"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_133"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipsep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <A NAME="_2317"></A><A HREF="3-2.html#_129"
+><SPAN CLASS="term"
+>ellipse</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7BC0537ACA8F7D17FD5F8A56A4840885%2Fellipsep%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72C31EF1906F5AE03F110A4B00CE7F4E%2Fellipsep%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_134"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-ellipse</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements an ellipse. This is a subclass of <A NAME="_2319"></A><A HREF="3-2.html#_132"
+><B CLASS="cl"
+>ellipse</B
+></A
+>. This is the class that <A NAME="_2320"></A><A HREF="3-2.html#_135"
+><B CLASS="cl"
+>make-ellipse</B
+></A
+> and <A NAME="_2321"></A><A HREF="3-2.html#_136"
+><B CLASS="cl"
+>make-ellipse*</B
+></A
+> instantiate. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80D761C14F762A5B4658B80CB0BB92CD%2Fstandard-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FF449DB0674F4BB1147EE5721163BA0%2Fstandard-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2322"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>make-ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_135"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-ellipse</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>center-point  radius-1-dx radius-1-dy radius-2-dx radius-2-dy  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>start-angle end-angle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_136"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-ellipse*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>center-x center-y  radius-1-dx radius-1-dy radius-2-dx radius-2-dy  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>start-angle end-angle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2322"></A><A HREF="3-2.html#_134"
+><B CLASS="cl"
+>standard-ellipse</B
+></A
+>. The center of the ellipse is at the <A NAME="_2323"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>center-point</I
+> (or the position (<I
+>center-x</I
+>,<I
+>center-y</I
+>)). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=570184A84FA00110C93A518F72F697D8%2Fmake-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Two vectors, (<I
+>radius-1-dx</I
+>,<I
+>radius-1-dy</I
+>) and (<I
+>radius-2-dx</I
+>,<I
+>radius-2-dy</I
+>) specify the bounding parallelogram of the ellipse as explained above. All of the radii are real numbers. If the two vectors are collinear, the ellipse is not well-defined and the <B CLASS="cl"
+>ellipse-not-well-defined</B
+> error will be signalled. The special case of an ellipse with its axes aligned with the coordinate axes can be obtained by setting both <I
+>radius-1-dy</I
+> and <I
+>radius-2-dx</I
+> to 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3703F70F2B377C7CE8ED152DFD4F30C%2Fmake-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>start-angle</I
+> or <I
+>end-angle</I
+> are supplied, the ellipse is the "pie slice" area swept out by a line from the center of the ellipse to a point on the boundary as the boundary point moves from the angle <I
+>start-angle</I
+> to <I
+>end-angle</I
+>. Angles are measured counter-clockwise with respect to the positive <I
+>x</I
+> axis. If <I
+>end-angle</I
+> is supplied, the default for <I
+>start-angle</I
+> is <I
+><SPAN
+>0</SPAN
+></I
+>; if <I
+>start-angle</I
+> is supplied, the default for <I
+>end-angle</I
+> is <I
+><SPAN
+>2</SPAN
+>&pi;</I
+>; if neither is supplied then the region is a full ellipse and the angles are meaningless. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=153C5AB0EA9A80EA60FC9A50EA6FDF98%2Fmake-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=24B93BD1B013D89182C2E144D96D294B%2Fmake-ellipse%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3563"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2321"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>standard-ellipse</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_137"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>elliptical-arc</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to a mathematical elliptical arc. This is a subclass of <A NAME="_2325"></A><A HREF="3-1.html#_41"
+><B CLASS="cl"
+>path</B
+></A
+>. If you want to create a new class that behaves like an elliptical arc, it should be a subclass of <B CLASS="cl"
+>elliptical-arc</B
+>. All instantiable subclasses of <B CLASS="cl"
+>elliptical-arc</B
+> must obey the elliptical arc protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4BFF1BEA6BCC515279879E0DE328364D%2Felliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EC30906922444B2B81024C3D40FCB6B%2Felliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2344"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>ellipse-center-point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2340"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2331"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>standard-elliptical-arc</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2199"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2 Other Region Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_138"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>elliptical-arc-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <A NAME="_2329"></A><A HREF="3-2.html#_130"
+><SPAN CLASS="term"
+>elliptical arc</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1354008138A9A2B660B750AE3B971ED7%2Felliptical-arc-p%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4695C9E14864965E021B662D4AD73F4%2Felliptical-arc-p%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_139"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-elliptical-arc</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements an elliptical arc. This is a subclass of <A NAME="_2331"></A><A HREF="3-2.html#_137"
+><B CLASS="cl"
+>elliptical-arc</B
+></A
+>. This is the class that <A NAME="_2332"></A><A HREF="3-2.html#_140"
+><B CLASS="cl"
+>make-elliptical-arc</B
+></A
+> and <A NAME="_2333"></A><A HREF="3-2.html#_141"
+><B CLASS="cl"
+>make-elliptical-arc*</B
+></A
+> instantiate. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0838C126799C3965DC54E0BB1F6277D5%2Fstandard-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F2DA7CE991795F729725A26D2B157DE5%2Fstandard-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2334"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>make-elliptical-arc</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_140"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-elliptical-arc</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>center-point  radius-1-dx radius-1-dy radius-2-dx radius-2-dy  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>start-angle end-angle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_141"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-elliptical-arc*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>center-x center-y  radius-1-dx radius-1-dy radius-2-dx radius-2-dy  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>start-angle end-angle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_2334"></A><A HREF="3-2.html#_139"
+><B CLASS="cl"
+>standard-elliptical-arc</B
+></A
+>. The center of the ellipse is at the <A NAME="_2335"></A><A HREF="3-2.html#_72"
+><SPAN CLASS="term"
+>point</SPAN
+></A
+> <I
+>center-point</I
+> (or the position (<I
+>center-x</I
+>,<I
+>center-y</I
+>)). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5489779B548C8F76BEAE895C7DBCC4D%2Fmake-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Two vectors, (<I
+>radius-1-dx</I
+>,<I
+>radius-1-dy</I
+>) and (<I
+>radius-2-dx</I
+>,<I
+>radius-2-dy</I
+>), specify the bounding parallelogram of the ellipse as explained above. All of the radii are real numbers. If the two vectors are collinear, the ellipse is not well-defined and the <B CLASS="cl"
+>ellipse-not-well-defined</B
+> error will be signalled. The special case of an elliptical arc with its axes aligned with the coordinate axes can be obtained by setting both <I
+>radius-1-dy</I
+> and <I
+>radius-2-dx</I
+> to 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E25C034F632C4EE3F68BD8783DA50EC0%2Fmake-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>start-angle</I
+> and <I
+>start-angle</I
+> are supplied, the arc is swept from <I
+>start-angle</I
+> to <I
+>end-angle</I
+>. Angles are measured counter-clockwise with respect to the positive <I
+>x</I
+> axis. If <I
+>end-angle</I
+> is supplied, the default for <I
+>start-angle</I
+> is <I
+><SPAN
+>0</SPAN
+></I
+>; if <I
+>start-angle</I
+> is supplied, the default for <I
+>end-angle</I
+> is <I
+><SPAN
+>2</SPAN
+>&pi;</I
+>; if neither is supplied then the region is a closed elliptical path and the angles are meaningless. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0A54A49AD3B3FDA446178EE0675159D9%2Fmake-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A25E872B00742F41EB31414319904B5%2Fmake-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=319BF4BB2B87EFB99ECF7372CB8A921A%2Fmake-elliptical-arc%2F3.2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2333"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5 Ellipses and Elliptical Arcs, <B CLASS="cl"
+><B CLASS="cl"
+>standard-elliptical-arc</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_142"></A><DIV
+><H4
+>3.2.5.1 The Ellipse and Elliptical Arc Protocol</H4
+><P
+>The following functions apply to both ellipses and elliptical arcs. In all cases, the name <I
+>elliptical-object</I
+> means that the argument may be an <A NAME="_2337"></A><A HREF="3-2.html#_129"
+><SPAN CLASS="term"
+>ellipse</SPAN
+></A
+> or an <A NAME="_2338"></A><A HREF="3-2.html#_130"
+><SPAN CLASS="term"
+>elliptical arc</SPAN
+></A
+>. These generic functions comprise the ellipse protocol. All classes that are subclasses of either <A NAME="_2339"></A><A HREF="3-2.html#_132"
+><B CLASS="cl"
+>ellipse</B
+></A
+> or <A NAME="_2340"></A><A HREF="3-2.html#_137"
+><B CLASS="cl"
+>elliptical-arc</B
+></A
+> must implement methods for these functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E9EA376B48DEA6C435516503F1D2D79D%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_143"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipse-center-point*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>elliptical-object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the center point of <I
+>elliptical-object</I
+> as two values representing the coordinate pair. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=060FFE796AF60D4DB3BE9FF88DAE7230%2Fellipse-center-point%2A%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D760AEA57CEFB718C3A8492B6B18CD16%2Fellipse-center-point%2A%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="3-2.html#_2345"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.5.1 The Ellipse and Elliptical Arc Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>ellipse-center-point</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_144"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipse-center-point</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>elliptical-object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the center point of <I
+>elliptical-object</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A88E47C37760AA07481AE63B9D1420E%2Fellipse-center-point%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>ellipse-center-point</B
+> is part of the ellipse API, but not part of the ellipse protocol. CLIM will supply default methods for <B CLASS="cl"
+>ellipse-center-point</B
+> on the protocol classes <A NAME="_2343"></A><A HREF="3-2.html#_132"
+><B CLASS="cl"
+>ellipse</B
+></A
+> and <A NAME="_2344"></A><A HREF="3-2.html#_137"
+><B CLASS="cl"
+>elliptical-arc</B
+></A
+> that are implemented by calling <A NAME="_2345"></A><A HREF="3-2.html#_143"
+><B CLASS="cl"
+>ellipse-center-point*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01236AF62A991F9A9B0A61E48D47B23E%2Fellipse-center-point%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=181086ED0712D7D37DB794D85EB4248A%2Fellipse-center-point%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_145"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipse-radii</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>elliptical-object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns four values corresponding to the two radius vectors of <I
+>elliptical-arc</I
+>. These values may be canonicalized in some way, and so may not be the same as the values passed to the constructor function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC18E69D3FF2E46A4021AAE7A5814256%2Fellipse-radii%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=99A53528F8FC7B183D2F190D09006311%2Fellipse-radii%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_146"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipse-start-angle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>elliptical-object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the start angle of <I
+>elliptical-object</I
+>. If <I
+>elliptical-object</I
+> is a full ellipse or closed path then <B CLASS="cl"
+>ellipse-start-angle</B
+> will return <A NAME="_2347"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>; otherwise the value will be a number greater than or equal to zero, and less than <I
+><SPAN
+>2</SPAN
+>&pi;</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E022A471E12B12DE9898B3ADC40D595C%2Fellipse-start-angle%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F60842F0BAABAF5BC96909181BA982E%2Fellipse-start-angle%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_147"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>ellipse-end-angle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>elliptical-object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the end angle of <I
+>elliptical-object</I
+>. If <I
+>elliptical-object</I
+> is a full ellipse or closed path then <B CLASS="cl"
+>ellipse-end-angle</B
+> will return <A NAME="_2349"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>; otherwise the value will be a number greater than zero, and less than or equal to <I
+><SPAN
+>2</SPAN
+>&pi;</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D8488C902E9D7296EC76AF7CD5C85A8%2Fellipse-end-angle%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEE37F44D6826F6579A0DAFA0C369127%2Fellipse-end-angle%2F3.2.5.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/3-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

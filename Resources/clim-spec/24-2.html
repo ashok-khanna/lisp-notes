@@ -1,0 +1,649 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 24.2 Activation and Delimiter Gestures</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="24.1 The Input Editor" HREF="24-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="24.3 Signalling Errors Inside present Methods" HREF="24-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="24 Input Editing and Completion Facilities" HREF="24.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="24-1.html"
+>Prev</A
+><BR
+><A HREF="24-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="24.html"
+>24&nbsp;Input&nbsp;Editing&nbsp;and&nbsp;Completion&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="24-2.html"
+><B
+>24.2&nbsp;Activation&nbsp;and&nbsp;Delimiter&nbsp;Gestures</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1323"></A><DIV
+><H3
+>24.2 Activation and Delimiter Gestures</H3
+><P
+>Activation gestures terminate an input "sentence", such as a command or anything else being read by <A NAME="_5442"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. When an activation gesture is entered by the user, CLIM will cease reading input and "execute" the input that has been entered. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7586C199B1A7A10A765E0CD71FDEF9EA%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Delimiter gestures terminate an input "word", such as a recursive call to <A NAME="_5443"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9CE3731B6EE0FC68F50A6D8D73E36AD%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1324"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*activation-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The set of currently active activation gestures. The global value of this must be <A NAME="_5444"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. The exact format of <B CLASS="cl"
+>*activation-gestures*</B
+> is unspecified. <B CLASS="cl"
+>*activation-gestures*</B
+> and the elements in it may have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E3A3805BD7F6B8FC090D5388C9BC157%2F%2Aactivation-gestures%2A%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EE37D23D4240EEC96CF6815BDE70A10%2F%2Aactivation-gestures%2A%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7481"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5450"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures, <B CLASS="cl"
+><B CLASS="cl"
+>with-activation-gestures</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5025"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1325"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*standard-activation-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The default set of activation gestures. The exact set of standard activation is unspecified, but must include the gesture that corresponds to the <CODE
+>#\Newline</CODE
+> character. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E6A7E83584AB90C05D317BB8A86DF75%2F%2Astandard-activation-gestures%2A%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=784D0277F00EAEFFE0E6A3FCD8ACD7C9%2F%2Astandard-activation-gestures%2A%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7482"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1326"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-activation-gestures</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(gestures </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>override) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies a list of gestures that terminate input during the execution of <I
+>body</I
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <I
+>gestures</I
+> must be either a single gesture name or a form that evaluates to a list of gesture names. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=59ABC748F29A1B59DA6798D4B027B12D%2Fwith-activation-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>override</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then <I
+>gestures</I
+> will override the current activation gestures. If it is <SPAN CLASS="term"
+>false</SPAN
+> (the default), then <I
+>gestures</I
+> will be added to the existing set of activation gestures. <B CLASS="cl"
+>with-activation-gestures</B
+> must bind <A NAME="_5450"></A><A HREF="24-2.html#_1324"
+><B CLASS="cl"
+>*activation-gestures*</B
+></A
+> to the new set of activation gestures. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3FBD94BBBFA8F790CD335D7D4D07D84%2Fwith-activation-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>See also the <B CLASS="cl"
+>:activation-gestures</B
+> and <B CLASS="cl"
+>:additional-activation-gestures</B
+> options to <A NAME="_5453"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0481CBF4A0EA8CAD3DF074C8143E4DB6%2Fwith-activation-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8EDFD5DB5C9B7F9623FCF65FA36E6B6D%2Fwith-activation-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7483"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1327"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>activation-gesture-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gesture</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the gesture object <I
+>gesture</I
+> is an activation gesture, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E41C025D87E9B585B70953B82875A323%2Factivation-gesture-p%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3F036BD99BF50F92C51D477F8B231F1%2Factivation-gesture-p%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z224"
+></A
+>This specification does not say what happens if&#10;the argument is not a gesture object at all.  I &#10;interpret this specification the same way I interpret&#10;a CLHS entry, i.e., the consequences are undefined &#10;if the argument is not a gesture object.&#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3F036BD99BF50F92C51D477F8B231F1%2Factivation-gesture-p%2F24.2&amp;editp=t&amp;id=Z224#Z224"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2014-10-07 02:59Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7484"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1328"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*delimiter-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The set of currently active delimiter gestures. The global value of this must be <A NAME="_5456"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. The exact format of <B CLASS="cl"
+>*delimiter-gestures*</B
+> is unspecified. <B CLASS="cl"
+>*delimiter-gestures*</B
+> and the elements in it may have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3352CA47F51C7EF44C93374249ED5C17%2F%2Adelimiter-gestures%2A%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E9B0F5615C4F2FB340A5ED255306DA50%2F%2Adelimiter-gestures%2A%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7490"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5462"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures, <B CLASS="cl"
+><B CLASS="cl"
+>with-delimiter-gestures</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5027"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1329"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-delimiter-gestures</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(gestures </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>override) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies a list of gestures that terminate an individual token, but not the entire input, during the execution of <I
+>body</I
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <I
+>gestures</I
+> must be either a single gesture name or a form that evaluates to a list of gesture names. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=984575892525A6E4BB2A3EF55A4C61FD%2Fwith-delimiter-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>override</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then <I
+>gestures</I
+> will override the current delimiter gestures. If it is <SPAN CLASS="term"
+>false</SPAN
+> (the default), then <I
+>gestures</I
+> will be added to the existing set of delimiter gestures. <B CLASS="cl"
+>with-delimiter-gestures</B
+> must bind <A NAME="_5462"></A><A HREF="24-2.html#_1328"
+><B CLASS="cl"
+>*delimiter-gestures*</B
+></A
+> to the new set of delimiter gestures. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1931645F385CCB3B0DE6C63BC1A786B7%2Fwith-delimiter-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>See also the <B CLASS="cl"
+>:delimiter-gestures</B
+> and <B CLASS="cl"
+>:additional-delimiter-gestures</B
+> options to <A NAME="_5465"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=248F6CC4B7732B1AE4873AECB133B65D%2Fwith-delimiter-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DEFB334BBFF63DAB161BCA0D9D80D6B4%2Fwith-delimiter-gestures%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7491"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-4.html#_5500"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>write-token</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1330"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>delimiter-gesture-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gesture</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the gesture object <I
+>gesture</I
+> is a delimiter gesture, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79BFAE57F5AEDB2D0F9D1862B3B4B1F3%2Fdelimiter-gesture-p%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D8B5A808FD23A5F8B04DF6CF5FA53769%2Fdelimiter-gesture-p%2F24.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7492"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

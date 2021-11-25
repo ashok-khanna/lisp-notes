@@ -1,0 +1,987 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.6 Pixmaps</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.5 Drawing Functions" HREF="12-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12.7 Graphics Protocols" HREF="12-7.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-5.html"
+>Prev</A
+><BR
+><A HREF="12-7.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-6.html"
+><B
+>12.6&nbsp;Pixmaps</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_643"></A><DIV
+><H3
+>12.6 Pixmaps</H3
+><P
+>A <A NAME="_644"></A><SPAN CLASS="concept"
+>pixmap</SPAN
+> can be thought of as an "off-screen window", that is, a medium that can be used for graphical output, but is not visible on any display device. Pixmaps are provided to allow a programmer to generate a piece of output associated with some display device that can then be rapidly drawn on a real display device. For example, an electrical CAD system might generate a pixmap that corresponds to a complex, frequently used part in a VLSI schematic, and then use <A NAME="_3238"></A><A HREF="12-6.html#_651"
+><B CLASS="cl"
+>copy-from-pixmap</B
+></A
+> to draw the part as needed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A76BF7D14F59A4C91CAFD43C36DF31AD%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The exact representation of a pixmap is explicitly unspecified. There is no interaction between the pixmap operations and output recording, that is, displaying a pixmap on a sheet or medium is a pure drawing operation that affects only the display, not the output history. Some mediums may not support pixmaps; in this case, an error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D66579257C912CB492A4309889CEC36%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_645"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>allocate-pixmap</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium width height</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Allocates and returns a pixmap object that can be used on any medium that shares the same characteristics as <I
+>medium</I
+>. (The exact definition of "shared characteristics" will vary from host to host.) <I
+>medium</I
+> can be a medium, a sheet, or a stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15884EC2E8F6446F9C58F3AC7068FAD6%2Fallocate-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The resulting pixmap will be at least <I
+>width</I
+> units wide, <I
+>height</I
+> units high, and as deep as is necessary to store the information for the medium. The exact representation of pixmaps is explicitly unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68273481B292D79F543AF0AB42321443%2Fallocate-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the pixmap. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F36072CC83C8969E05B16DD8A066031%2Fallocate-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D438BBACAA93AF87225C49FEE5436082%2Fallocate-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z91"
+></A
+>To play nice with general designs, we should specify that pixmaps are&#10;initially filled with transparent black. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D438BBACAA93AF87225C49FEE5436082%2Fallocate-pixmap%2F12.6&amp;editp=t&amp;id=Z91#Z91"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 23:39Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-6.html#_3242"
+><SPAN CLASS="reverselink"
+>[&larr; 12.6 Pixmaps, <B CLASS="cl"
+><B CLASS="cl"
+>copy-from-pixmap</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-6.html#_3240"
+><SPAN CLASS="reverselink"
+>[&larr; 12.6 Pixmaps, <B CLASS="cl"
+><B CLASS="cl"
+>copy-to-pixmap</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_646"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>deallocate-pixmap</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pixmap</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Deallocates the pixmap <I
+>pixmap</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C0A0494A09333D6A63F129D646D06D6%2Fdeallocate-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=161ED1084B1553F4445BCAAE93C7C7E3%2Fdeallocate-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z185"
+></A
+>I think it ought to be specified that a pixmap object which becomes garbage will eventually be deallocated, for the sake of recovering from unexpected failures/bugs and for throwaway programs. If not specifically that, then the spec still ought to say how the presence of this this explicit deallocation interacts with GC. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=161ED1084B1553F4445BCAAE93C7C7E3%2Fdeallocate-pixmap%2F12.6&amp;editp=t&amp;id=Z185#Z185"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Kevin Reid 2009-05-10 14:08Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z186"
+></A
+><P
+>@Kevin:</P
+><P
+>A pixmap is an external resource. This is the reason, why the programmer must explicitly deallocate it. Although it might be possible in some Common Lisp&#10;implementations to use weak pointers to detect, that a pixmap became garbage -- which in the case of the X11 protocol is not all too trivial -- I do not believe any programmer should rely on that, nor should that be part of a CLIM specification.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=161ED1084B1553F4445BCAAE93C7C7E3%2Fdeallocate-pixmap%2F12.6&amp;editp=t&amp;id=Z186#Z186"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2009-05-13 18:51Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_647"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pixmap-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pixmap</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_648"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pixmap-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pixmap</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_649"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pixmap-depth</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pixmap</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions return, respectively, the width, height, and depth of the pixmap <I
+>pixmap</I
+>. These values may be different from the programmer-specified values, since some window systems need to allocate pixmaps only of particular sizes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BBFAAD149AD7051E99C4F0CFEA641822%2Fpixmap-width%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C9CC00A7A1CD1533B887B175842AFFE6%2Fpixmap-width%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z92"
+></A
+>/depth/ wasn't intially specified by the programmer, so I wonder what&#10;significance it would have. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C9CC00A7A1CD1533B887B175842AFFE6%2Fpixmap-width%2F12.6&amp;editp=t&amp;id=Z92#Z92"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 23:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_650"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>copy-to-pixmap</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium medium-x medium-y width height  </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>pixmap (pixmap-x </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (pixmap-y </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Copies the pixels from the medium <I
+>medium</I
+> starting at the position specified by (<I
+>medium-x</I
+>,<I
+>medium-y</I
+>) into the pixmap <I
+>pixmap</I
+> at the position specified by (<I
+>pixmap-x</I
+>,<I
+>pixmap-y</I
+>). A rectangle whose width and height is specified by <I
+>width</I
+> and <I
+>height</I
+> is copied. <I
+>medium-x</I
+> and <I
+>medium-y</I
+> are specified in user coordinates. (If <I
+>medium</I
+> is a medium or a stream, then <I
+>medium-x</I
+> and <I
+>medium-y</I
+> are transformed by the user transformation.) The copying must be done by <B CLASS="cl"
+>medium-copy-copy</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7314C58F05D147BE4CE9564C08AE5F53%2Fcopy-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z87"
+></A
+>There is no <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-copy-copy"
+>medium-copy-copy</A
+></SPAN
+> but <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-copy-area"
+>medium-copy-area</A
+></SPAN
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7314C58F05D147BE4CE9564C08AE5F53%2Fcopy-to-pixmap%2F12.6&amp;editp=t&amp;id=Z87#Z87"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 20:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If <I
+>pixmap</I
+> is not supplied, a new pixmap will be allocated. Otherwise, <I
+>pixmap</I
+> must be an object returned by <A NAME="_3240"></A><A HREF="12-6.html#_645"
+><B CLASS="cl"
+>allocate-pixmap</B
+></A
+> that has the appropriate characteristics for <I
+>medium</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF3305000531089E17DF7F95552A12B6%2Fcopy-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the pixmap. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F36072CC83C8969E05B16DD8A066031%2Fcopy-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=82750A3A27E8428A48E3EB3428A95E6B%2Fcopy-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_651"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>copy-from-pixmap</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pixmap pixmap-x pixmap-y width height  medium medium-x medium-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Copies the pixels from the pixmap <I
+>pixmap</I
+> starting at the position specified by (<I
+>pixmap-x</I
+>,<I
+>pixmap-y</I
+>) into the medium <I
+>medium</I
+> at the position (<I
+>medium-x</I
+>,<I
+>medium-y</I
+>). A rectangle whose width and height is specified by <I
+>width</I
+> and <I
+>height</I
+> is copied. <I
+>medium-x</I
+> and <I
+>medium-y</I
+> are specified in user coordinates. (If <I
+>medium</I
+> is a medium or a stream, then <I
+>medium-x</I
+> and <I
+>medium-y</I
+> are transformed by the user transformation.) The copying must be done by <B CLASS="cl"
+>medium-copy-copy</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BFCE99ECDB4782AB4C14FFD11B4DD5B%2Fcopy-from-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z86"
+></A
+>There is no <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-copy-copy"
+>medium-copy-copy</A
+></SPAN
+> but <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-copy-area"
+>medium-copy-area</A
+></SPAN
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BFCE99ECDB4782AB4C14FFD11B4DD5B%2Fcopy-from-pixmap%2F12.6&amp;editp=t&amp;id=Z86#Z86"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 20:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>pixmap</I
+> must be an object returned by <A NAME="_3242"></A><A HREF="12-6.html#_645"
+><B CLASS="cl"
+>allocate-pixmap</B
+></A
+> that has the appropriate characteristics for <I
+>medium</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01823C59BD908FEA918304A8E26549F7%2Fcopy-from-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the pixmap. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F36072CC83C8969E05B16DD8A066031%2Fcopy-from-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E20743D3C58CDC203A608E146350F42%2Fcopy-from-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-6.html#_3246"
+><SPAN CLASS="reverselink"
+>[&larr; 12.6 Pixmaps, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-to-pixmap</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="12-6.html#_3238"
+><SPAN CLASS="reverselink"
+>[&larr; 12.6 Pixmaps]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_652"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>copy-area</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium from-x from-y width height to-x to-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Copies the pixels from the medium <I
+>medium</I
+> starting at the position specified by (<I
+>from-x</I
+>,<I
+>from-y</I
+>) to the position (<I
+>to-x</I
+>,<I
+>to-y</I
+>) on the same medium. A rectangle whose width and height is specified by <I
+>width</I
+> and <I
+>height</I
+> is copied. <I
+>from-x</I
+>, <I
+>from-y</I
+>, <I
+>to-x</I
+>, and <I
+>to-y</I
+> are specified in user coordinates. (If <I
+>medium</I
+> is a medium or a stream, then the <I
+>x</I
+> and <I
+>y</I
+> values are transformed by the user transformation.) The copying must be done by <B CLASS="cl"
+>medium-copy-copy</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1C9DFD0A83D5CC903D2E8FDB1D580BD%2Fcopy-area%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z88"
+></A
+>Again, there is no <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-copy-copy"
+>medium-copy-copy</A
+></SPAN
+> but <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=medium-copy-area"
+>medium-copy-area</A
+></SPAN
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1C9DFD0A83D5CC903D2E8FDB1D580BD%2Fcopy-area%2F12.6&amp;editp=t&amp;id=Z88#Z88"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 20:05Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ACD905F7D020D39BB484708CBE49E78B%2Fcopy-area%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_653"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-copy-area</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>from-drawable from-x from-y width height  to-drawable to-x to-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Copies the pixels from the source drawable <I
+>from-drawable</I
+> at the position (<I
+>from-x</I
+>,<I
+>from-y</I
+>) to the destination drawable <I
+>to-drawable</I
+> at the position (<I
+>to-x</I
+>,<I
+>to-y</I
+>). A rectangle whose width and height is specified by <I
+>width</I
+> and <I
+>height</I
+> is copied. <I
+>from-x</I
+>, <I
+>from-y</I
+>, <I
+>to-x</I
+>, and <I
+>to-y</I
+> are specified in user coordinates. The <I
+>x</I
+> and <I
+>y</I
+> are transformed by the user transformation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A189019DE5BD27C109567BA3D9B976F5%2Fmedium-copy-area%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z93"
+></A
+>It says "The x and y are transformed [...]". If really so, shouldn't we&#10;transform /width/ and /height/ also? And then if we would make it so:&#10;Are /width/ and /height/ transformed according to /from-drawable/ or according&#10;to /to-drawable/? Hence, if you ask me: The signature is broken. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A189019DE5BD27C109567BA3D9B976F5%2Fmedium-copy-area%2F12.6&amp;editp=t&amp;id=Z93#Z93"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 23:44Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>This is intended to specialize on both the <I
+>from-drawable</I
+> and <I
+>to-drawable</I
+> arguments. <I
+>from-drawable</I
+> and <I
+>to-drawable</I
+> may be either mediums or pixmaps. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2645533A7745C6D98B06DBE93FD3913E%2Fmedium-copy-area%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9E09E661918624F3001DE0349E34EB92%2Fmedium-copy-area%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_654"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-to-pixmap</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium-var medium </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>width height) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds <I
+>medium-var</I
+> to a "pixmap medium", that is, a medium that does output to a pixmap with the characteristics appropriate to the medium <I
+>medium</I
+>, and then evaluates <I
+>body</I
+> in that context. All the output done to the medium designated by <I
+>medium-var</I
+> inside of <I
+>body</I
+> is drawn on the pixmap stream. The pixmap medium must support the medium output protocol, including all of the graphics function. CLIM implementations are permitted, but not required, to have pixmap mediums support the stream output protocol (<B CLASS="cl"
+>write-char</B
+> and <B CLASS="cl"
+>write-string</B
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32C121003D1FA5066C3DB0D5E0A2A517%2Fwith-output-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>width</I
+> and <I
+>height</I
+> are integers that give the width and height of the pixmap. If they are unsupplied, the result pixmap will be large enough to contain all of the output done by <I
+>body</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=744AA7798DB552EBF719FF0F32C4B00C%2Fwith-output-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z393"
+></A
+><P
+>Hmm, what about</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%0A%28with-output-to-pixmap%20%28m%20m%29%20%28draw-line%2A%20-100%20-100%20-200%20-200%29%29%0A"
+>&#10;(with-output-to-pixmap (m m) (draw-line* -100 -100 -200 -200))&#10;</A
+></SPAN
+></P
+><P
+>The spec says /large enough to contain _all_ of the output/. In the above case output is at negative coordinates. So the question is: Can we have such pixmaps? Is that intended? Should the output be moved so that output becomes visible? I doubt the latter.</P
+><P
+>-- Gilbert Baumann 2018-03-24 21:02Z</P
+><P
+>@Gilbert</P
+><P
+>I do not see an issue here- I suppose for completeness it would be nice to store a pixmap-origin-x and pixmap-origin-y to note this offset, which could be then utilized by copy-from-pixmap to offset said pixmap. After all (0,0) merely indicates the *origin*.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=744AA7798DB552EBF719FF0F32C4B00C%2Fwith-output-to-pixmap%2F12.6&amp;editp=t&amp;id=Z393#Z393"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Matt 2020-01-30 19:23Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z419"
+></A
+>Not so fast -- pixmap is an off-screen mirror, who said that it is a class with arbitrary slots? You /could/ store the origin in a hash table, but that'd be yuck. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=744AA7798DB552EBF719FF0F32C4B00C%2Fwith-output-to-pixmap%2F12.6&amp;editp=t&amp;id=Z419#Z419"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-11-13 15:22Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>medium-var</I
+> must be a symbol; it is not evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76F71D6A1836EB2C11211C7B0790244B%2Fwith-output-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is a pixmap that can be drawn onto <I
+>medium</I
+> using <A NAME="_3246"></A><A HREF="12-6.html#_651"
+><B CLASS="cl"
+>copy-from-pixmap</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A332981C21760FC7EB7843722A84D0FD%2Fwith-output-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73DAB60431EA5EB6DA8C75710424E6B4%2Fwith-output-to-pixmap%2F12.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z322"
+></A
+>What is the background of the pixmap? As we now have pixmaps with an alpha channel or mask, I would prefer transparent black. See also <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=allocate-pixmap"
+>allocate-pixmap</A
+></SPAN
+>. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73DAB60431EA5EB6DA8C75710424E6B4%2Fwith-output-to-pixmap%2F12.6&amp;editp=t&amp;id=Z322#Z322"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2018-03-24 21:05Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

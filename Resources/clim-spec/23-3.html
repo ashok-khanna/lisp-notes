@@ -1,0 +1,4739 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.3 Presentation Types</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23.2 Presentations" HREF="23-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.4 Typed Output" HREF="23-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23-2.html"
+>Prev</A
+><BR
+><A HREF="23-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-3.html"
+><B
+>23.3&nbsp;Presentation&nbsp;Types</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1145"></A><DIV
+><H3
+>23.3 Presentation Types</H3
+><LI CLASS="outline_item"
+><A HREF="23-3.html#_1148"
+>23.3.1 Defining Presentation Types</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="23-3.html#_1150"
+>23.3.2 Presentation Type Abbreviations</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="23-3.html#_1155"
+>23.3.3 Presentation Methods</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="23-3.html#_1173"
+>23.3.4 Presentation Type Functions</A
+></LI
+><DIV
+><P
+>The type associated with a presentation is specified with a <A NAME="_1146"></A><SPAN CLASS="concept"
+>presentation type specifier</SPAN
+>, an object matching one of the following three patterns: <BR
+> <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><I
+>name</I
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>name</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>parameters...</I
+></B
+><B CLASS="cl"
+>)</B
+> </TD
+></TR
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+><B CLASS="cl"
+>((</B
+><B CLASS="cl"
+><I
+>name</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>parameters...</I
+></B
+><B CLASS="cl"
+>) </B
+><B CLASS="cl"
+><I
+>options...</I
+></B
+><B CLASS="cl"
+>)</B
+> </TD
+></TR
+></TABLE
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7D381DEBCC7E11D7EB5B2C88FA6672F%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="23-3.html#_4867"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-type-direct-supertypes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4866"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-presentation-type-supertypes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4858"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-subtypep</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4857"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-subtypep</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4849"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-typep</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4846"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-type-specifier-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4833"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>describe-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4707"
+><SPAN CLASS="reverselink"
+>[presentation type specifier, <I
+>Concept</I
+>&larr; 23.3.2 Presentation Type Abbreviations, <B CLASS="cl"
+><B CLASS="cl"
+>expand-presentation-type-abbreviation-1</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Note that <I
+>name</I
+> can be either a symbol that names a presentation type or a CLOS class object (but not a <B CLASS="cl"
+>built-in-class</B
+> object), in order to support anonymous CLOS classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0987F8A5277CF73D37CBD16ACCF9AC03%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>parameters</I
+> "parameterize" the type, just as in a Common Lisp type specifier. The function <A NAME="_4644"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> uses the parameters to check object membership in a type. Adding parameters to a presentation type specifier produces a subtype, which contains some, but not necessarily all, of the objects that are members of the unparameterized type. Thus the parameters can turn off the sensitivity of some presentations that would otherwise be sensitive. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=30B86EBC72FB8351CA3C8EC7233E8573%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The <I
+>options</I
+> are alternating keywords and values that affect the use or appearance of the presentation, but not its semantic meaning. The <I
+>options</I
+> have no effect on presentation sensitivity. (A programmer could choose to make a tester in a translator examine options, but this is not standard practice.) The standard option <B CLASS="cl"
+>:description</B
+> is accepted by all types; if it is a non-<A NAME="_4646"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> value, then the value must be a string that describes the type and overrides the description supplied by the type's definition. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B3742E8628E22C0BC836735D9E1D49F%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Every presentation type is associated with a CLOS class. If <I
+>name</I
+> is a class object or the name of a class, and that class is not a <B CLASS="cl"
+>built-in-class</B
+>, that class is the associated class. Otherwise, <A NAME="_4648"></A><A HREF="23-3.html#_1149"
+><B CLASS="cl"
+>define-presentation-type</B
+></A
+> defines a class with metaclass <B CLASS="cl"
+>presentation-type-class</B
+> and superclasses determined by the presentation type definition. This class is not named <I
+>name</I
+>, since that could interfere with built-in Common Lisp types such as <A NAME="_4650"></A><A HREF="23-8.html#_1288"
+><B CLASS="cl"
+>and</B
+></A
+>, <A NAME="_4651"></A><A HREF="23-8.html#_1276"
+><B CLASS="cl"
+>member</B
+></A
+>, and <A NAME="_4652"></A><A HREF="23-8.html#_1266"
+><B CLASS="cl"
+>integer</B
+></A
+>. <B CLASS="cl"
+>class-name</B
+> of this class returns a list <B CLASS="cl"
+>(presentation-type </B
+><B CLASS="cl"
+><I
+>name</I
+></B
+><B CLASS="cl"
+>)</B
+>. <B CLASS="cl"
+>presentation-type-class</B
+> is a subclass of <B CLASS="cl"
+>standard-class</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02DDC50CA2D091DC9C19E6633AFE55AB%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Implementations are permitted to require programmers to evaluate the <B CLASS="cl"
+>defclass</B
+> form first in the case when the same name is used in both a <B CLASS="cl"
+>defclass</B
+> and a <A NAME="_4661"></A><A HREF="23-3.html#_1149"
+><B CLASS="cl"
+>define-presentation-type</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DC09119627C59838981C355031DAA937%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Every CLOS class (except for built-in classes) is a presentation type, as is its name. If it has not been defined with <A NAME="_4662"></A><A HREF="23-3.html#_1149"
+><B CLASS="cl"
+>define-presentation-type</B
+></A
+>, it allows no parameters and no options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC956D5F6E940642611989BC52759724%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_1147"></A><SPAN CLASS="concept"
+>Presentation type inheritance</SPAN
+> is used both to inherit methods ("what parser should be used for this type?"), and to establish the semantics for the type ("what objects are sensitive in this input context?"). Inheritance of methods is the same as in CLOS and thus depends only on the type name, not on the parameters and options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2400E0E63C0B2B5E56E35C2978E22BB1%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>During presentation method combination, presentation type inheritance arranges to translate the parameters of a subtype into a new set of parameters for its supertype, and translates the options of the subtype into a new set of options for the supertype. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE04DBC24A32471C8A68D2280D864330%2F23.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1148"></A><DIV
+><H4
+>23.3.1 Defining Presentation Types</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1149"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name parameters  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>options inherit-from description history  parameters-are-types</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a presentation type whose name is the symbol or class <I
+>name</I
+> and whose parameters are specified by the lambda-list <I
+>parameters</I
+>. These parameters are visible within <I
+>inherit-from</I
+> and within the methods created with <A NAME="_4663"></A><A HREF="23-3.html#_1157"
+><B CLASS="cl"
+>define-presentation-method</B
+></A
+>. For example, the parameters are used by <A NAME="_4664"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> and <A NAME="_4665"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> methods to refine their tests for type inclusion. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=740609DCDA2EA1E9C84AF64B3049248A%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>options</I
+> is a list of option specifiers. It defaults to <A NAME="_4666"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. An option specifier is either a symbol or a list (<I
+>symbol</I
+> <TT
+>&amp;optional </TT
+> <I
+>default</I
+> <I
+>supplied-p</I
+> <I
+>presentation-type</I
+> <I
+>accept-options</I
+>), where <I
+>symbol</I
+>, <I
+>default</I
+>, and <I
+>supplied-p</I
+> are as in a normal lambda-list. If <I
+>presentation-type</I
+> and <I
+>accept-options</I
+> are present, they specify how to accept a new value for this option from the user. <I
+>symbol</I
+> can also be specified in the (<I
+>keyword</I
+> <I
+>variable</I
+>) form allowed for Common Lisp lambda lists. <I
+>symbol</I
+> is a variable that is visible within <I
+>inherit-from</I
+> and within most of the methods created with <A NAME="_4667"></A><A HREF="23-3.html#_1157"
+><B CLASS="cl"
+>define-presentation-method</B
+></A
+>. The keyword corresponding to <I
+>symbol</I
+> can be used as an option in the third form of a presentation type specifier. An option specifier for the standard option <B CLASS="cl"
+>:description</B
+> is automatically added to <I
+>options</I
+> if an option with that keyword is not present, however it does not produce a visible variable binding. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C7EC683755D83B9A264D01F8CCED843%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Unsupplied optional or keyword parameters default to <B CLASS="cl"
+>*</B
+> (as in <B CLASS="cl"
+>deftype</B
+>) if no default is specified in <I
+>parameters</I
+>. Unsupplied options default to <A NAME="_4671"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if no default is specified in <I
+>options</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BE75233B78F0A3DC4B6F7A43E1BC59B%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>inherit-from</I
+> is a form that evaluates to a presentation type specifier for another type from which the new type inherits. <I
+>inherit-from</I
+> can access the parameter variables bound by the <I
+>parameters</I
+> lambda list and the option variables specified by <I
+>options</I
+>. If <I
+>name</I
+> is or names a CLOS class (other than a <B CLASS="cl"
+>built-in-class</B
+>), then <I
+>inherit-from</I
+> must specify the class's direct superclasses (using <A NAME="_4673"></A><A HREF="23-8.html#_1288"
+><B CLASS="cl"
+>and</B
+></A
+> to specify multiple inheritance). It is useful to do this when you want to parameterize previously defined CLOS classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E6B4FC588ECA37A868F5F06F727E194F%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>inherit-from</I
+> is unsupplied, it defaults as follows: If <I
+>name</I
+> is or names a CLOS class, then the type inherits from the presentation type corresponding to the direct superclasses of that CLOS class (using <A NAME="_4674"></A><A HREF="23-8.html#_1288"
+><B CLASS="cl"
+>and</B
+></A
+> to specify multiple inheritance). Otherwise, the type named by <I
+>name</I
+> inherits from <B CLASS="cl"
+>standard-object</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38B4F911141A67739259C6C9ABBAE3DA%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>description</I
+> is a string or <A NAME="_4676"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. This should be the term for an instance for the type being defined. If it is <A NAME="_4677"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or unsupplied, a description is automatically generated; it will be a "prettied up" version of the type name, for example, <B CLASS="cl"
+>small-integer</B
+> would become <B CLASS="cl"
+>"small integer"</B
+>. You can also write a <A NAME="_4680"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+> presentation method. <I
+>description</I
+> is implemented by the default <A NAME="_4681"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+> method, so <I
+>description</I
+> only works in presentation types where that default method is not shadowed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=194E42277355720A35AE0082AA8191DB%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>history</I
+> can be <A NAME="_4682"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), which means this type has its own history of previous inputs, <A NAME="_4683"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, which means this type keeps no history, or the name of another presentation type, whose history is shared by this type. More complex histories can be specified by writing a <A NAME="_4684"></A><A HREF="23-3.html#_1169"
+><B CLASS="cl"
+>presentation-type-history</B
+></A
+> presentation method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02FA6EE14A4F8B1DB906A52B6807A665%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>What is a presentation type history? Should they be exposed? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2B5E68A897A15EAD9EDF6EAA3CBFEF75%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>parameters-are-types</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, this means that the parameters to the presentation type are themselves presentation types. If they are not presentation types, <I
+>parameters-are-types</I
+> should be supplied as <SPAN CLASS="term"
+>false</SPAN
+>. Types such as <A NAME="_4687"></A><A HREF="23-8.html#_1288"
+><B CLASS="cl"
+>and</B
+></A
+>, <A NAME="_4688"></A><A HREF="23-8.html#_1287"
+><B CLASS="cl"
+>or</B
+></A
+>, and <A NAME="_4689"></A><A HREF="23-8.html#_1284"
+><B CLASS="cl"
+>sequence</B
+></A
+> will specify this as <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE5075D8A80C74FB512F267EC4933309%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Every presentation type must define or inherit presentation methods for <A NAME="_4691"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and <A NAME="_4692"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> if the type is going to be used for input and output. For presentation types that are only going to be used for input via the pointer, the <A NAME="_4693"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> need not be defined. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81CCC189966F11DB45B9497AD42A4FA1%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If a presentation type has <I
+>parameters</I
+>, it must define presentation methods for <A NAME="_4694"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> and <A NAME="_4695"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> that handle the parameters, or inherit appropriate presentation methods. In many cases it should also define presentation methods for <A NAME="_4696"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+> and <A NAME="_4697"></A><A HREF="23-3.html#_1181"
+><B CLASS="cl"
+>presentation-type-specifier-p</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39EBF722BBB3168D6D06169BCCC8C44B%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There are certain restrictions on the <I
+>inherit-from</I
+> form, to allow it to be analyzed at compile time. The form must be a simple substitution of parameters and options into positions in a fixed framework. It cannot involve conditionals or computations that depend on valid values for the parameters or options; for example, it cannot require parameter values to be numbers. It cannot depend on the dynamic or lexical environment. The form will be evaluated at compile time with uninterned symbols used as dummy values for the parameters and options. In the type specifier produced by evaluating the form, the type name must be a constant that names a type, the type parameters cannot derive from options of the type being defined, and the type options cannot derive from parameters of the type being defined. All presentation types mentioned must be already defined. <A NAME="_4698"></A><A HREF="23-8.html#_1288"
+><B CLASS="cl"
+>and</B
+></A
+> can be used for multiple inheritance, but <A NAME="_4699"></A><A HREF="23-8.html#_1287"
+><B CLASS="cl"
+>or</B
+></A
+>, <B CLASS="cl"
+>not</B
+>, and <B CLASS="cl"
+>satisfies</B
+> cannot be used. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0521946A6625BC2053926D8C545E8026%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of the arguments, except <I
+>inherit-from</I
+>, is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0823EC51666F27A3492FA619BB5D0503%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F35F04CE19B31E9A4F6BDCF8C544446%2Fdefine-presentation-type%2F23.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4875"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>default-describe-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4702"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.2 Presentation Type Abbreviations, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type-abbreviation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4648"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3 Presentation Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1150"></A><DIV
+><H4
+>23.3.2 Presentation Type Abbreviations</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1151"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-type-abbreviation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name parameters equivalent-type  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><DIV
+><P
+><I
+>name</I
+>, <I
+>parameters</I
+>, and <I
+>options</I
+> are as in <A NAME="_4702"></A><A HREF="23-3.html#_1149"
+><B CLASS="cl"
+>define-presentation-type</B
+></A
+>. This defines a presentation type that is an <A NAME="_1152"></A><SPAN CLASS="concept"
+>abbreviation</SPAN
+> for the presentation type <I
+>equivalent-type</I
+>. Presentation type abbreviations can only be used in places where this specification explicitly permits them. In such places, <I
+>equivalent-type</I
+> and <A NAME="_4703"></A><A HREF="23-3.html#_1152"
+><SPAN CLASS="term"
+>abbreviation</SPAN
+></A
+> are exactly equivalent and can be used interchangeably. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EC57948766E3D3EACA33DEBC674009F%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="23-3.html#_4703"
+><SPAN CLASS="reverselink"
+>[abbreviation, <I
+>Concept</I
+>&larr; 23.3.2 Presentation Type Abbreviations, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type-abbreviation</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+><I
+>name</I
+> must be a symbol and must not be the name of a CLOS class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=53AD7B32584EDAC7F2B931E394830E58%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>equivalent-type</I
+> form might be evaluated at compile time if presentation type abbreviations are expanded by compiler optimizers. Unlike <I
+>inherit-from</I
+>, <I
+>equivalent-type</I
+> can perform arbitrary computations and is not called with dummy parameter and option values. The type specifier produced by evaluating <I
+>equivalent-type</I
+> can be a real presentation type or another abbreviation. If the type specifier doesn't include the standard option <B CLASS="cl"
+>:description</B
+>, the option is automatically copied from the abbreviation to its expansion. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3675131CC4AA890C5A13C09811D1177A%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that you cannot define any presentation methods on a presentation type abbreviation. If you need methods, use <A NAME="_4705"></A><A HREF="23-3.html#_1149"
+><B CLASS="cl"
+>define-presentation-type</B
+></A
+> instead. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=257B9818D8E4F1F93FE77BF54581F78D%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>define-presentation-type-abbreviation</B
+> is used to name a commonly used cliche. For example, a presentation type to read an octal integer might be defined as  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F4EEDA54201E7026A10C9330E90DB204%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(define-presentation-type-abbreviation octal-integer (&amp;optional low high) &#10;    `((integer ,low ,high) :base 8 :description "octal integer"))&#10;</PRE
+><P
+>None of the arguments, except <I
+>equivalent-type</I
+>, is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=027FC2D5018168324C2D0DFE42DCAE59%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FFE273A3E457BA682A1BAC63AE91BB3%2Fdefine-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1153"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>expand-presentation-type-abbreviation-1</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>env</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If the <A NAME="_4707"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>type</I
+> is a presentation type abbreviation, or is an <A NAME="_4708"></A><A HREF="23-8.html#_1288"
+><B CLASS="cl"
+>and</B
+></A
+>, <A NAME="_4709"></A><A HREF="23-8.html#_1287"
+><B CLASS="cl"
+>or</B
+></A
+>, <A NAME="_4710"></A><A HREF="23-8.html#_1284"
+><B CLASS="cl"
+>sequence</B
+></A
+>, or <A NAME="_4711"></A><A HREF="23-8.html#_1285"
+><B CLASS="cl"
+>sequence-enumerated</B
+></A
+> that contains a presentation type abbreviation, then this expands the type abbreviation once, and returns two values, the expansion and <A NAME="_4712"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. If <I
+>type</I
+> is not a presentation type abbreviation, then the values <I
+>type</I
+> and <A NAME="_4713"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> are returned. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E68E502FCDB9C07020EE1F5EF2E12958%2Fexpand-presentation-type-abbreviation-1%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>env</I
+> is a macro-expansion environment, as for <B CLASS="cl"
+>macroexpand</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DCE0786EE412A3AEB0B6DD8BEC6CA2ED%2Fexpand-presentation-type-abbreviation-1%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=60F28F3D918D75AB439C3515F1BBC2FD%2Fexpand-presentation-type-abbreviation-1%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4716"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.2 Presentation Type Abbreviations, <B CLASS="cl"
+><B CLASS="cl"
+>expand-presentation-type-abbreviation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1154"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>expand-presentation-type-abbreviation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>env</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>expand-presentation-type-abbreviation</B
+> is like <A NAME="_4716"></A><A HREF="23-3.html#_1153"
+><B CLASS="cl"
+>expand-presentation-type-abbreviation-1</B
+></A
+>, except that <I
+>type</I
+> is repeatedly expanded until all presentation type abbreviations have been removed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E85EFF684F31EA479EA23B763E616799%2Fexpand-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2138808D0096016DC4F009AD3CB5A50F%2Fexpand-presentation-type-abbreviation%2F23.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1155"></A><DIV
+><H4
+>23.3.3 Presentation Methods</H4
+><P
+>Presentation methods inherit and combine in the same way as ordinary CLOS methods. The reason presentation methods are not exactly the same as ordinary CLOS methods revolves around the <I
+>type</I
+> argument. The parameter specializer for <I
+>type</I
+> is handled in a special way, and presentation method inheritance "massages" the type parameters and options seen by each method. For example, consider three types <B CLASS="cl"
+>int</B
+>, <B CLASS="cl"
+>rrat</B
+>, and <B CLASS="cl"
+>num</B
+> defined as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C74FD599C84FACBA8AE94285E538C272%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>How are massaged arguments passed along? Right now, we pass along those parameters of the same name, and no others. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1099DB8FE1CE70443D243010E9E5406%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(define-presentation-type int (low high)&#10;  :inherit-from `(rrat ,high ,low))&#10;&#10;(define-presentation-method presentation-typep :around (object (type int))&#10;  (and (call-next-method)&#10;       (integerp object)&#10;       (&lt;= low object high)))&#10;&#10;(define-presentation-type rrat (high low)&#10;  :inherit-from `num)&#10;&#10;(define-presentation-method presentation-typep :around (object (type rrat))&#10;  (and (call-next-method)&#10;       (rationalp object)&#10;       (&lt;= low object high)))&#10;&#10;(define-presentation-type num ())&#10;&#10;(define-presentation-method presentation-typep (object (type num))&#10;  (numberp object))&#10;</PRE
+><P
+>If the user were to evaluate the form <B CLASS="cl"
+>(presentation-typep X '(int 1 5))</B
+>, then the type parameters will be <B CLASS="cl"
+>(1 5)</B
+> in the <A NAME="_4722"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> method for <B CLASS="cl"
+>int</B
+>, <B CLASS="cl"
+>(5 1)</B
+> in the method for <B CLASS="cl"
+>rrat</B
+>, and <A NAME="_4726"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> in the method for <B CLASS="cl"
+>num</B
+>. The value for <I
+>type</I
+> will be or <B CLASS="cl"
+>((int 1 5))</B
+> in each of the methods. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=731CE1061057AF37A58730E2602835D9%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1156"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-generic-function</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>generic-function-name  presentation-function-name  lambda-list </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a generic function that will be used for presentation methods. <I
+>generic-function-name</I
+> is a symbol that names the generic function that will be used internally by CLIM for the individual methods, <I
+>presentation-function-name</I
+> is a symbol that names the function that programmers will call to invoke the method, and <I
+>lambda-list</I
+> and <I
+>options</I
+> are as for <B CLASS="cl"
+>defgeneric</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C4450F34B3897B5A59F9487301B20B2C%2Fdefine-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There are some "special" arguments in <I
+>lambda-list</I
+> that are known about by the presentation type system. The first argument in <I
+>lambda-list</I
+> must be either <B CLASS="cl"
+>type-key</B
+> or <B CLASS="cl"
+>type-class</B
+>; this argument is used by CLIM to implement method dispatching. The second argument may be <B CLASS="cl"
+>parameters</B
+>, meaning that, when the method is invoked, the type parameters will be passed to it. The third argument may be <B CLASS="cl"
+>options</B
+>, meaning that, when the method is invoked, the type options will be passed to it. Finally, an argument named <B CLASS="cl"
+>type</B
+> must be included in <I
+>lambda-list</I
+>; when the method is called, <I
+>type</I
+> argument will be bound to the presentation type specifier. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=955443B38B9F06BA950928315328A72D%2Fdefine-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z69"
+></A
+><P
+>It is open how <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=type-key"
+>type-key</A
+></SPAN
+>, <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=type-class"
+>type-class</A
+></SPAN
+>, &#10;<SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=parameters"
+>parameters</A
+></SPAN
+>, <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=options"
+>options</A
+></SPAN
+> and <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=type"
+>type</A
+></SPAN
+> are to be&#10;matched. I see two options:</P
+><P
+>1. Use the <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=string%3D"
+>string=</A
+></SPAN
+> like matching. That is don't take the package&#10;   into account.</P
+><P
+>2. Use <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=eq"
+>eq</A
+></SPAN
+> but then export the relevant symbols from the <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=clim"
+>clim</A
+></SPAN
+> package. Because otherwise the user who wants to define a&#10;presentation generic function is forced to tamper with <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=clim-internals"
+>clim-internals</A
+></SPAN
+>.</P
+><P
+>In McCLIM of today option 2 is used but the exporting.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=955443B38B9F06BA950928315328A72D%2Fdefine-presentation-generic-function%2F23.3.3&amp;editp=t&amp;id=Z69#Z69"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-06-12 17:11Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>For example, the <A NAME="_4735"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> presentation generic function might be defined as follows:  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=555BF559D4D727B5CAA0D6CBE3B453F7%2Fdefine-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z60"
+></A
+>Typo - they must have meant the PRESENT method. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=555BF559D4D727B5CAA0D6CBE3B453F7%2Fdefine-presentation-generic-function%2F23.3.3&amp;editp=t&amp;id=Z60#Z60"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Andy Hefner 2003-07-09 00:29Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><PRE
+>&#10;(define-presentation-generic-function present-method present&#10;  (type-key parameters options object type stream view&#10;   &amp;key acceptably for-context-type))&#10;</PRE
+><P
+>None of the arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76ED0411832BC3248FF623904D7C4C42%2Fdefine-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2542D9E066CEC3AFFE098BD60B86086B%2Fdefine-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4748"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>funcall-presentation-generic-function</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1157"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-method</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name qualifiers* specialized-lambda-list </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a presentation method for the function named <I
+>name</I
+> on the presentation type named in <I
+>specialized-lambda-list</I
+>. <I
+>specialized-lambda-list</I
+> is a CLOS specialized lambda list for the method, and its contents varies depending on what <I
+>name</I
+> is. <I
+>qualifiers*</I
+> is zero or more of the usual CLOS method qualifier symbols. <B CLASS="cl"
+>define-presentation-method</B
+> must support at least <B CLASS="cl"
+>standard</B
+> method combination (and therefore the <B CLASS="cl"
+>:before</B
+>, <B CLASS="cl"
+>:after</B
+>, and <B CLASS="cl"
+>:around</B
+> method qualifiers). Some CLIM implementations may support other method combination types, but this is not required. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=207E720DB1CD36D3825CA7C0532EE6B4%2Fdefine-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> defines the body of the method. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=868CE1D844EFBD1865AFB87CF094023B%2Fdefine-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All presentation methods have an argument named <I
+>type</I
+> that must be specialized with the name of a presentation type. The value of <I
+>type</I
+> is a presentation type specifier, which can be for a subtype that inherited the method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8634B53996B24674DFBD088F54B4609B%2Fdefine-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All presentation methods except <A NAME="_4741"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> have lexical access to the parameters from the presentation type specifier. Presentation methods for the functions <A NAME="_4742"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>, <A NAME="_4743"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+>, <A NAME="_4744"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+>, <A NAME="_4745"></A><A HREF="23-3.html#_1181"
+><B CLASS="cl"
+>presentation-type-specifier-p</B
+></A
+>, and <A NAME="_4746"></A><A HREF="23-3.html#_1168"
+><B CLASS="cl"
+>accept-present-default</B
+></A
+> also have lexical access to the options from the presentation type specifier. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69E9075ED1252C243103FD5800D8E170%2Fdefine-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z412"
+></A
+><P
+>What happens when the name of a parameter is the same as one of the method arguments?</P
+><P
+>We've renamed parameters for sequence and for complex presentation types to element-type and clim:part-type. Also, define-presentation-method signals a style-warning when the argument is shadowed.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69E9075ED1252C243103FD5800D8E170%2Fdefine-presentation-method%2F23.3.3&amp;editp=t&amp;id=Z412#Z412"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-07-01 12:04Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E9A6179BF634CAF45EA50023F9E0B74A%2Fdefine-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4747"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-default-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4663"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1158"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-default-presentation-method</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name qualifiers* specialized-lambda-list  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_4747"></A><A HREF="23-3.html#_1157"
+><B CLASS="cl"
+>define-presentation-method</B
+></A
+>, except that it is used to define a default method that will be used only if there are no more specific methods. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E55AC06726007ADE1D544DC60A5013B9%2Fdefine-default-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F2B6998C5D233A5342FDF71D321F057%2Fdefine-default-presentation-method%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1159"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>funcall-presentation-generic-function</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation-function-name </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>arguments</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls the presentation generic function named by <I
+>presentation-function-name</I
+> on the arguments <I
+>arguments</I
+>. <I
+>arguments</I
+> must match the arguments specified by the <A NAME="_4748"></A><A HREF="23-3.html#_1156"
+><B CLASS="cl"
+>define-presentation-generic-function</B
+></A
+> that was used to define the presentation generic function, excluding the <B CLASS="cl"
+>type-key</B
+>, <B CLASS="cl"
+>type-class</B
+>, <B CLASS="cl"
+>parameters</B
+>, and <B CLASS="cl"
+>options</B
+> arguments, which are filled in by CLIM. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDD21F8E98692F4BDDDF28C7342E34B7%2Ffuncall-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>funcall-presentation-generic-function</B
+> is analogous to <B CLASS="cl"
+>funcall</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D6951B49372F51FC95EC3E9C1BFD13B9%2Ffuncall-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>presentation-function-name</I
+> argument is not evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3720A3211C573B4941401E169E5BEAC8%2Ffuncall-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, to call the <A NAME="_4755"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> presentation generic function, one might use the following:  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAE67B35EE58769CD154EF515DC71474%2Ffuncall-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(funcall-presentation-generic-function present&#10;  object presentation-type stream view)&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8E6EA8809A606894E80DFEA66B37EBEA%2Ffuncall-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4756"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>apply-presentation-generic-function</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1160"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>apply-presentation-generic-function</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation-function-name </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>arguments</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_4756"></A><A HREF="23-3.html#_1159"
+><B CLASS="cl"
+>funcall-presentation-generic-function</B
+></A
+>, except that <B CLASS="cl"
+>apply-presentation-generic-function</B
+> is analogous to <B CLASS="cl"
+>apply</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6CE6141796F97F0B7C78735061BE36B5%2Fapply-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>presentation-function-name</I
+> argument is not evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3720A3211C573B4941401E169E5BEAC8%2Fapply-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> Here is a list of all of the standard presentation methods and their specialized lambda lists. For the meaning of the arguments to each presentation method, refer to the description of the function that calls that method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1062F763D228EC974E0A8247BA340306%2Fapply-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For all of the presentation methods, the <I
+>type</I
+> will always be specialized. For those methods that take a <I
+>view</I
+> argument, implementors and programmers may specialize it as well. The other arguments are not typically specialized. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8FA332333FCFECB4EDA331868CE2BE21%2Fapply-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EF2E9AC205E1E220FE325010A64BA61F%2Fapply-presentation-generic-function%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1161"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>present</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object type stream view </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>acceptably for-context-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>present</B
+> presentation method is responsible for displaying the representation of <I
+>object</I
+> having <A NAME="_4760"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> for a particular <SPAN CLASS="term"
+>view</SPAN
+> <I
+>view</I
+>. The method's caller takes care of creating the presentation, the method simply displays the content of the presentation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75089BB4E49AF179C44C16CA8D690D85%2Fpresent%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>present</B
+> method can specialize on the <I
+>view</I
+> argument in order to define more than one view of the data. For example, a spreadsheet program might define a presentation type for revenue, which can be displayed either as a number or a bar of a certain length in a bar graph. Typically, at least one canonical view should be defined for a presentation type, for example, the <B CLASS="cl"
+>present</B
+> method for the <A NAME="_4764"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+> view must be defined if the programmer wants to allow objects of that type to be displayed textually. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23324A31A1B8A0CF0DF29A7BB92D5B65%2Fpresent%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>present</B
+> method is <BR
+> <I
+>(type-key parameters options object type stream view </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>acceptably for-context-type)</I
+> <BR
+> <I
+>type-key</I
+> is the object that is used to cause the appropriate methods to be selected (an instance of the class that corresponds to the presentation type <I
+>type</I
+>.). <I
+>parameters</I
+> and <I
+>options</I
+> are the parameters and options for the type on which the current method is specialized. The other arguments are gotten from the arguments of the same name in <B CLASS="cl"
+>present</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E6DFA1A913D4DBDEB8BDBAFA7CAB2A7A%2Fpresent%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual generic function of the <B CLASS="cl"
+>present</B
+> method is an internal generic function, not the function whose name is <B CLASS="cl"
+>present</B
+>. Similar internal generic functions are used for all presentation methods. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56ACF0982BACF6BC83A3DF6A02E76F12%2Fpresent%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2970CE298AA33020B71A8029ED924482%2Fpresent%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-4.html#_1193"
+><SPAN CLASS="forwardlink"
+>[&rarr; present, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="27-6.html#_6095"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5654"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5623"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-4.html#_5502"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>write-token</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-4.html#_5486"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-replace-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5336"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.7 "Meta" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>and</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5273"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.5 "One-of" and "Some-of" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>completion</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5085"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>stream-default-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5056"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4929"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>present-to-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4911"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4892"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4811"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4755"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>funcall-presentation-generic-function</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4743"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4692"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-2.html#_4614"
+><SPAN CLASS="reverselink"
+>[&larr; 23.2 Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>standard-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1162"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type stream view </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>default default-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>accept</B
+> method is responsible for "parsing" the representation of the <A NAME="_4770"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> for a particular <SPAN CLASS="term"
+>view</SPAN
+> <I
+>view</I
+>. The <B CLASS="cl"
+>accept</B
+> method must return a single value, the object that was "parsed", or two values, the object and its type (a presentation type specifier). The method's caller takes care of establishing the input context, defaulting, prompting, and input editing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15A367F751E92F7DA12D08F2C245DEC2%2Faccept%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>accept</B
+> method can specialize on the <I
+>view</I
+> argument in order to define more than one input view for the data. The <B CLASS="cl"
+>accept</B
+> method for the <A NAME="_4775"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+> view must be defined if the programmer wants to allow objects of that type to entered via the keyboard. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BAB129C11A86E0688F235695936C931%2Faccept%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that <B CLASS="cl"
+>accept</B
+> presentation methods can call <B CLASS="cl"
+>accept</B
+> recursively. In this case, the programmer should be careful to specify <A NAME="_4778"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> for <B CLASS="cl"
+>:prompt</B
+> and <B CLASS="cl"
+>:display-default</B
+> unless recursive prompting is really desired. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5741A128B1846E9983F2C20061C794C%2Faccept%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>accept</B
+> method is <BR
+> <I
+>(type-key parameters options type stream view </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>default default-type)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DD605837EDD7B5CA3C96DB9321A0171%2Faccept%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5ABB8A6448E07B3FC55A5D2EBE6E060A%2Faccept%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-5.html#_1202"
+><SPAN CLASS="forwardlink"
+>[&rarr; accept, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7454"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="C.html#_7092"
+><SPAN CLASS="reverselink"
+>[&larr; C Encapsulating Streams]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6106"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command-or-form</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6084"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6064"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6 The Command Processor, <B CLASS="cl"
+><B CLASS="cl"
+>read-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5816"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5673"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5579"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>with-accept-help</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5507"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>*help-gestures*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5465"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures, <B CLASS="cl"
+><B CLASS="cl"
+>with-delimiter-gestures</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5453"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures, <B CLASS="cl"
+><B CLASS="cl"
+>with-activation-gestures</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-2.html#_5442"
+><SPAN CLASS="reverselink"
+>[&larr; 24.2 Activation and Delimiter Gestures]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5409"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-scan-pointer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5396"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5389"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>input-editor-format</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5349"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5340"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.8 Compound Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>type-or-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5335"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.7 "Meta" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>and</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5311"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.7 "Meta" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>or</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5308"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.6 Sequence Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>sequence-enumerated</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5302"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.6 Sequence Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>sequence</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5272"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.5 "One-of" and "Some-of" Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>completion</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-8.html#_5265"
+><SPAN CLASS="reverselink"
+>[&larr; 23.8.4 Pathname Presentation Type, <B CLASS="cl"
+><B CLASS="cl"
+>pathname</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5117"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5084"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>stream-default-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5055"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5049"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5033"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5029"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-from-string</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4983"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4960"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>stream-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4926"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4810"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4742"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4735"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-generic-function</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4691"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-3.html#_4513"
+><SPAN CLASS="reverselink"
+>[&larr; 22.3.1 Standard Gesture Names]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1163"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>describe-presentation-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type stream plural-count</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>describe-presentation-type</B
+> method is responsible for textually describing the <A NAME="_4783"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+>. <I
+>stream</I
+> is a stream, and will not be <A NAME="_4784"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> as it can be for the <B CLASS="cl"
+>describe-presentation-type</B
+> function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A401C68D286B36D99DB968D7B2137563%2Fdescribe-presentation-type%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>describe-presentation-type</B
+> method is <BR
+> <I
+>(type-key parameters options type stream plural-count)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5C5515839EB44FF09FE83DD5C109955%2Fdescribe-presentation-type%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=753B62B1F66F6699C11A1A5C80D4EC0A%2Fdescribe-presentation-type%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1174"
+><SPAN CLASS="forwardlink"
+>[&rarr; describe-presentation-type, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-5.html#_5048"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4872"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>default-describe-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4814"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4744"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4680"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1164"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-specifier-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>presentation-type-specifier-p</B
+> method is responsible for checking the validity of the parameters and options for the <A NAME="_4788"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+>. The default method returns <A NAME="_4789"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=37FCFA369A609E846837190A96DB5113%2Fpresentation-type-specifier-p%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>presentation-type-specifier-p</B
+> method is <BR
+> <I
+>(type-key parameters options type)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA42A3F3A638080449EDD6A64FDB9387%2Fpresentation-type-specifier-p%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD801C346756853016DE89F82ECA11F3%2Fpresentation-type-specifier-p%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1181"
+><SPAN CLASS="forwardlink"
+>[&rarr; presentation-type-specifier-p, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4745"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4697"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1165"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-typep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>presentation-typep</B
+> method is called when the <B CLASS="cl"
+>presentation-typep</B
+> function requires type-specific knowledge. If the type name in the <A NAME="_4793"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> is a CLOS class or names a CLOS class, the method is called only if <I
+>object</I
+> is a member of the class and <I
+>type</I
+> contains parameters, and the method simply tests whether <I
+>object</I
+> is a member of the subtype specified by the parameters. For non-class types, the method is always called. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3919BE0D23EE49278D8E398991665F0B%2Fpresentation-typep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>presentation-typep</B
+> method is <BR
+> <I
+>(type-key parameters object type)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F8B3E1A1D1A3C4276BF55C06EA1310D0%2Fpresentation-typep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB78C9990CC393B2AF3F6C94511F2B12%2Fpresentation-typep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1182"
+><SPAN CLASS="forwardlink"
+>[&rarr; presentation-typep, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5230"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5113"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4722"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4664"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4644"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3 Presentation Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1166"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-subtypep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type putative-supertype</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>presentation-subtypep</B
+> walks the type lattice (using <B CLASS="cl"
+>map-over-presentation-supertypes</B
+>) to determine whethe or not the <A NAME="_4797"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> is a subtype of the<A NAME="_4798"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>putative-supertype</I
+>, without looking at the type parameters. When a supertype of <I
+>type</I
+> has been found whose name is the same as the name of <I
+>putative-supertype</I
+>, then the <B CLASS="cl"
+>subtypep</B
+> method for that type is called in order to resolve the question by looking at the type parameters (that is, if the <B CLASS="cl"
+>subtypep</B
+> method is called, <I
+>type</I
+> and <I
+>putative-supertype</I
+> are guaranteed to be the same type, differing only in their parameters). If <I
+>putative-supertype</I
+> is never found during the type walk, then <B CLASS="cl"
+>presentation-subtypep</B
+> will never call the <B CLASS="cl"
+>presentation-subtypep</B
+> presentation method for <I
+>putative-supertype</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A657CBB2B915CD901CFF3DFB5220033%2Fpresentation-subtypep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Unlike all other presentation methods, <B CLASS="cl"
+>presentation-subtypep</B
+> receives a <I
+>type</I
+> argument that has been translated to the presentation type for which the method is specialized; <I
+>type</I
+> is never a subtype. The method is only called if <I
+>putative-supertype</I
+> has parameters and the two presentation type specifiers do not have equal parameters. The method must return the two values that <B CLASS="cl"
+>presentation-subtypep</B
+> returns. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84B3CDF15956EE0AF2A22D81AF6270AD%2Fpresentation-subtypep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Since <B CLASS="cl"
+>presentation-subtypep</B
+> takes two type arguments, the parameters are not lexically available as variables in the body of a presentation method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=669142513EFFA2CFE891B3AECD00E153%2Fpresentation-subtypep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>presentation-subtypep</B
+> method is <BR
+> <I
+>(type-key type putative-supertype)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3875A2F5EFDB96D5A2A39821B99624FC%2Fpresentation-subtypep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3690AB396C855D9F902ED648F26871D1%2Fpresentation-subtypep%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1184"
+><SPAN CLASS="forwardlink"
+>[&rarr; presentation-subtypep, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5227"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5114"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4741"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4665"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1167"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-presentation-type-supertypes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method is called in order to apply <I
+>function</I
+> to the superclasses of the <A NAME="_4807"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A686C914E554396FFDE96FBF32C4299%2Fmap-over-presentation-type-supertypes%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>map-over-presentation-type-supertypes</B
+> method is <BR
+> <I
+>(type-class function type)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=979E0DE47B5E3AB99274E87B089ABE32%2Fmap-over-presentation-type-supertypes%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1176A0E8067B31C95894F53C66F238BA%2Fmap-over-presentation-type-supertypes%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1185"
+><SPAN CLASS="forwardlink"
+>[&rarr; map-over-presentation-type-supertypes, <I
+>Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1168"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accept-present-default</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type stream view default default-supplied-p  present-p query-identifier</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>accept-present-default</B
+> method is called when <A NAME="_4810"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> turns into <A NAME="_4811"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> inside of <A NAME="_4812"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+>. The default method calls <A NAME="_4813"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> or <A NAME="_4814"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+> depending on whether <I
+>default-supplied-p</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> or <SPAN CLASS="term"
+>false</SPAN
+>, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12FE6E50639525DCF6F3AB94CFDE65D5%2Faccept-present-default%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The boolean <I
+>default-supplied-p</I
+> will be <SPAN CLASS="term"
+>true</SPAN
+> only in the case when the <B CLASS="cl"
+>:default</B
+> option was explicitly supplied in the call to <A NAME="_4819"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> that invoked <B CLASS="cl"
+>accept-present-default</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=726EC5623B19A303AD313E66BE883BC0%2Faccept-present-default%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z449"
+></A
+><P
+>Shouldn't the augumented default be supplied here after the the query is edited?</P
+><P
+>I.e a default string is "foobar", user modifies it to "quxbar" in the form, then the new default is "quxbar".</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=726EC5623B19A303AD313E66BE883BC0%2Faccept-present-default%2F23.3.3&amp;editp=t&amp;id=Z449#Z449"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-11-10 09:29Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>accept-present-default</B
+> method is <BR
+> <I
+>(type-key parameters options type stream view default default-supplied-p present-p query-identifier)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1BE3F957AC3F19A74781653E89F4224F%2Faccept-present-default%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8980FDAB2C7E06E467C8C685E6EF706%2Faccept-present-default%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="26.html#_5684"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4746"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1169"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-history</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method is responsible for returning a history object for the <A NAME="_4822"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F60B4FEC672EBB4A2DAF094E8AEBE87E%2Fpresentation-type-history%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z53"
+></A
+>while discussing this on IRC, Andy Hefner and I came to the conclusion that the "history object" needs only be used in ACCEPT and similar methods and is therefore left not very specified. Is that correct? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F60B4FEC672EBB4A2DAF094E8AEBE87E%2Fpresentation-type-history%2F23.3.3&amp;editp=t&amp;id=Z53#Z53"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Andreas Fuchs 2003-06-09 18:49Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>presentation-type-history</B
+> method is <BR
+> <I
+>(type-key parameters type)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16966E8D6261EA3390BAB6DDA0DAAABD%2Fpresentation-type-history%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DAF54A9BE80DA7139FA7DF8CC67C3D79%2Fpresentation-type-history%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4684"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1170"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-default-preprocessor</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>default type </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>default-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method is responsible for taking the object <I
+>default</I
+>, and coercing it to match the <A NAME="_4824"></A><A HREF="23-1.html#_1126"
+><SPAN CLASS="term"
+>presentation type</SPAN
+></A
+> <I
+>type</I
+> (which is the type being accepted) and <I
+>default-type</I
+> (which is the presentation type of <I
+>default</I
+>). This is useful when you want to change the default gotten from the presentation type's history so that it conforms to parameters or options in <I
+>type</I
+> and <I
+>default-type</I
+>.) The method must return two values, the new object to be used as the default, and a new presentation type, which should be at least as specific as <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3B6F41867D865E679232B2E1FD4756A%2Fpresentation-default-preprocessor%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>presentation-default-preprocessor</B
+> method is <BR
+> <I
+>(type-key parameters default type </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>default-type)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F2ACAF4DEEA01868FD18C27E4B17477%2Fpresentation-default-preprocessor%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B947226A71E9605795546D9B9336665B%2Fpresentation-default-preprocessor%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1171"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-refined-position-test</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type record x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method used to definitively answer hit detection queries for a presentation, that is, determining that the point <I
+>(x,y)</I
+> is contained within the output record <I
+>record</I
+>. Its contract is exactly the same as for <A NAME="_4826"></A><A HREF="16-2.html#_855"
+><B CLASS="cl"
+>output-record-refined-position-test</B
+></A
+>, except that it is intended to specialize on the presentation type <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B63576FB766F9B92A0894A8B78EE78C%2Fpresentation-refined-position-test%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>presentation-refined-position-test</B
+> method is <BR
+> <I
+>(type-key parameters options type record x y)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B74E639109FBD4FAE2A344F6E575FBA%2Fpresentation-refined-position-test%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39DC2F05EB7138483298AE546726722A%2Fpresentation-refined-position-test%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1172"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>highlight-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type record stream state</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Presentation&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method is responsible for drawing a highlighting box around the <A NAME="_4828"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>record</I
+> on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>. <I
+>state</I
+> will be either <B CLASS="cl"
+>:highlight</B
+> or <B CLASS="cl"
+>:unhighlight</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15612339EFCC594F82FB4E86863DBA0D%2Fhighlight-presentation%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the actual argument list to the <B CLASS="cl"
+>highlight-presentation</B
+> method is <BR
+> <I
+>(type-key parameters options type record stream state)</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C713B52BC2A33745E46433486DFE04F2%2Fhighlight-presentation%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=955B6E9D27FEBA99B99EC3F036167C61%2Fhighlight-presentation%2F23.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5218"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>set-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1173"></A><DIV
+><H4
+>23.3.4 Presentation Type Functions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1174"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>describe-presentation-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream plural-count</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Describes the <A NAME="_4833"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>type</I
+> on the <SPAN CLASS="term"
+>stream</SPAN
+> <I
+>stream</I
+>, which defaults to <B CLASS="cl"
+>*standard-output*</B
+>. If <I
+>stream</I
+> is <A NAME="_4836"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, a string containing the description is returned. <I
+>plural-count</I
+> is either <A NAME="_4837"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (meaning that the description should be the singular form of the name), <A NAME="_4838"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (meaning that the description should the plural form of the name), or an integer greater than zero (the number of items to be described). The default is <B CLASS="cl"
+>1</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=912E5CEF5561E0B539196E8A3728F105%2Fdescribe-presentation-type%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+> can be a presentation type abbreviation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB5B65984AEEEE9D3FAF0CAA4B6705A3%2Fdescribe-presentation-type%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A23E5BBFE36D73A21DF06469146764F0%2Fdescribe-presentation-type%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1163"
+><SPAN CLASS="forwardlink"
+>[&rarr; describe-presentation-type, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-5.html#_5048"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4872"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>default-describe-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4814"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept-present-default</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4744"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4680"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1175"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-parameters</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type-name </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>env</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a lambda-list, the parameters specified when the presentation type or presentation type abbreviation whose name is <I
+>type-name</I
+> was defined. <I
+>type-name</I
+> is a symbol or a class. <I
+>env</I
+> is a macro-expansion environment, as in <B CLASS="cl"
+>find-class</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA365FE91D4D68790883E552854A16AF%2Fpresentation-type-parameters%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BEF71B5360A9E91C98A60BA28698727B%2Fpresentation-type-parameters%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1176"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type-name </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>env</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the list of options specified when the presentation type or presentation type abbreviation whose name is <I
+>type-name</I
+> was defined. This does not include the standard options unless the presentation-type definition mentioned them explicitly. <I
+>type-name</I
+> is a symbol or a class. <I
+>env</I
+> is a macro-expansion environment, as in <B CLASS="cl"
+>find-class</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=099233D688B46384E3F35FA6ACEA034E%2Fpresentation-type-options%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A26A25C5CE46DBCE854945E475118317%2Fpresentation-type-options%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1177"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-presentation-type-decoded</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(name-var </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>parameters-var options-var)  type  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The specified variables are bound to the components of the presentation type specifier produced by evaluating <I
+>type</I
+>, the forms in <I
+>body</I
+> are executed, and the values of the last form are returned. <I
+>name-var</I
+>, if non-<A NAME="_4842"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, is bound to the presentation type name. <I
+>parameters-var</I
+>, if non-<A NAME="_4843"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, is bound to a list of the parameters. <I
+>options-var</I
+>, if non-<A NAME="_4844"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, is bound to a list of the options. When supplied, <I
+>name-var</I
+>, <I
+>parameters-var</I
+>, and <I
+>options-var</I
+> must be symbols. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47B8293528546BA7F815FC49F11740B7%2Fwith-presentation-type-decoded%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>name-var</I
+>, <I
+>parameters-var</I
+>, and <I
+>options-var</I
+> arguments are not evaluated. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47F065EC1219296E21C31A23E3D25E77%2Fwith-presentation-type-decoded%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6018741AFAC9045D75EA09ADD1A62811%2Fwith-presentation-type-decoded%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1178"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the presentation type name of the presentation type specifier <I
+>type</I
+>. This function is provided as a convenience. It could be implemented with the following code: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12630E450F369AECF40F4B3523CEBB89%2Fpresentation-type-name%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun presentation-type-name (type)&#10;  (with-presentation-type-decoded (name) type&#10;    name))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D47B7EBA49FA03767DEF15A758D4F80%2Fpresentation-type-name%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1179"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-presentation-type-parameters</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(type-name type) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Variables with the same name as each parameter in the definition of the presentation type are bound to the parameter values in <I
+>type</I
+>, if present, or else to the defaults specified in the definition of the presentation type. The forms in <I
+>body</I
+> are executed in the scope of these variables and the values of the last form are returned. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC6E1EC96AF026D505DF38269AB92B32%2Fwith-presentation-type-parameters%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The value of the form <I
+>type</I
+> must be a presentation type specifier whose name is <I
+>type-name</I
+>. The <I
+>type-name</I
+> and <I
+>type</I
+> arguments are not evaluated. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DA05B64EEC662BC3C2E4D541FD1A729E%2Fwith-presentation-type-parameters%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D324EF8612C35F1E659AC5429ED8855%2Fwith-presentation-type-parameters%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1180"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-presentation-type-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(type-name type) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Variables with the same name as each option in the definition of the presentation type are bound to the option values in <I
+>type</I
+>, if present, or else to the defaults specified in the definition of the presentation type. The forms in <I
+>body</I
+> are executed in the scope of these variables and the values of the last form are returned. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29550AFB56D0E7131472CB392A120086%2Fwith-presentation-type-options%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The value of the form <I
+>type</I
+> must be a presentation type specifier whose name is <I
+>type-name</I
+>. The <I
+>type-name</I
+> and <I
+>type</I
+> arguments are not evaluated. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DA05B64EEC662BC3C2E4D541FD1A729E%2Fwith-presentation-type-options%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=339B8F4A9DA6CEC0CB5330C949C74CC5%2Fwith-presentation-type-options%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1181"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-specifier-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a valid <A NAME="_4846"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E45050A0D7770F6E66ACBCCA9AFBA1C%2Fpresentation-type-specifier-p%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z154"
+></A
+>What should be done if `object' is an unknown presentation type specifier? An error? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E45050A0D7770F6E66ACBCCA9AFBA1C%2Fpresentation-type-specifier-p%2F23.3.4&amp;editp=t&amp;id=Z154#Z154"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-12-12 19:52Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2AB5EFCDC32EB7E6B20D3548FB1036D%2Fpresentation-type-specifier-p%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1164"
+><SPAN CLASS="forwardlink"
+>[&rarr; presentation-type-specifier-p, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4745"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4697"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1182"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-typep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is of the presentation type specified by the <A NAME="_4849"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>type</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=605D2FD1F4A8E00EDF49E20E15F89C44%2Fpresentation-typep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+> may not be a presentation type abbreviation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1198061000ED954DA8B5CB7F160925BF%2Fpresentation-typep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This is analogous to the Common Lisp <B CLASS="cl"
+>typep</B
+> function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E3196AC70086DE2C23F9DA0B9E4CBBFC%2Fpresentation-typep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E0CD5E43371C74F6912A2F4117B1C99%2Fpresentation-typep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1165"
+><SPAN CLASS="forwardlink"
+>[&rarr; presentation-typep, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5230"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5113"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4722"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4664"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4644"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3 Presentation Types]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1183"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-of</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a presentation type of which <I
+>object</I
+> is a member. <B CLASS="cl"
+>presentation-type-of</B
+> returns the most specific presentation type that can be conveniently computed and is likely to be useful to the programmer. This is often the class name of the class of the object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F9A267EDC6E9E3836B1E8942C7AD3EE%2Fpresentation-type-of%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <B CLASS="cl"
+>presentation-type-of</B
+> cannot determine the presentation type of the object, it may return either <A NAME="_4854"></A><A HREF="23-8.html#_1294"
+><B CLASS="cl"
+>expression</B
+></A
+> or <A NAME="_4855"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A44AE232812BFC25063AF4DBE6321245%2Fpresentation-type-of%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This is analogous to the Common Lisp <B CLASS="cl"
+>typep</B
+> function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E3196AC70086DE2C23F9DA0B9E4CBBFC%2Fpresentation-type-of%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z145"
+></A
+>Exactly how is this analogous? Was `type-of' intended? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E3196AC70086DE2C23F9DA0B9E4CBBFC%2Fpresentation-type-of%2F23.3.4&amp;editp=t&amp;id=Z145#Z145"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-10-19 20:09Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7DF7192217E2D14B35144C4323FF1AA6%2Fpresentation-type-of%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z150"
+></A
+>I think that in the old days `one-argument TYPEP' was what we now call TYPE-OF, so this is probably a braino from some old-timer.  (I should say that this is hearsay; I wasn't born when CL was invented ;-) <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7DF7192217E2D14B35144C4323FF1AA6%2Fpresentation-type-of%2F23.3.4&amp;editp=t&amp;id=Z150#Z150"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2006-11-16 17:06Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1184"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-subtypep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type putative-supertype</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Answers the question "is the type specified by the <A NAME="_4857"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>type</I
+> a subtype of the type specified by the <A NAME="_4858"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>putative-supertype</I
+>?". <B CLASS="cl"
+>presentation-subtypep</B
+> returns two values, <I
+>subtypep</I
+> and <I
+>known-p</I
+>. When <I
+>known-p</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, <I
+>subtypep</I
+> can be either <SPAN CLASS="term"
+>true</SPAN
+> (meaning that <I
+>type</I
+> is definitely a subtype of <I
+>putative-supertype</I
+>) or <SPAN CLASS="term"
+>false</SPAN
+> (meaning that <I
+>type</I
+> is definitely not a subtype of <I
+>putative-supertype</I
+>). When <I
+>known-p</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, then <I
+>subtypep</I
+> must also be <SPAN CLASS="term"
+>false</SPAN
+>; this means that the answer cannot reliably be determined. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D8E1BFBA22E80A3C84EA9F4F53B6F76%2Fpresentation-subtypep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>type</I
+> may not be a presentation type abbreviation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1198061000ED954DA8B5CB7F160925BF%2Fpresentation-subtypep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This is analogous to the Common Lisp <B CLASS="cl"
+>subtypep</B
+> function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A449C0E63C05F42066AADBD03504A85%2Fpresentation-subtypep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=991DE1DD8151316D75386A1CF84E0A75%2Fpresentation-subtypep%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1166"
+><SPAN CLASS="forwardlink"
+>[&rarr; presentation-subtypep, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5227"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5114"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4741"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-method</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4665"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.1 Defining Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1185"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-presentation-type-supertypes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls the function <I
+>function</I
+> on the <A NAME="_4866"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>type</I
+> and each of its supertypes. <I
+>function</I
+> is called with two arguments, the name of a type and a presentation type specifier for that type with the parameters and options filled in. <I
+>function</I
+> has dynamic extent; its two arguments are permitted to have dynamic extent. The traversal of the type lattice is done in the order specified by the CLOS class precedence rules, and visits each type in the lattice exactly once. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA5AC16644C72A2153491F38A19AF448%2Fmap-over-presentation-type-supertypes%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=419FD6B710B71D5509776FB1AF5A1B26%2Fmap-over-presentation-type-supertypes%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z159"
+></A
+>What is meant to happen when the presentation type specifier is NIL?  The existence of this type breaks the assumption that we have hierarchical inheritance, and indeed a fixed supertype list... <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=419FD6B710B71D5509776FB1AF5A1B26%2Fmap-over-presentation-type-supertypes%2F23.3.4&amp;editp=t&amp;id=Z159#Z159"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2007-01-09 10:58Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="23-3.html#_1167"
+><SPAN CLASS="forwardlink"
+>[&rarr; map-over-presentation-type-supertypes, <I
+>Presentation&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1186"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-type-direct-supertypes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence consisting of the names of all of the presentation types that are direct supertypes of the <A NAME="_4867"></A><A HREF="23-3.html#_1146"
+><SPAN CLASS="term"
+>presentation type specifier</SPAN
+></A
+> <I
+>type</I
+>, or <A NAME="_4868"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if <I
+>type</I
+> has no supertypes. The consequences of modifying the returned sequence are unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5E59FF3411EB2C62E823A9E7ABACCC4%2Fpresentation-type-direct-supertypes%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3D85252138CB6666D63DCF7274EB4AF4%2Fpresentation-type-direct-supertypes%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1187"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-presentation-type-class</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(errorp </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) environment</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the class corresponding to the presentation type named <I
+>name</I
+>, which must be a symbol or a class object. <I
+>errorp</I
+> and <I
+>environment</I
+> are as for <B CLASS="cl"
+>find-class</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72684E19D88556A3635E36905AA915B3%2Ffind-presentation-type-class%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CB62CBAF7E7A4C9BC526485B1D3EA1C%2Ffind-presentation-type-class%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4870"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.4 Presentation Type Functions, <B CLASS="cl"
+><B CLASS="cl"
+>class-presentation-type-name</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1188"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>class-presentation-type-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>class </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>environment</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the presentation type name corresponding to the class <I
+>class</I
+>. This is essentially the inverse of <A NAME="_4870"></A><A HREF="23-3.html#_1187"
+><B CLASS="cl"
+>find-presentation-type-class</B
+></A
+>. <I
+>environment</I
+> is as for <B CLASS="cl"
+>find-class</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2696B735B75E5327391AF6ABD7769A04%2Fclass-presentation-type-name%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F5D2AD9AF6B1BCB5002FCE1FADA13D9%2Fclass-presentation-type-name%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1189"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>default-describe-presentation-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>description stream plural-count</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Performs the default actions for <A NAME="_4872"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+>, notably pluralization and prepending an indefinite article if appropriate. <I
+>description</I
+> is a string or a symbol, typically the <B CLASS="cl"
+>:description</B
+> presentation type option or the <B CLASS="cl"
+>:description</B
+> option to <A NAME="_4875"></A><A HREF="23-3.html#_1149"
+><B CLASS="cl"
+>define-presentation-type</B
+></A
+>. <I
+>plural-count</I
+> is as for <A NAME="_4876"></A><A HREF="23-3.html#_1174"
+><B CLASS="cl"
+>describe-presentation-type</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67AC7A13BF2FD9D3A41EFF23330C14D7%2Fdefault-describe-presentation-type%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F80273731A92C99433C9CA428A20B44C%2Fdefault-describe-presentation-type%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1190"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-presentation-type-specifier</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type-name-and-parameters </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A convenient way to assemble a presentation type specifier with only non-default options included. This is only useful for abbreviation expanders, not for <B CLASS="cl"
+>:inherit-from</B
+>. <I
+>type-name-and-parameters</I
+> is a presentation type specifier, which must be in the <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>type-name</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>parameters...</I
+></B
+><B CLASS="cl"
+>)</B
+> form. <I
+>options</I
+> are alternating keywords and values that are added as options to the presentation type specifier, except that if a value is equal to <I
+>type-name</I
+>'s default, that option is omitted, producing a more concise presentation type specifier. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D979EF189B86E69E6B242F6D7C5DBC9%2Fmake-presentation-type-specifier%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C754EDB1E6C7016EC102F4D122B0061E%2Fmake-presentation-type-specifier%2F23.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

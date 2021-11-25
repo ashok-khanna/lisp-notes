@@ -1,0 +1,3044 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 8.2 Standard Device Events</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="8.1 Input Protocol" HREF="8-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="8.3 Output Protocol" HREF="8-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="8 Sheet Protocols" HREF="8.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="8-1.html"
+>Prev</A
+><BR
+><A HREF="8-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="8.html"
+>8&nbsp;Sheet&nbsp;Protocols</A
+><BR
+>&rarr;&nbsp;<A HREF="8-2.html"
+><B
+>8.2&nbsp;Standard&nbsp;Device&nbsp;Events</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_322"></A><DIV
+><H3
+>8.2 Standard Device Events</H3
+><DIV
+><P
+>An <A NAME="_323"></A><SPAN CLASS="concept"
+>event</SPAN
+> is a CLIM object that represents some sort of user gesture (such as moving the pointer or pressing a key on the keyboard) or that corresponds to some sort of notification from the display server. Event objects store such things as the sheet associated with the event, the <I
+>x</I
+> and <I
+>y</I
+> bposition of the pointer within that sheet, the key name or character corresponding to a key on the keyboard, and so forth. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D91675CCB60B29ED21BE75AB0DFA2EF5%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6916"
+><SPAN CLASS="reverselink"
+>[event, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="22-3.html#_4466"
+><SPAN CLASS="reverselink"
+>[event, <I
+>Concept</I
+>&larr; 22.3 Gestures and Gesture Names]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2630"
+><SPAN CLASS="reverselink"
+>[event, <I
+>Concept</I
+>&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>event-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2629"
+><SPAN CLASS="reverselink"
+>[event, <I
+>Concept</I
+>&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>event-timestamp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2625"
+><SPAN CLASS="reverselink"
+>[event, <I
+>Concept</I
+>&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>eventp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2559"
+><SPAN CLASS="reverselink"
+>[event, <I
+>Concept</I
+>&larr; 8.1 Input Protocol]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Figure&nbsp;<A NAME="_2601"></A><A HREF="8-2.html#_324"
+>8.1</A
+> shows all the event classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4DE62A657274D65C39D0822D89ADF45%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><HR
+></HR
+><P
+>  XXXXXXXXXXXX  <A NAME="_2602"></A><A HREF="8-2.html#_325"
+><B CLASS="cl"
+>event</B
+></A
+> <BR
+> <A NAME="_2603"></A><A HREF="8-2.html#_330"
+><B CLASS="cl"
+>device-event</B
+></A
+> <BR
+> <A NAME="_2604"></A><A HREF="8-2.html#_335"
+><B CLASS="cl"
+>keyboard-event</B
+></A
+> <BR
+> <A NAME="_2605"></A><A HREF="8-2.html#_339"
+><B CLASS="cl"
+>key-press-event</B
+></A
+> <BR
+> <A NAME="_2606"></A><A HREF="8-2.html#_340"
+><B CLASS="cl"
+>key-release-event</B
+></A
+> <BR
+> <A NAME="_2607"></A><A HREF="8-2.html#_341"
+><B CLASS="cl"
+>pointer-event</B
+></A
+> <BR
+> <A NAME="_2608"></A><A HREF="8-2.html#_351"
+><B CLASS="cl"
+>pointer-button-event</B
+></A
+> <BR
+> <A NAME="_2609"></A><A HREF="8-2.html#_353"
+><B CLASS="cl"
+>pointer-button-press-event</B
+></A
+> <BR
+> <A NAME="_2610"></A><A HREF="8-2.html#_354"
+><B CLASS="cl"
+>pointer-button-release-event</B
+></A
+> <BR
+> <A NAME="_2611"></A><A HREF="8-2.html#_355"
+><B CLASS="cl"
+>pointer-button-hold-event</B
+></A
+> <BR
+> <A NAME="_2612"></A><A HREF="8-2.html#_359"
+><B CLASS="cl"
+>pointer-motion-event</B
+></A
+> <BR
+> <A NAME="_2613"></A><A HREF="8-2.html#_360"
+><B CLASS="cl"
+>pointer-boundary-event</B
+></A
+> <BR
+> <A NAME="_2614"></A><A HREF="8-2.html#_362"
+><B CLASS="cl"
+>pointer-enter-event</B
+></A
+> <BR
+> <A NAME="_2615"></A><A HREF="8-2.html#_363"
+><B CLASS="cl"
+>pointer-exit-event</B
+></A
+> <BR
+> <A NAME="_2616"></A><A HREF="8-2.html#_364"
+><B CLASS="cl"
+>window-event</B
+></A
+> <BR
+> <A NAME="_2617"></A><A HREF="8-2.html#_369"
+><B CLASS="cl"
+>window-configuration-event</B
+></A
+> <BR
+> <A NAME="_2618"></A><A HREF="8-2.html#_370"
+><B CLASS="cl"
+>window-repaint-event</B
+></A
+> <BR
+> <A NAME="_2619"></A><A HREF="8-2.html#_371"
+><B CLASS="cl"
+>window-manager-event</B
+></A
+> <BR
+> <B CLASS="cl"
+>window-manager-delete--event</B
+> <BR
+> <A NAME="_2621"></A><A HREF="8-2.html#_374"
+><B CLASS="cl"
+>timer-event</B
+></A
+> <BR
+>     <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41BF08763444482898BA384DF2C4BE96%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><HR
+></HR
+><BR
+><DIV CLASS="caption"
+>Figure 8.1:  CLIM event classes. All classes that appear at a given indentation are subclasses of the class that appears above and at a lesser indentation.</DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_325"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to any sort of "event". If you want to create a new class that behaves like an event, it should be a subclass of <B CLASS="cl"
+>event</B
+>. All instantiable subclasses of <B CLASS="cl"
+>event</B
+> must obey the event protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5AA4E117B1A5A5DB9897759D6561216%2Fevent%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the event classes are immutable. CLIM implementations may choose to keep a resource of the device event classes, but this must be invisible at the API level. That is, any event visible at the level of the API must act as though it is immutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=06AD943B55E16DD8DE7B549C7AACB893%2Fevent%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFC636464AC1A8A93C73E766A50DF807%2Fevent%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2692"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>timer-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2688"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-manager-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2680"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2636"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>device-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2627"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>:timestamp</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2602"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_326"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>eventp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <A NAME="_2625"></A><A HREF="8-2.html#_323"
+><SPAN CLASS="term"
+>event</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8524169DEA020251657F3F27BF1C8329%2Feventp%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B0E183EEE0BDA2FF390A5A3604F37881%2Feventp%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_327"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:timestamp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_2627"></A><A HREF="8-2.html#_325"
+><B CLASS="cl"
+>event</B
+></A
+> must take a <B CLASS="cl"
+>:timestamp</B
+> initarg, which is used to specify the timestamp for the event. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4CB7D4996E463A07457C82C1454E6B8A%2F%3Atimestamp%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4ACE44C6AF0FC6D46DB63905D45B3A95%2F%3Atimestamp%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_328"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-timestamp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an integer that is a monotonically increasing timestamp for the the <A NAME="_2629"></A><A HREF="8-2.html#_323"
+><SPAN CLASS="term"
+>event</SPAN
+></A
+> <I
+>event</I
+>. The timestamp must have at least as many bits of precision as a fixnum. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EABD8ED6C93981148233675A880B4174%2Fevent-timestamp%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B31ED2E1A4A76E2C0A4132147E01AF9D%2Fevent-timestamp%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2635"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>event-type</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_329"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>For the <A NAME="_2630"></A><A HREF="8-2.html#_323"
+><SPAN CLASS="term"
+>event</SPAN
+></A
+> <I
+>event</I
+>, returns a keyword with the same name as the class name, except stripped of the "-event" ending. For example, the keyword <B CLASS="cl"
+>:key-press</B
+> is returned by <B CLASS="cl"
+>event-type</B
+> for an event whose class is <A NAME="_2633"></A><A HREF="8-2.html#_339"
+><B CLASS="cl"
+>key-press-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=757CD9CDF16E944B60F151D241F59986%2Fevent-type%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All event classes must implement methods for <B CLASS="cl"
+>event-type</B
+> and <A NAME="_2635"></A><A HREF="8-2.html#_328"
+><B CLASS="cl"
+>event-timestamp</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=904A048C3638088861EE628135FEB248%2Fevent-type%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C5E525001F36FE68D4B816698985B73%2Fevent-type%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_330"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>device-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_331"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_332"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:modifier-state</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of device event. This is a subclass of <A NAME="_2636"></A><A HREF="8-2.html#_325"
+><B CLASS="cl"
+>event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12E774D8809F17229B237418CB9F05D8%2Fdevice-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All subclasses of <B CLASS="cl"
+>device-event</B
+> must take the <B CLASS="cl"
+>:sheet</B
+> and <B CLASS="cl"
+>:modifier-state</B
+> initargs, which are used to specify the sheet and modifier state components for the event. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFD09FA5E00663828235A8A056FCD2C8%2Fdevice-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B290611802656EF1DE50CD59D1EA449%2Fdevice-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="15-3.html#_788"
+><SPAN CLASS="forwardlink"
+>[&rarr; :sheet, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_372"
+><SPAN CLASS="forwardlink"
+>[&rarr; :sheet, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2654"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2648"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>keyboard-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2603"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+><A HREF="F.html#_7466"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_333"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>device-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the sheet associated with the event <I
+>device-event</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=27796667F0E090CADE7305B83C149A98%2Fevent-sheet%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F16283018F49990925BD8CB5E790C10%2Fevent-sheet%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2646"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>event-modifier-state</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_334"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-modifier-state</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>device-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an integer value that encodes the state of all the modifier keys on the keyboard. This will be a mask consisting of the <B CLASS="cl"
+>logior</B
+> of <A NAME="_2641"></A><A HREF="8-2.html#_378"
+><B CLASS="cl"
+>+shift-key+</B
+></A
+>, <A NAME="_2642"></A><A HREF="8-2.html#_379"
+><B CLASS="cl"
+>+control-key+</B
+></A
+>, <A NAME="_2643"></A><A HREF="8-2.html#_380"
+><B CLASS="cl"
+>+meta-key+</B
+></A
+>, <A NAME="_2644"></A><A HREF="8-2.html#_381"
+><B CLASS="cl"
+>+super-key+</B
+></A
+>, and <A NAME="_2645"></A><A HREF="8-2.html#_382"
+><B CLASS="cl"
+>+hyper-key+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=825FF88CCF8A76D940216E8860FB500B%2Fevent-modifier-state%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All device event classes must implement methods for <A NAME="_2646"></A><A HREF="8-2.html#_333"
+><B CLASS="cl"
+>event-sheet</B
+></A
+> and <B CLASS="cl"
+>event-modifier-state</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C40135D389215FA5556D168D4C07836%2Fevent-modifier-state%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=59F75437BA458E192B1F9088E8FD5536%2Fevent-modifier-state%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2698"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>+shift-key+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_335"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>keyboard-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_336"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:key-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of keyboard event. This is a subclass of <A NAME="_2648"></A><A HREF="8-2.html#_330"
+><B CLASS="cl"
+>device-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0588EBAF151A2A5FCE56E0826642FA4C%2Fkeyboard-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All subclasses of <B CLASS="cl"
+>keyboard-event</B
+> must take the <B CLASS="cl"
+>:key-name</B
+> initarg, which is used to specify the key name component for the event. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=928B4D4630D8AF38466F17E39D046C45%2Fkeyboard-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8ADA1ECD1A4DC479D72F88021B7E0AED%2Fkeyboard-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2653"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>key-press-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2604"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_337"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>keyboard-event-key-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>keyboard-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the name of the key that was pressed or released in a keyboard event. This will be a symbol whose value is port-specific. Key names corresponding to the set of "standard" characters (such as the alphanumerics) will be a symbol in the keyword package. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=65E70C462B48955BCD247EB740160E6B%2Fkeyboard-event-key-name%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFF2145C46F1DEC2A2FD8D30089F9F24%2Fkeyboard-event-key-name%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2651"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>keyboard-event-character</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_338"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>keyboard-event-character</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>keyboard-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the character associated with the event <I
+>keyboard-event</I
+>, if there is any. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E3E9C8F0CE841A3E47685543F252267%2Fkeyboard-event-character%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All keyboard event classes must implement methods for <A NAME="_2651"></A><A HREF="8-2.html#_337"
+><B CLASS="cl"
+>keyboard-event-key-name</B
+></A
+> and <B CLASS="cl"
+>keyboard-event-character</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E866FCF2849A8430EA7A4C77E19EFC0%2Fkeyboard-event-character%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D5306D0D548BC716AABBB43B5FC06E2%2Fkeyboard-event-character%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_339"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>key-press-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_340"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>key-release-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable classes that correspond to a key press or release event. This is a subclass of <A NAME="_2653"></A><A HREF="8-2.html#_335"
+><B CLASS="cl"
+>keyboard-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED40EE91362A299883B818270F0183DA%2Fkey-press-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92FB9BB515EA8A59B910C8BB2B20F8FF%2Fkey-press-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2633"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>event-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2606"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_341"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_342"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_343"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:button</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_344"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_345"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of pointer event. This is a subclass of <A NAME="_2654"></A><A HREF="8-2.html#_330"
+><B CLASS="cl"
+>device-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07CC724922FEDBC294DEDD89CACE6DE6%2Fpointer-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All subclasses of <B CLASS="cl"
+>pointer-event</B
+> must take the <B CLASS="cl"
+>:pointer</B
+>, <B CLASS="cl"
+>:button</B
+>, <B CLASS="cl"
+>:x</B
+>, and <B CLASS="cl"
+>:y</B
+> initargs, which are used to specify the pointer object, pointer button, and native <I
+>x</I
+> and <I
+>y</I
+> position of the pointer at the time of the event. The sheet's <I
+>x</I
+> and <I
+>y</I
+> positions are derived from the supplied native <I
+>x</I
+> and <I
+>y</I
+> positions and the sheet itself. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77BA6FDC8120B77AEBDAE3961D9155AD%2Fpointer-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4ABEA59B1E1F82B07F3FD26BFC4729C1%2Fpointer-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="22-2.html#_1068"
+><SPAN CLASS="forwardlink"
+>[&rarr; :pointer, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2671"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-motion-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2665"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-button-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2607"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5191"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>document-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_346"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_347"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> and <I
+>y</I
+> position of the pointer at the time the event occurred, in the coordinate system of the sheet that received the event. All pointer events must implement a method for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D058E60AF76BCCC42D5D12A49B756283%2Fpointer-event-x%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1658201F0F2A8F02BBC91BD9A2A1CCF4%2Fpointer-event-x%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-5.html#_4572"
+><SPAN CLASS="reverselink"
+>[&larr; 22.5 Pointer Tracking, <B CLASS="cl"
+><B CLASS="cl"
+>tracking-pointer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2661"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-event-pointer</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_348"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event-native-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_349"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event-native-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> and <I
+>y</I
+> position of the pointer at the time the event occurred, in the pointer's native coordinate system. All pointer events must implement a method for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11244BD74DF3DCD0DF68A81562DE7178%2Fpointer-event-native-x%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z15"
+></A
+>What is the "pointer's native coordinate system"? I think what actually &#10;is meant (and would be useful) is the native coordinate system of the graft.&#10;Hence the same as X11's root-x and root-y device event slots. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11244BD74DF3DCD0DF68A81562DE7178%2Fpointer-event-native-x%2F8.2&amp;editp=t&amp;id=Z15#Z15"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- GB 2003-01-21 15:42Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C24DD146FD6D2A65758FA036FDAEB00A%2Fpointer-event-native-x%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2663"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-event-pointer</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_350"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event-pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the pointer object to which this event refers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=886C18FF114983363FBF962A1385ACF6%2Fpointer-event-pointer%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All pointer event classes must implement methods for <A NAME="_2660"></A><A HREF="8-2.html#_346"
+><B CLASS="cl"
+>pointer-event-x</B
+></A
+>, <A NAME="_2661"></A><A HREF="8-2.html#_347"
+><B CLASS="cl"
+>pointer-event-y</B
+></A
+>, <A NAME="_2662"></A><A HREF="8-2.html#_348"
+><B CLASS="cl"
+>pointer-event-native-x</B
+></A
+>, <A NAME="_2663"></A><A HREF="8-2.html#_349"
+><B CLASS="cl"
+>pointer-event-native-y</B
+></A
+>, and <B CLASS="cl"
+>pointer-event-pointer</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=186ACF51207866411F7184B61B6942FD%2Fpointer-event-pointer%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=148F92E471B33EE07C32C441353E8710%2Fpointer-event-pointer%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_351"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-button-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of pointer button event. This is a subclass of <A NAME="_2665"></A><A HREF="8-2.html#_341"
+><B CLASS="cl"
+>pointer-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D506C32943CE82C56C6335867B6953A%2Fpointer-button-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=742DC77D13958462D4F086E1F606C19A%2Fpointer-button-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-3.html#_4467"
+><SPAN CLASS="reverselink"
+>[&larr; 22.3 Gestures and Gesture Names]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2670"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-click-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2669"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-button-press-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2608"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_352"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-event-button</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-button-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the an integer corresponding to the pointer button that was pressed or released, which will be one of <A NAME="_2666"></A><A HREF="8-2.html#_375"
+><B CLASS="cl"
+>+pointer-left-button+</B
+></A
+>, <A NAME="_2667"></A><A HREF="8-2.html#_376"
+><B CLASS="cl"
+>+pointer-middle-button+</B
+></A
+>, or <A NAME="_2668"></A><A HREF="8-2.html#_377"
+><B CLASS="cl"
+>+pointer-right-button+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2982D825C2D491392B2163973DCAA1A%2Fpointer-event-button%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=185CCC0B73A64B0E85B85F9282058A9E%2Fpointer-event-button%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2693"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>+pointer-left-button+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_353"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-button-press-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_354"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-button-release-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_355"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-button-hold-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable classes that correspond to a pointer button press, button release, and click-and-hold events. These are subclasses of <A NAME="_2669"></A><A HREF="8-2.html#_351"
+><B CLASS="cl"
+>pointer-button-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F3ABA6BA502D7962F9F797CA06119987%2Fpointer-button-press-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D55CFC1AD2ED39FEF4239F8CB0076CDD%2Fpointer-button-press-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2611"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_356"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-click-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_357"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-double-click-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_358"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-click-and-hold-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable classes that correspond to a pointer button press, followed immediately by (respectively) a button release, another button press, or pointer motion. These are subclasses of <A NAME="_2670"></A><A HREF="8-2.html#_351"
+><B CLASS="cl"
+>pointer-button-event</B
+></A
+>. Ports are not required to generate these events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=747B84FBCF205492E28CC83E05F6E542%2Fpointer-click-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=262BFADB2201119CB8DE57E8C54E63F7%2Fpointer-click-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_359"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-motion-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of pointer motion event. This is a subclass of <A NAME="_2671"></A><A HREF="8-2.html#_341"
+><B CLASS="cl"
+>pointer-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0586370AB556D56A35A2CEBBC31133B5%2Fpointer-motion-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8AC894EF31765C777CEB460E1F0EF1E2%2Fpointer-motion-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2672"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-boundary-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2612"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_360"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-boundary-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to a pointer motion event that crosses some sort of sheet boundary. This is a subclass of <A NAME="_2672"></A><A HREF="8-2.html#_359"
+><B CLASS="cl"
+>pointer-motion-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5C2CA4F3B45B8A26C62637C9A0528C5%2Fpointer-boundary-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75036EBB77EC034B8E6586084244AB2A%2Fpointer-boundary-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2679"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-enter-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2613"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_361"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-boundary-event-kind</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pointer-boundary-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the "kind" of boundary event, which will be one of <B CLASS="cl"
+>:ancestor</B
+>, <B CLASS="cl"
+>:virtual</B
+>, <B CLASS="cl"
+>:inferior</B
+>, <B CLASS="cl"
+>:nonlinear</B
+>, <B CLASS="cl"
+>:nonlinear-virtual</B
+>, or <A NAME="_2678"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. These event kinds correspond to the detail members for X11 enter and exit events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28B076953AE3A13CAE395075ABF0378B%2Fpointer-boundary-event-kind%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=455B324DCE0CA33700B2C1549AA7C77D%2Fpointer-boundary-event-kind%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_362"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-enter-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_363"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-exit-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable classes that correspond to a pointer enter or exit event. These are subclasses of <A NAME="_2679"></A><A HREF="8-2.html#_360"
+><B CLASS="cl"
+>pointer-boundary-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A80480D39F84ED38257D8CBE677B2D3%2Fpointer-enter-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC159DD9956BE4F0F412950FDDF8F87E%2Fpointer-enter-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2615"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_364"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_365"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of windowing event. This is a subclass of <A NAME="_2680"></A><A HREF="8-2.html#_325"
+><B CLASS="cl"
+>event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BFBB922619FB737F60736C09C945849%2Fwindow-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All subclasses of <B CLASS="cl"
+>window-event</B
+> must take a <B CLASS="cl"
+>:region</B
+> initarg, which is used to specify the damage region associated with the event. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=90053CF7215C2391392F63BF2246C834%2Fwindow-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DEF14FCD3366413E59C5ED827610DE23%2Fwindow-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2687"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-repaint-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2686"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-configuration-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2616"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_366"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-event-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the region of the sheet that is affected by a window event. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=380EBE529AF5EA7026117E4E9743D1C1%2Fwindow-event-region%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=175E79E02E190A7459716F9523733B65%2Fwindow-event-region%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2683"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-event-mirrored-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_367"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-event-native-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the region of the sheet in native coordinates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D3D8CE4035FB9C9BE80AD539FD32881%2Fwindow-event-native-region%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D59917227C203EA8FA5FA103D3054BFA%2Fwindow-event-native-region%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2684"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-event-mirrored-sheet</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_368"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-event-mirrored-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the mirrored sheet that is attached to the mirror on which the event occurred. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EC55D93CFA63C141EC9A5FE480B128EC%2Fwindow-event-mirrored-sheet%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All window event classes must implement methods for <A NAME="_2683"></A><A HREF="8-2.html#_366"
+><B CLASS="cl"
+>window-event-region</B
+></A
+>, <A NAME="_2684"></A><A HREF="8-2.html#_367"
+><B CLASS="cl"
+>window-event-native-region</B
+></A
+>, and <B CLASS="cl"
+>window-event-mirrored-sheet</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E05CD481A5F5E16D6E6E119B373DB4C%2Fwindow-event-mirrored-sheet%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=504973860B2D9055A3DFF9157F8AA4F6%2Fwindow-event-mirrored-sheet%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_369"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-configuration-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to a window changing its size or position. This is a subclass of <A NAME="_2686"></A><A HREF="8-2.html#_364"
+><B CLASS="cl"
+>window-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C79601A95B895170222FF539D90C32E4%2Fwindow-configuration-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=50A98BA90FD093D118933945CE4B1A72%2Fwindow-configuration-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2617"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_370"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-repaint-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to a request to repaint the window. This is a subclass of <A NAME="_2687"></A><A HREF="8-2.html#_364"
+><B CLASS="cl"
+>window-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DD6FAE575C49C6F9E78DA4EF3873AF6%2Fwindow-repaint-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E89B4B48E7CAC513DC56B3E44A79744%2Fwindow-repaint-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2618"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_371"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-manager-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+><A NAME="_372"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to any sort of window manager event. This is a subclass of <A NAME="_2688"></A><A HREF="8-2.html#_325"
+><B CLASS="cl"
+>event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C82524DF8B5F84344E26090C369A3A34%2Fwindow-manager-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All subclasses of <B CLASS="cl"
+>window-manager-event</B
+> must take a <B CLASS="cl"
+>:sheet</B
+> initarg, which is used to specify the sheet on which the window manager acted. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0A029AC59E3522055B047F46AFB88A0F%2Fwindow-manager-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=752617FC33AF3F709080B8F737C5219D%2Fwindow-manager-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="8-2.html#_331"
+><SPAN CLASS="forwardlink"
+>[&rarr; :sheet, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="15-3.html#_788"
+><SPAN CLASS="forwardlink"
+>[&rarr; :sheet, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2691"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>window-manager-delete-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2619"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_373"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>window-manager-delete-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to window manager event that causes a host window to be deleted. This is a subclass of <A NAME="_2691"></A><A HREF="8-2.html#_371"
+><B CLASS="cl"
+>window-manager-event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72BC485948EE6EE21C8B554CB184A52A%2Fwindow-manager-delete-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A3AC8BA06FB4FA65B537E2DE0319ABFD%2Fwindow-manager-delete-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_374"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>timer-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that corresponds to a timeout event. This is a subclass of <A NAME="_2692"></A><A HREF="8-2.html#_325"
+><B CLASS="cl"
+>event</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=55D972903752C5CEB5BACA7B88CE82AC%2Ftimer-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E18E99D64F57ECA4EC01C1024C7F3514%2Ftimer-event%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2621"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_375"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+pointer-left-button+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_376"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+pointer-middle-button+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_377"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+pointer-right-button+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Constants that correspond to the left, middle, and right button on a pointing device. <A NAME="_2693"></A><A HREF="8-2.html#_352"
+><B CLASS="cl"
+>pointer-event-button</B
+></A
+> will returns one of these three values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2999DF7811CCDFD1833C0973831C5A5F%2F%2Bpointer-left-button%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>These constants are powers of 2 so that they can be combined with <B CLASS="cl"
+>logior</B
+> and tested with <B CLASS="cl"
+>logtest</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6584104C27A23A24D6E258E2122C1350%2F%2Bpointer-left-button%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0981B2F62B6871EDD27AC1C0F3862B09%2F%2Bpointer-left-button%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-4.html#_4533"
+><SPAN CLASS="reverselink"
+>[&larr; 22.4 The Pointer Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-button-state</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_2668"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-event-button</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_378"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+shift-key+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_379"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+control-key+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_380"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+meta-key+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_381"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+super-key+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_382"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+hyper-key+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Constants that correspond to the shift, control, meta, super, and hyper modifier keys being held down on the keyboard. These constants are powers of 2 that are disjoint from the pointer button constants, so that they can be combined with <B CLASS="cl"
+>logior</B
+> and tested with <B CLASS="cl"
+>logtest</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=04BF82E1E8AEA8891433407F23F83A99%2F%2Bshift-key%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_2698"></A><A HREF="8-2.html#_334"
+><B CLASS="cl"
+>event-modifier-state</B
+></A
+> will return some combination of these values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11815FEFF280C6D47B3F88CF3EBAACB6%2F%2Bshift-key%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Implementations must support at least shift, control, and meta modifiers. Control and meta might correspond to the control and option or command shift keys on a Macintosh keyboard, for example. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F7F8BF4F1B77DFFCAAF1E8846A67D19%2F%2Bshift-key%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B5637D97588927C35F6492A1B5F502D%2F%2Bshift-key%2B%2F8.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-2.html#_2645"
+><SPAN CLASS="reverselink"
+>[&larr; 8.2 Standard Device Events, <B CLASS="cl"
+><B CLASS="cl"
+>event-modifier-state</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

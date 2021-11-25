@@ -1,0 +1,1264 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/9-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 9.4 Mirrors and Mirrored Sheets</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="9.3 Grafts" HREF="9-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="Part IV: Sheet and Medium Output Facilities" HREF="P-IV.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="9 Ports, Grafts, and Mirrored Sheets" HREF="9.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="9-3.html"
+>Prev</A
+><BR
+><A HREF="P-IV.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="9.html"
+>9&nbsp;Ports,&nbsp;Grafts,&nbsp;and&nbsp;Mirrored&nbsp;Sheets</A
+><BR
+>&rarr;&nbsp;<A HREF="9-4.html"
+><B
+>9.4&nbsp;Mirrors&nbsp;and&nbsp;Mirrored&nbsp;Sheets</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_485"></A><DIV
+><H3
+>9.4 Mirrors and Mirrored Sheets</H3
+><LI CLASS="outline_item"
+><A HREF="9-4.html#_488"
+>9.4.1 Mirror Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="9-4.html#_497"
+>9.4.2 Internal Interfaces for Native Coordinates</A
+></LI
+><DIV
+><P
+>A <A NAME="_486"></A><SPAN CLASS="concept"
+>mirrored sheet</SPAN
+> is a special class of sheet that is attached directly to a window on a display server. Grafts, for example, are always mirrored sheets. However, any sheet anywhere in a sheet hierarchy may be a mirrored sheet. A mirrored sheet will usually contain a reference to a window system object, called a mirror. For example, a mirrored sheet attached to an X11 server might have an X window system object stored in one of its slots. Allowing mirrored sheets at any point in the hierarchy enables the adaptive toolkit facilities. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9EB67E045CC6B46E8C1EEAF49D94D157%2F9.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6962"
+><SPAN CLASS="reverselink"
+>[mirrored sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6958"
+><SPAN CLASS="reverselink"
+>[mirrored sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6931"
+><SPAN CLASS="reverselink"
+>[mirrored sheet, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Since not all sheets in the hierarchy have mirrors, there is no direct correspondence between the sheet hierarchy and the mirror hierarchy. However, on those display servers that support hierarchical windows, the hierarchies must be parallel. If a mirrored sheet is an ancestor of another mirrored sheet, their corresponding mirrors must have a similar ancestor/descendant relationship. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F15E153EAF0D7C18387853C22857BE5%2F9.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM interacts with mirrors when it must display output or process events. On output, the mirrored sheet closest in ancestry to the sheet on which we wish to draw provides the mirror on which to draw. The mirror's drawing clipping region is set up to be the intersection of the user's clipping region and the sheet's region (both transformed to the appropriate coordinate system) for the duration of the output. On input, events are delivered from mirrors to the sheet hierarchy. The CLIM port must determine which sheet shall receive events based on information such as the location of the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA086CE11CFE49132C9E1576B1B270FD%2F9.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In both of these cases, we must have a coordinate transformation that converts coordinates in the mirror (so-called "native" coordinates) into coordinates in the sheet and vice-versa. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D76DCBDC399A1BA3D640F205DF364652%2F9.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_487"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>mirrored-sheet-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class is mixed in to sheet classes that can be directly mirrored. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C937F35D5123D2053F220BC046C47BB%2Fmirrored-sheet-mixin%2F9.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7D1DE03082277A7CDABDD06F392DC4BC%2Fmirrored-sheet-mixin%2F9.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-4.html#_2863"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-direct-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_488"></A><DIV
+><H4
+>9.4.1 Mirror Functions</H4
+><P
+><B
+>Minor issue: </B
+> <I
+>What kind of an object is a mirror? Is it the Lisp object that is the handle to the actual toolkit window or gadget? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1390961DF9321F8A81D4E6DC7469ED9E%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_489"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-direct-mirror</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the mirror of the <A NAME="_2862"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. If the sheet is not a subclass of <A NAME="_2863"></A><A HREF="9-4.html#_487"
+><B CLASS="cl"
+>mirrored-sheet-mixin</B
+></A
+>, this will return <A NAME="_2864"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. If the sheet is a subclass of <A NAME="_2865"></A><A HREF="9-4.html#_487"
+><B CLASS="cl"
+>mirrored-sheet-mixin</B
+></A
+> and does not currently have a mirror, <A NAME="_2866"></A><A HREF="9-4.html#_491"
+><B CLASS="cl"
+>sheet-mirror</B
+></A
+> will return <A NAME="_2867"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=45242C61CBF2E42116392A728CDB5204%2Fsheet-direct-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z181"
+></A
+>In the final sentence, "sheet-mirror" should probably be "sheet-direct-mirror". <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=45242C61CBF2E42116392A728CDB5204%2Fsheet-direct-mirror%2F9.4.1&amp;editp=t&amp;id=Z181#Z181"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Willem Broekema 2009-05-10 13:02Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FEC1EBC22E5DCA76DDCC024446242221%2Fsheet-direct-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_490"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-mirrored-ancestor</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the nearest mirrored ancestor of the <A NAME="_2868"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=10021A31F56839A850C94F8ED1473CC2%2Fsheet-mirrored-ancestor%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC7947E9A80B01550FBDF09FFBD7B49E%2Fsheet-mirrored-ancestor%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z301"
+></A
+>Note, that this could be the sheet itself also, if it is mirrored. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC7947E9A80B01550FBDF09FFBD7B49E%2Fsheet-mirrored-ancestor%2F9.4.1&amp;editp=t&amp;id=Z301#Z301"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2017-08-09 02:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_491"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-mirror</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the mirror of the <A NAME="_2869"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>. If the sheet is not itself mirrored, <B CLASS="cl"
+>sheet-mirror</B
+> returns the direct mirror of its nearest mirrored ancestor. <B CLASS="cl"
+>sheet-mirror</B
+> could be implemented as: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=95E27AE9092FEDC8935C07303CE39ECF%2Fsheet-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun sheet-mirror (sheet)&#10;  (sheet-direct-mirror (sheet-mirrored-ancestor sheet)))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C863628A8D2DA0C490F08B1D0F670372%2Fsheet-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z204"
+></A
+>Except, of course, that this example defines a normal function and the specification calls for a generic function. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C863628A8D2DA0C490F08B1D0F670372%2Fsheet-mirror%2F9.4.1&amp;editp=t&amp;id=Z204#Z204"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2011-04-29 18:37Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-4.html#_2866"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.1 Mirror Functions, <B CLASS="cl"
+><B CLASS="cl"
+>sheet-direct-mirror</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_492"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>realize-mirror</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port mirrored-sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a mirror for the <A NAME="_2872"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>mirrored-sheet</I
+> on the <A NAME="_2873"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>, if it does not already have one. The returned value is the sheet's mirror; the type of this object is implementation dependent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A24BAE206104CC9A02A01E3FAB352A31%2Frealize-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F4808745015E65D09CD75CF1593F376%2Frealize-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_493"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>destroy-mirror</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port mirrored-sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Destroys the mirror for the <A NAME="_2874"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>mirrored-sheet</I
+> on the <A NAME="_2875"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C43E298CC5D2C9D64696BD65C7E98059%2Fdestroy-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05C5203F27E2AD83A747F935BD9C1318%2Fdestroy-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_494"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>raise-mirror</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Raises the <A NAME="_2876"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s mirror to the top of all of the host windows on the <A NAME="_2877"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <I
+>sheet</I
+> need not be a directly mirrored sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29E7EFDE946484D08980EE61806D7839%2Fraise-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD0D103F1D5FED11AAFF46F8500CCE85%2Fraise-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_495"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bury-mirror</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Buries the <A NAME="_2878"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s mirror at the bottom of all of the host windows on the <A NAME="_2879"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. <I
+>sheet</I
+> need not be a directly mirrored sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2356653D8B7A5A03E9DF0521AC6CC28D%2Fbury-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B674B18A7EF4DFC4A8CDB6E31E522D32%2Fbury-mirror%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_496"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(sheet </I
+><I
+><B CLASS="cl"
+>basic-sheet</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>sheet</I
+> is currently mirrored on a display server, this returns the port with which <I
+>sheet</I
+> is associated. Otherwise it returns <A NAME="_2880"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D50ED1D82C476D467A4F006AB9B7F46C%2Fport%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EDB11181BEEC5D00DEA95110A28C44D4%2Fport%2F9.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="9-2.html#_462"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_453"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+><A HREF="8-3.html#_419"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1559"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="28-5.html#_1558"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+><A HREF="22-4.html#_1119"
+><SPAN CLASS="forwardlink"
+>[&rarr; port, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="9-2.html#_2816"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>with-port-locked</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-2.html#_2800"
+><SPAN CLASS="reverselink"
+>[&larr; 9.2 Ports, <B CLASS="cl"
+><B CLASS="cl"
+>basic-port</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_497"></A><DIV
+><H4
+>9.4.2 Internal Interfaces for Native Coordinates</H4
+><P
+><B
+>Minor issue: </B
+> <I
+>Do these functions work on any sheet, or only on sheets that have a mirror, or only on sheets that have a direct mirror? Also, define what a "native coordinate" are. Also, do </I
+><I
+><A NAME="_2881"></A><A HREF="9-4.html#_500"
+><B CLASS="cl"
+>sheet-device-transformation</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_2882"></A><A HREF="9-4.html#_501"
+><B CLASS="cl"
+>sheet-device-region</B
+></A
+></I
+><I
+> really account for the user's transformation and clipping region? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=10A0C7EEC94C729188D4148ACDFDE361%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_498"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-native-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the transformation for the <A NAME="_2883"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> that converts sheet coordinates into native coordinates. The object returned by this function is volatile, so programmers must not depend on the components of the object remaining constant. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F2D9FB40420D3789E8ACCB26C9B8437%2Fsheet-native-transformation%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z424"
+></A
+>What if the sheet is not grafted? Or rather: We don't find any mirror along the parent chain. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F2D9FB40420D3789E8ACCB26C9B8437%2Fsheet-native-transformation%2F9.4.2&amp;editp=t&amp;id=Z424#Z424"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-02-18 04:46Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76F5ADB965D7D49B11848907A69001C3%2Fsheet-native-transformation%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-4.html#_2885"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>invalidate-cached-transformations</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_499"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-native-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the region for the <A NAME="_2884"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+> in native coordinates. The object returned by this function is volatile, so programmers must not depend on the components of the object remaining constant. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE4677BCCD6E4AEFDDE40472CAAE776B%2Fsheet-native-region%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80A4CEA27C8D27DE1BD15375552F08C3%2Fsheet-native-region%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z426"
+></A
+>Which region? SHEET-REGION or the actual region clipped by the parent, siblings and children? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80A4CEA27C8D27DE1BD15375552F08C3%2Fsheet-native-region%2F9.4.2&amp;editp=t&amp;id=Z426#Z426"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-02-18 13:46Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-4.html#_2890"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>invalidate-cached-regions</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_500"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-device-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the transformation used by the graphics output routines when drawing on the mirror. This is the composition of the sheet's native transformation and the user transformation. The object returned by this function is volatile, so programmers must not depend on the components of the object remaining constant. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BD1FDBA573798C929F1D6AAC25C89BAC%2Fsheet-device-transformation%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EBC18743BF1A83375CD592265883E5A0%2Fsheet-device-transformation%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z425"
+></A
+>What if the device we draw to is not the mirror? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EBC18743BF1A83375CD592265883E5A0%2Fsheet-device-transformation%2F9.4.2&amp;editp=t&amp;id=Z425#Z425"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-02-18 07:52Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-4.html#_2886"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>invalidate-cached-transformations</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2881"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.2 Internal Interfaces for Native Coordinates]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_501"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-device-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the actual clipping region to be used when drawing on the mirror. This is the intersection of the user's clipping region (transformed by the device transformation) with the sheet's native region. The object returned by this function is volatile, so programmers must not depend on the components of the object remaining constant. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1DDAD9BBA18865A75003DFFBA8DD1384%2Fsheet-device-region%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46F67C885C5BB4126BEE7BD25E9E75F0%2Fsheet-device-region%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z427"
+></A
+>Again, who says I'll draw on the mirror? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46F67C885C5BB4126BEE7BD25E9E75F0%2Fsheet-device-region%2F9.4.2&amp;editp=t&amp;id=Z427#Z427"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-02-18 13:51Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z428"
+></A
+>It says "the actual clipping region" and "the intersection [...] with the sheet's native region." This would imply that SHEET-NATIVE-REGION would account for the regions of the parent, [non-mirrored] siblings, and children. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46F67C885C5BB4126BEE7BD25E9E75F0%2Fsheet-device-region%2F9.4.2&amp;editp=t&amp;id=Z428#Z428"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2021-02-18 13:53Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="9-4.html#_2891"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.2 Internal Interfaces for Native Coordinates, <B CLASS="cl"
+><B CLASS="cl"
+>invalidate-cached-regions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="9-4.html#_2882"
+><SPAN CLASS="reverselink"
+>[&larr; 9.4.2 Internal Interfaces for Native Coordinates]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_502"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invalidate-cached-transformations</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><A NAME="_2885"></A><A HREF="9-4.html#_498"
+><B CLASS="cl"
+>sheet-native-transformation</B
+></A
+> and <A NAME="_2886"></A><A HREF="9-4.html#_500"
+><B CLASS="cl"
+>sheet-device-transformation</B
+></A
+> typically cache the transformations for performance reasons. <B CLASS="cl"
+>invalidate-cached-transformations</B
+> clears the cached native and device values for the <A NAME="_2888"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s transformation and clipping region. It is invoked when a sheet's native transformation changes, which happens when a sheet's transformation is changed or when <B CLASS="cl"
+>invalidate-cached-transformations</B
+> is called on any of its ancestors. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D9AB11C6A004963BC49725704F453872%2Finvalidate-cached-transformations%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EEC8C9B8CD0B7CE1041799CAD2D56DCC%2Finvalidate-cached-transformations%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_503"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invalidate-cached-regions</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><A NAME="_2890"></A><A HREF="9-4.html#_499"
+><B CLASS="cl"
+>sheet-native-region</B
+></A
+> and <A NAME="_2891"></A><A HREF="9-4.html#_501"
+><B CLASS="cl"
+>sheet-device-region</B
+></A
+> typically cache the regions for performance reasons. <B CLASS="cl"
+>invalidate-cached-regions</B
+> clears the cached native and device values for the <A NAME="_2893"></A><A HREF="6-1.html#_226"
+><SPAN CLASS="term"
+>sheet</SPAN
+></A
+> <I
+>sheet</I
+>'s native clipping region. It is invoked when a sheet's native clipping region changes, which happens when the clipping region changes or when <B CLASS="cl"
+>invalidate-cached-regions</B
+> is called on any of its ancestors. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C0EEAAB0D3BA5FB1FB5B4B32B6EAD66F%2Finvalidate-cached-regions%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74D1D6243447FEE90CA66007AEE580C7%2Finvalidate-cached-regions%2F9.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z212"
+></A
+>What about siblings? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74D1D6243447FEE90CA66007AEE580C7%2Finvalidate-cached-regions%2F9.4.2&amp;editp=t&amp;id=Z212#Z212"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2013-03-15 19:34Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/9-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

@@ -1,0 +1,1055 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.6 Views</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23.5 Context-dependent (Typed) Input" HREF="23-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.7 Presentation Translators" HREF="23-7.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23-5.html"
+>Prev</A
+><BR
+><A HREF="23-7.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-6.html"
+><B
+>23.6&nbsp;Views</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1208"></A><DIV
+><H3
+>23.6 Views</H3
+><P
+><A NAME="_5055"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and <A NAME="_5056"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> methods can specialize on the <I
+>view</I
+> argument in order to define more than one view of the data. For example, a spreadsheet program might define a presentation type for quarterly earnings, which can be displayed as a floating point number or as a bar of some length in a bar graph. These two views might be implemented by specializing the view arguments for the <A NAME="_5057"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+> class and the user-defined <B CLASS="cl"
+>bar-graph-view</B
+> class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0CD4C4F36B67DC31AD42B4DB828CF37F%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1209"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class for view objects. If you want to create a new class that behaves like a view, it should be a subclass of <B CLASS="cl"
+>view</B
+>. All instantiable subclasses of <B CLASS="cl"
+>view</B
+> must obey the view protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=329790413649443CEC5A75B8E98584AB%2Fview%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the view classes are immutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BBF7A985B6DA69BDF666195010D926B2%2Fview%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA959D04EA46BD84344031D420123675%2Fview%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-6.html#_5071"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>gadget-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5064"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>textual-view</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1210"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>viewp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>view</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32A67C09296B5BD02A753064D45DC60A%2Fviewp%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F963B389A885C69C88C3D38A92F33A8%2Fviewp%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1211"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>textual-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class representing all textual views, a subclass of <A NAME="_5064"></A><A HREF="23-6.html#_1209"
+><B CLASS="cl"
+>view</B
+></A
+>. Presentation methods that apply to a textual view must only do textual input and output (such as <B CLASS="cl"
+>read-char</B
+> and <B CLASS="cl"
+>write-string</B
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6927E252C7CDFAD30CCEE992609C16A5%2Ftextual-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=17CD32189BAE0143D37E18987BAD2865%2Ftextual-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-6.html#_5077"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5076"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>pointer-documentation-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5070"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>textual-dialog-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5068"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>textual-menu-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5057"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4775"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4764"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>present</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1212"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>textual-menu-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that represents the default view that is used inside <A NAME="_5067"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+> for frame managers that are not using a gadget-oriented look and feel. It is a subclass of <A NAME="_5068"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFD000A2F5617AA5BF5B01BA2CAD3757%2Ftextual-menu-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F62EE678FF5DC867DB1BB573B8D965B4%2Ftextual-menu-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7475"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5078"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1213"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>textual-dialog-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that represents the default view that is used inside <A NAME="_5069"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> dialogs for frame managers that are not using a gadget-oriented look and feel. It is a subclass of <A NAME="_5070"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D15EF836DE03B475FA51A5270F67A5B%2Ftextual-dialog-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73131E2FDA78830F242B75AFEC5330B4%2Ftextual-dialog-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7471"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5079"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1214"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>gadget-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class representing all gadget views, a subclass of <A NAME="_5071"></A><A HREF="23-6.html#_1209"
+><B CLASS="cl"
+>view</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7A303A8F47A8D9615A6730C3DE96ACD%2Fgadget-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=60BD047C1F7B0B5364640B5528BD03DC%2Fgadget-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-6.html#_5080"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5075"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>gadget-dialog-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5073"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>gadget-menu-view</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1215"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>gadget-menu-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that represents the default view that is used inside <A NAME="_5072"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+> for frame managers that are using a gadget-oriented look and feel. It is a subclass of <A NAME="_5073"></A><A HREF="23-6.html#_1214"
+><B CLASS="cl"
+>gadget-view</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4CA7F78181493F86DBF60786DD8B2408%2Fgadget-menu-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C52BBFB601F2704D1537DAFEB879C9A%2Fgadget-menu-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-6.html#_5081"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1216"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>gadget-dialog-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that represents the default view that is used inside <A NAME="_5074"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> dialogs for frame managers that are using a gadget-oriented look and feel. It is a subclass of <A NAME="_5075"></A><A HREF="23-6.html#_1214"
+><B CLASS="cl"
+>gadget-view</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E160063FD0AC536DE2EBE7F45805871%2Fgadget-dialog-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BCECCD6EFB7D38A505A538BE846BAB6F%2Fgadget-dialog-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-6.html#_5082"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1217"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pointer-documentation-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that represents the default view that is used when computing pointer documentation. It is a subclass of <A NAME="_5076"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A796C7D0B9E1B7FB9D17AC67C85E1F03%2Fpointer-documentation-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=017C758CC5815188F9425B2657B2788C%2Fpointer-documentation-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-6.html#_5083"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>+textual-view+</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1218"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+textual-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_1219"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+textual-menu-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_1220"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+textual-dialog-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_1221"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+gadget-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_1222"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+gadget-menu-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_1223"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+gadget-dialog-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+><A NAME="_1224"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+pointer-documentation-view+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These are objects of class <A NAME="_5077"></A><A HREF="23-6.html#_1211"
+><B CLASS="cl"
+>textual-view</B
+></A
+>, <A NAME="_5078"></A><A HREF="23-6.html#_1212"
+><B CLASS="cl"
+>textual-menu-view</B
+></A
+>, <A NAME="_5079"></A><A HREF="23-6.html#_1213"
+><B CLASS="cl"
+>textual-dialog-view</B
+></A
+>, <A NAME="_5080"></A><A HREF="23-6.html#_1214"
+><B CLASS="cl"
+>gadget-view</B
+></A
+>, <A NAME="_5081"></A><A HREF="23-6.html#_1215"
+><B CLASS="cl"
+>gadget-menu-view</B
+></A
+>, <A NAME="_5082"></A><A HREF="23-6.html#_1216"
+><B CLASS="cl"
+>gadget-dialog-view</B
+></A
+>, and <A NAME="_5083"></A><A HREF="23-6.html#_1217"
+><B CLASS="cl"
+>pointer-documentation-view</B
+></A
+>, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=70C96631AB375FE7B101295217CC726D%2F%2Btextual-view%2B%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8CD40941A4058D58FED8F5B19B83968%2F%2Btextual-view%2B%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7472"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1225"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-default-view</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the default view for the extended stream <I
+>stream</I
+>. <A NAME="_5084"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and <A NAME="_5085"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> get the default value for the <I
+>view</I
+> argument from this. All extended input and output streams must implement a method for this generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=977848A08C9DE668FB7F12458A39C6CE%2Fstream-default-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D9559D3DAD9A9BFCF16357012FC414D%2Fstream-default-view%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-5.html#_4977"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4919"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>stream-present</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1226"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-default-view)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>view stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the default view for <I
+>stream</I
+> to the <SPAN CLASS="term"
+>view</SPAN
+> <I
+>view</I
+>. All extended input and output streams must implement a method for this generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FFE2874430EDAC6422CB6850DBD9931%2F%28setf%20stream-default-view%29%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7172A79201B2D88DEAEF8910068E783F%2F%28setf%20stream-default-view%29%2F23.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

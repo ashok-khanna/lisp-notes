@@ -1,0 +1,626 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/14-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 14.1 The Compositing Protocol</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="14 General Designs" HREF="14.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="14.2 Patterns and Stencils" HREF="14-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="14 General Designs" HREF="14.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="14.html"
+>Prev</A
+><BR
+><A HREF="14-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="14.html"
+>14&nbsp;General&nbsp;Designs</A
+><BR
+>&rarr;&nbsp;<A HREF="14-1.html"
+><B
+>14.1&nbsp;The&nbsp;Compositing&nbsp;Protocol</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_726"></A><DIV
+><H3
+>14.1 The Compositing Protocol</H3
+><DIV
+><P
+><A NAME="_727"></A><SPAN CLASS="concept"
+>Compositing</SPAN
+> creates a design whose appearance at each point is a composite of the appearances of two other designs at that point. Three varieties of compositing are provided: <A NAME="_728"></A><SPAN CLASS="concept"
+>composing over</SPAN
+>, <A NAME="_729"></A><SPAN CLASS="concept"
+>composing in</SPAN
+>, and <A NAME="_730"></A><SPAN CLASS="concept"
+>composing out</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F4B017AB5E0673BA40B72605E314B48B%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6896"
+><SPAN CLASS="reverselink"
+>[composing over, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6897"
+><SPAN CLASS="reverselink"
+>[composing in, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6898"
+><SPAN CLASS="reverselink"
+>[composing out, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>The methods for <A NAME="_3501"></A><A HREF="14-1.html#_731"
+><B CLASS="cl"
+>compose-over</B
+></A
+>, <A NAME="_3502"></A><A HREF="14-1.html#_732"
+><B CLASS="cl"
+>compose-in</B
+></A
+>, and <A NAME="_3503"></A><A HREF="14-1.html#_734"
+><B CLASS="cl"
+>compose-out</B
+></A
+> will typically specialize both of the design arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DEA4FD846CD0D05BFE45DC94A66118F2%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>In Release 2, compositing might only be supported for uniform designs.</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F57A00BE3CD593D330A00BE53EB150E5%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_731"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-over</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>design1 design2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Composes a new design that is equivalent to the <A NAME="_3504"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>design1</I
+> on top of the <A NAME="_3505"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>design2</I
+>. Drawing the resulting design produces the same visual appearance as drawing <I
+>design2</I
+> and then drawing <I
+>design1</I
+>, but might be faster and might not allow the intermediate state to be visible on the screen. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7574B5BA97DA366C8A0685DB24A4102B%2Fcompose-over%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If both arguments are regions, <B CLASS="cl"
+>compose-over</B
+> is the same as <A NAME="_3507"></A><A HREF="3-1.html#_65"
+><B CLASS="cl"
+>region-union</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7CEC5B8DDF82845C444220765C88AF5D%2Fcompose-over%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z216"
+></A
+><P
+>This contradicts the earlier description of what <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=compose-over"
+>compose-over</A
+></SPAN
+> should do.</P
+><P
+>Consider: <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%28draw-design%20s%20%28compose-over%20%28make-line%2A%200%200%20100%20100%29%20%28make-rectangle%2A%2040%2040%2060%2060%29%29%29"
+>(draw-design s (compose-over (make-line* 0 0 100 100) (make-rectangle* 40 40 60 60)))</A
+></SPAN
+>. Is there really only the rectangle drawn? (The <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=region-union"
+>region-union</A
+></SPAN
+> is just the rectangle, because of the dimensionality rule).</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7CEC5B8DDF82845C444220765C88AF5D%2Fcompose-over%2F14.1&amp;editp=t&amp;id=Z216#Z216"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2013-12-29 23:16Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  The result returned by <B CLASS="cl"
+>compose-over</B
+> might be freshly constructed or might be an existing object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=174CCBC4B7D74D8C936DAAE122E35C6F%2Fcompose-over%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E54756AFE82C6D34BA89E59B5E6E913%2Fcompose-over%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3565"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3501"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol]</SPAN
+></A
+><BR
+><A HREF="13-7.html#_3486"
+><SPAN CLASS="reverselink"
+>[&larr; 13.7 Flipping Ink, <B CLASS="cl"
+><B CLASS="cl"
+>make-flipping-ink</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-5.html#_3476"
+><SPAN CLASS="reverselink"
+>[&larr; 13.5 Color Blending]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_732"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-in</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>ink mask</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Composes a new design by clipping the <A NAME="_3509"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>ink</I
+> to the inside of the <A NAME="_3510"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>mask</I
+>. The first design, <I
+>ink</I
+>, supplies the color, while the second design, <I
+>mask</I
+>, changes the shape of the design by adjusting the opacity. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C24D17A3DF92A025EE68B11F4D77F8AB%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>More precisely, at each point in the drawing plane the resulting design specifies a color and an opacity as follows: the color is the same color that <I
+>ink</I
+> specifies. The opacity is the opacity that <I
+>ink</I
+> specifies, multiplied by the stencil opacity of <I
+>mask</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=78DA2D0D4505E61A08FB215E9F83AEB6%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>The <A NAME="_733"></A><SPAN CLASS="concept"
+>stencil opacity</SPAN
+> of a design at a point is defined as the opacity that would result from drawing the design onto a fictitious medium whose drawing plane is initially completely transparent black (opacity and all color components are zero), and whose foreground and background are both opaque black. With this definition, the stencil opacity of a member of class <A NAME="_3511"></A><A HREF="13-4.html#_707"
+><B CLASS="cl"
+>opacity</B
+></A
+> is simply its value. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=45535C838000CF5BFABE12DC2089744D%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7017"
+><SPAN CLASS="reverselink"
+>[stencil opacity, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>If <I
+>mask</I
+> is a solid design, the effect of <B CLASS="cl"
+>compose-in</B
+> is to clip <I
+>ink</I
+> to <I
+>mask</I
+>. If <I
+>mask</I
+> is translucent, the effect is a soft matte. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B6F169BE4D625139663D504631E48427%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If both arguments are regions, <B CLASS="cl"
+>compose-in</B
+> is the same as <A NAME="_3514"></A><A HREF="3-1.html#_66"
+><B CLASS="cl"
+>region-intersection</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41EBD9C61F2F1E516B8693E15803F250%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z221"
+></A
+><P
+>Again, this contradicts the eariler description about what <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=compose-in"
+>compose-in</A
+></SPAN
+> should do. Consider</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%28draw-design%20s%20%28compose-in%20%28make-line%2A%200%200%20100%20100%29%20%28make-rectangle%2040%2040%2060%2060%29%29%20%3Aline-thickness%2010%29"
+>(draw-design s (compose-in (make-line* 0 0 100 100) (make-rectangle 40 40 60 60)) :line-thickness 10)</A
+></SPAN
+></P
+><P
+>The effect under the assumption, that <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=compose-in"
+>compose-in</A
+></SPAN
+> is the same as <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=region-intersection"
+>region-intersection</A
+></SPAN
+> is, that the line is clipped to (40 40 60 60) and then drawn 10 pixels wide, at the end points it would spill over the region defined by the rectangle. So the figure drawn is not the same as clipping the 10 pixels wide line to said rectangle.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41EBD9C61F2F1E516B8693E15803F250%2Fcompose-in%2F14.1&amp;editp=t&amp;id=Z221#Z221"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2013-12-29 23:24Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  The result returned by <B CLASS="cl"
+>compose-in</B
+> might be freshly constructed or might be an existing object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F6DDFBD24D8CDFE65672736C2633AC2E%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7160BDED23EA7FCE68559B8BD109E49%2Fcompose-in%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3564"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-1.html#_3502"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol]</SPAN
+></A
+><BR
+><A HREF="13-7.html#_3487"
+><SPAN CLASS="reverselink"
+>[&larr; 13.7 Flipping Ink, <B CLASS="cl"
+><B CLASS="cl"
+>make-flipping-ink</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-4.html#_3462"
+><SPAN CLASS="reverselink"
+>[&larr; 13.4 Opacity, <B CLASS="cl"
+><B CLASS="cl"
+>opacity</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-2.html#_3304"
+><SPAN CLASS="reverselink"
+>[&larr; 13.2 Basic Designs, <B CLASS="cl"
+><B CLASS="cl"
+>design</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_734"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-out</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>ink mask</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Composes a new design by clipping the <A NAME="_3516"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>ink</I
+> to the outside of the <A NAME="_3517"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>mask</I
+>. The first design, <I
+>ink</I
+>, supplies the color, while the second design, <I
+>mask</I
+>, changes the shape of the design by adjusting the opacity. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEA532D0F59BADE12DE46E91B536F406%2Fcompose-out%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>More precisely, at each point in the drawing plane the resulting design specifies a color and an opacity as follows: the color is the same color that <I
+>ink</I
+> specifies. The opacity is the opacity that <I
+>ink</I
+> specifies, multiplied by 1 minus the stencil opacity of <I
+>mask</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=17C67A519612F39F27D57342B253BF7E%2Fcompose-out%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>mask</I
+> is a solid design, the effect of <B CLASS="cl"
+>compose-out</B
+> is to clip <I
+>ink</I
+> to the complement of <I
+>mask</I
+>. If <I
+>mask</I
+> is translucent, the effect is a soft matte. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C5249B61568D4A0180409191AA72E876%2Fcompose-out%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If both arguments are regions, <B CLASS="cl"
+>compose-out</B
+> is the same as <A NAME="_3520"></A><A HREF="3-1.html#_67"
+><B CLASS="cl"
+>region-difference</B
+></A
+> of <I
+>mask</I
+> and <I
+>ink</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=991E8E76F23D5BA551A89129E13E6895%2Fcompose-out%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z222"
+></A
+>Yet again, this is a contradiction. Please see <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=compose-in"
+>compose-in</A
+></SPAN
+>. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=991E8E76F23D5BA551A89129E13E6895%2Fcompose-out%2F14.1&amp;editp=t&amp;id=Z222#Z222"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2013-12-29 23:26Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>This function is permitted to capture its mutable inputs; the consequences of modifying those objects are unspecified.  The result returned by <B CLASS="cl"
+>compose-out</B
+> might be freshly constructed or might be an existing object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5D9EEA24D210DB7D99ED1A3B4F64692%2Fcompose-out%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F907B9CBB473E892775FBF09F6ACA537%2Fcompose-out%2F14.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-1.html#_3503"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol]</SPAN
+></A
+><BR
+><A HREF="13-7.html#_3488"
+><SPAN CLASS="reverselink"
+>[&larr; 13.7 Flipping Ink, <B CLASS="cl"
+><B CLASS="cl"
+>make-flipping-ink</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/14-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

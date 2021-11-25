@@ -1,0 +1,406 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 27.5 Presentation Translator Utilities</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="27.4 Keystroke Accelerators" HREF="27-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="27.6 The Command Processor" HREF="27-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="27-4.html"
+>Prev</A
+><BR
+><A HREF="27-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="27.html"
+>27&nbsp;Command&nbsp;Processing</A
+><BR
+>&rarr;&nbsp;<A HREF="27-5.html"
+><B
+>27.5&nbsp;Presentation&nbsp;Translator&nbsp;Utilities</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1431"></A><DIV
+><H3
+>27.5 Presentation Translator Utilities</H3
+><P
+>These are some utilities for maintain presentation translators in command tables. Presentation translators are discussed in more detail in Chapter&nbsp;<A NAME="_6035"></A><A HREF="23.html#_1124"
+>23</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=994E65CBB91287FEDCA0BAA2656F5275%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1432"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-presentation-translator-to-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table translator-name  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the translator named by <I
+>translator-name</I
+> to <I
+>command-table</I
+>. The translator must have been previously defined with <A NAME="_6036"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+> or <A NAME="_6037"></A><A HREF="23-7.html#_1233"
+><B CLASS="cl"
+>define-presentation-to-command-translator</B
+></A
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18159AB847A9D0D753F54CB8ADBF007A%2Fadd-presentation-translator-to-command-table%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>translator-name</I
+> is already present in <I
+>command-table</I
+> and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_6040"></A><A HREF="27-2.html#_1399"
+><B CLASS="cl"
+>command-already-present</B
+></A
+> error will be signalled. When the translator is already present and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, the old translator will first be removed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA9EC4D135C08E3070F047942031BE5B%2Fadd-presentation-translator-to-command-table%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1BF50BBFEE13713A56A92399CE3FF5FF%2Fadd-presentation-translator-to-command-table%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1433"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>remove-presentation-translator-from-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table translator-name  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the translator named by <I
+>translator-name</I
+> from <I
+>command-table</I
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D597458D0FA0CE32132D7FAAE10E38A%2Fremove-presentation-translator-from-command-table%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the translator is not present in the command table and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_6044"></A><A HREF="27-2.html#_1397"
+><B CLASS="cl"
+>command-not-present</B
+></A
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF8374EDB8E22E064D4A994647C42F43%2Fremove-presentation-translator-from-command-table%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92346E5443ECB9EA92E6DDEB4938F073%2Fremove-presentation-translator-from-command-table%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1434"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-command-table-translators</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(inherited t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the translators accessible in <I
+>command-table</I
+>. <I
+>function</I
+> must be a function of one argument, the translator; it has dynamic extent. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAB70F86F89D358D5F14CACC61D619A5%2Fmap-over-command-table-translators%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>inherited</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this applies <I
+>function</I
+> only to those translators present in <I
+>command-table</I
+>, that is, it does not map over any inherited command tables. If <I
+>inherited</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the inherited command tables are traversed in the same order as for <A NAME="_6048"></A><A HREF="27-2.html#_1403"
+><B CLASS="cl"
+>do-command-table-inheritance</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=55681D57D162A07293D55A0C2E9A021F%2Fmap-over-command-table-translators%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=682B01C7BC2D27316D91E85D1C01BBEA%2Fmap-over-command-table-translators%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1435"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-presentation-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>translator-name command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a translator name and a command table, returns two values, the presentation translator and the command table in which it was found. If the translator is not present in <I
+>command-table</I
+> and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_6050"></A><A HREF="27-2.html#_1398"
+><B CLASS="cl"
+>command-not-accessible</B
+></A
+> error will be signalled. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEDC2958DF3087DA22D2F00184A513B0%2Ffind-presentation-translator%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E26911A24262C7ADF7B48C8F522DA591%2Ffind-presentation-translator%2F27.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5234"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

@@ -1,0 +1,2584 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.7 Presentation Translators</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23.6 Views" HREF="23-6.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.8 Standard Presentation Types" HREF="23-8.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23-6.html"
+>Prev</A
+><BR
+><A HREF="23-8.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-7.html"
+><B
+>23.7&nbsp;Presentation&nbsp;Translators</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1227"></A><DIV
+><H3
+>23.7 Presentation Translators</H3
+><LI CLASS="outline_item"
+><A HREF="23-7.html#_1229"
+>23.7.1 Defining Presentation Translators</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="23-7.html#_1236"
+>23.7.2 Presentation Translator Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="23-7.html#_1244"
+>23.7.3 Finding Applicable Presentations</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="23-7.html#_1250"
+>23.7.4 Translator Applicability</A
+></LI
+><P
+>CLIM provides a mechanism for <A NAME="_1228"></A><SPAN CLASS="concept"
+>translating</SPAN
+> between types. In other words, within an input context for presentation type <I
+>A</I
+> the translator mechanism allows a programmer to define a translation from presentations of some other type <I
+>B</I
+> to objects that are of type <I
+>A</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DF10C511A934FE1CE724C85DB95EE3B%2F23.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that the exact representation of a presentation translator has been left explicitly unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B78DD7A8E65BFC007FA25421C3796552%2F23.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_1229"></A><DIV
+><H4
+>23.7.1 Defining Presentation Translators</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1230"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name  (from-type to-type command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>gesture  tester tester-definitive  documentation pointer-documentation  menu priority)  arglist  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a presentation translator named <I
+>name</I
+> that translates from objects of type <I
+>from-type</I
+> to objects of type <I
+>to-type</I
+>. <I
+>from-type</I
+> and <I
+>to-type</I
+> are presentation type specifiers, but must not include any presentation type options. <I
+>from-type</I
+> and <I
+>to-type</I
+> may be presentation type abbreviations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=477628AB1D1D7570DF695973192B4236%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. The translator created by this invocation of <B CLASS="cl"
+>define-presentation-translator</B
+> will be stored in the command table <I
+>command-table</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=51F82E7904B92AD33C13FA3CD04E2D1C%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>gesture</I
+> is a gesture name that names a pointer gesture (described in Section&nbsp;<A NAME="_5089"></A><A HREF="22-3.html#_1094"
+>22.3</A
+>). The body of the translator will be run only if the translator is applicable and gesture used by the user matches the gesture name in the translator. (We will explain <A NAME="_1231"></A><SPAN CLASS="concept"
+>applicability</SPAN
+>, or <A NAME="_1232"></A><SPAN CLASS="concept"
+>matching</SPAN
+>, in detail below.) <I
+>gesture</I
+> defaults to <B CLASS="cl"
+>:select</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E24D5CD9761806FEB65F994C4DB6E928%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>tester</I
+> is either a function or a list of the form <BR
+> <I
+>(tester-arglist . tester-body)</I
+> <BR
+> where <I
+>tester-arglist</I
+> takes the same form as <I
+>arglist</I
+> (see below), and <I
+>tester-body</I
+> is the body of the tester. The tester must return either <SPAN CLASS="term"
+>true</SPAN
+> or <SPAN CLASS="term"
+>false</SPAN
+>. If it returns <SPAN CLASS="term"
+>false</SPAN
+>, then the translator is definitely not applicable. If it returns <SPAN CLASS="term"
+>true</SPAN
+>, then the translator might be applicable, and the body of the translator might be run (if <I
+>tester-definitive</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>) in order to definitively decide if the translator is applicable (this is described in more detail below). If no tester is supplied, CLIM supplies a tester that always returns <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=533C1B0B0DCC03CC1106BC038D26253A%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z160"
+></A
+>"(this is described in more detail below)", it says.  Where? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=533C1B0B0DCC03CC1106BC038D26253A%2Fdefine-presentation-translator%2F23.7.1&amp;editp=t&amp;id=Z160#Z160"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2007-01-09 12:38Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>When the boolean <I
+>tester-definitive</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the body of the translator will never be run in order to decide if the translator is applicable, that is, the tester is assumed to definitively decide whether the translator applies. The default for <I
+>tester-definitive</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. When there is no explicitly supplied tester, the tester supplied by CLIM is assumed to be definitive. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92C66AD19134788DBE77D497962FFA8B%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Both <I
+>documentation</I
+> and <I
+>pointer-documentation</I
+> are objects that will be used for documenting the translator. <I
+>pointer-documentation</I
+> will be used to generate documentation for the pointer documentation window; the documentation generated by <I
+>pointer-documentation</I
+> should be very brief and computing it should be very fast and preferably not cons. <I
+>documentation</I
+> is used to generate such things as items in the <B CLASS="cl"
+>:menu</B
+>-gesture menu. If the object is a string, the string itself will be used as the documentation. Otherwise, the object must be the name of a function or a list of the form <BR
+> <I
+>(doc-arglist . doc-body)</I
+> <BR
+> where <I
+>doc-arglist</I
+> takes the same form as <I
+>arglist</I
+>, but includes a named (keyword) <I
+>stream</I
+> argument as well (see below), and <I
+>doc-body</I
+> is the body of the documentation function. The body of the documentation function should write the documentation to <I
+>stream</I
+>. The default for <I
+>documentation</I
+> is <A NAME="_5100"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that there is no explicitly supplied documentation; in this case, CLIM is free to generate the documentation in other ways. The default for <I
+>pointer-documentation</I
+> is <I
+>documentation</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F8546FCFB5A9D3F336E26584FCD55CF%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>menu</I
+> must be <A NAME="_5101"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> or <A NAME="_5102"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. When it is <A NAME="_5103"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, the translator will be included in the <B CLASS="cl"
+>:menu</B
+>-gesture menu if it matches. When it is <A NAME="_5105"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, the translator will not be included in the <B CLASS="cl"
+>:menu</B
+>-gesture menu. Other non-<A NAME="_5107"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> values are reserved for future extensions to allow multiple presentation translator menus. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3AF2004E807D755D9D07399A9A2913E7%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>priority</I
+> is either <A NAME="_5108"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (the default, which corresponds to 0) or an integer that represents the priority of the translator. When there are several translators that match for the same gesture, the one with the highest priority is chosen. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EEDCEEFF50B782FF4A853FB0D3A332F5%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>arglist</I
+>, <I
+>tester-arglist</I
+>, and <I
+>doc-arglist</I
+> are each an argument list that must "match" the following "canonical" argument list. <BR
+> <I
+>(object </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>presentation context-type frame event window x y)</I
+> <BR
+> In order to "match" the canonical argument list, there must be a single positional argument that corresponds to the presentation's object, and several named arguments that must match the canonical names above (using <B CLASS="cl"
+>string-equal</B
+> to do the comparison). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C08E110497C3F03AEACC5765A4C86416%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z267"
+></A
+><P
+>Keep in mind, that OBJECT is positional and mandatory, while the rest is checked for their canonical name with string-equal and is optional in the *-arglist.</P
+><P
+>Also (it's stated above), documentation translator function has additional keyword STREAM.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C08E110497C3F03AEACC5765A4C86416%2Fdefine-presentation-translator%2F23.7.1&amp;editp=t&amp;id=Z267#Z267"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2016-08-22 11:25Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>In the body of the translator (or the tester), the positional <I
+>object</I
+> argument will be bound to the presentation's object. The named arguments <I
+>presentation</I
+> will be bound to the presentation that was clicked on, <I
+>context-type</I
+> will be bound to the presentation type of the context that actually matched, <I
+>frame</I
+> will be bound to the application frame that is currently active (usually <A NAME="_5110"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>), <I
+>event</I
+> will be bound to the pointer button event that the user used, <I
+>window</I
+> will be bound to the window stream from which the event came, and <I
+>x</I
+> and <I
+>y</I
+> will be bound to the <I
+>x</I
+> and <I
+>y</I
+> positions within <I
+>window</I
+> that the pointer was at when the event occurred. The special variable <A NAME="_5111"></A><A HREF="23-5.html#_1199"
+><B CLASS="cl"
+>*input-context*</B
+></A
+> will be bound to the current input context. Note that, in many implementations <I
+>context-type</I
+> and <A NAME="_5112"></A><A HREF="23-5.html#_1199"
+><B CLASS="cl"
+>*input-context*</B
+></A
+> will have dynamic extent, so programmers should not store without first copying them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15F110A62F50087F8E351A582F2E532F%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> is the body of the translator, and is run in the context of the application. <I
+>body</I
+> may have zero or more declarations as its first forms. It should return either one, two, or three values. The first value is an object which must be <A NAME="_5113"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> of <I
+>to-type</I
+>, and the second value is a presentation type that must be <A NAME="_5114"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> of <I
+>to-type</I
+>. The consequences are unspecified if the object is not <A NAME="_5115"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> of <I
+>to-type</I
+> or the type is not <A NAME="_5116"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> of <I
+>to-type</I
+>. The first two returned values of <I
+>body</I
+> are used, in effect, as the returned values for the call to <A NAME="_5117"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> that established the matching input context. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2061A3B95B6065B9DBDC845875B4811D%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The third value returned by <I
+>body</I
+> must either be <A NAME="_5118"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or a list of options (as keyword-value pairs) that will be interpreted by <A NAME="_5119"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. The only option defined so far is <B CLASS="cl"
+>:echo</B
+>, whose value must be either <SPAN CLASS="term"
+>true</SPAN
+> (the default) or <SPAN CLASS="term"
+>false</SPAN
+>. If it is <SPAN CLASS="term"
+>true</SPAN
+>, the object returned by the translator will be "echoed" by <A NAME="_5124"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>, which will use <A NAME="_5125"></A><A HREF="24-4.html#_1338"
+><B CLASS="cl"
+>presentation-replace-input</B
+></A
+> to insert the textual representation of the object into the input buffer. If it is <SPAN CLASS="term"
+>false</SPAN
+>, the object will not be echoed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A83E53A3A48EB392F8240FE48DDDF330%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of <B CLASS="cl"
+>define-presentation-translator</B
+>'s arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=193C72B3F77B8BAEDF9DB443AA14C236%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEA6763E197C597FD791FE4C3AE51B56%2Fdefine-presentation-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-5.html#_6036"
+><SPAN CLASS="reverselink"
+>[&larr; 27.5 Presentation Translator Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>add-presentation-translator-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5843"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5148"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-drag-and-drop-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5137"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-action</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5128"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-to-command-translator</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1233"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-to-command-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name  (from-type command-name command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>gesture tester  documentation pointer-documentation  menu priority echo)  arglist  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is similar to <A NAME="_5128"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+>, except that the <I
+>to-type</I
+> will be derived to be the command named by <I
+>command-name</I
+> in the command table <I
+>command-table</I
+>. <I
+>command-name</I
+> is the name of the command that this translator will translate to. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A27E15EF206CACEE3CEC7944864245AD%2Fdefine-presentation-to-command-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>echo</I
+> option is a boolean value (the default is <SPAN CLASS="term"
+>true</SPAN
+>) that indicates whether the command line should be echoed when a user invokes the translator. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA8DAA4866FDDFA4E020DD37C6412D64%2Fdefine-presentation-to-command-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The other arguments to <B CLASS="cl"
+>define-presentation-to-command-translator</B
+> are the same as for <A NAME="_5131"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+>. Note that the tester for command translators is always assumed to be definitive, so there is no <B CLASS="cl"
+>:tester-definitive</B
+> option. The default for <I
+>pointer-documentation</I
+> is the string <I
+>command-name</I
+> with dash characters replaced by spaces, and each word capitalized (as in <A NAME="_5133"></A><A HREF="27-2.html#_1400"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3ADE0D27FE4A170BF839917C7AD659CC%2Fdefine-presentation-to-command-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The body of the translator must return a list of the arguments to the command named by <I
+>command-name</I
+>. <I
+>body</I
+> is run in the context of the application. The returned value of the body, appended to the command name, are eventually passed to <A NAME="_5134"></A><A HREF="28-4.html#_1536"
+><B CLASS="cl"
+>execute-frame-command</B
+></A
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C8CFF1D8F525D15649EA26FD64860BA8%2Fdefine-presentation-to-command-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of <B CLASS="cl"
+>define-presentation-to-command-translator</B
+>'s arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1FBE71C25C01DF55776559BB977FE7CD%2Fdefine-presentation-to-command-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E44B26A1AEA6598555994AA05735D558%2Fdefine-presentation-to-command-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-5.html#_6037"
+><SPAN CLASS="reverselink"
+>[&larr; 27.5 Presentation Translator Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>add-presentation-translator-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5844"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1234"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-presentation-action</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name  (from-type to-type command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>gesture tester  documentation pointer-documentation  menu priority)  arglist  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>define-presentation-action</B
+> is similar to <A NAME="_5137"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+>, except that the body of the action is not intended to return a value, but should instead side-effect some sort of application state. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D8F0476338156E230243C2D14137ADDC%2Fdefine-presentation-action%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A presentation action does not satisfy a request for input the way an ordinary translator does. Instead, an action is something that happens while waiting for input. After the action has been executed, the program continues to wait for the same input that it was waiting for prior to executing the action. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=52751558943723C7A9F377DB61AC296C%2Fdefine-presentation-action%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The other arguments to <B CLASS="cl"
+>define-presentation-action</B
+> are the same as for <A NAME="_5139"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+>. Note that the tester for presentation actions is always assumed to be definitive. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80AB3F4774DDA4A1E698B5A03622EA97%2Fdefine-presentation-action%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of <B CLASS="cl"
+>define-presentation-action</B
+>'s arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=917019BB839E97605DBB7BAFAF0F061B%2Fdefine-presentation-action%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A763C09633C0D3C8FE5192EFBD2EB99F%2Fdefine-presentation-action%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1235"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-drag-and-drop-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name  (from-type to-type destination-type command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>gesture tester  documentation pointer-documentation  menu priority  feedback highlighting)  arglist  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a "drag and drop" (or "direct manipulation") translator named <I
+>name</I
+> that translates from objects of type <I
+>from-type</I
+> to objects of type <I
+>to-type</I
+> when a "from presentation" is "picked up", "dragged" over, and "dropped" on to a "to presentation" having type <I
+>destination-type</I
+>. <I
+>from-type</I
+>, <I
+>to-type</I
+>, and <I
+>destination-type</I
+> are presentation type specifiers, but must not include any presentation type options. <I
+>from-type</I
+>, <I
+>to-type</I
+> and <I
+>destination-type</I
+> may be presentation type abbreviations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A9E4B464A5B466BC2C2F9BFE8055D49%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The interaction style used by these translators is that a user points to a "from presentation" with the pointer, picks it up by pressing a pointer button matching <I
+>gesture</I
+>, drags the "from presentation" to a "to presentation" by moving the pointer, and then drops the "from presentation" onto the "to presentation". The dropping might be accomplished by either releasing the pointer button or clicking again, depending on the frame manager. When the pointer button is released, the translator whose <I
+>destination-type</I
+> matches the presentation type of the "to presentation" is chosen. For example, dragging a file to the TrashCan on a Macintosh could be implemented by a drag and drop translator. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C13BAB7374AD62170BAD1CABC0FE01E6%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>While the pointer is being dragged, the function specified by <I
+>feedback</I
+> is invoked to provide feedback to the user. The function is called with eight arguments: the application frame object, the "from presentation", the stream, the initial <I
+>x</I
+> and <I
+>y</I
+> positions of the pointer, the current <I
+>x</I
+> and <I
+>y</I
+> positions of the pointer, and a feedback state (either <B CLASS="cl"
+>:highlight</B
+> to draw feedback, or <B CLASS="cl"
+>:unhighlight</B
+> to erase it). The feedback function is called to draw some feedback the first time pointer moves, and is then called twice each time the pointer moves thereafter (once to erase the previous feedback, and then to draw the new feedback). It is called a final time to erase the last feedback when the pointer button is released. <I
+>feedback</I
+> defaults to <A NAME="_5143"></A><A HREF="28-3.html#_1529"
+><B CLASS="cl"
+>frame-drag-and-drop-feedback</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBC7C6A78282380E85B094CC73FDFEEC%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the "from presentation" is dragged over any other presentation that has a direct manipulation translator, the function specified by <I
+>highlighting</I
+> is invoked to highlight that object. The function is called with four arguments: the application frame object, the "to presentation" to be highlighted or unhighlighted, the stream, and a highlighting state (either <B CLASS="cl"
+>:highlight</B
+> or <B CLASS="cl"
+>:unhighlight</B
+>). <I
+>highlighting</I
+> defaults to <A NAME="_5146"></A><A HREF="28-3.html#_1530"
+><B CLASS="cl"
+>frame-drag-and-drop-highlighting</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F6ED1E996B88BCF2275C8CD245E95972%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that it is possible for there to be more than one drag and drop translator that applies to the same from-type, to-type, and gesture. In this case, the exact translator that is chosen for use during the dragging phase is unspecified. If these translators have different feedback, highlighting, documentation, or pointer documentation, the exact behavior is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E0D12D50AA53DC4B327C6FF14524716%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The other arguments to <B CLASS="cl"
+>define-drag-and-drop-translator</B
+> are the same as for <A NAME="_5148"></A><A HREF="23-7.html#_1230"
+><B CLASS="cl"
+>define-presentation-translator</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0381F9635A81CD91D1F2A7E093F9DA66%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z382"
+></A
+><P
+>This specification does tell how  the destination object is passed. If arglist is the same for define-presentation-translator, then it is (object &amp;key &nbsp;&#133;).</P
+><P
+>In "classic" CLIM (according to the comment in a source code), a keyword argument "DESTINATION-PRESENTATION" is passed from which we could take the object. Franz User's Guide specifies arglist to not have &amp;key arguments and only matches them with string-equal. There are object and destination-object arguments covering this.</P
+><P
+>McCLIM adopts Franz approach where arguments are matched by name. Both parameters destination-presentation and destination-object are supported.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0381F9635A81CD91D1F2A7E093F9DA66%2Fdefine-drag-and-drop-translator%2F23.7.1&amp;editp=t&amp;id=Z382#Z382"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-08-15 08:35Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2FAFA9A849BD8620DFF12E75E042492B%2Fdefine-drag-and-drop-translator%2F23.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6346"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3.1 Interface with Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>frame-drag-and-drop-highlighting</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6341"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3.1 Interface with Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>frame-drag-and-drop-feedback</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1236"></A><DIV
+><H4
+>23.7.2 Presentation Translator Functions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1237"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-presentation-translators</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>from-type to-type command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of all of the translators in the <A NAME="_5149"></A><A HREF="27-2.html#_1382"
+><SPAN CLASS="term"
+>command table</SPAN
+></A
+> <I
+>command-table</I
+> that translate from <I
+>from-type</I
+> to <I
+>to-type</I
+>, without taking into account any type parameters or testers. <I
+>from-type</I
+> and <I
+>to-type</I
+> are presentation type specifiers, and must not be abbreviations. <I
+>frame</I
+> must be an application frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16605CA62F5F8255AC40AC7C6F95B61A%2Ffind-presentation-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z365"
+></A
+>Probably "command-table must be a command table designator".  <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16605CA62F5F8255AC40AC7C6F95B61A%2Ffind-presentation-translators%2F23.7.2&amp;editp=t&amp;id=Z365#Z365"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2019-05-20 09:10Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B
+>Implementation note:</B
+> Because <B CLASS="cl"
+>find-presentation-translators</B
+> is called during pointer sensitivity computations (that is, whenever the user mouses the pointer around in any CLIM pane), it should cache its result in order to avoid consing. Therefore, the resulting list of translators should not be modified; the consequences of doing so are unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C64E0CBCE3B7BE944DD8B99CB5965034%2Ffind-presentation-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> The ordering of the list of translators is left unspecified, but implementations may find it convenient to return the list using the ordering specified for <A NAME="_5151"></A><A HREF="23-7.html#_1239"
+><B CLASS="cl"
+>find-applicable-translators</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A6ABFF77E7D65F7EE091333DD8DBD190%2Ffind-presentation-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6237D715E453764F4676E039DAC92CA0%2Ffind-presentation-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7459"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5240"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5176"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-applicable-translators</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1238"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>test-presentation-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>translator presentation context-type frame window x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>event modifier-state for-menu</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the translator <I
+>translator</I
+> applies to the presentation <I
+>presentation</I
+> in input context type <I
+>context-type</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. (There is no <I
+>from-type</I
+> argument because it is derived from <I
+>presentation</I
+>.) <I
+>x</I
+> and <I
+>y</I
+> are the <I
+>x</I
+> and <I
+>y</I
+> positions of the pointer within the window stream <I
+>window</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA805C7B6D06BB0500C0BF819A944180%2Ftest-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>event</I
+> and <I
+>modifier-state</I
+> are a pointer button event and modifier state (see <B CLASS="cl"
+>event-modifier-key-state</B
+>), and are compared against the translator's gesture. <I
+>event</I
+> defaults to <A NAME="_5155"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, and <I
+>modifier-state</I
+> defaults to 0, meaning that no modifier keys are held down. Only one of <I
+>event</I
+> or <I
+>modifier-state</I
+> may be supplied; it is unspecified what will happen if both are supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D668E5A810C296B4C45C9983733C81CA%2Ftest-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>for-menu</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the comparison against <I
+>event</I
+> and <I
+>modifier-state</I
+> is not done. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4377B25E30EA52700095993B02C70A76%2Ftest-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>presentation</I
+>, <I
+>context-type</I
+>, <I
+>frame</I
+>, <I
+>window</I
+>, <I
+>x</I
+>, <I
+>y</I
+>, and <I
+>event</I
+> are passed along to the translator's tester if and when the tester is called. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F280C3DF05D4DE80D6207AC971865C3B%2Ftest-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>test-presentation-translator</B
+> is responsible for matching type parameters and calling the translator's tester. Under some circumstances, <B CLASS="cl"
+>test-presentation-translator</B
+> may also call the body of the translator to ensure that its value matches <I
+>to-type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8C25ABFF8493B5A1B13D43812A9935B3%2Ftest-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16859C55E1B5CF6DA004BE5D53B79AF1%2Ftest-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7462"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5235"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5188"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>document-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5184"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-matches-context-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5163"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-applicable-translators</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1239"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-applicable-translators</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation input-context frame window x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>event modifier-state for-menu fastp</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list that describes the translators that definitely apply to the <A NAME="_5159"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+> in the input context <I
+>input-context</I
+>. Each element in the returned list is of the form <BR
+> <I
+>(translator the-presentation context-type . rest)</I
+> <BR
+> where <I
+>translator</I
+> is a presentation translator, <I
+>the-presentation</I
+> is the presentation that the translator applies to (and can be different from <I
+>presentation</I
+> due to nesting of presentations), <I
+>context-type</I
+> is the context type in which the translator applies, and <I
+>rest</I
+> is other unspecified data reserved for internal use by CLIM. <I
+>translator</I
+>, <I
+>the-presentation</I
+>, and <I
+>context-type</I
+> can be passed to such functions as <A NAME="_5160"></A><A HREF="23-7.html#_1241"
+><B CLASS="cl"
+>call-presentation-translator</B
+></A
+> and <A NAME="_5161"></A><A HREF="23-7.html#_1242"
+><B CLASS="cl"
+>document-presentation-translator</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8EA478AF6B09595C06509EFE8FF6FBDF%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Since input contexts can be nested, <B CLASS="cl"
+>find-applicable-translators</B
+> must iterate over all the contexts in <I
+>input-context</I
+>. <I
+>window</I
+>, <I
+>x</I
+>, and <I
+>y</I
+> are as for <A NAME="_5163"></A><A HREF="23-7.html#_1238"
+><B CLASS="cl"
+>test-presentation-translator</B
+></A
+>. <I
+>event</I
+> and <I
+>modifier-state</I
+> (which default to <A NAME="_5164"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> and the current modifier state for <I
+>window</I
+>, respectively) are used to further restrict the set of applicable translators. (Only one of <I
+>event</I
+> or <I
+>modifier-state</I
+> may be supplied; it is unspecified what will happen if both are supplied.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49FA58BEE731933352483CD856860CE6%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Presentations can also be nested. The ordering of the translators returned by <B CLASS="cl"
+>find-applicable-translators</B
+> is that translators matching inner contexts should precede translators matching outer contexts, and, in the same input context, inner presentations precede outer presentations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A20FE6F2846C7A661A0BD48F50E6EF0D%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>for-menu</I
+> is non-<A NAME="_5166"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, this matches the value of <I
+>for-menu</I
+> against the presentation's menu specification, and returns only those translators that match. <I
+>event</I
+> and <I
+>modifier-state</I
+> are disregarded in this case. <I
+>for-menu</I
+> defaults to <A NAME="_5167"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23A72D04635BCE76F3E3B07C6FE2DD43%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the boolean <I
+>fastp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, <B CLASS="cl"
+>find-applicable-translators</B
+> will simply return <SPAN CLASS="term"
+>true</SPAN
+> if there are any translators. <I
+>fastp</I
+> defaults to <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B90806FF0D0494AD5E0D38F01176F0A%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>fastp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, the list of translators returned by <B CLASS="cl"
+>find-applicable-translators</B
+> must be in order of their "desirability", that is, translators having more specific from-types and/or higher priorities must precede translators having less specific from-types and lower priorities. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0EB990033E416A011A2A3AEED6DED63A%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The rules used for ordering the translators returned by <B CLASS="cl"
+>find-applicable-translators</B
+> are as follows (in order): <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BA051E646268B6F7DD330F63CDF2E0E%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><OL
+><LI
+>Translators with a higher "high order" priority precede translators with a lower "high order" priority. This allows programmers to set the priority of a translator in such a way that it always precedes all other translators. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D6C934F5B8C90635CC3BE4F27A82A426%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Translators with a more specific "from type" precede translators with a less specific "from type". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F2D4169D338753E2E3D95A4ABA41A166%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Translators with a higher "low order" priority precede translators with a lower "low order" priority. This allows programmers to break ties between translators that translate from the same type. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1394C7088ADBFC3B4518EAA87495684%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Translators from the current command table precede translators inherited from superior command tables.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DF72428E9A542A87138E3EE0DEF7F27%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></OL
+><P
+><B
+>Implementation note:</B
+> <B CLASS="cl"
+>find-applicable-translators</B
+> could be implemented by looping over <I
+>input-context</I
+>, calling <A NAME="_5176"></A><A HREF="23-7.html#_1237"
+><B CLASS="cl"
+>find-presentation-translators</B
+></A
+> to generate all the translators, and then calling <A NAME="_5177"></A><A HREF="23-7.html#_1238"
+><B CLASS="cl"
+>test-presentation-translator</B
+></A
+> to filter out the ones that do not apply. The consequences of modifying the returned value are unspecified. Note that the ordering of translators can be done by <A NAME="_5178"></A><A HREF="23-7.html#_1237"
+><B CLASS="cl"
+>find-presentation-translators</B
+></A
+>, provided that <B CLASS="cl"
+>find-applicable-translators</B
+> takes care to preserve this ordering. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32DD6408EBD3684C2A57F47179CE76E5%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Describe and implement the </I
+><I
+><B CLASS="cl"
+>class-nondisjoint-classes</B
+></I
+><I
+> idea. Be very clear and precise about when the translator body gets run. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DEED496E5325B225F5DB6D695D48C314%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8F5C8756CCEF696A8F7D6B279DDEA0C%2Ffind-applicable-translators%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7463"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5237"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5197"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>call-presentation-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5151"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-presentation-translators</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1240"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-matches-context-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation context-type frame window x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>event modifier-state</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if there are any translators that translate from the <A NAME="_5182"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>'s type to the input context type <I
+>context-type</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. (There is no <I
+>from-type</I
+> argument because it is derived from <I
+>presentation</I
+>.) <I
+>frame</I
+>, <I
+>window</I
+>, <I
+>x</I
+>, <I
+>y</I
+>, <I
+>event</I
+>, and <I
+>modifier-state</I
+> are as for <A NAME="_5184"></A><A HREF="23-7.html#_1238"
+><B CLASS="cl"
+>test-presentation-translator</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAD23D900CC74BF70CD4E2758A61FF0A%2Fpresentation-matches-context-type%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If there are no applicable translators, <B CLASS="cl"
+>presentation-matches-context-type</B
+> will return <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5DBAAE2B83F954194CBF239C0BA3A06%2Fpresentation-matches-context-type%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F613AEAF68E944FCAD2A01510F9629C%2Fpresentation-matches-context-type%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7464"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1241"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>call-presentation-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>translator presentation context-type  frame event window x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls the function that implements the body of the translator <I
+>translator</I
+> on the <A NAME="_5187"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>'s object, and passes <I
+>presentation</I
+>, <I
+>context-type</I
+>, <I
+>frame</I
+>, <I
+>event</I
+>, <I
+>window</I
+>, <I
+>x</I
+>, and <I
+>y</I
+> to the body of the translator as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C46A55FE666672784B4FC3C3A0D976E2%2Fcall-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned values are the same as the values returned by the body of the translator, namely, the translated object and the translated type. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A329D20EDABFE3CCFE473E7927D2D236%2Fcall-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=609DDC0A77FB8EA9A3C51280F7A18F9E%2Fcall-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5160"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-applicable-translators</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1242"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>document-presentation-translator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>translator presentation context-type  frame event window x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>*standard-output*</B
+></I
+><I
+>) documentation-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Computes the documentation string for the translator <I
+>translator</I
+> and outputs it to the stream <I
+>stream</I
+>. <I
+>presentation</I
+>, <I
+>context-type</I
+>, <I
+>frame</I
+>, <I
+>event</I
+>, <I
+>window</I
+>, <I
+>x</I
+>, and <I
+>y</I
+> are as for <A NAME="_5188"></A><A HREF="23-7.html#_1238"
+><B CLASS="cl"
+>test-presentation-translator</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8685D10B55BCACDACE25123736680E60%2Fdocument-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>documentation-type</B
+> must be either <B CLASS="cl"
+>:normal</B
+> or <A NAME="_5191"></A><A HREF="22-2.html#_1068"
+><B CLASS="cl"
+>:pointer</B
+></A
+>. If it is <B CLASS="cl"
+>:normal</B
+>, the usual translator documentation function is called. If it is <A NAME="_5193"></A><A HREF="22-2.html#_1068"
+><B CLASS="cl"
+>:pointer</B
+></A
+>, the translator's pointer documentation is called. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F428CF9F7DCA14E854E2110F8976A234%2Fdocument-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C8C11F98A09E4B03B417FD405269B8FE%2Fdocument-presentation-translator%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6338"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3.1 Interface with Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>frame-document-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5161"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>find-applicable-translators</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1243"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>call-presentation-menu</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation input-context frame window x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>for-menu label</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Finds all the applicable translators for the <A NAME="_5194"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+> in the input context <I
+>input-context</I
+>, creates a menu that contains all of the translators, and pops up the menu from which the user can choose a translator. After the translator is chosen, it is called with the arguments supplied to <B CLASS="cl"
+>call-presentation-menu</B
+> and the matching input context that was established by <A NAME="_5196"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+> is terminated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84C7968E32383F621E5F1D3F9F4C0B88%2Fcall-presentation-menu%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>window</I
+>, <I
+>x</I
+>, <I
+>y</I
+>, and <I
+>event</I
+> are as for <A NAME="_5197"></A><A HREF="23-7.html#_1239"
+><B CLASS="cl"
+>find-applicable-translators</B
+></A
+>. <I
+>for-menu</I
+>, which defaults to <A NAME="_5198"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, is used to decide which of the applicable translators will go into the menu; only those translators whose <B CLASS="cl"
+>:menu</B
+> option matches <I
+>menu</I
+> will be included. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20A5EBE0C5C0C20A0539B5E12E91CDC0%2Fcall-presentation-menu%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>label</I
+> is either a string to use as a label for the menu, or is <A NAME="_5200"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (the default), meaning the menu will not be labelled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5C64C2AA039D02F124AD80F59BC6A25%2Fcall-presentation-menu%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC10DCBBF4A6C5619F6561C1D99C9EE6%2Fcall-presentation-menu%2F23.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5238"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4942"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-context</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1244"></A><DIV
+><H4
+>23.7.3 Finding Applicable Presentations</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1245"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-innermost-applicable-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>input-context window x y  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>frame modifier-state event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given an input context <I
+>input-context</I
+>, an output recording window stream <I
+>window</I
+>, <I
+>x</I
+> and <I
+>y</I
+> positions <I
+>x</I
+> and <I
+>y</I
+>, returns the innermost presentation whose sensitivity region contains <I
+>x</I
+> and <I
+>y</I
+> that matches the innermost input context, using the translator matching algorithm described below. If there is no such presentation, this function will return <A NAME="_5201"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B8538657B5ED33915265C62B5C0ED10C%2Ffind-innermost-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>event</I
+> and <I
+>modifier-state</I
+> are a pointer button event and modifier state (see <B CLASS="cl"
+>event-modifier-key-state</B
+>). <I
+>event</I
+> defaults to <A NAME="_5203"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, and <I
+>modifier-state</I
+> defaults to the current modifier state for <I
+>window</I
+>. Only one of <I
+>event</I
+> or <I
+>modifier-state</I
+> may be supplied; it is unspecified what will happen if both are supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D5013C0DA2D93D2B4723C4819466BF3%2Ffind-innermost-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>frame</I
+> defaults to the current frame, <A NAME="_5204"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74F11A72EAE9D825E7EDE41B5F5D1610%2Ffind-innermost-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default method for <A NAME="_5205"></A><A HREF="28-3.html#_1526"
+><B CLASS="cl"
+>frame-find-innermost-applicable-presentation</B
+></A
+> will call this function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC5FE7479D382F9FEF7097BCDA041274%2Ffind-innermost-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9E47C064493A37DA95FE94C7A0F820A4%2Ffind-innermost-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7465"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6326"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3.1 Interface with Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>frame-find-innermost-applicable-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1246"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>throw-highlighted-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>presentation input-context button-press-event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a <A NAME="_5206"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+>, input context <I
+>input-context</I
+>, and a button press event (which contains the window, pointer, <I
+>x</I
+> and <I
+>y</I
+> position of the pointer within the window, the button pressed, and the modifier state), find the translator that matches the innermost presentation in the innermost input context, then call the translator to produce an object and a presentation type. Finally, the matching input context that was established by <A NAME="_5207"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+> will be terminated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A276047B9F820A16E5EB7EE1A222CDE4%2Fthrow-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that it is possible that more than one translator having the same gesture may be applicable to <I
+>presentation</I
+> in the specified input context. In this case, the translator having the highest priority will be chosen. If there is more than one having the same priority, it is unspecified what translator will be chosen. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF3734B537C9D734971EF73A638A19E2%2Fthrow-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47B18C7EBD3F6A6BE9D44109E6A9BF08%2Fthrow-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6331"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3.1 Interface with Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>frame-input-context-button-press-handler</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5236"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4943"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-context</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1247"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame stream input-context  </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>prefer-pointer-window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is the core of the "input wait" handler used by <A NAME="_5208"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+> on behalf of the <SPAN CLASS="term"
+>application frame</SPAN
+> <I
+>frame</I
+>. It is responsible for locating the innermost applicable presentation on <I
+>stream</I
+> in the input context <I
+>input-context</I
+>, unhighlighting presentations that are not applicable, and highlighting the presentation that is applicable. Typically on entry to <B CLASS="cl"
+>highlight-applicable-presentation</B
+>, <I
+>input-context</I
+> will be the value of <A NAME="_5211"></A><A HREF="23-5.html#_1199"
+><B CLASS="cl"
+>*input-context*</B
+></A
+> and <I
+>frame</I
+> will be the value of <A NAME="_5212"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D15B9B3A5E6EB29D3E53725B9B6BC0E%2Fhighlight-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>prefer-pointer-window</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), CLIM will highlight the applicable presentation on the same window that the pointer is located over. Otherwise, CLIM will highlight an applicable presentation on <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D962604EB2F078D0AF245263AC1BBDC4%2Fhighlight-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> This will probably use <B CLASS="cl"
+>frame-find-innermost-applicable-presentation-at-position</B
+> to locate the innermost presentation, and <A NAME="_5215"></A><A HREF="23-7.html#_1249"
+><B CLASS="cl"
+>unhighlight-highlighted-presentation</B
+></A
+> and <A NAME="_5216"></A><A HREF="23-7.html#_1248"
+><B CLASS="cl"
+>set-highlighted-presentation</B
+></A
+> to unhighlight and highlight presentations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F00B1C361618DB662170B8AB55CCA799%2Fhighlight-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2D37BE032792FA287317AC0E9065E07%2Fhighlight-applicable-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5224"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.4 Translator Applicability]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5220"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>unhighlight-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5219"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>set-highlighted-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1248"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>set-highlighted-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream presentation </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>prefer-pointer-window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Highlights the <A NAME="_5217"></A><A HREF="23-2.html#_1128"
+><SPAN CLASS="term"
+>presentation</SPAN
+></A
+> <I
+>presentation</I
+> on <I
+>stream</I
+>. This must call <A NAME="_5218"></A><A HREF="23-3.html#_1172"
+><B CLASS="cl"
+>highlight-presentation</B
+></A
+> methods if that is appropriate. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=426C117803B590C275F4F1D8D10F7F85%2Fset-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prefer-pointer-window</I
+> is as for <A NAME="_5219"></A><A HREF="23-7.html#_1247"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DBFC8267BFE98FF83953E819C9BE11B%2Fset-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D8826AE0FCB95D5419A7F3240331018%2Fset-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5216"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1249"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>unhighlight-highlighted-presentation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>prefer-pointer-window</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Unhighlights any highlighted presentations on <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD8749EBB4BFC3EFF27FBC9E6DA7AA49%2Funhighlight-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prefer-pointer-window</I
+> is as for <A NAME="_5220"></A><A HREF="23-7.html#_1247"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0DBFC8267BFE98FF83953E819C9BE11B%2Funhighlight-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F3397CE96C8D0DCDF967C76BADEA298%2Funhighlight-highlighted-presentation%2F23.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5215"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.3 Finding Applicable Presentations, <B CLASS="cl"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1250"></A><DIV
+><H4
+>23.7.4 Translator Applicability</H4
+><P
+>The top-level "input wait", which is what you are in when inside of a <A NAME="_5221"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+>, is responsible for determining what translators are applicable to which presentations in a given input context. This loop both provides feedback in the form of highlighting sensitive presentation, and is responsible for calling the applicable translator when the user presses a pointer button. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EF0BCA9097442C9F3F4FC3B7FBDAD51%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> <A NAME="_5222"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+> uses <B CLASS="cl"
+>frame-find-innermost-applicable-presentation-at-position</B
+> (via <A NAME="_5224"></A><A HREF="23-7.html#_1247"
+><B CLASS="cl"
+>highlight-applicable-presentation</B
+></A
+>) as its "input wait" handler, and <A NAME="_5225"></A><A HREF="28-3.html#_1527"
+><B CLASS="cl"
+>frame-input-context-button-press-handler</B
+></A
+> as its button press "event handler". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EE6A63054BC09B91E67A11B572753B8%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Given a presentation, an input context established by <A NAME="_5226"></A><A HREF="23-5.html#_1201"
+><B CLASS="cl"
+>with-input-context</B
+></A
+>, and an event corresponding to a user gesture, translator matching proceeds as follows. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C053A5EF545E69EC28E423E4CA8E4F24%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The set of candidate translators is initially those translators accessible in the command table in use by the current application. A translator is said to "match" if all of the following are true (in this order): <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E801E1F0D6EE263C381C06E1F8573078%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><OL
+><LI
+>The presentation's type is <A NAME="_5227"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> of the translator's <I
+>from-type</I
+>, ignoring type parameters. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2186B56C0DDF9D54FCF9F8C46D8977C%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The translator's <I
+>to-type</I
+> is <A NAME="_5228"></A><A HREF="23-3.html#_1184"
+><B CLASS="cl"
+>presentation-subtypep</B
+></A
+> of the input context type, ignoring type parameters. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C4E57E49FB42FBF778BA3CEBD9C3026%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The translator's gesture is either <A NAME="_5229"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, or matches the event corresponding to the user's gesture. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6011062404F36B0838541878529E282B%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>If there are parameters in the <I
+>from-type</I
+>, the presentation's object must be <A NAME="_5230"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> of the <I
+>from-type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB79C219C6FDF96876A33A23BFB489F2%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The translator's tester returned <SPAN CLASS="term"
+>true</SPAN
+>. If there is no tester, the translator behaves as though there is a tester that always returns <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A42192413EC9AE35F2AFF2AF616B78F1%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>If there are parameters in the input context type and the tester is not declared to be definitive, the value returned by body of the translator must be <A NAME="_5233"></A><A HREF="23-3.html#_1182"
+><B CLASS="cl"
+>presentation-typep</B
+></A
+> of the context type.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F429905D5DA86DCE6F627C76213DB88%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></OL
+><P
+>Note that the type parameters from the presentation's type have no effect on translator lookup. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EF5D4208A52CF13FE0825DD19BC44448%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_5234"></A><A HREF="27-5.html#_1435"
+><B CLASS="cl"
+>find-presentation-translator</B
+></A
+> is responsible for the first two steps of the matching algorithm, and <A NAME="_5235"></A><A HREF="23-7.html#_1238"
+><B CLASS="cl"
+>test-presentation-translator</B
+></A
+> is responsible for the remaining steps. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=88E8986872750250F46C4B4C63193793%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When a single translator is being chosen (such as is done by <A NAME="_5236"></A><A HREF="23-7.html#_1246"
+><B CLASS="cl"
+>throw-highlighted-presentation</B
+></A
+>), it is possible that more than one translator having the same gesture may be applicable to the presentation in the specified input context. In this case, the translator having the highest priority will be chosen. If there is more than one having the same priority, it is unspecified what translator will be chosen. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E9EE7E69D85610BA3A9F6E145916057%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The matching algorithm is somewhat more complicated in face of nested presentations and nested input contexts. In this case, the applicable presentation is the <I
+>smallest</I
+> presentation that matches the <I
+>innermost</I
+> input context. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=530B1EEACF0D729736200F491D948797%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Sometimes there may be nested presentations that have exactly the same bounding rectangle. In this case, it is not possible for a user to unambiguously point to just one of the nested presentations. Therefore, when CLIM has located the innermost applicable presentation in the innermost input context, it must then search for outer presentations having exactly the same bounding rectangle, checking to see if there are any applicable translators for those presentations. If there are multiple applicable translators, the one having the highest priority is chosen. <A NAME="_5237"></A><A HREF="23-7.html#_1239"
+><B CLASS="cl"
+>find-applicable-translators</B
+></A
+>, <A NAME="_5238"></A><A HREF="23-7.html#_1243"
+><B CLASS="cl"
+>call-presentation-menu</B
+></A
+>, <A NAME="_5239"></A><A HREF="23-7.html#_1246"
+><B CLASS="cl"
+>throw-highlighted-presentation</B
+></A
+>, and the computation of pointer documentation must all take this situation into account. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=311F7D0590A3C7E90459A68EB93AAD76%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The translators are searched in the order that they are returned by <A NAME="_5240"></A><A HREF="23-7.html#_1237"
+><B CLASS="cl"
+>find-presentation-translators</B
+></A
+>. The rules for the ordering of the translators are described under that function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=570B958D208765BD20C940706A250BBF%2F23.7.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

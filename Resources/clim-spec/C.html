@@ -1,0 +1,151 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/C.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; C Encapsulating Streams</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="B.4 Multiple Value setf" HREF="B-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="C.1 Encapsulating Stream Classes" HREF="C-1.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part VIII: Appendices" HREF="P-VIII.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="B-4.html"
+>Prev</A
+><BR
+><A HREF="C-1.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+><BR
+>&rarr;&nbsp;<A HREF="C.html"
+><B
+>C&nbsp;Encapsulating&nbsp;Streams</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1906"></A><DIV
+><H2
+>C Encapsulating Streams</H2
+><LI CLASS="outline_item"
+><A HREF="C-1.html#_1908"
+>C.1 Encapsulating Stream Classes</A
+></LI
+><DIV
+><P
+>An <A NAME="_1907"></A><SPAN CLASS="concept"
+>encapsulating stream</SPAN
+> is a special kind of stream that "closes over" another stream, handling some of the usual stream protocol operations itself, and delegating the remaining operations to the "encapsulated" stream. Encapsulating streams may be used by some CLIM implementations in order to facilitate the implementation of features that require the dynamic modification of a stream's state and operations. For example, <A NAME="_7091"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> dialogs can be implemented by using an encapsulating stream that tailors calls to <A NAME="_7092"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and <A NAME="_7093"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+> in such a way that the output is captured and formatted into a dialog that contains prompts and fields that can be clicked on and modified by the user. Input editing can also be implemented using an encapsulating stream that manages the interaction between <A NAME="_7094"></A><A HREF="22-2.html#_1081"
+><B CLASS="cl"
+>read-gesture</B
+></A
+> and the input editing commands and rescanning. The form <A NAME="_7095"></A><A HREF="20-3.html#_1014"
+><B CLASS="cl"
+>filling-output</B
+></A
+> can be implemented by having an encapsulating stream that buffers output and inserts line breaks appropriately. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=412861AB08A32B3808326319DE069FE2%2FC#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="C-1.html#_7114"
+><SPAN CLASS="reverselink"
+>[encapsulating stream, <I
+>Concept</I
+>&larr; C.1.1 Encapsulating Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>encapsulating-stream-stream</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="C-1.html#_7099"
+><SPAN CLASS="reverselink"
+>[encapsulating stream, <I
+>Concept</I
+>&larr; C.1 Encapsulating Stream Classes, <B CLASS="cl"
+><B CLASS="cl"
+>encapsulating-stream-p</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>CLIM implementations need not use encapsulating streams at all. If encapsulating streams are used, they must adhere to the following protocols. Encapsulating streams are not part of CLIM's API. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE1306F28A06048711F12A295C39ED10%2FC#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/C.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

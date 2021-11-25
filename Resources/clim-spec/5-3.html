@@ -1,0 +1,1848 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/5-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 5.3 The Transformation Protocol</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="5.2 Transformation Constructors" HREF="5-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="Part III: Windowing Substrate" HREF="P-III.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="5 Affine Transformations" HREF="5.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="5-2.html"
+>Prev</A
+><BR
+><A HREF="P-III.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-II.html"
+>Part&nbsp;II:&nbsp;Geometry&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="5.html"
+>5&nbsp;Affine&nbsp;Transformations</A
+><BR
+>&rarr;&nbsp;<A HREF="5-3.html"
+><B
+>5.3&nbsp;The&nbsp;Transformation&nbsp;Protocol</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_191"></A><DIV
+><H3
+>5.3 The Transformation Protocol</H3
+><LI CLASS="outline_item"
+><A HREF="5-3.html#_192"
+>5.3.1 Transformation Predicates</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="5-3.html#_203"
+>5.3.2 Composition of Transformations</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="5-3.html#_213"
+>5.3.3 Applying Transformations</A
+></LI
+><P
+>The following subsections describe the transformation protocol. All classes that are subclasses of <A NAME="_2405"></A><A HREF="5-1.html#_172"
+><B CLASS="cl"
+>transformation</B
+></A
+> must implement methods for all of the generic functions in the following subsections. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C680264D05840073A0C5DB190B365A61%2F5.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_192"></A><DIV
+><H4
+>5.3.1 Transformation Predicates</H4
+><P
+>In all of the functions below, the argument named <I
+>transformation</I
+> must be a transformation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D06D086517DBA321713CAD84ADF73780%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_193"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>transformation-equal</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation1 transformation2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the two <SPAN CLASS="term"
+>transformations</SPAN
+> <I
+>transformation1</I
+> and <I
+>transformation2</I
+> have equivalent effects (that is, are mathematically equal), otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D926F6DD1CB78BA1163FF0490EB1675D%2Ftransformation-equal%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Implementations are encouraged to allow transformations that are not numerically equal due to floating-point roundoff errors to be <B CLASS="cl"
+>transformation-equal</B
+>. An appropriate level of "fuzziness" is <B CLASS="cl"
+>single-float-epsilon</B
+>, or some small multiple of <B CLASS="cl"
+>single-float-epsilon</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A230DF8A3FFC8DAE7FB5B0463C44ECE5%2Ftransformation-equal%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=375B42FACA118D6C2ACCEEA2B47FF372%2Ftransformation-equal%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="5-3.html#_2414"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.1 Transformation Predicates, <B CLASS="cl"
+><B CLASS="cl"
+>identity-transformation-p</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_194"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>identity-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> is equal (in the sense of <A NAME="_2414"></A><A HREF="5-3.html#_193"
+><B CLASS="cl"
+>transformation-equal</B
+></A
+>) to the identity transformation, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18542B18C7D1BC7E46884FAB456453B1%2Fidentity-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EC1D68F1C2228360B417BEB84447A2E%2Fidentity-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_195"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invertible-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> has an inverse, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=51990D51AC1C02089C1705CD73B09C85%2Finvertible-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB73556D9749F99A73874DAD494D5674%2Finvertible-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_196"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>translation-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> is a pure translation, that is, a transformation such that there are two distance components <I
+>dx</I
+> and <I
+>dy</I
+> and every point <I
+>(x,y)</I
+> is moved to <I
+>(x&nbsp;+&nbsp;dx,y&nbsp;+&nbsp;dy)</I
+>. Otherwise, <B CLASS="cl"
+>translation-transformation-p</B
+> returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=670103F796EB01DA99D849E4645637E6%2Ftranslation-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EE4AD5CEA834F0622C903E8DFEA18EE%2Ftranslation-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z191"
+></A
+>Note that the identity transformation is a translation for dx = dy = 0. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EE4AD5CEA834F0622C903E8DFEA18EE%2Ftranslation-transformation-p%2F5.3.1&amp;editp=t&amp;id=Z191#Z191"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2010-03-17 22:10Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_197"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>reflection-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> inverts the "handedness" of the coordinate system, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. Note that this is a very inclusive category---transformations are considered reflections even if they distort, scale, or skew the coordinate system, as long as they invert the handedness. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E3498185E046FCA3D76894BAD4039CBE%2Freflection-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF7884E527E238DCAD940F6E45FD1218%2Freflection-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_198"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rigid-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> transforms the coordinate system as a rigid object, that is, as a combination of translations, rotations, and pure reflections. Otherwise, it returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA847C5597CBC22F39EB021D24B380C0%2Frigid-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Rigid transformations are the most general category of transformations that preserve magnitudes of all lengths and angles. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A37DE88FA35261D3AD24542FE65386DF%2Frigid-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A0264874371335F7CB5BF7307655C403%2Frigid-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_199"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>even-scaling-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> multiplies all <I
+>x</I
+> lengths and <I
+>y</I
+> lengths by the same magnitude, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. It does include pure reflections through vertical and horizontal lines. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62BBA622C056FC5461FBE0B4090098CC%2Feven-scaling-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=038C15873863B138B739B04EAA01F9EC%2Feven-scaling-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_200"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>scaling-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> multiplies all <I
+>x</I
+> lengths by one magnitude and all <I
+>y</I
+> lengths by another magnitude, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. This category includes even scalings as a subset. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18E86A318B618C3A0F3598658062EC63%2Fscaling-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F598D3239C3CB0197FCE2F4D6CA0910B%2Fscaling-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_201"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>rectilinear-transformation-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> will always transform any axis-aligned rectangle into another axis-aligned rectangle, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. This category includes scalings as a subset, and also includes 90 degree rotations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B96EAE1521149D6ED9C9FE246690BCBB%2Frectilinear-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Rectilinear transformations are the most general category of transformations for which the bounding rectangle of a transformed object can be found by transforming the bounding rectangle of the original object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=53827A1E51B11EDF8A0B75E55A56A7F5%2Frectilinear-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Supply this figure. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA8271C3E0CE5386EE6B0F9CD3A25E0A%2Frectilinear-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+>To be supplied.</CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 5.1: The predicates for analyzing the mathematical properties of a transformation.</DIV
+></DIV
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89ACE9F7188BB4A39655F2F9B8DAE403%2Frectilinear-transformation-p%2F5.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="5-3.html#_2474"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>transform-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2365"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2351"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2295"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.4 Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>make-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_203"></A><DIV
+><H4
+>5.3.2 Composition of Transformations</H4
+><P
+>If we transform from one coordinate system to another, then from the second to a third coordinate system, we can regard the resulting transformation as a single transformation resulting from <A NAME="_204"></A><SPAN CLASS="concept"
+>composing</SPAN
+> the two component transformations. It is an important and useful property of affine transformations that they are closed under composition. Note that composition is not commutative; in general, the result of applying transformation <I
+>A</I
+> and then applying transformation <I
+>B</I
+> is not the same as applying <I
+>B</I
+> first, then <I
+>A</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3ADF52381E6C43B42966E066F0F826EE%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Any arbitrary transformation can be built up by composing a number of simpler transformations, but that composition is not unique. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A619C39A565D8BD207AF7E1552C80758%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_205"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-transformations</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation1 transformation2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a transformation that is the mathematical composition of its arguments. Composition is in right-to-left order, that is, the resulting transformation represents the effects of applying the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation2</I
+> followed by the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation1</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=145284CE04230F6CA05EE035DAF5C705%2Fcompose-transformations%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5880A3BCABD1EAC3FB53278791A41CD6%2Fcompose-transformations%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="5-3.html#_2455"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.2 Composition of Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>compose-transformation-with-translation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2450"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.2 Composition of Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>compose-translation-with-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_206"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invert-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a transformation that is the inverse of the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+>. The result of composing a transformation with its inverse is equal to the identity transformation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8BBA662A56AB59D4A129128711DFCA5C%2Finvert-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>transformation</I
+> is singular, <B CLASS="cl"
+>invert-transformation</B
+> will signal the <A NAME="_2442"></A><A HREF="5-1.html#_179"
+><B CLASS="cl"
+>singular-transformation</B
+></A
+> error, with a named restart that is invoked with a transformation and makes <B CLASS="cl"
+>invert-transformation</B
+> return that transformation. This is to allow a drawing application, for example, to use a generalized inverse to transform a region through a singular transformation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F74E2D543FCAA0411F9CAF87981FF98%2Finvert-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that with finite-precision arithmetic there are several low-level conditions that might occur during the attempt to invert a singular or "almost singular" transformation. (These include computation of a zero determinant, floating-point underflow during computation of the determinant, or floating-point overflow during subsequent multiplication.) <B CLASS="cl"
+>invert-transformation</B
+> must signal the <A NAME="_2445"></A><A HREF="5-1.html#_179"
+><B CLASS="cl"
+>singular-transformation</B
+></A
+> error for all of these cases. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A7C0FFACA1DF25F3E18D9C9A099DEFE%2Finvert-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B0CF2ED2B2F2F8F8D11A316A1B177E74%2Finvert-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="5-1.html#_2392"
+><SPAN CLASS="reverselink"
+>[&larr; 5.1.1 Transformation Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>singular-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_207"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-translation-with-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation dx dy</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_208"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-scaling-with-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation sx sy </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>origin</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_209"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-rotation-with-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation angle </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>origin</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions create a new transformation by composing the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> with a given translation, scaling, or rotation, respectively. The order of composition is that the translation, scaling, or rotation "transformation" is first, followed by <I
+>transformation</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB1913F214DDC8545DB8F46E21239D4E%2Fcompose-translation-with-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>dx</I
+> and <I
+>dy</I
+> are as for <A NAME="_2447"></A><A HREF="5-2.html#_181"
+><B CLASS="cl"
+>make-translation-transformation</B
+></A
+>. <I
+>sx</I
+> and <I
+>sy</I
+> are as for <A NAME="_2448"></A><A HREF="5-2.html#_184"
+><B CLASS="cl"
+>make-scaling-transformation</B
+></A
+>. <I
+>angle</I
+> and <I
+>origin</I
+> are as for <A NAME="_2449"></A><A HREF="5-2.html#_182"
+><B CLASS="cl"
+>make-rotation-transformation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73B25312BFB6813ADC820E09D0AE74F3%2Fcompose-translation-with-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that these functions could be implemented by using the various constructors and <A NAME="_2450"></A><A HREF="5-3.html#_205"
+><B CLASS="cl"
+>compose-transformations</B
+></A
+>. They are provided, because it is common to build up a transformation as a series of simple transformations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5159C44C94B4417F500B1AEE4010572B%2Fcompose-translation-with-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12B1DF7B664D554D951E26D2B2822E85%2Fcompose-translation-with-transformation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7316"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_210"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-transformation-with-translation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation dx dy</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_211"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-transformation-with-scaling</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation sx sy </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>origin</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+><A NAME="_212"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-transformation-with-rotation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation angle </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>origin</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions create a new transformation by composing a given translation, scaling, or rotation, respectively, with the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+>. The order of composition is <I
+>transformation</I
+> is first, followed by the translation, scaling, or rotation "transformation". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=61C29627C6B812F6A082879634B21F7B%2Fcompose-transformation-with-translation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>dx</I
+> and <I
+>dy</I
+> are as for <A NAME="_2452"></A><A HREF="5-2.html#_181"
+><B CLASS="cl"
+>make-translation-transformation</B
+></A
+>. <I
+>sx</I
+> and <I
+>sy</I
+> are as for <A NAME="_2453"></A><A HREF="5-2.html#_184"
+><B CLASS="cl"
+>make-scaling-transformation</B
+></A
+>. <I
+>angle</I
+> and <I
+>origin</I
+> are as for <A NAME="_2454"></A><A HREF="5-2.html#_182"
+><B CLASS="cl"
+>make-rotation-transformation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73B25312BFB6813ADC820E09D0AE74F3%2Fcompose-transformation-with-translation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that these functions could be implemented by using the various constructors and <A NAME="_2455"></A><A HREF="5-3.html#_205"
+><B CLASS="cl"
+>compose-transformations</B
+></A
+>. They are provided, because it is common to build up a transformation as a series of simple transformations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5159C44C94B4417F500B1AEE4010572B%2Fcompose-transformation-with-translation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4754248B8A84B0E033F3DF428669C37F%2Fcompose-transformation-with-translation%2F5.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7319"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_213"></A><DIV
+><H4
+>5.3.3 Applying Transformations</H4
+><P
+>Transforming a region applies a coordinate transformation to that region, thus moving its position on the drawing plane, rotating it, or scaling it. Note that transforming a region does not side-effect the <I
+>region</I
+> argument; it is free to either create a new region or return an existing (cached) region. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6C2D5C6ECAD40C0A2D1115D29C8B013C%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>These generic functions must be implemented for all classes of transformations. Furthermore, all subclasses of <A NAME="_2456"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> and <A NAME="_2457"></A><A HREF="13-2.html#_675"
+><B CLASS="cl"
+>design</B
+></A
+> must implement methods for <A NAME="_2458"></A><A HREF="5-3.html#_214"
+><B CLASS="cl"
+>transform-region</B
+></A
+> and <A NAME="_2459"></A><A HREF="5-3.html#_215"
+><B CLASS="cl"
+>untransform-region</B
+></A
+>. That is, methods for the following generic functions will typically specialize both the <I
+>transformation</I
+> and <A NAME="_2460"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C378E35CED0CDA1988DBA4CA1B0746A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that, if the extended region classes are not implemented, the following functions are not closed, that is, they may return results that are not CLIM regions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3D7C5E97524C632AE181DEB12A724534%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_214"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>transform-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>transformation</I
+> to the <A NAME="_2461"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region</I
+>, and returns the transformed region. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=412536364AE5A0DCEC8124D7FF53C4F4%2Ftransform-region%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DB8AF0D8DB5E1171B2C3667B5E764DC%2Ftransform-region%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3570"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="14-4.html#_3548"
+><SPAN CLASS="reverselink"
+>[&larr; 14.4 Regions as Designs]</SPAN
+></A
+><BR
+><A HREF="14-2.html#_3533"
+><SPAN CLASS="reverselink"
+>[&larr; 14.2 Patterns and Stencils, <B CLASS="cl"
+><B CLASS="cl"
+>make-pattern</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2476"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>transform-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2466"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>transform-position</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2458"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_215"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>untransform-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is exactly equivalent to <BR
+> <CODE
+>(transform-region (invert-transformation</CODE
+> <I
+>transformation</I
+><CODE
+>)</CODE
+> <I
+>region</I
+><CODE
+>)</CODE
+> . <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7085FBCCE6EEA5D8CCF0DE538652A26D%2Funtransform-region%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides a default method for <B CLASS="cl"
+>untransform-region</B
+> on the <A NAME="_2463"></A><A HREF="5-1.html#_172"
+><B CLASS="cl"
+>transformation</B
+></A
+> protocol class that does exactly this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5CC79ED54E49955BD53F32A5E0F6E8E%2Funtransform-region%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B333BC89FB741B1583522BC1164C0840%2Funtransform-region%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-4.html#_3549"
+><SPAN CLASS="reverselink"
+>[&larr; 14.4 Regions as Designs]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2459"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_216"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>transform-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> to the point whose coordinates are the real numbers <I
+>x</I
+> and <I
+>y</I
+>, and returns two values, the transformed <I
+>x</I
+> coordinate and the transformed <I
+>y</I
+> coordinate. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6341EEEABD9737CBE54CC20071E71AEF%2Ftransform-position%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>transform-position</B
+> is the spread version of <A NAME="_2466"></A><A HREF="5-3.html#_214"
+><B CLASS="cl"
+>transform-region</B
+></A
+> in the case where the region is a point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A49B7D88D3B15F8E132CC8576F2028AA%2Ftransform-position%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EEA03D08C0AA2220987EB8328F3E863F%2Ftransform-position%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7322"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_217"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>untransform-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is exactly equivalent to <BR
+> <CODE
+>(transform-position (invert-transformation</CODE
+> <I
+>transformation</I
+><CODE
+>)</CODE
+> <I
+>x</I
+> <I
+>y</I
+><CODE
+>)</CODE
+> . <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C1911CDA41435A3ED06E9AEBC48EFF4%2Funtransform-position%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides a default method for <B CLASS="cl"
+>untransform-position</B
+> on the <A NAME="_2468"></A><A HREF="5-1.html#_172"
+><B CLASS="cl"
+>transformation</B
+></A
+> protocol class that does exactly this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EA9CFF263903F0A0DA4663A76B3E1E8%2Funtransform-position%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C7E82ADB5C54FA4B2A3D584D9E817988%2Funtransform-position%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7323"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_218"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>transform-distance</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation dx dy</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> to the distance represented by the real numbers <I
+>dx</I
+> and <I
+>dy</I
+>, and returns two values, the transformed <I
+>dx</I
+> and the transformed <I
+>dy</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5405056ACFB5CD19CAF7A61251E67CC9%2Ftransform-distance%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A distance represents the difference between two points. It does <I
+>not</I
+> transform like a point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0761448D867204FB2B40F4CB0B457BAC%2Ftransform-distance%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C27AE7FF500D43EC375F36C755103FB%2Ftransform-distance%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_219"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>untransform-distance</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation dx dy</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is exactly equivalent to <BR
+> <CODE
+>(transform-distance (invert-transformation</CODE
+> <I
+>transformation</I
+><CODE
+>)</CODE
+> <I
+>dx</I
+> <I
+>dy</I
+><CODE
+>)</CODE
+> . <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7DE8C63B0290689205E6745BE1961748%2Funtransform-distance%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides a default method for <B CLASS="cl"
+>untransform-distance</B
+> on the <A NAME="_2471"></A><A HREF="5-1.html#_172"
+><B CLASS="cl"
+>transformation</B
+></A
+> protocol class that does exactly this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4737B90F39DDA4FE6297B5AADE9D9A6%2Funtransform-distance%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E35A8A662B4A3C1550367AD2FB5B154%2Funtransform-distance%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_220"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>transform-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies the <SPAN CLASS="term"
+>transformation</SPAN
+> <I
+>transformation</I
+> to the rectangle specified by the four coordinate arguments, which are real numbers. The arguments <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y1</I
+> are canonicalized in the same way as for <A NAME="_2473"></A><A HREF="4-1.html#_155"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+></A
+>. Returns four values that specify the minimum and maximum points of the transformed rectangle in the order <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=21AD950FDE04713E0330282DD2D7863E%2Ftransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is an error is <I
+>transformation</I
+> does not satisfy <A NAME="_2474"></A><A HREF="5-3.html#_201"
+><B CLASS="cl"
+>rectilinear-transformation-p</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F545BBE9ACFE5B7908E23111BD175685%2Ftransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z182"
+></A
+>The second "is" should be "if". <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F545BBE9ACFE5B7908E23111BD175685%2Ftransform-rectangle%2A%2F5.3.3&amp;editp=t&amp;id=Z182#Z182"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- David 2009-03-22 02:59Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>transform-rectangle*</B
+> is the spread version of <A NAME="_2476"></A><A HREF="5-3.html#_214"
+><B CLASS="cl"
+>transform-region</B
+></A
+> in the case where the transformation is rectilinear and the region is a rectangle. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5375B4D6BEA9677B30320C20388FA796%2Ftransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DCB9764E95083D3EB050D4EC3FA6811%2Ftransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_221"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>untransform-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>transformation x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is exactly equivalent to <BR
+> <CODE
+>(transform-rectangle* (invert-transformation</CODE
+> <I
+>transformation</I
+><CODE
+>)</CODE
+> <I
+>x1</I
+> <I
+>y1</I
+> <I
+>x2</I
+> <I
+>y2</I
+><CODE
+>)</CODE
+> . <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD76107E1700E6AFD038019D41A6745B%2Funtransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides a default method for <B CLASS="cl"
+>untransform-rectangle*</B
+> on the <A NAME="_2478"></A><A HREF="5-1.html#_172"
+><B CLASS="cl"
+>transformation</B
+></A
+> protocol class that does exactly this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=045787C3F6F41FAA5A33E8329E2CC397%2Funtransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8556E355E5B98B60277ACEA2CDACD782%2Funtransform-rectangle%2A%2F5.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/5-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

@@ -1,0 +1,115 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/18.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 18 Graph Formatting</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="17.3 The Table and Item List Formatting Protocols" HREF="17-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="18.1 Graph Formatting Functions" HREF="18-1.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part V: Extended Stream Output Facilities" HREF="P-V.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="17-3.html"
+>Prev</A
+><BR
+><A HREF="18-1.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="18.html"
+><B
+>18&nbsp;Graph&nbsp;Formatting</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_975"></A><DIV
+><H2
+>18 Graph Formatting</H2
+><LI CLASS="outline_item"
+><A HREF="18-1.html#_977"
+>18.1 Graph Formatting Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="18-2.html#_979"
+>18.2 The Graph Formatting Protocols</A
+></LI
+><P
+>CLIM provides a mechanism for arranging arbitrary output in a graph. The following code produces the graph shown in Figure&nbsp;<A NAME="_4104"></A><A HREF="18.html#_976"
+>18.1</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6393A7F87B835536A9570792393781C8%2F18#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun graph-test (stream &amp;optional (orientation :horizontal)) &#10;  (fresh-line stream)&#10;  (macrolet ((make-node (&amp;key name children)&#10;               `(list* ,name ,children)))&#10;    (flet ((node-name (node)&#10;             (car node))&#10;           (node-children (node)&#10;             (cdr node)))&#10;      (let* ((2a (make-node :name "2A"))&#10;             (2b (make-node :name "2B"))&#10;             (2c (make-node :name "2C"))&#10;             (1a (make-node :name "1A" :children (list 2a 2b)))&#10;             (1b (make-node :name "1B" :children (list 2b 2c)))&#10;             (root (make-node :name "0" :children (list 1a 1b))))&#10;        (format-graph-from-roots&#10;          (list root)&#10;          #'(lambda (node s)&#10;              (write-string (node-name node) s))&#10;          #'node-children&#10;          :orientation orientation&#10;          :stream stream)))))&#10;</PRE
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="graph-example.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 18.1:  Example of graph formatting.</DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/18.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:38 GMT -->
+</HTML
+>

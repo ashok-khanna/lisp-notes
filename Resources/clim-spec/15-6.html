@@ -1,0 +1,348 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/15-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 15.6 Buffering of Output</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="15.5 Attracting the User's Attention" HREF="15-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="16 Output Recording" HREF="16.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="15 Extended Stream Output" HREF="15.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="15-5.html"
+>Prev</A
+><BR
+><A HREF="16.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="15.html"
+>15&nbsp;Extended&nbsp;Stream&nbsp;Output</A
+><BR
+>&rarr;&nbsp;<A HREF="15-6.html"
+><B
+>15.6&nbsp;Buffering&nbsp;of&nbsp;Output</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_825"></A><DIV
+><H3
+>15.6 Buffering of Output</H3
+><P
+>Some mediums that support the output protocol may buffer output. When buffering is enabled on a medium, the time at which output is actually done on the medium is unpredictable. <B CLASS="cl"
+>force-output</B
+> or <B CLASS="cl"
+>finish-output</B
+> can be used to ensure that all pending output gets completed. If the medium is a bidirectional stream, a <B CLASS="cl"
+>force-output</B
+> is performed whenever any sort of input is requested on the stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9AC5A2DF54A9095AB583E04052BF257C%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-buffered-output</B
+> provides a way to control when buffering is enabled on a medium. By default, CLIM's interactive streams are buffered if the underlying window system supports buffering. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5968998DFFB988987709ACC44BF66ED%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z153"
+></A
+>It says "with-buffered-output" at the beginning of this paragraph, &#10;but surely, it should have been "with-output-buffered" as the name&#10;of the macro further down the page.  <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5968998DFFB988987709ACC44BF66ED%2F15.6&amp;editp=t&amp;id=Z153#Z153"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2006-12-09 08:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_826"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-buffering-output-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <A NAME="_3694"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> is currently buffering output, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4C34A3E13381A16E907B1181E9500D12%2Fmedium-buffering-output-p%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7BCE453B3AD9E9FB88F1A7EC8D0048C4%2Fmedium-buffering-output-p%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="15-6.html#_3696"
+><SPAN CLASS="reverselink"
+>[&larr; 15.6 Buffering of Output, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-buffering-output-p)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_827"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf medium-buffering-output-p)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>buffer-p medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets <A NAME="_3696"></A><A HREF="15-6.html#_826"
+><B CLASS="cl"
+>medium-buffering-output-p</B
+></A
+> of the <A NAME="_3697"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> to <I
+>buffer-p</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9975AE7E0E9CD208A10F27D5DA7FAEB5%2F%28setf%20medium-buffering-output-p%29%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E7D75EFFC9CCA5CE707B7819838FA48%2F%28setf%20medium-buffering-output-p%29%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_828"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-buffered</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(buffer-p </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>))  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>buffer-p</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), this causes the <A NAME="_3699"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> to start buffering output, and evaluates <I
+>body</I
+> in that context. If <I
+>buffer-p</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, <B CLASS="cl"
+>force-output</B
+> will be called before <I
+>body</I
+> is evaluated. When <I
+>body</I
+> is exited (or aborted from), <B CLASS="cl"
+>force-output</B
+> will be called if output buffering will be disabled after <B CLASS="cl"
+>with-output-buffered</B
+> is exited. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A155920C1449E9D93C7A0ED47C808B1%2Fwith-output-buffered%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a medium. If <I
+>medium</I
+> is <A NAME="_3704"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63132C26FAB3F0A6F05088150B099704%2Fwith-output-buffered%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F51CD4B4A594ED15C5F5E23E0D85E210%2Fwith-output-buffered%2F15.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/15-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

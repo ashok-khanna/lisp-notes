@@ -1,0 +1,1333 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/25.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 25 Menu Facilities</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="24.5 Completion" HREF="24-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="26 Dialog Facilities" HREF="26.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part VI: Extended Stream Input Facilities" HREF="P-VI.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="24-5.html"
+>Prev</A
+><BR
+><A HREF="26.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="25.html"
+><B
+>25&nbsp;Menu&nbsp;Facilities</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1353"></A><DIV
+><H2
+>25 Menu Facilities</H2
+><P
+><B
+>Major issue: </B
+> <I
+>There is a general issue about how these menus fit in with the menus that might be provided by the underlying toolkit. For example, under what circumstances is CLIM allowed to directly use the menu facilities provided by the host? Should </I
+><I
+><B CLASS="cl"
+>:leave-menu-visible&nbsp;t</B
+></I
+><I
+> interact with the "pushpin" facility provided by OpenLook? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D577830A3F68FAC92268A0DC5AE3158%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1354"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-choose</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>items </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>associated-window printer presentation-type  default-item text-style label  cache unique-id id-test cache-value cache-test  max-width max-height n-rows n-columns  x-spacing y-spacing row-wise  cell-align-x cell-align-y  scroll-bars pointer-documentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays a menu whose choices are given by the elements of the sequence <I
+>items</I
+>. It returns three values: the value of the chosen item, the item itself, and the pointer button event corresponding to the gesture that the user used to select it. If the user aborts out of the menu, a single value is returned, <A NAME="_5595"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42214259B91CB6CEA9EC1F6D0B996A39%2Fmenu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>menu-choose</B
+> will call <A NAME="_5597"></A><A HREF="25.html#_1355"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></A
+> on the frame manager being used by <I
+>associated-window</I
+> (or the frame manager of the current application frame). All of the arguments to <B CLASS="cl"
+>menu-choose</B
+> will be passed on to <A NAME="_5599"></A><A HREF="25.html#_1355"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A83666675300F8EB652080E27040D43%2Fmenu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1AF56D2528BD47F234BAB2BD030C07A5%2Fmenu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7515"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="28-3.html#_6316"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>notify-user</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_6001"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>menu-choose-command-from-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5716"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5672"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>with-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5669"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-item-options</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5668"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-item-display</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5667"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-item-value</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5666"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>print-menu-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5665"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>draw-standard-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5651"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5072"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>gadget-menu-view</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-6.html#_5067"
+><SPAN CLASS="reverselink"
+>[&larr; 23.6 Views, <B CLASS="cl"
+><B CLASS="cl"
+>textual-menu-view</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1355"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame-manager items  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>associated-window printer presentation-type  default-item text-style label  cache unique-id id-test cache-value cache-test  max-width max-height n-rows n-columns  x-spacing y-spacing row-wise  cell-align-x cell-align-y  scroll-bars pointer-documentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays a menu whose choices are given by the elements of the sequence <I
+>items</I
+>. It returns three values: the value of the chosen item, the item itself, and the pointer button event corresponding to the gesture that the user used to select it. If the user aborts out of the menu, a single value is returned, <A NAME="_5600"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=42214259B91CB6CEA9EC1F6D0B996A39%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> the default method on <B CLASS="cl"
+>standard-frame-manager</B
+> will generally be implemented in terms of CLIM's own window stream and formatting facilities, such as using <A NAME="_5602"></A><A HREF="25.html#_1356"
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+></A
+> on a stream allocated by <A NAME="_5603"></A><A HREF="25.html#_1362"
+><B CLASS="cl"
+>with-menu</B
+></A
+>. However, some frame managers may be able to use a native menu facility to handle most (if not all) menus. If the native menu facility cannot handle some cases, it can simply use <B CLASS="cl"
+>call-next-method</B
+> to invoke the default method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4075DEF1694157B98EE42F6CF39C680A%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>items</I
+> is a sequence of menu items. Each menu item has a visual representation derived from a display object, an internal representation that is a value object, and a set of menu item options. The form of a menu item is one of the following: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=799CCF5D963FB521609C8EF9B02B1CD3%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>An atom. The item is both the display object and the value object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=676761688D9D5E41E8F41E0EC6D16023%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A cons. The <B CLASS="cl"
+>car</B
+> is the display object and the <B CLASS="cl"
+>cdr</B
+> is the value object. The value object must be an atom. If you need to return a list as the value, use the :value option in the list menu item format described below. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=079D48AD7DCB7E9C9ED47C42BD308E3A%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A list. The <B CLASS="cl"
+>car</B
+> is the display object and the cdr is a list of alternating option keywords and values. The value object is specified with the keyword <A NAME="_5608"></A><A HREF="30-3.html#_1733"
+><B CLASS="cl"
+>:value</B
+></A
+> and defaults to the display object if <A NAME="_5609"></A><A HREF="30-3.html#_1733"
+><B CLASS="cl"
+>:value</B
+></A
+> is not present.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46CE0AF27063071F930FB95756C558A1%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>The menu item options are: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A1277B4A9CF00D8A1BDF111EFBC5822%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><A NAME="_5610"></A><A HREF="30-3.html#_1733"
+><B CLASS="cl"
+>:value</B
+></A
+>---specifies the value object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=099C9C00B4E6F34C9D75D3220F3417CA%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:style</B
+>---specifies the text style used to <B CLASS="cl"
+>princ</B
+> the display object when neither <I
+>presentation-type</I
+> nor <I
+>printer</I
+> is supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=59B0D937D9A75A047F7D3EAC3B584A7F%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_5613"></A><A HREF="30-4.html#_1847"
+><B CLASS="cl"
+>:items</B
+></A
+>---specifies a sequence of menu items for a sub-menu to be used if this item is selected. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=94DE70AD43006167029CECC1C8A56B1B%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:documentation</B
+>---associates some documentation with the menu item. When <I
+>:pointer-documentation</I
+> is not <A NAME="_5615"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, this will be used as pointer documentation for the item. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02E49E3763E1B806F8301FACDD05091F%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:active</B
+>---when <SPAN CLASS="term"
+>true</SPAN
+> (the default), this item is active. When <SPAN CLASS="term"
+>false</SPAN
+>, the item is inactive, and cannot be selected. CLIM will generally provide some visual indication that an item is inactive, such as by "graying over" the item. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=57776421D5F8EC5FA4868C1E950602B6%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_5619"></A><A HREF="23-2.html#_1133"
+><B CLASS="cl"
+>:type</B
+></A
+>---specifies the type of the item. <B CLASS="cl"
+>:item</B
+> (the default) indicates that the item is a normal menu item. <A NAME="_5621"></A><A HREF="30-3.html#_1747"
+><B CLASS="cl"
+>:label</B
+></A
+> indicates that the item is simply an inactive label; labels will not be "grayed over". <B CLASS="cl"
+>:divider</B
+> indicates that the item serves as a divider between groups of other items; divider items will usually be drawn as a horizontal line.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D09030D2C31F185B32D3C38F7C1E5DD%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>The visual representation of an item depends on the <I
+>printer</I
+> and <I
+>presentation-type</I
+> keyword arguments. If <I
+>presentation-type</I
+> is supplied, the visual representation is produced by <A NAME="_5623"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> of the menu item with that presentation type. Otherwise, if <I
+>printer</I
+> is supplied, the visual representation is produced by the <I
+>printer</I
+> function, which receives two arguments, the <I
+>item</I
+> and a <I
+>stream</I
+> to do output on. The <I
+>printer</I
+> function should output some text or graphics at the stream's cursor position, but need not call <A NAME="_5624"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+>. If neither <I
+>presentation-type</I
+> nor <I
+>printer</I
+> is supplied, the visual representation is produced by <B CLASS="cl"
+>princ</B
+> of the display object. Note that if <I
+>presentation-type</I
+> or <I
+>printer</I
+> is supplied, the visual representation is produced from the entire menu item, not just from the display object. CLIM implementations are free to use the menus provided by the underlying window system when possible; this is likely to be the case when the printer and presentation-type are the default, and no other options are supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6C916F2A7BC2BEB7DC6B12D931D0C25B%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>associated-window</I
+> is the CLIM window with which the menu is associated. This defaults to the top-level window of the current application frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A36903D20541E6B04DF62D8A1EB839C9%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>default-item</I
+> is the menu item where the mouse will appear. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8A58BB66DC7EEC3F59FC3D1F8EBA39C%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>text-style</I
+> is a text style that defines how the menu items are presented. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68CF6C689A6A99985B7B82D09E0E656D%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>label</I
+> is a string to which the menu title will be set. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4AB25BA14EC03548979250979DEEB92%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>printer</I
+> is a function of two arguments used to print the menu items in the menu. The two arguments are the menu item and the stream to output it on. It has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9397895BFD93153E56F147B42CB391AD%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>presentation-type</I
+> specifies the presentation type of the menu items. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=353621299DA2629232450DBDA856EB9B%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cache</I
+> is a boolean that indicates whether CLIM should cache this menu for later use. (Caching menus might speed up later uses of the same menu.) If <I
+>cache</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then <I
+>unique-id</I
+> and <I
+>id-test</I
+> serve to uniquely identify this menu. When cache is <SPAN CLASS="term"
+>true</SPAN
+>, <I
+>unique-id</I
+> defaults to <I
+>items</I
+>, but programmers will generally wish to specify a more efficient tag. <I
+>id-test</I
+> is a function of two arguments used to compare unique-ids, which defaults to <B CLASS="cl"
+>equal</B
+>. <I
+>cache-value</I
+> is the value that is used to indicate that a cached menu is still valid. It defaults to <I
+>items</I
+>, but programmers may wish to supply a more efficient cache value than that. <I
+>cache-test</I
+> is a function of two arguments that is used to compare cache values, which defaults to <B CLASS="cl"
+>equal</B
+>. Both <I
+>cache-value</I
+> and <I
+>unique-id</I
+> have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2DE0E67D700070409566DAA7108CAD0E%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>max-width</I
+> and <I
+>max-height</I
+> specify the maximum width and height of the menu, in device units. They can be overridden by <I
+>n-rows</I
+> and <I
+>n-columns</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1EEF02F2155B46CB83B0558A3792FD9%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>n-rows</I
+> and <I
+>n-columns</I
+> specify the number of rows and columns in the menu. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8771E8E4A381585550C6A9568B2A4E8B%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x-spacing</I
+> specifies the amount of space to be inserted between columns of the table; the default is the width of a space character. It is specified the same way as the <A NAME="_5630"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> option to <A NAME="_5631"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8D01AE9D83DE3842268C6F1B09B2F33%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>y-spacing</I
+> specifies the amount of blank space inserted between rows of the table; the default is the vertical spacing for the stream. The possible values for this option are the same as for the <I
+>:y-spacing</I
+> option to <A NAME="_5632"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75CF6021AED1393AD8A858E6535AE5C7%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cell-align-x</I
+> specifies the horizontal placement of the contents of the cell. Can be one of <B CLASS="cl"
+>:left</B
+>, <B CLASS="cl"
+>:right</B
+>, or <B CLASS="cl"
+>:center</B
+>. The default is <B CLASS="cl"
+>:left</B
+>. The semantics are the same as for the <A NAME="_5637"></A><A HREF="30-3.html#_1748"
+><B CLASS="cl"
+>:align-x</B
+></A
+> option to <A NAME="_5638"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=644AC551BBD4A026B99C5C8E7147CEC7%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cell-align-y</I
+> specifies the vertical placement of the contents of the cell. Can be one of <B CLASS="cl"
+>:top</B
+>, <B CLASS="cl"
+>:bottom</B
+>, or <B CLASS="cl"
+>:center</B
+>. The default is <B CLASS="cl"
+>:top</B
+>. The semantics are the same as for the <A NAME="_5643"></A><A HREF="30-3.html#_1749"
+><B CLASS="cl"
+>:align-y</B
+></A
+> option to <A NAME="_5644"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=479C8B1E48C4ADA9F7A7EA9ECC54799B%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>row-wise</I
+> is as for <A NAME="_5645"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+>. It defaults to <A NAME="_5646"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1BDCAD0A0C2C0C7A210A94E506603AF%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>scroll-bars</I
+> specifies whether the menu should have scroll bars. It acts the same way as the <B CLASS="cl"
+>:scroll-bars</B
+> option to <A NAME="_5648"></A><A HREF="29-4.html#_1686"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+></A
+>. It defaults to <B CLASS="cl"
+>:vertical</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2913B1CE653C53B91910DDD5B0F90C3%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>pointer-documentation</I
+> is either <A NAME="_5650"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (the default), meaning that no pointer documentation should be computed, or a stream on which pointer documentation should be displayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1A3DBACD32A18846CD1D134719805702%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28AAB3031F4C03DB6997BE27D1A4ABBA%2Fframe-manager-menu-choose%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5597"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1356"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu presentation-type drawer  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>x-position y-position  cache unique-id id-test cache-value cache-test  default-presentation pointer-documentation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is a a lower-level routine for displaying menus. It allows the programmer much more flexibility in the menu layout. Unlike <A NAME="_5651"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>, which automatically creates and lays out the menu, <B CLASS="cl"
+>menu-choose-from-drawer</B
+> takes a programmer-provided window and drawing function. The drawing function is responsible for drawing the contents of the menu; generally it will be a lexical closure that closes over the menu items. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=230511AB571B09BF64B77B36FA7CD47F%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+> draws the menu items into that window using the drawing function. The drawing function gets called with two arguments, <I
+>stream</I
+> and <I
+>presentation-type</I
+>. It can use <I
+>presentation-type</I
+> for its own purposes, such as using it as the presentation type argument in a call to <A NAME="_5654"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EC993512A733AC78AF68E661A6BB4210%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>menu-choose-from-drawer</B
+> returns two values: the object the user clicked on, and the pointer button event. If the user aborts out of the menu, a single value is returned, <A NAME="_5656"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8CF00DA33FA0B2ABBC308D71D3047F7F%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>menu</I
+> is a CLIM window to use for the menu. This argument may be specialized to provide a different look-and-feel for different host window systems. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62D822FE656EC471F261E0D3B43402D6%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>presentation-type</I
+> is a presentation type specifier for each of the mouse-sensitive items in the menu. This is the input context that will be established once the menu is displayed. For programmers who don't need to define their own types, a useful presentation type is <B CLASS="cl"
+>menu-item</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A57C0352E096AD73CB0347B4ACFFB81%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>drawer</I
+> is a function that takes two arguments, <I
+>stream</I
+> and <I
+>presentation-type</I
+>, draws the contents of the menu. It has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D77E7DF4B351DD9E67F44ACBA867F510%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x-position</I
+> and <I
+>y-position</I
+> are the requested <I
+>x</I
+> and <I
+>y</I
+> positions of the menu. They may be <A NAME="_5658"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that the position is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92978A025126D3182B53F12E004A1C0F%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>leave-menu-visible</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the window will not be deexposed once the selection has been made. The default is <SPAN CLASS="term"
+>false</SPAN
+>, meaning that the window will be deexposed once the selection has been made. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E702975381F08FDC389B2A5D5973F959%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>default-presentation</I
+> is used to identify the presentation that the mouse is pointing to when the menu comes up. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38D4C0C99AB2C5E254B26A601254283B%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cache</I
+>, <I
+>unique-id</I
+>, <I
+>id-test</I
+>, <I
+>cache-value</I
+>, and <I
+>cache-test</I
+> are as for <A NAME="_5661"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=861DD2AF7C16AF0F78053F981452AC55%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4450151B0973F4A1BC6F91103715D65C%2Fmenu-choose-from-drawer%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="26.html#_5741"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5602"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1357"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-standard-menu</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream presentation-type items default-item  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>item-printer  max-width max-height n-rows n-columns  x-spacing y-spacing row-wise  cell-align-x cell-align-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>draw-standard-menu</B
+> is the function used by CLIM to draw the contents of a menu, unless the current frame manager determines that host window toolkit should be used to draw the menu instead. <I
+>stream</I
+> is the stream onto which to draw the menu, <I
+>presentation-type</I
+> is the presentation type to use for the menu items (usually <B CLASS="cl"
+>menu-item</B
+>), and <I
+>item-printer</I
+> is a function used to draw each item. <I
+>item-printer</I
+> defaults to <A NAME="_5664"></A><A HREF="25.html#_1358"
+><B CLASS="cl"
+>print-menu-item</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A641D60FB8A4C72C70FD1F3FC018080%2Fdraw-standard-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>items</I
+>, <I
+>default-item</I
+>, <I
+>max-width</I
+>, <I
+>max-height</I
+>, <I
+>n-rows</I
+>, <I
+>n-columns</I
+>, <I
+>x-spacing</I
+>, <I
+>y-spacing</I
+>, <I
+>row-wise</I
+>, <I
+>cell-align-x</I
+>, and <I
+>cell-align-y</I
+> are as for <A NAME="_5665"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=27FCFDA7FE44600F4E6EFA0F9878BDC8%2Fdraw-standard-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F23C708EDE4582F47F418A752EA2207%2Fdraw-standard-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1358"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>print-menu-item</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>*standard-output*</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a menu item <I
+>menu-item</I
+>, displays it on the stream <I
+>stream</I
+>. This is the function that <A NAME="_5666"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+> uses to display menu items if no printer is supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7084AF2887DAFEB65D06E34DE7CF5E27%2Fprint-menu-item%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B7A25EF1CAC5BB7A984FC1004906FE1C%2Fprint-menu-item%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5664"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>draw-standard-menu</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1359"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-item-value</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the value of the menu item <I
+>menu-item</I
+>, where the format of a menu item is described under <A NAME="_5667"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. If <I
+>menu-item</I
+> is not a menu item, the result is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C756475EAA4489B530CB5A98546223DC%2Fmenu-item-value%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0FC242E04CF0BD520C4185E1899EC3A%2Fmenu-item-value%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1360"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-item-display</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the display object of the menu item <I
+>menu-item</I
+>, where the format of a menu item is described under <A NAME="_5668"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. If <I
+>menu-item</I
+> is not a menu item, the result is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD2EA4166661C5DFEF5A195DA4C10F3E%2Fmenu-item-display%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D1974918EE03ED01F7200435FC5BB0F%2Fmenu-item-display%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1361"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-item-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the options of the menu item <I
+>menu-item</I
+>, where the format of a menu item is described under <A NAME="_5669"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. If <I
+>menu-item</I
+> is not a menu item, the result is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E89BDE54C36295C5177AA72A47088114%2Fmenu-item-options%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EEBE2F7BA9165FE990A545FF10BBA39%2Fmenu-item-options%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1362"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-menu</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(menu </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>associated-window </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(deexpose t))  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds <I
+>menu</I
+> to a "temporary" window, exposes the window on the same screen as the <I
+>associated-window</I
+> and runs the body. After the body has been run, the window is deexposed only if the boolean <I
+>deexpose</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C531AC1A370AC4CC9711079E787BF46D%2Fwith-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The values returned by <B CLASS="cl"
+>with-menu</B
+> are the values returned by <I
+>body</I
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=349D40C3BBB24DA7E9193AFC4CF0EE88%2Fwith-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>menu</I
+> must be a variable name. <I
+>associated-window</I
+> is as for <A NAME="_5672"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=359C458B5A072A1EB9E9BC7036C42157%2Fwith-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of the arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76ED0411832BC3248FF623904D7C4C42%2Fwith-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFEB154608BA679620A2A9267A7AB38E%2Fwith-menu%2F25#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5603"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/25.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

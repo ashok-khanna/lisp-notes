@@ -1,0 +1,328 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/E-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; E.2 Support for Reading Bitmap Files</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="E.1 Support for PostScript Output" HREF="E-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="F Changes from CLIM 1.0" HREF="F.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="E Suggested Extensions to CLIM" HREF="E.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="E-1.html"
+>Prev</A
+><BR
+><A HREF="F.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+> &rarr;&nbsp;<A HREF="E.html"
+>E&nbsp;Suggested&nbsp;Extensions&nbsp;to&nbsp;CLIM</A
+><BR
+>&rarr;&nbsp;<A HREF="E-2.html"
+><B
+>E.2&nbsp;Support&nbsp;for&nbsp;Reading&nbsp;Bitmap&nbsp;Files</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1966"></A><DIV
+><H3
+>E.2 Support for Reading Bitmap Files</H3
+><P
+>CLIM implementations may supply some functions that read standard bitmap and pixmaps files. The following is the suggested API for such functionality. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8DD1CAD311BF9AD649A7B5DF37A90CE9%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1967"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>read-bitmap-file</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>type pathname </I
+><I
+><TT
+>&amp;key </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads a bitmap file of type <I
+>type</I
+> from the file named by <I
+>pathname</I
+>. <I
+>type</I
+> is a symbol that indicates what type of bitmap file is to be read. <B CLASS="cl"
+>read-bitmap-file</B
+> can <B CLASS="cl"
+>eql</B
+>-specialize on <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD61763B9DBA11E54659E96C2B8117A9%2Fread-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>read-bitmap-file</B
+> may take keyword arguments to provide further information to the method decoding the bitmap file. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A8C52BA68702566C6D925F004CAE887%2Fread-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, a CLIM implementation might support an <B CLASS="cl"
+>:x11</B
+> type. <B CLASS="cl"
+>read-bitmap-file</B
+> could take a <I
+>format</I
+> keyword argument, whose value can be either <B CLASS="cl"
+>:bitmap</B
+> or <B CLASS="cl"
+>:pixmap</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6DEDEF50D3E4D9D3F3923EA9766D1A16%2Fread-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>read-bitmap-file</B
+> will return two values. The first is a 2-dimensional array of "pixel" values. The second is a sequence of CLIM colors (or <A NAME="_7281"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if the result is a monochrome image). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=788E9979A150F776D3B24034308BF355%2Fread-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=44715058CEC8082D2DD9C486CED3647E%2Fread-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z254"
+></A
+><P
+>This proposed API is different from what clim2 (by Franz) and McCLIM implement (www.franz.com/support/documentation/6.0/doc/clim-ug.pdf, page 98). I'd render this extension proposal obsolete in favour of the implemented thing for a pragmatic reasons.</P
+><P
+>McCLIM also has an extension for adding new types with:&#10;<PRE
+>define-bitmap-file-reader type (pathname) &amp;body body</PRE
+></P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=44715058CEC8082D2DD9C486CED3647E%2Fread-bitmap-file%2FE.2&amp;editp=t&amp;id=Z254#Z254"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2016-06-09 14:15Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="E-2.html#_7283"
+><SPAN CLASS="reverselink"
+>[&larr; E.2 Support for Reading Bitmap Files, <B CLASS="cl"
+><B CLASS="cl"
+>make-pattern-from-bitmap-file</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1968"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-pattern-from-bitmap-file</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pathname </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>type designs </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads the contents of the bitmap file <I
+>pathname</I
+> and creates a CLIM <B CLASS="cl"
+>pattern</B
+> object that represents the file. <I
+>type</I
+> is as for <A NAME="_7283"></A><A HREF="E-2.html#_1967"
+><B CLASS="cl"
+>read-bitmap-file</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D80C3922D30FE91613E101CC8FA73875%2Fmake-pattern-from-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>designs</I
+> is a sequence of CLIM designs (typically color objects) that will be used as the second argument in a call to <A NAME="_7284"></A><A HREF="14-2.html#_738"
+><B CLASS="cl"
+>make-pattern</B
+></A
+>. <I
+>designs</I
+> must be supplied if no second value will be returned from <A NAME="_7285"></A><A HREF="E-2.html#_1967"
+><B CLASS="cl"
+>read-bitmap-file</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B08F9B4FE333C64B28035480242CE44%2Fmake-pattern-from-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>make-pattern-from-bitmap-file</B
+> will pass any additional keyword arguments along to <A NAME="_7287"></A><A HREF="E-2.html#_1967"
+><B CLASS="cl"
+>read-bitmap-file</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=034108ED3B1B287FDF2F11E1A8BB00BD%2Fmake-pattern-from-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8986B3FA3CA5714494FCF55B7430EE15%2Fmake-pattern-from-bitmap-file%2FE.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z331"
+></A
+><P
+>Similar to the note above, but this function is almost compatible with the implemented prototype:</P
+><P
+><PRE
+>make-pattern-from-bitmap-file&#10;  pathname &amp;key designs (format :bitmap))</PRE
+>&#10;</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8986B3FA3CA5714494FCF55B7430EE15%2Fmake-pattern-from-bitmap-file%2FE.2&amp;editp=t&amp;id=Z331#Z331"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-08-16 13:47Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/E-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

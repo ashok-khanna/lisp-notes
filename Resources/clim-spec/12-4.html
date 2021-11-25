@@ -1,0 +1,247 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.4 Rendering Conventions for Geometric Shapes</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.3 Drawing is Approximate" HREF="12-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12.5 Drawing Functions" HREF="12-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-3.html"
+>Prev</A
+><BR
+><A HREF="12-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-4.html"
+><B
+>12.4&nbsp;Rendering&nbsp;Conventions&nbsp;for&nbsp;Geometric&nbsp;Shapes</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_605"></A><DIV
+><H3
+>12.4 Rendering Conventions for Geometric Shapes</H3
+><LI CLASS="outline_item"
+><A HREF="12-4.html#_612"
+>12.4.1 Permissible Alternatives During Rendering</A
+></LI
+><P
+>The intent of this section is to describe the conventions for how CLIM should render a shape on a display device. These conventions and the accompanying examples are meant to describe a set of goals that a CLIM implementation should try to meet. However, compliant CLIM implementations may deviate from these goals if necessary (for example, if the rendering performance on a specific platform would be unacceptably slow if these goals were met exactly and implementors feel that users would be better served by speed than by accuracy). Note that we discuss only pixel-based display devices here, which are the most common, but by no means the only, sort of display device that can be supported by CLIM. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2274CCEBE8BF15B433ECF22C840AFEE1%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When CLIM draws a geometric shape on some sort of display device, the idealized geometric shape must somehow be rendered on the display device. The geometric shapes are made up of a set of mathematical points, which have no size; the rendering of the shape is usually composed of pixels, which are roughly square. These pixels exist in "device coordinates", which are gotten by transforming the user-supplied coordinates by all of the user-supplied transformation, the medium transformation, and the transformation that maps from the sheet to the display device. (Note that if the last transformation is a pure translation that translates by an integer multiple of device units, then it has no effect on the rendering other than placement of the figure drawn on the display device.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A652656D675D8D787F811FB28F18C7B%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Roughly speaking, a pixel is affected by drawing a shape only when it is inside the shape (we will define what we mean by "inside" in a moment). Since pixels are little squares and the abstract points have no size, for most shapes there will be many pixels that lie only partially inside the shape. Therefore, it is important to describe the conventions used by CLIM as to which pixels should be affected when drawing a shape, so that the proper interface to the per-platform rendering engine can be constructed. (It is worth noting that on devices that support color or grayscale, the rendering engine may attempt to draw a pixel that is partially inside the shape darker or lighter, depending on how much of it is inside the shape. This is called <A NAME="_606"></A><SPAN CLASS="concept"
+>anti-aliasing</SPAN
+>.) The conventions used by CLIM is the same as the conventions used by X11: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E996281549AB1D52275E45CF71BF534%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>A pixel is a addressed by its upper-left corner. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D3800851387E9B0508775188C53AF29%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A pixel is considered to be <A NAME="_607"></A><SPAN CLASS="concept"
+>inside</SPAN
+> a shape, and hence affected by the rendering of that shape, if the center of the pixel is inside the shape. If the center of the pixel lies exactly on the boundary of the shape, it is considered to be inside if the inside of the shape is immediately to the right (increasing <I
+>x</I
+> direction on the display device) of the center point of the pixel. If the center of the pixel lies exactly on a horizontal boundary, it is considered to be inside if the inside of the shape is immediately below (increasing <I
+>y</I
+> direction on the display device) the center point of the pixel. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=359B4541DF4362A25EAA40C7EE02DF2F%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>An unfilled shape is drawn by taking the filled shape consisting of those points that are within 1/2 the line thickness from the outline curve (using a normal distance function, that is, the length of the line drawn at right angles to the tangent to the outline curve at the nearest point), and applying the second rule, above.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4CC70C6E64657B90CC96B0EC650CAD8%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>It is important to note that these rules imply that the decision point used for insideness checking is offset from the point used for addressing the pixel by half a device unit in both the <I
+>x</I
+> and <I
+>y</I
+> directions. It is worth considering the motivations for these conventions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8CC4A407C6E8D23DA6916601FFD38DE3%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When two shapes share a common edge, it is important that only one of the shapes own any pixel. The two triangles in Figure&nbsp;<A NAME="_3172"></A><A HREF="12-4.html#_608"
+>12.1</A
+> illustrate this. The pixels along the diagonal belong to the lower figure. When the decision point of the pixel (its center) lies to one side of the line or the other, there is no issue. When the boundary passes through a decision point, which side the inside of the figure is on is used to decide. These are the triangles that CLIM implementations should attempt to draw in this case. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=78D47991BB9C3403BE86185083C538F6%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="two-triangles.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.1:  Pixel assignment with boundary on decision points.</DIV
+></DIV
+><P
+>The reason for choosing the decision point half a pixel offset from the address point is to reduce the number of common figures (such as rectilinear lines and rectangles with integral coordinates) that invoke the boundary condition rule. This usually leads to more symmetrical results. For instance, in Figure&nbsp;<A NAME="_3173"></A><A HREF="12-4.html#_609"
+>12.2</A
+>, we see a circle drawn when the decision point is the same as the address point. The four lighter points are indeterminate: it is not clear whether they are inside or outside the shape. Since we want to have each boundary case determined according to which side has the figure on it, and since we must apply the same rule uniformly for all figures, we have no choice but to pick only two of the four points, leading to an undesirable lopsided figure. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2EDBDEEFBC5D5EE4227CC9231F053A69%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="corner-circle.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.2:  Choosing any two of the shaded pixels causes asymmetry.</DIV
+></DIV
+><P
+>If we had instead chosen to take all four boundary points, we would have a nice symmetrical figure. However, since this figure is symmetrical about a whole pixel, it is one pixel wider than it ought to be. The problem with this can be seen clearly in Figure&nbsp;<A NAME="_3174"></A><A HREF="12-4.html#_610"
+>12.3</A
+> if we attempt to draw a rectangle and circle overlaid with the following code: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=37D2BD1732FB803E149ED3AD820D0286%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun draw-test (medium radius)&#10;  (draw-circle* medium 0 0 radius :ink +foreground-ink+)&#10;  (draw-rectangle* medium (- radius) (- radius) (+ radius) (+ radius)&#10;                   :ink +flipping-ink+))&#10;</PRE
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="inscribed-circle.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.3:  Two forms of a circle inscribed in a rectangle.</DIV
+></DIV
+><P
+>It is for this reason that we choose to have the decision point at the center of the pixel. This draws circles that look like the one in Figure&nbsp;<A NAME="_3175"></A><A HREF="12-4.html#_611"
+>12.4</A
+>. It is this shape that CLIM implementations should attempt to draw. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7DECAC7973D0161D1B9F8ED75966309%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="correct-circle.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.4:  An aesthetically pleasing circle.</DIV
+></DIV
+><P
+>A consequence of these rendering conventions is that, when the start or end coordinate (minus 1/2 the line thickness, if the shape is a path) is not an integer, then rendering is not symmetric under reflection transformations. Thus to correctly and portably draw an outline of thickness 1 around a (rectilinear) rectangular area with integral coordinates, the outline path must have half-integral coordinates. Drawing rectilinear areas whose boundaries are not on pixel boundaries cannot be guaranteed to be portable. Another way to say the same thing is that the "control points" for a rectangular area are at the corners, while the control points for a rectilinear path are in the center of the path, not at the corners. Therefore, in order for a path and an area to abut seamlessly, the coordinates of the path must be offset from the coordinates of the area by half the path's thickness. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1BA993C714F7B4B45D8397F0C95836B7%2F12.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_612"></A><DIV
+><H4
+>12.4.1 Permissible Alternatives During Rendering</H4
+><P
+>Some platforms may distinguish between lines of the minimum thinness from lines that are thicker than that. The two rasterizations depicted in Figure&nbsp;<A NAME="_3176"></A><A HREF="12-4.html#_613"
+>12.5</A
+> are both perfectly reasonable rasterizations of tilted lines that are a single device unit wide. The right-hand line is drawn as a tilted rectangle, the left as the "thinnest visible" line. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=00F1C7233CBFFD79E478EC33CC41729A%2F12.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="thin-lines.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.5:  Two examples of lines of thickness 1.</DIV
+></DIV
+><P
+>For thick lines, a platform may choose to draw the exact tilted fractional rectangle, or the coordinates of that rectangle might be rounded so that it is distorted into another polygonal shape. The latter case may be prove to be faster on some platforms. The two rasterizations depicted in Figure&nbsp;<A NAME="_3177"></A><A HREF="12-4.html#_614"
+>12.6</A
+> are both reasonable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E50BC25CB20975DDB287A7CAAB17537D%2F12.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="thick-lines.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.6:  Two examples of lines of thickness 2.</DIV
+></DIV
+><P
+>The decision about which side of the shape to take when a boundary line passes through the decision point is made arbitrarily, although we have chosen to be compatible with the X11 definition. This is not necessarily the most convenient decision. The main problem with this is illustrated by the case of a horizontal line (see Figure&nbsp;<A NAME="_3178"></A><A HREF="12-4.html#_615"
+>12.7</A
+>). Our definition chooses to draw the rectangular slice above the coordinates, since those pixels are the ones whose centers have the figure immediately above them. This definition makes it simpler to draw rectilinear borders around rectilinear areas. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC1C0884E3040097C99722494A0EA35D%2F12.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="horizontal-lines.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 12.7:  Two possible definitions of horizontal lines. Left figure is X11 definition.</DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

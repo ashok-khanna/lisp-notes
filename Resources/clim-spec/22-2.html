@@ -1,0 +1,2033 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/22-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 22.2 Extended Input Streams</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="22.1 Basic Input Streams" HREF="22-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="22.3 Gestures and Gesture Names" HREF="22-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="22 Extended Stream Input" HREF="22.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="22-1.html"
+>Prev</A
+><BR
+><A HREF="22-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="22.html"
+>22&nbsp;Extended&nbsp;Stream&nbsp;Input</A
+><BR
+>&rarr;&nbsp;<A HREF="22-2.html"
+><B
+>22.2&nbsp;Extended&nbsp;Input&nbsp;Streams</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1064"></A><DIV
+><H3
+>22.2 Extended Input Streams</H3
+><LI CLASS="outline_item"
+><A HREF="22-2.html#_1071"
+>22.2.1 The Extended Input Stream Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="22-2.html#_1086"
+>22.2.2 Extended Input Stream Conditions</A
+></LI
+><P
+>In addition to the basic input stream protocol, CLIM defines an extended input stream protocol. This protocol extends the stream model to allow manipulation of non-character user gestures, such as pointer button presses. The extended input protocol provides the programmer with more control over input processing, including the options of specifying input wait timeouts and auxiliary input test functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5CF71219C1717A390D8A66EE9C06CBD7%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1065"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>extended-input-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class for CLIM extended input streams. This is a subclass of <B CLASS="cl"
+>input-stream</B
+>. If you want to create a new class that behaves like an extended input stream, it should be a subclass of <B CLASS="cl"
+>extended-input-stream</B
+>. All instantiable subclasses of <B CLASS="cl"
+>extended-input-stream</B
+> must obey the extended input stream protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F827CE83400987A862C81D1AF2C54549%2Fextended-input-stream%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A61CF7F34FDFC9F2298EC98007560A64%2Fextended-input-stream%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4397"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2 Extended Input Streams, <B CLASS="cl"
+><B CLASS="cl"
+>:input-buffer</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1066"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>extended-input-stream-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a CLIM <SPAN CLASS="term"
+>extended input stream</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DD8C726BEC9D8556B88899F7070E697%2Fextended-input-stream-p%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67D7E944F28E2298481F0E453FD913B6%2Fextended-input-stream-p%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1067"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:input-buffer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1068"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:pointer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1069"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-cursor</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_4397"></A><A HREF="22-2.html#_1065"
+><B CLASS="cl"
+>extended-input-stream</B
+></A
+> must handle these initargs, which are used to specify, respectively, the input buffer, pointer, and text cursor for the extended input stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84D31DF983C5151F2A9FB89CEFEA4EFD%2F%3Ainput-buffer%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6323A12365B05FFD5D1CDA1F085CC7AE%2F%3Ainput-buffer%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="8-2.html#_342"
+><SPAN CLASS="forwardlink"
+>[&rarr; :pointer, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="23-7.html#_5191"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.2 Presentation Translator Functions, <B CLASS="cl"
+><B CLASS="cl"
+>document-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1070"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-extended-input-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class provides an implementation of the CLIM extended input stream protocol based on CLIM's input kernel. The extended input stream maintains the state of the display's pointing devices (such as a mouse) in pointer objects associated with the stream. It defines a <A NAME="_4398"></A><A HREF="8-1.html#_309"
+><B CLASS="cl"
+>handle-event</B
+></A
+> methods for keystroke and pointer motion and button press events and updates the pointer object state and queues the resulting events in a per-stream input buffer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F72989E6374E535BBB71EE6E918F81C9%2Fstandard-extended-input-stream%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C9CBE2F40DCFC8D7FB54A7B3219F6040%2Fstandard-extended-input-stream%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BD08D094BB85231431BDFBD48EE6B16%2Fstandard-extended-input-stream%2F22.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-5.html#_5038"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4964"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>stream-accept</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1071"></A><DIV
+><H4
+>22.2.1 The Extended Input Stream Protocol</H4
+><P
+>The following generic functions comprise the extended input stream protocol. All extended input streams must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F132BC7ACE4D8C7D7810D8C7DB212A8B%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1072"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-input-buffer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=328E5E06467C5619EE7EA5C4D2B809DA%2Fstream-input-buffer%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="24-1.html#_1306"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-input-buffer, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7509"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1073"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-input-buffer)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>buffer stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The functions provide access to the stream's input buffer. Normally programs do not need to manipulate the input buffer directly. It is sometimes useful to cause several streams to share the same input buffer so that input that comes in on one of them is available to an input call on any of the streams. The input buffer must be vector with a fill pointer capable of holding general input gesture objects (such as characters and event objects). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0447C278C2335B67115BDA325F616E1%2F%28setf%20stream-input-buffer%29%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z413"
+></A
+>Assuming that the input buffer is shared by multiple streams, it needs to be a queue (i.e not a vector), or have a shared scan pointer. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0447C278C2335B67115BDA325F616E1%2F%28setf%20stream-input-buffer%29%2F22.2.1&amp;editp=t&amp;id=Z413#Z413"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-07-27 11:19Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36442868A834F2878F1CC1E073B08F3A%2F%28setf%20stream-input-buffer%29%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1074"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-pointer-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>pointer</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the current position of the pointing device <I
+>pointer</I
+> for the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+> as two values, the <I
+>x</I
+> and <I
+>y</I
+> positions in the stream's drawing surface coordinate system. If <I
+>pointer</I
+> is not supplied, it defaults to <B CLASS="cl"
+>port-pointer</B
+> of the stream's port. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A951D16D500CB0434DBF8DB874A6078%2Fstream-pointer-position%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z396"
+></A
+>Yet,  <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=port-pointer"
+>port-pointer</A
+></SPAN
+> is not documented. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A951D16D500CB0434DBF8DB874A6078%2Fstream-pointer-position%2F22.2.1&amp;editp=t&amp;id=Z396#Z396"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2020-01-30 19:54Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F19F70E9852D92B76D7CF60FEAA6A09A%2Fstream-pointer-position%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7441"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4402"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>(setf* stream-pointer-position)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1075"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* stream-pointer-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>pointer</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the position of the pointing device for the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+> to <I
+>x</I
+> and <I
+>y</I
+>, which are integers. <I
+>pointer</I
+> is as for <A NAME="_4402"></A><A HREF="22-2.html#_1074"
+><B CLASS="cl"
+>stream-pointer-position</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A75D5510D769A87843FABF81DD52F14B%2F%28setf%2A%20stream-pointer-position%29%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>stream-set-pointer-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F316FAFB880D91F4D54E9FE41F490C4F%2F%28setf%2A%20stream-pointer-position%29%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66F08518AC223A283CA52DA485118D46%2F%28setf%2A%20stream-pointer-position%29%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1076"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-set-input-focus</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the "input focus" to the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+> by changing the value of <A NAME="_4406"></A><A HREF="8-1.html#_304"
+><B CLASS="cl"
+>port-keyboard-input-focus</B
+></A
+> and returns the old input focus as its value. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0C2C5AE25435300AED10F516EC6200C6%2Fstream-set-input-focus%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E2317621694F59B35B05FC25E97EB10%2Fstream-set-input-focus%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1077"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-input-focus</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Temporarily gives the keyboard input focus to the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+>. By default, an application frame gives the input focus to the window associated with <A NAME="_4408"></A><A HREF="28-3.html#_1498"
+><B CLASS="cl"
+>frame-query-io</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B9FCE8BED22ECAEE94CC360A168FD43%2Fwith-input-focus%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_4409"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-input*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05F2A07EF6C371E31F206377E203392C%2Fwith-input-focus%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=821648888C5C083AED22E9E3D5D8653B%2Fwith-input-focus%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1078"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*input-wait-test*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+><A NAME="_1079"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*input-wait-handler*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+><A NAME="_1080"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*pointer-button-press-handler*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These three variables are used to hold the default values for the current input wait test, wait handler, and pointer button press handler. These variables are globally bound to <A NAME="_4411"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12A51FD686CED617BA9C9F9CD757FA62%2F%2Ainput-wait-test%2A%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=807477D6B3A2B7BA07C25A159BCA0770%2F%2Ainput-wait-test%2A%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6363"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>run-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4439"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1081"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>read-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>*standard-input*</B
+></I
+><I
+>)  timeout peek-p  (input-wait-test </I
+><I
+><B CLASS="cl"
+>*input-wait-test*</B
+></I
+><I
+>)  (input-wait-handler </I
+><I
+><B CLASS="cl"
+>*input-wait-handler*</B
+></I
+><I
+>)  (pointer-button-press-handler </I
+><I
+><B CLASS="cl"
+>*pointer-button-press-handler*</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls <A NAME="_4412"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+> on the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+> and all of the other keyword arguments. These arguments are the same as for <A NAME="_4414"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=809082CFED1FB240463FCC42E2BDB56B%2Fread-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B70704D8B5E9CFC78E58F61B18127BE%2Fread-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="C.html#_7094"
+><SPAN CLASS="reverselink"
+>[&larr; C Encapsulating Streams]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5347"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4454"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>accelerator-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4448"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>abort-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4446"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-unread-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1082"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-read-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>timeout peek-p  (input-wait-test </I
+><I
+><B CLASS="cl"
+>*input-wait-test*</B
+></I
+><I
+>)  (input-wait-handler </I
+><I
+><B CLASS="cl"
+>*input-wait-handler*</B
+></I
+><I
+>)  (pointer-button-press-handler </I
+><I
+><B CLASS="cl"
+>*pointer-button-press-handler*</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the next gesture available in the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+>; the gesture will be either a character or an event (such as a pointer button event). The input is not echoed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97381097462C14CEE905B17AE6331A8E%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the user types an abort gesture (that is, a gesture that matches any of the gesture names in <A NAME="_4416"></A><A HREF="22-2.html#_1087"
+><B CLASS="cl"
+>*abort-gestures*</B
+></A
+>), then the <A NAME="_4417"></A><A HREF="22-2.html#_1088"
+><B CLASS="cl"
+>abort-gesture</B
+></A
+> condition will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7CD206E868899B8ED07295037DB6244A%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the user types an accelerator gesture (that is, a gesture that matches any of the gesture names in <A NAME="_4418"></A><A HREF="22-2.html#_1090"
+><B CLASS="cl"
+>*accelerator-gestures*</B
+></A
+>), then the <A NAME="_4419"></A><A HREF="22-2.html#_1091"
+><B CLASS="cl"
+>accelerator-gesture</B
+></A
+> condition will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3879179FF2F8C528534A3D20E6171535%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>stream-read-gesture</B
+> works by invoking <A NAME="_4421"></A><A HREF="22-2.html#_1083"
+><B CLASS="cl"
+>stream-input-wait</B
+></A
+> on <I
+>stream</I
+>, <I
+>input-wait-test</I
+>, and <I
+>timeout</I
+>, and then processing the input, if there is any. <B CLASS="cl"
+>:around</B
+> methods on this generic function can be used to implement some sort of a gesture preprocessing mechanism on every gesture; CLIM's input editor will typically be implemented this way. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F4F5E1AF8763FCFDCB9D73BC1144D434%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>timeout</I
+> is either <A NAME="_4423"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or an integer that specifies the number of seconds that <B CLASS="cl"
+>stream-read-gesture</B
+> will wait for input to become available. If no input is available, <B CLASS="cl"
+>stream-read-gesture</B
+> will return two values, <A NAME="_4426"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> and <B CLASS="cl"
+>:timeout</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=961EF1E879C15B06FE273D9653A6F45E%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>peek-p</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the returned gesture will be left in the stream's input buffer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9FADF0695207FF1FF7120F02F94EBF0E%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>input-wait-test</I
+> is a function of one argument, the stream. The function should return <SPAN CLASS="term"
+>true</SPAN
+> when there is input to process, otherwise it should return <SPAN CLASS="term"
+>false</SPAN
+>. This argument will be passed on to <A NAME="_4431"></A><A HREF="22-2.html#_1083"
+><B CLASS="cl"
+>stream-input-wait</B
+></A
+>. <B CLASS="cl"
+>stream-read-gesture</B
+> will bind <A NAME="_4433"></A><A HREF="22-2.html#_1078"
+><B CLASS="cl"
+>*input-wait-test*</B
+></A
+> to <I
+>input-wait-test</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A4AE751EB94E707BDE27A870C57EE60%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z368"
+></A
+><P
+>When INPUT-WAIT-TEST returns T, then STREAM-INPUT-WAIT should return</P
+><P
+>  (values nil :wait-function)</P
+><P
+>It is provided as means to escape blocking wait when state not related to input-buffer changes. This is implicit from what is said in next paragraph.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A4AE751EB94E707BDE27A870C57EE60%2Fstream-read-gesture%2F22.2.1&amp;editp=t&amp;id=Z368#Z368"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-06-26 07:40Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>input-wait-handler</I
+> is a function of one argument, the stream. It is called when <A NAME="_4434"></A><A HREF="22-2.html#_1083"
+><B CLASS="cl"
+>stream-input-wait</B
+></A
+> returns <SPAN CLASS="term"
+>false</SPAN
+> (that is, no input is available). This option can be used in conjunction with <I
+>input-wait-test</I
+> to handle conditions other than keyboard gestures, or to provide some sort of interactive behavior (such as highlighting applicable presentations). <B CLASS="cl"
+>stream-read-gesture</B
+> will bind <A NAME="_4437"></A><A HREF="22-2.html#_1079"
+><B CLASS="cl"
+>*input-wait-handler*</B
+></A
+> to <I
+>input-wait-handler</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0882A762129E7FA0F352B7B2E64BA49%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>pointer-button-press-handler</I
+> is a function of two arguments, the stream and a pointer button press event. It is called when the user clicks a pointer button. <B CLASS="cl"
+>stream-read-gesture</B
+> will bind <A NAME="_4439"></A><A HREF="22-2.html#_1080"
+><B CLASS="cl"
+>*pointer-button-press-handler*</B
+></A
+> to <I
+>pointer-button-press-handler</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4808452EBF567C4BEADBBB7D264E74D9%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>input-wait-test</I
+>, <I
+>input-wait-handler</I
+>, and <I
+>pointer-button-press-handler</I
+> have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C031A768A6F5C15676F3CEEF36C92111%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B66205D88D9B32B004114D1D906DDED%2Fstream-read-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="24-1.html#_1319"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-read-gesture, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="24-4.html#_5495"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>read-token</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5392"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5351"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4445"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-unread-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4441"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-input-wait</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4412"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1083"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-input-wait</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>timeout input-wait-test</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Waits for input to become available on the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+>. <I
+>timeout</I
+> and <I
+>input-wait-test</I
+> are as for <A NAME="_4441"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2424BB3CA5CC2FB56E1B3453FA232FF7%2Fstream-input-wait%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE2DCE83C6090B317B1A0531A37C2DEF%2Fstream-input-wait%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z193"
+></A
+>What does it do with the input?  Does it return it?  If not, what &#10;does it return? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE2DCE83C6090B317B1A0531A37C2DEF%2Fstream-input-wait%2F22.2.1&amp;editp=t&amp;id=Z193#Z193"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2010-08-08 09:55Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z386"
+></A
+><P
+>This function is like stream-listen, but with a timeout and a wait-test. That is: it returns a generalized boolean.</P
+><P
+>If the return value is false, then it returns also a second value denoting the reason why input is not available. This interpretation seems to be consistent with the description in</P
+><P
+>[22.2.1 The Extended Input Stream Protocol, stream-read-gesture]</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE2DCE83C6090B317B1A0531A37C2DEF%2Fstream-input-wait%2F22.2.1&amp;editp=t&amp;id=Z386#Z386"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2020-01-21 17:10Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4421"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1084"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>unread-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>gesture </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>*standard-input*</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Calls <A NAME="_4442"></A><A HREF="24-1.html#_1320"
+><B CLASS="cl"
+>stream-unread-gesture</B
+></A
+> on <I
+>gesture</I
+> and <I
+>stream</I
+>. These arguments are the same as for <A NAME="_4443"></A><A HREF="24-1.html#_1320"
+><B CLASS="cl"
+>stream-unread-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7793BB68A118E3F8547FBA03B4FCDF1%2Funread-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FDEAF0345DE89E38204EB1BF99031AC3%2Funread-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5355"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1085"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-unread-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream gesture</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Places <I
+>gesture</I
+> back into the <SPAN CLASS="term"
+>extended input stream</SPAN
+> <I
+>stream</I
+>'s input buffer. The next call to <A NAME="_4445"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+> request will return the unread gesture. The gesture supplied must be the most recent gesture read from the stream via <A NAME="_4446"></A><A HREF="22-2.html#_1081"
+><B CLASS="cl"
+>read-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F604DEFC9F3CBC0D8065DB9B3EB391E%2Fstream-unread-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BC9F28F907986DB0A547AC08A33992B%2Fstream-unread-gesture%2F22.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="24-1.html#_1320"
+><SPAN CLASS="forwardlink"
+>[&rarr; stream-unread-gesture, <I
+>Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5393"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4442"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>unread-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1086"></A><DIV
+><H4
+>22.2.2 Extended Input Stream Conditions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1087"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*abort-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A list of all of the gesture names that correspond to abort gestures. The exact global set of standard abort gestures is unspecified, but must include the <B CLASS="cl"
+>:abort</B
+> gesture name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B32D7FD063353BB34F67A55E982D27B1%2F%2Aabort-gestures%2A%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B49120C52C62D3986EC95BA7E28FFCD6%2F%2Aabort-gestures%2A%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7497"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4449"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>abort-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4416"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1088"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>abort-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This condition is signalled by <A NAME="_4448"></A><A HREF="22-2.html#_1081"
+><B CLASS="cl"
+>read-gesture</B
+></A
+> whenever an abort gesture (one of the gestures in <A NAME="_4449"></A><A HREF="22-2.html#_1087"
+><B CLASS="cl"
+>*abort-gestures*</B
+></A
+> is read from the user. This condition will handle the <B CLASS="cl"
+>:event</B
+> initarg, which is used to supply the event corresponding to the abort gesture. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9C46E4391132800DA1CECAC9B720167%2Fabort-gesture%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1F2668D6BAF4FF5452A81B8D3FF3084%2Fabort-gesture%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4452"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>abort-gesture-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4417"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1089"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>abort-gesture-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>condition</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the event that cause the abort gesture condition to be signalled. <B CLASS="cl"
+>condition</B
+> is an object of type <A NAME="_4452"></A><A HREF="22-2.html#_1088"
+><B CLASS="cl"
+>abort-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E13DF89E533C7B076310C78C9716ACAD%2Fabort-gesture-event%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84973523FCB3F3A791C490B3F6F14029%2Fabort-gesture-event%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1090"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*accelerator-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A list of all of the gesture names that correspond to keystroke accelerators. The global value for this is <A NAME="_4453"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=129E18DE82A04FDE81E277C4D7C85A40%2F%2Aaccelerator-gestures%2A%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB0EBA8B68CA68C14910480A9E567CE1%2F%2Aaccelerator-gestures%2A%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4455"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>accelerator-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4418"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1091"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accelerator-gesture</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This condition is signalled by <A NAME="_4454"></A><A HREF="22-2.html#_1081"
+><B CLASS="cl"
+>read-gesture</B
+></A
+> whenever an keystroke accelerator gesture (one of the gestures in <A NAME="_4455"></A><A HREF="22-2.html#_1090"
+><B CLASS="cl"
+>*accelerator-gestures*</B
+></A
+> is read from the user. This condition will handle the <B CLASS="cl"
+>:event</B
+> and the <B CLASS="cl"
+>:numeric-argument</B
+> initargs, which are used to supply the event corresponding to the abort gesture and the accumulated numeric argument (which defaults to 1). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B72CCCA92C9362E2AB295C61AB57C9B3%2Faccelerator-gesture%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF0B3AFAE56FF5CFF4A001DE8FDECB22%2Faccelerator-gesture%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4461"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>accelerator-gesture-numeric-argument</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4459"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.2 Extended Input Stream Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>accelerator-gesture-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-2.html#_4419"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-read-gesture</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1092"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accelerator-gesture-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>condition</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the event that caused the accelerator gesture condition to be signalled. <B CLASS="cl"
+>condition</B
+> is an object of type <A NAME="_4459"></A><A HREF="22-2.html#_1091"
+><B CLASS="cl"
+>accelerator-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6C5D457F0A24AAA4B9714D04E78953E%2Faccelerator-gesture-event%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=155CD4C481BB5EAD6415323924B1087A%2Faccelerator-gesture-event%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1093"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>accelerator-gesture-numeric-argument</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>condition</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the accumlated numeric argument (maintained by the input editor) at the time the accelerator gesture condition was signalled. <B CLASS="cl"
+>condition</B
+> is an object of type <A NAME="_4461"></A><A HREF="22-2.html#_1091"
+><B CLASS="cl"
+>accelerator-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=250CCA01B3A6DF20E3DE4CD5A1958953%2Faccelerator-gesture-numeric-argument%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B95AF8193617D484070E70018DD0CF43%2Faccelerator-gesture-numeric-argument%2F22.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/22-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

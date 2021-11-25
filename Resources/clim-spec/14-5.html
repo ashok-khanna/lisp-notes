@@ -1,0 +1,452 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/14-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 14.5 Arbitrary Designs</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="14.4 Regions as Designs" HREF="14-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="14.6 Examples of More Complex Drawing Effects" HREF="14-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="14 General Designs" HREF="14.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="14-4.html"
+>Prev</A
+><BR
+><A HREF="14-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="14.html"
+>14&nbsp;General&nbsp;Designs</A
+><BR
+>&rarr;&nbsp;<A HREF="14-5.html"
+><B
+>14.5&nbsp;Arbitrary&nbsp;Designs</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_747"></A><DIV
+><H3
+>14.5 Arbitrary Designs</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_748"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-design</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium design </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>ink clipping-region transformation line-style line-thickness line-unit line-dashes line-joint-shape line-cap-shape text-style text-family text-face text-size</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws the <A NAME="_3550"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+> <I
+>design</I
+> onto the <A NAME="_3551"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. This is defined to work for all types of regions and designs, although in practice some implementations may be more restrictive. <I
+>ink</I
+>, <I
+>transformation</I
+>, and <I
+>clipping-region</I
+> are used to modify the medium. The other drawing arguments control the drawing of the design, depending on what sort of design is being drawn. For instance, if <I
+>design</I
+> is a path, then line style options may be supplied. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D46E3C9F336DBDCFCA81B045AA09F813%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>design</I
+> is an area, <B CLASS="cl"
+>draw-design</B
+> paints the specified region of the drawing plane with medium's current ink. If <I
+>design</I
+> is a path, <B CLASS="cl"
+>draw-design</B
+> strokes the path with medium's current ink under control of the line-style. If <I
+>design</I
+> is a point, <B CLASS="cl"
+>draw-design</B
+> is the same as <A NAME="_3555"></A><A HREF="12-5.html#_618"
+><B CLASS="cl"
+>draw-point</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1C9F4BF923E829F9542081C2066168A6%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z269"
+></A
+><P
+>Is the current transformation of the medium applied to areas or paths?</P
+><P
+>If not so: How should the line style be applied?</P
+><P
+>If so: Why is that different from other non-uniform design, which are not subject the current transformation of the medium. [See below.]</P
+><P
+>I would prefer, that both cases are handled the same. For instance one might want to create a circular icon by:</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%0A%28compose-in%20%28make-pattern%20...%29%20%28make-circle%2A%2050%2050%2050%29%29%0A"
+>&#10;(compose-in (make-pattern ...) (make-circle* 50 50 50))&#10;</A
+></SPAN
+></P
+><P
+>It would be strange, if the circle is transformed by the current transformation, but the pattern is  not.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1C9F4BF923E829F9542081C2066168A6%2Fdraw-design%2F14.5&amp;editp=t&amp;id=Z269#Z269"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2016-08-29 15:18Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If <I
+>design</I
+> is a color or an opacity, <B CLASS="cl"
+>draw-design</B
+> paints the entire drawing plane (subject to the clipping region of the medium). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5F7879F97DA5B6330CEFE38E04FA3B7%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>design</I
+> is <A NAME="_3557"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+>, <B CLASS="cl"
+>draw-design</B
+> has no effect. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=63304525D5496E966E54623F2A4C7C2F%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>design</I
+> is a non-uniform design (see Chapter&nbsp;<A NAME="_3559"></A><A HREF="14.html#_725"
+>14</A
+>), <B CLASS="cl"
+>draw-design</B
+> paints the design, positioned at coordinates <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF6A2A01051C5E5E3D28BB12A45336AB%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM implementations are required to support <B CLASS="cl"
+>draw-design</B
+> for the following cases: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C759360408E1EF0B3EE135959582840%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>Designs created by the geometric object constructors, such as <A NAME="_3562"></A><A HREF="3-2.html#_104"
+><B CLASS="cl"
+>make-line</B
+></A
+> and <A NAME="_3563"></A><A HREF="3-2.html#_135"
+><B CLASS="cl"
+>make-ellipse</B
+></A
+>, in conjunction with drawing arguments that supply the drawing ink. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5A3F4718121D2B7C1C2E0EA0713CB36%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Designs created by calling <A NAME="_3564"></A><A HREF="14-1.html#_732"
+><B CLASS="cl"
+>compose-in</B
+></A
+> on a color and an object created by a geometric object constructor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D31E00D4E7681BB34A896ECE505BF81B%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Designs created by calling <A NAME="_3565"></A><A HREF="14-1.html#_731"
+><B CLASS="cl"
+>compose-over</B
+></A
+> on any of the cases above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ABD7B4072752904598DF5E220005D487%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Designs returned by <A NAME="_3566"></A><A HREF="16-4.html#_916"
+><B CLASS="cl"
+>make-design-from-output-record</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=188B24747DBA4BDE064F8A71A231FCD3%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4E3FC786CCABE40C3CAC7C55E754664E%2Fdraw-design%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z94"
+></A
+>Since the section "Design Protocol" lacks any [annotate] links: Yes,&#10;draw-design is everything you'd need for a general design protocol in&#10;the days of powerful GPUs. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4E3FC786CCABE40C3CAC7C55E754664E%2Fdraw-design%2F14.5&amp;editp=t&amp;id=Z94#Z94"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumannn 2005-03-06 23:46Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3969"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>make-design-from-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_749"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>draw-pattern*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium pattern x y </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>clipping-region transformation</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws the pattern <I
+>pattern</I
+> on the <A NAME="_3567"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> at the position <I
+>(x,y)</I
+>. <I
+>pattern</I
+> is any design created by <A NAME="_3568"></A><A HREF="14-2.html#_738"
+><B CLASS="cl"
+>make-pattern</B
+></A
+>. <I
+>clipping-region</I
+> and <I
+>transformation</I
+> are as for <A NAME="_3569"></A><A HREF="10-2.html#_525"
+><B CLASS="cl"
+>with-drawing-options</B
+></A
+> or any of the drawing functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7438B18C8B1F6F6140DE2BBB45372808%2Fdraw-pattern%2A%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that <I
+>transformation</I
+> only affects the position at which the pattern is drawn, not the pattern itself. If a programmer wishes to affect the pattern, he should explicity call <A NAME="_3570"></A><A HREF="5-3.html#_214"
+><B CLASS="cl"
+>transform-region</B
+></A
+> on the pattern. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=40702E853455E2028AF1A0D0D4954C69%2Fdraw-pattern%2A%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Drawing a bitmap consists of drawing an appropriately aligned and scaled pattern constructed from the bitmap's bits. A 1 in the bitmap corresponds to <A NAME="_3571"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+>, while a 0 corresponds to <A NAME="_3572"></A><A HREF="13-6.html#_716"
+><B CLASS="cl"
+>+background-ink+</B
+></A
+> if an opaque drawing operation is desired, or to <A NAME="_3573"></A><A HREF="3-1.html#_49"
+><B CLASS="cl"
+>+nowhere+</B
+></A
+> if a transparent drawing operation is desired. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8911DCDB07F73AFD83CD0044DBA90F43%2Fdraw-pattern%2A%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Drawing a (colored) raster image consists of drawing an appropriately aligned and scaled pattern constructed from the raster array and raster color map. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4873C81F4D07323BD85FEED95DD7ABF6%2Fdraw-pattern%2A%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>draw-pattern*</B
+> could be implemented as follows, assuming that the functions <A NAME="_3575"></A><A HREF="14-2.html#_739"
+><B CLASS="cl"
+>pattern-width</B
+></A
+> and <A NAME="_3576"></A><A HREF="14-2.html#_740"
+><B CLASS="cl"
+>pattern-height</B
+></A
+> return the width and height of the pattern. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7AF01A7C9E12EFA4DA55C4B1AD31F98E%2Fdraw-pattern%2A%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun draw-pattern* (medium pattern x y &amp;key clipping-region transformation)&#10;  (check-type pattern pattern)&#10;  (let ((width (pattern-width pattern))&#10;        (height (pattern-height pattern)))&#10;    (if (or clipping-region transformation)&#10;        (with-drawing-options (medium :clipping-region clipping-region&#10;                                      :transformation transformation)&#10;          (draw-rectangle* medium x y (+ x width) (+ y height)&#10;                           :filled t :ink pattern))&#10;        (draw-rectangle* medium x y (+ x width) (+ y height)&#10;                         :filled t :ink pattern))))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20B34E5E5BBD44288978C7DC7F241D00%2Fdraw-pattern%2A%2F14.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z33"
+></A
+>The above definition of draw-pattern* is perhaps oversimplified in case&#10;the medium already has a transformation set. Further: When the given &#10;transformation is not a translation the rectangle drawn does not cover&#10;the exact extend of the pattern. Third and most important: It misses transforming the pattern at all. At least this is what I believe it should do. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20B34E5E5BBD44288978C7DC7F241D00%2Fdraw-pattern%2A%2F14.5&amp;editp=t&amp;id=Z33#Z33"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-02 05:43Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/14-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

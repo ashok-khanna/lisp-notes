@@ -1,0 +1,1598 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/10-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 10.2 Drawing Option Binding Forms</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="10.1 Medium Components" HREF="10-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="10.3 Line Styles" HREF="10-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="10 Drawing Options" HREF="10.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="10-1.html"
+>Prev</A
+><BR
+><A HREF="10-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="10.html"
+>10&nbsp;Drawing&nbsp;Options</A
+><BR
+>&rarr;&nbsp;<A HREF="10-2.html"
+><B
+>10.2&nbsp;Drawing&nbsp;Option&nbsp;Binding&nbsp;Forms</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_524"></A><DIV
+><H3
+>10.2 Drawing Option Binding Forms</H3
+><LI CLASS="outline_item"
+><A HREF="10-2.html#_532"
+>10.2.1 Transformation "Convenience" Forms</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="10-2.html#_537"
+>10.2.2 Establishing Local Coordinate Systems</A
+></LI
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_525"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-drawing-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>drawing-options) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the state of the <A NAME="_2949"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> to correspond to the supplied drawing options, and executes the body with the new drawing options specified by <I
+>drawing-options</I
+> in effect. Each option causes binding of the corresponding component of the medium for the dynamic extent of the body. The drawing functions effectively do a <B CLASS="cl"
+>with-drawing-options</B
+> when drawing option arguments are supplied to them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6DFFCE3397DFAD921585404096B7F6EA%2Fwith-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>medium</I
+> can be a medium, a sheet that supports the sheet output protocol, or a stream that outputs to such a sheet. The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_2951"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A26D4993D90A49D7541708E30FB8E01A%2Fwith-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-drawing-options</B
+> must be implemented by expanding into a call to <A NAME="_2954"></A><A HREF="10-2.html#_526"
+><B CLASS="cl"
+>invoke-with-drawing-options</B
+></A
+>, supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <A NAME="_2955"></A><A HREF="10-2.html#_526"
+><B CLASS="cl"
+>invoke-with-drawing-options</B
+></A
+>. The exact behavior of this macro is described under <A NAME="_2956"></A><A HREF="10-2.html#_526"
+><B CLASS="cl"
+>invoke-with-drawing-options</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4B30A82228113EFE9B71D4E9E2907E8%2Fwith-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FD9D495147E68AB0E6BA922EBD8C7974%2Fwith-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3569"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-pattern*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3023"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2.1 Transformation "Convenience" Forms]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2895"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components]</SPAN
+></A
+><BR
+><A HREF="2-9.html#_2076"
+><SPAN CLASS="reverselink"
+>[&larr; 2.9 Macros that Expand into Calls to Advertised Functions]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_526"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-with-drawing-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium continuation </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>drawing-options</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the state of the <A NAME="_2957"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+> to correspond to the supplied drawing options, and then calls the function <I
+>continuation</I
+> with the new drawing options in effect. <I
+>continuation</I
+> is a function of one argument, the medium; it has dynamic extent. <I
+>drawing-options</I
+> is a list of alternating keyword-value pairs, and must have even length. Each option in <I
+>drawing-options</I
+> causes binding of the corresponding component of the medium for the dynamic extent of the body. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE9DC19BAED3EBB2F4698C208B293F30%2Finvoke-with-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>medium</I
+> can be a medium, a sheet that supports the sheet output protocol, or a stream that outputs to such a sheet. All classes that obey the medium protocol must implement a method for <B CLASS="cl"
+>invoke-with-drawing-options</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23596F7034DC47ACCA55A3A27F5AB9C5%2Finvoke-with-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z348"
+></A
+><P
+>The first and second paragraphs taken together could imply that the continuation is called with the same medium object passed to invoke-with-drawing-options. McClim assumes this is the case since it yields more consistent behavior in case the medium argument is a sheet with output recording: in this case, passing e.g. the sheet's medium with the appropriate drawing options to the continuation instead of the sheet itself would bypass output recording.</P
+><P
+>In the past, McClim passed the sheet's medium instead of the sheet to the continuation and that lead to 1) output not being recording 2) therefor different behavior between equivalent with-drawing-options and invoke-with-drawing-options forms  </P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23596F7034DC47ACCA55A3A27F5AB9C5%2Finvoke-with-drawing-options%2F10.2&amp;editp=t&amp;id=Z348#Z348"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Jan Moringen 2018-10-17 20:22Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The drawing options can be any of the following, plus any of the suboptions for line styles and text styles. The default value specified for a drawing option is the value to which the corresponding component of a medium is normally initialized. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9568E6906ECD48C23A46D2D204AB7359%2Finvoke-with-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7A12A05D540ED72D82EA8F241951EB0%2Finvoke-with-drawing-options%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-2.html#_2954"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2 Drawing Option Binding Forms, <B CLASS="cl"
+><B CLASS="cl"
+>with-drawing-options</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_527"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:ink</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A design that will be used as the ink for drawing operations. The drawing functions draw with the color and pattern that this specifies. The default value is <A NAME="_2959"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+>. See Chapter&nbsp;<A NAME="_2960"></A><A HREF="13.html#_672"
+>13</A
+> for a complete description of inks. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C4BC9328D5AD198FF91183091A517E23%2F%3Aink%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>:ink</B
+> <I
+>ink</I
+> drawing option temporarily changes the value of <B CLASS="cl"
+>(medium-ink </B
+><A NAME="_2963"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to <I
+>ink</I
+>, replacing the previous ink; the new and old inks are not combined in any way. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E15E2D08C4E236F906B005515F2E00E%2F%3Aink%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8DBFE73EA55C330843DEFFFB77FF1A72%2F%3Aink%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="A.html#_6943"
+><SPAN CLASS="reverselink"
+>[&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="13-6.html#_3482"
+><SPAN CLASS="reverselink"
+>[&larr; 13.6 Indirect Inks]</SPAN
+></A
+><BR
+><A HREF="13-3.html#_3454"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3.2 Contrasting Colors, <B CLASS="cl"
+><B CLASS="cl"
+>make-contrasting-inks</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-1.html#_3283"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+><A HREF="13.html#_3281"
+><SPAN CLASS="reverselink"
+>[&larr; 13 Drawing in Color]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2907"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-ink</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_528"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This transforms the coordinates used as arguments to drawing functions to the coordinate system of the drawing plane. The default value is <A NAME="_2965"></A><A HREF="5-1.html#_174"
+><B CLASS="cl"
+>+identity-transformation+</B
+></A
+>. See Chapter&nbsp;<A NAME="_2966"></A><A HREF="5.html#_169"
+>5</A
+> for a complete description of transformations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92470E182968AA51DE91CC7406EA5D0D%2F%3Atransformation%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>:transformation</B
+> <I
+>xform</I
+> drawing option temporarily changes the value of<B CLASS="cl"
+>(medium-transformation </B
+><A NAME="_2969"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to <B CLASS="cl"
+>(compose-transformations (medium-transformation </B
+><A NAME="_2972"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>) </B
+><B CLASS="cl"
+><I
+>xform</I
+></B
+><B CLASS="cl"
+>)</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BCD03B4EDEDBAF0A931EAE7BAE3F8886%2F%3Atransformation%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77DD1F7D8EB9048C09A930EC9C55B946%2F%3Atransformation%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="13-1.html#_3292"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+><A HREF="10-2.html#_3024"
+><SPAN CLASS="reverselink"
+>[&larr; 10.2.1 Transformation "Convenience" Forms]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2913"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-1.html#_2393"
+><SPAN CLASS="reverselink"
+>[&larr; 5.1.1 Transformation Conditions, <B CLASS="cl"
+><B CLASS="cl"
+>singular-transformation</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_529"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:clipping-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The drawing functions do not affect the drawing plane outside this region. The clipping region must be an <A NAME="_2976"></A><A HREF="3-1.html#_44"
+><B CLASS="cl"
+>area</B
+></A
+>. Furthermore, some implementations might signal an error if the clipping region is not a rectangle or a region set composed entirely of rectangles. Rendering is clipped both by this clipping region and by other clipping regions associated with the mapping from the target drawing plane to the viewport that displays a portion of the drawing plane. The default is <A NAME="_2977"></A><A HREF="3-1.html#_48"
+><B CLASS="cl"
+>+everywhere+</B
+></A
+>, or in other words, no clipping occurs in the drawing plane, only in the viewport. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A1A5119C6B1B13329035EFC42EDAE6C2%2F%3Aclipping-region%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>:clipping-region</B
+> <I
+>region</I
+> drawing option temporarily changes the value of <B CLASS="cl"
+>(medium-clipping-region </B
+><A NAME="_2980"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to <B CLASS="cl"
+>(region-intersection (transform-region (medium-transformation </B
+><A NAME="_2983"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>) </B
+><A NAME="_2985"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+><I
+>region</I
+></B
+></A
+><B CLASS="cl"
+>) (medium-clipping-region </B
+><A NAME="_2987"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>))</B
+>. If both a clipping region and a transformation are supplied in the same set of drawing options, the clipping region argument is transformed by the newly composed transformation before calling <A NAME="_2989"></A><A HREF="3-1.html#_66"
+><B CLASS="cl"
+>region-intersection</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D29930E409EC42F0346A72D6C099C569%2F%3Aclipping-region%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>A better explanation is needed. It does the right thing, but it's hard to tell that from this description. That is, the clipping region is expressed in user coordinates. ---&nbsp;DCPL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EEC7CE744904B668A8A909C291AD4CFE%2F%3Aclipping-region%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z293"
+></A
+>This has been said in 10.1 Medium Components <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EEC7CE744904B668A8A909C291AD4CFE%2F%3Aclipping-region%2F10.2&amp;editp=t&amp;id=Z293#Z293"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Bo Yao 2017-01-06 18:18Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9688046AEAAC8ED530E1439C0C418084%2F%3Aclipping-region%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="13-1.html#_3291"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2918"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-clipping-region</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_530"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:line-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The line and arc drawing functions render according to this line style. The line style suboptions and default are defined in Section&nbsp;<A NAME="_2990"></A><A HREF="10-3.html#_540"
+>10.3</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=990F16F96A99E04F99314C143415346F%2F%3Aline-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>:line-style</B
+> <I
+>ls</I
+> drawing option temporarily changes the value of <B CLASS="cl"
+>(medium-line-style </B
+><A NAME="_2993"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to <I
+>ls</I
+>, replacing the previous line style; the new and old line styles are not combined in any way. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=896EDE81C8A05E9DFAC19879A9DD16F8%2F%3Aline-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If line style suboptions are supplied, they temporarily change the value of <B CLASS="cl"
+>(medium-line-style </B
+><A NAME="_2996"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to a line style constructed from the specified suboptions. Components not specified by suboptions are defaulted from the <B CLASS="cl"
+>:line-style</B
+> drawing option, if it is supplied, or else from the previous value of <B CLASS="cl"
+>(medium-line-style </B
+><A NAME="_3000"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+>. That is, if both the <B CLASS="cl"
+>:line-style</B
+> option and line style suboptions are supplied, the suboptions take precedence over the components of the <B CLASS="cl"
+>:line-style</B
+> option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=95DCD82F75A30A491440138343D6F2A8%2F%3Aline-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97B71B36599628A0553BA942AADA395F%2F%3Aline-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-1.html#_2924"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-line-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_531"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:text-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The text drawing functions, including ordinary stream output, render text as directed by this text style merged against the default text style. The default value has all null components. See Chapter&nbsp;<A NAME="_3004"></A><A HREF="11.html#_562"
+>11</A
+> for a complete description of text styles, including the text style suboptions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9E6F614C341D9040C0F327E56EDB3BA%2F%3Atext-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>:text-style</B
+> <I
+>ts</I
+> drawing option temporarily changes the value of <B CLASS="cl"
+>(medium-text-style </B
+><A NAME="_3007"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to <B CLASS="cl"
+>(merge-text-styles </B
+><B CLASS="cl"
+><I
+>ts</I
+></B
+><B CLASS="cl"
+> (medium-text-style </B
+><A NAME="_3012"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>))</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=189B4632FA7958DC7FDF4D889F6B1B27%2F%3Atext-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If text style suboptions are supplied, they temporarily change the value of <B CLASS="cl"
+>(medium-text-style </B
+><A NAME="_3015"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+> to a text style constructed from the specified suboptions, merged with the <B CLASS="cl"
+>:text-style</B
+> drawing option if it is specified, and then merged with the previous value of <B CLASS="cl"
+>(medium-text-style </B
+><A NAME="_3019"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+>. That is, if both the <B CLASS="cl"
+>:text-style</B
+> option and text style suboptions are supplied, the suboptions take precedence over the components of the <B CLASS="cl"
+>:text-style</B
+> option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=37EEB5368DE739C9B5F24A45D88F75D1%2F%3Atext-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02241AEC34AAF08521A7EBF9F50751CD%2F%3Atext-style%2F10.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="29-2.html#_1594"
+><SPAN CLASS="forwardlink"
+>[&rarr; :text-style, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="15-2.html#_775"
+><SPAN CLASS="forwardlink"
+>[&rarr; :text-style, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6609"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5957"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5906"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5802"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2942"
+><SPAN CLASS="reverselink"
+>[&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>medium-text-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_532"></A><DIV
+><H4
+>10.2.1 Transformation "Convenience" Forms</H4
+><P
+>The following three functions are no different than using <A NAME="_3023"></A><A HREF="10-2.html#_525"
+><B CLASS="cl"
+>with-drawing-options</B
+></A
+> with the <A NAME="_3024"></A><A HREF="10-2.html#_528"
+><B CLASS="cl"
+>:transformation</B
+></A
+> keyword argument supplied. However, they are sufficiently useful that they are provided as a convenience to programmers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9443CE0D3F4EB4CBDB8F6F7FC9D5D647%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z236"
+></A
+>Three functions, meaning WITH-TRANSLATION, WITH-SCALING, and WITH-ROTATION, and not WITH-IDENTITY-TRANSFORMATION (which, as noted below just over twelve years ago, would not be useful if it behaved as the :TRANSFORMATION drawing option). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9443CE0D3F4EB4CBDB8F6F7FC9D5D647%2F10.2.1&amp;editp=t&amp;id=Z236#Z236"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2015-06-30 20:49Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>In order to preserve referential transparency, these three forms apply the translation, rotation, or scaling transformation first, then the rest of the transformation from <B CLASS="cl"
+>(medium-transformation </B
+><A NAME="_3026"></A><A HREF="8-3.html#_386"
+><B CLASS="cl"
+><I
+>medium</I
+></B
+></A
+><B CLASS="cl"
+>)</B
+>. That is, the following two forms would return the same transformation (assuming that the medium's transformation in the second example is the identity transformation): <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9DE2B17F4DCA499A9918232C3FAEF79F%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(compose-transformations&#10;  (make-translation-transformation dx dy)&#10;  (make-rotation-transformation angle))&#10;&#10;(with-translation (medium dx dy)&#10;  (with-rotation (medium angle)&#10;    (medium-transformation medium)))&#10;</PRE
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_533"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-translation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium dx dy) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes a translation on the <A NAME="_3028"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> that translates by <I
+>dx</I
+> in the <I
+>x</I
+> direction and <I
+>dy</I
+> in the <I
+>y</I
+> direction, and then executes <I
+>body</I
+> with that transformation in effect. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA5257C1A700EE257FE232065423CEF5%2Fwith-translation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>dx</I
+> and <I
+>dy</I
+> are as for <A NAME="_3029"></A><A HREF="5-2.html#_181"
+><B CLASS="cl"
+>make-translation-transformation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=40606BD6E094158F62AC001204ADC431%2Fwith-translation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3030"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-translation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=319AFBC097B03F523FB495ED87361450%2Fwith-translation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_534"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-scaling</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium sx </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>sy origin) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes a scaling transformation on the <A NAME="_3032"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> that scales by <I
+>sx</I
+> in the <I
+>x</I
+> direction and <I
+>sy</I
+> in the <I
+>y</I
+> direction, and then executes <I
+>body</I
+> with that transformation in effect. If <I
+>sy</I
+> is not supplied, it defaults to <I
+>sx</I
+>. If <I
+>origin</I
+> is supplied, the scaling is about that point; if it is not supplied, it defaults to <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6434AABDA5BCBBB7DC8EDA234882C720%2Fwith-scaling%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>sx</I
+> and <I
+>sy</I
+> are as for <A NAME="_3033"></A><A HREF="5-2.html#_184"
+><B CLASS="cl"
+>make-scaling-transformation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=71D92C906F46929688607A76FE2AFD3E%2Fwith-scaling%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3034"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-scaling%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F6A4E1F36C382FC21BE1AAFC494E508D%2Fwith-scaling%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_535"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-rotation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium angle </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>origin) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes a rotation on the <A NAME="_3036"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> that rotates by <I
+>angle</I
+>, and then executes <I
+>body</I
+> with that transformation in effect. If <I
+>origin</I
+> is supplied, the rotation is about that point; if it is not supplied, it defaults to <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=127CACE717E77C7D5A2DB1922956FFB6%2Fwith-rotation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>angle</I
+> and <I
+>origin</I
+> are as for <A NAME="_3037"></A><A HREF="5-2.html#_182"
+><B CLASS="cl"
+>make-rotation-transformation</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D538FC96436C400544AC5AB1E67347AA%2Fwith-rotation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3038"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-rotation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32CF88A734FD8ED1119D0DD5F212F58C%2Fwith-rotation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_536"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-identity-transformation</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Establishes the identity transformation on the <A NAME="_3040"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F424352B53251A9696DFF010DA78C2EB%2Fwith-identity-transformation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3041"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-identity-transformation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14C4C3EF5E8587B39845EB0557532297%2Fwith-identity-transformation%2F10.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z29"
+></A
+>I believe this macro should set the medium transformation to the&#10;identity transformation. This is in contrast to the macros above as&#10;this does not compose the identity transformation with the existing&#10;transformation. That would render with-identity-transformation being&#10;the same as progn! <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=14C4C3EF5E8587B39845EB0557532297%2Fwith-identity-transformation%2F10.2.1&amp;editp=t&amp;id=Z29#Z29"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-02 05:36Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_537"></A><DIV
+><H4
+>10.2.2 Establishing Local Coordinate Systems</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_538"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-local-coordinates</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>x y) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the dynamic environment to establish a local coordinate system on the <A NAME="_3043"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> with the origin of the new coordinate system at the position <I
+>(x,y)</I
+>. The "directionality" of the coordinate system is otherwise unchanged. <I
+>x</I
+> and <I
+>y</I
+> are real numbers, and both default to 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D20FDC2DA17D6D1578DFA20DD50B4F52%2Fwith-local-coordinates%2F10.2.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z24"
+></A
+>From looking at what real CLIM (Lispworks) &#10;does, it seems that the effect of this macro&#10;is to compensate for an exitsing translational component of the &#10;transformation of the medium. And then shift the origin to (x,y).&#10;Further the defaults for x and y seem to be the&#10;current cursor position and not (0,0). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D20FDC2DA17D6D1578DFA20DD50B4F52%2Fwith-local-coordinates%2F10.2.2&amp;editp=t&amp;id=Z24#Z24"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-05-28 13:51Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3044"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-local-coordinates%2F10.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0CB70E5570EC184AEC5B2A32B306CF7%2Fwith-local-coordinates%2F10.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_539"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-first-quadrant-coordinates</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(medium </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>x y) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the dynamic environment to establish a local coordinate system on the <A NAME="_3046"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> designated by <I
+>medium</I
+> with the positive <I
+>x</I
+> axis extending to the right and the positive <I
+>y</I
+> axis extending upward, with the origin of the new coordinate system at the position <I
+>(x,y)</I
+>. <I
+>x</I
+> and <I
+>y</I
+> are real numbers, and both default to 0. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E563DF00CBDF291E984240138D3CE07B%2Fwith-first-quadrant-coordinates%2F10.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>medium</I
+> argument is not evaluated, and must be a symbol that is bound to a sheet or medium. If <I
+>medium</I
+> is <A NAME="_3047"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A661285158A42E48DA2A6098F587795F%2Fwith-first-quadrant-coordinates%2F10.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=023070F97DD7F034CE7C9E362C5BDC85%2Fwith-first-quadrant-coordinates%2F10.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/10-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

@@ -1,0 +1,135 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 2.5 Protocol Classes and Predicates</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="2.4 Immutability of Objects" HREF="2-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="2.6 Specialized Arguments to Generic Functions" HREF="2-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="2 Conventions" HREF="2.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="2-4.html"
+>Prev</A
+><BR
+><A HREF="2-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-I.html"
+>Part&nbsp;I:&nbsp;Overview&nbsp;and&nbsp;Conventions</A
+> &rarr;&nbsp;<A HREF="2.html"
+>2&nbsp;Conventions</A
+><BR
+>&rarr;&nbsp;<A HREF="2-5.html"
+><B
+>2.5&nbsp;Protocol&nbsp;Classes&nbsp;and&nbsp;Predicates</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_23"></A><DIV
+><H3
+>2.5 Protocol Classes and Predicates</H3
+><P
+>CLIM supplies a set of predicates that can be called on an object to determine whether or not that object satisfies a certain protocol. These predicates can be implemented in one of two ways. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FB799238F39F7E117ADEC17B935CF04%2F2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The first way is that a class implementing a particular protocol will inherit from a <A NAME="_24"></A><SPAN CLASS="concept"
+>protocol class</SPAN
+> that corresponds to that protocol. A protocol class is an "abstract" class with no slots and no methods (except perhaps for some default methods), and exists only to indicate that some subclass obeys the protocol. In the case when a class inherits from a protocol class, the predicate could be implemented using <B CLASS="cl"
+>typep</B
+>. All of the CLIM region, design, sheet, and output record classes use this convention. For example, the presentation protocol class and predicate could be implemented in this way: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7B54B994500D8C8EF6396BB1BE8FA87%2F2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defclass presentation () ())&#10;&#10;(defun presentationp (object)&#10;  (typep object 'presentation))&#10;</PRE
+><P
+>Note that in some implementations, it may be more efficient not to use <B CLASS="cl"
+>typep</B
+>, and instead use a generic function for the predicate. However, simply implementing a method for the predicate that returns <SPAN CLASS="term"
+>true</SPAN
+> is not necessarily enough to assert that a class supports that protocol; the class must include the protocol class as a superclass. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DC2A489BE99D197A95C733B0C53C52A4%2F2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM always provides at least one "standard" instantiable class that implements each protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4106E0EFBEEC0218DE1302986BC0011A%2F2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The second way is that a class implementing a particular protocol must simply implement a method for a predicate generic function that returns <SPAN CLASS="term"
+>true</SPAN
+> if and only if that class supports the protocol (otherwise, it returns <SPAN CLASS="term"
+>false</SPAN
+>). Most of the CLIM stream classes use this convention. Protocol classes are not used in these cases because, as in the case of some of the stream classes, the underlying Lisp implementation may not be arranged so as to permit it. For example, the extended input stream protocol might be implemented in this way: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B866A5F1BADADE5ED05A4AE8046FC2B0%2F2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defgeneric extended-input-stream-p (object))&#10;&#10;(defmethod extended-input-stream-p ((object t)) nil)&#10;&#10;(defmethod extended-input-stream-p ((object basic-extended-input-protocol)) t)&#10;&#10;(defmethod extended-input-stream-p&#10;           ((encapsulating-stream standard-encapsulating-stream))&#10;  (with-slots (stream) encapsulating-stream&#10;    (extended-input-stream-p stream)))&#10;</PRE
+><P
+>Whenever a class inherits from a protocol class or returns <SPAN CLASS="term"
+>true</SPAN
+> from the protocol predicate, the class must implement methods for all of the generic functions that make up the protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3CEE782CD1FCAB912CEA6B0F651D14C7%2F2.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

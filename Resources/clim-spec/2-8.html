@@ -1,0 +1,129 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-8.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 2.8 Sheet, Stream, or Medium Arguments to Macros</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="2.7 Multiple Value setf" HREF="2-7.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="2.9 Macros that Expand into Calls to Advertised Functions" HREF="2-9.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="2 Conventions" HREF="2.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="2-7.html"
+>Prev</A
+><BR
+><A HREF="2-9.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-I.html"
+>Part&nbsp;I:&nbsp;Overview&nbsp;and&nbsp;Conventions</A
+> &rarr;&nbsp;<A HREF="2.html"
+>2&nbsp;Conventions</A
+><BR
+>&rarr;&nbsp;<A HREF="2-8.html"
+><B
+>2.8&nbsp;Sheet,&nbsp;Stream,&nbsp;or&nbsp;Medium&nbsp;Arguments&nbsp;to&nbsp;Macros</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_27"></A><DIV
+><H3
+>2.8 Sheet, Stream, or Medium Arguments to Macros</H3
+><P
+>There are many macros that take a sheet, stream, or medium as one of the arguments, for example, <A NAME="_2067"></A><A HREF="16-4.html#_912"
+><B CLASS="cl"
+>with-new-output-record</B
+></A
+> and <A NAME="_2068"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. In CLIM, this argument must be a variable bound to a sheet, stream, or medium; it may not be an arbitrary form that evaluates to a sheet, stream, or medium. <A NAME="_2069"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> and sometimes <A NAME="_2070"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> are usually allowed as special cases; this causes the variable to be interpreted as a reference to another stream variable (usually <B CLASS="cl"
+>*standard-output*</B
+> for output macros, or <B CLASS="cl"
+>*standard-input*</B
+> for input macros). Note that, while the variable outside the macro form and the variable inside the body share the same name, they cannot be assumed to be the same reference. That is, the macro is free to create a new binding for the variable. Thus, the following code fragment will not necessarily affect the value of <I
+>stream</I
+> outside the <A NAME="_2073"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+> form: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77921570004D5A4BDCF14AEE228CA8B8%2F2.8#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(formatting-table (stream)&#10;  (setq stream some-other-stream)&#10;  ...)&#10;</PRE
+><P
+>Furthermore, for the macros that take a sheet, stream, or medium argument, the position of that variable is always before any forms or other "inputs". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89588F874A066AF8C0AE99023C746B5A%2F2.8#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-8.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

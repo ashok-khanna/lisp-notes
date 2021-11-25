@@ -1,0 +1,397 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/18-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 18.1 Graph Formatting Functions</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="18 Graph Formatting" HREF="18.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="18.2 The Graph Formatting Protocols" HREF="18-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="18 Graph Formatting" HREF="18.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="18.html"
+>Prev</A
+><BR
+><A HREF="18-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="18.html"
+>18&nbsp;Graph&nbsp;Formatting</A
+><BR
+>&rarr;&nbsp;<A HREF="18-1.html"
+><B
+>18.1&nbsp;Graph&nbsp;Formatting&nbsp;Functions</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_977"></A><DIV
+><H3
+>18.1 Graph Formatting Functions</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_978"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>format-graph-from-roots</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>root-objects object-printer inferior-producer  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>stream  orientation cutoff-depth  merge-duplicates duplicate-key duplicate-test  generation-separation within-generation-separation  center-nodes  arc-drawer arc-drawing-options  graph-type (move-cursor </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a graph whose roots are specified by the sequence <I
+>root-objects</I
+>. The nodes of the graph are displayed by calling the function <I
+>object-printer</I
+>, which takes two arguments, the node to display and a stream. <I
+>inferior-producer</I
+> is a function of one argument that is called on each node to produce a sequence of inferiors (or <A NAME="_4105"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if there are none). Both <I
+>object-printer</I
+> and <I
+>inferior-producer</I
+> have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FEA3F5CEAFFC5C9E102F507C3FB3E89%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The output from graph formatting takes place in a normalized +<I
+>y</I
+>-downward coordinate system. The graph is placed so that the upper left corner of its bounding rectangle is at the current text cursor position of <I
+>stream</I
+>. If the boolean <I
+>move-cursor</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), then the text cursor will be moved so that it immediately follows the lower right corner of the graph. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=506D4AD07859FEA7F81F40EF41BD2F09%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the output record corresponding to the graph. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A91B2C590ADBFE7A18AF23FD07F46AD7%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. It defaults to <B CLASS="cl"
+>*standard-output*</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F2FC2FAFDC6B475D8FDC578025D6750%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>orientation</I
+> may be either <B CLASS="cl"
+>:horizontal</B
+> (the default) or <B CLASS="cl"
+>:vertical</B
+>. It specifies which way the graph is oriented. CLIM implementations are permitted to extend the values of <I
+>orientation</I
+>, for example, adding <B CLASS="cl"
+>:right</B
+> or <B CLASS="cl"
+>:left</B
+> to distinguish between left-to-right or right-to-left layouts. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD506FC286D48A00B85AC4611430F1AC%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cutoff-depth</I
+> specifies the maximum depth of the graph. It defaults to <A NAME="_4112"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that there is no cutoff depth. Otherwise it must be an integer, meaning that no nodes deeper than <I
+>cutoff-depth</I
+> will be formatted or displayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=895AF84F3B1A2BBC5A8485BF76AFCB23%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>merge-duplicates</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then duplicate objects in the graph will share the same node in the display of the graph. That is, when <I
+>merge-duplicates</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the resulting graph will be a tree. If <I
+>merge-duplicates</I
+> is <SPAN CLASS="term"
+>false</SPAN
+> (the default), then duplicate objects will be displayed in separate nodes. <I
+>duplicate-key</I
+> is a function of one argument that is used to extract the node object component used for duplicate comparison; the default is <B CLASS="cl"
+>identity</B
+>. <I
+>duplicate-test</I
+> is a function of two arguments that is used to compare two objects to see if they are duplicates; the default is <B CLASS="cl"
+>eql</B
+>. <I
+>duplicate-key</I
+> and <I
+>duplicate-test</I
+> have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=231FB855EC78585F4CDE7DC4E1E3E954%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z105"
+></A
+>I think it might be desirable if the duplicate-test argument were to be limited to one of the family of functions that is acceptable as :test for MAKE-HASH-TABLE.  That would permit an easy constant-time lookup to detect duplicate nodes.  There doesn't seem like a substantial offsetting downside to this limitation, since you have complete freedom to define the duplicate-key. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=231FB855EC78585F4CDE7DC4E1E3E954%2Fformat-graph-from-roots%2F18.1&amp;editp=t&amp;id=Z105#Z105"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Goldman 2005-07-21 17:56Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z107"
+></A
+><P
+>1.  To follow up to my own comment, I've become convinced by other developers that this restriction WOULD violate the specification.  And it seems relatively easy to make a method that's optimized for the common case where one of the hash-compatible equality predicates is used.</P
+><P
+>2.  The sentence beginning "That is, when merge-duplicates is true..." seems backward.  If merge-duplicates is true, than the graph can only be a tree by the happy accident of there being no duplicates!  In general, it must be a graph type that accepts either cycles or cycles in its undirected dual.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=231FB855EC78585F4CDE7DC4E1E3E954%2Fformat-graph-from-roots%2F18.1&amp;editp=t&amp;id=Z107#Z107"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert P. Goldman 2005-08-10 00:57Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>generation-separation</I
+> is the amount of space to leave between successive generations of the graph; the default should be chosen so that the resulting graph is visually pleasing. <I
+>within-generation-separation</I
+> is the amount of space to leave between nodes in the same generation of the graph; the default should be chosen so that the resulting graph is visually pleasing. <I
+>generation-separation</I
+> and <I
+>within-generation-separation</I
+> are specified in the same way as the <I
+>inter-row-spacing</I
+> argument to <A NAME="_4118"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6FF7149B63D348AE323771FD2743EAA4%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>center-nodes</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, each node of the graph is centered with respect to the widest node in the same generation. The default is <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=831CD549AF314A0A477E7D28B81F152D%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>arc-drawer</I
+> is a function of seven positional and some unspecified keyword arguments that is responsible for drawing the arcs from one node to another; it has dynamic extent. The positional arguments are the stream, the "from" node's object, the "to" node's object, the "from" <I
+>x</I
+> and <I
+>y</I
+> position, and the "to" <I
+>x</I
+> and <I
+>y</I
+> position. The keyword arguments gotten from <I
+>arc-drawing-options</I
+> are typically line drawing options, such as for <A NAME="_4121"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+>. If <I
+>arc-drawer</I
+> is unsupplied, the default behavior is to draw a thin line from the "from" node to the "to" node using <A NAME="_4122"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEDBC8519399EB8ED861B8065105078C%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>graph-type</I
+> is a keyword that specifies the type of graph to draw. All CLIM implementations must support graphs of type <B CLASS="cl"
+>:tree</B
+>, <B CLASS="cl"
+>:directed-graph</B
+> (and its synonym <B CLASS="cl"
+>:digraph</B
+>), and <B CLASS="cl"
+>:directed-acyclic-graph</B
+> (and its synonym <B CLASS="cl"
+>:dag</B
+>). <I
+>graph-type</I
+> defaults to <B CLASS="cl"
+>:digraph</B
+> when <I
+>merge-duplicates</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, otherwise it defaults to <B CLASS="cl"
+>:tree</B
+>. Typically, different graph types will use different output record classes and layout engines to lay out the graph. However, it is permissible for all of the required graph types to use exactly the same graph layout engine. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E028583314D13379247F9AEE38BB52E8%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D8363B61BCBAFC65B27C07A07F8869D1%2Fformat-graph-from-roots%2F18.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z97"
+></A
+>Argh!  Why is this function not &amp;key &amp;allow-other-keys?  Without this admittedly&#10;compatible extension, it's insanely hard to write other forms of graph formatting. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D8363B61BCBAFC65B27C07A07F8869D1%2Fformat-graph-from-roots%2F18.1&amp;editp=t&amp;id=Z97#Z97"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2005-05-10 18:39Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7436"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4170"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>graph-node-object</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4155"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>generate-graph-nodes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4132"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/18-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

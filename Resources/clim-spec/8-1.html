@@ -1,0 +1,1489 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 8.1 Input Protocol</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="8 Sheet Protocols" HREF="8.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="8.2 Standard Device Events" HREF="8-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="8 Sheet Protocols" HREF="8.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="8.html"
+>Prev</A
+><BR
+><A HREF="8-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-III.html"
+>Part&nbsp;III:&nbsp;Windowing&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="8.html"
+>8&nbsp;Sheet&nbsp;Protocols</A
+><BR
+>&rarr;&nbsp;<A HREF="8-1.html"
+><B
+>8.1&nbsp;Input&nbsp;Protocol</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_295"></A><DIV
+><H3
+>8.1 Input Protocol</H3
+><LI CLASS="outline_item"
+><A HREF="8-1.html#_301"
+>8.1.1 Input Protocol Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="8-1.html#_315"
+>8.1.2 Input Protocol Classes</A
+></LI
+><P
+>CLIM's windowing substrate provides an input architecture and standard functionality for notifying clients of input that is distributed to their sheets. Input includes such events as the pointer entering and exiting sheets, pointer motion (whose granularity is defined by performance limitations), and pointer button and keyboard events. At this level, input is represented as <A NAME="_2559"></A><A HREF="8-2.html#_323"
+><SPAN CLASS="term"
+>event</SPAN
+></A
+> objects. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B4545533E012CCB10BCC4A26A90A7E3A%2F8.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Sheets either participate fully in the input protocol or are mute for input. If any functions in the input protocol are called on a sheet that is mute for input, the <B CLASS="cl"
+>sheet-is-mute-for-input</B
+> error will be signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92DFD42E1B699353C8257F7323A5455A%2F8.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In addition to handling input event, a sheet is also responsible for providing other input services, such as controlling the pointer's appearance, and polling for current pointer and keyboard state. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16A130E7E17823C321E4F5C0DAF18991%2F8.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Input is processed on a per-port basis by the function <A NAME="_2561"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+>. In multiprocessing environments, a process that calls <A NAME="_2562"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+> in a loop is created for each port. In single-process Lisps, <A NAME="_2563"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+> is called whenever the user would go blocked for input. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5703BC5A621304C0BBC4760BA4EE838A%2F8.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_2564"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+> has three main tasks when it receives an event. First, it must determine to which <A NAME="_296"></A><SPAN CLASS="concept"
+>client</SPAN
+> the event is addressed; this process is called <A NAME="_297"></A><SPAN CLASS="concept"
+>distributing</SPAN
+>. Typically, the client is a sheet, but there are other special-purpose clients to which events can also be dispatched. Next, <A NAME="_2565"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+> formats the event into a standard format, and finally it <A NAME="_298"></A><SPAN CLASS="concept"
+>dispatches</SPAN
+> the event to the client. A client may then either handle the event synchronously, or it may queue it for later handling by another process. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F43D32C3D39D430B7332AD22D0153B4%2F8.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Input events can be broadly categorized into <A NAME="_299"></A><SPAN CLASS="concept"
+>pointer events</SPAN
+> and <A NAME="_300"></A><SPAN CLASS="concept"
+>keyboard events</SPAN
+>. By default, pointer events are dispatched to the lowest sheet in the hierarchy whose region contains the location of the pointer. Keyboard events are dispatched to the port's keyboard input focus; the accessor <A NAME="_2566"></A><A HREF="8-1.html#_304"
+><B CLASS="cl"
+>port-keyboard-input-focus</B
+></A
+> contains the event client that receives the port's keyboard events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=310363E1D877F1FB225502CB0F1ADC9F%2F8.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_301"></A><DIV
+><H4
+>8.1.1 Input Protocol Functions</H4
+><P
+>In the functions below, the <I
+>client</I
+> argument is typically a sheet, but it may be another object that supports event distribution, dispatching, and handling. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDE231940D44EC5DE91650F253948C71%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_302"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-event-queue</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Any sheet that can process events will have an event queue from which the events are gotten. <B CLASS="cl"
+>sheet-event-queue</B
+> returns the object that acts as the event queue. The exact representation of an event queue is explicitly unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5BBC76640E5EC748517E0AD4FEFAA3A%2Fsheet-event-queue%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D10DDAD5E9A8EAF8C58DFAAFAE6376DF%2Fsheet-event-queue%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-1.html#_2595"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>immediate-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2591"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_303"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>process-next-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>wait-function timeout</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function provides a standard interface for one pass through a port's event processing loop. <I
+>wait-function</I
+> is either <A NAME="_2568"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or a function of no arguments that acts as a predicate; it has dynamic extent. The predicate should wait until one of three conditions occurs: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEE1E995473792C5A17019ACBD04B032%2Fprocess-next-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z96"
+></A
+>In this description, "the predicate" seems to sometimes refer to the wait function and sometimes to process-next-event itself.  Perhaps someone could rephrase this description in a way that I can make sense of it. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEE1E995473792C5A17019ACBD04B032%2Fprocess-next-event%2F8.1.1&amp;editp=t&amp;id=Z96#Z96"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2005-04-30 13:55Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><UL
+><LI
+>If an event if received and processed, the predicate should return <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B688ABB4C2B1B0575197D894C911B804%2Fprocess-next-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z183"
+></A
+>The second "if" should be "is" <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B688ABB4C2B1B0575197D894C911B804%2Fprocess-next-event%2F8.1.1&amp;editp=t&amp;id=Z183#Z183"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- David 2009-03-22 03:54Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+><LI
+>If a timeout occurs, the predicate should return <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B18E98E8A3AC29CFFDA622B2CD19CD24%2Fprocess-next-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>If the wait function returns <SPAN CLASS="term"
+>true</SPAN
+>, the predicate should return the two values <SPAN CLASS="term"
+>false</SPAN
+> and <B CLASS="cl"
+>:timeout</B
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=24C22C24D24B4B8DC09BD2EC6EBD6F7C%2Fprocess-next-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z364"
+></A
+><P
+>This is all jumbled up. it should be:</P
+><P
+>* If an event is received and processed, the predicate should return true.</P
+><P
+>* If a timeout occurs, the process-next-event should return the two values false and :timeout.</P
+><P
+>* If the wait function returns true, the predicate should return  the two values false and :wait-function.</P
+><P
+>Also to avoid busy looping it should be specified, that wait-function may be called only after certain port events occur (not necessarily "CLIM events").</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=24C22C24D24B4B8DC09BD2EC6EBD6F7C%2Fprocess-next-event%2F8.1.1&amp;editp=t&amp;id=Z364#Z364"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-03-26 09:00Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+></UL
+><P
+>A port implementation must provide a method for this function that reads the next window server-specific device event, blocking if necessary, and then invokes the event distributor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5102DCE2C8ABE8ECF2A63780BCFED1C%2Fprocess-next-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=323EA58770841682084065A2302C0746%2Fprocess-next-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-1.html#_2576"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.1 Input Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>dispatch-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2561"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1 Input Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_304"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>port-keyboard-input-focus</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_305"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf port-keyboard-input-focus)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>focus port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the client to which keyboard events are to be dispatched. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F58001A9F2A6CECC6FB0D1C03A036A1%2Fport-keyboard-input-focus%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Should this accessor be called </I
+><I
+><B CLASS="cl"
+>keyboard-input-focus</B
+></I
+><I
+>? It may be that we want to be able to call it on a frame in order to implement some sort of per-frame input focus. ---&nbsp;RSL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A5551C2123F7880B76D40AF6E457AF1%2Fport-keyboard-input-focus%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z243"
+></A
+><P
+>True.</P
+><P
+>Input focus should be managed per frame. Every frame has a sheet, which has the input focus and then the frame manager (your window manager) dispatches keyboard input to one of the frames. Each frame then dispatches possible keyboard events to its focus sheet.</P
+><P
+>Therefore I propose we have an accessor like:</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=frame-manager-frame-keyboard-input-focus"
+>frame-manager-frame-keyboard-input-focus</A
+></SPAN
+> frame-manager frame</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%28setf%20frame-manager-frame-keyboard-input-focus%29"
+>(setf frame-manager-frame-keyboard-input-focus)</A
+></SPAN
+> sheet frame-manager frame</P
+><P
+>We need the frame manager in the game, since the frame class does not include any port-specific class in its class precedence list, while the frame manager has and altering input focus may be port-specific.</P
+><P
+>Though for convenience I also propose the following two functions:</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=frame-keyboard-input-focus"
+>frame-keyboard-input-focus</A
+></SPAN
+> frame</P
+><P
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%28setf%20frame-keyboard-input-focus%29"
+>(setf frame-keyboard-input-focus)</A
+></SPAN
+> sheet frame&#10; </P
+><P
+></P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A5551C2123F7880B76D40AF6E457AF1%2Fport-keyboard-input-focus%2F8.1.1&amp;editp=t&amp;id=Z243#Z243"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2016-05-15 17:07Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7C5D9B4E7B3893C111E9BD5F34EDF54%2Fport-keyboard-input-focus%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z369"
+></A
+><P
+>Keep in mind that you can't rely on a fact, that port-keyboard-input-focus knows anything about frames (for all we know client may work on bare sheets), so this should be implemented like:</P
+><P
+>(setf port-keyboard-input-focus)&#10;specialized on pane should delegate it to&#10;(setf frame-keyboard-input-focus)</P
+><P
+>while default sheet method should simply assign the sheet.</P
+><P
+>Unless you want to throw into the dump whole separation of windowing substrate and CLIM higher level concepts.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D7C5D9B4E7B3893C111E9BD5F34EDF54%2Fport-keyboard-input-focus%2F8.1.1&amp;editp=t&amp;id=Z369#Z369"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-07-18 08:59Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4406"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2.1 The Extended Input Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-set-input-focus</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2566"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1 Input Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_306"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>distribute-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <I
+>event</I
+> is distributed to the <I
+>port</I
+>'s proper client. In general, this will be the keyboard input focus for keyboard events, and the lowest sheet under the pointer for pointer events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=383FFD0C81DDBAD281F0AF1FE88A6FEC%2Fdistribute-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Do we just want to call this function </I
+><I
+><A NAME="_2575"></A><A HREF="8-1.html#_307"
+><B CLASS="cl"
+>dispatch-event</B
+></A
+></I
+><I
+> and have it called on the port first? ---&nbsp;RSL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81DCFD8A78AE9DEEA499DB41029F242C%2Fdistribute-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0593F5A034FD759D540E44EC7AD9F6DB%2Fdistribute-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_307"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>dispatch-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is called by <A NAME="_2576"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+> to inform a client about an event of interest. It is invoked synchronously by whatever process called <A NAME="_2577"></A><A HREF="8-1.html#_303"
+><B CLASS="cl"
+>process-next-event</B
+></A
+>, so many methods for this function will simply queue the event for later handling. Certain classes of clients and events may cause this function immediately to call either <A NAME="_2578"></A><A HREF="8-1.html#_308"
+><B CLASS="cl"
+>queue-event</B
+></A
+> or <A NAME="_2579"></A><A HREF="8-1.html#_309"
+><B CLASS="cl"
+>handle-event</B
+></A
+>, or to ignore the event entirely. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AFDEE0834377F108CC2A7AEBFCBF397%2Fdispatch-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39888577E6E86D60A09D38FBEE79EC3B%2Fdispatch-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-1.html#_2596"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>delegate-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2592"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>immediate-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2587"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2585"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2575"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.1 Input Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>distribute-event</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_308"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>queue-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Places the event <I
+>event</I
+> into the queue of events for the client <I
+>client</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11D5E4C390D87CCF050472142547B69E%2Fqueue-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0B611FE5E7B16F22DDA565D0341BB120%2Fqueue-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-1.html#_2588"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2580"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.1 Input Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>handle-event</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2578"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.1 Input Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>dispatch-event</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_309"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>handle-event</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Implements the client's policy with respect to the event. For example, if the programmer wishes to highlight a sheet in response to an event that informs it that the pointer has entered its territory, there would be a method to carry out the policy that specializes the appropriate sheet and event classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE27158DCD8D6570433634F90DCAD7F6%2Fhandle-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In addition to <A NAME="_2580"></A><A HREF="8-1.html#_308"
+><B CLASS="cl"
+>queue-event</B
+></A
+>, the queued input protocol handles the following generic functions. The <I
+>client</I
+> argument to these functions is typically a sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28B449729B835B1AA9C466FC0AA5953E%2Fhandle-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB7E02A5B70939A1415B421062EB6D63%2Fhandle-event%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-2.html#_4398"
+><SPAN CLASS="reverselink"
+>[&larr; 22.2 Extended Input Streams, <B CLASS="cl"
+><B CLASS="cl"
+>standard-extended-input-stream</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-1.html#_4376"
+><SPAN CLASS="reverselink"
+>[&larr; 22.1 Basic Input Streams, <B CLASS="cl"
+><B CLASS="cl"
+>standard-input-stream</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-4.html#_2778"
+><SPAN CLASS="reverselink"
+>[&larr; 8.4.1 Repaint Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>queue-repaint</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2593"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>immediate-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2589"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-sheet-input-mixin</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2579"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.1 Input Protocol Functions, <B CLASS="cl"
+><B CLASS="cl"
+>dispatch-event</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_310"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-read</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Takes the next event out of the queue of events for this client. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F899ECD8B9B2BB45B8EAC993132D2EF1%2Fevent-read%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=20D60A57EB435B76861B6ADB44898CEF%2Fevent-read%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_311"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-read-no-hang</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Takes the next event out of the queue of events for this client. It returns <A NAME="_2581"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if there are no events in the queue. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=236D347CAFACDBD15763462DBA43BC45%2Fevent-read-no-hang%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=22AE4E7FCCB3FBAC458FEA882AF7A9A8%2Fevent-read-no-hang%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_312"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-peek</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>event-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the next event in the queue without removing it from the queue. If <I
+>event-type</I
+> is supplied, events that are not of that type are first removed and discarded. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72F6841DF6ABFBC18815BA4375A28DB9%2Fevent-peek%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=729EC6AA87DF101BCD9971037B7B36EC%2Fevent-peek%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_313"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-unread</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client event</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Places the <I
+>event</I
+> at the head of the <I
+>client</I
+>'s event queue, so as to be the next event read. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A93859458D9451E4FCF4E5C3282FF1F%2Fevent-unread%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BE6CAA748B0509F7785B1CE5B0276A9%2Fevent-unread%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_314"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-listen</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>client</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if there are any events queued for <I
+>client</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12684048CABD494DBE51140BEBD85B80%2Fevent-listen%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE51DB754AA11BC0F8D43091F25A0B7E%2Fevent-listen%2F8.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_315"></A><DIV
+><H4
+>8.1.2 Input Protocol Classes</H4
+><P
+>Most classes of sheets will have one of the following input protocol classes mixed in. Of course, a sheet can always have a specialized method for a specific class of event that will override the default. For example, a sheet may need to have only pointer click events dispatched to itself, and may delegate all other events to some other input client. Such a sheet should have <A NAME="_2584"></A><A HREF="8-1.html#_319"
+><B CLASS="cl"
+>delegate-sheet-input-mixin</B
+></A
+> as a superclass, and have a more specific method for <A NAME="_2585"></A><A HREF="8-1.html#_307"
+><B CLASS="cl"
+>dispatch-event</B
+></A
+> on its class and <B CLASS="cl"
+>pointer-button-click-event</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8763BB3890E6DCB33B47B7CFC8F05A92%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of the five following classes is instantiable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=25ADDC539F84E547DCCC6EB330EC8ED6%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_316"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-sheet-input-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class of sheet provides a method for <A NAME="_2587"></A><A HREF="8-1.html#_307"
+><B CLASS="cl"
+>dispatch-event</B
+></A
+> that calls <A NAME="_2588"></A><A HREF="8-1.html#_308"
+><B CLASS="cl"
+>queue-event</B
+></A
+> on each device event. Note that configuration events invoke <A NAME="_2589"></A><A HREF="8-1.html#_309"
+><B CLASS="cl"
+>handle-event</B
+></A
+> immediately. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A0E35F6F349054AD3C8667B4256CFBDF%2Fstandard-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>standard-sheet-input-mixin</B
+> class will also provide a <A NAME="_2591"></A><A HREF="8-1.html#_302"
+><B CLASS="cl"
+>sheet-event-queue</B
+></A
+> method, describe above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=55EFA1D7717244371B7180D5E257EC64%2Fstandard-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=166F70F78DB29E26D3189B006037180D%2Fstandard-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_317"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>immediate-sheet-input-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class of sheet provides a method for <A NAME="_2592"></A><A HREF="8-1.html#_307"
+><B CLASS="cl"
+>dispatch-event</B
+></A
+> that calls <A NAME="_2593"></A><A HREF="8-1.html#_309"
+><B CLASS="cl"
+>handle-event</B
+></A
+> immediately for all events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=615E6D6F65F3A1012794CD6E84065A18%2Fimmediate-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>immediate-sheet-input-mixin</B
+> class will also provide a <A NAME="_2595"></A><A HREF="8-1.html#_302"
+><B CLASS="cl"
+>sheet-event-queue</B
+></A
+> method, describe above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC2BBA9AE792E87AF96888EF5D36D76E%2Fimmediate-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C469BDFD13F9076A159CBF269B00D08%2Fimmediate-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_318"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>sheet-mute-input-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is mixed in to any sheet class the does not handle any input events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49580A554964DE8BB0917DA63C74BF36%2Fsheet-mute-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77213D178064C801C49EF4AC31E12354%2Fsheet-mute-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_319"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>delegate-sheet-input-mixin</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This class of sheet provides a method for <A NAME="_2596"></A><A HREF="8-1.html#_307"
+><B CLASS="cl"
+>dispatch-event</B
+></A
+> that calls <A NAME="_2597"></A><A HREF="8-1.html#_307"
+><B CLASS="cl"
+>dispatch-event</B
+></A
+> on a designated substitute recipient and the event. The initarg <B CLASS="cl"
+>:delegate</B
+> or the accessor delegate-sheet-delegate may be used to set the recipient of dispatched events. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0909561FE43A3A9F46E8DBB527859E8B%2Fdelegate-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAC2A7BFC85921E7711B3AEFD1035A2E%2Fdelegate-sheet-input-mixin%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="8-1.html#_2599"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes, <B CLASS="cl"
+><B CLASS="cl"
+>delegate-sheet-delegate</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="8-1.html#_2584"
+><SPAN CLASS="reverselink"
+>[&larr; 8.1.2 Input Protocol Classes]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_320"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>delegate-sheet-delegate</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_321"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf delegate-sheet-delegate)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>delegate sheet</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This may be set to another recipient of events dispatched to a sheet of class <A NAME="_2599"></A><A HREF="8-1.html#_319"
+><B CLASS="cl"
+>delegate-sheet-input-mixin</B
+></A
+>. <I
+>delegate</I
+> is the object to which events will be dispatched, and is usually another sheet. If the delegate is <A NAME="_2600"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, events are discarded. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B577AECB0F3332087CD25D4CD638DC2B%2Fdelegate-sheet-delegate%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB56FB8DFA45FDA05B4FA6C30A0E25CF%2Fdelegate-sheet-delegate%2F8.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/8-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

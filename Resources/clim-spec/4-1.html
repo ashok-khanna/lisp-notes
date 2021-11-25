@@ -1,0 +1,1332 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/4-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 4.1 Bounding Rectangles</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="4 Bounding Rectangles" HREF="4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="5 Affine Transformations" HREF="5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="4 Bounding Rectangles" HREF="4.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="4.html"
+>Prev</A
+><BR
+><A HREF="5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-II.html"
+>Part&nbsp;II:&nbsp;Geometry&nbsp;Substrate</A
+> &rarr;&nbsp;<A HREF="4.html"
+>4&nbsp;Bounding&nbsp;Rectangles</A
+><BR
+>&rarr;&nbsp;<A HREF="4-1.html"
+><B
+>4.1&nbsp;Bounding&nbsp;Rectangles</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_149"></A><DIV
+><H3
+>4.1 Bounding Rectangles</H3
+><LI CLASS="outline_item"
+><A HREF="4-1.html#_156"
+>4.1.1 The Bounding Rectangle Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="4-1.html#_159"
+>4.1.2 Bounding Rectangle Convenience Functions</A
+></LI
+><DIV
+><P
+>Every bounded region has a derived <A NAME="_150"></A><SPAN CLASS="concept"
+>bounding rectangle</SPAN
+>, which is a rectangular region whose sides are parallel to the coordinate axes. Therefore, every bounded region participates in the bounding rectangle protocol. The bounding rectangle for a region is the smallest rectangle that contains every point in the region. However, the bounding rectangle may contain additional points as well. Unbounded regions do not have a bounding rectangle and do not participate in the bounding rectangle protocol. Other objects besides bounded regions participate in the bounding rectangle protocol, such as sheets and output records. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=022A4B58AF562329C337D5A6B1E62937%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6879"
+><SPAN CLASS="reverselink"
+>[bounding rectangle, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2360"
+><SPAN CLASS="reverselink"
+>[bounding rectangle, <I
+>Concept</I
+>&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>bounding-rectangle-p</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>The coordinate system in which the bounding rectangle is maintained depends on the context. For example, the coordinates of the bounding rectangle of a sheet are expressed in the sheet's parent's coordinate system. For output records, the coordinates of the bounding rectangle are maintained in the coordinate system of the stream with which the output record is associated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1196F1C28732DADA7341D40140644935%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that the bounding rectangle of a transformed region is not in general the same as the result of transforming the bounding rectangle of a region, as shown in Figure&nbsp;<A NAME="_2350"></A><A HREF="4-1.html#_151"
+>4.1</A
+>. For transformations that satisfy <A NAME="_2351"></A><A HREF="5-3.html#_201"
+><B CLASS="cl"
+>rectilinear-transformation-p</B
+></A
+>, the following equality holds. For all other transformations, it does not hold. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB5D7E4D383A26308AE4DAF07583177F%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(region-equal&#10;  (transform-region transformation (bounding-rectangle region))&#10;  (bounding-rectangle (transform-region transformation region)))&#10;</PRE
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="bounding-box.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 4.1:  The bounding rectangle of an output record.</DIV
+></DIV
+><P
+>CLIM uses bounding rectangles for a variety of purposes. For example, repainting of windows is driven from the bounding rectangle of the window's viewport, intersected with a "damage" region. The formatting engines used by <A NAME="_2352"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+> and <B CLASS="cl"
+>formatting-graph</B
+> operate on the bounding rectangles of the output records in the output. Bounding rectangles are also used internally by CLIM to achieve greater efficiency. For instance, when performing hit detection to see if the pointer is within the region of an output record, CLIM first checks to see if the pointer is within the bounding rectangle of the output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B16096C4FB5049CE0F93714578FA861%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that the bounding rectangle for an output record may have a different size depending on the medium on which the output record is rendered. Consider the case of rendering text on different output devices; the font chosen for a particular text style may vary considerably in size from one device to another. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=171C88C9CDD26CCDB6529CB7F8F4FE91%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_152"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents a bounding rectangle. If you want to create a new class that behaves like a bounding rectangle, it should be a subclass of <B CLASS="cl"
+>bounding-rectangle</B
+>. All instantiable subclasses of <B CLASS="cl"
+>bounding-rectangle</B
+> must obey the bounding rectangle protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=877A0D1058105FC5C6C6C12FF740888A%2Fbounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that bounding rectangles are not a subclass of <A NAME="_2356"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+>, nor even a subclass of <A NAME="_2357"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+>. This is because, in general, bounding rectangles do not obey the region protocols. However, all bounded regions and sheets that obey the bounding rectangle protocol are subclasses of <B CLASS="cl"
+>bounding-rectangle</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9FA82B053E344B0416F73C6C63C81344%2Fbounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Bounding rectangles are immutable, but since they reflect the live state of such mutable objects as sheets and output records, bounding rectangles are volatile. Therefore, programmers must not depend on the bounding rectangle associated with a mutable object remaining constant. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18CDF203CC0FF9AF674442DB35E1200B%2Fbounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8DA386F137B2FF4962998FF1F8A916E4%2Fbounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="4-1.html#_158"
+><SPAN CLASS="forwardlink"
+>[&rarr; bounding-rectangle, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="A.html#_6998"
+><SPAN CLASS="reverselink"
+>[&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3724"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>displayed-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3718"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2377"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.2 Bounding Rectangle Convenience Functions]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2362"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2206"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2156"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-set</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2124"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>coordinate</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2111"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>area</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2097"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>path</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_153"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_2360"></A><A HREF="4-1.html#_150"
+><SPAN CLASS="term"
+>bounding rectangle</SPAN
+></A
+> (that is, supports the bounding rectangle protocol), otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9BA0DACC7FC986EF197C70D201AF4874%2Fbounding-rectangle-p%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=24C536A5858EDCC606638C2149C5086B%2Fbounding-rectangle-p%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_154"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements a bounding rectangle. This is a subclass of both <A NAME="_2362"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+> and <A NAME="_2363"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+>, that is, standard bounding rectangles obey the rectangle protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3A28FEFD9AC5D7DE1B2288DE105C9194%2Fstandard-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_2364"></A><A HREF="4-1.html#_155"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+></A
+> returns an object of this class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7673549FF088F2DB2D486A2D6A314B17%2Fstandard-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The representation of bounding rectangles in CLIM is chosen to be efficient. CLIM will probably represent such rectangles by storing the coordinates of two opposing corners of the rectangle, namely, the "min point" and the "max point". Because this representation is not sufficient to represent the result of arbitrary transformations of arbitrary rectangles, CLIM is allowed to return a polygon as the result of such a transformation. (The most general class of transformations that is guaranteed to always turn a rectangle into another rectangle is the class of transformations that satisfy <A NAME="_2365"></A><A HREF="5-3.html#_201"
+><B CLASS="cl"
+>rectilinear-transformation-p</B
+></A
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6CB516DBED8E3BBA4FF4907D40DF3815%2Fstandard-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0748C6FFB21825533316A66C7B2728D0%2Fstandard-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6683"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.4 CLIM Stream Pane Functions, <B CLASS="cl"
+><B CLASS="cl"
+>window-viewport</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2366"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_155"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-bounding-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of the class <A NAME="_2366"></A><A HREF="4-1.html#_154"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></A
+> with the edges specified by <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+>, which must be real numbers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB9A9660679908E7B74C71C351BF2374%2Fmake-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+> are "canonicalized" in the following way. The min point of the rectangle has an <I
+>x</I
+> coordinate that is the smaller of <I
+>x1</I
+> and <I
+>x2</I
+> and a <I
+>y</I
+> coordinate that is the smaller of <I
+>y1</I
+> and <I
+>y2</I
+>. The max point of the rectangle has an <I
+>x</I
+> coordinate that is the larger of <I
+>x1</I
+> and <I
+>x2</I
+> and a <I
+>y</I
+> coordinate that is the larger of <I
+>y1</I
+> and <I
+>y2</I
+>. (Therefore, in a right-handed coordinate system the canonicalized values of <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+> correspond to the left, top, right, and bottom edges of the rectangle, respectively.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=091CB46FF9AA7AE1EA9ED0412DE16FCE%2Fmake-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function returns fresh objects that may be modified.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96FDBC89B45293006C146AA6D18E6331%2Fmake-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46E04A8CF7188DB88F5802AE0D591F35%2Fmake-bounding-rectangle%2F4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-5.html#_3200"
+><SPAN CLASS="reverselink"
+>[&larr; 12.5.1 Basic Drawing Functions, <B CLASS="cl"
+><B CLASS="cl"
+>draw-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2544"
+><SPAN CLASS="reverselink"
+>[&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-sheet-rectangle*-to-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="7-3.html#_2542"
+><SPAN CLASS="reverselink"
+>[&larr; 7.3.1 Sheet Geometry Functions, <B CLASS="cl"
+><B CLASS="cl"
+>map-sheet-rectangle*-to-parent</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2473"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations, <B CLASS="cl"
+><B CLASS="cl"
+>transform-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2364"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_156"></A><DIV
+><H4
+>4.1.1 The Bounding Rectangle Protocol</H4
+><P
+>The following generic function comprises the bounding rectangle protocol. All classes that participate in this protocol (including all subclasses of <A NAME="_2367"></A><A HREF="3-1.html#_39"
+><B CLASS="cl"
+>region</B
+></A
+> that are bounded regions) must implement a method for <A NAME="_2368"></A><A HREF="4-1.html#_157"
+><B CLASS="cl"
+>bounding-rectangle*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0ED5E1571A43267DD2160F619EF8D00C%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_157"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the bounding rectangle of <I
+>region</I
+> as four real numbers specifying the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the min point and the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the max point of the rectangle. The argument <I
+>region</I
+> must be either a bounded region (such as a line or an ellipse) or some other object that obeys the bounding rectangle protocol, such as a sheet or an output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6D3DB01BBBD86F61C9E0037E849AED4%2Fbounding-rectangle%2A%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The four returned values <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+> will satisfy the inequalities <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><TR
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>minx&le;maxx</TD
+></TR
+><TR
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>miny&le;maxy</TD
+></TR
+></TABLE
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1CD4C2D46B5C02BE10A85236BDD58F3D%2Fbounding-rectangle%2A%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE3BE8DA22E41F6FC1902A0F873AA530%2Fbounding-rectangle%2A%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-2.html#_3767"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>output-record-hit-detection-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2380"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.2 Bounding Rectangle Convenience Functions, <B CLASS="cl"
+><B CLASS="cl"
+>with-bounding-rectangle*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2378"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.2 Bounding Rectangle Convenience Functions]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2376"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.1 The Bounding Rectangle Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2368"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.1 The Bounding Rectangle Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_158"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the bounding rectangle of <I
+>region</I
+> as an object that is a subclass of <A NAME="_2369"></A><A HREF="3-2.html#_112"
+><B CLASS="cl"
+>rectangle</B
+></A
+> (described in Section&nbsp;<A NAME="_2370"></A><A HREF="3-2.html#_111"
+>3.2.4</A
+>). The argument <I
+>region</I
+> must be either a bounded region (such as a line or an ellipse) or some other object that obeys the bounding rectangle protocol, such as a sheet or an output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCC5A52A27FEEC20D0D9F455BB5E23BA%2Fbounding-rectangle%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is unspecified whether <B CLASS="cl"
+>bounding-rectangle</B
+> will or will not create a new object each time it is called. Many CLIM implementations will cache the bounding rectangle for sheets and output records. The implication of this is that, since bounding rectangles are volatile, programmers should depend on the object returned by <B CLASS="cl"
+>bounding-rectangle</B
+> remaining constant. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DDF48A523F2C93240A4CD5ED64CD4066%2Fbounding-rectangle%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z128"
+></A
+>is there a missing "not" here?  "... programmers should not depend on the object returned by bounding-rectangle remaining constant." <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DDF48A523F2C93240A4CD5ED64CD4066%2Fbounding-rectangle%2F4.1.1&amp;editp=t&amp;id=Z128#Z128"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2006-02-27 10:52Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>bounding-rectangle</B
+> is part of the bounding rectangle API, but not part of the bounding rectangle protocol. CLIM will supply a default method for <B CLASS="cl"
+>bounding-rectangle</B
+> on the protocol class <B CLASS="cl"
+>bounding-rectangle</B
+> that is implemented by calling <A NAME="_2376"></A><A HREF="4-1.html#_157"
+><B CLASS="cl"
+>bounding-rectangle*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=574144BD9303C9F9B18BA16CC578F9BD%2Fbounding-rectangle%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=59FCFB393154129EFE771AC46124BE9F%2Fbounding-rectangle%2F4.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="4-1.html#_152"
+><SPAN CLASS="forwardlink"
+>[&rarr; bounding-rectangle, <I
+>Protocol&nbsp;Class</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="A.html#_6998"
+><SPAN CLASS="reverselink"
+>[&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3724"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>displayed-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3718"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2377"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1.2 Bounding Rectangle Convenience Functions]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2362"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-bounding-rectangle</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-2.html#_2206"
+><SPAN CLASS="reverselink"
+>[&larr; 3.2.1 Points, <B CLASS="cl"
+><B CLASS="cl"
+>point</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2156"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1.2 Region Composition Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>region-set</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2124"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>coordinate</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2111"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>area</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2097"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>path</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_159"></A><DIV
+><H4
+>4.1.2 Bounding Rectangle Convenience Functions</H4
+><P
+>The functions described below are part of the bounding rectangle API, but are not part of the bounding rectangle protocol. They are provided as a convenience to programmers who wish to specialize classes that participate in the bounding rectangle protocol, but do not complicate the task of those programmers who define their own types (such as sheet classes) that participate in this protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB0EB7E3AE27FEA05E6C001D8B31E493%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM will supply default methods for all of these generic functions on the protocol class <A NAME="_2377"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+> that are implemented by calling <A NAME="_2378"></A><A HREF="4-1.html#_157"
+><B CLASS="cl"
+>bounding-rectangle*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8AC8764CC832C25E2CB4525F33D48B2%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_160"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-bounding-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(min-x min-y max-x max-y) region </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+> to the edges of the bounding rectangle of <I
+>region</I
+>, and then executes <I
+>body</I
+> in that context. The argument <I
+>region</I
+> must be either a bounded region (such as a line or an ellipse) or some other object that obeys the bounding rectangle protocol, such as a sheet or an output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B4595F1D404FA7EE9B241786F000522%2Fwith-bounding-rectangle%2A%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The arguments <I
+>min-x</I
+>, <I
+>min-y</I
+>, <I
+>max-x</I
+>, and <I
+>max-y</I
+> are not evaluated. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69BF55F3152D9D073D8EDEE32B09390B%2Fwith-bounding-rectangle%2A%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-bounding-rectangle*</B
+> must be implemented by calling <A NAME="_2380"></A><A HREF="4-1.html#_157"
+><B CLASS="cl"
+>bounding-rectangle*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0595F3F7EFD7FEDEAC67336401052738%2Fwith-bounding-rectangle%2A%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAE6EC9BBFFA315A80521D06A63EDA5D%2Fwith-bounding-rectangle%2A%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7297"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_161"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the position of the bounding rectangle of <I
+>region</I
+>. The position of a bounding rectangle is specified by its min point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BD1C55B0681D640E584EA7A944C52455%2Fbounding-rectangle-position%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F2729AC462519BE9311F2DA1AA43056B%2Fbounding-rectangle-position%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7300"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_162"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-min-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_163"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-min-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_164"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-max-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_165"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-max-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (respectively) the <I
+>x</I
+> and <I
+>y</I
+> coordinates of the min point and the <I
+>x</I
+> and <I
+>y</I
+> coordinate of the max point of the bounding rectangle of <I
+>region</I
+>. The argument <I
+>region</I
+> must be either a bounded region or some other object that obeys the bounding rectangle protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F4695202E9C967A628AA1EC0C6517A1%2Fbounding-rectangle-min-x%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=983EBE274F59174D1F7F498149DD389E%2Fbounding-rectangle-min-x%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7308"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_166"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_167"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_168"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bounding-rectangle-size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the width, height, or size (as two values, the width and height) of the bounding rectangle of <I
+>region</I
+>, respectively. The argument <I
+>region</I
+> must be either a bounded region or some other object that obeys the bounding rectangle protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD2197970A7D8F7DF78068FFD6B5DE42%2Fbounding-rectangle-width%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The width of a bounding rectangle is the difference between its maximum <I
+>x</I
+> coordinate and its minimum <I
+>x</I
+> coordinate. The height is the difference between the maximum <I
+>y</I
+> coordinate and its minimum <I
+>y</I
+> coordinate. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C68F89F14E9F14584E887FDB544F0FE4%2Fbounding-rectangle-width%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9872526EE59B657B8EE0BF413A6568C1%2Fbounding-rectangle-width%2F4.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/4-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

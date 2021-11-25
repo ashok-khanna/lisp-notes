@@ -1,0 +1,2544 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/16-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 16.2 Output Records</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="16.1 Overview of Output Recording" HREF="16-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="16.3 Types of Output Records" HREF="16-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="16 Output Recording" HREF="16.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="16-1.html"
+>Prev</A
+><BR
+><A HREF="16-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="16.html"
+>16&nbsp;Output&nbsp;Recording</A
+><BR
+>&rarr;&nbsp;<A HREF="16-2.html"
+><B
+>16.2&nbsp;Output&nbsp;Records</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_835"></A><DIV
+><H3
+>16.2 Output Records</H3
+><LI CLASS="outline_item"
+><A HREF="16-2.html#_844"
+>16.2.1 The Basic Output Record Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="16-2.html#_858"
+>16.2.2 The Output Record "Database" Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="16-2.html#_866"
+>16.2.3 Output Record Change Notification Protocol</A
+></LI
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_836"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that is used to indicate that an object is an output record, that is, an object that contains other output records. This is a subclass of <A NAME="_3718"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+>, and as such, output records obey the bounding rectangle protocol. If you want to create a new class that behaves like an output record, it should be a subclass of <B CLASS="cl"
+>output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>output-record</B
+> must obey the output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8D7BD46191F1AC3994F8E99779BDB849%2Foutput-record%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All output records are mutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FED3A052E7E41404F8CA7EBE459710A0%2Foutput-record%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6EC855BA73712EA784602C951B59AED%2Foutput-record%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7349"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="30-5.html#_6857"
+><SPAN CLASS="reverselink"
+>[&larr; 30.5 Integrating Gadgets and Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>gadget-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-3.html#_4294"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>updating-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4159"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>graph-node-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4141"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>graph-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4094"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.4 Item List Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>item-list-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4085"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.3 Cell Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>cell-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4078"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.2 Row and Column Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>column-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4071"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.2 Row and Column Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>row-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4056"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.1 Table Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>table-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3803"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.1 Standard Output Record Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-sequence-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3775"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.2 The Output Record "Database" Protocol]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3735"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3732"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>:size</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3730"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>:x-position</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_837"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81666500F86589ABFE2CA165DCE56726%2Foutput-record-p%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA96DA274F2D43416EABA5B5064E5571%2Foutput-record-p%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_838"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>displayed-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that is used to indicate that an object is a displayed output record, that is, an object that represents a visible piece of output on some output stream. This is a subclass of <A NAME="_3724"></A><A HREF="4-1.html#_158"
+><B CLASS="cl"
+>bounding-rectangle</B
+></A
+>. If you want to create a new class that behaves like a displayed output record, it should be a subclass of <B CLASS="cl"
+>displayed-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>displayed-output-record</B
+> must obey the displayed output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91CA29F10EA36FE012E75E1FA66AA7C3%2Fdisplayed-output-record%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z156"
+></A
+>The text doesn't say that displayed-output-record is a subclass of output-record &#10;but surely, that must be the case.  It wouldn't hurt to mention it explicitly. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91CA29F10EA36FE012E75E1FA66AA7C3%2Fdisplayed-output-record%2F16.2&amp;editp=t&amp;id=Z156#Z156"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-01-02 06:09Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All displayed output records are mutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29CF4BABA32FF478273C98799D3F4FBE%2Fdisplayed-output-record%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=78AE2D48F94F7989FD59B702774E17A2%2Fdisplayed-output-record%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7353"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3818"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.3 Text Displayed Output Record, <B CLASS="cl"
+><B CLASS="cl"
+>text-displayed-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3808"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.2 Graphics Displayed Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>graphics-displayed-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3736"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3731"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2 Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>:x-position</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_839"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>displayed-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>displayed output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1812D54000D3C760A29D758348B5B8E%2Fdisplayed-output-record-p%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18083D251874BEC244098C390C8465C8%2Fdisplayed-output-record-p%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_840"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:x-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_841"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:y-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_842"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:parent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of either <A NAME="_3730"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+> or <A NAME="_3731"></A><A HREF="16-2.html#_838"
+><B CLASS="cl"
+>displayed-output-record</B
+></A
+> must handle these three initargs, which are used to specify, respectively, the <I
+>x</I
+> and <I
+>y</I
+> position of the output record, and the parent of the output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=395FEB2BEA0CCBA017E6D964986E0478%2F%3Ax-position%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4219CBD1886C5D9E142E13D3EE5D2D1A%2F%3Ax-position%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_843"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:size</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_3732"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+> must handle the <B CLASS="cl"
+>:size</B
+> initarg. It is used to specify how much room should be left for child output records (if, for example, the children are stored in a vector). It is permissible for <B CLASS="cl"
+>:size</B
+> to be ignored, provided that the resulting output record is able to store the specified number of child output records. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B7277586C2A6C844EA88E15116635FE%2F%3Asize%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4BE0DDA913356863BB50DAA075E181E6%2F%3Asize%2F16.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_844"></A><DIV
+><H4
+>16.2.1 The Basic Output Record Protocol</H4
+><P
+>All subclasses of <A NAME="_3735"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+> and <A NAME="_3736"></A><A HREF="16-2.html#_838"
+><B CLASS="cl"
+>displayed-output-record</B
+></A
+> must inherit or implement methods for the following generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A21BD47A8439C2CECB6B90735A2C0C23%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the generic functions in this section take both <I
+>record</I
+> and a <I
+>stream</I
+> arguments, CLIM implementations will specialize the <I
+>stream</I
+> argument for the <A NAME="_3737"></A><A HREF="16-4.html#_890"
+><B CLASS="cl"
+>standard-output-recording-stream</B
+></A
+> class and the <I
+>record</I
+> argument for all of the implementation-specific output record classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DB32DD7A3EEF331D44556019B904B42A%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_845"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> and <I
+>y</I
+> position of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> as two rational numbers. The position of an output record is the position of the upper-left corner of its bounding rectangle. The position is relative to the stream, where <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+> is (initially) the upper-left corner of the stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4DADD32F133467A1B647C3AD4AB789C1%2Foutput-record-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3C1BBAE49B0DCF2AA9E25F3236D80FC%2Foutput-record-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7355"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="B-4.html#_7088"
+><SPAN CLASS="reverselink"
+>[&larr; B.4 Multiple Value <TT
+>setf</TT
+>, <B CLASS="cl"
+><B CLASS="cl"
+>defmethod*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="B-4.html#_7077"
+><SPAN CLASS="reverselink"
+>[&larr; B.4 Multiple Value <TT
+>setf</TT
+>]</SPAN
+></A
+><BR
+><A HREF="16-1.html#_3716"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+><A HREF="2-7.html#_2056"
+><SPAN CLASS="reverselink"
+>[&larr; 2.7 Multiple Value <TT
+>setf</TT
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_846"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* output-record-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the <I
+>x</I
+> and <I
+>y</I
+> position of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> to be <I
+>x</I
+> and <I
+>y</I
+> (which are rational numbers), and updates the bounding rectangle to reflect the new position (and saved cursor positions, if the output record stores it). If <I
+>record</I
+> has any children, all of the children (and their descendants as well) will be moved by the same amount as <I
+>record</I
+> was moved. The bounding rectangles of all of <I
+>record</I
+>'s ancestors will also be updated to be large enough to contain <I
+>record</I
+>. This does not replay the output record, but the next time the output record is replayed it will appear at the new position. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A377278E23D4A945338816E90BC4092%2F%28setf%2A%20output-record-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>output-record-set-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2F963944E07A897C7E0069EF0D3EA84%2F%28setf%2A%20output-record-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E592E11AC2DBB039E2A1C68E540060AE%2F%28setf%2A%20output-record-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="30-5.html#_6855"
+><SPAN CLASS="reverselink"
+>[&larr; 30.5 Integrating Gadgets and Output Records]</SPAN
+></A
+><BR
+><A HREF="2-7.html#_2061"
+><SPAN CLASS="reverselink"
+>[&larr; 2.7 Multiple Value <TT
+>setf</TT
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_847"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-start-cursor-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> and <I
+>y</I
+> starting cursor position of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> as two integer values. The positions are relative to the stream, where <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+> is (initially) the upper-left corner of the stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C49ED4293A9D457B8BCD9A03CCB68449%2Foutput-record-start-cursor-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Text output records and updating output records maintain the cursor position. Graphical output records and other output records that do not require or affect the cursor position will return <A NAME="_3743"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> as both of the values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=748D7A4E194D2085B03C9A32DD023682%2Foutput-record-start-cursor-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D84A36615CB2E4A97409D7AD7C7A047%2Foutput-record-start-cursor-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7362"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_848"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* output-record-start-cursor-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the <I
+>x</I
+> and <I
+>y</I
+> starting cursor position of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> to be <I
+>x</I
+> and <I
+>y</I
+> (which are integers). This does not affect the bounding rectangle of <I
+>record</I
+>, nor does it replay the output record. For those output records that do not require or affect the cursor position, the method for this function is a no-op. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=850722F93AC37EBCDE644B180CA760F4%2F%28setf%2A%20output-record-start-cursor-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>output-record-set-start-cursor-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9907F62B803882EC06AB8B0606B3FBC7%2F%28setf%2A%20output-record-start-cursor-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29CD7E7D3D1BDCB61C8C6A156633BC2C%2F%28setf%2A%20output-record-start-cursor-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_849"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-end-cursor-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> and <I
+>y</I
+> ending cursor position of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> as two integer values. The positions are relative to the stream, where <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+> is (initially) the upper-left corner of the stream. Graphical output records do not track the cursor position, so only text output record (and some others) will return meaningful values for this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0AC4C1C1B40E3E945DE69BB873A6C85%2Foutput-record-end-cursor-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Text output records and updating output records maintain the cursor position. Graphical output records and other output records that do not require or affect the cursor position will return <A NAME="_3748"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> as both of the values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=748D7A4E194D2085B03C9A32DD023682%2Foutput-record-end-cursor-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F07AE4242BEE8E2250E731688CA88C6F%2Foutput-record-end-cursor-position%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7364"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_850"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* output-record-end-cursor-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the <I
+>x</I
+> and <I
+>y</I
+> ending cursor position of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> to be <I
+>x</I
+> and <I
+>y</I
+> (which are integers). This does not affect the bounding rectangle of <I
+>record</I
+>, nor does it replay the output record. For those output records that do not require or affect the cursor position, the method for this function is a no-op. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DC1F16F0C47D0260282F789CB8CD50A9%2F%28setf%2A%20output-record-end-cursor-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>output-record-set-end-cursor-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7EE47360CE89C1DFB5182FADBB54D33E%2F%28setf%2A%20output-record-end-cursor-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E946A818F453272D25A40CA0B8A7D00%2F%28setf%2A%20output-record-end-cursor-position%29%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_851"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-parent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the output record that is the parent of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>, or <A NAME="_3753"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if the record has no parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F26C34306006CDA4BC4ABCAC2B2D810%2Foutput-record-parent%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=227B86D5BED558029347ACF72BA8DA06%2Foutput-record-parent%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-2.html#_4287"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>redisplay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4166"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>graph-node-parents</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-1.html#_3707"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_852"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>replay</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function bind <A NAME="_3754"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> of <I
+>stream</I
+> to <SPAN CLASS="term"
+>false</SPAN
+>, and then calls <A NAME="_3756"></A><A HREF="16-2.html#_853"
+><B CLASS="cl"
+>replay-output-record</B
+></A
+> on the arguments <I
+>record</I
+>, <I
+>stream</I
+>, and <I
+>region</I
+>. If <A NAME="_3757"></A><A HREF="16-4.html#_894"
+><B CLASS="cl"
+>stream-drawing-p</B
+></A
+> of <I
+>stream</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, <B CLASS="cl"
+>replay</B
+> does nothing. <B CLASS="cl"
+>replay</B
+> is typically called during scrolling, by repaint handlers, and so on. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C97A18646994EDCC349AB8EA1E13F2FE%2Freplay%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM implementations are permitted to default <I
+>region</I
+> either to <A NAME="_3761"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> or to the region corresponding to viewport of <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=81BB8866AB4AD199E849F68787A0F8A5%2Freplay%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F31DE5DEED7C5CF332CB1D16119AA64%2Freplay%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4140"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4054"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3861"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-replay</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3766"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>replay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_853"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>replay-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>region x-offset y-offset</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays the output captured by the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>, exactly as it was originally captured (subject to subsequent modifications). The current user transformation, line style, text style, ink, and clipping region of <I
+>stream</I
+> are all ignored during the replay operation. Instead, these are gotten from the output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=245C536A687BE78E0F195A7307DA27F5%2Freplay-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>record</I
+> is not a displayed output record, then replaying it involves replaying all of its children. If <I
+>record</I
+> is a displayed output record, then replaying it involves redoing the graphics operation captured in the record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FB1EC7B006DF12E98A6EA0239E5F0DAD%2Freplay-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>region</I
+> is a region that can be supplied to limit what records are displayed. Only those records that overlap <I
+>region</I
+> are replayed. The default for <I
+>region</I
+> is <A NAME="_3764"></A><A HREF="3-1.html#_48"
+><B CLASS="cl"
+>+everywhere+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FC30AF6140E0DE6E59776BA7A855385%2Freplay-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is permissible for implementations to restrict <B CLASS="cl"
+>replay-output-record</B
+> such that <I
+>stream</I
+> must be the same stream on which the output records were originally recorded. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=183A8982EFB05E17E7447A130D5F65A3%2Freplay-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>How does replaying a text output record (or any record that maintains the cursor position) affect the cursor position of the stream? It is probably that case that </I
+><I
+><A NAME="_3766"></A><A HREF="16-2.html#_852"
+><B CLASS="cl"
+>replay</B
+></A
+></I
+><I
+> should not affect the cursor position. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F554FCB3030F0A5272DDD9EE4990973%2Freplay-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D1ACE7A2F6DE765EAA9DD6CFE329C7BB%2Freplay-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z378"
+></A
+>x-offset and y-offset are implementation quirks. In "classic" CLIM they should be bound to the output-record parent's absolute coordinates (because inner output record coordinates are relative to its parent). McCLIM (as of 2019-08-07) ignores these parameters. Franz CLIM User Guide suggests that they were to be removed. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D1ACE7A2F6DE765EAA9DD6CFE329C7BB%2Freplay-output-record%2F16.2.1&amp;editp=t&amp;id=Z378#Z378"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2019-08-07 08:47Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7367"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="21-2.html#_4293"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>redisplay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3888"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.2 Graphics Output Recording]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3756"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>replay</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-1.html#_3715"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_854"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-hit-detection-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method is used to establish the usual "effective size" of <I
+>record</I
+> for hit detection queries. Four values are returned corresponding to the edges of the bounding rectangle that is the hit detection rectangle. The default method (on CLIM's standard output record class) is equivalent to calling calling <A NAME="_3767"></A><A HREF="4-1.html#_157"
+><B CLASS="cl"
+>bounding-rectangle*</B
+></A
+> on <I
+>record</I
+>, but this method can be specialized to return a larger bounding rectangle in order to implement a form of hysteresis. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=48F24F3382F678519DBDC76945337EC4%2Foutput-record-hit-detection-rectangle%2A%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=680B3A612C0BBC0552C157AE0E67A043%2Foutput-record-hit-detection-rectangle%2A%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-2.html#_3768"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>output-record-refined-position-test</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_855"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-refined-position-test</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is used to definitively answer hit detection queries, that is, determining that the point <I
+>(x,y)</I
+> is contained within the output record <I
+>record</I
+>. Once the position <I
+>(x,y)</I
+> has been determined to lie within <A NAME="_3768"></A><A HREF="16-2.html#_854"
+><B CLASS="cl"
+>output-record-hit-detection-rectangle*</B
+></A
+>, <B CLASS="cl"
+>output-record-refined-sensitivity-test</B
+> is invoked. Output record subclasses can provide a method that provides a more precise definition of a hit, for example, output records for elliptical rings will implement a method that detects whether the pointing device is on the elliptical ring. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8720122EF7AFADE237D37E573D4B1FA6%2Foutput-record-refined-position-test%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z171"
+></A
+>Surely, the reference to output-record-refined-sensitivity-test should rather&#10;be a reference to output-record-refined-position-test, no? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8720122EF7AFADE237D37E573D4B1FA6%2Foutput-record-refined-position-test%2F16.2.1&amp;editp=t&amp;id=Z171#Z171"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2008-08-13 13:08Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=67F966CFD9F9EEC3EA09EE7D0358D42C%2Foutput-record-refined-position-test%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="23-3.html#_4826"
+><SPAN CLASS="reverselink"
+>[&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-refined-position-test</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_856"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>highlight-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream state</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This method is called in order to draw a highlighting box around the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>. <I
+>state</I
+> will be either <B CLASS="cl"
+>:highlight</B
+> (meaning to draw the highlighting) or <B CLASS="cl"
+>:unhighlight</B
+> (meaning to erase the highlighting). The default method (on CLIM's standard output record class) will simply draw a rectangle that corresponds the the bounding rectangle of <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=34A1B5BF6408C8241FD0E84803B144A1%2Fhighlight-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=95AE7DE5711D691AD681C2C60FBB23C6%2Fhighlight-output-record%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_857"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>displayed-output-record-ink</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>displayed-output-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the ink used by the <SPAN CLASS="term"
+>displayed output record</SPAN
+> <I
+>displayed-output-record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0767FBEA32E9A564663B53B0E866E526%2Fdisplayed-output-record-ink%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=93A586347572A66E2A9497231FAABCB6%2Fdisplayed-output-record-ink%2F16.2.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_858"></A><DIV
+><H4
+>16.2.2 The Output Record "Database" Protocol</H4
+><P
+>All classes that are subclasses of <A NAME="_3775"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+> must implement methods for the following generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C82CFC8CAFB0FA0B1108A71B37182E96%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_859"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-children</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a sequence of all of the children of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>. It is unspecified whether the sequence is a freshly created object or a "live" object representing the state of <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9BDD8F993D7D1C2C1DD05CBF8085DA01%2Foutput-record-children%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0692839B31239139580F42E7DF8A42C%2Foutput-record-children%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7370"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4168"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols, <B CLASS="cl"
+><B CLASS="cl"
+>graph-node-children</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-1.html#_3709"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_860"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>child record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the new <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>child</I
+> to the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>. The bounding rectangle for <I
+>record</I
+> (and all its ancestors) must be updated to account for the new child record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBEE3ED584A0CF361866A24F86825EE8%2Fadd-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z158"
+></A
+>It wouldn't hurt to mention here that the order of insertion is important.&#10;When output records are replayed, it is done in the order that they were&#10;inserted.  <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DBEE3ED584A0CF361866A24F86825EE8%2Fadd-output-record%2F16.2.2&amp;editp=t&amp;id=Z158#Z158"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-01-02 06:22Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The methods for the <B CLASS="cl"
+>add-output-record</B
+> will typically specialize only the <I
+>record</I
+> argument. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5FBC3FE1A9ED32D0FEE2DB3B1423CBEB%2Fadd-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE49CE7E6C656574DE1F85A7E0D598C6%2Fadd-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7374"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3794"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.3 Output Record Change Notification Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>recompute-extent-for-new-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-1.html#_3711"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_861"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>delete-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>child record </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(errorp </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>child</I
+> from the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>. The bounding rectangle for <I
+>record</I
+> (and all its ancestors) may be updated to account for the child having been removed, although this is not mandatory. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD9B8CC29D1C8D0D9F6510BC0E083528%2Fdelete-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default) and <I
+>child</I
+> is not contained within <I
+>record</I
+>, then an error is signalled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9050669D2D18105400F9211AA353BC53%2Fdelete-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The methods for the <B CLASS="cl"
+>delete-output-record</B
+> will typically specialize only the <I
+>record</I
+> argument. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEB9539820B01B5A16F3D6E05869355D%2Fdelete-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=019B68CA4CD4DA125FC1907A3F58663D%2Fdelete-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7375"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3799"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.3 Output Record Change Notification Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>recompute-extent-for-changed-child</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-1.html#_3713"
+><SPAN CLASS="reverselink"
+>[&larr; 16.1 Overview of Output Recording]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_862"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>clear-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes all of the children from the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>, and resets the bounding rectangle of <I
+>record</I
+> to its initial state. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=666699CF42F3545EE97918CACA987291%2Fclear-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z157"
+></A
+>What is the "initial state" of an output record? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=666699CF42F3545EE97918CACA987291%2Fclear-output-record%2F16.2.2&amp;editp=t&amp;id=Z157#Z157"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-01-02 06:19Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9E88DA18155F38FE90C6C872478FD5B2%2Fclear-output-record%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_863"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-count</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the number of children contained within the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91A3C2D489867EC71FCFEFBC441241BF%2Foutput-record-count%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69F81681D6D2DA1BC09902215F5B0550%2Foutput-record-count%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7371"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_864"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-output-records-containing-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>function record x y <TT
+>&amp;optional </TT
+>x-offset y-offset <TT
+>&amp;rest </TT
+>function-args <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D737F1E3941ED27E346E29E64A1AC96%2Fmap-over-output-records-containing-position%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Maps over all of the children of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> that contain the point at <I
+>(x,y)</I
+>, calling <I
+>function</I
+> on each one. <I
+>function</I
+> is a function of one or more arguments, the first argument being the record containing the point; it has dynamic extent. <I
+>function</I
+> is also called with all of <I
+>function-args</I
+> as "apply" arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FD7437969CEA35261DA9D4A6D537641B%2Fmap-over-output-records-containing-position%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If there are multiple records that contain the point and that overlap each other, <B CLASS="cl"
+>map-over-output-records-containing-position</B
+> must hit the uppermost (most recently inserted) record first and the bottommost (least recently inserted) record last. Otherwise, the order in which the records are traversed is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DCA854BE26C0AA19E48BB51AC9DBEAE3%2Fmap-over-output-records-containing-position%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F9054CDC8B80B27F33C0A39970B15C77%2Fmap-over-output-records-containing-position%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7378"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_865"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-output-records-overlapping-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>function record region <TT
+>&amp;optional </TT
+>x-offset y-offset <TT
+>&amp;rest </TT
+>function-args <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0C7F39C7AB108C14092C372AA6322141%2Fmap-over-output-records-overlapping-region%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Maps over all of the children of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> that overlap the <A NAME="_3789"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region</I
+>, calling <I
+>function</I
+> on each one. <I
+>function</I
+> is a function of one or more arguments, the first argument being the record overlapping the region; it has dynamic extent. <I
+>function</I
+> is also called with all of <I
+>function-args</I
+> as "apply" arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36C9B90AD9F1EEF658C73B36268B9FBB%2Fmap-over-output-records-overlapping-region%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If there are multiple records that overlap the region and that overlap each other, <B CLASS="cl"
+>map-over-output-records-overlapping-region</B
+> must hit the bottommost (least recently inserted) record first and the uppermost (most recently inserted) record last. Otherwise, the order in which the records are traversed is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0B943774DAD2967C49DB3D0799C275E8%2Fmap-over-output-records-overlapping-region%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E1435E11912628FA609506A16DE5297%2Fmap-over-output-records-overlapping-region%2F16.2.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7379"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_866"></A><DIV
+><H4
+>16.2.3 Output Record Change Notification Protocol</H4
+><P
+>The following functions are called by programmers and by CLIM itself in order to notify a parent output record when the bounding rectangle of one of its child output record changes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DFB56D05EF35514B4621B578214462C2%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_867"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>recompute-extent-for-new-child</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record child</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is called whenever a new child is added to an output record. Its contract is to update the bounding rectangle of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> to be large enough to completely contain the new child <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>child</I
+>. The parent of <I
+>record</I
+> must be notified by calling <A NAME="_3793"></A><A HREF="16-2.html#_868"
+><B CLASS="cl"
+>recompute-extent-for-changed-child</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F03334338CF409EBF1194208752294D9%2Frecompute-extent-for-new-child%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_3794"></A><A HREF="16-2.html#_860"
+><B CLASS="cl"
+>add-output-record</B
+></A
+> is required to call <B CLASS="cl"
+>recompute-extent-for-new-child</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD79D759585D7F64670663C3852DFFA5%2Frecompute-extent-for-new-child%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=99A2D272689C38D6B0614AE2CBFA61E6%2Frecompute-extent-for-new-child%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_868"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>recompute-extent-for-changed-child</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record child  old-min-x old-min-y old-max-x old-max-y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is called whenever the bounding rectangle of one of the childs of a record has been changed. Its contract is to update the bounding rectangle of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> to be large enough to completely contain the new bounding rectangle of the child <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>child</I
+>. All of the ancestors of <I
+>record</I
+> must be notified by recursively calling <B CLASS="cl"
+>recompute-extent-for-changed-child</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F81EC5F422458DFED15C9ECFD57A85B%2Frecompute-extent-for-changed-child%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Whenever the bounding rectangle of an output record is changed or <A NAME="_3799"></A><A HREF="16-2.html#_861"
+><B CLASS="cl"
+>delete-output-record</B
+></A
+> is called, <B CLASS="cl"
+>recompute-extent-for-changed-child</B
+> must be called to inform the parent of the record that a change has taken place. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F2B64769DBDA95DF88CBCEF43BA8A59%2Frecompute-extent-for-changed-child%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z134"
+></A
+><P
+>This contradicts the description of <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=delete-output-record"
+>delete-output-record</A
+></SPAN
+>&#10;where calling <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=recompute-extent-for-changed-child"
+>recompute-extent-for-changed-child</A
+></SPAN
+> is optional.</P
+><P
+>Or is this mandated from the application programmer?</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6F2B64769DBDA95DF88CBCEF43BA8A59%2Frecompute-extent-for-changed-child%2F16.2.3&amp;editp=t&amp;id=Z134#Z134"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2006-03-03 22:43Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7CD5B23993BF0760B6B0356AB6EF5A6D%2Frecompute-extent-for-changed-child%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-2.html#_3802"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.3 Output Record Change Notification Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>tree-recompute-extent</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3793"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.3 Output Record Change Notification Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>recompute-extent-for-new-child</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_869"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>tree-recompute-extent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is called whenever the bounding rectangles of a number of children of a record have been changed, such as happens during table and graph formatting. Its contract is to compute the bounding rectangle large enough to contain all of the children of the output record <I
+>record</I
+>, adjust the bounding rectangle of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> accordingly, and then call <A NAME="_3802"></A><A HREF="16-2.html#_868"
+><B CLASS="cl"
+>recompute-extent-for-changed-child</B
+></A
+> on <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5A8176E358751FB79CD81FA5FE60147%2Ftree-recompute-extent%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0D7F8F0CAF99315025F3824792252EAB%2Ftree-recompute-extent%2F16.2.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/16-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

@@ -1,0 +1,847 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/22-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 22.3 Gestures and Gesture Names</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="22.2 Extended Input Streams" HREF="22-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="22.4 The Pointer Protocol" HREF="22-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="22 Extended Stream Input" HREF="22.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="22-2.html"
+>Prev</A
+><BR
+><A HREF="22-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="22.html"
+>22&nbsp;Extended&nbsp;Stream&nbsp;Input</A
+><BR
+>&rarr;&nbsp;<A HREF="22-3.html"
+><B
+>22.3&nbsp;Gestures&nbsp;and&nbsp;Gesture&nbsp;Names</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1094"></A><DIV
+><H3
+>22.3 Gestures and Gesture Names</H3
+><LI CLASS="outline_item"
+><A HREF="22-3.html#_1106"
+>22.3.1 Standard Gesture Names</A
+></LI
+><DIV
+><P
+>A <A NAME="_1095"></A><SPAN CLASS="concept"
+>gesture</SPAN
+> is some sort of input action by the user, such as typing a character or clicking a pointer button. A <A NAME="_1096"></A><SPAN CLASS="concept"
+>keyboard gesture</SPAN
+> refers to those gestures that are input by typing something on the keyboard. A <A NAME="_1097"></A><SPAN CLASS="concept"
+>pointer gesture</SPAN
+> refers to those gestures that are input by doing something with the pointer, such as clicking a button. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F42339BB6DB45CE37E8A190DDA30315%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6995"
+><SPAN CLASS="reverselink"
+>[gesture, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6929"
+><SPAN CLASS="reverselink"
+>[gesture, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>A <A NAME="_1098"></A><SPAN CLASS="concept"
+>gesture name</SPAN
+> is a symbol that gives a name to a set of similar gestures. Gesture names are used in order to provide a level of abstraction above raw device events; greater portability can thus be achieved by avoiding referring directly to platform-dependent constructs, such as character objects that refer to a particular key on the keyboard. For example, the <B CLASS="cl"
+>:complete</B
+> gesture is used to name the gesture that causes the <A NAME="_4463"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+> complete the current input string; on Genera, this may correspond to the Complete key on the keyboard (which generates a <CODE
+>#\Complete</CODE
+> character), but on a Unix workstation, it may correspond to some other key. Another example is <B CLASS="cl"
+>:select</B
+>, which is commonly used to indicate a left button click on the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E37BBE7BF4E89DEE0E7642E553A7EB48%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that gesture names participate in a one-to-many mapping, that is, a single gesture name can name a group of physical gestures. For example, an <B CLASS="cl"
+>:edit</B
+> might include both a pointer button click and a key press. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=865CBF1A46A7029145EDDED85CD361CF%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM uses <A NAME="_4466"></A><A HREF="8-2.html#_323"
+><SPAN CLASS="term"
+>event</SPAN
+></A
+> objects to represent user gestures. Some of the more common events are those of the class <A NAME="_4467"></A><A HREF="8-2.html#_351"
+><B CLASS="cl"
+>pointer-button-event</B
+></A
+>. Event objects store the sheet associated with the event, a timestamp, and the modifier key state (a quantity that indicates which modifier keys were held down on the keyboard at the time the event occurred). Pointer button event objects also store the pointer object, the button that was clicked on the pointer, the window the pointer was over and the <I
+>x</I
+> and <I
+>y</I
+> position within that window. Keyboard gestures store the key name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C686020C1519C2FC273F0230DE31995F%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In some contexts, the object used to represent a user gesture is referred to as an <A NAME="_1099"></A><SPAN CLASS="concept"
+>gesture object</SPAN
+>. An gesture object might be exactly the same as an event object, or might contain less information. For example, for a keyboard gesture that corresponds to a standard printing character, it may be enough to represent the gesture object as a character. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B440273CECFD8C7B387C7C3D440383D4%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1100"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-gesture-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name type gesture-spec </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(unique </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a new gesture named by the symbol <I
+>name</I
+>. <I
+>type</I
+> is the type of gesture being created, and must be one of the symbols described below. <I
+>gesture-spec</I
+> specifies the physical gesture that corresponds to the named gesture; its syntax depends on the value of <I
+>type</I
+>. <B CLASS="cl"
+>define-gesture-name</B
+> must expand into a call to <A NAME="_4469"></A><A HREF="22-3.html#_1101"
+><B CLASS="cl"
+>add-gesture-name</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFD8D956E772693A0A8B27661BC86F17%2Fdefine-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>unique</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, all old gestures named by <I
+>name</I
+> are first removed. <I
+>unique</I
+> defaults to <A NAME="_4471"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75AAD1955739ACAD215A25B5554123D5%2Fdefine-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of the arguments to <B CLASS="cl"
+>define-gesture-name</B
+> is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C897CE20A9CEC913DDB0FC82D8E7C320%2Fdefine-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=49011EC22AAEB568A5F7C8BF091B31F6%2Fdefine-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7467"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="22-3.html#_4501"
+><SPAN CLASS="reverselink"
+>[&larr; 22.3 Gestures and Gesture Names, <B CLASS="cl"
+><B CLASS="cl"
+>add-gesture-name</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1101"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-gesture-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name type gesture-spec </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>unique</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds a gesture named by the symbol <I
+>name</I
+> to the set of gesture names. <I
+>type</I
+> is the type of gesture being created, and must be one of the symbols described below. <I
+>gesture-spec</I
+> specifies the physical gesture that corresponds to the named gesture; its syntax depends on the value of <I
+>type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23BF6891AEE521E8E62A7B48676D378E%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>unique</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, all old gestures named by <I
+>name</I
+> are first removed. <I
+>unique</I
+> defaults to <A NAME="_4474"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9A172FEFDA7C9B9AE1D31EE895A061B8%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>type</I
+> is <B CLASS="cl"
+>:keyboard</B
+>, <I
+>gesture-spec</I
+> is a list of the form <I
+>(key-name . modifier-key-names)</I
+>. <I
+>key-name</I
+> is the name of a non-modifier key on the keyboard (see below). <I
+>modifier-key-names</I
+> is a (possibly empty) list of modifier key names (<B CLASS="cl"
+>:shift</B
+>, <B CLASS="cl"
+>:control</B
+>, <B CLASS="cl"
+>:meta</B
+>, <B CLASS="cl"
+>:super</B
+>, and <B CLASS="cl"
+>:hyper</B
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D9B44BB454E0B5DB9784C67F8F5A976E%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For the standard Common Lisp characters (the 95 ASCII printing characters including <CODE
+>#\Space</CODE
+>), <I
+>key-name</I
+> is the character object itself. For the other "semi-standard" characters, <I
+>key-name</I
+> is a keyword symbol naming the character (<B CLASS="cl"
+>:newline</B
+>, <B CLASS="cl"
+>:linefeed</B
+>, <B CLASS="cl"
+>:return</B
+>, <B CLASS="cl"
+>:tab</B
+>, <B CLASS="cl"
+>:backspace</B
+>, <B CLASS="cl"
+>:page</B
+>, and <B CLASS="cl"
+>:rubout</B
+>). CLIM implementations may extend the set of key names on a per-port basic, but should choose a port-specific package. For example, the Genera port might such gestures as include <B CLASS="cl"
+>genera-clim:help</B
+> and <B CLASS="cl"
+>genera-clim:complete</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=477AFB290361EC1A9C9FA90AA9D75813%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The names of the modifier keys have been chosen to be uniform across all platforms, even though not all platforms will have keys on the keyboard with these names. The per-port part of a CLIM implementation must simply choose a sensible mapping from the modifier key names to the names of the keys on the keyboard. For example, a CLIM implementation on the Macintosh might map <B CLASS="cl"
+>:meta</B
+> to the Command shift key, and <B CLASS="cl"
+>:super</B
+> to the Option shift key. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B1DFC7DB3DF0D24B09B7DF454033693%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>type</I
+> is <B CLASS="cl"
+>:pointer-button</B
+>, <B CLASS="cl"
+>:pointer-button-press</B
+>, or <B CLASS="cl"
+>:pointer-button-release</B
+>, <I
+>gesture-spec</I
+> is a list of the form <I
+>(button-name . modifier-key-names)</I
+>. <I
+>button</I
+> is the name of a pointer button (<B CLASS="cl"
+>:left</B
+>, <B CLASS="cl"
+>:middle</B
+>, or <B CLASS="cl"
+>:right</B
+>), and <I
+>modifier-key-names</I
+> is as above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2B04B6944BDED404ED2662A49504C433%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM implementations are permitted to have other values of <I
+>type</I
+> as an extension, such as <B CLASS="cl"
+>:pointer-motion</B
+> or <B CLASS="cl"
+>:timer</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D0147FA216D5DCA08A6D2CE9CC0D05A%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>As an example, the <B CLASS="cl"
+>:edit</B
+> gesture name above could be defined as follows using <A NAME="_4501"></A><A HREF="22-3.html#_1100"
+><B CLASS="cl"
+>define-gesture-name</B
+></A
+>: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B96A55EDDC88F1BDC70B12F348DF2D2%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(define-gesture-name :edit :pointer-button (:left :meta))&#10;(define-gesture-name :edit :keyboard (#\E :control))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AAD3EA61B40B33A351D43DDF2061DCEA%2Fadd-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-3.html#_4469"
+><SPAN CLASS="reverselink"
+>[&larr; 22.3 Gestures and Gesture Names, <B CLASS="cl"
+><B CLASS="cl"
+>define-gesture-name</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1102"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>delete-gesture-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the gesture named by the symbol <I
+>name</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47DC70429A30298179B201032B5D45C2%2Fdelete-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5123E0ADE64148F4D6D39BE7F4097AC5%2Fdelete-gesture-name%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1103"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>event-matches-gesture-name-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>event gesture-name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the device event <I
+>event</I
+> "matches" the gesture named by <I
+>gesture-name</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92F39D19E6DBD098EFB2B8AA935C9CED%2Fevent-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For pointer button events, the event matches the gesture name when the pointer button from the event matches the name of the pointer button one of the gesture specifications named by <I
+>gesture-name</I
+>, and the modifier key state from the event matches the names of the modifier keys in that same gesture specification. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=169961300FA722D27D42823D0C7AC4FD%2Fevent-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For keyboard events, the event matches the gesture name when the key name from the event matches the key name of one of the gesture specifications named by <I
+>gesture-name</I
+>, and the modifier key state from the event matches the names of the modifier keys in that same gesture specification. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEEE6577A6BF6AB592FA5F8438E58262%2Fevent-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7DBFED6904704BB484A3D1843222CCD6%2Fevent-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-4.html#_6031"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>lookup-keystroke-command-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6027"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>lookup-keystroke-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6017"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>find-keystroke-item</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1104"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>modifier-state-matches-gesture-name-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>modifier-state gesture-name</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the modifier key state from the device event <I
+>event</I
+> matches the names of the modifier keys in one of the gesture specifications named by <I
+>gesture-name</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ADB0876A044C42B25479BF722D80EE63%2Fmodifier-state-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Note that none of the functions above take a port argument. This is because CLIM implicitly assumes that the canonical set of gesture names is the same on every port, and only the mappings differ from port to port. Some ports may define additional gesture names, but they will simply not be mapped on other ports. Is this a reasonable assumption? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AE74D946B8FD4C0E983126DFC1C4D08%2Fmodifier-state-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=898CC4A335E0DC45CF6B31D39D2F3933%2Fmodifier-state-matches-gesture-name-p%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1105"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-modifier-state</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>modifiers</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a list of modifier state names, this creates an integer that serves as a modifier key state. The legal modifier state names are <B CLASS="cl"
+>:shift</B
+>, <B CLASS="cl"
+>:control</B
+>, <B CLASS="cl"
+>:meta</B
+>, <B CLASS="cl"
+>:super</B
+>, and <B CLASS="cl"
+>:hyper</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A3FF0D9DDCDE7D1B50AED65C43C39388%2Fmake-modifier-state%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE4CD8829896243A13CA3C23965F42BB%2Fmake-modifier-state%2F22.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1106"></A><DIV
+><H4
+>22.3.1 Standard Gesture Names</H4
+><P
+>Every CLIM implementation must provide a standard set of gesture names that correspond to a common set of gestures. These gesture names must have a meaningful mapping for every port type. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0182E75B7502F9819DD1B8CA04541AB0%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Here are the required, standard keyboard gesture names: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68EA57754FB62E1C11A33636740DA315%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:abort</B
+>---corresponds to gestures that cause the currently running application to be aborted back to top-level. On Genera, this will match the <CODE
+>#\Abort</CODE
+> character. On other systems, this may match the event corresponding to typing <TT
+>Control-C</TT
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BCBB0564E425FFB629DEFE525FD8AC4D%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:clear-input</B
+>---corresponds to gestures that cause the current input buffer to be cleared. On Genera, this will match the <CODE
+>#\Clear-Input</CODE
+> character. On other systems, this may match the event corresponding to typing <TT
+>Control-U</TT
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF106D9F80E3FD36DBEEA92F249C12F5%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:complete</B
+>---corresponds to the gestures that tell the completion facility to complete the current input. On most systems, this will typically match the <CODE
+>#\Tab</CODE
+> or <CODE
+>#\Escape</CODE
+> character. On Genera, this will match the <CODE
+>#\Complete</CODE
+> character as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8E3A2C0AC6EB8184A17C22E4A9C1B889%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:help</B
+>---corresponds to the gestures that tell <A NAME="_4513"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and the completion facility to display a help message. On most systems, this will typically match the event corresponding to typing <TT
+>Control-/</TT
+>. On Genera, this will match the <CODE
+>#\Help</CODE
+> character as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6DE7FAC1293089FCC07CC2787B18F38C%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z28"
+></A
+>Another reasonable choice might be the F1 key. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6DE7FAC1293089FCC07CC2787B18F38C%2F22.3.1&amp;editp=t&amp;id=Z28#Z28"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-02 05:28Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+><LI
+><B CLASS="cl"
+>:possibilities</B
+>---corresponds to the gestures that tell the completion facility to display the current set of possible completions. On most systems, this will typically match the event corresponding to typing <TT
+>Control-?</TT
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A39F08B4216309737BAF85DFCF75A773%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>Here are the required, standard pointer gesture names: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=33D92B54F7F3A37BF2BA16223820A5A2%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:select</B
+>---corresponds to the gesture that is used to "select" the object being pointed to with the pointer. Typically, this will correspond to the left button on the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9BFC6C3D80639AED39F474F2D134B01%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:describe</B
+>---corresponds to the gesture that is used to "describe" or display some sort of documentation on the object being pointed to with the pointer. Typically, this will correspond to the middle button on the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6485D1B33A80416907C063093031946F%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:menu</B
+>---corresponds to the gesture that is used to display a menu of all possible operation on the object being pointed to with the pointer. Typically, this will correspond to the right button on the pointer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3953A11CE85125C780B9D57061D98C1%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:edit</B
+>---corresponds to the gesture that is used to "edit" the object being pointed to with the pointer. Typically, this will correspond to the left button on the pointer with some modifier key held down (such as the <B CLASS="cl"
+>:meta</B
+> key). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9AC7579156CE43627EEE4A41E4413C26%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:delete</B
+>---corresponds to the gesture that is used to "delete" the object being pointed to with the pointer. Typically, this will correspond to the middle button on the pointer with some modifier key held down (such as the <B CLASS="cl"
+>:shift</B
+> key).  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CED0B9B932DCE50D771F9DE2B75FEA7A%2F22.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/22-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

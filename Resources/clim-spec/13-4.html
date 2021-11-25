@@ -1,0 +1,419 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 13.4 Opacity</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="13.3 Color" HREF="13-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13.5 Color Blending" HREF="13-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="13 Drawing in Color" HREF="13.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="13-3.html"
+>Prev</A
+><BR
+><A HREF="13-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="13.html"
+>13&nbsp;Drawing&nbsp;in&nbsp;Color</A
+><BR
+>&rarr;&nbsp;<A HREF="13-4.html"
+><B
+>13.4&nbsp;Opacity</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_706"></A><DIV
+><H3
+>13.4 Opacity</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_707"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>opacity</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A member of the class <B CLASS="cl"
+>opacity</B
+> is a completely colorless design that is typically used as the second argument to <A NAME="_3462"></A><A HREF="14-1.html#_732"
+><B CLASS="cl"
+>compose-in</B
+></A
+> to adjust the opacity of another design. See Chapter&nbsp;<A NAME="_3463"></A><A HREF="14.html#_725"
+>14</A
+> for the details of <A NAME="_3464"></A><A HREF="14-1.html#_732"
+><B CLASS="cl"
+>compose-in</B
+></A
+>. The <B CLASS="cl"
+>opacity</B
+> class is the protocol class for an opacity, and is a subclass of <A NAME="_3466"></A><A HREF="13-2.html#_675"
+><B CLASS="cl"
+>design</B
+></A
+>. If you want to create a new class that behaves like an opacity, it should be a subclass of <B CLASS="cl"
+>opacity</B
+>. All instantiable subclasses of <B CLASS="cl"
+>opacity</B
+> must obey the opacity protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C2FE34C1BDE1A5C622856384847E4861%2Fopacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the standard instantiable opacity classes provided by CLIM are immutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E135A7BB2926B66C3D2EDC726BCE15CB%2Fopacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Opacity controls how graphical output covers previous output. Opacity can vary from totally opaque to totally transparent. Intermediate opacity values result in color blending so that the earlier picture shows through what is drawn on top of it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66A6BA5462B1D43BFC51E47C25BEB3F2%2Fopacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An opacity may be specified by a real number between 0 and 1 (inclusive). 0 is completely transparent, 1 is completely opaque, fractions are translucent. The opacity of a design is the degree to which it hides the previous contents of the drawing plane when it is drawn. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3589436D2B19C78EBE7D4AEB401C9883%2Fopacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The fully transparent and fully opaque opacity levels (that is, opacities 0 and 1) must always be supported, but a valid CLIM implementation might only support a handful of opacity levels in between (including none). A valid CLIM implementation might implement color blending and unsaturated colors by stippling, although it is preferred, when possible, for a viewport to display a uniform color as a uniform color rather than as a perceptible stipple. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56031A185B5E7CC8E62B95FB79B8F9A1%2Fopacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEDC244E34E78CF713F2BB6DCD9B245A%2Fopacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-1.html#_3511"
+><SPAN CLASS="reverselink"
+>[&larr; 14.1 The Compositing Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-in</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-4.html#_3474"
+><SPAN CLASS="reverselink"
+>[&larr; 13.4 Opacity, <B CLASS="cl"
+><B CLASS="cl"
+>+transparent-ink+</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-4.html#_3472"
+><SPAN CLASS="reverselink"
+>[&larr; 13.4 Opacity, <B CLASS="cl"
+><B CLASS="cl"
+>make-opacity</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_708"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>opacityp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>opacity</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79D4F9B0A2AF3E64124173F19370B8B5%2Fopacityp%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The following function returns an opacity: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2817DA8D607B7B4A0C8CA83B6877940F%2Fopacityp%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF5D13A7C5C76ACC16294FC556DF4AFB%2Fopacityp%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_709"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-opacity</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>value</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a member of class <A NAME="_3472"></A><A HREF="13-4.html#_707"
+><B CLASS="cl"
+>opacity</B
+></A
+> whose opacity is <I
+>value</I
+>, which is a real number in the range from 0 to 1 (inclusive), where 0 is fully transparent and 1 is fully opaque. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=62788A0C388F61A1CB85BBAD3148ED48%2Fmake-opacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C7F852D4D10B41B203AA1D38B8103B21%2Fmake-opacity%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_710"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+transparent-ink+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An fully transparent ink, that is, an opacity whose value is 0. This is typically used as the "background" ink in a call to <A NAME="_3473"></A><A HREF="14-2.html#_738"
+><B CLASS="cl"
+>make-pattern</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=52DF822C508CB19F85D9EDE948C44810%2F%2Btransparent-ink%2B%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> The following function returns the sole component of an opacity. This is the only function in the opacity protocol. All subclasses of <A NAME="_3474"></A><A HREF="13-4.html#_707"
+><B CLASS="cl"
+>opacity</B
+></A
+> must implement methods for this generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F31D9E7BB2753FF3A2D6736F29AFF6C%2F%2Btransparent-ink%2B%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1802D5855467EC0636F37A462C62D226%2F%2Btransparent-ink%2B%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="13-1.html#_3285"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_711"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>opacity-value</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>opacity</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the opacity value of the <SPAN CLASS="term"
+>opacity</SPAN
+> <I
+>opacity</I
+>, which is a real number in the range from 0 to 1 (inclusive). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=83B1141906C18EAFDB7B1AE7F5656AF5%2Fopacity-value%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E9EEEDDBE2050FE1D62F064C5FE5473%2Fopacity-value%2F13.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

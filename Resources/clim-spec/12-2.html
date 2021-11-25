@@ -1,0 +1,157 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.2 Definitions</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.1 Overview of Graphics" HREF="12-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="12.3 Drawing is Approximate" HREF="12-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-1.html"
+>Prev</A
+><BR
+><A HREF="12-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-2.html"
+><B
+>12.2&nbsp;Definitions</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_600"></A><DIV
+><H3
+>12.2 Definitions</H3
+><LI CLASS="outline_item"
+><A HREF="12-2.html#_601"
+>Drawing plane.</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="12-2.html#_602"
+>Coordinates.</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="12-2.html#_603"
+>Sheets and Mediums.</A
+></LI
+><A NAME="_601"></A><DIV
+><H4
+>Drawing plane.</H4
+>A drawing plane is an infinite two-dimensional plane on which graphical output occurs. The drawing plane contains an arrangement of colors and opacities that is modified by each graphical output operation. It is not possible to read back the contents of a drawing plane, except by examining the output-history. Normally each window has its own drawing plane.</DIV
+><A NAME="_602"></A><DIV
+><H4
+>Coordinates.</H4
+>Coordinates are a pair of real numbers in implementation-defined units that identify a point in the drawing plane.</DIV
+><A NAME="_603"></A><DIV
+><H4
+>Sheets and Mediums.</H4
+><P
+>In this chapter, we use a medium as a destination for output. The medium has a drawing plane, two designs called the medium's foreground and background, a transformation, a clipping region, a line style, and a text style. There are per-medium, dynamically scoped, default drawing options. Different medium classes are provided to allow programmers to draw on different sorts of devices, such as displays, printers, and virtual devices such as bitmaps. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C502B4016BA9F39E9770E6F3B0854234%2FSheets%20and%20Mediums.#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Many sheets can be used for doing output, so the drawing functions can also take a sheet as the output argument. In this case, drawing function "trampolines" to the sheet's medium. So, while the functions defined here are specified to be called on sheets, they can also be called on sheets. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=763E6C9AE9C03F075093825C129B85DC%2FSheets%20and%20Mediums.#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z62"
+></A
+>I think that should read "So, while the functions defined here are specified to be called on mediums, they can also be called on sheets." <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=763E6C9AE9C03F075093825C129B85DC%2FSheets%20and%20Mediums.&amp;editp=t&amp;id=Z62#Z62"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Lyn Headley 2003-07-18 19:43Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>A stream is a special kind of sheet that implements the stream protocol; streams include additional state such as the current text cursor (which is some point in the drawing plane). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3C4F5AA9B556576BE5266F67B431A51%2FSheets%20and%20Mediums.#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>By default, the "fundamental" coordinate system of a CLIM stream (not a general sheet or medium, whose fundamental coordinate system is not defined) is a left handed system with <I
+>x</I
+> increasing to the right, and <I
+>y</I
+> increasing downward. <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+> is at the upper left corner. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3FB3877BB4A2AA2E648A2F9171E734D6%2FSheets%20and%20Mediums.#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

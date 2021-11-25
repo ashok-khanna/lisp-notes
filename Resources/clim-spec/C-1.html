@@ -1,0 +1,579 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/C-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; C.1 Encapsulating Stream Classes</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="C Encapsulating Streams" HREF="C.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="D Common Lisp Streams" HREF="D.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="C Encapsulating Streams" HREF="C.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="C.html"
+>Prev</A
+><BR
+><A HREF="D.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VIII.html"
+>Part&nbsp;VIII:&nbsp;Appendices</A
+> &rarr;&nbsp;<A HREF="C.html"
+>C&nbsp;Encapsulating&nbsp;Streams</A
+><BR
+>&rarr;&nbsp;<A HREF="C-1.html"
+><B
+>C.1&nbsp;Encapsulating&nbsp;Stream&nbsp;Classes</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1908"></A><DIV
+><H3
+>C.1 Encapsulating Stream Classes</H3
+><LI CLASS="outline_item"
+><A HREF="C-1.html#_1913"
+>C.1.1 Encapsulating Stream Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="C-1.html#_1915"
+>C.1.2 The "Delegation Problem"</A
+></LI
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1909"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>encapsulating-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to an encapsulating stream. If you want to create a new class that behaves like an encapsulating stream, it should be a subclass of <B CLASS="cl"
+>encapsulating-stream</B
+>. All instantiable subclasses of <B CLASS="cl"
+>encapsulating-stream</B
+> must obey the encapsulating stream protocol. Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=77E26A18645FED53897BD8173B00EFEE%2Fencapsulating-stream%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01A2DF6522481ABAEB74E5DE8C31CD40%2Fencapsulating-stream%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1910"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>encapsulating-stream-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <A NAME="_7099"></A><A HREF="C.html#_1907"
+><SPAN CLASS="term"
+>encapsulating stream</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B334017917049C8B70DD055A3E51566D%2Fencapsulating-stream-p%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2EE3CD4996C0ED2968BF48DEF5E0FB0%2Fencapsulating-stream-p%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1911"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All encapsulating streams must handle the <B CLASS="cl"
+>:stream</B
+> initarg, which is used to specify the stream to be encapsulated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=544375B927CDAECDBD635DE1AE9B73E5%2F%3Astream%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FA8D4D04AB63E876127E14DD4D0CDA30%2F%3Astream%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1912"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-encapsulating-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This instantiable class provides a standard implementation of an encapsulating stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=538CE3C8A41C5DE11826966D03C45B1D%2Fstandard-encapsulating-stream%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5892FE1CE721D1F7BD2325EDD85A9FBD%2Fstandard-encapsulating-stream%2FC.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="C-1.html#_7102"
+><SPAN CLASS="reverselink"
+>[&larr; C.1.1 Encapsulating Stream Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_1913"></A><DIV
+><H4
+>C.1.1 Encapsulating Stream Protocol</H4
+><P
+>The <A NAME="_7102"></A><A HREF="C-1.html#_1912"
+><B CLASS="cl"
+>standard-encapsulating-stream</B
+></A
+> class must provide "trampoline" methods for <I
+>all</I
+> stream protocol operations. These "trampolines" will simply call the same generic function on the encapsulated stream. In particular, all of the generic functions in the following protocols must have trampolines. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E85342F8EC7D32BB0106A29E22431E37%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>The basic input and output stream protocols, as specified by the Gray stream proposal in Chapter&nbsp;<A NAME="_7103"></A><A HREF="D.html#_1917"
+>D</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6600F4479887E4F57ACE0975F2A8C661%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The sheet protocols, as specified in Chapters&nbsp;<A NAME="_7104"></A><A HREF="7.html#_236"
+>7</A
+> and <A NAME="_7105"></A><A HREF="8.html#_294"
+>8</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2D4223C8ED98873EBF8AF0F7A54D8D2%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The medium protocol, as specified in Chapter&nbsp;<A NAME="_7106"></A><A HREF="10.html#_505"
+>10</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D4D7F0F37CBDB0DAF841E17BB841E58%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The text style binding forms, as specified in Chapter&nbsp;<A NAME="_7107"></A><A HREF="11.html#_562"
+>11</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=187C0709984969ABC689F216BD09625B%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The drawing functions, as specified in Chapter&nbsp;<A NAME="_7108"></A><A HREF="12.html#_598"
+>12</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=887E454B3C79E0167571B2057E7C0E6B%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The extended output stream protocol, as specified in Chapter&nbsp;<A NAME="_7109"></A><A HREF="15.html#_757"
+>15</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2B8C37B61457084331A98B99C903900%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The output recording stream protocol, as specified in Chapter&nbsp;<A NAME="_7110"></A><A HREF="16.html#_829"
+>16</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F067D8EE40DFD8F90B963576FF4A6242%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The incremental redisplay stream protocol, as specified in Chapter&nbsp;<A NAME="_7111"></A><A HREF="21.html#_1015"
+>21</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A02FB9FC575B9F719404CCE969E204D%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The extended input stream protocol, as specified in Chapter&nbsp;<A NAME="_7112"></A><A HREF="22.html#_1054"
+>22</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1EC4D8000FCCAFE280093272C8E3E130%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The stream generics for presentation types, as specified in Chapter&nbsp;<A NAME="_7113"></A><A HREF="23.html#_1124"
+>23</A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8E0F0A31F1248696CC76C7749CCDC732%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>The following generic function must also be implemented for all encapsulating stream classes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D8CC18E02E17EF3EC769B116B645D93E%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1914"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>encapsulating-stream-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>encapsulating-stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the stream encapsulated by the <A NAME="_7114"></A><A HREF="C.html#_1907"
+><SPAN CLASS="term"
+>encapsulating stream</SPAN
+></A
+> <I
+>encapsulating-stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=02853C580DF0AFE67FC57C2A31091070%2Fencapsulating-stream-stream%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C79B8CAE9A48E58E255B3DD53337FFFB%2Fencapsulating-stream-stream%2FC.1.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1915"></A><DIV
+><H4
+>C.1.2 The "Delegation Problem"</H4
+><P
+>The suggested implementation of encapsulating streams has a potential problem that we label the "delegation" or "multiple self" problem. Here is an example of the problem. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5270912330DE9427C9F0B91C339F595C%2FC.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Suppose we implement <A NAME="_7115"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> by using an encapsulating stream class called <B CLASS="cl"
+>accepting-values-stream</B
+> that will be used to close over an ordinary extended input and output stream. Let us examine two generic functions, <A NAME="_7117"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> and <A NAME="_7118"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+>. The <A NAME="_7119"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> method on an ordinary stream calls <A NAME="_7120"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+>. Now suppose that <B CLASS="cl"
+>accepting-values-stream</B
+> specializes <A NAME="_7122"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+>. If we now create a stream of type <B CLASS="cl"
+>accepting-values-stream</B
+> (which we will designate <I
+>A</I
+>) which encapsulates an ordinary stream <I
+>S</I
+>, and then call <A NAME="_7124"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> on the stream <I
+>E</I
+>, it will trampoline to <A NAME="_7125"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> on the stream <I
+>S</I
+>. The desired behavior is for <A NAME="_7126"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> to call the <A NAME="_7127"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+> method on the stream <I
+>E</I
+>, but instead what happens is that the <A NAME="_7128"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+> method on the stream <I
+>S</I
+> is called. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=823D384C326D4325FCED57428079C54A%2FC.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In order to side-step this problem without attempting to solve a difficult general problem in object-oriented programming, CLIM implementations may introduce a special variable, <A NAME="_7129"></A><A HREF="C-1.html#_1916"
+><B CLASS="cl"
+>*original-stream*</B
+></A
+>, which is bound by trampoline functions to the original encapsulating stream. Therefore, the <A NAME="_7130"></A><A HREF="23-5.html#_1203"
+><B CLASS="cl"
+>stream-accept</B
+></A
+> on the ordinary stream <I
+>S</I
+> will call <A NAME="_7131"></A><A HREF="23-5.html#_1206"
+><B CLASS="cl"
+>prompt-for-accept</B
+></A
+> on the value of <B CLASS="cl"
+>(or *original-stream* </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>)</B
+>. This idiom only needs to be used in places where one stream protocol function calls a second stream protocol function that some encapsulating stream specializes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C60256DBC0E6B9EB9BFE5F961CB252A%2FC.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This "solution" does not solve the more general problem of multiple levels of encapsulation, but the complete stream protocol provided by CLIM should allow implementors to avoid using nested encapsulating streams. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D425F6EA6B097AA900C3899045020185%2FC.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1916"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*original-stream*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This variable is bound by the trampoline methods on encapsulating streams to the encapsulating stream, before the operation is delegated to the underlying, encapsulated stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=647B42D37739322240019A67952B0C36%2F%2Aoriginal-stream%2A%2FC.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=22E49E6A23F347A95951891D7B6241B6%2F%2Aoriginal-stream%2A%2FC.1.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="C-1.html#_7129"
+><SPAN CLASS="reverselink"
+>[&larr; C.1.2 The "Delegation Problem"]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/C-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

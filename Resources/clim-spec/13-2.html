@@ -1,0 +1,336 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 13.2 Basic Designs</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="13.1 The :ink Drawing Option" HREF="13-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13.3 Color" HREF="13-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="13 Drawing in Color" HREF="13.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="13-1.html"
+>Prev</A
+><BR
+><A HREF="13-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="13.html"
+>13&nbsp;Drawing&nbsp;in&nbsp;Color</A
+><BR
+>&rarr;&nbsp;<A HREF="13-2.html"
+><B
+>13.2&nbsp;Basic&nbsp;Designs</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_674"></A><DIV
+><H3
+>13.2 Basic Designs</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_675"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>design</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A design is an object that represents a way of arranging colors and opacities in the drawing plane. The <B CLASS="cl"
+>design</B
+> class is the protocol class for designs. If you want to create a new class that behaves like a design, it should be a subclass of <B CLASS="cl"
+>design</B
+>. All instantiable subclasses of <B CLASS="cl"
+>design</B
+> must obey the design protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23A1DC38DC8708545AB55C1A657F2BD9%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The fundamental operation of the CLIM graphic drawing model is to draw a design onto a drawing plane, thus drawing is always controlled by designs. The designs discussed in this chapter do the same thing at each point in the drawing plane. Chapter&nbsp;<A NAME="_3299"></A><A HREF="14.html#_725"
+>14</A
+> discusses more general designs and reveals that regions are also designs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E761F78B8B9400410A0860DBB7030953%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z205"
+></A
+>This paragraph is belied by the existence of section 12.5, which delivers a more typical drawing model, and the example in section 30.2.2, where the HANDLE-REPAINT method doesn't use designs to do its drawing. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E761F78B8B9400410A0860DBB7030953%2Fdesign%2F13.2&amp;editp=t&amp;id=Z205#Z205"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2011-04-29 23:02Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>A design can be characterized in several different ways: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A3B8D845081B48956359F8AA38D665FA%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All designs are either <A NAME="_676"></A><SPAN CLASS="concept"
+>bounded</SPAN
+> or <A NAME="_677"></A><SPAN CLASS="concept"
+>unbounded</SPAN
+>. Bounded designs are transparent everywhere beyond a certain distance from a certain point. Drawing a bounded design has no effect on the drawing plane outside that distance. Unbounded designs have points of non-zero opacity arbitrarily far from the origin. Drawing an unbounded design affects the entire drawing plane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E328983866C820737A3AA318E27448E%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z402"
+></A
+>This evokes that a design would be circular, since 'Bounded designs are transparent everywhere beyond a certain distance from a certain point'. This is probably not what is meant. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E328983866C820737A3AA318E27448E%2Fdesign%2F13.2&amp;editp=t&amp;id=Z402#Z402"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Matt 2020-02-12 17:39Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All designs are either <A NAME="_678"></A><SPAN CLASS="concept"
+>uniform</SPAN
+> or <A NAME="_679"></A><SPAN CLASS="concept"
+>non-uniform</SPAN
+>. Uniform designs have the same color and opacity at every point in the drawing plane. Uniform designs are always unbounded, unless they are completely transparent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BADEE68A90F6E404B8BBD6C809E07E61%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>All designs are either <A NAME="_680"></A><SPAN CLASS="concept"
+>solid</SPAN
+> or <A NAME="_681"></A><SPAN CLASS="concept"
+>translucent</SPAN
+>. At each point a solid design is either completely opaque or completely transparent. A solid design can be opaque at some points and transparent at others. In translucent designs, at least one point has an opacity that is intermediate between completely opaque and transparent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66BB2A98F77CB5974C825C36F4C2096A%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7027"
+><SPAN CLASS="reverselink"
+>[solid, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>All designs are either <A NAME="_682"></A><SPAN CLASS="concept"
+>colorless</SPAN
+> or <A NAME="_683"></A><SPAN CLASS="concept"
+>colored</SPAN
+>. Drawing a colorless design uses a default color specified by the medium's foreground design. This is done by drawing with <B CLASS="cl"
+>(compose-in</B
+> <A NAME="_3301"></A><A HREF="13-6.html#_715"
+><B CLASS="cl"
+>+foreground-ink+</B
+></A
+> the-colorless-design<B CLASS="cl"
+>)</B
+>. See Chapter&nbsp;<A NAME="_3303"></A><A HREF="14.html#_725"
+>14</A
+> for the details of <A NAME="_3304"></A><A HREF="14-1.html#_732"
+><B CLASS="cl"
+>compose-in</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=33DE4868DA6136F178F35E4AF15622E7%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=33051E78693E731454002F4DB4B644AA%2Fdesign%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="A.html#_6942"
+><SPAN CLASS="reverselink"
+>[&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="13-4.html#_3466"
+><SPAN CLASS="reverselink"
+>[&larr; 13.4 Opacity, <B CLASS="cl"
+><B CLASS="cl"
+>opacity</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-3.html#_3310"
+><SPAN CLASS="reverselink"
+>[&larr; 13.3 Color, <B CLASS="cl"
+><B CLASS="cl"
+>color</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="13-1.html#_3289"
+><SPAN CLASS="reverselink"
+>[&larr; 13.1 The <TT
+>:ink</TT
+> Drawing Option]</SPAN
+></A
+><BR
+><A HREF="5-3.html#_2457"
+><SPAN CLASS="reverselink"
+>[&larr; 5.3.3 Applying Transformations]</SPAN
+></A
+><BR
+><A HREF="3-1.html#_2087"
+><SPAN CLASS="reverselink"
+>[&larr; 3.1 General Regions, <B CLASS="cl"
+><B CLASS="cl"
+>region</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_684"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>designp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_3306"></A><A HREF="3-1.html#_38"
+><SPAN CLASS="term"
+>design</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2AC3F594CE3EDB4E649FF7CC4DDA2499%2Fdesignp%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1648804114AD32B5B39A678408EC7BA1%2Fdesignp%2F13.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

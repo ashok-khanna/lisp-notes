@@ -1,0 +1,671 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 24.4 Reading and Writing of Tokens</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="24.3 Signalling Errors Inside present Methods" HREF="24-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="24.5 Completion" HREF="24-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="24 Input Editing and Completion Facilities" HREF="24.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="24-3.html"
+>Prev</A
+><BR
+><A HREF="24-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="24.html"
+>24&nbsp;Input&nbsp;Editing&nbsp;and&nbsp;Completion&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="24-4.html"
+><B
+>24.4&nbsp;Reading&nbsp;and&nbsp;Writing&nbsp;of&nbsp;Tokens</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1336"></A><DIV
+><H3
+>24.4 Reading and Writing of Tokens</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1337"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>replace-input</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream new-input  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>start end buffer-start rescan</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Replaces the part of the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>'s input buffer that extends from <I
+>buffer-start</I
+> to its scan pointer with the string <I
+>new-input</I
+>. <I
+>buffer-start</I
+> defaults to the current input position of <I
+>stream</I
+>. <I
+>start</I
+> and <I
+>end</I
+> can be supplied to specify a subsequence of <I
+>new-input</I
+>; <I
+>start</I
+> defaults to 0 and <I
+>end</I
+> defaults to the length of <I
+>new-input</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDF729E6761F219469616282B8197419%2Freplace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z117"
+></A
+>What is the "current input position" of an input editing stream? Where does&#10;it come from? What happens to the scan pointer and the insertion pointer of&#10;the stream? Are they updated as appropriate? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDF729E6761F219469616282B8197419%2Freplace-input%2F24.4&amp;editp=t&amp;id=Z117#Z117"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-11-27 01:11Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z124"
+></A
+>Isn't the "current input position" 'the point in the buffer at which the next user input gesture will be inserted'? See stream-insertion-pointer. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDF729E6761F219469616282B8197419%2Freplace-input%2F24.4&amp;editp=t&amp;id=Z124#Z124"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- JQS 2005-12-12 20:53Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z144"
+></A
+>I would assume that the "current input position" is the same as the insertion pointer, but this is not what McCLIM currently does. Instead, McCLIM interprets it to be where the current input-editing-context was established (mostly the start of the input buffer, but not necessarily, if, for example, command arguments are being read). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDF729E6761F219469616282B8197419%2Freplace-input%2F24.4&amp;editp=t&amp;id=Z144#Z144"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-10-15 17:37Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>replace-input</B
+> must queue a rescan by calling <A NAME="_5482"></A><A HREF="24-1.html#_1314"
+><B CLASS="cl"
+>queue-rescan</B
+></A
+> if the new input does not match the old input, or <I
+>rescan</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5C49C1E00DA00D474CE70DD10121D44%2Freplace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the position in the input buffer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=209AEC9A1CF8F91BE0EC959187A5EA3B%2Freplace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z118"
+></A
+>Which position? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=209AEC9A1CF8F91BE0EC959187A5EA3B%2Freplace-input%2F24.4&amp;editp=t&amp;id=Z118#Z118"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-11-27 01:12Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All input editing streams must implement a method for this function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6196CB35E6AE074206155ACBE050C177%2Freplace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C21B4AD00F2ED475C2D56032F45B916B%2Freplace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-5.html#_5529"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-4.html#_5484"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-replace-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5399"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1.1 The Input Editing Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-input-buffer</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5377"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-editing</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1338"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>presentation-replace-input</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream object type view  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>buffer-start rescan  query-identifier for-context-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_5484"></A><A HREF="24-4.html#_1337"
+><B CLASS="cl"
+>replace-input</B
+></A
+>, except that the new input to insert into the input buffer is gotten by presenting <I
+>object</I
+> with the presentation type <I
+>type</I
+> and view <I
+>view</I
+>. <I
+>buffer-start</I
+> and <I
+>rescan</I
+> are as for <A NAME="_5485"></A><A HREF="24-4.html#_1337"
+><B CLASS="cl"
+>replace-input</B
+></A
+>, and <I
+>query-identifier</I
+> and <I
+>for-context-type</I
+> as as for <A NAME="_5486"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EFBCA9C161CA6824D98FF1D0896FD5AE%2Fpresentation-replace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All input editing streams must implement a method for this function. Typically, this will be implemented by calling <A NAME="_5487"></A><A HREF="23-4.html#_1195"
+><B CLASS="cl"
+>present-to-string</B
+></A
+> on <I
+>object</I
+>, <I
+>type</I
+>, <I
+>view</I
+>, and <I
+>for-context-type</I
+>, and then calling <A NAME="_5488"></A><A HREF="24-4.html#_1337"
+><B CLASS="cl"
+>replace-input</B
+></A
+> on the resulting string. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7002B619FEA493266D98BF05794B7458%2Fpresentation-replace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the object does not have a readable representation (in the Lisp sense), <B CLASS="cl"
+>presentation-replace-input</B
+> may create an "accept result" to represent the object, and insert that into the input buffer. For the purposes of input editing, "accept results" must be treated as a single input gesture. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0AF200015A8B81F7835ABA856A93C3E%2Fpresentation-replace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z119"
+></A
+>It would be nice, if it would be mentioned, how exeactly <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=stream-read-gesture"
+>stream-read-gesture</A
+></SPAN
+>&#10;should react on hitting such an "accept result". <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0AF200015A8B81F7835ABA856A93C3E%2Fpresentation-replace-input%2F24.4&amp;editp=t&amp;id=Z119#Z119"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-11-27 01:15Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F61850A1DC6A91A7C210B017D35C59C%2Fpresentation-replace-input%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z73"
+></A
+>Hmm, how can i decide wether something has a readable presentation&#10;or not? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F61850A1DC6A91A7C210B017D35C59C%2Fpresentation-replace-input%2F24.4&amp;editp=t&amp;id=Z73#Z73"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-11-27 19:36Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z76"
+></A
+><P
+>Another note:</P
+><P
+>It might be good, if something that is half readable and half unreadable is&#10;being inserted as such. E.g. a form (:BAZ #&lt;SOME FOO @1234&gt;) could be&#10;represented as "(:BAZ " and ")" as regular input, while "#&lt;SOME FOO @1234&gt;"&#10;will then be some of these "accept results".</P
+><P
+>But I guess to do this right, we probably need to extend <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=present"
+>present</A
+></SPAN
+>&#10;to return whether its output is supposed to be readable.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F61850A1DC6A91A7C210B017D35C59C%2Fpresentation-replace-input%2F24.4&amp;editp=t&amp;id=Z76#Z76"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-11-27 19:45Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-1.html#_5378"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-editing</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5361"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5125"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-translator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4992"
+><SPAN CLASS="reverselink"
+>[&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1339"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>read-token</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>input-wait-handler pointer-button-press-handler click-only</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads characters from the <SPAN CLASS="term"
+>interactive stream</SPAN
+> <I
+>stream</I
+> until it encounters a delimiter or activation gesture, or a pointer gesture. Returns the accumulated string that was delimited by the delimiter or activation gesture, leaving the delimiter unread. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84DB32F2A7CAC2407E95CEF0719B471B%2Fread-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z131"
+></A
+>What about the activation gesture? Will it be left unread too? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84DB32F2A7CAC2407E95CEF0719B471B%2Fread-token%2F24.4&amp;editp=t&amp;id=Z131#Z131"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2006-03-01 11:13Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If the first character of typed input is a quotation mark (<CODE
+>#\"</CODE
+>), then <B CLASS="cl"
+>read-token</B
+> will ignore delimiter gestures until until another quotation mark is seen. When the closing quotation mark is seen, <B CLASS="cl"
+>read-token</B
+> will proceed as above. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=725327C8451A86F5ED23FA5BD013EC46%2Fread-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>click-only</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then no keyboard input is allowed. In this case <B CLASS="cl"
+>read-token</B
+> will simply ignore any typed characters. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=45978CB83D2DFDC7C4D5AAFF04879372%2Fread-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>input-wait-handler</I
+> and <I
+>pointer-button-press-handler</I
+> are as for <A NAME="_5495"></A><A HREF="24-1.html#_1319"
+><B CLASS="cl"
+>stream-read-gesture</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD4B031A6B4E96CB6488DF1DA3775F45%2Fread-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA05E5C5435656E6720F4BDF045B0435%2Fread-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-4.html#_5497"
+><SPAN CLASS="reverselink"
+>[&larr; 24.4 Reading and Writing of Tokens, <B CLASS="cl"
+><B CLASS="cl"
+>write-token</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-1.html#_5350"
+><SPAN CLASS="reverselink"
+>[&larr; 24.1 The Input Editor]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1340"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>write-token</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>token stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>acceptably</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>write-token</B
+> is the opposite of <A NAME="_5497"></A><A HREF="24-4.html#_1339"
+><B CLASS="cl"
+>read-token</B
+></A
+> given the string <I
+>token</I
+>, it writes it to the <SPAN CLASS="term"
+>interactive stream</SPAN
+> <I
+>stream</I
+>. If <I
+>acceptably</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> and there are any characters in the token that are delimiter gestures (see the macro <A NAME="_5500"></A><A HREF="24-2.html#_1329"
+><B CLASS="cl"
+>with-delimiter-gestures</B
+></A
+>), then <B CLASS="cl"
+>write-token</B
+> will surround the token with quotation marks (<CODE
+>#\"</CODE
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E6B470CD0EDD4771B5DF3F7A129C534%2Fwrite-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Typically, <A NAME="_5502"></A><A HREF="23-4.html#_1193"
+><B CLASS="cl"
+>present</B
+></A
+> methods will use <B CLASS="cl"
+>write-token</B
+> instead of <B CLASS="cl"
+>write-string</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E2868503BAA20C6B4FEB4E6615A72C7%2Fwrite-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A44021088909249D2AC72F5890CD579E%2Fwrite-token%2F24.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

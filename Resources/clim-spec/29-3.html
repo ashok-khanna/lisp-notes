@@ -1,0 +1,3351 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 29.3 Composite and Layout Panes</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="29.2 Basic Pane Construction" HREF="29-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="29.4 CLIM Stream Panes" HREF="29-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="29-2.html"
+>Prev</A
+><BR
+><A HREF="29-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="29.html"
+>29&nbsp;Panes</A
+><BR
+>&rarr;&nbsp;<A HREF="29-3.html"
+><B
+>29.3&nbsp;Composite&nbsp;and&nbsp;Layout&nbsp;Panes</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1602"></A><DIV
+><H3
+>29.3 Composite and Layout Panes</H3
+><LI CLASS="outline_item"
+><A HREF="29-3.html#_1603"
+>29.3.1 Layout Pane Options</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-3.html#_1617"
+>29.3.2 Layout Pane Classes</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-3.html#_1636"
+>29.3.3 Scroller Pane Classes</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="29-3.html#_1644"
+>29.3.4 The Layout Protocol</A
+></LI
+><P
+>This section describes the various composite and layout panes provided by CLIM, and the protocol that the layout panes obey. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=849BF5556F05681918DCC067BB105FEE%2F29.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The layout panes describe in this section are all composite panes that are responsible for positioning their children according to various layout rules. Layout panes can be selected in the same way as other panes using <A NAME="_6501"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> or <B CLASS="cl"
+>make-instance</B
+>. For convenience and readability of application pane layouts, many of these panes also provide a macro that expands into a <A NAME="_6503"></A><A HREF="29-2.html#_1588"
+><B CLASS="cl"
+>make-pane</B
+></A
+> form, passing a list of the panes created in the body of the macro as the <A NAME="_6504"></A><A HREF="29-3.html#_1604"
+><B CLASS="cl"
+>:contents</B
+></A
+> argument (described below). For example, you can express a layout of a vertical column of two label panes either as: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3636E72BB6C08AFAD11CB0A7B31F6EED%2F29.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z279"
+></A
+>Perhaps s/make-instance/make-pane/g <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3636E72BB6C08AFAD11CB0A7B31F6EED%2F29.3&amp;editp=t&amp;id=Z279#Z279"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2016-11-15 21:02Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><PRE
+>&#10;(make-instance 'vbox-pane&#10;  :contents (list (make-instance 'label-pane :text "One")&#10;                  (make-instance 'label-pane :text "Two")))&#10;</PRE
+><P
+>or as: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=294E4694EEB916264A638B4F94299683%2F29.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(vertically ()&#10;  (make-instance 'label-pane :text "One")&#10;  (make-instance 'label-pane :text "Two"))&#10;</PRE
+><A NAME="_1603"></A><DIV
+><H4
+>29.3.1 Layout Pane Options</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1604"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:contents</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All of the layout pane classes accept the <B CLASS="cl"
+>:contents</B
+> options, which is used to specify the child panes to be laid out. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0837BC7F3371BE1E29A2B6FCD2CBA813%2F%3Acontents%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2EBFBB5FF12697816DCAA626068B93DC%2F%3Acontents%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6504"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3 Composite and Layout Panes]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1605"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1606"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:max-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1607"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:min-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1608"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1609"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:max-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1610"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:min-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These options control the space requirement paramaters for laying out the pane. The <B CLASS="cl"
+>:width</B
+> and <B CLASS="cl"
+>:height</B
+> options specify the preferred horizontal and vertical sizes. The <B CLASS="cl"
+>:max-width</B
+> and <B CLASS="cl"
+>:max-height</B
+> options specify the maximum amount of space that may be consumed by the pane, and give CLIM's pane layout engine permission to grow the pane beyond the preferred size. The <B CLASS="cl"
+>:min-width</B
+> and <B CLASS="cl"
+>:min-height</B
+> options specify the minimum amount of space that may be consumed by the pane, and give CLIM's pane layout engine permission to shrink the pane below the preferred size. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE0EFC5569D8AD5670CC7ACB6BFD2F3E%2F%3Awidth%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If either of the <B CLASS="cl"
+>:max-width</B
+> or <B CLASS="cl"
+>:min-width</B
+> options is not supplied, it defaults to the value of the <B CLASS="cl"
+>:width</B
+> option. If either of the <B CLASS="cl"
+>:max-height</B
+> or <B CLASS="cl"
+>:min-height</B
+> options is not supplied, it defaults to the value of the <B CLASS="cl"
+>:height</B
+> option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D589093F8A03D1697973AAFB8566C44%2F%3Awidth%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>:max-width</B
+>, <B CLASS="cl"
+>:min-width</B
+>, <B CLASS="cl"
+>:max-height</B
+>, and <B CLASS="cl"
+>:min-height</B
+> can also be specified as a relative size by supplying a list of the form <B CLASS="cl"
+>(</B
+><A NAME="_6523"></A><A HREF="23-8.html#_1262"
+><B CLASS="cl"
+><I
+>number</I
+></B
+></A
+><B CLASS="cl"
+> :relative)</B
+>. In this case, the number indicates the number of device units that the pane is willing to stretch or shrink. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6D2CA78E058B1B1E3A1CA70E3125CFB5%2F%3Awidth%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The values of these options are specified in the same way as the <A NAME="_6525"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> and <A NAME="_6526"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> options to <A NAME="_6527"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. (Note that <B CLASS="cl"
+>:character</B
+> and <B CLASS="cl"
+>:line</B
+> may only be used on those panes that display text, such as a <A NAME="_6530"></A><A HREF="29-4.html#_1679"
+><B CLASS="cl"
+>clim-stream-pane</B
+></A
+> or a <A NAME="_6531"></A><A HREF="29-3.html#_1634"
+><B CLASS="cl"
+>label-pane</B
+></A
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=106EC1AE5AC5DE335EBE6052F8538B74%2F%3Awidth%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C33C1E39370214501A89EFA257086975%2F%3Awidth%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="17-3.html#_970"
+><SPAN CLASS="forwardlink"
+>[&rarr; :max-width, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_954"
+><SPAN CLASS="forwardlink"
+>[&rarr; :min-width, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_971"
+><SPAN CLASS="forwardlink"
+>[&rarr; :max-height, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_955"
+><SPAN CLASS="forwardlink"
+>[&rarr; :min-height, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6611"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6589"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>make-space-requirement</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6175"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>define-application-frame</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7420"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1611"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>+fill+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Constant]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This constant can be used as a value to any of the relative size options. It indicates that pane's willingness to adjust an arbitrary amount in the specified direction. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C57901036D8DA006B6017E686A99C1F7%2F%2Bfill%2B%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=57D7D10D0FBACC309E305826B9A9E953%2F%2Bfill%2B%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6552"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.2 Layout Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>hbox-pane</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1612"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:align-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1613"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:align-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>:align-x</B
+> option is one of <B CLASS="cl"
+>:right</B
+>, <B CLASS="cl"
+>:center</B
+>, or <B CLASS="cl"
+>:left</B
+>. The <B CLASS="cl"
+>:align-y</B
+> option is one of <B CLASS="cl"
+>:top</B
+>, <B CLASS="cl"
+>:center</B
+>, or <B CLASS="cl"
+>:bottom</B
+>. These are used to specify how child panes are aligned within the parent pane. These have the same semantics as for <A NAME="_6540"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=337333FE5A362687F98AF8E394043D9B%2F%3Aalign-x%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z180"
+></A
+><P
+>Is the pane that this option is specified on the parent or the child pane here?</P
+><P
+>The reference to <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=formatting-cell"
+>formatting-cell</A
+></SPAN
+> is an interesting hint here. An <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aalign-x"
+>:align-x</A
+></SPAN
+> or <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aalign-y"
+>:align-y</A
+></SPAN
+> on a table cell specifies alignment of that cell within its parent.</P
+><P
+>If we by that analogy say that an <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aalign-x"
+>:align-x</A
+></SPAN
+> or <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aalign-y"
+>:align-y</A
+></SPAN
+> option on a pane specifies the alignment of that pane within its parent pane, why don't gadgets have such an option?</P
+><P
+>On the other hand, if we assume that <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aalign-x"
+>:align-x</A
+></SPAN
+> or <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%3Aalign-y"
+>:align-y</A
+></SPAN
+> option on a pane specify the alignment of its children, the analogy to <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=formatting-cell"
+>formatting-cell</A
+></SPAN
+> is flawed. </P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=337333FE5A362687F98AF8E394043D9B%2F%3Aalign-x%2F29.3.1&amp;editp=t&amp;id=Z180#Z180"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2009-03-04 14:04Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D971A83C190B626B417C0DB72B8AB9C%2F%3Aalign-x%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z433"
+></A
+>This conclusion is wrong. formatting-cell specification says "how the _output_ in a cell will be aligned relative to other cells in the same table column" -- all cells in the row / column have the same size, alignment and spacing; we manipulate the output record that is a child of the cell. Given this interpretation all is consistent across different abstractions (gadgets included) - align-x/y specifies the pane/output record content's alignment. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D971A83C190B626B417C0DB72B8AB9C%2F%3Aalign-x%2F29.3.1&amp;editp=t&amp;id=Z433#Z433"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-03-11 14:04Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="17-3.html#_952"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-x, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="30-3.html#_1748"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-x, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_953"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-y, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="30-3.html#_1749"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-y, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7576"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="25.html#_5643"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4042"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>format-items</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1614"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:x-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1615"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:y-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_1616"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These spacing options apply to <A NAME="_6541"></A><A HREF="29-3.html#_1618"
+><B CLASS="cl"
+>hbox-pane</B
+></A
+>, <A NAME="_6542"></A><A HREF="29-3.html#_1620"
+><B CLASS="cl"
+>vbox-pane</B
+></A
+>, <A NAME="_6543"></A><A HREF="29-3.html#_1624"
+><B CLASS="cl"
+>table-pane</B
+></A
+>, and <A NAME="_6544"></A><A HREF="29-3.html#_1626"
+><B CLASS="cl"
+>grid-pane</B
+></A
+>, and indicate the amount of horizontal and vertical spacing (respectively) to leave between the items in boxes or rows and columns in table. The values of these options are specified in the same way as the <B CLASS="cl"
+>:x-spacing</B
+> and <B CLASS="cl"
+>:y-spacing</B
+> options to <A NAME="_6547"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. <B CLASS="cl"
+>:spacing</B
+> specifies both the <I
+>x</I
+> and <I
+>y</I
+> spacing simultaneously. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=27337281644622974C57398BF041309D%2F%3Ax-spacing%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=54A185BAF0C08369F993900F2EF10F4D%2F%3Ax-spacing%2F29.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="17-3.html#_964"
+><SPAN CLASS="forwardlink"
+>[&rarr; :x-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_932"
+><SPAN CLASS="forwardlink"
+>[&rarr; :x-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_965"
+><SPAN CLASS="forwardlink"
+>[&rarr; :y-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_933"
+><SPAN CLASS="forwardlink"
+>[&rarr; :y-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5630"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-3.html#_4213"
+><SPAN CLASS="reverselink"
+>[&larr; 20.3 Filled Output, <B CLASS="cl"
+><B CLASS="cl"
+>filling-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-2.html#_4199"
+><SPAN CLASS="reverselink"
+>[&larr; 20.2 Indented Output, <B CLASS="cl"
+><B CLASS="cl"
+>indenting-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7414"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6526"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5724"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4021"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-cell</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1617"></A><DIV
+><H4
+>29.3.2 Layout Pane Classes</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1618"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>hbox-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1619"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>horizontally</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>spacing </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>hbox-pane</B
+> class lays out all of its child panes horizontally, from left to right. The child panes are separated by the amount of space specified by <I
+>spacing</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4E0F957DD44798C5051F1EF52F1CDC5C%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>horizontally</B
+> macro serves as a convenient interface for creating an <B CLASS="cl"
+>hbox-pane</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=404F1742426108F281D61D7ACF7F3A13%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>contents</I
+> is one or more forms that are the child panes. Each form in <I
+>contents</I
+> is of the form: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C8763E304248BAC6795891F62E543BD6%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>A pane. The pane is inserted at this point and its space requirements are used to compute the size. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6ECB1E14080EDECCCE17D0A02D844426%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A number. The specified number of device units should be allocated at this point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=298E2D59D8829E9C5E76F1197502E66F%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The symbol <A NAME="_6552"></A><A HREF="29-3.html#_1611"
+><B CLASS="cl"
+>+fill+</B
+></A
+>. This means that an arbitrary amount of space can be absorbed at this point in the layout. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4881FA429BAC869EE1846689AE279B5%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><P
+>A list whose first element is a number and whose second element evaluates to a pane. If the number is less than 1, then it means that that percentage of excess space or deficit should be allocated to the pane. If the number is greater than or equal to 1, then that many device units are allocated to the pane. For example: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C63148A334F8AD9745B2846B97F7C25%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(horizontally ()&#10;  (1/3 (make-pane 'label-button-pane))&#10;  (2/3 (make-pane 'label-button-pane)))&#10;</PRE
+><P
+>would create a horizontal stack of two button panes. The first button takes one-third of the space, then second takes two-thirds of the space.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2CF24EAE87ED6198FF301AF6A1CF525F%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89FDAB9D19D3B0CE28C1CD4644D0D6D3%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9933EADFEA9DCD1DD281EE4BDA07C0B%2Fhbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-5.html#_6698"
+><SPAN CLASS="reverselink"
+>[&larr; 29.5.1 Defining a New Leaf Pane]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6541"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6467"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6561"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.2 Layout Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>hrack-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6556"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.2 Layout Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>vbox-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6242"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1620"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>vbox-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1621"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>vertically</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>spacing </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>vbox-pane</B
+> class lays out all of its child panes vertically, from top to bottom. The child panes are separated by the amount of space specified by <I
+>spacing</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=93A065E7064D149E2719A1F0D6D15410%2Fvbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <B CLASS="cl"
+>vertically</B
+> macro serves as a convenient interface for creating an <B CLASS="cl"
+>vbox-pane</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3AC2B0259B1FFCB71311EBAC561E136E%2Fvbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>contents</I
+> is as for <A NAME="_6556"></A><A HREF="29-3.html#_1619"
+><B CLASS="cl"
+>horizontally</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7E0B73FDAD8B4C79F24D44742AEE9EFB%2Fvbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BD7519C887B043F8C757FEB35F352F3%2Fvbox-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6542"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-2.html#_6468"
+><SPAN CLASS="reverselink"
+>[&larr; 29.2 Basic Pane Construction]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6565"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.2 Layout Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>hrack-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6241"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1622"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>hrack-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1623"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>vrack-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Similar to the <A NAME="_6557"></A><A HREF="29-3.html#_1618"
+><B CLASS="cl"
+>hbox-pane</B
+></A
+> and <A NAME="_6558"></A><A HREF="29-3.html#_1620"
+><B CLASS="cl"
+>vbox-pane</B
+></A
+> classes, except that these ensure that all children are the same size in the minor dimension. In other words, these panes are used to create stacks of same-sized items, such as menu items. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=340ED2EBF97A2F10B8A0FF8D1BD5058B%2Fhrack-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An <B CLASS="cl"
+>hrack-pane</B
+> is created when the <B CLASS="cl"
+>:equalize-height</B
+> option to <A NAME="_6561"></A><A HREF="29-3.html#_1619"
+><B CLASS="cl"
+>horizontally</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+>. A <B CLASS="cl"
+>vrack-pane</B
+> is created when the <B CLASS="cl"
+>:equalize-width</B
+> option to <A NAME="_6565"></A><A HREF="29-3.html#_1621"
+><B CLASS="cl"
+>vertically</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=83D8AC2AADCC2720F8EB3BBD75926089%2Fhrack-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=907C060954C11602AC62C4955A03EE0C%2Fhrack-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1624"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>table-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1625"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>tabling</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This pane lays out its child panes in a two-dimensional table arrangement. Each of the table is specified by an extra level of list in <I
+>contents</I
+>. For example, <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E1F4397D8DEC90505519CF5374432AA2%2Ftable-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(tabling ()&#10;  (list&#10;    (make-pane 'label :text "Red")&#10;    (make-pane 'label :text "Green")&#10;    (make-pane 'label :text "Blue"))&#10;  (list&#10;    (make-pane 'label :text "Intensity")&#10;    (make-pane 'label :text "Hue")&#10;    (make-pane 'label :text "Saturation")))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5FD215E27803FE97444D83545C3BC812%2Ftable-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6568"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.2 Layout Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>grid-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6543"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6243"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1626"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>grid-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A <B CLASS="cl"
+>grid-pane</B
+> is like a <A NAME="_6568"></A><A HREF="29-3.html#_1624"
+><B CLASS="cl"
+>table-pane</B
+></A
+>, except that each cell is the same size in each of the two dimensions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FEE18F06C0A49701BD719BBDB3BA975B%2Fgrid-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E49B802A956B2E5AF29B15C560CF9309%2Fgrid-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6544"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1627"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>spacing-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1628"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>thickness </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This pane reserves some margin space of thickness <I
+>thickness</I
+> around a single child pane. The space requirement keys that are passed in indicate the requirements for the surrounding space, not including the requirements of the child. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=537B8731FA0D797F668A5BE74BE63ABE%2Fspacing-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AC5EEE2828C7650B0D7FD8AEC24DBFBE%2Fspacing-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-2.html#_6239"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1629"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>outlined-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1630"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>outlining</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>thickness </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This layout pane puts a outline of thickness <I
+>thickness</I
+> around its contents. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E419D816FC188288BEE761987925BB0%2Foutlined-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <A NAME="_6569"></A><A HREF="29-2.html#_1593"
+><B CLASS="cl"
+>:background</B
+></A
+> option can be used to control the ink used to draw the background. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=399ADA34D3CE11E72690F3F2133C1706%2Foutlined-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B35D5435DE86417CF0506F6D7A6CC254%2Foutlined-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-2.html#_6238"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1631"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>restraining-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1632"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>restraining</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Wraps the contents with a pane that prevents changes to the space requirements for contents from causing relayout of panes outside of the restraining context. In other words, it prevents the size constraints of the child from propagating up beyond this point. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ACE5BDC9DE6929C171DA65ED735CAA1A%2Frestraining-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED88ED0B276384EE3CDE20F364734000%2Frestraining-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1633"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>bboard-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Layout&nbsp;Pane]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A pane that allows its children to be any size and lays them out wherever they want to be (for example, a desktop manager). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=316EDF2A4951285AB9487E85AA0AEC6E%2Fbboard-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA88283D5511D7E27E216B59B0761CE3%2Fbboard-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1634"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>label-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1635"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>labelling</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>label label-alignment </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a pane that consists of the specified label <I
+>label</I
+>, which is a string. <I
+>label-alignment</I
+> may be either <B CLASS="cl"
+>:bottom</B
+> or <B CLASS="cl"
+>:top</B
+>, which specifies whether the label should appear at the top or the bottom of the labelled pane. The default for <I
+>label-alignment</I
+> is left unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5D39CDB28D5BF2E0664D7B2600ACB1DC%2Flabel-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=433FB67930E87D77CC15A4076BBA3BAB%2Flabel-pane%2F29.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6531"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-4.html#_6665"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.3 Making CLIM Stream Panes, <B CLASS="cl"
+><B CLASS="cl"
+>make-clim-stream-pane</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6240"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2.1 Specifying the Panes of a Frame]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1636"></A><DIV
+><H4
+>29.3.3 Scroller Pane Classes</H4
+><P
+>CLIM defines the following additional pane classes, each having at least one implementation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B01F8141F78FDB3B666C98B6772FC69E%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1637"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>scroller-pane</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Service&nbsp;Pane]</TD
+></TR
+></TABLE
+><A NAME="_1638"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>scrolling</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>contents</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a composite pane that allows the single child specified by <I
+>contents</I
+> to be scrolled. <I
+>options</I
+> may include a <B CLASS="cl"
+>:scroll-bar</B
+> option. The value of this option may be <A NAME="_6573"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), which indicates that both horizontal and vertical scroll bars should be created; <B CLASS="cl"
+>:vertical</B
+>, which indicates that only a vertical scroll bar should be created; or <B CLASS="cl"
+>:horizontal</B
+>, which indicates that only a horizontal scroll bar should be created. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=88F10B0BE60109EB22939E70A03C8D49%2Fscroller-pane%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z304"
+></A
+>For the scroller-pane, the option for displaying&#10;scroll bars is called :scroll-bar (no `s'), whereas&#10;for all the other panes it is called :scroll-bars.&#10;Surely, :scroll-bar is a typo.   <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=88F10B0BE60109EB22939E70A03C8D49%2Fscroller-pane%2F29.3.3&amp;editp=t&amp;id=Z304#Z304"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2017-11-27 17:31Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>The pane created by the <B CLASS="cl"
+>scrolling</B
+> will include a <B CLASS="cl"
+>scroller-pane</B
+> that has as children the scroll bars and a <A NAME="_1639"></A><SPAN CLASS="concept"
+>viewport</SPAN
+>. The viewport of a pane is the area of the window's drawing plane that is currently visible to the user. The viewport has as its child the specified contents. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D6F9E79EDC95963273140E77853D60FD%2Fscroller-pane%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2EB6046EEF9DD74F80EDD5E16CA4007F%2Fscroller-pane%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1640"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-viewport</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If the pane <I
+>pane</I
+> is part of a scroller pane, this returns the viewport pane for <I
+>pane</I
+>. Otherwise it returns <A NAME="_6578"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F0AA06F2B717E2A5FAA6C3EF9253039E%2Fpane-viewport%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0C993686D74D6370AF60465F4E6DFAB%2Fpane-viewport%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1641"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-viewport-region</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If the pane <I
+>pane</I
+> is part of a scroller pane, this returns the region of the pane's viewport. Otherwise it returns <A NAME="_6579"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3549360BB4BC1759C3E15AB8B9F24EA5%2Fpane-viewport-region%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z63"
+></A
+><P
+>It isn't said in which coordinate system the viewport region should be returned.&#10;Most useful for the user however would be if the viewport would be returned in&#10;the coordinate system of 'pane'. So McCLIM just implements it that way.</P
+><P
+>That is to be a little more precise:</P
+><P
+><PRE
+>(defmethod pane-viewport-region ((pane basic-pane)) &#10;  (let ((viewport (pane-viewport pane))) &#10;    (and viewport &#10;         (untransform-region &#10;          (sheet-delta-transformation pane viewport) &#10;          (sheet-region viewport)))))</PRE
+></P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3549360BB4BC1759C3E15AB8B9F24EA5%2Fpane-viewport-region%2F29.3.3&amp;editp=t&amp;id=Z63#Z63"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-08-09 01:35Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B39BC2AE514B652E7438231C9A493D3%2Fpane-viewport-region%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1642"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>pane-scroller</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If the pane <I
+>pane</I
+> is part of a scroller pane, this returns the scroller pane itself. Otherwise it returns <A NAME="_6580"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84DDE8C5A09121A1206033482ACD58CA%2Fpane-scroller%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=846C8862478882550C968559F47035AA%2Fpane-scroller%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1643"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>scroll-extent</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If the pane <I
+>pane</I
+> is part of a scroller pane, this scrolls the pane in its viewport so that the position <I
+>(x,y)</I
+> of <I
+>pane</I
+> is at the upper-left corner of the viewport. Otherwise, it does nothing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8F192F7666801E26AF428B0F846A6F3%2Fscroll-extent%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x</I
+> and <I
+>y</I
+> are coordinates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=66542CE09285F15C9280193DEBB383E6%2Fscroll-extent%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4DEE576E86DAF7E6D0B1B104BCB56DC2%2Fscroll-extent%2F29.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_1644"></A><DIV
+><H4
+>29.3.4 The Layout Protocol</H4
+><P
+>The layout protocol is triggered by <A NAME="_6581"></A><A HREF="28-3.html#_1512"
+><B CLASS="cl"
+>layout-frame</B
+></A
+>, which is called when a frame is adopted by a frame manager. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EEEF2C61409ED07E1C85BFF0D66096F9%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM uses a two pass algorithm to lay out a pane hierarchy. In the first pass (called called <A NAME="_1645"></A><SPAN CLASS="concept"
+>space composition</SPAN
+>), the top-level pane is asked how much space it requires. This may in turn lead to same the question being asked recursively of all the panes in the hierarchy, with the answers being composed to produce the top-level pane's answer. Each pane answers the query by returning a <A NAME="_1646"></A><SPAN CLASS="concept"
+>space requirement</SPAN
+> (or <A NAME="_6582"></A><A HREF="29-3.html#_1648"
+><B CLASS="cl"
+>space-requirement</B
+></A
+>) object, which specifies the pane's desired width and height as well as its willingness to shrink or grow along its width and height. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3382326DEFB4D9060AECA2E526A22A97%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In the second pass (called <A NAME="_1647"></A><SPAN CLASS="concept"
+>space allocation</SPAN
+>), the frame manager attempts to obtain the required amount of space from the host window system. The top-level pane is allocated the space that is actually available. Each pane, in turn, allocates space recursively to each of its descendants in the hierarchy according to the pane's rules of composition. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D90E4C11D33E9D31265A339A1C1D7FC0%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>It isn't alway possible to allocate the required space. What is the protocol for handling these space allocation failures? Some kind of error should be signalled when the constraints can't be satisfied, which can be handled by the application. Otherwise the panes will fall where they may. The </I
+><I
+><A NAME="_6583"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+></I
+><I
+> macro should provide an option that allows programmers to conveniently specify a condition handler. ---&nbsp;ILA</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=093C17C674ACE3EDCBA3EA148FF34826%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For many types of panes, the application programmer can indicate the space requirements of the pane at creation time by using the space requirement options (described above), as well as by calling the <A NAME="_6584"></A><A HREF="29-3.html#_1662"
+><B CLASS="cl"
+>change-space-requirements</B
+></A
+> function (described below). For example, application panes are used to display application-specific information, so the application can determine how much space should normally be given to them. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F88F4DDBAFBF9C1AB7A6E36DCFFDA9E1%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Other pane types automatically calculate how much space they need based on the information they need to display. For example, label panes automatically calculate their space requirement based on the text they need to display. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=649EAA1E0C16F0681ECC26661BC176CF%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A composite pane calculates its space requirement based on the requirements of its children and its own particular rule for arranging them. For example, a pane that arranges its children in a vertical stack would return as its desired height the sum of the heights of its children. Note however that a composite is not required by the layout protocol to respect the space requests of its children; in fact, composite panes aren't even required to ask their children. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8F762F81109C0062241D0970009394DC%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Space requirements are expressed for each of the two dimensions as a preferred size, a mininum size below which the pane cannot be shrunk, and a maxium size above which the pane cannot be grown. (The minimum and maximum sizes can also be specified as relative amounts.) All sizes are specified as a real number indicating the number of device units (such as pixels). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28DD21E6B0514F3BB0A2826647F75FE4%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1648"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class of all space requirement objects. There are one or more subclasses of <B CLASS="cl"
+>space-requirement</B
+> with implementation-dependent names that implement space requirements. The exact names of these classes is explicitly unspecified. If you want to create a new class that behaves like a space requirement, it should be a subclass of <B CLASS="cl"
+>space-requirement</B
+>. All instantiable subclasses of <B CLASS="cl"
+>space-requirement</B
+> must obey the space requirement protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1F188BBE3F6727C1E1AB23C083177974%2Fspace-requirement%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All of the instantiable space requirement classes provided by CLIM are immutable. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7724E1824853A9859D8CFD9B1A79E64F%2Fspace-requirement%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01A1DF1A7A9EC3BD27C62AEEC9BC4D32%2Fspace-requirement%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7582"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6592"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compose-space</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6582"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1649"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-space-requirement</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(width </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (max-width </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (min-width </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)  (height </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (max-height </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (min-height </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Constructs a space requirement object with the given characteristics, <A NAME="_6588"></A><A HREF="29-3.html#_1605"
+><B CLASS="cl"
+>:width</B
+></A
+>, <A NAME="_6589"></A><A HREF="29-3.html#_1608"
+><B CLASS="cl"
+>:height</B
+></A
+>, and so on. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A16A4F39E4B86B30726527F8BC8E5F4%2Fmake-space-requirement%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z16"
+></A
+>There seems to be some confusion about the precise default values for the minima and maxima. e.g. DUIM has min-width and max-width defaulting to width. We in &#10;our current implementation have min-width defaulting to 0 and max-width &#10;defaulting +fill+. [Note also that default values of 0 are pretty much&#10;nonsense]. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A16A4F39E4B86B30726527F8BC8E5F4%2Fmake-space-requirement%2F29.3.4&amp;editp=t&amp;id=Z16#Z16"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- GB 2003-01-23 23:07Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7364C04C1EDB1985C9F47EED615FE6A4%2Fmake-space-requirement%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7583"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1650"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1651"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-min-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1652"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-max-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1653"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1654"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-min-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_1655"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-max-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions read the components of the space requirement <I
+>space-req</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=31DD25B9662323974D34A9534137D3F0%2Fspace-requirement-width%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3BF378AC3271D475014A0882265146DA%2Fspace-requirement-width%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1656"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-components</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the components of the space requirement <I
+>space-req</I
+> as six values, the width, minimum width, maximum width, height, minimum height, and maximum height. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=517FA78A4D713FCAF3C6654AD628C927%2Fspace-requirement-components%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE97C0031A109A15917AE11454504501%2Fspace-requirement-components%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1657"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement-combine</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function sr1 sr2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a new space requirement each of whose components is the result of applying the function <I
+>function</I
+> to each the components of the two space requirements <I
+>sr1</I
+> and <I
+>sr2</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16AFE808EFD8932EB77F9DBF3A9E6562%2Fspace-requirement-combine%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>function</I
+> is a function of two arguments, both of which are real numbers. It has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E18D0020CB1A8239BB8F2804E21F895%2Fspace-requirement-combine%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DDE78DC5544DCC3F32D2F47A89E831BE%2Fspace-requirement-combine%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1658"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement+</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sr1 sr2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a new space whose components are the sum of each of the components of <I
+>sr1</I
+> and <I
+>sr2</I
+>. This could be implemented as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=228DA9073C7BDBBD75EE8F52AA40EDE8%2Fspace-requirement%2B%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun space-requirement+ (sr1 sr2)&#10;  (space-requirement-combine #'+ sr1 sr2))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F400370280C54DDC3C67B08606E69EFE%2Fspace-requirement%2B%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6590"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>space-requirement+*</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1659"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>space-requirement+*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>space-req </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>width min-width max-width  height min-height max-height</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a new space requirement whose components are the sum of each of the components of <I
+>space-req</I
+> added to the appropriate keyword argument (for example, the width component of <I
+>space-req</I
+> is added to <I
+>width</I
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AEDD70B6D63F32885786AB553E8BAED%2Fspace-requirement%2B%2A%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This is intended to be a more efficient, "spread" version of <A NAME="_6590"></A><A HREF="29-3.html#_1658"
+><B CLASS="cl"
+>space-requirement+</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6942505A6CD52632C470A32B1F84CE15%2Fspace-requirement%2B%2A%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2951192B98A0AD45190B797274337F15%2Fspace-requirement%2B%2A%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1660"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compose-space</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>width height</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>During the space composition pass, a composite pane will typically ask each of its children how much space it requires by calling <B CLASS="cl"
+>compose-space</B
+>. They answer by returning <A NAME="_6592"></A><A HREF="29-3.html#_1648"
+><B CLASS="cl"
+>space-requirement</B
+></A
+> objects. The composite will then form its own space requirement by composing the space requirements of its children according to its own rules for laying out its children. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=957DEE0BCEF38F8E697AF236B153D64F%2Fcompose-space%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The value returned by <B CLASS="cl"
+>compose-space</B
+> is a space requirement object that represents how much space the pane <I
+>pane</I
+> requires. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFA923BDEB10EF834E7F0D2F070A174F%2Fcompose-space%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>width</I
+> and <I
+>height</I
+> are real numbers that the <B CLASS="cl"
+>compose-space</B
+> method for a pane may use as "recommended" values for the width and height of the pane. These are used to drive top-down layout. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D011C8016DB74F3E33F3E5C1DF1053E%2Fcompose-space%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AAD762F1262E3C4309CB254C67FA12D%2Fcompose-space%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1661"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>allocate-space</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane width height</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>During the space allocation pass, a composite pane will arrange its children within the available space and allocate space to them according to their space requirements and its own composition rules by calling <B CLASS="cl"
+>allocate-space</B
+> on each of the child panes. <I
+>width</I
+> and <I
+>height</I
+> are the width and height of <I
+>pane</I
+> in device units. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B18F7823F939A5BCF1A35B7A5B11EF4%2Fallocate-space%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7903CA05C5977E757911079BF1ABCDF8%2Fallocate-space%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1662"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>change-space-requirements</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>pane </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>resize-frame </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>space-req-keys</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function can be invoked to indicate that the space requirements for <I
+>pane</I
+> have changed. Any of the options that applied to the pane at creation time can be passed into this function as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1F82CB1B1A2F12E5F9147345F405DCE2%2Fchange-space-requirements%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>resize-frame</I
+> determines whether the frame should be resized to accommodate the new space requirement of the hierarchy. If <I
+>resize-frame</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then <A NAME="_6597"></A><A HREF="28-3.html#_1512"
+><B CLASS="cl"
+>layout-frame</B
+></A
+> will be invoked on the frame. If <I
+>resize-frame</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, then the frame may or may not get resized depending on the pane hierarchy and the <B CLASS="cl"
+>:resize-frame</B
+> option that was supplied to <A NAME="_6600"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39D54A05BD2F55538F6A99A00465B9BB%2Fchange-space-requirements%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D61BDC16416F22D2EC7A81150A027041%2Fchange-space-requirements%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-3.html#_6605"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>changing-space-requirements</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6601"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>note-space-requirements-changed</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6584"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.4 The Layout Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1663"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-space-requirements-changed</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sheet pane</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is invoked whenever <I
+>pane</I
+>'s space requirements have changed. <I
+>sheet</I
+> must be the parent of <I
+>pane</I
+>. Invoking this function essentially means that <I
+>compose-space</I
+> will be reinvoked on <I
+>pane</I
+>, then it will reply with a space requirement that is not equal to the reply that was given on the last call to <I
+>compose-space</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=772CC3CE6F67279262B1A54F449D02AF%2Fnote-space-requirements-changed%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is automatically invoked by <A NAME="_6601"></A><A HREF="29-3.html#_1662"
+><B CLASS="cl"
+>change-space-requirements</B
+></A
+> in the cases that <A NAME="_6602"></A><A HREF="28-3.html#_1512"
+><B CLASS="cl"
+>layout-frame</B
+></A
+> isn't invoked. In the case that <A NAME="_6603"></A><A HREF="28-3.html#_1512"
+><B CLASS="cl"
+>layout-frame</B
+></A
+> is invoked, it isn't necessary to call <B CLASS="cl"
+>note-space-requirements-changed</B
+> since a complete re-layout of the frame will be executed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6EA59AFE62EE5989EE0334470E54562B%2Fnote-space-requirements-changed%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CED138145765A422A3C8C26DC0A4F25F%2Fnote-space-requirements-changed%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="26.html#_5727"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1664"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>changing-space-requirements</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>resize-frame layout) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This macro supports batching the invocation of the layout protocol by calls to <A NAME="_6605"></A><A HREF="29-3.html#_1662"
+><B CLASS="cl"
+>change-space-requirements</B
+></A
+>. Within the body, all calls to <A NAME="_6606"></A><A HREF="29-3.html#_1662"
+><B CLASS="cl"
+>change-space-requirements</B
+></A
+> change the internal structures of the pane and are recorded. When the body is exited, the layout protocol is invoked appropriately. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C28CE7BD6C2E2C82F136049D3B85EB4%2Fchanging-space-requirements%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=17D73F2BB82A49AA298D46BA870F81D5%2Fchanging-space-requirements%2F29.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

@@ -1,0 +1,177 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 2.7 Multiple Value setf</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="2.6 Specialized Arguments to Generic Functions" HREF="2-6.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="2.8 Sheet, Stream, or Medium Arguments to Macros" HREF="2-8.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="2 Conventions" HREF="2.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="2-6.html"
+>Prev</A
+><BR
+><A HREF="2-8.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-I.html"
+>Part&nbsp;I:&nbsp;Overview&nbsp;and&nbsp;Conventions</A
+> &rarr;&nbsp;<A HREF="2.html"
+>2&nbsp;Conventions</A
+><BR
+>&rarr;&nbsp;<A HREF="2-7.html"
+><B
+>2.7&nbsp;Multiple&nbsp;Value&nbsp;setf</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_26"></A><DIV
+><H3
+>2.7 Multiple Value <TT
+>setf</TT
+></H3
+><P
+>Some functions in CLIM that return multiple values have <B CLASS="cl"
+>setf</B
+> functions associated with them. For example, <A NAME="_2056"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+> returns the position of an output record as two values that correspond to the <I
+>x</I
+> and <I
+>y</I
+> coordinates. In order to change the position of an output record, the programmer would like to invoke <B CLASS="cl"
+>(setf&nbsp;output-record-position)</B
+>. Normally however, <B CLASS="cl"
+>setf</B
+> only takes a single value with which to modify the specified place. CLIM provides a "multiple value" version of <B CLASS="cl"
+>setf</B
+> that allows an expression that returns multiple values to be used in updating the specified place. In this specification, this facility will be referred to as <B CLASS="cl"
+>setf*</B
+> in the guise of function names such as <A NAME="_2061"></A><A HREF="16-2.html#_846"
+><B CLASS="cl"
+>(setf* output-record-position)</B
+></A
+>, even though <B CLASS="cl"
+>setf*</B
+> is not actually a defined form. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E4315C99F4B00B6740C487BE3EBBFB3%2F2.7#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z142"
+></A
+>In connection with this, and the fact that (setf* output-record-position) and friends are Generic Functions, see section B-4 (Multiple Value setf). <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1E4315C99F4B00B6740C487BE3EBBFB3%2F2.7&amp;editp=t&amp;id=Z142#Z142"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2006-08-22 23:58Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>For example, the modifying function for <A NAME="_2063"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+> might be called in either of the following two ways: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5F519E9704B5073800B7C324F759AD6%2F2.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(setf (output-record-position record) (values nx ny))&#10;&#10;(setf (output-record-position record1) (output-record-position record2))&#10;</PRE
+><P
+>The second form works because <A NAME="_2064"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+> itself returns two values. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA778BDA8359CD56A6A0C88334C5AF90%2F2.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Some CLIM implementations may not support <B CLASS="cl"
+>setf*</B
+> due to restrictions imposed by the underlying Lisp implementation. In this case, programmers may use special "setter" function instead. In the above example, <B CLASS="cl"
+>output-record-set-position</B
+> is the "setter" function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4B5E2147D44C5E07FB5DACC8FA7043E%2F2.7#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z143"
+></A
+>Are the argument conventions for the "setter" functions defined anywhere in this spec? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4B5E2147D44C5E07FB5DACC8FA7043E%2F2.7&amp;editp=t&amp;id=Z143#Z143"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alastair Bridgewater 2006-08-22 23:58Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/2-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

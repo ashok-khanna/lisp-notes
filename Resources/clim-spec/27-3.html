@@ -1,0 +1,1036 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 27.3 Command Menus</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="27.2 Command Tables" HREF="27-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="27.4 Keystroke Accelerators" HREF="27-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="27-2.html"
+>Prev</A
+><BR
+><A HREF="27-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="27.html"
+>27&nbsp;Command&nbsp;Processing</A
+><BR
+>&rarr;&nbsp;<A HREF="27-3.html"
+><B
+>27.3&nbsp;Command&nbsp;Menus</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1413"></A><DIV
+><H3
+>27.3 Command Menus</H3
+><P
+>Each command table may have a menu consisting of an ordered sequence of command menu items. The menu specifies a mapping from a menu name (the name displayed in the menu) to a command menu item. The menu of an application frame's top-level command table may be presented in a window system specific way, for example, as a menu bar. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF302234B9C1156D98B4656ACE4CA296%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Command menu items are stored as a list of the form <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>type</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>value</I
+></B
+><B CLASS="cl"
+> . </B
+><B CLASS="cl"
+><I
+>options</I
+></B
+><B CLASS="cl"
+>)</B
+>, where <I
+>type</I
+> and <I
+>value</I
+> are as in <A NAME="_5955"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>, and <I
+>options</I
+> is a list of keyword-value pairs. The allowable keywords are <B CLASS="cl"
+>:documentation</B
+>, which is used to supply optional pointer documention for the command menu item, and <A NAME="_5957"></A><A HREF="29-2.html#_1594"
+><B CLASS="cl"
+>:text-style</B
+></A
+>, which is used to indicate what text style should be used for this command menu item when it is displayed in a command menu. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE220E1CE0E2DF690271B1D1E91FD4C1%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_5958"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>, <A NAME="_5959"></A><A HREF="27-3.html#_1415"
+><B CLASS="cl"
+>remove-menu-item-from-command-table</B
+></A
+>, and <A NAME="_5960"></A><A HREF="27-3.html#_1417"
+><B CLASS="cl"
+>find-menu-item</B
+></A
+> ignore the character case of the command menu item's name when searching through the command table's menu. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3969CA55266571FE3BFF98AA6AF34AAF%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1414"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table string type value  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>documentation (after ':end) keystroke  text-style (errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds a command menu item to <I
+>command-table</I
+>'s menu. <I
+>string</I
+> is the name of the command menu item; its character case is ignored. <I
+>type</I
+> is either <B CLASS="cl"
+>:command</B
+>, <B CLASS="cl"
+>:function</B
+>, <B CLASS="cl"
+>:menu</B
+>, or <B CLASS="cl"
+>:divider</B
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2937CF59EF5FD4EA468BAB05D933BFA8%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>How do we make iconic command menus? Probably another keyword... ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=37B05B4C630197A7202FBD8DC99CE1C8%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>type</I
+> is <B CLASS="cl"
+>:command</B
+>, <I
+>value</I
+> must be a command (a cons of a command name followed by a list of the command's arguments), or a command name. (When <I
+>value</I
+> is a command name, it behaves as though a command with no arguments was supplied.) In the case where all of the command's required arguments are supplied, clicking on an item in the menu invokes the command immediately. Otherwise, the user will be prompted for the remaining required arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=237BC1ED3B926291079A60B2481BB7B7%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>type</I
+> is <B CLASS="cl"
+>:function</B
+>, <I
+>value</I
+> must be function having indefinite extent that, when called, returns a command. The function is called with two arguments, the gesture the user used to select the item (either a keyboard or button press event) and a "numeric argument". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=35091EED0E7665DC6E51001B58BB99BD%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>type</I
+> is <B CLASS="cl"
+>:menu</B
+>, this item indicates that a sub-menu will be invoked, and so <I
+>value</I
+> must be another command table or the name of another command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C02650AA3175C30F9A60CB121B968F37%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>type</I
+> is <B CLASS="cl"
+>:divider</B
+>, some sort of a dividing line is displayed in the menu at that point. If <I
+>string</I
+> is supplied, it will be drawn as the divider instead of a line. If the look and feel provided by the underlying window system has no corresponding concept, <B CLASS="cl"
+>:divider</B
+> items may be ignored. <I
+>value</I
+> is ignored. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD60C2DA7938D8ED4DFC453990967B42%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>documentation</I
+> is a documentation string, which can be used as mouse documentation for the command menu item. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=59D7AB49EA7595B2EE3A02E46DB0B67E%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>text-style</I
+> is either a text style spec or <A NAME="_5971"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. It is used to indicate that the command menu item should be drawn with the supplied text style in command menus. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C51DA99DEB02AB0091D0B14B45FB55FB%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>after</I
+> must be either <B CLASS="cl"
+>:start</B
+> (meaning to add the new item to the beginning of the menu), <B CLASS="cl"
+>:end</B
+> or <A NAME="_5974"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (meaning to add the new item to the end of the menu), or a string naming an existing entry (meaning to add the new item after that entry). If <I
+>after</I
+> is <B CLASS="cl"
+>:sort</B
+>, then the item is inserted in such as way as to maintain the menu in alphabetical order. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2850EE5141518CA27C570DD970675EE9%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>keystroke</I
+> is supplied, the item will be added to the command table's keystroke accelerator table. The value of <I
+>keystroke</I
+> must be a keyboard gesture name. This is exactly equivalent to calling <A NAME="_5976"></A><A HREF="27-4.html#_1424"
+><B CLASS="cl"
+>add-keystroke-to-command-table</B
+></A
+> with the arguments <I
+>command-table</I
+>, <I
+>keystroke</I
+>, <I
+>type</I
+> and <I
+>value</I
+>. When <I
+>keystroke</I
+> is supplied and <I
+>type</I
+> is <B CLASS="cl"
+>:command</B
+> or <B CLASS="cl"
+>:function</B
+>, typing a key on the keyboard that matches to the keystroke accelerator gesture will invoke the command specified by <I
+>value</I
+>. When <I
+>type</I
+> is <B CLASS="cl"
+>:menu</B
+>, the command will continue to be read from the sub-menu indicated by <I
+>value</I
+> in a window system specific manner. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B8552366E77F542BC006BCC522C73B4%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z414"
+></A
+>This is the part where emacs-like bindings come into play (i.e C-x C-t). That logic should be captured in read-command-using-keystrokes. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B8552366E77F542BC006BCC522C73B4%2Fadd-menu-item-to-command-table%2F27.3&amp;editp=t&amp;id=Z414#Z414"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2020-10-15 11:45Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>If the item named by <I
+>string</I
+> is already present in the command table's menu and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_5981"></A><A HREF="27-2.html#_1399"
+><B CLASS="cl"
+>command-already-present</B
+></A
+> error will be signalled. When the item is already present in the command table's menu and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, the old item will first be removed from the menu. Note that the character case of <I
+>string</I
+> is ignored when searching the command table's menu. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A48617E744713A191E996269AA85E2BB%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58C14152FA076ED337487AC4BD55CA79%2Fadd-menu-item-to-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-4.html#_6023"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>lookup-keystroke-item</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-4.html#_6002"
+><SPAN CLASS="reverselink"
+>[&larr; 27.4 Keystroke Accelerators, <B CLASS="cl"
+><B CLASS="cl"
+>add-keystroke-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5987"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-command-table-menu-items</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5955"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5907"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-2.html#_5872"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>define-command-table</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-1.html#_5803"
+><SPAN CLASS="reverselink"
+>[&larr; 27.1 Commands, <B CLASS="cl"
+><B CLASS="cl"
+>define-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1415"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>remove-menu-item-from-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table string </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Removes the item named by <I
+>string</I
+> from <I
+>command-table</I
+>'s menu. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1EAD98590CB3210AC23D4657C0048D21%2Fremove-menu-item-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the item is not present in the command table's menu and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_5985"></A><A HREF="27-2.html#_1397"
+><B CLASS="cl"
+>command-not-present</B
+></A
+> error will be signalled. Note that the character case of <I
+>string</I
+> is ignored when searching the command table's menu. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D67034A1B1E587DE23DCAF77939E1255%2Fremove-menu-item-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FE5343F2F256B3295C02305BD652CAB%2Fremove-menu-item-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-3.html#_5959"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1416"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-command-table-menu-items</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function command-table</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the items in <I
+>command-table</I
+>'s menu. <I
+>function</I
+> must be a function of three arguments, the menu name, the keystroke accelerator gesture (which will be <A NAME="_5986"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if there is none), and the command menu item; it has dynamic extent. The command menu items are mapped over in the order specified by <A NAME="_5987"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=214BFA017D0389D539B01AC05FF8D51D%2Fmap-over-command-table-menu-items%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>map-over-command-table-menu-items</B
+> does not descend into sub-menus. If the programmer requires this behavior, he should examine the type of the command menu item to see if it is <B CLASS="cl"
+>:menu</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6DB82A2560548951D59C15C3BA0B7F7B%2Fmap-over-command-table-menu-items%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=84CD5E62128D45ADB84D40934A926DC2%2Fmap-over-command-table-menu-items%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1417"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-menu-item</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-name command-table </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(errorp t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a menu name and a command table, returns two values, the command menu item and the command table in which it was found. (Since menus are not inherited, the second returned value will always be <I
+>command-table</I
+>.) <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. This function returns objects that reveal CLIM's internal state; do not modify those objects.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC0BDECD654EDB78E6E50A1B6CF639D3%2Ffind-menu-item%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If there is no command menu item corresponding to <I
+>menu-name</I
+> present in <I
+>command-table</I
+> and <I
+>errorp</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then the <A NAME="_5993"></A><A HREF="27-2.html#_1398"
+><B CLASS="cl"
+>command-not-accessible</B
+></A
+> error will be signalled. Note that the character case of <I
+>string</I
+> is ignored when searching the command table's menu. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9EE481CA0AACF0AC56674AEFDFC02AA%2Ffind-menu-item%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=03FF93EDCE69EECCA6E0101221F1A899%2Ffind-menu-item%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-3.html#_5960"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1418"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-menu-item-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the type of the command menu item <I
+>menu-item</I
+>, for example, <B CLASS="cl"
+>:menu</B
+> or <B CLASS="cl"
+>:command</B
+>. If <I
+>menu-item</I
+> is not a command menu item, the result is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB105FC0E90094A32AFF4D3CBA02421A%2Fcommand-menu-item-type%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AE5D79AA6EF39191F6607223B70DB266%2Fcommand-menu-item-type%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1419"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-menu-item-value</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the value of the command menu item <I
+>menu-item</I
+>. For example, if the type of <I
+>menu-item</I
+> is <B CLASS="cl"
+>:command</B
+>, this will return a command or a command name. If <I
+>menu-item</I
+> is not a command menu item, the result is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B544CACBACF7EDF857E1B9E1A22535F1%2Fcommand-menu-item-value%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F12AD0F7235D5248E00603D3C59CC6BC%2Fcommand-menu-item-value%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1420"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-menu-item-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>menu-item</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a list of the options for the command menu item <I
+>menu-item</I
+>. If <I
+>menu-item</I
+> is not a command menu item, the result is unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B91F59257D82FDF1D90E22D6262D8C9%2Fcommand-menu-item-options%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AB64144F1376B53BE378DF67CBE448EC%2Fcommand-menu-item-options%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1421"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>display-command-table-menu</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>max-width max-height n-rows n-columns  x-spacing y-spacing initial-spacing row-wise  (cell-align-x </I
+><I
+><B CLASS="cl"
+>:left</B
+></I
+><I
+>) (cell-align-y </I
+><I
+><B CLASS="cl"
+>:top</B
+></I
+><I
+>)  (move-cursor </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays <I
+>command-table</I
+>'s menu on <I
+>stream</I
+>. Implementations may choose to use <A NAME="_5997"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+> or may display the command table's menu in a platform dependent manner, such as using the menu bar on a Macintosh. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D2E12042E12E46333DA45BB90154966C%2Fdisplay-command-table-menu%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>max-width</I
+>, <I
+>max-height</I
+>, <I
+>n-rows</I
+>, <I
+>n-columns</I
+>, <I
+>x-spacing</I
+>, <I
+>y-spacing</I
+>, <I
+>row-wise</I
+>, <I
+>initial-spacing</I
+>, <I
+>cell-align-x</I
+>, <I
+>cell-align-y</I
+>, and <I
+>move-cursor</I
+> are as for <A NAME="_5999"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=905D3405D456B17973EC4511D46305C1%2Fdisplay-command-table-menu%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=703836F49DBFCBFAC77967E85513A517%2Fdisplay-command-table-menu%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7524"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="28-4.html#_6413"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>display-command-menu</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1422"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>menu-choose-command-from-command-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-table  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>associated-window default-style label  cache unique-id id-test  cache-value cache-test</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invokes a window system specific routine that displays a menu of commands from <I
+>command-table</I
+>'s menu, and allows the user to choose one of the commands. <I
+>command-table</I
+> is a <SPAN CLASS="term"
+>command table designator</SPAN
+>. The returned value is a command object. This may invoke itself recursively when there are sub-menus. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C9C78ABD0457F9CBC3E041F74D2E127E%2Fmenu-choose-command-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>associated-window</I
+>, <I
+>default-style</I
+>, <I
+>label</I
+>, <I
+>cache</I
+>, <I
+>unique-id</I
+>, <I
+>id-test</I
+>, <I
+>cache-value</I
+>, and <I
+>cache-test</I
+> are as for <A NAME="_6001"></A><A HREF="25.html#_1354"
+><B CLASS="cl"
+>menu-choose</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFA19E7614C32CD06D928B1B8F7A98E7%2Fmenu-choose-command-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Should this be generic on application frames? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5A9F903A5C2D7D64E45097A708086527%2Fmenu-choose-command-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F792D483589146EBF918AFDF4BB2C28B%2Fmenu-choose-command-from-command-table%2F27.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

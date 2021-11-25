@@ -1,0 +1,1054 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/10-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 10.3 Line Styles</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="10.2 Drawing Option Binding Forms" HREF="10-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="11 Text Styles" HREF="11.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="10 Drawing Options" HREF="10.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="10-2.html"
+>Prev</A
+><BR
+><A HREF="11.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="10.html"
+>10&nbsp;Drawing&nbsp;Options</A
+><BR
+>&rarr;&nbsp;<A HREF="10-3.html"
+><B
+>10.3&nbsp;Line&nbsp;Styles</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_540"></A><DIV
+><H3
+>10.3 Line Styles</H3
+><LI CLASS="outline_item"
+><A HREF="10-3.html#_546"
+>10.3.1 Line Style Protocol and Line Style Suboptions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="10-3.html#_559"
+>10.3.2 Contrasting Dash Patterns</A
+></LI
+><DIV
+><P
+>A line or other path is a one-dimensional object. However in order to be visible, the rendering of a line must occupy some non-zero area on the display hardware. A <A NAME="_541"></A><SPAN CLASS="concept"
+>line style</SPAN
+> represents the advice of CLIM to the rendering substrate on how to perform the rendering. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E894FA4199638020070852A19EB05118%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6955"
+><SPAN CLASS="reverselink"
+>[line style, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6949"
+><SPAN CLASS="reverselink"
+>[line style, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="10-3.html#_3052"
+><SPAN CLASS="reverselink"
+>[line style, <I
+>Concept</I
+>&larr; 10.3 Line Styles, <B CLASS="cl"
+><B CLASS="cl"
+>line-style-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-1.html#_2927"
+><SPAN CLASS="reverselink"
+>[line style, <I
+>Concept</I
+>&larr; 10.1 Medium Components, <B CLASS="cl"
+><B CLASS="cl"
+>(setf medium-line-style)</B
+></B
+>]</SPAN
+></A
+><BR
+></P
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_542"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class for line styles. If you want to create a new class that behaves like a line style, it should be a subclass of <B CLASS="cl"
+>line-style</B
+>. All instantiable subclasses of <B CLASS="cl"
+>line-style</B
+> must obey the line style protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8D437089E27F5C5AA9BFB1218929B67B%2Fline-style%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2DCFF92E2396DDC27B4F368DEDF7FC0%2Fline-style%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-3.html#_3058"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3.1 Line Style Protocol and Line Style Suboptions]</SPAN
+></A
+><BR
+><A HREF="10-3.html#_3054"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3 Line Styles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-line-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_543"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <A NAME="_3052"></A><A HREF="10-3.html#_541"
+><SPAN CLASS="term"
+>line style</SPAN
+></A
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8382B36125764D3F75AEFD9315F30CD9%2Fline-style-p%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C859583B5412E97A404492CDE2F770E8%2Fline-style-p%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_544"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-line-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>An instantiable class that implements line styles. A subclass of <A NAME="_3054"></A><A HREF="10-3.html#_542"
+><B CLASS="cl"
+>line-style</B
+></A
+>. This is the class that <A NAME="_3055"></A><A HREF="10-3.html#_545"
+><B CLASS="cl"
+>make-line-style</B
+></A
+> instantiates. Members of this class are immutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07F84C7F541E42FCBA21E3C5E1489D43%2Fstandard-line-style%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BBB7AA7B77AAA6D7275A7EE350664EB7%2Fstandard-line-style%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-3.html#_3056"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3 Line Styles, <B CLASS="cl"
+><B CLASS="cl"
+>make-line-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_545"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-line-style</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>unit thickness joint-shape cap-shape dashes</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns an object of class <A NAME="_3056"></A><A HREF="10-3.html#_544"
+><B CLASS="cl"
+>standard-line-style</B
+></A
+> with the supplied characteristics. The arguments and their default values are described in Section&nbsp;<A NAME="_3057"></A><A HREF="10-3.html#_546"
+>10.3.1</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F544D3C46F999570223F4D81B7185408%2Fmake-line-style%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E0D84C826259DEF45025F41F2A0171DD%2Fmake-line-style%2F10.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-3.html#_3055"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3 Line Styles, <B CLASS="cl"
+><B CLASS="cl"
+>standard-line-style</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_546"></A><DIV
+><H4
+>10.3.1 Line Style Protocol and Line Style Suboptions</H4
+><P
+>Each of these suboptions has a corresponding reader that can be used to extract a particular component from a line style. The generic functions decribed below comprise the line style protocol; all subclasses of <A NAME="_3058"></A><A HREF="10-3.html#_542"
+><B CLASS="cl"
+>line-style</B
+></A
+> must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ABC68A158E66E814153C9DAE2F90A039%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_547"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:line-unit</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_548"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style-unit</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Gives the unit used for measuring line thickness and dash pattern length for the line style. Possible values are <B CLASS="cl"
+>:normal</B
+>, <B CLASS="cl"
+>:point</B
+>, or <B CLASS="cl"
+>:coordinate</B
+>. The meaning of these options is: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68BE4B49026600EEDCCC16A713DD8FB2%2F%3Aline-unit%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:normal</B
+>---thicknesses and lengths are given in a relative measure in terms of the usual or "normal" line thickness. The normal line thickness is the thickness of the "comfortably visible thin line", In some window systems, the phrase "thinnest visible line" is used. This is not appropriate for CLIM, which intends to be device independent. (For instance, the thinnest visible line on a 400 d.p.i. laser printer is a function of the user's viewing distance from the paper.) Another attribute of a "normal" line is that its thickness should approximately match the stroke thickness of "normal" text, where again the exact measurements are the province of the rendering engine, not of CLIM. which is a property of the underlying rendering substrate. This is the default. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4E0E57A9BE0068D16950DB29BB2BEECC%2F%3Aline-unit%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z8"
+></A
+>How to convert this unit to :COORDINATE? It is important for device-independent&#10;output recording. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4E0E57A9BE0068D16950DB29BB2BEECC%2F%3Aline-unit%2F10.3.1&amp;editp=t&amp;id=Z8#Z8"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alexey Dejneka 2002-11-21 04:29Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z340"
+></A
+>Normal means, that thickness is used as is, without any modifications. See comment below regarding how coordinate is used. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4E0E57A9BE0068D16950DB29BB2BEECC%2F%3Aline-unit%2F10.3.1&amp;editp=t&amp;id=Z340#Z340"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-08-23 10:23Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+><LI
+><B CLASS="cl"
+>:point</B
+>---thicknesses and lengths are given in an absolute measure in terms of printer's points (approximately <I
+><SPAN
+>1</SPAN
+>/<SPAN
+>7</SPAN
+><SPAN
+>2</SPAN
+></I
+> of an inch). This measure was chosen so that CLIM implementors who interface CLIM to an underlying rendering engine (the window system) may legitimately choose to make it render as 1 pixel on current (1990) display devices. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97FAECB1C0D108054C4D44065AE20D79%2F%3Aline-unit%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:coordinate</B
+>---this means that the same units should be used for line thickness as are used for coordinates. In this case, the line thickness is scaled by the medium's current transformation, whereas <B CLASS="cl"
+>:normal</B
+> and <B CLASS="cl"
+>:point</B
+> do not scale the line thickness.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85DC38C780C3B44189E9E273408FAE6F%2F%3Aline-unit%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z339"
+></A
+><P
+>We are transforming size, not a position. Therefore thickness 2 should be transformed as [dx;dy] = [0;2] and the distance measured again (thanks to that we take into account i.e rotations, scaling, skewing and it works with any transformation):</P
+><P
+><PRE
+>(multiple-value-call #'(lambda (x y) (sqrt (+ (expt x 2) (expt y 2)))) &#10;   (clim:transform-distance medium-transformation 0 2))</PRE
+></P
+><P
+>Although more complicated approach could be taken (namely taking thickness 2 as a distance according to line orientation, i.e [dx;dy] = [sqrt(2);sqrt(2)] for a line skewed by pi/4 [45&#176;]) I think that the first approach is fine and has an undeniable advantage that it will have a uniform result for all lines with same thickness and unit (despite different orientations) and other curves if we decide, that we want to support thickness in (say) Bezier curves.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=85DC38C780C3B44189E9E273408FAE6F%2F%3Aline-unit%2F10.3.1&amp;editp=t&amp;id=Z339#Z339"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-08-23 09:21Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7AAA136E2C33D3BFEEFFC31BA5425D96%2F%3Aline-unit%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-3.html#_3081"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3.1 Line Style Protocol and Line Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>:line-dashes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="10-3.html#_3067"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3.1 Line Style Protocol and Line Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>:line-thickness</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_549"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:line-thickness</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_550"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style-thickness</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The thickness, in the units indicated by <A NAME="_3067"></A><A HREF="10-3.html#_548"
+><B CLASS="cl"
+>line-style-unit</B
+></A
+>, of the lines or arcs drawn by a drawing function. The thickness must be a real number. The default is 1, which combined with the default unit of <B CLASS="cl"
+>:normal</B
+>, means that the default line drawn is the "comfortably visible thin line". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E02DBA728BB9191B92D4885B7C22830%2F%3Aline-thickness%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A20590D8CAF5CA6BDE244CE08E02731%2F%3Aline-thickness%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_551"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:line-joint-shape</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_552"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style-joint-shape</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies the shape of joints between segments of unfilled figures. The possible shapes are <B CLASS="cl"
+>:miter</B
+>, <B CLASS="cl"
+>:bevel</B
+>, <B CLASS="cl"
+>:round</B
+>, and <B CLASS="cl"
+>:none</B
+>; the default is <B CLASS="cl"
+>:miter</B
+>. Note that the joint shape is implemented by the host window system, so not all platforms will necessarily fully support it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68A297EB96496D15AB94E9662E55AA85%2F%3Aline-joint-shape%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="line-joint-shapes.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 10.1: Line joint shapes.</DIV
+></DIV
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFBF17C4FA58484B9DD8BCE5C1966A27%2F%3Aline-joint-shape%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_554"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:line-cap-shape</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_555"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style-cap-shape</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies the shape for the ends of lines and arcs drawn by a drawing function, one of <B CLASS="cl"
+>:butt</B
+>, :<B CLASS="cl"
+>square</B
+>, <B CLASS="cl"
+>:round</B
+>, or <B CLASS="cl"
+>:no-end-point</B
+>; the default is <B CLASS="cl"
+>:butt</B
+>. Note that the cap shape is implemented by the host window system, so not all platforms will necessarily fully support it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5E9B7D765C0DD578EA6F5AF5EC7F0D9%2F%3Aline-cap-shape%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="line-cap-shapes.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 10.2: Line cap shapes.</DIV
+></DIV
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=75A607AD2AAF62B633A6BFEEA8A41F16%2F%3Aline-cap-shape%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_557"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:line-dashes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Option]</TD
+></TR
+></TABLE
+><A NAME="_558"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>line-style-dashes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>line-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Controls whether lines or arcs are drawn as dashed figures, and if so, what the dashing pattern is. Possible values are: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7AAB94B331341A9A7C5EE8CAA23A3DF6%2F%3Aline-dashes%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><A NAME="_3079"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>---lines are drawn solid, with no dashing. This is the default. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=832F2F718157F2F3DEA9C0E66BD00FBD%2F%3Aline-dashes%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_3080"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>---lines are drawn dashed, with a dash pattern that is unspecified and may vary with the rendering engine. This allows the underlying display substrate to provide a default dashed line for the programmer whose only requirement is to draw a line that is visually distinguishable from the default solid line. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=659F767024935A38005C45BA0C4C3A38%2F%3Aline-dashes%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A sequence---specifies a sequence, usually a vector, controlling the dash pattern of a drawing function. It is an error if the sequence does not contain an even number of elements. The elements of the sequence are lengths (as real numbers) of individual components of the dashed line or arc. The odd elements specify the length of inked components, the even elements specify the gaps. All lengths are expressed in the units described by <A NAME="_3081"></A><A HREF="10-3.html#_548"
+><B CLASS="cl"
+>line-style-unit</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F30DE92E65EEFE4295B2417BF9B35A5%2F%3Aline-dashes%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>(See also <A NAME="_3082"></A><A HREF="10-3.html#_560"
+><B CLASS="cl"
+>make-contrasting-dash-patterns</B
+></A
+>.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=459D42DBD7C001492CE43D9D804C7959%2F%3Aline-dashes%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=029E030761934A259D741CDABF60DD9B%2F%3Aline-dashes%2F10.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_559"></A><DIV
+><H4
+>10.3.2 Contrasting Dash Patterns</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_560"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-contrasting-dash-patterns</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>n </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>k</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>k</I
+> is not supplied, this returns a vector of <I
+>n</I
+> dash patterns with recognizably different appearance. Elements of the vector are guaranteed to be acceptable values for <B CLASS="cl"
+>:dashes</B
+>, and do not include <A NAME="_3084"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, but their class is not otherwise specified. The vector is a fresh object that may be modified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A110AF7C1E64852455EB84DE158A344%2Fmake-contrasting-dash-patterns%2F10.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>k</I
+> is supplied, it must be an integer between 0 and <I
+><I
+>n</I
+>&nbsp;-&nbsp;<SPAN
+>1</SPAN
+></I
+> (inclusive), in which case <B CLASS="cl"
+>make-contrasting-dash-patterns</B
+> returns the <I
+>k</I
+>'th dash-pattern rather than returning a vector of dash-patterns. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8222E290D7C113EDC2FC09564396F395%2Fmake-contrasting-dash-patterns%2F10.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the implementation does not have <I
+>n</I
+> different contrasting dash patterns, <B CLASS="cl"
+>make-contrasting-dash-patterns</B
+> signals an error. This will not happen unless <I
+>n</I
+> is greater than eight. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B0D6E1C5359F93C70BED1179379FBD65%2Fmake-contrasting-dash-patterns%2F10.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E6CBDCA00EF66E12AF2203924F8B74A8%2Fmake-contrasting-dash-patterns%2F10.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="10-3.html#_3082"
+><SPAN CLASS="reverselink"
+>[&larr; 10.3.1 Line Style Protocol and Line Style Suboptions, <B CLASS="cl"
+><B CLASS="cl"
+>:line-dashes</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_561"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>contrasting-dash-pattern-limit</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>port</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the number of contrasting dash patterns that can be rendered on any medium on the <A NAME="_3087"></A><A HREF="9-2.html#_451"
+><SPAN CLASS="term"
+>port</SPAN
+></A
+> <I
+>port</I
+>. Implementations are encouraged to make this as large as possible, but it must be at least 8. All classes that obey the port protocol must implement a method for this generic function. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE59A6BBDAD23797B1EFBF06896C610A%2Fcontrasting-dash-pattern-limit%2F10.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C9268AE5BFF94D3F83D89644D57C18E%2Fcontrasting-dash-pattern-limit%2F10.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/10-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:44 GMT -->
+</HTML
+>

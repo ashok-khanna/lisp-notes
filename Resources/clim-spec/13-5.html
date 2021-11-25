@@ -1,0 +1,485 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 13.5 Color Blending</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="13.4 Opacity" HREF="13-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13.6 Indirect Inks" HREF="13-6.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="13 Drawing in Color" HREF="13.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="13-4.html"
+>Prev</A
+><BR
+><A HREF="13-6.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="13.html"
+>13&nbsp;Drawing&nbsp;in&nbsp;Color</A
+><BR
+>&rarr;&nbsp;<A HREF="13-5.html"
+><B
+>13.5&nbsp;Color&nbsp;Blending</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_712"></A><DIV
+><H3
+>13.5 Color Blending</H3
+><P
+>Drawing a design that is not completely opaque at all points allows the previous contents of the drawing plane to show through. The simplest case is drawing a solid design: where the design is opaque, it replaces the previous contents of the drawing plane; where the design is transparent, it leaves the drawing plane unchanged. In the more general case of drawing a translucent design, the resulting color is a blend of the design's color and the previous color of the drawing plane. For purposes of color blending, the drawn design is called the foreground and the drawing plane is called the background. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EDBD3A0489C1FBA000EA402634681E7F%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The function <A NAME="_3476"></A><A HREF="14-1.html#_731"
+><B CLASS="cl"
+>compose-over</B
+></A
+> performs a similar operation: it combines two designs to produce a design, rather than combining a design and the contents of the drawing plane to produce the new contents of the drawing plane. For purposes of color blending, the first argument to <A NAME="_3477"></A><A HREF="14-1.html#_731"
+><B CLASS="cl"
+>compose-over</B
+></A
+> is called the foreground and the second argument is called the background. See Chapter&nbsp;<A NAME="_3478"></A><A HREF="14.html#_725"
+>14</A
+> for the details of <A NAME="_3479"></A><A HREF="14-1.html#_731"
+><B CLASS="cl"
+>compose-over</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=09A6877D410FEB6B4B0F0639B503D21B%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Color blending is defined by an ideal function <I
+>F:(r<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,g<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,b<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,r<SUB
+><SPAN
+>2</SPAN
+></SUB
+>,g<SUB
+><SPAN
+>2</SPAN
+></SUB
+>,b<SUB
+><SPAN
+>2</SPAN
+></SUB
+>,o<SUB
+><SPAN
+>2</SPAN
+></SUB
+>)&rarr;(r<SUB
+><SPAN
+>3</SPAN
+></SUB
+>,g<SUB
+><SPAN
+>3</SPAN
+></SUB
+>,b<SUB
+><SPAN
+>3</SPAN
+></SUB
+>,o<SUB
+><SPAN
+>3</SPAN
+></SUB
+>)</I
+> that operates on the color and opacity at a single point. <I
+>(r<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,g<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,b<SUB
+><SPAN
+>1</SPAN
+></SUB
+>,o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>)</I
+> are the foreground color and opacity. <I
+>(r<SUB
+><SPAN
+>2</SPAN
+></SUB
+>,g<SUB
+><SPAN
+>2</SPAN
+></SUB
+>,b<SUB
+><SPAN
+>2</SPAN
+></SUB
+>,o<SUB
+><SPAN
+>2</SPAN
+></SUB
+>)</I
+> are the background color and opacity. <I
+>(r<SUB
+><SPAN
+>3</SPAN
+></SUB
+>,g<SUB
+><SPAN
+>3</SPAN
+></SUB
+>,b<SUB
+><SPAN
+>3</SPAN
+></SUB
+>,o<SUB
+><SPAN
+>3</SPAN
+></SUB
+>)</I
+> are the resulting color and opacity. The color blending function <I
+>F</I
+> is conceptually applied at every point in the drawing plane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=98B653D523060B85277FE22AAA6C5CE7%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>F</I
+> performs linear interpolation on all four components:  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6161838BF2DE0406F9157E5EACC26488%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><TR
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>o<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;=&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>o<SUB
+><SPAN
+>1</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;+&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(<SPAN
+>1</SPAN
+>&nbsp;-&nbsp;o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>)*o<SUB
+><SPAN
+>2</SPAN
+></SUB
+></TD
+></TR
+><TR
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>r<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;=&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>*r<SUB
+><SPAN
+>1</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;+&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(<SPAN
+>1</SPAN
+>&nbsp;-&nbsp;o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>)*o<SUB
+><SPAN
+>2</SPAN
+></SUB
+>*r<SUB
+><SPAN
+>2</SPAN
+></SUB
+>)/o<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+></TR
+><TR
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>g<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;=&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>*g<SUB
+><SPAN
+>1</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;+&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(<SPAN
+>1</SPAN
+>&nbsp;-&nbsp;o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>)*o<SUB
+><SPAN
+>2</SPAN
+></SUB
+>*g<SUB
+><SPAN
+>2</SPAN
+></SUB
+>)/o<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+></TR
+><TR
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>b<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;=&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>*b<SUB
+><SPAN
+>1</SPAN
+></SUB
+></TD
+><TD ALIGN="CENTER" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>&nbsp;+&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP" COLSPAN="1"
+>(<SPAN
+>1</SPAN
+>&nbsp;-&nbsp;o<SUB
+><SPAN
+>1</SPAN
+></SUB
+>)*o<SUB
+><SPAN
+>2</SPAN
+></SUB
+>*b<SUB
+><SPAN
+>2</SPAN
+></SUB
+>)/o<SUB
+><SPAN
+>3</SPAN
+></SUB
+></TD
+></TR
+></TABLE
+></P
+><P
+> Note that if <I
+>o<SUB
+><SPAN
+>3</SPAN
+></SUB
+></I
+> is zero, these equations would divide zero by zero. In that case <I
+>r<SUB
+><SPAN
+>3</SPAN
+></SUB
+></I
+>, <I
+>g<SUB
+><SPAN
+>3</SPAN
+></SUB
+></I
+>, and <I
+>b<SUB
+><SPAN
+>3</SPAN
+></SUB
+></I
+> are defined to be zero. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B142D8C7B1A0BFD6CDB2FF59D15520F%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM requires that <I
+>F</I
+> be implemented exactly if <I
+>o<SUB
+><SPAN
+>1</SPAN
+></SUB
+></I
+> is zero or one or if <I
+>o<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> is zero. If <I
+>o<SUB
+><SPAN
+>1</SPAN
+></SUB
+></I
+> is zero, the result is the background. If <I
+>o<SUB
+><SPAN
+>1</SPAN
+></SUB
+></I
+> is one or <I
+>o<SUB
+><SPAN
+>2</SPAN
+></SUB
+></I
+> is zero, the result is the foreground. For fractional opacity values, an implementation can deviate from the ideal color blending function either because the implementation has limited opacity resolution or because the implementation can compute a different color blending function much more quickly. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=760C65424939FAAC21FF1F7CF29EE2DB%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If a medium's background design is not completely opaque at all points, the consequences are unspecified. Consequently, a drawing plane is always opaque and drawing can use simplified color blending that assumes <I
+>o<SUB
+><SPAN
+>2</SPAN
+></SUB
+>&nbsp;=&nbsp;<SPAN
+>1</SPAN
+></I
+> and <I
+>o<SUB
+><SPAN
+>3</SPAN
+></SUB
+>&nbsp;=&nbsp;<SPAN
+>1</SPAN
+></I
+>. However, <A NAME="_3480"></A><A HREF="14-1.html#_731"
+><B CLASS="cl"
+>compose-over</B
+></A
+> must handle a non-opaque background correctly. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4CDBDC6587438A5B3C47B01B82BD0BE4%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that these <I
+>(r,g,b,o)</I
+> quadruples of real numbers between 0 and 1 are mathematical and an implementation need not store information in this form. Most implementations are expected to use a different representation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B1CB52A5ACAF10E474376520A203981%2F13.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/13-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

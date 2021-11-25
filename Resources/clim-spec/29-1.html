@@ -1,0 +1,150 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 29.1 Overview of Panes</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="29.2 Basic Pane Construction" HREF="29-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="29.html"
+>Prev</A
+><BR
+><A HREF="29-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="29.html"
+>29&nbsp;Panes</A
+><BR
+>&rarr;&nbsp;<A HREF="29-1.html"
+><B
+>29.1&nbsp;Overview&nbsp;of&nbsp;Panes</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1578"></A><DIV
+><H3
+>29.1 Overview of Panes</H3
+><DIV
+><P
+>CLIM panes are similar to the gadgets or widgets of other toolkits. They can be used by application programmers to compose the top-level user interface of their applications, as well as auxiliary components such as menus and dialogs. The application programmer provides an abstract specification of the pane hierarchy, which CLIM uses in conjunction with user preferences and other factors to select a specific "look and feel" for the application. In many environments a CLIM application can use the facilities of the host window system toolkit via a set of <A NAME="_1579"></A><SPAN CLASS="concept"
+>adaptive panes</SPAN
+>, allowing a portable CLIM application to take on the look and feel of a native application user interface. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D46526C7D0C907512BD17EE2C587EFD3%2F29.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z342"
+></A
+>The comparison to other toolkits isn't very helpful. A high-level description of what a pane is should come here, along with how they differ from their child classes, such as Gadgets, and if Panes extend other interfaces, for instance the Sheet interface. Below the spec says that panes are implemented as special sheet classes. Does this mean that the Pane interface is a subinterface of Sheet? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D46526C7D0C907512BD17EE2C587EFD3%2F29.1&amp;editp=t&amp;id=Z342#Z342"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Cyrus Harmon 2018-08-25 18:09Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><A HREF="29-1.html#_6460"
+><SPAN CLASS="reverselink"
+>[adaptive panes, <I
+>Concept</I
+>&larr; 29.1 Overview of Panes]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Panes are rectangular objects that are implemented as special sheet classes. An application will typically construct a tree of panes that divide up the screen space allocated to the application frame. The various CLIM pane types can be characterized by whether they have children panes or not: panes that can have other panes as children are called <A NAME="_1580"></A><SPAN CLASS="concept"
+>composite panes</SPAN
+>, and those that don't are called <A NAME="_1581"></A><SPAN CLASS="concept"
+>leaf panes</SPAN
+>. Composite panes are used to provide a mechanism for spatially organizing ("laying out") other panes. Leaf panes implement gadgets that have some appearance and react to user input by invoking application code. Another kind of leaf pane provides an area of the application's screen real estate that can be used by the application to present application specific information. CLIM provides a number of these <A NAME="_1582"></A><SPAN CLASS="concept"
+>application pane</SPAN
+> types that allow the application to use CLIM's graphics and extended stream facilities. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7BCE04F3A076537BE209E03C7369039%2F29.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_1583"></A><SPAN CLASS="concept"
+>Abstract panes</SPAN
+> are panes that are defined only in terms of their programmer interface, or behavior. The protocol for an abstract pane (that is, the specified set of initargs, accessors, and callbacks) is designed to specify the pane in terms of its overall purpose, rather then in terms of its specific appearance or particular interactive details. The purpose of this abstract definition is to allow multiple implementations of the abstract pane, each defining its own specific look and feel. CLIM can then select the appropriate pane implementation based on factors outside the control of the application, such as user preferences or the look and feel of the host operating environment. A subset of the abstract panes, the <A NAME="_6460"></A><A HREF="29-1.html#_1579"
+><SPAN CLASS="term"
+>adaptive panes</SPAN
+></A
+>, have been defined to integrate well across all CLIM operating platforms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=88E6629477818D44F1C0A1AAE58211F9%2F29.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM provides a general mechanism for automatically selecting the particular implementation of an abstract pane selected by an application based on the current frame manager. The application programmer can override the selection mechanism by using the name of a specific pane implementation in place of the abstract pane name when specifying the application frame's layout. By convention, the name of the basic, portable implementation of an abstract pane class can be determined by adding the suffix "<B CLASS="cl"
+>-pane</B
+>" to the name of the abstract pane class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=434571B569F1D16AA9FB22BF9A281F9A%2F29.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/29-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

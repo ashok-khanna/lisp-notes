@@ -1,0 +1,1132 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 12.7 Graphics Protocols</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="12.6 Pixmaps" HREF="12-6.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="13 Drawing in Color" HREF="13.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="12 Graphics" HREF="12.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="12-6.html"
+>Prev</A
+><BR
+><A HREF="13.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-IV.html"
+>Part&nbsp;IV:&nbsp;Sheet&nbsp;and&nbsp;Medium&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="12.html"
+>12&nbsp;Graphics</A
+><BR
+>&rarr;&nbsp;<A HREF="12-7.html"
+><B
+>12.7&nbsp;Graphics&nbsp;Protocols</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_655"></A><DIV
+><H3
+>12.7 Graphics Protocols</H3
+><LI CLASS="outline_item"
+><A HREF="12-7.html#_656"
+>12.7.1 General Behavior of Drawing Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="12-7.html#_657"
+>12.7.2 Medium-specific Drawing Functions</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="12-7.html#_667"
+>12.7.3 Other Medium-specific Output Functions</A
+></LI
+><P
+>Every medium must implement methods for the various graphical drawing generic functions. Furthermore, every sheet that supports the standard output protocol must implement these methods as well; often, the sheet methods will trampoline to the methods on the sheet's medium. All of these generic functions take the same arguments as the non-generic spread function equivalents, except the arguments that are keyword arguments in the non-generic functions are positional arguments in the generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4AA2FEFCDB1DB2AFC79ED12853826D91%2F12.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Every medium must implement methods for the various graphical drawing generic functions. All of these generic functions take as (specialized) arguments the medium, followed by the drawing function-specific arguments, followed by the ink, line style (or text style), and clipping region. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C62F5D5ECDCF8B03B83EC631852E46F0%2F12.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The drawing function-specific arguments will either be <I
+>x</I
+> and <I
+>y</I
+> positions, or a sequence of <I
+>x</I
+> and <I
+>y</I
+> positions. These positions will be in medium coordinates, and must be transformed by applying the medium's device transformation in order to produce device coordinates. Note that the user transformation will have already been applied to the positions when the medium-specific drawing function is called. However, the medium-specific drawing function will still need to apply the device transformation to the positions in order to draw the graphics in the appopriate place on the host window. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D15B72FC9D308E54D094F9D6EBE2CD3%2F12.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The ink, line style, text style, and clipping regions arguments are not part of the medium-specific drawing functions. They must be extracted from the medium object. Each medium-specific method will decode the ink, line (or text) style, and clipping region in a port-specific way and communicate it to the underlying port. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6297604F86862F8DA5F96AB1839A0839%2F12.7#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_656"></A><DIV
+><H4
+>12.7.1 General Behavior of Drawing Functions</H4
+><P
+>Using <A NAME="_3247"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> as an example, calling any of the drawing functions specified above results in the following series of function calls on a non-output recording sheet: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B00DE1FBBAE2CAAFFDC2DDA3E3569DB%2F12.7.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z168"
+></A
+>It is very convenient to choose draw-line* as an example, because it doesn't expose some of the problems of the other drawing functions.  For instance, draw-rectangle* may be called with a non-rectilinear transformation, which makes it necessary to call medium-draw-polygon* instead of medium-draw-rectangle*.  Another problem is with draw-text* when :transform-glyphs is t.   <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B00DE1FBBAE2CAAFFDC2DDA3E3569DB%2F12.7.1&amp;editp=t&amp;id=Z168#Z168"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-08-23 09:49Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><UL
+><LI
+>A program calls <A NAME="_3248"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> on either a sheet or a medium, <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+>, and perhaps some drawing options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0526B670AB665248DD2D8E7DC8D848FD%2F12.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_3249"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> merges the supplied drawing options into the medium, and then calls <A NAME="_3250"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> on the sheet or medium. (Note that a compiler macro could detect the case where there are no drawing options or constant drawing options, and do this at compile time.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8C842259AC2731669FD9F438124F7A3%2F12.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>If <A NAME="_3251"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> was called on a sheet, the <A NAME="_3252"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> on the sheet trampolines to the medium's <A NAME="_3253"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8DB944BD510F9DC8F830DE35E0CF1C5%2F12.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>An <B CLASS="cl"
+>:around</B
+> method for <A NAME="_3255"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> performs the necessary user transformations by applying the medium transformation to <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+>, and to the clipping region, and then calls the medium-specific method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2A0407D3C5C5A611C0A2A7DC356C8C6%2F12.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The "real" <A NAME="_3256"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> transforms the start and end coordinates of the line by the sheet's device transformation, decodes the ink and line style into port-specific objects, and finally invokes a port-specific function (such as <B CLASS="cl"
+>xlib:draw-line</B
+>) to do the actual drawing.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2B611BD8D3578A8869424BA35BA9B084%2F12.7.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+></DIV
+><A NAME="_657"></A><DIV
+><H4
+>12.7.2 Medium-specific Drawing Functions</H4
+><P
+>All mediums and all sheets that support the standard output protocol must implement methods for the following generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92E0F285B424B943B0E5F457751232EA%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The method for each of these drawing functions on the most specific, implementation-dependent medium class will transform the coordinates by the device transformation of the medium's sheet, extract the medium's port-specific "drawable", and then invoke a port-specific drawing function (such as <B CLASS="cl"
+>xlib:draw-line</B
+>) to do the actual drawing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC51F75F4818BEBAF0ECB618CD2A91A8%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z169"
+></A
+>This use of "device transformation" is incoherent with some other parts of the spec.  Elsewhere, "device transformation" means the composition of the "user transformation" (a.k.a the "medium transformation") and the "native transformation" of the sheet. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CC51F75F4818BEBAF0ECB618CD2A91A8%2F12.7.2&amp;editp=t&amp;id=Z169#Z169"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2007-08-23 10:00Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>An <B CLASS="cl"
+>:around</B
+> on <A NAME="_3260"></A><A HREF="8-3.html#_388"
+><B CLASS="cl"
+>basic-medium</B
+></A
+> for each of the drawing functions will have already transformed the user coordinates to medium coordinates before the most specific, implementation-dependent method is called. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8C85BD57DA6705CFF3D0895E1CBE670F%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Implementation note:</B
+> CLIM implementations should provide "trampoline" methods on sheets that support the standard output protocol that simply call the same generic function on the medium. Sheets that support output recording will require extra mechanism before delegating to the medium in order to implement such functionality as creating output records and handling scrolling. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5C9F6A59DA57082E2322152598273F6%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_658"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-point*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x y</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a point on the <A NAME="_3261"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39A356A85A594B258A79A41CA210D4F2%2Fmedium-draw-point%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF37856F99B28E2BF8FC13873DBE2C86%2Fmedium-draw-point%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_659"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-points*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium coord-seq</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a set of points on the <A NAME="_3262"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <I
+>coord-seq</I
+> is a sequence of coordinate pairs, which are real numbers. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=90E575B57ACF2F909B5080008DF02979%2Fmedium-draw-points%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=46AD69C601E7D6818FA2EF895B6AC875%2Fmedium-draw-points%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_660"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-line*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a line on the <A NAME="_3263"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The line is drawn from <I
+>(x<SPAN
+>1</SPAN
+>,y<SPAN
+>1</SPAN
+>)</I
+> to <I
+>(x<SPAN
+>2</SPAN
+>,y<SPAN
+>2</SPAN
+>)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0CF1DB59292A42DB316854DB16D7633%2Fmedium-draw-line%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EBE0710CB479176050140C6264F28CA9%2Fmedium-draw-line%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3874"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.2 Graphics Output Recording]</SPAN
+></A
+><BR
+><A HREF="12-7.html#_3250"
+><SPAN CLASS="reverselink"
+>[&larr; 12.7.1 General Behavior of Drawing Functions]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_661"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-lines*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream position-seq</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a set of disconnected lines on the <A NAME="_3264"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <I
+>coord-seq</I
+> is a sequence of coordinate pairs, which are real numbers. Each successive pair of coordinate pairs is taken as the start and end position of each line. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=95DB2ED527B3AF0683E328FD708F4644%2Fmedium-draw-lines%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B58028C638554E3ADB3AC4342B266874%2Fmedium-draw-lines%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_662"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-polygon*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium coord-seq closed</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a polygon or polyline on the <A NAME="_3265"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <I
+>coord-seq</I
+> is a sequence of coordinate pairs, which are real numbers. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. Each successive coordinate pair is taken as the position of one vertex of the polygon. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3D4A1A7F676EAEE0758B1DBFBE715723%2Fmedium-draw-polygon%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5900A1F89F3AB28217FBF099774BCAF7%2Fmedium-draw-polygon%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z80"
+></A
+>We have an extra :filled argument. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5900A1F89F3AB28217FBF099774BCAF7%2Fmedium-draw-polygon%2A%2F12.7.2&amp;editp=t&amp;id=Z80#Z80"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 15:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_663"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-rectangle*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium x1 y1 x2 y2</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a rectangle on the <A NAME="_3266"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The corners of the rectangle are at <I
+>(x<SPAN
+>1</SPAN
+>,y<SPAN
+>1</SPAN
+>)</I
+> and <I
+>(x<SPAN
+>2</SPAN
+>,y<SPAN
+>2</SPAN
+>)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC3014683FD5444B2284007722DB9976%2Fmedium-draw-rectangle%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12D766FA4E363F585107A46BE35F9D4A%2Fmedium-draw-rectangle%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z81"
+></A
+>filled? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12D766FA4E363F585107A46BE35F9D4A%2Fmedium-draw-rectangle%2A%2F12.7.2&amp;editp=t&amp;id=Z81#Z81"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 15:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_664"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-rectangles*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium coord-seq</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a set of rectangles on the <A NAME="_3267"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. <I
+>coord-seq</I
+> is a sequence of coordinate pairs, which are real numbers. It is an error if <I
+>coord-seq</I
+> does not contain an even number of elements. Each successive pair of coordinate pairs is taken as the upper-left and lower-right corner of the rectangle. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EE8B5AEB730B8DE9670421779F5572B%2Fmedium-draw-rectangles%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=43753E7D81B01EA705A678D2649050F6%2Fmedium-draw-rectangles%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z82"
+></A
+>filled? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=43753E7D81B01EA705A678D2649050F6%2Fmedium-draw-rectangles%2A%2F12.7.2&amp;editp=t&amp;id=Z82#Z82"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 15:04Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_665"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-ellipse*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium center-x center-y  radius-1-dx radius-1-dy radius-2-dx radius-2-dy  start-angle end-angle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+> Draws an ellipse or elliptical arc on the <A NAME="_3268"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The center of the ellipse is at <I
+>(x,y)</I
+>, and the radii are specified by the two vectors (<I
+>radius-1-dx</I
+>,<I
+>radius-1-dy</I
+>) and (<I
+>radius-2-dx</I
+>,<I
+>radius-2-dy</I
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8B143CD9DB8CD4D827BCCC8F9563BE4D%2Fmedium-draw-ellipse%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>start-angle</I
+> and <I
+>end-angle</I
+> are real numbers that specify an arc rather than a complete ellipse. Note that the medium and device transformations must be applied to the angles as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C0CAC2DB6C1379A4730E0F31399FDCF3%2Fmedium-draw-ellipse%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E22FD1609C0C51F8A17D9333AB8B704%2Fmedium-draw-ellipse%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z83"
+></A
+>filled? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E22FD1609C0C51F8A17D9333AB8B704%2Fmedium-draw-ellipse%2A%2F12.7.2&amp;editp=t&amp;id=Z83#Z83"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-03-06 15:05Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_666"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-draw-text*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium text x y  (start </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) end  (align-x </I
+><I
+><B CLASS="cl"
+>:left</B
+></I
+><I
+>) (align-y </I
+><I
+><B CLASS="cl"
+>:baseline</B
+></I
+><I
+>)  toward-x toward-y transform-glyphs</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Draws a character or a string on the <A NAME="_3269"></A><A HREF="8-3.html#_385"
+><SPAN CLASS="term"
+>medium</SPAN
+></A
+> <I
+>medium</I
+>. The text is drawn starting at <I
+>(x,y)</I
+>, and towards (<I
+>toward-x</I
+>,<I
+>toward-y</I
+>). In Some implementations of CLIM, <B CLASS="cl"
+>medium-draw-text*</B
+> may call either <B CLASS="cl"
+>medium-draw-string*</B
+> or <B CLASS="cl"
+>medium-draw-character*</B
+> in order to draw the text. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1EA0BDCAAC38B49B61CFA36DFC2A36C3%2Fmedium-draw-text%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z34"
+></A
+>There is no medium-draw-string* and no medium-draw-character* in this spec.&#10;Are these supposed to be lower level primitives? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1EA0BDCAAC38B49B61CFA36DFC2A36C3%2Fmedium-draw-text%2A%2F12.7.2&amp;editp=t&amp;id=Z34#Z34"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-02 05:50Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5F575E67879F0C66F2805A5175AD6E94%2Fmedium-draw-text%2A%2F12.7.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_667"></A><DIV
+><H4
+>12.7.3 Other Medium-specific Output Functions</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_668"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-finish-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Ensures that all the output sent to <I
+>medium</I
+> has reached its destination, and only then return <SPAN CLASS="term"
+>false</SPAN
+>. This is used by <B CLASS="cl"
+>finish-output</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=809A0F3EA601913E1239404A251555EC%2Fmedium-finish-output%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4A2C7584FDEBA9DE3586141D8EE26952%2Fmedium-finish-output%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="12-7.html#_3275"
+><SPAN CLASS="reverselink"
+>[&larr; 12.7.3 Other Medium-specific Output Functions, <B CLASS="cl"
+><B CLASS="cl"
+>medium-force-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_669"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-force-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Like <A NAME="_3275"></A><A HREF="12-7.html#_668"
+><B CLASS="cl"
+>medium-finish-output</B
+></A
+>, except that it may return <SPAN CLASS="term"
+>false</SPAN
+> without waiting for the output to complete. This is used by <B CLASS="cl"
+>force-output</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2CF7276086C9D9EB2DADF6D23B49AEC3%2Fmedium-force-output%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A6D764609AE5B6EFA1B335A939E46C66%2Fmedium-force-output%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_670"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-clear-area</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium left top right bottom</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Clears an area on the medium <I
+>medium</I
+> by filling the rectangle whose edges are at <I
+>left</I
+>, <I
+>top</I
+>, <I
+>right</I
+>, and <I
+>bottom</I
+> with the medium's background ink. <I
+>left</I
+>, <I
+>top</I
+>, <I
+>right</I
+>, and <I
+>bottom</I
+> are in thed medium's coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=97D8DAD3AD92DAF74A8C9060574351B2%2Fmedium-clear-area%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default method on <A NAME="_3278"></A><A HREF="8-3.html#_388"
+><B CLASS="cl"
+>basic-medium</B
+></A
+> simply uses <A NAME="_3279"></A><A HREF="12-5.html#_629"
+><B CLASS="cl"
+>draw-rectangle*</B
+></A
+> to clear the area. Some host window systems has special functions that are faster than <A NAME="_3280"></A><A HREF="12-5.html#_629"
+><B CLASS="cl"
+>draw-rectangle*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=50B9B02F97988A036C5087B616C338E1%2Fmedium-clear-area%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8AB4898FF4EDF9D2CAA8CE4D8BC2DA75%2Fmedium-clear-area%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_671"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>medium-beep</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>medium</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Causes an audible sound to be played on the medium. The default method does nothing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AC652B9DA2DB9900E5206E18C51FFB8F%2Fmedium-beep%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E4BC91D8E8147773EC88CB6D6B9462A9%2Fmedium-beep%2F12.7.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/12-7.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

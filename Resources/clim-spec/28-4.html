@@ -1,0 +1,1034 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 28.4 The Generic Command Loop</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="28.3 Application Frame Functions" HREF="28-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="28.5 Frame Managers" HREF="28-5.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="28 Application Frames" HREF="28.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="28-3.html"
+>Prev</A
+><BR
+><A HREF="28-5.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="28.html"
+>28&nbsp;Application&nbsp;Frames</A
+><BR
+>&rarr;&nbsp;<A HREF="28-4.html"
+><B
+>28.4&nbsp;The&nbsp;Generic&nbsp;Command&nbsp;Loop</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1531"></A><DIV
+><H3
+>28.4 The Generic Command Loop</H3
+><P
+>The default application command loop provided by CLIM performs the following steps: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A05BAB86673F6587E5C76916D6526D0%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><OL
+><LI
+>Prompts the user for input. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39F821E2DB4E7BFA7D4868BDFCACBBE5%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Reads a command. Each application frame has a command table that contains those commands that the author of the application wishes to allow the user to invoke at a given time. Since commands may be read in any number of ways, the generic command loop enforces no particular interface style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=180CF3D1CDFB2BFC72EFDA97DDA3AC0A%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Executes the command. The definition of each command may refer to (and update) the state variables of the frame, to which <A NAME="_6350"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+> will be bound. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6719E5833D0C58170C765AF7FD15380C%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Runs the display function for each pane in the frame as necessary. The display function may refer to the frame's state variables. Display functions are usually written by the application writer, although certain display functions are supplied by CLIM itself. Note that an application frame is free to have no panes.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A1E1BD6932397D17863829FB2CA0FE13%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></OL
+><P
+><B
+>Major issue: </B
+> <I
+>RWK has a reasonable proposal for breaking down command loops into their component pieces. It should be integrated here. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05BFF9DC030ADC5E310479D5CE32AC13%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All classes that inherit from <A NAME="_6351"></A><A HREF="28-2.html#_1468"
+><B CLASS="cl"
+>application-frame</B
+></A
+> must inherit or implement methods for all of the following functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B75846F6D44355162C7FDC18DEB33B3A%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1532"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>run-frame-top-level</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Runs the top-level function for the <SPAN CLASS="term"
+>frame</SPAN
+> <I
+>frame</I
+>. The default method on <A NAME="_6353"></A><A HREF="28-2.html#_1468"
+><B CLASS="cl"
+>application-frame</B
+></A
+> simply invokes the top-level function for the frame (which defaults to <A NAME="_6354"></A><A HREF="28-4.html#_1534"
+><B CLASS="cl"
+>default-frame-top-level</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=90D36215E41DC6964A6E097016922E72%2Frun-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8948A727A90AAE2EF341E012B1BFD338%2Frun-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-4.html#_1533"
+><SPAN CLASS="forwardlink"
+>[&rarr; run-frame-top-level, <I
+>:Around&nbsp;Method</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6290"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>(setf frame-current-layout)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6181"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>make-application-frame</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1533"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>run-frame-top-level</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(frame </I
+><I
+><B CLASS="cl"
+>application-frame</B
+></I
+><I
+>) </I
+><I
+><TT
+>&amp;key </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[:Around&nbsp;Method]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>:around</B
+> method of <B CLASS="cl"
+>run-frame-top-level</B
+> on the <A NAME="_6357"></A><A HREF="28-2.html#_1468"
+><B CLASS="cl"
+>application-frame</B
+></A
+> class is responsible for establish the initial dynamic bindings for the application, including (but not limited to) binding <A NAME="_6358"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+> to <I
+>frame</I
+>, binding <A NAME="_6359"></A><A HREF="23-5.html#_1199"
+><B CLASS="cl"
+>*input-context*</B
+></A
+> to <A NAME="_6360"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, resetting the delimiter and activation gestures, and binding <A NAME="_6361"></A><A HREF="22-2.html#_1078"
+><B CLASS="cl"
+>*input-wait-test*</B
+></A
+>, <A NAME="_6362"></A><A HREF="22-2.html#_1079"
+><B CLASS="cl"
+>*input-wait-handler*</B
+></A
+>, and <A NAME="_6363"></A><A HREF="22-2.html#_1080"
+><B CLASS="cl"
+>*pointer-button-press-handler*</B
+></A
+> to <A NAME="_6364"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FCBCF72FD331E096DC7ECBE97B824EE3%2Frun-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=427C399A838EE3CC69D08F25E91AD22C%2Frun-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="28-4.html#_1532"
+><SPAN CLASS="forwardlink"
+>[&rarr; run-frame-top-level, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="28-3.html#_6290"
+><SPAN CLASS="reverselink"
+>[&larr; 28.3 Application Frame Functions, <B CLASS="cl"
+><B CLASS="cl"
+>(setf frame-current-layout)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6181"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>make-application-frame</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1534"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>default-frame-top-level</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>command-parser command-unparser  partial-command-parser  prompt</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The default top-level function for application frames. This function implements a "read-eval-print" loop that displays a prompt, calls <A NAME="_6365"></A><A HREF="28-4.html#_1535"
+><B CLASS="cl"
+>read-frame-command</B
+></A
+>, then calls <A NAME="_6366"></A><A HREF="28-4.html#_1536"
+><B CLASS="cl"
+>execute-frame-command</B
+></A
+>, and finally redisplays all of the panes that need to be redisplayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C3E791ABBA5CF6F738AE0321F99E1E8%2Fdefault-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>default-frame-top-level</B
+> will also establish a simple restart for <B CLASS="cl"
+>abort</B
+>, and bind the standard stream variables as follows. <B CLASS="cl"
+>*standard-input*</B
+> will be bound to the value returned by <A NAME="_6370"></A><A HREF="28-3.html#_1497"
+><B CLASS="cl"
+>frame-standard-input</B
+></A
+>. <B CLASS="cl"
+>*standard-output*</B
+> will be bound to the value returned by <A NAME="_6372"></A><A HREF="28-3.html#_1496"
+><B CLASS="cl"
+>frame-standard-output</B
+></A
+>. <B CLASS="cl"
+>*query-io*</B
+> will be bound to the value returned by <A NAME="_6374"></A><A HREF="28-3.html#_1498"
+><B CLASS="cl"
+>frame-query-io</B
+></A
+>. <B CLASS="cl"
+>*error-output*</B
+> will be bound to the value returned by <A NAME="_6376"></A><A HREF="28-3.html#_1499"
+><B CLASS="cl"
+>frame-error-output</B
+></A
+>. It is unspecified what <B CLASS="cl"
+>*terminal-io*</B
+>, <B CLASS="cl"
+>*debug-io*</B
+>, and <B CLASS="cl"
+>*trace-output*</B
+> will be bound to. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5264376D55A0935A85F64D4E196E849%2Fdefault-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>prompt</I
+> is either a string to use as the prompt (defaulting to <B CLASS="cl"
+>"Command: "</B
+>), or a function of two arguments, a stream and the frame. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=010E12C345731317D87EC2B3FF83C454%2Fdefault-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>command-parser</I
+>, <I
+>command-unparser</I
+>, and <I
+>partial-command-parser</I
+> are the same as for <A NAME="_6381"></A><A HREF="27-6.html#_1437"
+><B CLASS="cl"
+>read-command</B
+></A
+>. <I
+>command-parser</I
+> defaults to <A NAME="_6382"></A><A HREF="27-6.html#_1440"
+><B CLASS="cl"
+>command-line-command-parser</B
+></A
+> if there is an interactor, otherwise it defaults to <B CLASS="cl"
+>menu-only-command-parser</B
+>. <I
+>command-unparser</I
+> defaults to <A NAME="_6384"></A><A HREF="27-6.html#_1441"
+><B CLASS="cl"
+>command-line-command-unparser</B
+></A
+>. <I
+>partial-command-parser</I
+> defaults to <A NAME="_6385"></A><A HREF="27-6.html#_1442"
+><B CLASS="cl"
+>command-line-read-remaining-arguments-for-partial-command</B
+></A
+> if there is an interactor, otherwise it defaults to <B CLASS="cl"
+>menu-only-read-remaining-arguments-for-partial-command</B
+>. <B CLASS="cl"
+>default-frame-top-level</B
+> binds <A NAME="_6388"></A><A HREF="27-6.html#_1445"
+><B CLASS="cl"
+>*command-parser*</B
+></A
+>, <A NAME="_6389"></A><A HREF="27-6.html#_1446"
+><B CLASS="cl"
+>*command-unparser*</B
+></A
+>, and <A NAME="_6390"></A><A HREF="27-6.html#_1447"
+><B CLASS="cl"
+>*partial-command-parser*</B
+></A
+> to the values of <I
+>command-parser</I
+>, <I
+>command-unparser</I
+>, and <I
+>partial-command-parser</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA2AFA81A93B340EC3B29F02F6E735CA%2Fdefault-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF2AB40E530F3C2A8D8DDEB82E0F0E12%2Fdefault-frame-top-level%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z138"
+></A
+>default-frame-top-level is a generic function, which means that it could be extended or customized based on the class of FRAME.  Under what circumstances does it make sense to do so, though?  Probably only with auxiliary methods, rather than overriding primary methods, no? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF2AB40E530F3C2A8D8DDEB82E0F0E12%2Fdefault-frame-top-level%2F28.4&amp;editp=t&amp;id=Z138#Z138"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2006-04-26 13:10Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6613"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.1 CLIM Stream Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:display-function</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-4.html#_6354"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>run-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="28-2.html#_6167"
+><SPAN CLASS="reverselink"
+>[&larr; 28.2 Defining and Creating Application Frames, <B CLASS="cl"
+><B CLASS="cl"
+>define-application-frame</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1535"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>read-frame-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(stream </I
+><I
+><B CLASS="cl"
+>*standard-input*</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads a command from the stream <I
+>stream</I
+> on behalf of the <SPAN CLASS="term"
+>frame</SPAN
+> <I
+>frame</I
+>. The returned value is a command object. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=48CE51B3BC4A2F673286F819DC1C12C4%2Fread-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default method (on <A NAME="_6392"></A><A HREF="28-2.html#_1479"
+><B CLASS="cl"
+>standard-application-frame</B
+></A
+>) for <B CLASS="cl"
+>read-frame-command</B
+> simply calls <A NAME="_6394"></A><A HREF="27-6.html#_1437"
+><B CLASS="cl"
+>read-command</B
+></A
+>, supplying <I
+>frame</I
+>'s current command table as the command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1F6077A992F20F2E57F66DC4E111EAF6%2Fread-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07E3515498E1ECE76FFE969452446378%2Fread-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6365"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1536"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>execute-frame-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame command</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Executes the command <I
+>command</I
+> on behalf of the <SPAN CLASS="term"
+>frame</SPAN
+> <I
+>frame</I
+>. <I
+>command</I
+> is a command object, that is, a cons of a command name and a list of the command's arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EC388D8A67FD182BBE4AC7BA33CAA279%2Fexecute-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The default method (on <A NAME="_6396"></A><A HREF="28-2.html#_1479"
+><B CLASS="cl"
+>standard-application-frame</B
+></A
+>) for <B CLASS="cl"
+>execute-frame-command</B
+> simply applies the <A NAME="_6398"></A><A HREF="27-6.html#_1454"
+><B CLASS="cl"
+>command-name</B
+></A
+> of <I
+>command</I
+> to <A NAME="_6399"></A><A HREF="27-1.html#_1378"
+><B CLASS="cl"
+>command-arguments</B
+></A
+> of <I
+>command</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=423EFF6964071AFD979B36D7883FF979%2Fexecute-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If process that <B CLASS="cl"
+>execute-frame-command</B
+> is invoked in is not the same process the one <I
+>frame</I
+> is running in, CLIM may need to make special provisions in order for the command to be correctly executed, since as queueing up a special "command event" in <I
+>frame</I
+>'s event queue. The exact details of how this should work is left unspecified. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6769BEF1049D7F97FED10D353C5F8C40%2Fexecute-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FBE50221304469024553392B9631A53D%2Fexecute-frame-command%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6366"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>default-frame-top-level</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-7.html#_5134"
+><SPAN CLASS="reverselink"
+>[&larr; 23.7.1 Defining Presentation Translators, <B CLASS="cl"
+><B CLASS="cl"
+>define-presentation-to-command-translator</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1537"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-enabled</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command-name frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the command named by <I
+>command-name</I
+> is presently enabled in the <SPAN CLASS="term"
+>frame</SPAN
+> <I
+>frame</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. If <I
+>command-name</I
+> is not accessible to the command table being used by <I
+>frame</I
+>, <B CLASS="cl"
+>command-enabled</B
+> returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=15247D83177FE6E657CA11245C8F7CD2%2Fcommand-enabled%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Whether or not a particular command is currently enabled is stored independently for each instance of an application frame; this status can vary between frames that share a single command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=70F817C0FF78C1A6C1FCA934620B6E89%2Fcommand-enabled%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5B82CC5835A244938ABC13D35C8D75D%2Fcommand-enabled%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7547"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="28-4.html#_6412"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>(setf command-enabled)</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1538"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf command-enabled)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>enabled command-name frame</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>If <I
+>enabled</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this disables the use of the command named by <I
+>command-name</I
+> while in the <SPAN CLASS="term"
+>frame</SPAN
+> <I
+>frame</I
+>. Otherwise if <I
+>enabled</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the use of the command is enabled. After the command has been enabled (or disabled), <A NAME="_6409"></A><A HREF="28-5.html#_1568"
+><B CLASS="cl"
+>note-command-enabled</B
+></A
+> (or <A NAME="_6410"></A><A HREF="28-5.html#_1569"
+><B CLASS="cl"
+>note-command-disabled</B
+></A
+>) is invoked on the frame manager and the frame in order to update the appearance of the interface, for example, "graying out" a disabled command. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ED699C97EDD620DC9BB47E74DCA6CE1C%2F%28setf%20command-enabled%29%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>command-name</I
+> is not accessible to the command table being used by <I
+>frame</I
+>, using <B CLASS="cl"
+>setf</B
+> on <A NAME="_6412"></A><A HREF="28-4.html#_1537"
+><B CLASS="cl"
+>command-enabled</B
+></A
+> does nothing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFCB90E90DBC706CF8BF3A98E6720962%2F%28setf%20command-enabled%29%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B80FE04824E309CDDBB780C143DFD9BA%2F%28setf%20command-enabled%29%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1539"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>display-command-menu</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>frame stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>command-table initial-spacing row-wise  max-width max-height n-rows n-columns  (cell-align-x </I
+><I
+><B CLASS="cl"
+>:left</B
+></I
+><I
+>) (cell-align-y </I
+><I
+><B CLASS="cl"
+>:top</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Displays the menu associated with the specified command table on <I
+>stream</I
+> by calling <A NAME="_6413"></A><A HREF="27-3.html#_1421"
+><B CLASS="cl"
+>display-command-table-menu</B
+></A
+>. If <I
+>command-table</I
+> is not supplied, it defaults to <B CLASS="cl"
+>(frame-command-table </B
+><B CLASS="cl"
+><I
+>stream</I
+></B
+><B CLASS="cl"
+>)</B
+>. This function is generally used as the display function for panes that contain command menus. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56124FAE6851AC2D2381CA15DFD1F02E%2Fdisplay-command-menu%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z155"
+></A
+>It should probably be (frame-command-table frame) <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=56124FAE6851AC2D2381CA15DFD1F02E%2Fdisplay-command-menu%2F28.4&amp;editp=t&amp;id=Z155#Z155"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-12-14 18:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>initial-spacing</I
+>, <I
+>max-width</I
+>, <I
+>max-height</I
+>, <I
+>n-rows</I
+>, <I
+>n-columns</I
+>, <I
+>row-wise</I
+>, <I
+>cell-align-x</I
+>, and <I
+>cell-align-y</I
+> are as for <A NAME="_6417"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8D445E2F28B4654EFD2774B14BC62E72%2Fdisplay-command-menu%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8ECD395E77607F49054A7884C963B987%2Fdisplay-command-menu%2F28.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="29-4.html#_6645"
+><SPAN CLASS="reverselink"
+>[&larr; 29.4.2 CLIM Stream Pane Classes, <B CLASS="cl"
+><B CLASS="cl"
+>command-menu-pane</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

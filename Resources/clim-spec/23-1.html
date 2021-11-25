@@ -1,0 +1,326 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 23.1 Overview of Presentation Types</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="23.2 Presentations" HREF="23-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="23 Presentation Types" HREF="23.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="23.html"
+>Prev</A
+><BR
+><A HREF="23-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="23.html"
+>23&nbsp;Presentation&nbsp;Types</A
+><BR
+>&rarr;&nbsp;<A HREF="23-1.html"
+><B
+>23.1&nbsp;Overview&nbsp;of&nbsp;Presentation&nbsp;Types</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1125"></A><DIV
+><H3
+>23.1 Overview of Presentation Types</H3
+><P
+>The core around which the CLIM application user interface model is built is the concept of the application-defined user interface data type. Each application has its own set of semantically significant user interface entities; a CAD program for designing circuits has its various kinds of components (gates, resistors, and so on), while a database manager has its relations and field types. These entities have to be displayed to the user (possibly in more than one displayed representation) and the user has to be able to interact with and specify the entities via pointer gestures and keyboard input. Frequently each user interface entity has a corresponding Lisp data type (such as an application-specific structure or CLOS class definition), but this is not always the case. The data representation for an interaction entity may be a primitive Lisp data type. In fact, it is possible for several different user interface entities to use the same Lisp data type for their internal representation, for example, building floor numbers and employee vacation day totals could both be represented internally as integers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2722D6B1322EEE90C257BD00D411B3A7%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>CLIM provides a framework for defining the appearance and behavior of these user interface entities via the <A NAME="_1126"></A><SPAN CLASS="concept"
+>presentation type</SPAN
+> mechanism. A presentation type can be thought of as a CLOS class that has some additional functionality pertaining to its roles in the user interface of an application. By defining a presentation type the application programmer defines all of the user interface components of the entity: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3675C9FA8AAA6CF5D09443373A5BB590%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6997"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6993"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6989"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="A.html#_6869"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5040"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept-1</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_5034"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>prompt-for-accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-5.html#_4937"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.5 Context-dependent (Typed) Input, <B CLASS="cl"
+><B CLASS="cl"
+>with-input-context</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4897"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4824"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-default-preprocessor</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4822"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-type-history</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4807"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>map-over-presentation-type-supertypes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4798"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-subtypep</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4797"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-subtypep</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4793"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-typep</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4788"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>presentation-type-specifier-p</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4783"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>describe-presentation-type</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4770"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>accept</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="23-3.html#_4760"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 23.3.3 Presentation Methods, <B CLASS="cl"
+><B CLASS="cl"
+>present</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="1.html#_2020"
+><SPAN CLASS="reverselink"
+>[presentation type, <I
+>Concept</I
+>&larr; 1 Overview of CLIM]</SPAN
+></A
+><BR
+></P
+></DIV
+><UL
+><LI
+>Its displayed representation, textual or graphical <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=08136126A4F3B5D087197ABA1CD52914%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Textual representation, for user input via the keyboard <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C694E9AF6C562B73184D26D808688402%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>Pointer sensitivity, for user input via the pointer  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF6BF5416FA9F6872F25650BCD9B81EF%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+>In other words, by defining a presentation type, the application programmer describes in one place all the information about an object necessary to display it to the user and interact with the user for object input. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=444FECEC29F49BF1A86E434CA62AE793%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The set of presentation types forms a type lattice, an extension of the Common Lisp CLOS type lattice. When a new presentation type is defined as a subtype of another presentation type it inherits all the attributes of the supertype except those explicitly overridden in the definition. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2100E81552C148DF91BB9A0EC4942AF8%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Describe what a presentation type is more exactly. What is a parameterized presentation type? Why do we want them? Why are they in a lattice? How do they relate to CL types and CLOS classes? What exactly gets inherited? ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=80FFAB97456EDF979523D92624C39F1D%2F23.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/23-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

@@ -1,0 +1,259 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/30-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 30.5 Integrating Gadgets and Output Records</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="30.4 Abstract Gadget Classes" HREF="30-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="Part VIII: Appendices" HREF="P-VIII.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="30 Gadgets" HREF="30.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="30-4.html"
+>Prev</A
+><BR
+><A HREF="P-VIII.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="30.html"
+>30&nbsp;Gadgets</A
+><BR
+>&rarr;&nbsp;<A HREF="30-5.html"
+><B
+>30.5&nbsp;Integrating&nbsp;Gadgets&nbsp;and&nbsp;Output&nbsp;Records</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1864"></A><DIV
+><H3
+>30.5 Integrating Gadgets and Output Records</H3
+><P
+>In addition to gadget panes, CLIM allows gadgets to be used inside of CLIM stream panes. For instance, an <A NAME="_6854"></A><A HREF="26.html#_1364"
+><B CLASS="cl"
+>accepting-values</B
+></A
+> whose fields consist of gadgets may appear in an ordinary CLIM stream pane. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DCF3E0205CAA044AD9326D7A9ECCBFED%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Note that many of the functions in the output record protocol must correctly manage the case where there are gadgets contained within output records. For example, <A NAME="_6855"></A><A HREF="16-2.html#_846"
+><B CLASS="cl"
+>(setf* output-record-position)</B
+></A
+> may need to notify the host window system that the toolkit object representing the gadget has moved, <A NAME="_6856"></A><A HREF="29-4.html#_1691"
+><B CLASS="cl"
+>window-clear</B
+></A
+> needs to deactive any gadgets, and so forth. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E822E1DC523F6892AF2E3CC9EA816B11%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1865"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>gadget-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class the represents an output record class that contains a gadget. This is a subclass of <A NAME="_6857"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7ECA2AFE9B01F6A8751636846079F95F%2Fgadget-output-record%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2AD36C7AC10B584B4C801BF0F439B696%2Fgadget-output-record%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1866"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-as-gadget</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>options) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invokes <I
+>body</I
+> to create a gadget, and then creates a gadget output record that contains the gadget and install's it into the output history of the output recording stream <I
+>stream</I
+>. The returned value of <I
+>body</I
+> must be the gadget. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BA1115B4711CEB58097E566A1102EF0E%2Fwith-output-as-gadget%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The options in <I
+>options</I
+> are passed as initargs to the call to <A NAME="_6858"></A><A HREF="16-4.html#_913"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+></A
+> that is used to create the gadget output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=83F2238EF7541836B6299A6CA5EA5B5B%2Fwith-output-as-gadget%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an output recording stream. If <I
+>stream</I
+> is <A NAME="_6859"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5C19912A29428A2D99F028193E4E873%2Fwith-output-as-gadget%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, the following could be used to create an output record containing a radio box that itself contains several toggle buttons: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5406DA33E4B08642AC60D16FDEB7AA6C%2Fwith-output-as-gadget%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(with-output-as-gadget (stream)&#10;  (let* ((radio-box&#10;           (make-pane 'radio-box &#10;             :client stream :id 'radio-box)))&#10;    (dolist (item sequence)&#10;      (make-pane 'toggle-button &#10;        :label (princ-to-string (item-name item))&#10;        :value (item-value item)&#10;        :id item :parent radio-box))&#10;    radio-box))&#10;</PRE
+><P
+>A more complex (and somewhat contrived) example of a push button that calls back into the presentation type system to execute a command might be as follows: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B5CFDCC763ABB24AF5E87344E13E8DDD%2Fwith-output-as-gadget%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(with-output-as-gadget (stream)&#10;  (make-pane 'push-button&#10;    :label "Click here to exit"&#10;    :activate-callback&#10;      #'(lambda (button)&#10;          (declare (ignore button))&#10;          (throw-highlighted-presentation&#10;            (make-instance 'standard-presentation&#10;              :object `(com-exit ,*application-frame*)&#10;              :type 'command)&#10;            *input-context*&#10;            (make-instance 'pointer-button-press-event&#10;              :sheet (sheet-parent button)&#10;              :x 0 :y 0&#10;              :modifiers 0&#10;              :button +pointer-left-button+)))))&#10;</PRE
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2B8BBB0A84042EB23A25C765147C5D54%2Fwith-output-as-gadget%2F30.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/30-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

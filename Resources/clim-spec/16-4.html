@@ -1,0 +1,2537 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/16-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 16.4 Output Recording Streams</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="16.3 Types of Output Records" HREF="16-3.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="17 Table Formatting" HREF="17.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="16 Output Recording" HREF="16.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="16-3.html"
+>Prev</A
+><BR
+><A HREF="17.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="16.html"
+>16&nbsp;Output&nbsp;Recording</A
+><BR
+>&rarr;&nbsp;<A HREF="16-4.html"
+><B
+>16.4&nbsp;Output&nbsp;Recording&nbsp;Streams</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_887"></A><DIV
+><H3
+>16.4 Output Recording Streams</H3
+><LI CLASS="outline_item"
+><A HREF="16-4.html#_891"
+>16.4.1 The Output Recording Stream Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="16-4.html#_903"
+>16.4.2 Graphics Output Recording</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="16-4.html#_904"
+>16.4.3 Text Output Recording</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="16-4.html#_909"
+>16.4.4 Output Recording Utilities</A
+></LI
+><P
+>CLIM defines an extension to the stream protocol that supports output recording. The stream has an associated output history record and provides controls to enable and disable output recording. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F2D0B3C18B890FE7A1E14C35853297A6%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>Do we want to support only output recording streams, or do we want to support output recording sheets as well? If the latter, we need to split apart graphics output recording and textual output recording, and rename lots of things. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=973AA43D883CE835B97286570ACC1C84%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_888"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-recording-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that indicates that a stream is an output recording stream. If you want to create a new class that behaves like an output recording stream, it should be a subclass of <B CLASS="cl"
+>output-recording-stream</B
+>. All instantiable subclasses of <B CLASS="cl"
+>output-recording-stream</B
+> must obey the output recording stream protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E22F7D9D38417E31E7628189C841D20F%2Foutput-recording-stream%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BD6BD727003273BBBF7F1F0C234513D%2Foutput-recording-stream%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3838"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3837"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4 Output Recording Streams, <B CLASS="cl"
+><B CLASS="cl"
+>standard-output-recording-stream</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_889"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-recording-stream-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>output recording stream</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=152427CAE45117668D88D61BC1554499%2Foutput-recording-stream-p%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39825A9490064829AB1EBC6E4778C93F%2Foutput-recording-stream-p%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_890"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-output-recording-stream</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The class used by CLIM to implement output record streams. This is a subclass of <A NAME="_3837"></A><A HREF="16-4.html#_888"
+><B CLASS="cl"
+>output-recording-stream</B
+></A
+>. Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ABF1A51CE195E8FB516B44C0F88C8212%2Fstandard-output-recording-stream%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0558306E495320A5C773EE10806AF69%2Fstandard-output-recording-stream%2F16.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-2.html#_3737"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><A NAME="_891"></A><DIV
+><H4
+>16.4.1 The Output Recording Stream Protocol</H4
+><P
+>The following generic functions comprise the output recording stream protocol. All subclasses of <A NAME="_3838"></A><A HREF="16-4.html#_888"
+><B CLASS="cl"
+>output-recording-stream</B
+></A
+> must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=35E72757D1B1E0A0B0AA68A9967B3A25%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_892"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-recording-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> when the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> is recording all output performed to it, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C5AB4402DEE341D00EC2DE180CBCDD6B%2Fstream-recording-p%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BE0AEE8D83DA3960B52C078A5FC4CF12%2Fstream-recording-p%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7388"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4136"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4049"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3922"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-add-string-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3914"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-add-character-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3907"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3877"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.2 Graphics Output Recording]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3848"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>(setf stream-drawing-p)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3842"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>(setf stream-recording-p)</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3754"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>replay</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_893"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-recording-p)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>recording-p stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the state of <A NAME="_3842"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> to be <I
+>recording-p</I
+>, which must be either <A NAME="_3843"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> or <A NAME="_3844"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=82A44ED8127A1B92D08FB272547BB556%2F%28setf%20stream-recording-p%29%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=40D033DAB3B3577297073F872E2970F2%2F%28setf%20stream-recording-p%29%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_894"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-drawing-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> when the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> will actually draw on the viewport when output is being performed to it, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=832267FBC07B08DD78C9747145A5AA34%2Fstream-drawing-p%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E18964261C79D06621295B2B04D6D460%2Fstream-drawing-p%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7387"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="18-2.html#_4134"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4047"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3879"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.2 Graphics Output Recording]</SPAN
+></A
+><BR
+><A HREF="16-2.html#_3757"
+><SPAN CLASS="reverselink"
+>[&larr; 16.2.1 The Basic Output Record Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>replay</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_895"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-drawing-p)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>drawing-p stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Changes the state of <A NAME="_3848"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> to be <I
+>drawing-p</I
+>, which must be either <A NAME="_3849"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> or <A NAME="_3850"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD338EED4BE1A16C3D66285A7100BBC1%2F%28setf%20stream-drawing-p%29%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD1C6CE4FB30459EBBE51F232CED2475%2F%28setf%20stream-drawing-p%29%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_896"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-output-history</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the history (or top-level output record) for the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=156CA1AFFFBB728E0D3C0B829D8A9FA9%2Fstream-output-history%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AEAD23FB70501938FA4814228BA29D19%2Fstream-output-history%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7392"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3868"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>copy-textual-output-history</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3854"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-current-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_897"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-current-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The current "open" output record for the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>, the one to which <A NAME="_3853"></A><A HREF="16-4.html#_899"
+><B CLASS="cl"
+>stream-add-output-record</B
+></A
+> will add a new child record. Initially, this is the same as <A NAME="_3854"></A><A HREF="16-4.html#_896"
+><B CLASS="cl"
+>stream-output-history</B
+></A
+>. As nested output records are created, this acts as a "stack". <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=693DA0B9C2AA5269B56341F01FE5B41C%2Fstream-current-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8CF76D009F798006471D7359664224C7%2Fstream-current-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7393"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="23-4.html#_4895"
+><SPAN CLASS="reverselink"
+>[&larr; 23.4 Typed Output, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-as-presentation</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3949"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3859"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-add-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_898"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-current-output-record)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the current "open" output record for the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> to the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D5D8C2CAE6C182DD436005D11DEF990F%2F%28setf%20stream-current-output-record%29%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BF52B899CE3444B756F702448F78077B%2F%28setf%20stream-current-output-record%29%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_899"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-add-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> to the current output record on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> (that is, <A NAME="_3859"></A><A HREF="16-4.html#_897"
+><B CLASS="cl"
+>stream-current-output-record</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FE14F0390351BA2E80DB7E5935319E7C%2Fstream-add-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3DEE829CAF0F3AF98D60F60A9E6CCCF%2Fstream-add-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7396"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3898"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3853"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.1 The Output Recording Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>stream-current-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_900"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-replay</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>region</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Directs the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> to invoke <A NAME="_3861"></A><A HREF="16-2.html#_852"
+><B CLASS="cl"
+>replay</B
+></A
+> on its output history. Only those records that overlap the <A NAME="_3862"></A><A HREF="3-1.html#_35"
+><SPAN CLASS="term"
+>region</SPAN
+></A
+> <I
+>region</I
+> (which defaults to the viewport of the stream) are replayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9B2D63905E5A9A457FC3BB2D6838599%2Fstream-replay%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DD1B23F3A4C606436301280115D05F41%2Fstream-replay%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_901"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>erase-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(errorp </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Erases the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> from the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>, removes <I
+>record</I
+> from <I
+>stream</I
+>'s output history, and ensures that all other output records that were covered by <I
+>record</I
+> are visible. In effect, this draws background ink over the record, and then redraws all the records that overlap <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD094E327D1A443E9A7CA1FF1E2E9420%2Ferase-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>record</I
+> is not in the stream's output history, then an error is signalled, unless <I
+>errorp</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=652455626AE9D6D230E330C18FCCBDE2%2Ferase-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6FE4FE74FFDB5546B3C446E541E9EC64%2Ferase-output-record%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-5.html#_4594"
+><SPAN CLASS="reverselink"
+>[&larr; 22.5 Pointer Tracking, <B CLASS="cl"
+><B CLASS="cl"
+>drag-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_902"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>copy-textual-output-history</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>window stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>region record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given an <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>window</I
+> and a character output stream <I
+>stream</I
+>, <B CLASS="cl"
+>copy-textual-output-history</B
+> maps over all of the textual output records in the region <I
+>region</I
+> and writes them to <I
+>stream</I
+>, in order from the top of the output to the bottom of the output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4D214617E443D93C42CF44D7B50CD14%2Fcopy-textual-output-history%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>record</I
+> is supplied, it is the top-level record to map over. It defaults to <A NAME="_3868"></A><A HREF="16-4.html#_896"
+><B CLASS="cl"
+>stream-output-history</B
+></A
+> of <I
+>window</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=18E0C7F0EF9E89A971650527A58865B7%2Fcopy-textual-output-history%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA59610563F469B7D56BB07A45954F5E%2Fcopy-textual-output-history%2F16.4.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_903"></A><DIV
+><H4
+>16.4.2 Graphics Output Recording</H4
+><P
+>Using <A NAME="_3869"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> as an example, calling any of the drawing functions specified in Section&nbsp;<A NAME="_3870"></A><A HREF="12-5.html#_616"
+>12.5</A
+> and Section&nbsp;<A NAME="_3871"></A><A HREF="12-7.html#_655"
+>12.7</A
+> on an output recording stream results in the following series of function calls: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A4D0953F95B48FAD5F9C012ED8734B87%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>A program calls <A NAME="_3872"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> on arguments <I
+>stream</I
+> (and output recording stream), <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+>, and perhaps some drawing options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5EA6B8C9320886BE04F28A022169967B%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_3873"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> merges the supplied drawing options into the stream's medium, and then calls <A NAME="_3874"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> on the stream. (Note that a compiler macro could detect the case where there are no drawing options or constant drawing options, and do this at compile time.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8C2496E2A85ED6DCF54D114345720D2F%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The <B CLASS="cl"
+>:around</B
+> method for <A NAME="_3876"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> on the output recording stream is called. If <A NAME="_3877"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+>, this creates an output record with all of the information necessary to replay the output record. If <A NAME="_3879"></A><A HREF="16-4.html#_894"
+><B CLASS="cl"
+>stream-drawing-p</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+>, this then does a <B CLASS="cl"
+>call-next-method</B
+>. (Note that the <B CLASS="cl"
+>call-next-method</B
+> could be replaced by a call to the <A NAME="_3883"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> method on the stream's medium, avoiding the need for a trampolining function call.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5C6BDC75AA1F856A1DB126275CFD999%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z302"
+></A
+>Following this note about skipping `call-next-method' leads to a peculiar situation, where user defines a primary method on his subclass which get overwritten by this `:around' method. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A5C6BDC75AA1F856A1DB126275CFD999%2F16.4.2&amp;editp=t&amp;id=Z302#Z302"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2017-09-19 14:41Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+><LI
+>An <B CLASS="cl"
+>:around</B
+> method for <A NAME="_3885"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> performs the necessary user transformations by applying the medium transformation to <I
+>x1</I
+>, <I
+>y1</I
+>, <I
+>x2</I
+>, and <I
+>y2</I
+>, and to the clipping region, and then calls the medium-specific method. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A2A0407D3C5C5A611C0A2A7DC356C8C6%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>The "real" <A NAME="_3886"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+> transforms the start and end coordinates of the line by the stream's device transformation, decodes the ink and line style into port-specific objects, and finally invokes a port-specific function (such as <B CLASS="cl"
+>xlib:draw-line</B
+>) to do the actual drawing.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CE7B3320BFF1B10E62EC97E3D57A5385%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><A NAME="_3888"></A><A HREF="16-2.html#_853"
+><B CLASS="cl"
+>replay-output-record</B
+></A
+> for a graphics displayed output record simply binds the state of the medium to the state captured in the output record, and calls the medium drawing function (such as <A NAME="_3889"></A><A HREF="12-7.html#_660"
+><B CLASS="cl"
+>medium-draw-line*</B
+></A
+>) directly on the medium, with <A NAME="_3890"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> of the stream set to <SPAN CLASS="term"
+>false</SPAN
+> and <A NAME="_3892"></A><A HREF="16-4.html#_894"
+><B CLASS="cl"
+>stream-drawing-p</B
+></A
+> set to <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EB181695C77B9282998C55E2344B99D1%2F16.4.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><A NAME="_904"></A><DIV
+><H4
+>16.4.3 Text Output Recording</H4
+><P
+><B
+>Major issue: </B
+> <I
+>This is the place where </I
+><I
+><B CLASS="cl"
+>write-string</B
+></I
+><I
+> and friends get captured in order to create output record. The generic functions include things like </I
+><I
+><A NAME="_3895"></A><A HREF="D-4.html#_1952"
+><B CLASS="cl"
+>stream-write-string</B
+></A
+></I
+><I
+>, which are specialized by output recording streams to do the output recording. Describe exactly what happens. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F521CFB1FB10D14BB9CF070568514122%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_905"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-text-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream text-style</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns a text output record for the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> suitable for holding characters in the text style <I
+>text-style</I
+>. If there is a currently "open" text output record that can hold characters in the specified text style, it is simply returned. Otherwise a new text output record is created that can hold characters in that text style, and its starting cursor position set to the cursor position of <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CEE15B68062EADA417745F8D8D891F12%2Fstream-text-output-record%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E4C69CDB91DFF20AA34A32E5F7E867A%2Fstream-text-output-record%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7394"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_906"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Closes the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>'s currently "open" text output record by recording the stream's current cursor position as the ending cursor position of the record and adding the text output record to <I
+>stream</I
+>'s current output record by calling <A NAME="_3898"></A><A HREF="16-4.html#_899"
+><B CLASS="cl"
+>stream-add-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC22CBCA562D91B5199368A60431475A%2Fstream-close-text-output-record%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If there is no "open" text output record, <B CLASS="cl"
+>stream-close-text-output-record</B
+> does nothing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B643FA0C9C1782EE9AFAF823EF409472%2Fstream-close-text-output-record%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Calling <A NAME="_3900"></A><A HREF="D-4.html#_1955"
+><B CLASS="cl"
+>stream-finish-output</B
+></A
+> or <A NAME="_3901"></A><A HREF="D-4.html#_1956"
+><B CLASS="cl"
+>stream-force-output</B
+></A
+>, calling <A NAME="_3902"></A><A HREF="21-2.html#_1021"
+><B CLASS="cl"
+>redisplay</B
+></A
+>, setting the text cursor position (via <B CLASS="cl"
+>stream-set-cursor-position</B
+>, <B CLASS="cl"
+>terpri</B
+>, or <B CLASS="cl"
+>fresh-line</B
+>), creating a new output record (for example, via <A NAME="_3906"></A><A HREF="16-4.html#_912"
+><B CLASS="cl"
+>with-new-output-record</B
+></A
+>), or changing the state of <A NAME="_3907"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> must close the current text output record. Some CLIM implementations may also choose to close the current text output record when the stream's drawing options or text style are changed, depending on the exact implementation of text output records. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=721FDF6D071FA377BF4AAEEC3F6308DB%2Fstream-close-text-output-record%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=688D965D31214CCDF8F6404AE595905D%2Fstream-close-text-output-record%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7399"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_907"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-add-character-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream character text-style  width height baseline</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the character <I
+>character</I
+> to the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>'s text output record in the <A NAME="_3909"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+>. <I
+>width</I
+> and <I
+>height</I
+> are the width and height of the character in device units. <I
+>baseline</I
+> is the new baseline for the stream. <B CLASS="cl"
+>stream-add-character-output</B
+> must be implemented by calling <A NAME="_3911"></A><A HREF="16-3.html#_880"
+><B CLASS="cl"
+>add-character-output-to-text-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=06A174B561E556ADEF87486FA96B9B0E%2Fstream-add-character-output%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_3912"></A><A HREF="D-4.html#_1949"
+><B CLASS="cl"
+>stream-write-char</B
+></A
+> on an output recording stream will call <B CLASS="cl"
+>stream-add-character-output</B
+> when <A NAME="_3914"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=16F82514568719F2F1604F7F87DA95A7%2Fstream-add-character-output%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4F4AFEE446A81B5B447059D899F6910B%2Fstream-add-character-output%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7403"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_908"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-add-string-output</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream string start end text-style  width height baseline</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Adds the string <I
+>string</I
+> to the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>'s text output record in the <A NAME="_3917"></A><A HREF="11.html#_563"
+><SPAN CLASS="term"
+>text style</SPAN
+></A
+> <I
+>text-style</I
+>. <I
+>start</I
+> and <I
+>end</I
+> are integers that specify the substring within <I
+>string</I
+> to add to the text output record. <I
+>width</I
+> and <I
+>height</I
+> are the width and height of the string in device units. <I
+>baseline</I
+> is the new baseline for the stream. <B CLASS="cl"
+>stream-add-string-output</B
+> must be implemented by calling <A NAME="_3919"></A><A HREF="16-3.html#_881"
+><B CLASS="cl"
+>add-string-output-to-text-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=51DC930050A57B152BA18DC088C80E71%2Fstream-add-string-output%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A NAME="_3920"></A><A HREF="D-4.html#_1952"
+><B CLASS="cl"
+>stream-write-string</B
+></A
+> on an output recording stream will call <B CLASS="cl"
+>stream-add-string-output</B
+> when <A NAME="_3922"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> is <SPAN CLASS="term"
+>true</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=32A3CA3AEA2A532D55A09068ACB827F0%2Fstream-add-string-output%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4D07B2B5C0AFE3242C1174239DD17523%2Fstream-add-string-output%2F16.4.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7402"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_909"></A><DIV
+><H4
+>16.4.4 Output Recording Utilities</H4
+><P
+>CLIM provides several helper macros to control the output recording facility. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8264659A4424A7E6DFDA83849F2BB64B%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_910"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-recording-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>record draw) </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Enables or disables output recording and/or drawing on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> designated by <I
+>stream</I
+>, within the extent of <I
+>body</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CDF72CDC8FCFFF698332A2BCEFB7621A%2Fwith-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an output recording stream. If <I
+>stream</I
+> is <A NAME="_3925"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5C19912A29428A2D99F028193E4E873%2Fwith-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-output-recording-options</B
+> must be implemented by expanding into a call to <A NAME="_3928"></A><A HREF="16-4.html#_911"
+><B CLASS="cl"
+>invoke-with-output-recording-options</B
+></A
+>, supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <A NAME="_3929"></A><A HREF="16-4.html#_911"
+><B CLASS="cl"
+>invoke-with-output-recording-options</B
+></A
+>. The exact behavior of this macro is described under <A NAME="_3930"></A><A HREF="16-4.html#_911"
+><B CLASS="cl"
+>invoke-with-output-recording-options</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4591D8D8FA4EAA1DBB5BF8A1C6A7EE1F%2Fwith-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1799E74931C0059955C0DC9C2A1E0309%2Fwith-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7404"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_911"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-with-output-recording-options</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream continuation record draw</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Enables or disables output recording and/or drawing on the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+>, and calls the function <I
+>continuation</I
+> with the new output recording options in effect. <I
+>continuation</I
+> is a function of one argument, the stream; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=61DC8E1E540BDA05A757F1953554B4F5%2Finvoke-with-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>draw</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, output to the stream is not drawn on the viewport, but recording proceeds according to <I
+>record</I
+>; if <I
+>draw</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, the output is drawn. If <I
+>record</I
+> is <A NAME="_3934"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, output recording is disabled, but output otherwise proceeds according to <I
+>draw</I
+>; if <I
+>draw</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, output recording is enabled. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BF1EEC5538408F5CD3D9445F17DD1B2%2Finvoke-with-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z65"
+></A
+>I presume that the second "if draw is true" there is meant to read "if record is true". <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BF1EEC5538408F5CD3D9445F17DD1B2%2Finvoke-with-output-recording-options%2F16.4.4&amp;editp=t&amp;id=Z65#Z65"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2004-02-28 16:23Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>All output recording streams must implement a method for <B CLASS="cl"
+>invoke-with-output-recording-options</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96CB971597C3C803DD9AAEE31EC3A471%2Finvoke-with-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41CAD20A054A554BD12DB565DB6A32B0%2Finvoke-with-output-recording-options%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3928"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-recording-options</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_912"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-new-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>record-type record  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a new output record of type <I
+>record-type</I
+> (which defaults to <A NAME="_3937"></A><A HREF="16-3.html#_872"
+><B CLASS="cl"
+>standard-sequence-output-record</B
+></A
+>) and then captures the output of <I
+>body</I
+> into the new output record, and inserts the new record into the current "open" output record associated with the <SPAN CLASS="term"
+>output recording stream</SPAN
+> designated by <I
+>stream</I
+>. While <I
+>body</I
+> is being evaluated, the current output record for <I
+>stream</I
+> will be bound to the new output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DDA2BA7D32E408F805D0106F15E2AE80%2Fwith-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>record</I
+> is supplied, it is the name of a variable that will be lexically bound to the new output record inside of body. <I
+>initargs</I
+> are CLOS initargs that are passed to <B CLASS="cl"
+>make-instance</B
+> when the new output record is created. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=542D0D947BB119E80B9EA93A8BA10164%2Fwith-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-new-output-record</B
+> returns the output record it creates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2AE165AADD73B2266D973212F4362ECC%2Fwith-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an output recording stream. If <I
+>stream</I
+> is <A NAME="_3941"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5C19912A29428A2D99F028193E4E873%2Fwith-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-new-output-record</B
+> must be implemented by expanding into a call to <A NAME="_3944"></A><A HREF="16-4.html#_913"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+></A
+> supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <A NAME="_3945"></A><A HREF="16-4.html#_913"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+></A
+>. The exact behavior of this macro is described under <A NAME="_3946"></A><A HREF="16-4.html#_913"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB78673DDAA07E50AF7C20022883C06B%2Fwith-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1DE79BE4ED24EAB574D5CD67135F720D%2Fwith-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="18-2.html#_4131"
+><SPAN CLASS="reverselink"
+>[&larr; 18.2 The Graph Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4045"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3952"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-to-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3906"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.3 Text Output Recording, <B CLASS="cl"
+><B CLASS="cl"
+>stream-close-text-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="2-8.html#_2067"
+><SPAN CLASS="reverselink"
+>[&larr; 2.8 Sheet, Stream, or Medium Arguments to Macros]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_913"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream continuation record-type  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>parent </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Creates a new output record of type <I
+>record-type</I
+>. The function <I
+>continuation</I
+> is then called, and any output it does to the <SPAN CLASS="term"
+>output recording stream</SPAN
+> <I
+>stream</I
+> is captured in the new output record. The new record is then inserted into the current "open" output record associated with <I
+>stream</I
+> (or the top-level output record if there is no currently "open" one). While <I
+>continuation</I
+> is being executed, the current output record for <I
+>stream</I
+> will be bound to the new output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=878F6903838D146D478E1DDE0098E3CE%2Finvoke-with-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>continuation</I
+> is a function of two arguments, the stream and the output record; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=45E14C51D5118C5E20BE9ACD32B31BE6%2Finvoke-with-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>initargs</I
+> are CLOS initargs that are passed to <B CLASS="cl"
+>make-instance</B
+> when the new output record is created. The <I
+>parent</I
+> initarg is handled specially, and specifies what output record should serve as the parent for the newly created record. If unspecified, <A NAME="_3949"></A><A HREF="16-4.html#_897"
+><B CLASS="cl"
+>stream-current-output-record</B
+></A
+> of <I
+>stream</I
+> will be used as the parent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=668023F3D255B9B5B5EDE3EF29DEE8AF%2Finvoke-with-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+> returns the output record it creates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=27E04F47DA945A4C439D4B9A1FE9364E%2Finvoke-with-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All output recording streams must implement a method for <B CLASS="cl"
+>invoke-with-new-output-record</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5B68CAE3AA9B8B8EA9BAF361AFCE3C2C%2Finvoke-with-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79419DE29B9D5D523ED41DAC6AC27F40%2Finvoke-with-new-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="30-5.html#_6858"
+><SPAN CLASS="reverselink"
+>[&larr; 30.5 Integrating Gadgets and Output Records, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-as-gadget</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3963"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>invoke-with-output-to-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-4.html#_3944"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>with-new-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_914"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-output-to-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>record-type record  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs))  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is identical to <A NAME="_3952"></A><A HREF="16-4.html#_912"
+><B CLASS="cl"
+>with-new-output-record</B
+></A
+> except that the new output record is not inserted into the output record hierarchy, and the text cursor position of <I
+>stream</I
+> is initially bound to <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D06AECD151E55162ECC6A764C41E6708%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> is the type of output record to create, which defaults to <A NAME="_3953"></A><A HREF="16-3.html#_872"
+><B CLASS="cl"
+>standard-sequence-output-record</B
+></A
+>. <I
+>initargs</I
+> are CLOS initargs that are passed to <B CLASS="cl"
+>make-instance</B
+> when the new output record is created. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1EBF5E3BEB24B90543B6C8923F5A846%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>record</I
+> is supplied, it is a variable that will be bound to the new output record while body is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=23177D45BBB44107B6DA4EF1B67A8CE4%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-output-to-output-record</B
+> returns the output record it creates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73FBB4909CA5A48BA24A57A3951C7BA6%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to an output recording stream. If <I
+>stream</I
+> is <A NAME="_3956"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, <B CLASS="cl"
+>*standard-output*</B
+> is used. Unlike facilities such as <B CLASS="cl"
+>with-output-to-string</B
+>, <I
+>stream</I
+> must be an actual stream, but no output will be done to it. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CFEEDFA4EA858320E4D6EF1AC668E3F8%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>with-output-to-output-record</B
+> must be implemented by expanding into a call to <A NAME="_3960"></A><A HREF="16-4.html#_915"
+><B CLASS="cl"
+>invoke-with-output-to-output-record</B
+></A
+> supplying a function that executes <I
+>body</I
+> as the <I
+>continuation</I
+> argument to <A NAME="_3961"></A><A HREF="16-4.html#_915"
+><B CLASS="cl"
+>invoke-with-output-to-output-record</B
+></A
+>. The exact behavior of this macro is described under <A NAME="_3962"></A><A HREF="16-4.html#_915"
+><B CLASS="cl"
+>invoke-with-output-to-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68ECE1FF4729DFFE1EC53BF034517F69%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0E30F578B86E1A841D0CABD641AA664C%2Fwith-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="22-5.html#_4603"
+><SPAN CLASS="reverselink"
+>[&larr; 22.5 Pointer Tracking, <B CLASS="cl"
+><B CLASS="cl"
+>dragging-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_915"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>invoke-with-output-to-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream continuation record-type  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs </I
+><I
+><TT
+>&amp;key </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is similar to <A NAME="_3963"></A><A HREF="16-4.html#_913"
+><B CLASS="cl"
+>invoke-with-new-output-record</B
+></A
+> except that the new output record is not inserted into the output record hierarchy, and the text cursor position of <I
+>stream</I
+> is initially bound to <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+>. That is, when <B CLASS="cl"
+>invoke-with-output-to-output-record</B
+> is used, no drawing on the stream occurs and nothing is put into the stream's normal output history. The function <I
+>continuation</I
+> is called, and any output it does to <I
+>stream</I
+> is captured in the output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9EEAD5FEE374FF8BDFD05A40852ECE43%2Finvoke-with-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>continuation</I
+> is a function of two arguments, the stream and the output record; it has dynamic extent. <I
+>record-type</I
+> is the type of output record to create. <I
+>initargs</I
+> are CLOS initargs that are passed to <B CLASS="cl"
+>make-instance</B
+> when the new output record is created. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=823D0588907375C0645DDE51FC7D4A40%2Finvoke-with-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>invoke-with-output-to-output-record</B
+> returns the output record it creates. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CDED40B7ACDC1C9F782954F1B5E3DC27%2Finvoke-with-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>All output recording streams must implement a method for <B CLASS="cl"
+>invoke-with-output-to-output-record</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BB1DCF5188790CCF0EF013ACFD6DA48E%2Finvoke-with-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C1676A746B690AE31E9B950198161B50%2Finvoke-with-output-to-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="16-4.html#_3960"
+><SPAN CLASS="reverselink"
+>[&larr; 16.4.4 Output Recording Utilities, <B CLASS="cl"
+><B CLASS="cl"
+>with-output-to-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_916"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>make-design-from-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Makes a design that replays the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> when drawn via <A NAME="_3969"></A><A HREF="14-5.html#_748"
+><B CLASS="cl"
+>draw-design</B
+></A
+>. If <I
+>record</I
+> is changed after the design is made, the consequences are unspecified. Applying a transformation to the design and calling <A NAME="_3970"></A><A HREF="14-5.html#_748"
+><B CLASS="cl"
+>draw-design</B
+></A
+> on the new design is equivalent to establishing the same transformation before creating the output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=86871921FEAE06D8A192DBFDC58D23AB%2Fmake-design-from-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is permissible for implementations to support this only for those output records that correspond to the geometric object classes (for example, the output records created by <A NAME="_3971"></A><A HREF="12-5.html#_623"
+><B CLASS="cl"
+>draw-line*</B
+></A
+> and <A NAME="_3972"></A><A HREF="12-5.html#_633"
+><B CLASS="cl"
+>draw-ellipse*</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C48E8F59DA4F01B3C1CA2AD38F790B61%2Fmake-design-from-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=71BFCC1655438587EDE7ABAFDEF0E3AB%2Fmake-design-from-output-record%2F16.4.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="14-5.html#_3566"
+><SPAN CLASS="reverselink"
+>[&larr; 14.5 Arbitrary Designs, <B CLASS="cl"
+><B CLASS="cl"
+>draw-design</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/16-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

@@ -1,0 +1,2401 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/17-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 17.3 The Table and Item List Formatting Protocols</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="17.2 Table Formatting Functions" HREF="17-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="18 Graph Formatting" HREF="18.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="17 Table Formatting" HREF="17.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="17-2.html"
+>Prev</A
+><BR
+><A HREF="18.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="17.html"
+>17&nbsp;Table&nbsp;Formatting</A
+><BR
+>&rarr;&nbsp;<A HREF="17-3.html"
+><B
+>17.3&nbsp;The&nbsp;Table&nbsp;and&nbsp;Item&nbsp;List&nbsp;Formatting&nbsp;Protocols</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_928"></A><DIV
+><H3
+>17.3 The Table and Item List Formatting Protocols</H3
+><LI CLASS="outline_item"
+><A HREF="17-3.html#_929"
+>17.3.1 Table Formatting Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="17-3.html#_940"
+>17.3.2 Row and Column Formatting Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="17-3.html#_949"
+>17.3.3 Cell Formatting Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="17-3.html#_961"
+>17.3.4 Item List Formatting Protocol</A
+></LI
+><P
+>Both table and item list formatting is implemented on top of the basic output recording protocol, using <A NAME="_4045"></A><A HREF="16-4.html#_912"
+><B CLASS="cl"
+>with-new-output-record</B
+></A
+> to specify the appropriate type of output record. For example, <A NAME="_4046"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+> first collects all the output that belongs in the table into a collection of row, column, and cell output records, all of which are children of a single table output record. During this phase, <A NAME="_4047"></A><A HREF="16-4.html#_894"
+><B CLASS="cl"
+>stream-drawing-p</B
+></A
+> is bound to <A NAME="_4048"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> and <A NAME="_4049"></A><A HREF="16-4.html#_892"
+><B CLASS="cl"
+>stream-recording-p</B
+></A
+> is bound to <A NAME="_4050"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>. When all the output has been generated, the table layout constraint solver (<A NAME="_4051"></A><A HREF="17-3.html#_938"
+><B CLASS="cl"
+>adjust-table-cells</B
+></A
+> or <A NAME="_4052"></A><A HREF="17-3.html#_974"
+><B CLASS="cl"
+>adjust-item-list-cells</B
+></A
+>) is called to compute the table layout, taking into account such factors as the widest cell in a given column. If the table is to be split into multiple columns, <A NAME="_4053"></A><A HREF="17-3.html#_939"
+><B CLASS="cl"
+>adjust-multiple-columns</B
+></A
+> is now called. Finally, the table output record is positioned on the stream at the current text cursor position and then displayed by calling <A NAME="_4054"></A><A HREF="16-2.html#_852"
+><B CLASS="cl"
+>replay</B
+></A
+> on the table (or item list) output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E605D9018AEA88521D4A81405028E6D%2F17.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_929"></A><DIV
+><H4
+>17.3.1 Table Formatting Protocol</H4
+><P
+>Any output record class that implements the following generic functions is said to support the table formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B11D10EFDF68FA952D7C0D20DFB54D4%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>In the following subsections, the term "non-table output records" will be used to mean any output record that is not a table, row, column, cell, or item list output record. When CLIM "skips over intervening non-table output records", this means that it will bypass all the output records between two such table output records (such as a table and a row, or a row and a cell) that are not records of those classes (most notably, presentation output records). CLIM implementations are encouraged to detect invalid nesting of table output records, such as a row within a row, a cell within a cell, or a row within a cell. Note that this does not prohibit the nesting of calls to <A NAME="_4055"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>, it simply requires that programmers include the inner table within one of the cells of the outer table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EA46B52B677A82C68B97803275B8A451%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_930"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>table-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents tabular output records; a subclass of <A NAME="_4056"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like a table output record, it should be a subclass of <B CLASS="cl"
+>table-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>table-output-record</B
+> must obey the table output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB4553A6102D11C550122AEF59DAA3B4%2Ftable-output-record%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39CAE9EF1588E2406E4AB65A406020FC%2Ftable-output-record%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4063"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.1 Table Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-table-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4062"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.1 Table Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_931"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>table-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>table output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=298A50E29B875EB4240213D98A06EB44%2Ftable-output-record-p%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5711843DE1E2A0D33BD0DC90847E3A8%2Ftable-output-record-p%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_932"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:x-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_933"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:y-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_934"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:multiple-columns-x-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_935"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:equalize-column-widths</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_4062"></A><A HREF="17-3.html#_930"
+><B CLASS="cl"
+>table-output-record</B
+></A
+> must handle these initargs, which are used to specify, respectively, the <I
+>x</I
+> and <I
+>y</I
+> spacing, the multiple column <I
+>x</I
+> spacing, and equal-width columns attributes of the table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6B6BD719BEEB5465ADCBD2B2CB6732B%2F%3Ax-spacing%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=633BA58CD024471B11D6E218AE1E219B%2F%3Ax-spacing%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="29-3.html#_1614"
+><SPAN CLASS="forwardlink"
+>[&rarr; :x-spacing, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_964"
+><SPAN CLASS="forwardlink"
+>[&rarr; :x-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1615"
+><SPAN CLASS="forwardlink"
+>[&rarr; :y-spacing, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_965"
+><SPAN CLASS="forwardlink"
+>[&rarr; :y-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5630"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-3.html#_4213"
+><SPAN CLASS="reverselink"
+>[&larr; 20.3 Filled Output, <B CLASS="cl"
+><B CLASS="cl"
+>filling-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-2.html#_4199"
+><SPAN CLASS="reverselink"
+>[&larr; 20.2 Indented Output, <B CLASS="cl"
+><B CLASS="cl"
+>indenting-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6526"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5724"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4021"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-cell</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7415"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_936"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-table-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that represents tabular output. Its children will be a sequence of either rows or columns, with presentation output records possibly intervening. This is a subclass of <A NAME="_4063"></A><A HREF="17-3.html#_930"
+><B CLASS="cl"
+>table-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E36112ABA470CDE3C0BF012771CE48C7%2Fstandard-table-output-record%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z39"
+></A
+>The restriction that only presentation output records are allowed as &#10;intervening records seems a bit arbitrary to me. We'll implement this &#10;to allow any composite output record in between and hope that the &#10;intervening records do the right thing. &#10; &#10;Further note that there exists code which for instance puts an  &#10;updating-output record in between (cl-reversi). &#10; &#10;In general this raises the question if something like this: &#10; &#10;<PRE
+>(formatting-table () &#10;  (surrounding-output-with-border () &#10;     (formatting-row () &#10;        ...)))</PRE
+> &#10; &#10;ought or can be supported. &#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E36112ABA470CDE3C0BF012771CE48C7%2Fstandard-table-output-record%2F17.3.1&amp;editp=t&amp;id=Z39#Z39"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-05 18:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3AE32AA78EAE2333BC4D8F2FB1582D5%2Fstandard-table-output-record%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z200"
+></A
+>About intervening border output records: as the last paragraph of the <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=surrounding-output-with-border"
+>surrounding-output-with-border</A
+></SPAN
+> mentions, this _can_ be supported.  And having seen the HTML, I'd say it probably should be, too.&#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B3AE32AA78EAE2333BC4D8F2FB1582D5%2Fstandard-table-output-record%2F17.3.1&amp;editp=t&amp;id=Z200#Z200"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Janis Dzerins 2011-01-26 08:56Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4068"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.1 Table Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>adjust-table-cells</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_3996"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_937"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-table-elements</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function table-record type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all the rows or columns of <I
+>table-record</I
+> that are of type <I
+>type</I
+>. <I
+>type</I
+> is either <B CLASS="cl"
+>:row</B
+>, <B CLASS="cl"
+>:column</B
+>, or <B CLASS="cl"
+>:row-or-column</B
+>. <I
+>function</I
+> is a function of one argument, an output record; it has dynamic extent. <B CLASS="cl"
+>map-over-table-elements</B
+> is responsible for ensuring that rows, columns, and cells are properly nested. It must skip over intervening non-table output record structure, such as presentations. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=234CBE4F189CAD8886073E51BAFF40BF%2Fmap-over-table-elements%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2367F57BB9F49E1E2E0F4E411A01C08A%2Fmap-over-table-elements%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_938"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>adjust-table-cells</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>table-record stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is called after the tabular output has been collected, but before it has been replayed. The method on <A NAME="_4068"></A><A HREF="17-3.html#_936"
+><B CLASS="cl"
+>standard-table-output-record</B
+></A
+> implements the usual table layout constraint solver (described above) by moving the rows or columns of the table output record <I
+>table-record</I
+> and the cells within the rows or columns. <I
+>stream</I
+> is the stream on which the table is displayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C320B769FBF6DF356B918010CA32CCF%2Fadjust-table-cells%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=285AB19AD935B6EB9BB963E544454F0E%2Fadjust-table-cells%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4069"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.1 Table Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>adjust-multiple-columns</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4051"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_939"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>adjust-multiple-columns</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>table-record stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is called after <A NAME="_4069"></A><A HREF="17-3.html#_938"
+><B CLASS="cl"
+>adjust-table-cells</B
+></A
+> to account for the case where the programmer wants the table to have multiple columns. <I
+>table-record</I
+> and <I
+>stream</I
+> are as for <A NAME="_4070"></A><A HREF="17-3.html#_938"
+><B CLASS="cl"
+>adjust-table-cells</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=33357A717816F834F9C0E386F0CDEA3C%2Fadjust-multiple-columns%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C0CC2B10E558D06EA717B05E22028830%2Fadjust-multiple-columns%2F17.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4053"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_940"></A><DIV
+><H4
+>17.3.2 Row and Column Formatting Protocol</H4
+><P
+>Any output record class that implements the following generic functions is said to support the row (or column) formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CCB460C367D62ED55B0F2174EAB81C34%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_941"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>row-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents one row in a table; a subclass of <A NAME="_4071"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like a row output record, it should be a subclass of <B CLASS="cl"
+>row-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>row-output-record</B
+> must obey the row output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2D6963A74E0EFDFA6205103E674C1B06%2Frow-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AA313E7221ACEAD027444C3BF150BB73%2Frow-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4077"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.2 Row and Column Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-row-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_942"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>row-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>row output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=83056E36B5E7CCEB2715C83CE976ED0C%2Frow-output-record-p%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D354708126A4AB4EE155F6AA006B517%2Frow-output-record-p%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_943"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-row-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that represents a row of output within a table. Its children will be a sequence of cells, and its parent (skipping intervening non-tabular records such as presentations) will be a table output record. This is a subclass of <A NAME="_4077"></A><A HREF="17-3.html#_941"
+><B CLASS="cl"
+>row-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7E745D9342A2E758CD965E56EF7AE1D%2Fstandard-row-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z42"
+></A
+><P
+>Surprise, surprise! Here it talks about any non-tabular output records may&#10;be in between this and its parent. Contracting&#10;<SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=standard-table-output-record"
+>standard-table-output-record</A
+></SPAN
+> and supporting my annotation.</P
+><P
+>However this is written as if the children of such a &#10;<SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=standard-row-output-record"
+>standard-row-output-record</A
+></SPAN
+> must be cells. I think intervening&#10;output records between a row and a cell are okay too.&#10;</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7E745D9342A2E758CD965E56EF7AE1D%2Fstandard-row-output-record%2F17.3.2&amp;editp=t&amp;id=Z42#Z42"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-05 18:11Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=656A5DB4BF55D05584D6AB0A88E1B0DE%2Fstandard-row-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-2.html#_4002"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-row</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_944"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-row-cells</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function row-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all the cells in the row <I
+>row-record</I
+>, skipping intervening non-table output record structure. <I
+>function</I
+> is a function of one argument, an output record corresponding to a table cell within the row; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB76264DE6E923F84CC62BA3B330C316%2Fmap-over-row-cells%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E358484205C0279EDE19832E13CDDB14%2Fmap-over-row-cells%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="17-3.html#_948"
+><SPAN CLASS="forwardlink"
+>[&rarr; map-over-row-cells, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_945"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>column-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents one column in a table; a subclass of <A NAME="_4078"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like a column output record, it should be a subclass of <B CLASS="cl"
+>column-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>column-output-record</B
+> must obey the column output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B7BE898C23375E473C6EE68BAE76D243%2Fcolumn-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A1B4EB4C37A2ADBF2B90FCD7FF29D439%2Fcolumn-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4084"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.2 Row and Column Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-column-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_946"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>column-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>column output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1ECC5DC249BDD6C07EAD44770F301BAD%2Fcolumn-output-record-p%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C737C583E717770D66B64AE5502FEAE%2Fcolumn-output-record-p%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_947"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-column-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that represent a column of output within a table. Its children will be a sequence of cells, and its parent (skipping intervening non-tabular records such as presentations) will be a table output record; presentation output records may intervene. This is a subclass of <A NAME="_4084"></A><A HREF="17-3.html#_945"
+><B CLASS="cl"
+>column-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6367FCA1D18BDDA7E2624B0449B5E035%2Fstandard-column-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD63BD053E21901199CF6CCCBCC50C7C%2Fstandard-column-output-record%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-2.html#_4008"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-column</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_948"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-row-cells</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function column-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all the cells in the column <I
+>column-record</I
+>, skipping intervening non-table output record structure. <I
+>function</I
+> is a function of one argument, an output record corresponding to a table cell within the column; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89CE8439DDE0CB695892914F20986A9D%2Fmap-over-row-cells%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDF4AF3419B47526F72025E8706937A4%2Fmap-over-row-cells%2F17.3.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z202"
+></A
+><SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=map-over-column-cells"
+>map-over-column-cells</A
+></SPAN
+> should be the name of this generic function, since the <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=map-over-row-cells"
+>map-over-row-cells</A
+></SPAN
+> is described above. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BDF4AF3419B47526F72025E8706937A4%2Fmap-over-row-cells%2F17.3.2&amp;editp=t&amp;id=Z202#Z202"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Janis Dzerins 2011-01-26 09:03Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="17-3.html#_944"
+><SPAN CLASS="forwardlink"
+>[&rarr; map-over-row-cells, <I
+>Generic&nbsp;Function</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_949"></A><DIV
+><H4
+>17.3.3 Cell Formatting Protocol</H4
+><P
+>Any output record class that implements the following generic functions is said to support the cell formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=96B7D252FB9FD5C3D563AD77D14F9946%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_950"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cell-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents one cell in a table or an item list; a subclass of <A NAME="_4085"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like a cell output record, it should be a subclass of <B CLASS="cl"
+>cell-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>cell-output-record</B
+> must obey the cell output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11E571297D1B04DAC45D830A77FAE107%2Fcell-output-record%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=64E41728962660C418BF0A7BC79A92A2%2Fcell-output-record%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4092"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.3 Cell Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-cell-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4091"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.3 Cell Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>:align-x</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_951"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cell-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>cell output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D54143920A4A2599C1A8F91617B1DA1F%2Fcell-output-record-p%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89BCF97078BFA6311DB768FFB207BCE6%2Fcell-output-record-p%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_952"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:align-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_953"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:align-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_954"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:min-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_955"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:min-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_4091"></A><A HREF="17-3.html#_950"
+><B CLASS="cl"
+>cell-output-record</B
+></A
+> must handle these initargs, which are used to specify, respectively, the <I
+>x</I
+> and <I
+>y</I
+> alignment, and the minimum width and height attributes of the cell. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7A95A5AA2C5C4017CA53E2F61C7AB053%2F%3Aalign-x%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BF4851393338678437642C9CEF0A0AA2%2F%3Aalign-x%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="30-3.html#_1748"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-x, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1612"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-x, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="30-3.html#_1749"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-y, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1613"
+><SPAN CLASS="forwardlink"
+>[&rarr; :align-y, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1607"
+><SPAN CLASS="forwardlink"
+>[&rarr; :min-width, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1610"
+><SPAN CLASS="forwardlink"
+>[&rarr; :min-height, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5643"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4042"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>format-items</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7420"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_956"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-cell-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that represent a single piece of output within a table row or column, or an item list. Its children will either be presentations, or output records that represent displayed output. This is a subclass of <A NAME="_4092"></A><A HREF="17-3.html#_950"
+><B CLASS="cl"
+>cell-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=406420105464E046EA08B4DDDFBAB170%2Fstandard-cell-output-record%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=840C0C02F3D9EE8FD95CE4509576B0A1%2Fstandard-cell-output-record%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-2.html#_4023"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-cell</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_957"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cell-align-x</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cell</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_958"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cell-align-y</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cell</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_959"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cell-min-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cell</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_960"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cell-min-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cell</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These functions return, respectively, the <I
+>x</I
+> and <I
+>y</I
+> alignment and minimum width and height of the <SPAN CLASS="term"
+>cell output record</SPAN
+> <I
+>cell</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAFF02B3D91F2860785F657DAC5E295C%2Fcell-align-x%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73BB53CE2B75E8C9D75099565CF84711%2Fcell-align-x%2F17.3.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z47"
+></A
+>Should this be returned as simple coordinates or can this be&#10;some spacing-value like e.g. <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=%285%20%3Acharacter%29"
+>(5 :character)</A
+></SPAN
+>? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=73BB53CE2B75E8C9D75099565CF84711%2Fcell-align-x%2F17.3.3&amp;editp=t&amp;id=Z47#Z47"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-07 05:29Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_961"></A><DIV
+><H4
+>17.3.4 Item List Formatting Protocol</H4
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_962"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>item-list-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that represents an item list; a subclass of <A NAME="_4094"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like an item list output record, it should be a subclass of <B CLASS="cl"
+>item-list-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>item-list-output-record</B
+> must obey the item list output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3F954DE70308C2AF682A56AD516F628B%2Fitem-list-output-record%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FD711C5F4BC500051677E68F38A67ACB%2Fitem-list-output-record%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4101"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.4 Item List Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-item-list-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4100"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.4 Item List Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_963"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>item-list-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>item list output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D418C1A6666ED68BCDE6F3B1AA6E7C2B%2Fitem-list-output-record-p%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=50D3A8AEB51F37FF295327064D1834AC%2Fitem-list-output-record-p%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_964"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:x-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_965"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:y-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_966"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:initial-spacing</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_967"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:row-wise</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_968"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:n-rows</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_969"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:n-columns</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_970"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:max-width</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_971"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:max-height</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_4100"></A><A HREF="17-3.html#_962"
+><B CLASS="cl"
+>item-list-output-record</B
+></A
+> must handle these initargs, which are used to specify, respectively, the <I
+>x</I
+> and <I
+>y</I
+> spacing, the initial spacing, row-wise, the desired number of rows and columns, and maximum width and height attributes of the item list. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9ADA8349DEBAB53593BAB5D708D04D07%2F%3Ax-spacing%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C4D75A1A41C45F9A0ADD31F21A987A2D%2F%3Ax-spacing%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="17-3.html#_932"
+><SPAN CLASS="forwardlink"
+>[&rarr; :x-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1614"
+><SPAN CLASS="forwardlink"
+>[&rarr; :x-spacing, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_933"
+><SPAN CLASS="forwardlink"
+>[&rarr; :y-spacing, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1615"
+><SPAN CLASS="forwardlink"
+>[&rarr; :y-spacing, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1606"
+><SPAN CLASS="forwardlink"
+>[&rarr; :max-width, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_1609"
+><SPAN CLASS="forwardlink"
+>[&rarr; :max-height, <I
+>Option</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="25.html#_5630"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-3.html#_4213"
+><SPAN CLASS="reverselink"
+>[&larr; 20.3 Filled Output, <B CLASS="cl"
+><B CLASS="cl"
+>filling-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-2.html#_4199"
+><SPAN CLASS="reverselink"
+>[&larr; 20.2 Indented Output, <B CLASS="cl"
+><B CLASS="cl"
+>indenting-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6526"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5724"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4021"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-cell</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="F.html#_7567"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_972"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-item-list-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable output record that represents item list output. Its children will be a sequence of cells, with presentations possibly intervening. This is a subclass of <A NAME="_4101"></A><A HREF="17-3.html#_962"
+><B CLASS="cl"
+>item-list-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DEE9A5D7FB87AD295DFF47D667CE034E%2Fstandard-item-list-output-record%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F5D4D30D6573A6A42A5ED750EB4CD15D%2Fstandard-item-list-output-record%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4103"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.4 Item List Formatting Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>adjust-item-list-cells</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4037"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-item-list</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_973"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>map-over-item-list-cells</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>function item-list-record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Applies <I
+>function</I
+> to all of the cells in <I
+>item-list-record</I
+>. <B CLASS="cl"
+>map-over-item-list-cells</B
+> must skip over intervening non-table output record structure, such as presentations. <I
+>function</I
+> is a function of one argument, an output record corresponding to a cell in the item list; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5ADB46EFB36075F4D3187E257154B441%2Fmap-over-item-list-cells%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=21A43D27A38A741978CB3ECE99629321%2Fmap-over-item-list-cells%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_974"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>adjust-item-list-cells</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>item-list-record stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This function is called after the item list output has been collected, but before the record has been replayed. The method on <A NAME="_4103"></A><A HREF="17-3.html#_972"
+><B CLASS="cl"
+>standard-item-list-output-record</B
+></A
+> implements the usual item list layout constraint solver. <I
+>item-list-record</I
+> is the item list output record, and <I
+>stream</I
+> is the stream on which the item list is displayed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=90336A88F9D08D46E33EF2C364ED7FBC%2Fadjust-item-list-cells%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4B5D323E0C2B34D62FCCDBACF812B96F%2Fadjust-item-list-cells%2F17.3.4#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-3.html#_4052"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/17-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

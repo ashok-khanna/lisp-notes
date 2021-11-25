@@ -1,0 +1,123 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 28.6 Examples of Applications</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="28.5 Frame Managers" HREF="28-5.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="29 Panes" HREF="29.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="28 Application Frames" HREF="28.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="28-5.html"
+>Prev</A
+><BR
+><A HREF="29.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="28.html"
+>28&nbsp;Application&nbsp;Frames</A
+><BR
+>&rarr;&nbsp;<A HREF="28-6.html"
+><B
+>28.6&nbsp;Examples&nbsp;of&nbsp;Applications</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1576"></A><DIV
+><H3
+>28.6 Examples of Applications</H3
+><P
+>The following is an example that outlines a simple 4-by-4 sliding piece puzzle: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=41189D42E5D0A4CD17C431D397C9793A%2F28.6#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(define-application-frame puzzle ()&#10;    ((puzzle-array :initform (make-array '(4 4))))&#10;  (:menu-bar t)&#10;  (:panes&#10;    (display&#10;      (outlining ()&#10;        (make-pane 'application-pane&#10;                   :text-cursor nil&#10;                   :width :compute&#10;                   :height :compute&#10;                   :incremental-redisplay T&#10;                   :display-function 'draw-puzzle))))&#10;  (:layouts&#10;    (:default display)))&#10;&#10;(defmethod run-frame-top-level :before ((puzzle puzzle))&#10;  ;; Initialize the puzzle&#10;  ...)&#10;&#10;(define-presentation-type puzzle-cell ()&#10;  :inherit-from '(integer 1 15))&#10;&#10;(defmethod draw-puzzle ((puzzle puzzle) stream &amp;key max-width max-height)&#10;  (declare (ignore max-width max-height))&#10;  ;; Draw the puzzle, presenting each cell as a PUZZLE-CELL&#10;  ...)&#10;&#10;(define-puzzle-command com-move-cell&#10;    ((cell 'puzzle-cell :gesture :select))&#10;  ;; Move the selected cell to the adjacent open cell,&#10;  ;; if there is one&#10;  ...)&#10;&#10;(define-puzzle-command (com-scramble :menu t)&#10;    ()&#10;  ;; Scramble the pieces of the puzzle&#10;  ...)&#10;&#10;(define-puzzle-command (com-exit-puzzle :menu "Exit")&#10;    ()&#10;  (frame-exit *application-frame*))&#10;&#10;(defun puzzle ()&#10;  (let ((puzzle &#10;          (make-application-frame 'puzzle &#10;            :width 80 :height 80)))&#10;    (run-frame-top-level puzzle)))&#10;</PRE
+><P
+>The following is an application frame with two layouts: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E2736F60C21645A0CFB44BD7CF08364%2F28.6#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z325"
+></A
+><P
+>slider gadget doesn't have initial values provided, it should look like this</P
+><P
+>(c slider :min-value 0 :max-value 100 :value 20)</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E2736F60C21645A0CFB44BD7CF08364%2F28.6&amp;editp=t&amp;id=Z325#Z325"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Daniel Kochmanski 2018-06-13 18:48Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><PRE
+>&#10;(define-application-frame test-frame () ()&#10;  (:panes&#10;    (a (horizontally ()&#10;         (make-pane 'push-button :label "Press me")&#10;         (make-pane 'push-button :label "Squeeze me")))&#10;    (b toggle-button)&#10;    (c slider)&#10;    (d text-field)&#10;    (e :interactor-pane&#10;       :width 300 :max-width +fill+&#10;       :height 300 :max-height +fill+))&#10;  (:layouts&#10;    (default &#10;      (vertically ()&#10;        a b c (scrolling () e)))&#10;    (other&#10;      (vertically ()&#10;        a (scrolling () e) b d))))&#10;&#10;(define-test-frame-command (com-switch :name t :menu t)&#10;    ()&#10;  (setf (frame-current-layout *application-frame*)&#10;        (ecase (frame-current-layout *application-frame*)&#10;          (default other)&#10;          (other default))))&#10;&#10;(let ((test-frame &#10;        (make-application-frame 'test-frame)))&#10;  (run-frame-top-level test-frame))&#10;</PRE
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/28-6.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:54 GMT -->
+</HTML
+>

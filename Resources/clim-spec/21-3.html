@@ -1,0 +1,1700 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/21-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 21.3 Incremental Redisplay Protocol</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="21.2 Standard Programmer Interface" HREF="21-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="21.4 Incremental Redisplay Stream Protocol" HREF="21-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="21 Incremental Redisplay" HREF="21.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="21-2.html"
+>Prev</A
+><BR
+><A HREF="21-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="21.html"
+>21&nbsp;Incremental&nbsp;Redisplay</A
+><BR
+>&rarr;&nbsp;<A HREF="21-3.html"
+><B
+>21.3&nbsp;Incremental&nbsp;Redisplay&nbsp;Protocol</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1023"></A><DIV
+><H3
+>21.3 Incremental Redisplay Protocol</H3
+><P
+><B
+>Major issue: </B
+> <I
+>While the description of the API here is accurate, the description of the protocol is a disaster. This is no surprise, since the protocol for increment redisplay is itself a disaster. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=686DB32AAF27BE3719A7E3616C13E2CC%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1024"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>updating-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class corresponding to records that support incremental redisplay; a subclass of <A NAME="_4294"></A><A HREF="16-2.html#_836"
+><B CLASS="cl"
+>output-record</B
+></A
+>. If you want to create a new class that behaves like an updating output record, it should be a subclass of <B CLASS="cl"
+>updating-output-record</B
+>. All instantiable subclasses of <B CLASS="cl"
+>updating-output-record</B
+> must obey the updating output record protocol.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=108EC108BA097E325A44A3D5B37F8A8A%2Fupdating-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=10675FF7B7ACDF9FFFBC9112D4C1F607%2Fupdating-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-3.html#_4307"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compute-new-output-records</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-3.html#_4301"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>standard-updating-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-3.html#_4300"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>:unique-id</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-1.html#_4232"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1.1 Examples of Incremental Redisplay]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1025"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>updating-output-record-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is an <SPAN CLASS="term"
+>updating output record</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B9021A889687415A42D70F074BAD88F0%2Fupdating-output-record-p%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DEA5CF11D4EE8E166BB900424B82247%2Fupdating-output-record-p%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1026"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:unique-id</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1027"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:id-test</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1028"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:cache-value</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1029"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:cache-test</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+><A NAME="_1030"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:fixed-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>All subclasses of <A NAME="_4300"></A><A HREF="21-3.html#_1024"
+><B CLASS="cl"
+>updating-output-record</B
+></A
+> must handle these four initargs, which are used to specify, respectively, the unique id and id test, cache value and cache test, and the "fixed position" component of the output record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6C6D39515BF0A6252C1D19002544A8F5%2F%3Aunique-id%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74A60594E22733D4D564EFD30275B3E6%2F%3Aunique-id%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-1.html#_4235"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1.1 Examples of Incremental Redisplay]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1031"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-updating-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class of output record that supports incremental redisplay. This is a subclass of <A NAME="_4301"></A><A HREF="21-3.html#_1024"
+><B CLASS="cl"
+>updating-output-record</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1F36D34D5423635C1D8A3DBF4D0861E9%2Fstandard-updating-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=659978019F19E73808A1173BB15F7E41%2Fstandard-updating-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-2.html#_4261"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>updating-output</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1032"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-unique-id</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the unique id associated with the updating output record <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=703EDC6E245E06931AF1E226A39D0A97%2Foutput-record-unique-id%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=65742BB2BD1C975BCF76A5B2C42AC762%2Foutput-record-unique-id%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1033"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-cache-value</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the cache value associated with the updating output record <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=789A21BD803F108D1696978372CDD06D%2Foutput-record-cache-value%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5868ABD27817729B29527A2841B1F1B9%2Foutput-record-cache-value%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1034"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-fixed-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the updating output record <I
+>record</I
+> is at a fixed location on the output stream, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. Output records that are not at fixed location on the output stream will be moved by incremental redisplay when any of their siblings adjust their size or position. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7141FE1677E2901FAB7A527437546C78%2Foutput-record-fixed-position%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6326D222A2FFD2DBD55AB57C45A85FBB%2Foutput-record-fixed-position%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1035"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-displayer</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the function that produces the output for this output record. This is the function that is called during redisplay to produce new output if the cache value mismatches. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0FEEDACC6E8C8A980F8E76B1A60A8A57%2Foutput-record-displayer%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2A15896FDE07E6EC9FE4EBBF2DE77DC3%2Foutput-record-displayer%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-3.html#_4308"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>compute-new-output-records</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1036"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compute-new-output-records</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>compute-new-output-records</B
+> modifies an output record tree to reflect new output done by the application. In addition to inserting the new output records into the output record tree, it must save enough information to be able to compute the difference set, such as the old bounding rectangle, old cursor positions, old children, and so forth. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8ED2AFE8E54232F5CF288B162E3F7CCC%2Fcompute-new-output-records%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>compute-new-output-records</B
+> recursively invokes itself on each child of <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AFC7D640DCD6000AB0F6DEB35DBF5EE6%2Fcompute-new-output-records%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>compute-new-output-records</B
+> of an output record of type <A NAME="_4307"></A><A HREF="21-3.html#_1024"
+><B CLASS="cl"
+>updating-output-record</B
+></A
+> runs the displayer (<A NAME="_4308"></A><A HREF="21-3.html#_1035"
+><B CLASS="cl"
+>output-record-displayer</B
+></A
+>), which gives the behavior of incremental redisplay. That is, it reruns the code (getting hints from <A NAME="_4309"></A><A HREF="21-2.html#_1019"
+><B CLASS="cl"
+>updating-output</B
+></A
+>) and figures out the changes from there by comparing it to the old output history. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C10ABF98983EA9BA61FF526FE66D4C4B%2Fcompute-new-output-records%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C6BC71D22D2E4F030F89BB0CEFD841CA%2Fcompute-new-output-records%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-2.html#_4284"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>redisplay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1037"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>compute-difference-set</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>(check-overlapping </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  (offset-x </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (offset-y </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)  (old-offset-x </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>) (old-offset-y </I
+><I
+><B CLASS="cl"
+>0</B
+></I
+><I
+>)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>compute-difference-set</B
+> compares the current state of the <SPAN CLASS="term"
+>output record</SPAN
+> <I
+>record</I
+> with its previous state, and returns a "difference set" as five values. The difference set controls what needs to be done to the display device in order to accomplish the incremental redisplay. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D2593B424B595454B1F147B1277ED8DE%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The values returned are <I
+>erases</I
+> (what areas of the display device need to be erased), <I
+>moves</I
+> (what output records need to be moved), <I
+>draws</I
+> (what output records need to be freshly replayed), <I
+>erase-overlapping</I
+>, and <I
+>move-overlapping</I
+>. Each is a list whose elements are lists of the form: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=25919E5672278F41830FC7ABCDE5706C%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When <I
+>check-overlapping</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>, this means that CLIM can assume that no sibling output records overlap each other at any level. Supplying a <SPAN CLASS="term"
+>false</SPAN
+> value for this argument can improve performance of redisplay. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4314064205D2E51E59B15C8C22EC35EF%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><I
+>erases</I
+> are lists of <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>old-box</I
+></B
+><B CLASS="cl"
+>)</B
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B92F1C7DF8E224636DE3A4C92A88FF6C%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>moves</I
+> are lists of <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>old-box</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>new-position</I
+></B
+><B CLASS="cl"
+>)</B
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F24FE95ECA39077CA33B681166BDAAFC%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>draws</I
+> are lists of <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>old-box</I
+></B
+><B CLASS="cl"
+>)</B
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EE2D3926CB7A9BBC9A161D1C6D3CD687%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>erase-overlapping</I
+> is a list of <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>old-box</I
+></B
+><B CLASS="cl"
+>)</B
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F1780998531B7EB6DC84E8AD2D6F8E82%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>move-overlapping</I
+> is a list of <B CLASS="cl"
+>(</B
+><B CLASS="cl"
+><I
+>record</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>old-box</I
+></B
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>new-position</I
+></B
+><B CLASS="cl"
+>)</B
+>  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7F90D53774CC26648FEBF1D9A175FB7%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7809D2F3B0C64D87ACAE502DFEC0CC55%2Fcompute-difference-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-4.html#_4373"
+><SPAN CLASS="reverselink"
+>[&larr; 21.4 Incremental Redisplay Stream Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>incremental-redisplay</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-3.html#_4363"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>propagate-output-record-changes</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-3.html#_4353"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>note-output-record-child-changed</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="21-2.html#_4285"
+><SPAN CLASS="reverselink"
+>[&larr; 21.2 Standard Programmer Interface, <B CLASS="cl"
+><B CLASS="cl"
+>redisplay-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1038"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>augment-draw-set</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record erases moves draws erase-overlapping move-overlapping  </I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>x-offset y-offset old-x-offset old-y-offset</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B
+>Minor issue: </B
+> <I
+>To be supplied. ---&nbsp;SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4464B58D6267A656816CD54046DEE8C8%2Faugment-draw-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2546FD4AE990ADD18131027B7A2789A6%2Faugment-draw-set%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z452"
+></A
+><P
+>After CLIM-TOS source code:</P
+><P
+>If there are any output records that can have overlapping children,&#10;none of which have been inserted into the "erase" or "draw" sets, but&#10;overlap anything in the "erase" set, then we must insert the child&#10;into the "draw" set so that it does not simply disappear.</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2546FD4AE990ADD18131027B7A2789A6%2Faugment-draw-set%2F21.3&amp;editp=t&amp;id=Z452#Z452"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- DK 2021-11-23 19:13Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1039"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>note-output-record-child-changed</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>record child mode old-position old-bounding-rectangle stream  <TT
+>&amp;optional </TT
+>erases moves draws erase-overlapping move-overlapping  <TT
+>&amp;key </TT
+>check-overlapping <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=539E93A0E4ED82527959EC73F2C97529%2Fnote-output-record-child-changed%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>note-output-record-child-changed</B
+> is called after an output history has had changes made to it, but before any of the new output has been displayed. It will call <A NAME="_4344"></A><A HREF="21-3.html#_1040"
+><B CLASS="cl"
+>propagate-output-record-changes-p</B
+></A
+> to determine if the parent output record should be notified, and if so, will call <A NAME="_4345"></A><A HREF="21-3.html#_1041"
+><B CLASS="cl"
+>propagate-output-record-changes</B
+></A
+> to create an updated difference set. If no changes need to be propagated to the parent output record, then <B CLASS="cl"
+>note-output-record-child-changed</B
+> will call <A NAME="_4347"></A><A HREF="21-4.html#_1052"
+><B CLASS="cl"
+>incremental-redisplay</B
+></A
+> in order display the difference set. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38409655650AAF1A0B1A837D9BA4D902%2Fnote-output-record-child-changed%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>mode</I
+> is one of <B CLASS="cl"
+>:delete</B
+>, <B CLASS="cl"
+>:add</B
+>, <B CLASS="cl"
+>:change</B
+>, <B CLASS="cl"
+>:move</B
+>, or <B CLASS="cl"
+>:none</B
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=275013628FF8175D45D9883AC6E81990%2Fnote-output-record-child-changed%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>old-position</I
+> and <I
+>old-bounding-rectangle</I
+> describe where <I
+>child</I
+> was before it was moved. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=74CEC1E5460B12D35EE195C4B0664D13%2Fnote-output-record-child-changed%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>check-overlapping</I
+> is as for <A NAME="_4353"></A><A HREF="21-3.html#_1037"
+><B CLASS="cl"
+>compute-difference-set</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF311BC01697ED5D53119ABBBFB853B1%2Fnote-output-record-child-changed%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A363D234771328A773F9D417585003F1%2Fnote-output-record-child-changed%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-1.html#_4221"
+><SPAN CLASS="reverselink"
+>[&larr; 21.1 Overview of Incremental Redisplay]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1040"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>propagate-output-record-changes-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record child mode  old-position old-bounding-rectangle</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><B CLASS="cl"
+>propagate-output-record-changes-p</B
+> is a predicate that returns <SPAN CLASS="term"
+>true</SPAN
+> if the change made to the child will cause <I
+>record</I
+> to be redisplayed in any way. Otherwise, it returns <SPAN CLASS="term"
+>false</SPAN
+>. <I
+>mode</I
+> is one of <B CLASS="cl"
+>:delete</B
+>, <B CLASS="cl"
+>:add</B
+>, <B CLASS="cl"
+>:change</B
+>, <B CLASS="cl"
+>:move</B
+>, or <B CLASS="cl"
+>:none</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8E77AF0A5FC9EC409B8E9201BBCFB4AE%2Fpropagate-output-record-changes-p%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DF846E5E375C2EB46AA93FB25F44BAD1%2Fpropagate-output-record-changes-p%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-3.html#_4344"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>note-output-record-child-changed</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1041"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>propagate-output-record-changes</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>record child mode  <TT
+>&amp;optional </TT
+>old-position old-bounding-rectangle  erases moves draws erase-overlapping move-overlapping check-overlapping <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B350AF40A28C34DE264A3D7AA1AFF2A7%2Fpropagate-output-record-changes%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Called when the changed <I
+>child</I
+> output record requires that its parent, <I
+>record</I
+>, be redisplayed as well. <B CLASS="cl"
+>propagate-output-record-changes</B
+> will update the difference set to reflect the additional changes. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=962D2E0426BBE323401FA0D63B7EB77A%2Fpropagate-output-record-changes%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>check-overlapping</I
+> is as for <A NAME="_4363"></A><A HREF="21-3.html#_1037"
+><B CLASS="cl"
+>compute-difference-set</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CF311BC01697ED5D53119ABBBFB853B1%2Fpropagate-output-record-changes%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7FC5A3F5813836F3A9AD2B4761E91940%2Fpropagate-output-record-changes%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="21-3.html#_4345"
+><SPAN CLASS="reverselink"
+>[&larr; 21.3 Incremental Redisplay Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>note-output-record-child-changed</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1042"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>match-output-records</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if record matches the supplied class initargs <I
+>initargs</I
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B035196FCA68639CD1BBCDC8A150A623%2Fmatch-output-records%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z17"
+></A
+>This is pretty useless for records that either have undocumented initargs or slots that aren't initialized by initargs (i.e. all the graphics output records and text output records).  Also, how is generic code supposed to generate the list of initargs and values?  In McCLIM I've defined output-record-equal which compares two records for equivalence; it's much more useful. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B035196FCA68639CD1BBCDC8A150A623%2Fmatch-output-records%2F21.3&amp;editp=t&amp;id=Z17#Z17"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Tim Moore 2003-02-22 17:56Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9D29F7481C4E8AA9059DBC50059C416D%2Fmatch-output-records%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1043"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-child-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record use-old-elements record-type  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>unique-id unique-id-test</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Finds a child of <I
+>record</I
+> matching the <I
+>record-type</I
+> and the supplied initargs <I
+>initargs</I
+>. <I
+>unique-id</I
+> and <I
+>unique-id-test</I
+> are used to match against the children as well. <I
+>use-old-elements</I
+> controls whether the desired record is to be found in the previous (before redisplay) contents of the record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FDCB4F79EA1836A3AF108C5EADD72EF8%2Ffind-child-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D25BB2A8ED5ED099168000F7E1928A6E%2Ffind-child-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1044"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>output-record-contents-ok</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the current state of <I
+>record</I
+> are up to date, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5AF215BE002C84DF0862B88EF79903BD%2Foutput-record-contents-ok%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B404AC80EACDAAB4097810FD76677EE9%2Foutput-record-contents-ok%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1045"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>recompute-contents-ok</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Compares the old (before redisplay) and new contents of <I
+>record</I
+> to determine whether or not this record changed in such a way so that the display needs updating. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=69B520169295EFB438F187D1807698AD%2Frecompute-contents-ok%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2662B02E9FDEDAC649E228B8A2F23003%2Frecompute-contents-ok%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1046"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cache-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record child unique-id</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+><I
+>record</I
+> stores <I
+>child</I
+> such that it can be located later using <I
+>unique-id</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=137D5AACB400FA587E296710AD06817C%2Fcache-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FFECCA87C10663AFBE8FD04A4A1440C2%2Fcache-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1047"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>decache-child-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record child use-old-elements</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Invalidates the redisplay state of <I
+>record</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2747097D91B272BE88AB87F946E63F6C%2Fdecache-child-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A412B63AA76ECC28E65BC2ECC11258C6%2Fdecache-child-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1048"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>find-cached-output-record</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>record use-old-elements record-type  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>initargs  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>unique-id unique-id-test </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Finds a previously cached child matching <I
+>record-type</I
+>, <I
+>initargs</I
+>, <I
+>unique-id</I
+>, and <I
+>unique-id-test</I
+>. <I
+>use-old-elements</I
+> controls whether the desired record is to be found in the previous (before redisplay) contents of the record. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=769D4A1AD94FABE56850E000E6B9EEC0%2Ffind-cached-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7BC14A052888E38AF7E94581988E0EB%2Ffind-cached-output-record%2F21.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/21-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

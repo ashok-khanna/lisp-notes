@@ -1,0 +1,189 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/20-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 20.1 Textual List Formatting</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="20 Text Formatting" HREF="20.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="20.2 Indented Output" HREF="20-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="20 Text Formatting" HREF="20.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="20.html"
+>Prev</A
+><BR
+><A HREF="20-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="20.html"
+>20&nbsp;Text&nbsp;Formatting</A
+><BR
+>&rarr;&nbsp;<A HREF="20-1.html"
+><B
+>20.1&nbsp;Textual&nbsp;List&nbsp;Formatting</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1009"></A><DIV
+><H3
+>20.1 Textual List Formatting</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1010"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>format-textual-list</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>sequence printer  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>stream separator conjunction</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Outputs the sequence of items in <I
+>sequence</I
+> as a "textual list". For example, the list <B CLASS="cl"
+>(1 2 3 4)</B
+> might be printed as  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2B83222265052758148C62D8B168F7A%2Fformat-textual-list%2F20.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;1, 2, 3, and 4&#10;</PRE
+><P
+><I
+>printer</I
+> is a function of two arguments: an element of the sequence and a stream; it has dynamic extent. It is called to output each element of the sequence. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D3C59860E97B236290277784823750D2%2Fformat-textual-list%2F20.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> specifies the output stream. The default is <B CLASS="cl"
+>*standard-output*</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BCACAC2BD07FC540DA0715BD31D0434%2Fformat-textual-list%2F20.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>separator</I
+> and <I
+>conjunction</I
+> arguments provide control over the appearance of each element of the sequence and over the separators used between each pair of elements. <I
+>separator</I
+> is a string that is output after every element but the last one; the default for <I
+>separator</I
+> is <B CLASS="cl"
+>", "</B
+> (that is, a comma followed by a space). <I
+>conjunction</I
+> is a string that is output before the last element. The default is <A NAME="_4194"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that there is no conjunction. Typical values for <I
+>conjunction</I
+> are the strings <B CLASS="cl"
+>"and"</B
+> and <B CLASS="cl"
+>"or"</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=333E407EF95094561B85BD5B6CE32864%2Fformat-textual-list%2F20.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=703470ACF52B5A2CBEC30A3D95B04425%2Fformat-textual-list%2F20.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/20-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

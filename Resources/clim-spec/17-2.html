@@ -1,0 +1,1459 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/17-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 17.2 Table Formatting Functions</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="17.1 Overview of Table Formatting Facilities" HREF="17-1.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="17.3 The Table and Item List Formatting Protocols" HREF="17-3.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="17 Table Formatting" HREF="17.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="17-1.html"
+>Prev</A
+><BR
+><A HREF="17-3.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="17.html"
+>17&nbsp;Table&nbsp;Formatting</A
+><BR
+>&rarr;&nbsp;<A HREF="17-2.html"
+><B
+>17.2&nbsp;Table&nbsp;Formatting&nbsp;Functions</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_921"></A><DIV
+><H3
+>17.2 Table Formatting Functions</H3
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_922"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>formatting-table</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>x-spacing y-spacing  multiple-columns multiple-columns-x-spacing  equalize-column-widths  (move-cursor </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) record-type </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the local environment in such a way the output of <I
+>body</I
+> will be done in a tabular format. This must be used in conjunction with <A NAME="_3974"></A><A HREF="17-2.html#_923"
+><B CLASS="cl"
+>formatting-row</B
+></A
+> or <A NAME="_3975"></A><A HREF="17-2.html#_924"
+><B CLASS="cl"
+>formatting-column</B
+></A
+>, and <A NAME="_3976"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. The table is placed so that its upper left corner is at the current text cursor position of <I
+>stream</I
+>. If the boolean <I
+>move-cursor</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), then the text cursor will be moved so that it immediately follows the last cell of the table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CB28878211BAB1949D5BDAA263223FC1%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the output record corresponding to the table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F6DAD7933BDE04746BF4F0C505DD82F%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_3978"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC0EAC3F8A843884ADFB67590361C15%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x-spacing</I
+> specifies the number of units of spacing to be inserted between columns of the table; the default is the width of a space character in the current text style. <I
+>y-spacing</I
+> specifies the number of units of spacing to be inserted between rows in the table; the default is the default vertical spacing of the stream. Possible values for these two options option are: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BC9E21BB66CA46C849F2B52AE379414B%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+>An integer---a size in the current units to be used for spacing. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=DE78045BF8C4CCEE6111164514E1CD09%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A string or character---the spacing is the width or height of the string or character in the current text style. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E7380492E7005C27266F4A7FFC8E160E%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A function---the spacing is the amount of horizontal or vertical space the function would consume when called on the stream. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BC72005E429E3615AC0725FC69BE62E%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+>A list---the list is of the form <B CLASS="cl"
+>(</B
+><A NAME="_3981"></A><A HREF="23-8.html#_1262"
+><B CLASS="cl"
+><I
+>number</I
+></B
+></A
+><B CLASS="cl"
+> </B
+><B CLASS="cl"
+><I
+>unit</I
+></B
+><B CLASS="cl"
+>)</B
+>, where <I
+>unit</I
+> is one of <B CLASS="cl"
+>:point</B
+>, <B CLASS="cl"
+>:pixel</B
+>, <B CLASS="cl"
+>:mm</B
+>, <B CLASS="cl"
+>:character</B
+>, or <B CLASS="cl"
+>:line</B
+>. When <I
+>unit</I
+> is <B CLASS="cl"
+>:character</B
+>, the width of an "M" in the current text style is used as the width of one character.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EC2E8FF48987F0DDBB7857803F4E932%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><I
+>multiple-columns</I
+> is either <A NAME="_3991"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, <A NAME="_3992"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, or an integer. If it is <A NAME="_3993"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> or an integer, the table rows will be broken up into a multiple columns. If it is <A NAME="_3994"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, CLIM will determine the optimal number of columns. If it is an integer, it will be interpreted as the desired number of columns. <I
+>multiple-columns-x-spacing</I
+> has the same format as <I
+>x-spacing</I
+>. It controls the spacing between the multiple columns. It defaults to the value of the <I
+>x-spacing</I
+> option. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=356EBBF7F5587CCD9354270028AA5E8F%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the boolean <I
+>equalize-column-widths</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, CLIM will make all of the columns have the same width (the width of the widest cell in any column in the entire table). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2E499840C26A817B23DDE1DFF3873509%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of output record to create. The default is <A NAME="_3996"></A><A HREF="17-3.html#_936"
+><B CLASS="cl"
+>standard-table-output-record</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the table formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E243CAF9677BB581DEA06F2213C3A134%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=205F2FFEC975B4E206AC9E787A7D699F%2Fformatting-table%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7412"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6547"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:x-spacing</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6527"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:width</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="26.html#_5688"
+><SPAN CLASS="reverselink"
+>[&larr; 26 Dialog Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>accepting-values</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5631"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-3.html#_4214"
+><SPAN CLASS="reverselink"
+>[&larr; 20.3 Filled Output, <B CLASS="cl"
+><B CLASS="cl"
+>filling-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="20-2.html#_4200"
+><SPAN CLASS="reverselink"
+>[&larr; 20.2 Indented Output, <B CLASS="cl"
+><B CLASS="cl"
+>indenting-output</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="18-1.html#_4118"
+><SPAN CLASS="reverselink"
+>[&larr; 18.1 Graph Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>format-graph-from-roots</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4055"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3.1 Table Formatting Protocol]</SPAN
+></A
+><BR
+><A HREF="17-3.html#_4046"
+><SPAN CLASS="reverselink"
+>[&larr; 17.3 The Table and Item List Formatting Protocols]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4030"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-item-list</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4022"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-cell</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4003"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-column</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_3997"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-row</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="16-3.html#_3804"
+><SPAN CLASS="reverselink"
+>[&larr; 16.3.1 Standard Output Record Classes, <B CLASS="cl"
+><B CLASS="cl"
+>standard-sequence-output-record</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="4-1.html#_2352"
+><SPAN CLASS="reverselink"
+>[&larr; 4.1 Bounding Rectangles]</SPAN
+></A
+><BR
+><A HREF="2-8.html#_2068"
+><SPAN CLASS="reverselink"
+>[&larr; 2.8 Sheet, Stream, or Medium Arguments to Macros]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_923"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>formatting-row</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>record-type </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the local environment in such a way the output of <I
+>body</I
+> will be grouped into a table row. All of the output performed by <I
+>body</I
+> becomes the contents of one row. This must be used inside of <A NAME="_3997"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>, and in conjunction with <A NAME="_3998"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=57843280BC6C8FE1E7D2EEBA13E8B18E%2Fformatting-row%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_3999"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC0EAC3F8A843884ADFB67590361C15%2Fformatting-row%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Once a table has had a row added to it via <B CLASS="cl"
+>formatting-row</B
+>, no columns may be added to it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=29C2AC1B95C3E4C5EC087F3246A06E9E%2Fformatting-row%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of output record to create. The default is <A NAME="_4002"></A><A HREF="17-3.html#_943"
+><B CLASS="cl"
+>standard-row-output-record</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the row formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4263D7BB1F6853726678F22DA543E889%2Fformatting-row%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D970702CB289DBB9D962B925F1A035C6%2Fformatting-row%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-2.html#_3974"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_924"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>formatting-column</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>record-type </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the local environment in such a way the output of <I
+>body</I
+> will be grouped into a table column. All of the output performed by <I
+>body</I
+> becomes the contents of one column. This must be used inside of <A NAME="_4003"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>, and in conjunction with <A NAME="_4004"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=43F404D1315656373EB49BBB12149771%2Fformatting-column%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_4005"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC0EAC3F8A843884ADFB67590361C15%2Fformatting-column%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Once a table has had a column added to it via <B CLASS="cl"
+>formatting-column</B
+>, no rows may be added to it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ACFAF00FDB0182727246478CB4A7A85B%2Fformatting-column%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of output record to create. The default is <A NAME="_4008"></A><A HREF="17-3.html#_947"
+><B CLASS="cl"
+>standard-column-output-record</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the column formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0B89D45D7F68488DE051AB6249B58AD8%2Fformatting-column%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4D24A700E8660D5E5A2BFAA6E679EC2%2Fformatting-column%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="17-2.html#_3975"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_925"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>formatting-cell</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(align-x </I
+><I
+><B CLASS="cl"
+>':left</B
+></I
+><I
+>) (align-y </I
+><I
+><B CLASS="cl"
+>':baseline</B
+></I
+><I
+>)  min-width min-height record-type </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Controls the output of a single cell inside a table row or column, or of a single item inside <A NAME="_4009"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+>. All of the output performed by <I
+>body</I
+> becomes the contents of the cell. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA8C1CD4BFFC28C71F50301F1C5FB0DA%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_4010"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC0EAC3F8A843884ADFB67590361C15%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>align-x</I
+> specifies how the output in a cell will be aligned relative to other cells in the same table column. The default, <B CLASS="cl"
+>:left</B
+>, causes the cells to be flush-left in the column. The other possible values are <B CLASS="cl"
+>:right</B
+> (meaning flush-right in the column) and <B CLASS="cl"
+>:center</B
+> (meaning centered in the column). Each cell within a column may have a different alignment; thus it is possible, for example, to have centered legends over flush-right numeric data. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FD42BBA70625EC115900F4636676D0D1%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>align-y</I
+> specifies how the output in a cell will be aligned vertically. The default, <B CLASS="cl"
+>:baseline</B
+>, causes textual cells to be aligned along their baselines and graphical cells to be aligned at the bottom. The other possible values are <B CLASS="cl"
+>:bottom</B
+> (align at the bottom of the output), <B CLASS="cl"
+>:top</B
+> (align at the top of the output), and <B CLASS="cl"
+>:center</B
+> (center the output in the cell). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B37C3A8D1133F8BB9E3082B45D1E54A%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z9"
+></A
+>How should multi-line text cells be aligned "along their baselines"? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B37C3A8D1133F8BB9E3082B45D1E54A%2Fformatting-cell%2F17.2&amp;editp=t&amp;id=Z9#Z9"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Alexey Dejneka 2002-11-21 04:32Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z36"
+></A
+>Well, how should aligning by baseline be realizied at all? Currently&#10;output records do not have the concept of having a baseline. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B37C3A8D1133F8BB9E3082B45D1E54A%2Fformatting-cell%2F17.2&amp;editp=t&amp;id=Z36#Z36"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-05 17:42Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z113"
+></A
+>McCLIM has an [internal] function <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=output-record-baseline"
+>output-record-baseline</A
+></SPAN
+> which&#10;returns the position of the baseline of an output record. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3B37C3A8D1133F8BB9E3082B45D1E54A%2Fformatting-cell%2F17.2&amp;editp=t&amp;id=Z113#Z113"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2005-11-18 12:43Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>min-width</I
+> and <I
+>min-height</I
+> are used to specify minimum width or height of the cell. The default, <A NAME="_4019"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, causes the cell to be only as wide or high as is necessary to contain the cell's contents. Otherwise, <I
+>min-width</I
+> and <I
+>min-height</I
+> are specified in the same way as the <A NAME="_4020"></A><A HREF="29-3.html#_1614"
+><B CLASS="cl"
+>:x-spacing</B
+></A
+> and <A NAME="_4021"></A><A HREF="29-3.html#_1615"
+><B CLASS="cl"
+>:y-spacing</B
+></A
+> arguments to <A NAME="_4022"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=50CED10C42ADE177FCC57C4E4671E311%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of output record to create. The default is <A NAME="_4023"></A><A HREF="17-3.html#_956"
+><B CLASS="cl"
+>standard-cell-output-record</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the cell formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=475E927179063BEBE1C76FB6542BC9B0%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3C8B0EE80CAF5DB3C5A38D71953B0558%2Fformatting-cell%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7418"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="29-3.html#_6540"
+><SPAN CLASS="reverselink"
+>[&larr; 29.3.1 Layout Pane Options, <B CLASS="cl"
+><B CLASS="cl"
+>:align-x</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5638"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4043"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>format-items</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4024"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-item-list</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4004"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-column</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_3998"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-row</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_3976"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-table</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_926"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>formatting-item-list</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>x-spacing y-spacing  n-columns n-rows  stream-width stream-height max-width max-height  initial-spacing (row-wise </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  (move-cursor </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) record-type </I
+><I
+><TT
+>&amp;allow-other-keys </TT
+></I
+><I
+>)  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the local environment in such a way that the output of <I
+>body</I
+> will be done in an item list (that is, menu) format. This must be used in conjunction with <A NAME="_4024"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>, which delimits each item. The item list is placed so that its upper left corner is at the current text cursor position of <I
+>stream</I
+>. If the boolean <I
+>move-cursor</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), then the text cursor will be moved so that it immediately follows the last cell of the item list. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF2906F88BD22466654705DA59D11EB8%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>"Item list output" is more strictly defined as: each row of the item list consists of a single cell. Rows are placed with the first row on top, and each succeeding row has its top aligned with the bottom of the previous row (plus the specified <I
+>y-spacing</I
+>). Multiple rows and columns are constructed after laying the item list out in a single column. Item list output takes place in a normalized +<I
+>y</I
+>-downward coordinate system. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=540154320C00E27DAA343A8F66F7E182%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>row-wise</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default) and the item list requires multiple columns, each successive element in the item list is layed out from left to right. If <I
+>row-wise</I
+> is <SPAN CLASS="term"
+>false</SPAN
+> and the item list requires multiple columns, each successive element in the item list is layed out below its predecessor, like in a telephone book. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C376218C9595C6F51893568B5BC3AEDA%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The returned value is the output record corresponding to the table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F6DAD7933BDE04746BF4F0C505DD82F%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_4028"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC0EAC3F8A843884ADFB67590361C15%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x-spacing</I
+> specifies the number of units of spacing to be inserted between columns of the item list; the default is the width of a <CODE
+>#\Space</CODE
+> character in the current text style. <I
+>y-spacing</I
+> specifies the number of units of spacing to be inserted between rows in the item list; the default is default vertical spacing of the stream. The format of these arguments is as for <A NAME="_4030"></A><A HREF="17-2.html#_922"
+><B CLASS="cl"
+>formatting-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AD9C1B197FD1527E714441AD7ACCED29%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>When the boolean <I
+>equalize-column-widths</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, CLIM will make all of the columns have the same width (the width of the widest cell in any column in the entire item list). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07453625921C849C2840D2DF03597556%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z50"
+></A
+>The signature of this macro and the initargs of <SPAN CLASS="cl"
+><A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos?q=item-list-output-record"
+>item-list-output-record</A
+></SPAN
+> both have no&#10;equalize-column-widths. --- it would be nonsense&#10;anyway. <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07453625921C849C2840D2DF03597556%2Fformatting-item-list%2F17.2&amp;editp=t&amp;id=Z50#Z50"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-07 09:51Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>n-columns</I
+> and <I
+>n-rows</I
+> specify the number of columns or rows in the item list. The default for both is <A NAME="_4032"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, which causes CLIM to pick an aesthetically pleasing layout, possibly constrained by the other options. If both <I
+>n-columns</I
+> and <I
+>n-rows</I
+> are supplied and the item list contains more elements than will fit according to the specification, CLIM will format the item list as if <I
+>n-rows</I
+> were supplied as <A NAME="_4033"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E54AF1F97056C7DACD556095EFB6115%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>max-width</I
+> and <I
+>max-height</I
+> constrain the layout of the item list. CLIM will not make the item list any wider than <I
+>max-width</I
+>, unless it is overridden by <I
+>n-rows</I
+>. It will not make the item list any taller than <I
+>max-height</I
+>, unless it is overridden by <I
+>n-columns</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79B5B85A41D8D31ECE91A224067CCB94%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z48"
+></A
+>What happens if the max-width and max-height constraints cannot be met? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=79B5B85A41D8D31ECE91A224067CCB94%2Fformatting-item-list%2F17.2&amp;editp=t&amp;id=Z48#Z48"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-07 08:33Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><B CLASS="cl"
+>formatting-item-list</B
+> normally spaces items across the entire width of the stream. When <I
+>initial-spacing</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, it inserts some whitespace (about half as much space as is between each item) before the first item on each line. When it is <SPAN CLASS="term"
+>false</SPAN
+> (the default), the initial whitespace is not inserted. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=868B31EB9F25A23156AD2A3F3F25FADB%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> specifies the class of output record to create. The default is <A NAME="_4037"></A><A HREF="17-3.html#_972"
+><B CLASS="cl"
+>standard-item-list-output-record</B
+></A
+>. This argument should only be supplied by a programmer if there is a new class of output record that supports the item list formatting protocol. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=11D43EFFAA83983B1C7873C9C8F45541%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EDB497512D3D50B7E8987FB0F0D485D%2Fformatting-item-list%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z51"
+></A
+>What is stream-width and stream-height? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4EDB497512D3D50B7E8987FB0F0D485D%2Fformatting-item-list%2F17.2&amp;editp=t&amp;id=Z51#Z51"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-07 09:55Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7423"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="28-4.html#_6417"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>display-command-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-3.html#_5997"
+><SPAN CLASS="reverselink"
+>[&larr; 27.3 Command Menus, <B CLASS="cl"
+><B CLASS="cl"
+>display-command-table-menu</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="25.html#_5645"
+><SPAN CLASS="reverselink"
+>[&larr; 25 Menu Facilities, <B CLASS="cl"
+><B CLASS="cl"
+>frame-manager-menu-choose</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4040"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>format-items</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="17-2.html#_4009"
+><SPAN CLASS="reverselink"
+>[&larr; 17.2 Table Formatting Functions, <B CLASS="cl"
+><B CLASS="cl"
+>formatting-cell</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_927"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>format-items</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>items </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>stream printer presentation-type  x-spacing y-spacing  n-columns n-rows  max-width max-height  cell-align-x cell-align-y  initial-spacing (row-wise </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>)  (move-cursor </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>) record-type</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is a function interface to the item list formatter. The elements of the sequence <I
+>items</I
+> are formatted as separate cells within the item list. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=028778AB46DEFEE8E60AFB57C7CBFE0E%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. It defaults to <B CLASS="cl"
+>*standard-output*</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7F2FC2FAFDC6B475D8FDC578025D6750%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>printer</I
+> must be a function that takes two arguments, an item and a stream, and outputs the item on the stream. <I
+>printer</I
+> has dynamic extent. The default for <I
+>printer</I
+> is <B CLASS="cl"
+>prin1</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5370059EBEBBDB8FF8801806323E9286%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>presentation-type</I
+> is a presentation-type. When <I
+>printer</I
+> is not supplied, the items will be printed as if <I
+>printer</I
+> were  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6BD3EB81EF658D394EAA4B5D946F64C2%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;#'(lambda (item stream)&#10;    (present item presentation-type :stream stream))&#10;</PRE
+><P
+> When <I
+>printer</I
+> is supplied, each item will be enclosed in a presentation whose type is <I
+>presentation-type</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7BF311082CAF097FA7711399F1D17E2B%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>x-spacing</I
+>, <I
+>y-spacing</I
+>, <I
+>n-columns</I
+>, <I
+>n-rows</I
+>, <I
+>max-width</I
+>, <I
+>max-height</I
+>, <I
+>initial-spacing</I
+>, <I
+>row-wise</I
+>, and <I
+>move-cursor</I
+> are as for <A NAME="_4040"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5C01B4F34D4F1321A6DCA133022D8054%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>cell-align-x</I
+> and <I
+>cell-align-y</I
+> are used to supply <A NAME="_4041"></A><A HREF="30-3.html#_1748"
+><B CLASS="cl"
+>:align-x</B
+></A
+> and <A NAME="_4042"></A><A HREF="30-3.html#_1749"
+><B CLASS="cl"
+>:align-y</B
+></A
+> to an implicitly used <A NAME="_4043"></A><A HREF="17-2.html#_925"
+><B CLASS="cl"
+>formatting-cell</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1D85FF459E07E2A8026652A9C169A910%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>record-type</I
+> is as for <A NAME="_4044"></A><A HREF="17-2.html#_926"
+><B CLASS="cl"
+>formatting-item-list</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=AF1637EFBE0A2D3F8011A899C2891B63%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=39D9CDFB541312CF43314913A34C3AC8%2Fformat-items%2F17.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7424"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/17-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

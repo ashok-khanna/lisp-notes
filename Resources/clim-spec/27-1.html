@@ -1,0 +1,792 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 27.1 Commands</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="27.2 Command Tables" HREF="27-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="27 Command Processing" HREF="27.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="27.html"
+>Prev</A
+><BR
+><A HREF="27-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VII.html"
+>Part&nbsp;VII:&nbsp;Building&nbsp;Applications</A
+> &rarr;&nbsp;<A HREF="27.html"
+>27&nbsp;Command&nbsp;Processing</A
+><BR
+>&rarr;&nbsp;<A HREF="27-1.html"
+><B
+>27.1&nbsp;Commands</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1373"></A><DIV
+><H3
+>27.1 Commands</H3
+><DIV
+><P
+>A <A NAME="_1374"></A><SPAN CLASS="concept"
+>command</SPAN
+> is an object that represents a user interaction. Commands are stored as a cons of the command name and a list of the command's arguments. All positional arguments will be represented in the command object, but only those keywords arguments that were explicitly supplied by the user will be included. When the first element of the cons is <B CLASS="cl"
+>apply</B
+>'ed to the rest of the cons, the code representing that interaction is executed. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=121BC8D39BD38E2446E00D0F9D4F1286%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_6892"
+><SPAN CLASS="reverselink"
+>[command, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>A <A NAME="_1375"></A><SPAN CLASS="concept"
+>partial command</SPAN
+> is a command object with the value of <A NAME="_5760"></A><A HREF="27-6.html#_1448"
+><B CLASS="cl"
+>*unsupplied-argument-marker*</B
+></A
+> in place of any argument that needs to be filled in. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3E6072F421995E642A743C8A57E22F68%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Every command is named by <A NAME="_1376"></A><SPAN CLASS="concept"
+>command name</SPAN
+>, which is a symbol. To avoid collisions among command names, application frames should reside in their own package; for example, the <B CLASS="cl"
+>com-show-chart</B
+> command might be defined for both a spreadsheet and a medical application. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=92ACD8F562A6A227DCDE82727CC01EB6%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1377"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-name</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a command object <I
+>command</I
+>, returns the command name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9ACE589879434A57E63C5734C17D08A0%2Fcommand-name%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=362CC320B3238AFDAE8B8739B080700A%2Fcommand-name%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="27-6.html#_1454"
+><SPAN CLASS="forwardlink"
+>[&rarr; command-name, <I
+>Presentation&nbsp;Type</I
+>]</SPAN
+></A
+><BR
+></DIV
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6398"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>execute-frame-command</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="27-6.html#_6090"
+><SPAN CLASS="reverselink"
+>[&larr; 27.6.1 Command Presentation Types, <B CLASS="cl"
+><B CLASS="cl"
+>command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1378"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>command-arguments</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given a command object <I
+>command</I
+>, returns the command's arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=162019922666F51F1C43717EE78E2CBB%2Fcommand-arguments%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9772287B73D74EAE967426D484ED8E96%2Fcommand-arguments%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="28-4.html#_6399"
+><SPAN CLASS="reverselink"
+>[&larr; 28.4 The Generic Command Loop, <B CLASS="cl"
+><B CLASS="cl"
+>execute-frame-command</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1379"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>partial-command-p</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>command</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if the <I
+>command</I
+> is a partial command, that is, has any occurrences of <A NAME="_5763"></A><A HREF="27-6.html#_1448"
+><B CLASS="cl"
+>*unsupplied-argument-marker*</B
+></A
+> in it. Otherwise, <B CLASS="cl"
+>partial-command-p</B
+> returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C83753C140C489B07F079D1C92134048%2Fpartial-command-p%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=270F5A2D71850E29E991037B9C1C6A27%2Fpartial-command-p%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1380"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-command</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>name-and-options arguments </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>This is the most basic command-defining form. Usually, the programmer will not use <B CLASS="cl"
+>define-command</B
+> directly, but will instead use a <B CLASS="cl"
+>define-</B
+><B CLASS="cl"
+><I
+>frame</I
+></B
+><B CLASS="cl"
+>-command</B
+>  form that is automatically generated by <A NAME="_5770"></A><A HREF="28-2.html#_1480"
+><B CLASS="cl"
+>define-application-frame</B
+></A
+>. <B CLASS="cl"
+>define-</B
+><B CLASS="cl"
+><I
+>frame</I
+></B
+><B CLASS="cl"
+>-command</B
+>  adds the command to the application frame's command table. By default, <B CLASS="cl"
+>define-command</B
+> does not add the command to any command table. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B1780AC63D0500F1B4F4C71D5F5C3D9E%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>name-and-options</I
+> is either a command name, or a cons of the command name and a list of keyword-value pairs. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CAD6A6461FBF675C4594A548B1AF28DA%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>define-command</B
+> defines two functions. The first function has the same name as the command name, and implements the body of the command. It takes as arguments the arguments to the command as specified by the <B CLASS="cl"
+>define-command</B
+> form, as required and keyword arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0912151288078B1760EDC28140F35CF3%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The name of the other function defined by <B CLASS="cl"
+>define-command</B
+> is unspecified. It implements the code used by the command processor for parsing and returning the command's arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A9613F837DBAC8B7F2C7F76BFF81C7FF%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The keywords from <I
+>name-and-options</I
+> can be: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=33055B116A45CCB91B2E5F71DE39E44F%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><A NAME="_5778"></A><A HREF="28-2.html#_1472"
+><B CLASS="cl"
+>:command-table</B
+></A
+> <I
+>command-table-name</I
+>, where <I
+>command-table-name</I
+> either names a command table to which the command will be added, or is <A NAME="_5779"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (the default) to indicate that the command should not be added to any command table. If the command table does not exist, the <A NAME="_5780"></A><A HREF="27-2.html#_1395"
+><B CLASS="cl"
+>command-table-not-found</B
+></A
+> error will be signalled. This keyword is only accepted by <B CLASS="cl"
+>define-command</B
+>, not by <B CLASS="cl"
+>define-</B
+><B CLASS="cl"
+><I
+>frame</I
+></B
+><B CLASS="cl"
+>-command</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=47E01242DA10E5A969812CDF8DBC19AE%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><A NAME="_5785"></A><A HREF="29-2.html#_1595"
+><B CLASS="cl"
+>:name</B
+></A
+> <I
+>string</I
+>, where <I
+>string</I
+> is a string that will be used as the command-line name for the command for keyboard interactions in the command table specified by the <A NAME="_5786"></A><A HREF="28-2.html#_1472"
+><B CLASS="cl"
+>:command-table</B
+></A
+> option. The default is <A NAME="_5787"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that the command will not be available via command-line interactions. If <I
+>string</I
+> is <A NAME="_5788"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, then the command-line name will be generated automatically, as described in <A NAME="_5789"></A><A HREF="27-2.html#_1400"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D900D6592F2288F9BF7B164EF4CF3EDE%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:menu</B
+> <I
+>menu-spec</I
+>, where <I
+>menu-spec</I
+> describes an item in the menu of the command table specified by the <A NAME="_5791"></A><A HREF="28-2.html#_1472"
+><B CLASS="cl"
+>:command-table</B
+></A
+> option. The default is <A NAME="_5792"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that the command will not be available via menu interactions. If <I
+>menu-spec</I
+> is a string, then that string will be used as the menu name. If <I
+>menu-spec</I
+> is <A NAME="_5793"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, then if a command-line name was supplied, it will be used as the menu name; otherwise the menu name will be generated automatically, as described in <A NAME="_5794"></A><A HREF="27-2.html#_1400"
+><B CLASS="cl"
+>add-command-to-command-table</B
+></A
+>. Otherwise, <I
+>menu-spec</I
+> must be a cons of the form <B CLASS="cl"
+>(</B
+><A NAME="_5796"></A><A HREF="23-8.html#_1271"
+><B CLASS="cl"
+><I
+>string</I
+></B
+></A
+><B CLASS="cl"
+> . </B
+><B CLASS="cl"
+><I
+>menu-options</I
+></B
+><B CLASS="cl"
+>)</B
+>, where <I
+>string</I
+> is the menu name and <I
+>menu-options</I
+> consists of keyword-value pairs. The valid keywords are <B CLASS="cl"
+>:after</B
+>, <B CLASS="cl"
+>:documentation</B
+>, and <A NAME="_5802"></A><A HREF="29-2.html#_1594"
+><B CLASS="cl"
+>:text-style</B
+></A
+>, which are interpreted as for <A NAME="_5803"></A><A HREF="27-3.html#_1414"
+><B CLASS="cl"
+>add-menu-item-to-command-table</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4571867BA43DDBC171710C6350EB23E9%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:keystroke</B
+> <I
+>gesture</I
+>, where <I
+>gesture</I
+> is a keyboard gesture name that specifies a keystroke accelerator to use for this command in the command table specified by the <A NAME="_5805"></A><A HREF="28-2.html#_1472"
+><B CLASS="cl"
+>:command-table</B
+></A
+> option. The default is <A NAME="_5806"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning that there is no keystroke accelerator.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8349E51698DC9C954BE2E14D6AB9C11%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z278"
+></A
+>Shouldn't there be a link to the page that defines what a gesture definition should look like? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A8349E51698DC9C954BE2E14D6AB9C11%2Fdefine-command%2F27.1&amp;editp=t&amp;id=Z278#Z278"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Elias M&#229;rtenson 2016-11-09 10:52Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></LI
+></UL
+><P
+>The <A NAME="_5807"></A><A HREF="29-2.html#_1595"
+><B CLASS="cl"
+>:name</B
+></A
+>, <B CLASS="cl"
+>:menu</B
+>, and <B CLASS="cl"
+>:keystroke</B
+> options are only allowed if the <A NAME="_5810"></A><A HREF="28-2.html#_1472"
+><B CLASS="cl"
+>:command-table</B
+></A
+> option was supplied explicitly or implicitly, as in <B CLASS="cl"
+>define-</B
+><B CLASS="cl"
+><I
+>frame</I
+></B
+><B CLASS="cl"
+>-command</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F4FFD390AEFBBDF5BF44E883DCA4B0A2%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>arguments</I
+> is a list consisting of argument descriptions. A single occurrence of the symbol <B CLASS="cl"
+><TT
+>&amp;key </TT
+></B
+> may appear in <I
+>arguments</I
+> to separate required command arguments from keyword arguments. Each argument description consists of a parameter variable, followed by a presentation type specifier, followed by keyword-value pairs. The keywords can be: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2C32B051B31C82EC7931E70E48FB129A%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:default</B
+> <I
+>value</I
+>, where <I
+>value</I
+> is the default that should be used for the argument, as for <A NAME="_5816"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6644498632A795426FAFA361605E15C4%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:default-type</B
+> is the same as for <A NAME="_5818"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E6B3F4510FF66DB2E5040C8F23153D4B%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:display-default</B
+> is the same as for <A NAME="_5820"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2DB74413F15680125B30360E96B9A469%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:mentioned-default</B
+> <I
+>value</I
+>, where <I
+>value</I
+> is the default that should be used for the argument when a keyword is explicitly supplied via the command-line processor, but no value is supplied for it. <B CLASS="cl"
+>:mentioned-default</B
+> is only allowed on keyword arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7257D60D7BE66B91DF6797C482AB529D%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:prompt</B
+> <I
+>string</I
+>, where <I
+>string</I
+> is a prompt to print out during command-line parsing, as for <A NAME="_5824"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BC737450DCC4731107472A55263D663%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:documentation</B
+> <I
+>string</I
+>, where <I
+>string</I
+> is a documentation string that describes what the argument is. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9F8168B462838974F427C769EE23A750%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:when</B
+> <I
+>form</I
+>. <I
+>form</I
+> is evaluated in a scope where the parameter variables for the required parameters are bound, and if the result is <A NAME="_5827"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, the keyword argument is not available. <B CLASS="cl"
+>:when</B
+> is only allowed on keyword arguments, and <I
+>form</I
+> cannot use the values of other keyword arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BEAD591212A94DEA612E23FF89DF7BA0%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:gesture</B
+> <I
+>gesture</I
+>, where <I
+>gesture</I
+> is either a pointer gesture name or a list of a pointer gesture name followed by keyword-value pairs. When a gesture is supplied, a presentation translator will be defined that translates from this argument's presentation type to an instance of this command with the selected object as the argument; the other arguments will be filled in with their default values. The keyword-value pairs are used as options for the translator. Valid keywords are <B CLASS="cl"
+>:tester</B
+>, <B CLASS="cl"
+>:menu</B
+>, <B CLASS="cl"
+>:priority</B
+>, <B CLASS="cl"
+>:echo</B
+>, <B CLASS="cl"
+>:documentation</B
+>, and <B CLASS="cl"
+>:pointer-documentation</B
+>. The default for <I
+>gesture</I
+> is <A NAME="_5836"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning no translator will be written. <B CLASS="cl"
+>:gesture</B
+> is only allowed when the <A NAME="_5838"></A><A HREF="28-2.html#_1472"
+><B CLASS="cl"
+>:command-table</B
+></A
+> option was supplied to the command-defining form.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=621A6467D4EA467017933F7D6EB6A2ED%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><I
+>body</I
+> implements the body of the command. It has lexical access to all of the commands arguments. If the body of the command needs access to the application frame itself, it should use <A NAME="_5839"></A><A HREF="28-2.html#_1482"
+><B CLASS="cl"
+>*application-frame*</B
+></A
+>. The returned values of body are ignored. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=28B188BC1E91328BB04CBF7606E85FC7%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>define-command</B
+> must arrange for the function that implements the body of the command to get the proper values for unsupplied keyword arguments. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=70A237452EE5C52EE1C8ABC1E628C56E%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>name-and-options</I
+> and <I
+>body</I
+> are not evaluated. In the argument descriptions, the parameter variable name is not evaluated, and everything else is evaluated at run-time when argument parsing reaches that argument, except that the value for <B CLASS="cl"
+>:when</B
+> is evaluated when parsing reaches the keyword arguments, and <B CLASS="cl"
+>:gesture</B
+> isn't evaluated at all. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=26C411ECB89E60E3F9B7978C24C6DC4A%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z136"
+></A
+><P
+>This paragraph seems insane to me.  Are variables in the key positions allowed?  If so, then the potential for confusion is high: already</P
+><P
+>(define-command com-foo ((x *type*)) ...) </P
+><P
+>seems to have little utility, but</P
+><P
+>(define-command com-foo ((x *type* *arg1* *arg2*)) ...) </P
+><P
+>seems just mad.  Furthermore, what if *arg1* evalutes to :gesture?</P
+><P
+>I think if I were rewriting this paragraph I would specify that the keywords had to be macroexpand-time constants, while those values needing evaluation would be dealt with as in defclass (with its initform / initfunction handling).</P
+> <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=26C411ECB89E60E3F9B7978C24C6DC4A%2Fdefine-command%2F27.1&amp;editp=t&amp;id=Z136#Z136"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Christophe Rhodes 2006-04-25 16:58Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=91628200F539200A8F48BEE9AB52AE16%2Fdefine-command%2F27.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/27-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:42 GMT -->
+</HTML
+>

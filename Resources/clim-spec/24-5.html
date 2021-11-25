@@ -1,0 +1,1346 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 24.5 Completion</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="24.4 Reading and Writing of Tokens" HREF="24-4.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="25 Menu Facilities" HREF="25.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="24 Input Editing and Completion Facilities" HREF="24.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="24-4.html"
+>Prev</A
+><BR
+><A HREF="25.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-VI.html"
+>Part&nbsp;VI:&nbsp;Extended&nbsp;Stream&nbsp;Input&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="24.html"
+>24&nbsp;Input&nbsp;Editing&nbsp;and&nbsp;Completion&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="24-5.html"
+><B
+>24.5&nbsp;Completion</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1341"></A><DIV
+><H3
+>24.5 Completion</H3
+><P
+>CLIM provides a <A NAME="_1342"></A><SPAN CLASS="concept"
+>completion</SPAN
+> facility that completes a string provided by a user against some set of possible completions (which are themselves strings). Each completion is associated with some Lisp object. CLIM implementations are encouraged to provide "chunkwise" completion, that is, if the user input consists of several tokens separated by "partial delimiters", CLIM should complete each token separately against the set of possibilities. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D579422BD0B5BF7EF4DF6D0A84270BB9%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1343"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*completion-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A list of the gesture names that cause <A NAME="_5505"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+> to complete the user's input as fully as possible. The exact global contents of this list is unspecified, but must include the <B CLASS="cl"
+>:complete</B
+> gesture name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B5F36F9085C7E999FF73B42A3308701%2F%2Acompletion-gestures%2A%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89C8963605292225337F615BBFA9549F%2F%2Acompletion-gestures%2A%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z146"
+></A
+>Why no `completion-gesture-p' like we have for activation and delimiter gestures? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=89C8963605292225337F615BBFA9549F%2F%2Acompletion-gestures%2A%2F24.5&amp;editp=t&amp;id=Z146#Z146"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Troels "Athas" Henriksen 2006-10-26 18:57Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7501"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5518"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1344"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*help-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A list of the gesture names that cause <A NAME="_5507"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> and <A NAME="_5508"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+> to display a (possibly input context-sensitive) help message, and for some presentation types a list of possibilities as well. The exact global contents of this list is unspecified, but must include the <B CLASS="cl"
+>:help</B
+> gesture name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=251475D5734834C217D5D41029869991%2F%2Ahelp-gestures%2A%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05E622891BB553C83D375B5A54403C41%2F%2Ahelp-gestures%2A%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7502"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5522"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1345"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>*possibilities-gestures*</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Variable]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>A list of the gesture names that cause <A NAME="_5510"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+> to display a (possibly input context-sensitive) help message and a list of possibilities. The exact global contents of this list is unspecified, but must include the <B CLASS="cl"
+>:possibilities</B
+> gesture name. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E8B99475DFA79DB45B2468B44D9EFBE6%2F%2Apossibilities-gestures%2A%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F172F13C564AC0D536D56B00EB04D515%2F%2Apossibilities-gestures%2A%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7503"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5521"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1346"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>complete-input</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream function  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>partial-completers allow-any-input  possibility-printer (help-displays-possibilities t)</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads input from the user from the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>, completing over a set of possibilities. <B CLASS="cl"
+>complete-input</B
+> is only required to work on input editing streams, but implementations may extend it to work on interactive streams as well. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A261D07F0F9EDAA2BA6B371A2BA73BB%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>function</I
+> is a function of two arguments. It is called to generate the completion possibilities that match the user's input; it has dynamic extent. Usually, programmers will pass either <A NAME="_5514"></A><A HREF="24-5.html#_1351"
+><B CLASS="cl"
+>complete-from-possibilities</B
+></A
+> or <A NAME="_5515"></A><A HREF="24-5.html#_1350"
+><B CLASS="cl"
+>complete-from-generator</B
+></A
+> as the value of <I
+>function</I
+>. Its first argument is a string containing the user's input "so far". Its second argument is the completion mode, one of the following: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5277B0362892C144F5DE10862A170D4%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z95"
+></A
+>Of course, complete-from-possiblities and complete-from-generator take &#10;more than two arguments, so they can't be passed as the value of function. &#10;One will need to construct a closure with two arguments that contains a call&#10;to one of these functions.&#10; <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E5277B0362892C144F5DE10862A170D4%2Fcomplete-input%2F24.5&amp;editp=t&amp;id=Z95#Z95"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Robert Strandh 2005-04-30 13:50Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:complete-limited</B
+>---the function must complete the input up to the next partial delimiter. This is the mode used when the user types one of the partial completers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD05C161C8BE4583448C4F9EA8FBCDF7%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:complete-maximal</B
+>---the function must complete the input as much as possible. This is the mode used when the user issues a gesture that matches any of the gesture names in <A NAME="_5518"></A><A HREF="24-5.html#_1343"
+><B CLASS="cl"
+>*completion-gestures*</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B60F19ED37BB32EA0BD204AE8961B46C%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:complete</B
+>---the function must complete the input as much as possible, except that if the user's input exactly matches one of the possibilities, even if it is a left substring of another possibility, the shorter possibility is returned as the result. This is the mode used when the user issues a delimiter or activation gesture that is not a partial completer. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=68D0E40387072EC627DD7A77FBF6D64B%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:possibilities</B
+>---the function must return an alist of the possible completions as its fifth value. This is the mode used when the user a gesture that matches any of the gesture names in <A NAME="_5521"></A><A HREF="24-5.html#_1345"
+><B CLASS="cl"
+>*possibilities-gestures*</B
+></A
+> or <A NAME="_5522"></A><A HREF="24-5.html#_1344"
+><B CLASS="cl"
+>*help-gestures*</B
+></A
+> (if <I
+>help-displays-possibilities</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>).  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D4261245AB87A153776FAACF99C3C9FB%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><I
+>function</I
+> must return five values: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FC7FD9EA5E160C2CA2822518BB185CC6%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><I
+>string</I
+>---the completed input string. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E9EF7A9FDC25AED77BDAC4FEE48F46AF%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>success</I
+>---<SPAN CLASS="term"
+>true</SPAN
+> if completion was successful, otherwise <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0ADC82279C3DE4CB24B01F9A491433E3%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>object</I
+>---the object corresponding to the completion, or <A NAME="_5526"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if the completion was unsuccessful. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=12D2A4F8862C0040E5CAD819999EB624%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>nmatches</I
+>---the number of possible completions of the input. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=13DEC695C5C2A65D28A2EBB038A69C57%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><I
+>possibilities</I
+>---an alist of completions whose entries are a list of a string and an object, returned only when the completion mode is <B CLASS="cl"
+>:possibilities</B
+>. This list will be freshly created.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B29D2F7B96A568F4290DBABB8AC75D10%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><B CLASS="cl"
+>complete-input</B
+> returns three values: <I
+>object</I
+>, <I
+>success</I
+>, and <I
+>string</I
+>. In addition, the printed representation of the completed input will be inserted into the input buffer of <I
+>stream</I
+> in place of the user-supplied string by calling <A NAME="_5529"></A><A HREF="24-4.html#_1337"
+><B CLASS="cl"
+>replace-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8A00B53EA1D53D1C0AD2A924B144AA1C%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>partial-completers</I
+> is a list of characters that delimit portions of a name that can be completed separately. The default is an empty list. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=51B07AED768817CD9295685B96B6A335%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>allow-any-input</I
+> is <SPAN CLASS="term"
+>true</SPAN
+>, then <B CLASS="cl"
+>complete-input</B
+> will return as soon as the user issues an activation gesture, even if the input is not any of the possibilities. If the input is not one of the possibilities, the three values returned by <B CLASS="cl"
+>complete-input</B
+> will be <A NAME="_5533"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, <A NAME="_5534"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+>, and the string. The default for <I
+>allow-any-input</I
+> is <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=27A93F9BA519970A393B6920FDCD323A%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>possibility-printer</I
+> is supplied, it must be a function of three arguments, a possibility, a presentation type, and a stream; it has dynamic extent. The function displays the possibility on the stream. The possibility will be a list of two elements, the first being a string and the second being the object corresponding to the string. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=3392876848EDC6FB66EB5290D3E6A9EE%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If <I
+>help-display-possibilities</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), then when the user issues a help gesture (a gesture that matches one of the gesture names in <A NAME="_5537"></A><A HREF="24-5.html#_1344"
+><B CLASS="cl"
+>*help-gestures*</B
+></A
+>), CLIM will display all the matching possibilities. If it is <SPAN CLASS="term"
+>false</SPAN
+>, then CLIM will not display the possibilities unless the user issues a possibility gesture (a gesture that matches one of the gesture names in <A NAME="_5539"></A><A HREF="24-5.html#_1345"
+><B CLASS="cl"
+>*possibilities-gestures*</B
+></A
+>). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=38E588FB1BD1834BEC8A142FE799262A%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CA74A69F8D721EADFE92095D1FE6286A%2Fcomplete-input%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5942"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5571"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-from-possibilities</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5556"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-from-generator</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5547"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>completing-from-suggestions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5540"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>simple-completion-error</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5510"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>*possibilities-gestures*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5508"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>*help-gestures*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5505"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>*completion-gestures*</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="22-3.html#_4463"
+><SPAN CLASS="reverselink"
+>[&larr; 22.3 Gestures and Gesture Names]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1347"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>simple-completion-error</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Condition]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The error that is signalled by <A NAME="_5540"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+> when no completion is found. This is a subclass of <A NAME="_5541"></A><A HREF="24-3.html#_1333"
+><B CLASS="cl"
+>simple-parse-error</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6222B8E4C4F9345F6F44C9AA309F30C6%2Fsimple-completion-error%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B2D691F3F62AFA16A34CDF810B04392D%2Fsimple-completion-error%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1348"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>completing-from-suggestions</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(stream  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>partial-completers allow-any-input  possibility-printer  (help-displays-possibilities </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>))  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Reads input from the <SPAN CLASS="term"
+>input editing stream</SPAN
+> <I
+>stream</I
+>, completing over a set of possibilities generated by calls to <A NAME="_5543"></A><A HREF="24-5.html#_1349"
+><B CLASS="cl"
+>suggest</B
+></A
+> within <I
+>body</I
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0893A98F368A930785AAFF5C000D5A2%2Fcompleting-from-suggestions%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>completing-from-suggestions</B
+> returns three values, <I
+>object</I
+>, <I
+>success</I
+>, and <I
+>string</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=626DE7C149840C1A8D8814D92C9C1034%2Fcompleting-from-suggestions%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_5545"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-input*</B
+> is used. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9C07CAE6FF755053F5C05A02AB601EF0%2Fcompleting-from-suggestions%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>partial-completers</I
+>, <I
+>allow-any-input</I
+>, and <I
+>possibility-printer</I
+> are as for <A NAME="_5547"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=093138F58F6D3888B2C7DCB75D198D7B%2Fcompleting-from-suggestions%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>Implementations will probably use <A NAME="_5548"></A><A HREF="24-5.html#_1350"
+><B CLASS="cl"
+>complete-from-generator</B
+></A
+> to implement this. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E22924EE4912A7D0EC4118CDA36D2DB5%2Fcompleting-from-suggestions%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D31A7D823898CC355633029127421BBE%2Fcompleting-from-suggestions%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-5.html#_5549"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>suggest</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1349"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>suggest</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>completion object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Specifies one possibility for <A NAME="_5549"></A><A HREF="24-5.html#_1348"
+><B CLASS="cl"
+>completing-from-suggestions</B
+></A
+>. <I
+>completion</I
+> is a string, the printed representation of <I
+>object</I
+>. <I
+>object</I
+> is the internal representation. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5BF7F6ADEC7D0C54C82191E175183EFB%2Fsuggest%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is permitted for this function to have lexical scope, and be defined only within the body of <A NAME="_5550"></A><A HREF="24-5.html#_1348"
+><B CLASS="cl"
+>completing-from-suggestions</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B16FB466DF23F66284E65CC4D9EB31C%2Fsuggest%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6E6712A752F8DD44F7FCD5284F74AD12%2Fsuggest%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-5.html#_5543"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>completing-from-suggestions</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1350"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>complete-from-generator</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>string function delimiters  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(action </I
+><I
+><B CLASS="cl"
+>:complete</B
+></I
+><I
+>) predicate</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Given an input string <I
+>string</I
+> and a list of delimiter characters <I
+>delimiters</I
+> that act as partial completion characters, <B CLASS="cl"
+>complete-from-generator</B
+> completes against the possibilities that are generated by the function <I
+>generator</I
+>. <I
+>generator</I
+> is a function of two arguments, the string <I
+>string</I
+> and another function that it calls in order to process the possibility; it has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9AE6C56458824D98A73A84532EC246EF%2Fcomplete-from-generator%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>action</I
+> will be one of <B CLASS="cl"
+>:complete</B
+>, <B CLASS="cl"
+>:complete-maximal</B
+>, <B CLASS="cl"
+>:complete-limited</B
+>, or <B CLASS="cl"
+>:possibilities</B
+>. These are described under the function <A NAME="_5556"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=08344DCE151D7D46D1552D153DDA6E1A%2Fcomplete-from-generator%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>predicate</I
+> must be a function of one argument, an object. If the predicate returns <SPAN CLASS="term"
+>true</SPAN
+>, the possibility corresponding to the object is processed, otherwise it is not. It has dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0F303217E7983BB52A981B1673084AAE%2Fcomplete-from-generator%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>complete-from-generator</B
+> returns five values, the completed input string, the success value (<SPAN CLASS="term"
+>true</SPAN
+> if the completion was successful, otherwise <SPAN CLASS="term"
+>false</SPAN
+>), the object matching the completion (or <A NAME="_5561"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if unsuccessful), the number of matches, and a list of possible completions if <I
+>action</I
+> was <B CLASS="cl"
+>:possibilities</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=50E5CC853E99A000C6A8D780F8A8F3C0%2Fcomplete-from-generator%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is one that will typically be passed as the second argument to <A NAME="_5563"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BC2A72202725F4280BBD6E209F26B85%2Fcomplete-from-generator%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8733C445A546EE9A5BA8C69DE0219909%2Fcomplete-from-generator%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="24-5.html#_5548"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>completing-from-suggestions</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5515"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1351"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>complete-from-possibilities</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>string completions delimiters  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>(action </I
+><I
+><B CLASS="cl"
+>:complete</B
+></I
+><I
+>) predicate  name-key value-key</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+> Given an input string <I
+>string</I
+> and a list of delimiter characters <I
+>delimiters</I
+> that act as partial completion characters, <B CLASS="cl"
+>complete-from-possibilities</B
+> completes against the possibilities in the sequence <I
+>completions</I
+>. The completion string is extracted from the possibilities in completions by applying <I
+>name-key</I
+>, which is a function of one argument. The object is extracted by applying <I
+>value-key</I
+>, which is a function of one argument. <I
+>name-key</I
+> defaults to <B CLASS="cl"
+>first</B
+>, and <I
+>value-key</I
+> defaults to <B CLASS="cl"
+>second</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C854636E99FDAA7137BC08B0E5DBCEB5%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>action</I
+> will be one of <B CLASS="cl"
+>:complete</B
+>, <B CLASS="cl"
+>:complete-maximal</B
+>, <B CLASS="cl"
+>:complete-limited</B
+>, or <B CLASS="cl"
+>:possibilities</B
+>. These are described under the function <A NAME="_5571"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=08344DCE151D7D46D1552D153DDA6E1A%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>predicate</I
+> must be a function of one argument, an object. If the predicate returns <SPAN CLASS="term"
+>true</SPAN
+>, the possibility corresponding to the object is processed, otherwise it is not. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=60B3ACE38742E854BDAC0BA3AEA0C53C%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>predicate</I
+>, <I
+>name-key</I
+>, and <I
+>value-key</I
+> have dynamic extent. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B1C922CE33E2AF3836EB928721311E2%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B CLASS="cl"
+>complete-from-possibilities</B
+> returns five values, the completed input string, the success value (<SPAN CLASS="term"
+>true</SPAN
+> if the completion was successful, otherwise <SPAN CLASS="term"
+>false</SPAN
+>), the object matching the completion (or <A NAME="_5576"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> if unsuccessful), the number of matches, and a list of possible completions if <I
+>action</I
+> was <B CLASS="cl"
+>:possibilities</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2FB2B5A3F9B7F14BE514F39F6A31B7B1%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>This function is one that will typically be passed as the second argument to <A NAME="_5578"></A><A HREF="24-5.html#_1346"
+><B CLASS="cl"
+>complete-input</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BC2A72202725F4280BBD6E209F26B85%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=072C979283BF794FEE323AFE330D1FAC%2Fcomplete-from-possibilities%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="27-2.html#_5944"
+><SPAN CLASS="reverselink"
+>[&larr; 27.2 Command Tables, <B CLASS="cl"
+><B CLASS="cl"
+>command-table-complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+><A HREF="24-5.html#_5514"
+><SPAN CLASS="reverselink"
+>[&larr; 24.5 Completion, <B CLASS="cl"
+><B CLASS="cl"
+>complete-input</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1352"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>with-accept-help</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>options </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the dynamic environment to control the documentation produced by help and possibilities gestures during user input in calls to <A NAME="_5579"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> with the dynamic scope of <I
+>body</I
+>. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=A7321767E37A3F452B674D6A509DC3B0%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>options</I
+> is a list of option specifications. Each specification is itself a list of the form <I
+>(help-option help-string)</I
+>. <I
+>help-option</I
+> is either a symbol that is a <I
+>help-type</I
+> or a list of the form <I
+>(help-type mode-flag)</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4FAB2CD45F9277B2A26D41B8807BCEC2%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>help-type</I
+> must be one of: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=139117F124D5DE872975562921DE3CBC%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:top-level-help</B
+>---specifies that <I
+>help-string</I
+> be used instead of the default help documentation provided by <A NAME="_5581"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=19FDF33A2A26E001D1AA3F14225CEF96%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:subhelp</B
+>---specifies that <I
+>help-string</I
+> be used in addition to the default help documentation provided by <A NAME="_5583"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+>.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=244A33686ACE52BC03CF2F6C354CA104%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><I
+>mode-flag</I
+> must be one of: <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=CD5BF3E75C0A145A1774238D8480914D%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><UL
+><LI
+><B CLASS="cl"
+>:append</B
+>---specifies that the current help string be appended to any previous help strings of the same help type. This is the default mode. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C17B6D17AB79F0E38E2E42985B73D3D4%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:override</B
+>---specifies that the current help string is the help for this help type; no lower-level calls to <B CLASS="cl"
+>with-accept-help</B
+> can override this. (<B CLASS="cl"
+>:override</B
+> works from the out-side in.) <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FEFF950FDBF558E9DF1A8FB69FAD280E%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+><LI
+><B CLASS="cl"
+>:establish-unless-overridden</B
+>---specifies that the current help string be the help for this help type unless a higher-level call to <B CLASS="cl"
+>with-accept-help</B
+> has already established a help string for this help type in the <B CLASS="cl"
+>:override</B
+> mode. This is what <A NAME="_5591"></A><A HREF="23-5.html#_1202"
+><B CLASS="cl"
+>accept</B
+></A
+> uses to establish the default help.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8638EB1AA28347DD9566AF6933303F70%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></LI
+></UL
+><P
+><I
+>help-string</I
+> is a string or a function that returns a string. If it is a function, it receives three arguments, the stream, an action (either <B CLASS="cl"
+>:help</B
+> or <B CLASS="cl"
+>:possibilities</B
+>) and the help string generated so far. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=091946A3B1714FDBF4FC64B8B11D11E7%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>None of the arguments is evaluated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=76ED0411832BC3248FF623904D7C4C42%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=31341A6348D62346ABA6AC4FF55F3A5A%2Fwith-accept-help%2F24.5#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/24-5.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:53 GMT -->
+</HTML
+>

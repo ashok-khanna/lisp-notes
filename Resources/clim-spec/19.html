@@ -1,0 +1,343 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/19.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 19 Bordered Output</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="18.2 The Graph Formatting Protocols" HREF="18-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="20 Text Formatting" HREF="20.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="Part V: Extended Stream Output Facilities" HREF="P-V.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="18-2.html"
+>Prev</A
+><BR
+><A HREF="20.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+><BR
+>&rarr;&nbsp;<A HREF="19.html"
+><B
+>19&nbsp;Bordered&nbsp;Output</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_1004"></A><DIV
+><H2
+>19 Bordered Output</H2
+><P
+>CLIM provides a mechanism for surrounding arbitrary output with some kind of a border. The programmer annotates some output-generating code with an advisory macro that describes the type of border to be drawn. The following code produces the output shown in Figure&nbsp;<A NAME="_4172"></A><A HREF="19.html#_1005"
+>19.1</A
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B08BB2A99235D324152BAD9574947BDA%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For example, the following produces three pieces of output, surrounded by a rectangular, highlighted with a dropshadow, and underlined, respectively. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5E54F66B0CFF90F3E8C3ADD2C49157D2%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><PRE
+>&#10;(defun border-test (stream)&#10;  (fresh-line stream)&#10;  (surrounding-output-with-border (stream :shape :rectangle)&#10;    (format stream "This is some output with a rectangular border"))&#10;  (terpri stream) (terpri stream)&#10;  (surrounding-output-with-border (stream :shape :drop-shadow)&#10;    (format stream "This has a drop-shadow under it"))&#10;  (terpri stream) (terpri stream)&#10;  (surrounding-output-with-border (stream :shape :underline)&#10;    (format stream "And this output is underlined")))&#10;</PRE
+><DIV CLASS="figure"
+><CENTER
+><IMG SRC="border-example.png"
+></CENTER
+><BR
+><DIV CLASS="caption"
+>Figure 19.1:  Examples of bordered output.</DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1006"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>surrounding-output-with-border</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>(</I
+><I
+><TT
+>&amp;optional </TT
+></I
+><I
+>stream  </I
+><I
+><TT
+>&amp;rest </TT
+></I
+><I
+>drawing-options  </I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>shape (move-cursor </I
+><I
+><B CLASS="cl"
+>t</B
+></I
+><I
+>))  </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Binds the local environment in such a way the output of <I
+>body</I
+> will be surrounded by a border of the specified shape. Every implementation must support the shapes <B CLASS="cl"
+>:rectangle</B
+> (the default), <B CLASS="cl"
+>:oval</B
+>, <B CLASS="cl"
+>:drop-shadow</B
+>, and <B CLASS="cl"
+>:underline</B
+>. <B CLASS="cl"
+>:rectangle</B
+> draws a rectangle around the bounding rectangle of the output. <B CLASS="cl"
+>:oval</B
+> draws an oval around the bounding rectangle of the output. <B CLASS="cl"
+>:drop-shadow</B
+> draws a "drop shadow" around the lower right edge of the bounding rectangle of the output. <B CLASS="cl"
+>:underline</B
+> draws a thin line along the baseline of all of the text in the output, but does not draw anything underneath non-textual output. <I
+>drawing-options</I
+> is a list of drawing options that are passed to the function that draws the border. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0881FA28A2156EAEB6B6DBAC99B1089F%2Fsurrounding-output-with-border%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>If the boolean <I
+>move-cursor</I
+> is <SPAN CLASS="term"
+>true</SPAN
+> (the default), then the text cursor will be moved so that it immediately follows the lower right corner of the bordered output. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D38BE333D71EA14CEC4D6B96BB601BB7%2Fsurrounding-output-with-border%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>stream</I
+> is an output recording stream to which output will be done. The <I
+>stream</I
+> argument is not evaluated, and must be a symbol that is bound to a stream. If <I
+>stream</I
+> is <A NAME="_4182"></A><A HREF="23-8.html#_1253"
+><B CLASS="cl"
+>t</B
+></A
+> (the default), <B CLASS="cl"
+>*standard-output*</B
+> is used. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6AC0EAC3F8A843884ADFB67590361C15%2Fsurrounding-output-with-border%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>There are several strategies for implementing borders. One strategy is to create a "border output record" that contains the output records produced by the output of <I
+>body</I
+>, plus one or more output records that represent the border. Another strategy might be to arrange to call the border drawer at the approriate times without explicitly recording it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E092A9795D8B78D535E27A353E8D9CE0%2Fsurrounding-output-with-border%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=58E3CC13B7ADC679D279848C9FFE7619%2Fsurrounding-output-with-border%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_1007"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>define-border-type</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>shape arglist </I
+><I
+><TT
+>&amp;body </TT
+></I
+><I
+>body</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Macro]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Defines a new kind of border named <I
+>shape</I
+>. <I
+>arglist</I
+> must be a subset of the "canonical" arglist below (using <B CLASS="cl"
+>string-equal</B
+> to do the comparison): <BR
+> <I
+>(</I
+><I
+><TT
+>&amp;key </TT
+></I
+><I
+>stream record left top right bottom)</I
+> <BR
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E53F1051195A06574AF92F5AE3693F5F%2Fdefine-border-type%2F19#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z52"
+></A
+>I believe it should read "superset of the 'canonical' arglist". <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E53F1051195A06574AF92F5AE3693F5F%2Fdefine-border-type%2F19&amp;editp=t&amp;id=Z52#Z52"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2003-06-08 04:05Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+><I
+>arglist</I
+> may include other keyword arguments that serve as the drawing options. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=5DBD08EE6E40824FB83F7CFACFC6D354%2Fdefine-border-type%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>body</I
+> is the code that actually draws the border. It has lexical access to <B CLASS="cl"
+>stream</B
+>, <B CLASS="cl"
+>record</B
+>, <B CLASS="cl"
+>left</B
+>, <B CLASS="cl"
+>top</B
+>, <B CLASS="cl"
+>right</B
+>, and <B CLASS="cl"
+>bottom</B
+>, which are respectively, the stream being drawn on, the output record being surrounded, and the coordinates of the left, top, right, and bottom edges of the bounding rectangle of the record. <I
+>body</I
+> may have zero or more declarations as its first forms. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=72327BE8FC3914EAD9BB4502284D1895%2Fdefine-border-type%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1405239ECB31BA1E4DAF2903703B6E2C%2Fdefine-border-type%2F19#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/19.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:39 GMT -->
+</HTML
+>

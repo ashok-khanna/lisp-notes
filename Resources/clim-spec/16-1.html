@@ -1,0 +1,246 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/16-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 16.1 Overview of Output Recording</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="16 Output Recording" HREF="16.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="16.2 Output Records" HREF="16-2.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="16 Output Recording" HREF="16.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="16.html"
+>Prev</A
+><BR
+><A HREF="16-2.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="16.html"
+>16&nbsp;Output&nbsp;Recording</A
+><BR
+>&rarr;&nbsp;<A HREF="16-1.html"
+><B
+>16.1&nbsp;Overview&nbsp;of&nbsp;Output&nbsp;Recording</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_830"></A><DIV
+><H3
+>16.1 Overview of Output Recording</H3
+><P
+>CLIM provides a mechanism whereby output (textual and graphical) may be captured into an <A NAME="_831"></A><SPAN CLASS="concept"
+>output history</SPAN
+> for later replay on the same stream. This mechanism serves as the basis for many other tools, such as the formatted output and presentation mechanisms described elsewhere. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=07EA8E1E2BAB27C723FB6B4C6CFD41F9%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV
+><P
+>The output recording facility is layered on top of the graphics and text output protocols. It works by intercepting the operations in the graphics and text output protocols, and saving information about these operations in objects called <A NAME="_832"></A><SPAN CLASS="concept"
+>output records</SPAN
+>. In general, an output record is a kind of display list, that is, a collection of instructions for drawing something on a stream. Some output records may have <A NAME="_833"></A><SPAN CLASS="concept"
+>children</SPAN
+>, that is, a collection of inferior output records. Other output records, which are called <A NAME="_834"></A><SPAN CLASS="concept"
+>displayed output records</SPAN
+>, correspond directly to displayed information on the stream, and do not have children. If you think of output records being arranged in a tree, displayed output records are all of the leaf nodes in the tree, for example, displayed text and graphics records. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=48A2C8C8916553487F41C488FA9527EF%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><A HREF="A.html#_7004"
+><SPAN CLASS="reverselink"
+>[output records, <I
+>Concept</I
+>&larr; A Glossary]</SPAN
+></A
+><BR
+></P
+></DIV
+><P
+>Displayed output records must record the state of the supplied drawing options at the instant the output record is created, as follows. The ink supplied by the programmer must be captured without resolving indirect inks; this is so that a user can later change the default foreground and background ink of the medium and have that change affect the already-created output records during replay. The effect of the specified "user" transformation (composed with the medium transformation) must be captured; CLIM implementations are free to do this either by saving the transformation object or by saving the transformed values of all objects that are affected by the transformation. The user clipping region and line style must be captured in the output record as well. Subsequent replaying of the record under a new user transformation, clipping region, or line style will not affect the replayed output. CLIM implementation are permitted to capture the text style either fully merged against the medium's default, or not; in the former case, subsequent changes to the medium's default text style will not affect replaying the record, but in the latter case changing the default text style will affect replaying. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=521A14FA28492AE6865122FEA85AEC59%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>A CLIM stream that supports output recording has an output history object, which is a special kind of output record that supports some other operations. CLIM defines a standard set of output history implementations and a standard set of output record types. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E184F6156209757ECFB56CCD5B60ED22%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The output recording mechanism is defined so as to permit application specific or host window system specific implementations of the various recording protocols. CLIM implementations should provide several types of standard output records with different characteristics for search, storage, and retrieval. Two examples are "sequence" output records (which store elements in a sequence, and whose insertion and retrieval complexity is O(n)) and "tree" output records (which store elements in some sort of tree based on the location of the element, and whose insertion and retrieval complexity is O(log&nbsp;n)). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=8CF209C786B619CEFC1ECCC056961FDB%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Major issue: </B
+> <I
+>There is a proposal on the table to unify the sheet and output record protocols, not by unifying the class structure, but by making them implement the same generic functions where that makes sense. For instance, sheets and output records both have regions, transformations (that relate sheets to their parents), both support a repainting operation, and so forth.</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E16FFC759A097793D7A043E5629C3FB2%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>In particular, </I
+><I
+><A NAME="_3706"></A><A HREF="7-2.html#_249"
+><B CLASS="cl"
+>sheet-parent</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_3707"></A><A HREF="16-2.html#_851"
+><B CLASS="cl"
+>output-record-parent</B
+></A
+></I
+><I
+> are equivalent, as are </I
+><I
+><A NAME="_3708"></A><A HREF="7-2.html#_250"
+><B CLASS="cl"
+>sheet-children</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_3709"></A><A HREF="16-2.html#_859"
+><B CLASS="cl"
+>output-record-children</B
+></A
+></I
+><I
+>, </I
+><I
+><A NAME="_3710"></A><A HREF="7-2.html#_251"
+><B CLASS="cl"
+>sheet-adopt-child</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_3711"></A><A HREF="16-2.html#_860"
+><B CLASS="cl"
+>add-output-record</B
+></A
+></I
+><I
+>, </I
+><I
+><A NAME="_3712"></A><A HREF="7-2.html#_252"
+><B CLASS="cl"
+>sheet-disown-child</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_3713"></A><A HREF="16-2.html#_861"
+><B CLASS="cl"
+>delete-output-record</B
+></A
+></I
+><I
+>, and </I
+><I
+><A NAME="_3714"></A><A HREF="8-4.html#_430"
+><B CLASS="cl"
+>repaint-sheet</B
+></A
+></I
+><I
+> and </I
+><I
+><A NAME="_3715"></A><A HREF="16-2.html#_853"
+><B CLASS="cl"
+>replay-output-record</B
+></A
+></I
+><I
+>, and the mapping functions. </I
+><I
+><A NAME="_3716"></A><A HREF="16-2.html#_845"
+><B CLASS="cl"
+>output-record-position</B
+></A
+></I
+><I
+> and its </I
+><I
+><B CLASS="cl"
+>setf</B
+></I
+><I
+> function have sheet analogs. The sheet and output record notification functions are also equivalent.</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=C43F9F7030513EC5542F205A67BC9718%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><I
+>This simplifies the conceptual framework of CLIM, and could eventually simplify the implementation as well. Doing this work now opens the door for later unifications, such unifying the pane layout functionality with table formatting. ---&nbsp;York, SWM</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=EF31239687C012F43EB88E0763E16805%2F16.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/16-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>

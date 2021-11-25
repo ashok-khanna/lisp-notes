@@ -1,0 +1,1149 @@
+<HTML
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/15-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<HEAD
+><TITLE
+>CLIM 2 Specification &mdash; 15.3 The Text Cursor</TITLE
+><LINK REL="Stylesheet" TYPE="text/css" HREF="clim.css"
+></LINK
+><LINK REL="prev" TYPE="text/html" TITLE="15.2 Extended Output Streams" HREF="15-2.html"
+></LINK
+><LINK REL="next" TYPE="text/html" TITLE="15.4 Text Protocol" HREF="15-4.html"
+></LINK
+><LINK REL="up" TYPE="text/html" TITLE="15 Extended Stream Output" HREF="15.html"
+></LINK
+><LINK REL="start" TYPE="text/html" TITLE="Common Lisp Interface Manager   CLIM II Specification" HREF="index-2.html"
+></LINK
+><LINK REL="glossary" TYPE="text/html" TITLE="Glossary" HREF="A.html"
+></LINK
+><LINK REL="index" TYPE="text/html" TITLE="Index" HREF="theindex.html"
+></LINK
+><LINK REL="contents" TYPE="text/html" TITLE="Table of Contents" HREF="contents.html"
+></LINK
+></HEAD
+><BODY
+><DIV CLASS="navbar"
+><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
+><COLGROUP
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE"
+><A HREF="15-2.html"
+>Prev</A
+><BR
+><A HREF="15-4.html"
+>Next</A
+></TD
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><SPAN CLASS="upchain"
+> &nbsp;<A HREF="index-2.html"
+>CLIM&nbsp;2&nbsp;Specification</A
+> &rarr;&nbsp;<A HREF="P-V.html"
+>Part&nbsp;V:&nbsp;Extended&nbsp;Stream&nbsp;Output&nbsp;Facilities</A
+> &rarr;&nbsp;<A HREF="15.html"
+>15&nbsp;Extended&nbsp;Stream&nbsp;Output</A
+><BR
+>&rarr;&nbsp;<A HREF="15-3.html"
+><B
+>15.3&nbsp;The&nbsp;Text&nbsp;Cursor</B
+></A
+></SPAN
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE"
+><DIV CLASS="apropos"
+><FORM METHOD="GET" ACTION="http://bauhh.dyndns.org:8000/clim-spec/edit/apropos"
+>Apropos <BR
+><INPUT SIZE="20" NAME="q"
+></INPUT
+></FORM
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+><A NAME="_782"></A><DIV
+><H3
+>15.3 The Text Cursor</H3
+><LI CLASS="outline_item"
+><A HREF="15-3.html#_783"
+>15.3.1 Text Cursor Protocol</A
+></LI
+><LI CLASS="outline_item"
+><A HREF="15-3.html#_800"
+>15.3.2 Stream Text Cursor Protocol</A
+></LI
+><P
+>In the days when display devices displayed only two dimensional arrays of fixed width characters, the text cursor was a simple thing. A discrete position was selected in integer character units, and a character could go there and noplace else. Even for variable width fonts, simply addressing a character by the pixel position of one of its corners is sufficient. However, variable height fonts with variable baselines on pixel-addressable displays upset this simple model. The "logical" vertical reference point is the baseline, as it is in typesetting. In typesetting, however, an entire line of text is created with baselines aligned and padded to the maximum ascent and descent, then the entire line is put below the previous line. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=E2C4535262F064ACA98E170D0E11DA87%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>It is clearly desirable to have the characters on a line aligned with their baselines, but when the line on the display is formed piece by piece, it is impossible to pick in advance the proper baseline. The solution CLIM adopts is to choose a baseline, but not commit to it. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0A4B934FD0B66E612A520D3D5CBFED17%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The CLIM model says that text has at least 6 properties. With a reference point of <I
+>(<SPAN
+>0</SPAN
+>,<SPAN
+>0</SPAN
+>)</I
+> at the upper left of the text, it has a bounding box consisting of ascent, descent, left kerning, right extension, and a displacement to the next reference point in both <I
+>x</I
+> and <I
+>y</I
+>. CLIM determines the position of the reference point and draws the text relative to that, and then the cursor position is adjusted by the displacement. In this way, text has width and height, but the <I
+>x</I
+> and <I
+>y</I
+> displacements need not equal the width and height. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D0D78058D768AB9DA46AD7D2E74A1B8B%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>CLIM adopts the following approach to the actual rendering of a glyph. Textual output using the stream functions (<I
+>not</I
+> the graphics functions) maintains text on a "line". Note that a line is not an output record, but is rather a collection of "text so far", a top (which is positioned at the bottom of the previous line plus the stream's vertical spacing), a baseline, a bottom, and a "cursor position". The cursor position is defined to be at the top of the line, not at the baseline. The reason for this is that the baseline can move, but the top is relative to the previous line, which has been completed and therefore doesn't move. If text is drawn on the current line whose ascent is greater than the current ascent of the line, then the line is moved down to make room. This can be done easily using the output records for the existing text on the line. When there is enough room, the reference point for the text is the <I
+>x</I
+> position of the cursor at the baseline, and the cursor position is adjusted by the displacement. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=FF5BB53FB3C6738B1F1C17494CD1B8C6%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>The following figures show this in action before and after each of three characters are drawn. In all three figure, the small circle is the "cursor position". At first, there is nothing on the line. The first character establishes the initial baseline, and is then drawn. The upper left corner of the character is where the cursor was (as in the traditional model), but this will not remain the case. Drawing the second character, which is larger than the first, requires moving the first character down in order to get the baselines to align; during this time, the top of the line remains the same. Again, the upper left of the second character is where the cursor was, but that is no longer the case for the first character (which has moved down). The third character is smaller than the second, so no moving of characters needs to be done. However, the character is drawn to align the baselines, which in this case means the upper left is <I
+>not</I
+> where the cursor was. Nor is the cursor at the upper right of the character as it was for the previous two characters. It is, however, at the upper right of the collective line. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=283A1D800C4F6A2D1EF2BF90601AAD9E%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>(50,60)(-4,0)  (0,30)  (10,30)(0,-20)  (0,0)(1,0)4  (-2,2)(0,0)[r](0,y)  (-2,2)(1,-1)2  (0,0).5      (10,30)  (10,30)(0,-20)  (0,0)(1,0)12  (-2,2)(0,0)[r](0,y)  (-2,2)(1,-1)2  (0,-12)(8,12)small  (4,4)(0,0)[r](w1,y)  (4,4)(1,-1)4  (8,0).5  (-2,-16)(0,0)[r]bl-small  (-2,-16)(1,3)2  (0,-10)(1,0)10      (30,30)  (10,30)(0,-20)  (0,0)(1,0)22  (-2,2)(0,0)[r](0,y)  (-2,2)(1,-1)2  (0,-14)(8,12)small  (4,4)(0,0)[r](w1,y)  (4,4)(1,-1)4  (8,-16)(10,16)BIG  (12,6)(0,0)[r](w1+w2,y)  (12,6)(1,-1)6  (18,0).5  (-2,-18)(0,0)[r]bl-BIG  (-2,-18)(1,3)2  (0,-12)(1,0)20      (10,0)  (10,30)(0,-20)  (0,0)(1,0)30  (-2,2)(0,0)[r](0,y)  (-2,2)(1,-1)2  (0,-14)(8,12)small  (4,4)(0,0)[r](w1,y)  (4,4)(1,-1)4  (8,-16)(10,16)BIG  (12,6)(0,0)[r](w1+w2,y)  (12,6)(1,-1)6  (18,-14)(8,12)small  (18,8)(0,0)[r](w1+w2+w3,y)  (18,8)(1,-1)8  (26,0).5  (-2,-18)(0,0)[r]bl-BIG  (-2,-18)(1,3)2  (0,-12)(1,0)28      <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=014F0CA3701BF9DE45962ABE748F16FD%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+><B
+>Minor issue: </B
+> <I
+>The above may be too simplistic. The displacement probably wants to depend not only on language but language rendering mode. For example, Japanese can apparently go either vertically or horizontally. It may be necessary to have the bounding box and perhaps the reference point dispatch as well. Similarly, "newline" could mean "down one line, all the way to the left" for English, "down one line, all the way to the right" for Arabic, or "to the left one line, all the way to the top." "Home cursor" is another ditty to consider. We need to discuss this on a larger scale with people who know multi-lingual rendering issues. ---&nbsp;DCPL</I
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=99BEAF0A78A284644958E981A17CD751%2F15.3#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><A NAME="_783"></A><DIV
+><H4
+>15.3.1 Text Cursor Protocol</H4
+><P
+>Many streams that maintain a text cursor display some visible indication of the text cursor. The object that represents this display is (somewhat confusingly) also called a cursor. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=873662E98CFF343ACC1E31442DF16A90%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>An <A NAME="_784"></A><SPAN CLASS="concept"
+>active</SPAN
+> cursor is one that is being actively maintained by its owning sheet. A active cursor has a <A NAME="_785"></A><SPAN CLASS="concept"
+>state</SPAN
+> that is either on or off. An active cursor can also has a state that indicates the the owning sheet has the input focus. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2CF12EE32A55F11CE4452D7A410C309C%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_786"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The protocol class that corresponds to cursors. If you want to create a new class that behaves like a cursor, it should be a subclass of <B CLASS="cl"
+>cursor</B
+>. All instantiable subclasses of <B CLASS="cl"
+>cursor</B
+> must obey the cursor protocol. Members of this class are mutable.  <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=D9ACC316570A9251ADD9F81BA2E67494%2Fcursor%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=1B69D94227F24BCBC7A8D063E33F7F80%2Fcursor%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_787"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursorp</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>object</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Protocol&nbsp;Predicate]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns <SPAN CLASS="term"
+>true</SPAN
+> if <I
+>object</I
+> is a <SPAN CLASS="term"
+>cursor</SPAN
+>, otherwise returns <SPAN CLASS="term"
+>false</SPAN
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=01E1D99786BA1FD8D67DA328DD122F36%2Fcursorp%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0328EA4A13118983413F0CCCEC46F52B%2Fcursorp%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_788"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>:sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Initarg]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The <B CLASS="cl"
+>:sheet</B
+> initarg is used to specify the sheet with which the cursor is associated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6544AECCC12F8E4DBD4264B95426A416%2F%3Asheet%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=09FF982372785FE7BD8D75D542AE1708%2F%3Asheet%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="forwardlinks"
+><A HREF="8-2.html#_372"
+><SPAN CLASS="forwardlink"
+>[&rarr; :sheet, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+><A HREF="8-2.html#_331"
+><SPAN CLASS="forwardlink"
+>[&rarr; :sheet, <I
+>Initarg</I
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_789"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>standard-text-cursor</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Class]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>The instantiable class that implements a text cursor. Typically, ports will further specialize this class. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9B5DA554C3D75F1C7F7EF133C7ED3B55%2Fstandard-text-cursor%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=9FC2FE309A25E2244194BBAE504DE1B2%2Fstandard-text-cursor%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_790"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor-sheet</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the sheet with which the <SPAN CLASS="term"
+>cursor</SPAN
+> <I
+>cursor</I
+> is associated. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0494C8AD4D4DC1700EC19300FAF7BDA4%2Fcursor-sheet%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6689427F678EBBACE7706DAD83F008B1%2Fcursor-sheet%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_791"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the <I
+>x</I
+> and <I
+>y</I
+> position of the <SPAN CLASS="term"
+>cursor</SPAN
+> <I
+>cursor</I
+> as two values. <I
+>x</I
+> and <I
+>y</I
+> are in the coordinate system of the cursor's sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=2F125399597F955C27B1F9E9F99DFB9F%2Fcursor-position%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=36DFDB9A6D54E7A878A9FDC65F65D870%2Fcursor-position%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_792"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* cursor-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the <I
+>x</I
+> and <I
+>y</I
+> position of the <SPAN CLASS="term"
+>cursor</SPAN
+> <I
+>cursor</I
+> to the specified position. <I
+>x</I
+> and <I
+>y</I
+> are in the coordinate system of the cursor's sheet. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6B720C84DB2A14825A79C247F9D2B6EF%2F%28setf%2A%20cursor-position%29%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>cursor-set-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=0BBF0892DC0225C9846B99CFD7B9AE37%2F%28setf%2A%20cursor-position%29%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=4988055363A04AC433CB59F58321F3D6%2F%28setf%2A%20cursor-position%29%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_793"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor-active</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_794"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf cursor-active)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>value cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (or sets) the "active" attribute of the cursor. When <SPAN CLASS="term"
+>true</SPAN
+>, the cursor is active. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=837DAB0B61DA6AD14EEA30219553A7F9%2Fcursor-active%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=82CD7027E7841F1AF55C6FA803304335%2Fcursor-active%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="15-3.html#_3639"
+><SPAN CLASS="reverselink"
+>[&larr; 15.3.1 Text Cursor Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>cursor-visibility</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_795"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor-state</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_796"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf cursor-state)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>value cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (or sets) the "state" attribute of the cursor. When <SPAN CLASS="term"
+>true</SPAN
+>, the cursor is visible. When <SPAN CLASS="term"
+>false</SPAN
+>, the cursor is not visible. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=ADDB19BEBBE88F608917A74AAECE9C33%2Fcursor-state%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7020C1F551E60CE6BBE79A852DC6327A%2Fcursor-state%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="15-3.html#_3640"
+><SPAN CLASS="reverselink"
+>[&larr; 15.3.1 Text Cursor Protocol, <B CLASS="cl"
+><B CLASS="cl"
+>cursor-visibility</B
+></B
+>]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_797"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor-focus</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the "focus" attribute of the cursor. When <SPAN CLASS="term"
+>true</SPAN
+>, the sheet owning the cursor has the input focus. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=48792AB234E0858C0D885A187A55DF41%2Fcursor-focus%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6A40582CC4B9553BE21F201D3393FB02%2Fcursor-focus%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_798"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>cursor-visibility</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+><A NAME="_799"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf cursor-visibility)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>visibility cursor</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>These are convenience functions that combine the functionality of <A NAME="_3639"></A><A HREF="15-3.html#_793"
+><B CLASS="cl"
+>cursor-active</B
+></A
+> and <A NAME="_3640"></A><A HREF="15-3.html#_795"
+><B CLASS="cl"
+>cursor-state</B
+></A
+>. The visibility can be either <B CLASS="cl"
+>:on</B
+> (meaning that the cursor is active and visible at its current position), <B CLASS="cl"
+>:off</B
+> (meaning that the cursor is active, but not visible at its current position), or <A NAME="_3643"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+> (meaning that the cursor is not activate). <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=309930B96416780C323C9517DA0B6478%2Fcursor-visibility%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=573CCC528A53190A4F87F95AD16C741E%2Fcursor-visibility%2F15.3.1#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+><A NAME="_800"></A><DIV
+><H4
+>15.3.2 Stream Text Cursor Protocol</H4
+><P
+>The following generic functions comprise the stream text cursor protocol. Any extended output stream class must implement methods for these generic functions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=05E5F372220A446CECCA51160F42BECD%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_801"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-text-cursor</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6CA0C3C76114447876571A5FAB61B365%2Fstream-text-cursor%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z383"
+></A
+>[?] <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6CA0C3C76114447876571A5FAB61B365%2Fstream-text-cursor%2F15.3.2&amp;editp=t&amp;id=Z383#Z383"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- anon 2019-08-16 11:08Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_802"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf stream-text-cursor)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>cursor stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns (or sets) the text cursor object for the stream <I
+>stream</I
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=BBA1EF6ADFABDE2AD9EEEB12E6EBAE6F%2F%28setf%20stream-text-cursor%29%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7CE2229E96682592FCA65B3933C4CC6C%2F%28setf%20stream-text-cursor%29%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_803"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-cursor-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Returns the current text cursor position for the <SPAN CLASS="term"
+>extended output stream</SPAN
+> <I
+>stream</I
+> as two integer values, the <I
+>x</I
+> and <I
+>y</I
+> positions. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=94B7F3629BAB547C994B475839BE8463%2Fstream-cursor-position%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=B6DBE1F23ED088EC607B796D074AAAEB%2Fstream-cursor-position%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7341"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_804"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>(setf* stream-cursor-position)</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>x y stream</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Sets the text cursor position of the <SPAN CLASS="term"
+>extended output stream</SPAN
+> <I
+>stream</I
+> to <I
+>x</I
+> and <I
+>y</I
+>. <I
+>x</I
+> and <I
+>y</I
+> are in device units, and must be integers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F32A4E51F26250E7C395625DCB98E2E3%2F%28setf%2A%20stream-cursor-position%29%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+><DIV
+><DIV CLASS="annotation"
+><I CLASS="annotationheader"
+>Note: </I
+><A NAME="Z68"
+></A
+>So what is the coordinate system the stream cursor operates in? The sheet's device coordinate system? Why must these be integers? <A CLASS="annolink" HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=F32A4E51F26250E7C395625DCB98E2E3%2F%28setf%2A%20stream-cursor-position%29%2F15.3.2&amp;editp=t&amp;id=Z68#Z68"
+>[edit]</A
+><I CLASS="annotationsignature"
+>-- Gilbert Baumann 2004-06-09 22:11Z</I
+><DIV
+>&nbsp;</DIV
+></DIV
+></DIV
+></P
+><P
+>For CLIM implementations that do not support <B CLASS="cl"
+>setf*</B
+>, the "setter" function for this is <B CLASS="cl"
+>stream-set-cursor-position</B
+>. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=809C1D19C74864A4640AB60550F600F3%2F%28setf%2A%20stream-cursor-position%29%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=6D27330D979664F92C8A69776E94076E%2F%28setf%2A%20stream-cursor-position%29%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV CLASS="defun"
+><DIV CLASS="defunsignatures"
+><A NAME="_805"></A><TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+><COLGROUP SPAN="3"
+><COL WIDTH="0*"
+></COL
+><COL WIDTH="1*"
+></COL
+><COL WIDTH="0*"
+></COL
+></COLGROUP
+><TR
+><TD ALIGN="LEFT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+><B CLASS="cl"
+>stream-increment-cursor-position</B
+>&nbsp;&nbsp;</TD
+><TD ALIGN="LEFT" VALIGN="BASELINE" WIDTH="100%"
+><I
+>stream dx dy</I
+></TD
+><TD ALIGN="RIGHT" VALIGN="BASELINE" NOWRAP="NOWRAP"
+>&nbsp;[Generic&nbsp;Function]</TD
+></TR
+></TABLE
+></DIV
+><DIV CLASS="defunbody"
+><TABLE
+><TR
+><TD
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD
+><TD
+><P
+>Moves the text cursor position of the <SPAN CLASS="term"
+>extended output stream</SPAN
+> <I
+>stream</I
+> relatively, adding <I
+>dx</I
+> to the <I
+>x</I
+> coordinate and <I
+>dy</I
+> to the <I
+>y</I
+> coordinate. Either of <I
+>dx</I
+> or <I
+>dy</I
+> may be <A NAME="_3649"></A><A HREF="23-8.html#_1254"
+><B CLASS="cl"
+>nil</B
+></A
+>, meaning the the <I
+>x</I
+> or <I
+>y</I
+> cursor position will be unaffected. Otherwise, <I
+>dx</I
+> and <I
+>dy</I
+> must be integers. <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=43C8C3F9D621212167D32306DF58E4A8%2Fstream-increment-cursor-position%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><P
+> <A HREF="http://bauhh.dyndns.org:8000/clim-spec/edit/anno?aid=7B4345127041D9E9892B58554D0F689F%2Fstream-increment-cursor-position%2F15.3.2#Z" CLASS="annolink"
+>[annotate]</A
+></P
+><DIV CLASS="reverselinks"
+><A HREF="F.html#_7342"
+><SPAN CLASS="reverselink"
+>[&larr; F Changes from CLIM 1.0]</SPAN
+></A
+><BR
+></DIV
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV CLASS="footer"
+><P
+>Conversion to HTML and annotation support by Gilbert Baumann <TT
+>&lt;gi<SPAN CLASS="blah"
+>nothing to see here</SPAN
+>lbert@bau<SPAN CLASS="blah"
+>neither is here</SPAN
+>hh.de&gt;</TT
+> </P
+></DIV
+></BODY
+>
+<!-- Mirrored from bauhh.dyndns.org:8000/clim-spec/15-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 25 Nov 2021 17:30:46 GMT -->
+</HTML
+>
