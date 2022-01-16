@@ -60,3 +60,9 @@ And then in Emacs do M-x sly-connect (make sure to change the port to 4006).
 
 [Need to add note on keybindings and other configuration options]
 
+Note on running non-IDE image of LW from Emacs:
+http://www.lispworks.com/documentation/lw51/LWUG/html/lwuser-16.htm
+
+Write notes on setting up paredit for LW + automatic indentation
+Other configuration options
+"Guide to setting up LispWorks"
